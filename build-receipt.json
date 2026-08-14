@@ -1,0 +1,8 @@
+{
+  "build_id": "nivel-0-learning-resources-v5",
+  "deterministic_inputs": true,
+  "manifest_sha256": "bbaac8c00e6555f96314d35bdfe6484e9d4085293e084acec02aa3298f3a14d9",
+  "output_count": 50,
+  "schema_version": "build-receipt-v1",
+  "state": "RENDERED_DRAFT"
+}
