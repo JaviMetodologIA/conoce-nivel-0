@@ -1,0 +1,934 @@
+{
+  "schema_version": "playbook-spec-v1",
+  "state": "RENDERED_DRAFT",
+  "publication_authorized": false,
+  "brand": "MetodologIA",
+  "source": {
+    "url": "https://javimontano.github.io/trabajar-amplificado/aprender-aprehender-revolucionar.html",
+    "sha256": "bfba5275d6ed9940b8241831533cad1d15e3d795e1db49d694d38be69c206157",
+    "license": "CC BY-NC-SA 4.0",
+    "authority": "Historical public playbook supplied by its author as the coverage reference"
+  },
+  "skill": {
+    "url": "https://github.com/JaviMontano/material-educativo-metodologia/tree/main/skills/aprender-aprehender-revolucionar",
+    "version": "main · e23b9a3",
+    "commit": "e23b9a3ce8248edcd850555dceee7435e3b21b35",
+    "license": "CC BY-NC-SA 4.0"
+  },
+  "founders": [
+    {
+      "name": "Javier Montaño",
+      "role": "Chief Empowerment Officer",
+      "photo": "assets/team-javier-montano.webp",
+      "photo_source": "https://javimontano.github.io/trabajar-amplificado/assets/aprender-aprehender-revolucionar/team_javier-montano.webp",
+      "photo_sha256": "4cac6ea8b4e303c1e0a27573736114f46ffb1b8783745d1ac1335b4f02da756d",
+      "photo_rights": "Public founder portrait from the CC BY-NC-SA 4.0 historical playbook supplied by its author"
+    },
+    {
+      "name": "Daniel Zuluaga",
+      "role": "Chief Efficiency Officer",
+      "photo": "assets/team-daniel-zuluaga.jpg",
+      "photo_source": "https://javimontano.github.io/trabajar-amplificado/assets/aprender-aprehender-revolucionar/team_daniel-zuluaga.jpg",
+      "photo_sha256": "2b114074b2487d333adf7c5deccc0d722fb943976be5e7bb4cb2d1d6db425db2",
+      "photo_rights": "Public founder portrait from the CC BY-NC-SA 4.0 historical playbook supplied by its author"
+    },
+    {
+      "name": "Germán Sepúlveda",
+      "role": "Chief Ecosystem Officer",
+      "photo": "assets/team-german-sepulveda.png",
+      "photo_source": "https://javimontano.github.io/trabajar-amplificado/assets/aprender-aprehender-revolucionar/team_german-sepulveda.png",
+      "photo_sha256": "752dda8237655da262b31d1f8d9e3e31fc5afaee2d4c585461c32b1636a77450",
+      "photo_rights": "Public founder portrait from the CC BY-NC-SA 4.0 historical playbook supplied by its author"
+    },
+    {
+      "name": "Katherine Oquendo",
+      "role": "Chief Enablement Officer",
+      "photo": "assets/team-katherine-oquendo.png",
+      "photo_source": "https://javimontano.github.io/trabajar-amplificado/assets/aprender-aprehender-revolucionar/team_kathe-oquendo.png",
+      "photo_sha256": "233ee0b8cc197566933320ab52adaa181fe0265cdcb88450dc4ae71a8138f18a",
+      "photo_rights": "Public founder portrait from the CC BY-NC-SA 4.0 historical playbook supplied by its author"
+    }
+  ],
+  "assistants": [
+    {
+      "id": "prompting",
+      "url": "https://chatgpt.com/g/g-68f4434cf0348191a569cf526fa53654-prompting",
+      "labels": {
+        "es": {"title": "Asistente de Prompting", "description": "Audita, reescribe y mejora prompts con método y trazabilidad.", "cta": "Abrir GPT"},
+        "en": {"title": "Prompting Assistant", "description": "Audit, rewrite and improve prompts with method and traceability.", "cta": "Open GPT"},
+        "pt": {"title": "Assistente de Prompting", "description": "Audite, reescreva e melhore prompts com método e rastreabilidade.", "cta": "Abrir GPT"}
+      }
+    },
+    {
+      "id": "study",
+      "url": "https://chatgpt.com/g/g-69396067bbd88191aaa7b2479be71ff8-estudio",
+      "labels": {
+        "es": {"title": "Asistente de Estudio", "description": "Convierte un tema en práctica, recuperación, evaluación y plan de estudio.", "cta": "Abrir GPT"},
+        "en": {"title": "Study Assistant", "description": "Turn a topic into practice, retrieval, assessment and a study plan.", "cta": "Open GPT"},
+        "pt": {"title": "Assistente de Estudo", "description": "Transforme um tema em prática, recuperação, avaliação e plano de estudo.", "cta": "Abrir GPT"}
+      }
+    },
+    {
+      "id": "research-blueprint",
+      "url": "https://chatgpt.com/g/g-69d59bec507c819197750fbbc1e74aae-research-blueprint",
+      "labels": {
+        "es": {"title": "Research Blueprint", "description": "Define preguntas, hipótesis, fuentes y criterios antes de investigar.", "cta": "Abrir GPT"},
+        "en": {"title": "Research Blueprint", "description": "Define questions, hypotheses, sources and criteria before research.", "cta": "Open GPT"},
+        "pt": {"title": "Research Blueprint", "description": "Defina perguntas, hipóteses, fontes e critérios antes da pesquisa.", "cta": "Abrir GPT"}
+      }
+    }
+  ],
+  "section_ids": [
+    "hero",
+    "intro",
+    "founders",
+    "assistants",
+    "scales",
+    "modes",
+    "fluency",
+    "frameworks",
+    "techniques",
+    "apprehend",
+    "method",
+    "integrity",
+    "evolve",
+    "tools",
+    "notebooklm",
+    "prompts",
+    "workflows",
+    "routines",
+    "standards",
+    "glossary",
+    "faq",
+    "close"
+  ],
+  "locales": {
+    "es": {
+      "meta_title": "Playbook · Aprender, Aprehender, (R)Evolucionar",
+      "eyebrow": "Clase 01 · Playbook",
+      "title": "Aprender. Aprehender. (R)Evolucionar.",
+      "lead": "Un método para convertir información en criterio, práctica y conocimiento que puedas explicar.",
+      "primary_cta": "Empezar método",
+      "secondary_cta": "Usar skill",
+      "founder_label": "Carta de los fundadores",
+      "founder_title": "Cuatro miradas. Un solo método.",
+      "founder_paragraphs": [
+        "Creamos MetodologIA para cerrar la distancia entre querer avanzar y saber cómo hacerlo. Aprender no es acumular respuestas: es formular mejores preguntas, trabajar con fuentes y producir evidencia que otra persona pueda revisar.",
+        "Empoderamiento, eficiencia, ecosistema y habilitación se encuentran aquí. Este playbook no promete dominio automático; ofrece una estructura para comprender, practicar, comprobar y decidir qué conservar o cambiar."
+      ],
+      "section_label": "Capítulo",
+      "read": "Leer",
+      "open_skill": "Usar skill",
+      "prompt_cta": "Abrir prompt",
+      "close_title": "El método empieza cuando lo usas.",
+      "close_lead": "Elige un tema real, abre el workbook y produce la primera evidencia.",
+      "close_primary": "Abrir workbook",
+      "close_secondary": "Ver masterclass",
+      "sections": [
+        {
+          "id": "intro",
+          "icon": "compass",
+          "title": "Qué encontrarás",
+          "lead": "Una vista completa del sistema antes de entrar en profundidad.",
+          "items": [
+            "Tres movimientos: adquirir, recuperar y revisar.",
+            "Un protocolo para distinguir fluidez de evidencia.",
+            "Prompts, workflows, rutinas y herramientas para ejecutar."
+          ]
+        },
+        {
+          "id": "assistants",
+          "icon": "spark",
+          "title": "Asistentes de aprendizaje",
+          "lead": "Roles simples para investigar, practicar y revisar sin delegar el criterio.",
+          "items": []
+        },
+        {
+          "id": "scales",
+          "icon": "steps",
+          "title": "10 escalas de progreso",
+          "lead": "Ubica la evidencia actual antes de elegir la siguiente práctica.",
+          "items": [
+            "0–2: reconocer, preguntar y mapear.",
+            "3–5: explicar, aplicar y comparar.",
+            "6–9: defender, enseñar, adaptar y renovar."
+          ]
+        },
+        {
+          "id": "modes",
+          "icon": "route",
+          "title": "Modos de aprendizaje",
+          "lead": "Una misma estructura sirve para aprender, actualizar, cambiar de campo o trabajar con otros.",
+          "items": [
+            "Autoaprendizaje con una evidencia personal.",
+            "Upskilling y reskilling ligados a un resultado real.",
+            "Aprendizaje colaborativo con fuentes y criterios compartidos."
+          ]
+        },
+        {
+          "id": "fluency",
+          "icon": "eye",
+          "title": "El espejismo de la fluidez",
+          "lead": "Que una respuesta suene bien no significa que sea correcta ni suficiente.",
+          "items": [
+            "Pide citas y abre la fuente.",
+            "Separa hechos, inferencias y vacíos.",
+            "Comprueba con recuperación, aplicación y contraste."
+          ]
+        },
+        {
+          "id": "frameworks",
+          "icon": "layers",
+          "title": "Tres marcos",
+          "lead": "Ordena qué existe, qué puedes hacer y qué nivel de consistencia alcanzaste.",
+          "items": [
+            "Body of Knowledge: conceptos, relaciones y fuentes.",
+            "Modelo de capacidad: acciones que puedes ejecutar.",
+            "Modelo de madurez: repetibilidad, evidencia y límites."
+          ]
+        },
+        {
+          "id": "techniques",
+          "icon": "practice",
+          "title": "Seis técnicas de estudio",
+          "lead": "Prácticas útiles cuando se conectan con propósito y evidencia.",
+          "items": [
+            "Recuperación y repetición espaciada.",
+            "Intercalado y elaboración.",
+            "Codificación dual y ejemplos concretos."
+          ]
+        },
+        {
+          "id": "apprehend",
+          "icon": "anchor",
+          "title": "Aprehender",
+          "lead": "Retener lo suficiente para recuperar, aplicar y defender sin depender del prompt.",
+          "items": [
+            "Explica sin notas y detecta dónde se rompe tu comprensión.",
+            "Produce un proyecto, pitch, exposición o prueba.",
+            "Usa la retroalimentación para corregir el modelo mental."
+          ]
+        },
+        {
+          "id": "method",
+          "icon": "search",
+          "title": "Investigación profunda con IA",
+          "lead": "La investigación comienza por el encargo, no por la herramienta.",
+          "items": [
+            "Declara propósito, alcance, tensiones y criterios.",
+            "Prioriza fuentes primarias y diversidad real.",
+            "Sintetiza con citas, riesgo residual y siguiente decisión."
+          ]
+        },
+        {
+          "id": "integrity",
+          "icon": "shield",
+          "title": "Protocolo de integridad",
+          "lead": "La confianza nace de poder rastrear qué sostiene cada afirmación.",
+          "items": [
+            "No inventar datos ni citas.",
+            "No confundir acuerdo entre modelos con evidencia independiente.",
+            "Declarar lo desconocido y detenerse cuando falta autoridad."
+          ]
+        },
+        {
+          "id": "evolve",
+          "icon": "refresh",
+          "title": "(R)Evolucionar",
+          "lead": "Revisar lo aprendido también implica soltar lo que dejó de servir.",
+          "items": [
+            "Mantener lo vigente y útil.",
+            "Actualizar lo valioso pero incompleto.",
+            "Reemplazar o retirar lo obsoleto con una razón documentada."
+          ]
+        },
+        {
+          "id": "tools",
+          "icon": "tools",
+          "title": "Herramientas del método",
+          "lead": "Elige la mínima combinación que permita investigar, practicar y verificar.",
+          "items": [
+            "Una IA conversacional para estructurar el encargo.",
+            "NotebookLM para trabajar con una base de fuentes.",
+            "La skill abierta para repetir el workflow con guardrails."
+          ]
+        },
+        {
+          "id": "notebooklm",
+          "icon": "notebook",
+          "title": "NotebookLM",
+          "lead": "Un espacio para conversar con fuentes seleccionadas y revisar sus citas.",
+          "items": [
+            "Centraliza únicamente fuentes que puedas usar.",
+            "Configura profesor, asesor o coach según el propósito.",
+            "Prueba la respuesta contra la fuente; la interfaz no garantiza exactitud."
+          ]
+        },
+        {
+          "id": "prompts",
+          "icon": "terminal",
+          "title": "Prompts de alto rendimiento",
+          "lead": "Catorce puntos de entrada para investigar, comprobar, practicar y transferir.",
+          "items": []
+        },
+        {
+          "id": "workflows",
+          "icon": "workflow",
+          "title": "Workflows de aprendizaje",
+          "lead": "Tres recorridos orientativos; el tiempo varía con el tema y las iteraciones.",
+          "items": [
+            "Práctica esencial: aproximadamente 30 minutos.",
+            "Ruta de 10 pasos: entre 1 y 2 horas.",
+            "Ruta extendida: entre 2 y 4 horas."
+          ]
+        },
+        {
+          "id": "routines",
+          "icon": "calendar",
+          "title": "Rutinas sugeridas",
+          "lead": "La cadencia sostiene el método mejor que una sesión aislada.",
+          "items": [
+            "Curiosidad diaria: registrar una pregunta útil.",
+            "Aprehensión semanal: recuperar y explicar sin notas.",
+            "Auditoría periódica: revisar vigencia, utilidad y vacíos."
+          ]
+        },
+        {
+          "id": "standards",
+          "icon": "check",
+          "title": "Estándares de aprendizaje",
+          "lead": "Una práctica termina cuando existe evidencia revisable, no cuando se consumió contenido.",
+          "items": [
+            "Método primero; herramienta después.",
+            "Fuentes antes de certeza.",
+            "Explicar, aplicar y transferir antes de declarar progreso."
+          ]
+        },
+        {
+          "id": "glossary",
+          "icon": "book",
+          "title": "Glosario esencial",
+          "lead": "Diez conceptos para hablar el mismo idioma.",
+          "items": [
+            "Blueprint · encargo verificable de investigación.",
+            "BoK · mapa de conocimiento y fuentes.",
+            "Aprehender · recuperar y aplicar sin dependencia.",
+            "Triangulación · contraste de evidencia independiente.",
+            "Suficiencia · evidencia adecuada al propósito y riesgo.",
+            "Teach-back · explicar para revelar comprensión.",
+            "Skill · instrucciones y recursos reutilizables para una capacidad.",
+            "Prompt · encargo ejecutable para una IA.",
+            "Fuente primaria · evidencia cercana al hecho o autoridad.",
+            "coverage_gap · vacío declarado que impide afirmar cierre."
+          ]
+        },
+        {
+          "id": "faq",
+          "icon": "help",
+          "title": "Preguntas frecuentes",
+          "lead": "Respuestas cortas antes de empezar.",
+          "items": [
+            "¿Necesito pagar? La práctica esencial puede hacerse sin plan pago; condiciones cambian por proveedor.",
+            "¿La IA aprende por mí? No. Estructura, propone y ayuda a revisar; la comprensión y la decisión siguen siendo humanas.",
+            "¿Puedo usar cualquier fuente? Solo fuentes autorizadas, pertinentes y trazables.",
+            "¿Cuándo termino? Cuando la evidencia es suficiente para el propósito y declaras el riesgo residual."
+          ]
+        }
+      ]
+    },
+    "en": {
+      "meta_title": "Playbook · Learn, Apprehend, (R)Evolve",
+      "eyebrow": "Class 01 · Playbook",
+      "title": "Learn. Apprehend. (R)Evolve.",
+      "lead": "A method for turning information into judgment, practice and knowledge you can explain.",
+      "primary_cta": "Start method",
+      "secondary_cta": "Use skill",
+      "founder_label": "Letter from the founders",
+      "founder_title": "Four perspectives. One method.",
+      "founder_paragraphs": [
+        "We created MetodologIA to close the distance between wanting to move forward and knowing how. Learning is not collecting answers; it is asking better questions, working from sources and producing reviewable evidence.",
+        "Empowerment, efficiency, ecosystem and enablement meet here. This playbook does not promise automatic mastery; it offers a structure to understand, practise, verify and decide what to keep or change."
+      ],
+      "section_label": "Chapter",
+      "read": "Read",
+      "open_skill": "Use skill",
+      "prompt_cta": "Open prompt",
+      "close_title": "The method begins when you use it.",
+      "close_lead": "Choose a real topic, open the workbook and produce the first evidence.",
+      "close_primary": "Open workbook",
+      "close_secondary": "View masterclass",
+      "sections": [
+        {
+          "id": "intro",
+          "icon": "compass",
+          "title": "What you will find",
+          "lead": "A complete view of the system before going deeper.",
+          "items": [
+            "Three movements: acquire, retrieve and review.",
+            "A protocol to separate fluency from evidence.",
+            "Prompts, workflows, routines and tools to execute."
+          ]
+        },
+        {
+          "id": "assistants",
+          "icon": "spark",
+          "title": "Learning assistants",
+          "lead": "Simple roles for research, practice and review without outsourcing judgment.",
+          "items": []
+        },
+        {
+          "id": "scales",
+          "icon": "steps",
+          "title": "10 progress scales",
+          "lead": "Locate current evidence before choosing the next practice.",
+          "items": [
+            "0–2: recognise, question and map.",
+            "3–5: explain, apply and compare.",
+            "6–9: defend, teach, adapt and renew."
+          ]
+        },
+        {
+          "id": "modes",
+          "icon": "route",
+          "title": "Learning modes",
+          "lead": "One structure can support learning, updating, changing fields or working together.",
+          "items": [
+            "Self-learning with personal evidence.",
+            "Upskilling and reskilling tied to a real outcome.",
+            "Collaborative learning with shared sources and criteria."
+          ]
+        },
+        {
+          "id": "fluency",
+          "icon": "eye",
+          "title": "The fluency illusion",
+          "lead": "A fluent answer is not necessarily correct or sufficient.",
+          "items": [
+            "Request citations and open the source.",
+            "Separate facts, inferences and gaps.",
+            "Test through retrieval, application and contrast."
+          ]
+        },
+        {
+          "id": "frameworks",
+          "icon": "layers",
+          "title": "Three frameworks",
+          "lead": "Organise what exists, what you can do and how consistently you can do it.",
+          "items": [
+            "Body of Knowledge: concepts, relationships and sources.",
+            "Capability model: actions you can perform.",
+            "Maturity model: repeatability, evidence and limits."
+          ]
+        },
+        {
+          "id": "techniques",
+          "icon": "practice",
+          "title": "Six study techniques",
+          "lead": "Useful practices when connected to purpose and evidence.",
+          "items": [
+            "Retrieval and spaced practice.",
+            "Interleaving and elaboration.",
+            "Dual coding and concrete examples."
+          ]
+        },
+        {
+          "id": "apprehend",
+          "icon": "anchor",
+          "title": "Apprehend",
+          "lead": "Retain enough to retrieve, apply and defend without relying on the prompt.",
+          "items": [
+            "Explain without notes and find where understanding breaks.",
+            "Produce a project, pitch, presentation or test.",
+            "Use feedback to correct the mental model."
+          ]
+        },
+        {
+          "id": "method",
+          "icon": "search",
+          "title": "Deep research with AI",
+          "lead": "Research begins with the assignment, not the tool.",
+          "items": [
+            "Declare purpose, scope, tensions and criteria.",
+            "Prioritise primary sources and real diversity.",
+            "Synthesize with citations, residual risk and the next decision."
+          ]
+        },
+        {
+          "id": "integrity",
+          "icon": "shield",
+          "title": "Integrity protocol",
+          "lead": "Trust comes from tracing what supports every claim.",
+          "items": [
+            "Do not invent data or citations.",
+            "Do not treat model agreement as independent evidence.",
+            "Declare unknowns and stop when authority is missing."
+          ]
+        },
+        {
+          "id": "evolve",
+          "icon": "refresh",
+          "title": "(R)Evolve",
+          "lead": "Reviewing what you learned also means releasing what no longer serves.",
+          "items": [
+            "Keep what remains useful.",
+            "Update what is valuable but incomplete.",
+            "Replace or retire obsolete knowledge with a documented reason."
+          ]
+        },
+        {
+          "id": "tools",
+          "icon": "tools",
+          "title": "Method tools",
+          "lead": "Choose the smallest combination that supports research, practice and verification.",
+          "items": [
+            "A conversational AI to structure the assignment.",
+            "NotebookLM for working with a source base.",
+            "The open skill to repeat the workflow with guardrails."
+          ]
+        },
+        {
+          "id": "notebooklm",
+          "icon": "notebook",
+          "title": "NotebookLM",
+          "lead": "A space for conversing with selected sources and reviewing citations.",
+          "items": [
+            "Centralise only sources you are allowed to use.",
+            "Configure a teacher, advisor or coach for the purpose.",
+            "Check responses against sources; the interface does not guarantee accuracy."
+          ]
+        },
+        {
+          "id": "prompts",
+          "icon": "terminal",
+          "title": "High-performance prompts",
+          "lead": "Fourteen entry points for research, checking, practice and transfer.",
+          "items": []
+        },
+        {
+          "id": "workflows",
+          "icon": "workflow",
+          "title": "Learning workflows",
+          "lead": "Three indicative paths; time varies by topic and iteration.",
+          "items": [
+            "Essential practice: about 30 minutes.",
+            "Ten-step route: 1 to 2 hours.",
+            "Extended route: 2 to 4 hours."
+          ]
+        },
+        {
+          "id": "routines",
+          "icon": "calendar",
+          "title": "Suggested routines",
+          "lead": "Cadence sustains the method better than a single session.",
+          "items": [
+            "Daily curiosity: record one useful question.",
+            "Weekly apprehension: retrieve and explain without notes.",
+            "Periodic audit: review currency, usefulness and gaps."
+          ]
+        },
+        {
+          "id": "standards",
+          "icon": "check",
+          "title": "Learning standards",
+          "lead": "Practice ends when reviewable evidence exists, not when content was consumed.",
+          "items": [
+            "Method first; tool second.",
+            "Sources before certainty.",
+            "Explain, apply and transfer before declaring progress."
+          ]
+        },
+        {
+          "id": "glossary",
+          "icon": "book",
+          "title": "Essential glossary",
+          "lead": "Ten concepts for a shared language.",
+          "items": [
+            "Blueprint · a verifiable research assignment.",
+            "BoK · a map of knowledge and sources.",
+            "Apprehend · retrieve and apply without dependency.",
+            "Triangulation · contrast independent evidence.",
+            "Sufficiency · evidence adequate to purpose and risk.",
+            "Teach-back · explain to reveal understanding.",
+            "Skill · reusable instructions and resources for a capability.",
+            "Prompt · an executable assignment for AI.",
+            "Primary source · evidence close to the fact or authority.",
+            "coverage_gap · a declared gap that prevents closure."
+          ]
+        },
+        {
+          "id": "faq",
+          "icon": "help",
+          "title": "Frequently asked questions",
+          "lead": "Short answers before you begin.",
+          "items": [
+            "Do I need a paid plan? Essential practice can work without one; provider conditions change.",
+            "Does AI learn for me? No. It structures, proposes and supports review; understanding and decisions remain human.",
+            "Can I use any source? Only authorised, relevant and traceable sources.",
+            "When do I stop? When evidence is sufficient for the purpose and residual risk is declared."
+          ]
+        }
+      ]
+    },
+    "pt": {
+      "meta_title": "Playbook · Aprender, Apreender, (R)Evoluir",
+      "eyebrow": "Aula 01 · Playbook",
+      "title": "Aprender. Apreender. (R)Evoluir.",
+      "lead": "Um método para transformar informação em critério, prática e conhecimento que você consegue explicar.",
+      "primary_cta": "Iniciar método",
+      "secondary_cta": "Usar skill",
+      "founder_label": "Carta dos fundadores",
+      "founder_title": "Quatro perspectivas. Um método.",
+      "founder_paragraphs": [
+        "Criamos a MetodologIA para reduzir a distância entre querer avançar e saber como. Aprender não é acumular respostas; é formular perguntas melhores, trabalhar com fontes e produzir evidência revisável.",
+        "Empoderamento, eficiência, ecossistema e habilitação se encontram aqui. Este playbook não promete domínio automático; oferece uma estrutura para compreender, praticar, verificar e decidir o que manter ou mudar."
+      ],
+      "section_label": "Capítulo",
+      "read": "Ler",
+      "open_skill": "Usar skill",
+      "prompt_cta": "Abrir prompt",
+      "close_title": "O método começa quando você o usa.",
+      "close_lead": "Escolha um tema real, abra o workbook e produza a primeira evidência.",
+      "close_primary": "Abrir workbook",
+      "close_secondary": "Ver masterclass",
+      "sections": [
+        {
+          "id": "intro",
+          "icon": "compass",
+          "title": "O que você encontrará",
+          "lead": "Uma visão completa do sistema antes de aprofundar.",
+          "items": [
+            "Três movimentos: adquirir, recuperar e revisar.",
+            "Um protocolo para separar fluência de evidência.",
+            "Prompts, workflows, rotinas e ferramentas para executar."
+          ]
+        },
+        {
+          "id": "assistants",
+          "icon": "spark",
+          "title": "Assistentes de aprendizagem",
+          "lead": "Papéis simples para pesquisar, praticar e revisar sem delegar o critério.",
+          "items": []
+        },
+        {
+          "id": "scales",
+          "icon": "steps",
+          "title": "10 escalas de progresso",
+          "lead": "Localize a evidência atual antes de escolher a próxima prática.",
+          "items": [
+            "0–2: reconhecer, perguntar e mapear.",
+            "3–5: explicar, aplicar e comparar.",
+            "6–9: defender, ensinar, adaptar e renovar."
+          ]
+        },
+        {
+          "id": "modes",
+          "icon": "route",
+          "title": "Modos de aprendizagem",
+          "lead": "Uma estrutura pode apoiar aprender, atualizar, mudar de campo ou trabalhar em grupo.",
+          "items": [
+            "Autoaprendizagem com evidência pessoal.",
+            "Upskilling e reskilling ligados a um resultado real.",
+            "Aprendizagem colaborativa com fontes e critérios compartilhados."
+          ]
+        },
+        {
+          "id": "fluency",
+          "icon": "eye",
+          "title": "A ilusão da fluência",
+          "lead": "Uma resposta fluente não é necessariamente correta ou suficiente.",
+          "items": [
+            "Peça citações e abra a fonte.",
+            "Separe fatos, inferências e lacunas.",
+            "Teste com recuperação, aplicação e contraste."
+          ]
+        },
+        {
+          "id": "frameworks",
+          "icon": "layers",
+          "title": "Três estruturas",
+          "lead": "Organize o que existe, o que você consegue fazer e com que consistência.",
+          "items": [
+            "Body of Knowledge: conceitos, relações e fontes.",
+            "Modelo de capacidade: ações que você consegue executar.",
+            "Modelo de maturidade: repetibilidade, evidência e limites."
+          ]
+        },
+        {
+          "id": "techniques",
+          "icon": "practice",
+          "title": "Seis técnicas de estudo",
+          "lead": "Práticas úteis quando conectadas a propósito e evidência.",
+          "items": [
+            "Recuperação e repetição espaçada.",
+            "Intercalação e elaboração.",
+            "Codificação dupla e exemplos concretos."
+          ]
+        },
+        {
+          "id": "apprehend",
+          "icon": "anchor",
+          "title": "Apreender",
+          "lead": "Reter o suficiente para recuperar, aplicar e defender sem depender do prompt.",
+          "items": [
+            "Explique sem notas e encontre onde a compreensão falha.",
+            "Produza projeto, pitch, apresentação ou prova.",
+            "Use feedback para corrigir o modelo mental."
+          ]
+        },
+        {
+          "id": "method",
+          "icon": "search",
+          "title": "Pesquisa profunda com IA",
+          "lead": "A pesquisa começa pelo encargo, não pela ferramenta.",
+          "items": [
+            "Declare propósito, escopo, tensões e critérios.",
+            "Priorize fontes primárias e diversidade real.",
+            "Sintetize com citações, risco residual e próxima decisão."
+          ]
+        },
+        {
+          "id": "integrity",
+          "icon": "shield",
+          "title": "Protocolo de integridade",
+          "lead": "A confiança nasce de rastrear o que sustenta cada afirmação.",
+          "items": [
+            "Não inventar dados nem citações.",
+            "Não tratar acordo entre modelos como evidência independente.",
+            "Declarar desconhecidos e parar quando falta autoridade."
+          ]
+        },
+        {
+          "id": "evolve",
+          "icon": "refresh",
+          "title": "(R)Evoluir",
+          "lead": "Revisar o aprendido também significa soltar o que deixou de servir.",
+          "items": [
+            "Manter o que continua útil.",
+            "Atualizar o que é valioso mas incompleto.",
+            "Substituir ou retirar o obsoleto com razão documentada."
+          ]
+        },
+        {
+          "id": "tools",
+          "icon": "tools",
+          "title": "Ferramentas do método",
+          "lead": "Escolha a menor combinação que permita pesquisar, praticar e verificar.",
+          "items": [
+            "Uma IA conversacional para estruturar o encargo.",
+            "NotebookLM para trabalhar com uma base de fontes.",
+            "A skill aberta para repetir o workflow com guardrails."
+          ]
+        },
+        {
+          "id": "notebooklm",
+          "icon": "notebook",
+          "title": "NotebookLM",
+          "lead": "Um espaço para conversar com fontes selecionadas e revisar citações.",
+          "items": [
+            "Centralize apenas fontes autorizadas.",
+            "Configure professor, assessor ou coach conforme o propósito.",
+            "Confira a resposta na fonte; a interface não garante precisão."
+          ]
+        },
+        {
+          "id": "prompts",
+          "icon": "terminal",
+          "title": "Prompts de alto desempenho",
+          "lead": "Quatorze pontos de entrada para pesquisar, verificar, praticar e transferir.",
+          "items": []
+        },
+        {
+          "id": "workflows",
+          "icon": "workflow",
+          "title": "Workflows de aprendizagem",
+          "lead": "Três rotas orientativas; o tempo varia conforme tema e iterações.",
+          "items": [
+            "Prática essencial: cerca de 30 minutos.",
+            "Rota de dez passos: entre 1 e 2 horas.",
+            "Rota estendida: entre 2 e 4 horas."
+          ]
+        },
+        {
+          "id": "routines",
+          "icon": "calendar",
+          "title": "Rotinas sugeridas",
+          "lead": "A cadência sustenta o método melhor que uma sessão isolada.",
+          "items": [
+            "Curiosidade diária: registrar uma pergunta útil.",
+            "Apreensão semanal: recuperar e explicar sem notas.",
+            "Auditoria periódica: revisar vigência, utilidade e lacunas."
+          ]
+        },
+        {
+          "id": "standards",
+          "icon": "check",
+          "title": "Padrões de aprendizagem",
+          "lead": "A prática termina quando há evidência revisável, não quando o conteúdo foi consumido.",
+          "items": [
+            "Método primeiro; ferramenta depois.",
+            "Fontes antes da certeza.",
+            "Explicar, aplicar e transferir antes de declarar progresso."
+          ]
+        },
+        {
+          "id": "glossary",
+          "icon": "book",
+          "title": "Glossário essencial",
+          "lead": "Dez conceitos para falar o mesmo idioma.",
+          "items": [
+            "Blueprint · encargo verificável de pesquisa.",
+            "BoK · mapa de conhecimento e fontes.",
+            "Apreender · recuperar e aplicar sem dependência.",
+            "Triangulação · contraste de evidência independente.",
+            "Suficiência · evidência adequada ao propósito e risco.",
+            "Teach-back · explicar para revelar compreensão.",
+            "Skill · instruções e recursos reutilizáveis para uma capacidade.",
+            "Prompt · encargo executável para uma IA.",
+            "Fonte primária · evidência próxima do fato ou autoridade.",
+            "coverage_gap · lacuna declarada que impede o fechamento."
+          ]
+        },
+        {
+          "id": "faq",
+          "icon": "help",
+          "title": "Perguntas frequentes",
+          "lead": "Respostas curtas antes de começar.",
+          "items": [
+            "Preciso pagar? A prática essencial pode funcionar sem plano pago; condições mudam por provedor.",
+            "A IA aprende por mim? Não. Ela estrutura, propõe e ajuda a revisar; compreensão e decisão continuam humanas.",
+            "Posso usar qualquer fonte? Apenas fontes autorizadas, relevantes e rastreáveis.",
+            "Quando termino? Quando a evidência é suficiente para o propósito e o risco residual foi declarado."
+          ]
+        }
+      ]
+    }
+  },
+  "prompts": [
+    {
+      "id": "01",
+      "slug": "01-research-blueprint.md",
+      "labels": {
+        "es": "Blueprint de investigación",
+        "en": "Research blueprint",
+        "pt": "Blueprint de pesquisa"
+      }
+    },
+    {
+      "id": "02",
+      "slug": "02-coach-system-prompt.md",
+      "labels": {
+        "es": "Coach basado en fuentes",
+        "en": "Source-grounded coach",
+        "pt": "Coach baseado em fontes"
+      }
+    },
+    {
+      "id": "03",
+      "slug": "03-deep-research.md",
+      "labels": {
+        "es": "Investigación profunda",
+        "en": "Deep research",
+        "pt": "Pesquisa profunda"
+      }
+    },
+    {
+      "id": "04",
+      "slug": "04-cross-fact-check.md",
+      "labels": {
+        "es": "Verificación cruzada",
+        "en": "Cross-check",
+        "pt": "Verificação cruzada"
+      }
+    },
+    {
+      "id": "05",
+      "slug": "05-relevance-audit.md",
+      "labels": {
+        "es": "Auditoría de relevancia",
+        "en": "Relevance audit",
+        "pt": "Auditoria de relevância"
+      }
+    },
+    {
+      "id": "06",
+      "slug": "06-meta-prompt-generator.md",
+      "labels": {
+        "es": "Generador de práctica",
+        "en": "Practice generator",
+        "pt": "Gerador de prática"
+      }
+    },
+    {
+      "id": "07",
+      "slug": "07-notebook-audit.md",
+      "labels": {
+        "es": "Auditoría de notebook",
+        "en": "Notebook audit",
+        "pt": "Auditoria de notebook"
+      }
+    },
+    {
+      "id": "08",
+      "slug": "08-evaluator-certification.md",
+      "labels": {
+        "es": "Evaluador progresivo",
+        "en": "Progressive evaluator",
+        "pt": "Avaliador progressivo"
+      }
+    },
+    {
+      "id": "09",
+      "slug": "09-interview-simulator.md",
+      "labels": {
+        "es": "Simulador de entrevista",
+        "en": "Interview simulator",
+        "pt": "Simulador de entrevista"
+      }
+    },
+    {
+      "id": "10",
+      "slug": "10-presentation-coach.md",
+      "labels": {
+        "es": "Coach de presentación",
+        "en": "Presentation coach",
+        "pt": "Coach de apresentação"
+      }
+    },
+    {
+      "id": "M1",
+      "slug": "meta/M1-coach-generator.md",
+      "labels": {
+        "es": "Generar coach",
+        "en": "Generate coach",
+        "pt": "Gerar coach"
+      }
+    },
+    {
+      "id": "M2",
+      "slug": "meta/M2-evaluator-generator.md",
+      "labels": {
+        "es": "Generar evaluador",
+        "en": "Generate evaluator",
+        "pt": "Gerar avaliador"
+      }
+    },
+    {
+      "id": "M3",
+      "slug": "meta/M3-interviewer-generator.md",
+      "labels": {
+        "es": "Generar entrevistador",
+        "en": "Generate interviewer",
+        "pt": "Gerar entrevistador"
+      }
+    },
+    {
+      "id": "M4",
+      "slug": "meta/M4-presentation-generator.md",
+      "labels": {
+        "es": "Generar preparador",
+        "en": "Generate preparer",
+        "pt": "Gerar preparador"
+      }
+    }
+  ]
+}

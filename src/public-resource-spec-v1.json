@@ -1,0 +1,132 @@
+{
+  "schema_version": "public-resource-spec-v1",
+  "state": "RENDERED_DRAFT",
+  "publication_authorized": false,
+  "deck": {
+    "id": "ia-que-esta-pasando-masterclass",
+    "source_asset": "assets/masterclass-ia-nivel-0.pdf",
+    "page_count": 18,
+    "sha256": "5df5533a29652184f492b2f797ecfa0f1fa47cdb682bfcefb8f30c96014ce402",
+    "rights": "MetodologIA masterclass supplied by the owner for this local pilot",
+    "locales": {
+      "es": {
+        "title": "Masterclass oficial · IA: qué está pasando y cómo sacarle provecho",
+        "display_title": "IA: qué está pasando y cómo sacarle provecho",
+        "description": "Recorre la masterclass real en 18 láminas, salta entre páginas o descarga el PDF completo.",
+        "open": "Ver masterclass",
+        "download": "Descargar PDF"
+      },
+      "en": {
+        "title": "Official masterclass · AI: what is happening and how to benefit",
+        "display_title": "AI: what is happening and how to benefit",
+        "description": "Browse the real masterclass in 18 pages, jump between them or download the complete PDF.",
+        "open": "View masterclass",
+        "download": "Download PDF"
+      },
+      "pt": {
+        "title": "Masterclass oficial · IA: o que está acontecendo e como aproveitar",
+        "display_title": "IA: o que está acontecendo e como aproveitar",
+        "description": "Percorra a masterclass real em 18 páginas, navegue entre elas ou baixe o PDF completo.",
+        "open": "Ver masterclass",
+        "download": "Baixar PDF"
+      }
+    }
+  },
+  "videos": [
+    {
+      "id": "ia-con-metodo-masterclass-recording",
+      "class_order": 1,
+      "status": "available",
+      "featured": true,
+      "kind": "masterclass_recording",
+      "url": "https://www.youtube.com/watch?v=eloi4-HENQQ",
+      "youtube_id": "eloi4-HENQQ",
+      "verified_title": "IA con método: Entendamos bien el cuento.",
+      "verified_author": "MetodologIA",
+      "source": "Public metadata verified through YouTube oEmbed on 2026-08-12",
+      "locales": {
+        "es": {"label": "Masterclass · Grabación completa", "title": "IA: qué está pasando y cómo sacarle provecho", "description": "Mira la sesión completa y recorre el punto de partida de la Ruta Nivel 0 con método, contexto y criterio.", "cta": "Ver masterclass"},
+        "en": {"label": "Masterclass · Full recording", "title": "AI: what is happening and how to benefit", "description": "Watch the complete session and explore the starting point of the Level 0 Route with method, context and judgment.", "cta": "View masterclass"},
+        "pt": {"label": "Masterclass · Gravação completa", "title": "IA: o que está acontecendo e como aproveitar", "description": "Assista à sessão completa e percorra o ponto de partida da Rota Nível 0 com método, contexto e critério.", "cta": "Ver masterclass"}
+      }
+    },
+    {
+      "id": "intro-ia-generated-video",
+      "class_order": 1,
+      "status": "available",
+      "featured": true,
+      "kind": "ai_generated_intro",
+      "url": "https://www.youtube.com/watch?v=C8Mp278pWt0",
+      "youtube_id": "C8Mp278pWt0",
+      "verified_title": "MetodologIA y Empoderamiento: De usar IA a dirigir tecnología",
+      "verified_author": "MetodologIA",
+      "source": "Public metadata verified through YouTube oEmbed on 2026-08-12; owner identifies it as an AI-generated introduction",
+      "locales": {
+        "es": {"label": "Introducción · Video generado con IA", "title": "De usar IA a dirigir tecnología", "description": "Una introducción breve para entender la promesa de la ruta antes de entrar a la masterclass completa.", "cta": "Ver intro"},
+        "en": {"label": "Introduction · AI-generated video", "title": "From using AI to directing technology", "description": "A short introduction to the route's promise before entering the complete masterclass.", "cta": "View intro"},
+        "pt": {"label": "Introdução · Vídeo gerado com IA", "title": "De usar IA a dirigir tecnologia", "description": "Uma introdução breve à promessa da rota antes de entrar na masterclass completa.", "cta": "Ver introdução"}
+      }
+    },
+    {
+      "id": "de-ocupado-a-productivo",
+      "class_order": 2,
+      "status": "available",
+      "url": "https://www.youtube.com/watch?v=rUu1o7iKUMM",
+      "youtube_id": "rUu1o7iKUMM",
+      "verified_title": "De Ocupado a Productivo (Con Método e IA)",
+      "verified_author": "MetodologIA",
+      "source": "Programa de Empoderamiento public guide; metadata verified through YouTube oEmbed on 2026-08-12",
+      "locales": {
+        "es": {"label": "Video abierto", "title": "De ocupado a productivo", "cta": "Ver en YouTube"},
+        "en": {"label": "Open video", "title": "From busy to productive", "cta": "Watch on YouTube"},
+        "pt": {"label": "Vídeo aberto", "title": "De ocupado a produtivo", "cta": "Assistir no YouTube"}
+      }
+    }
+  ],
+  "open_skill": {
+    "id": "aprender-aprehender-revolucionar",
+    "status": "available",
+    "url": "https://github.com/JaviMontano/material-educativo-metodologia/tree/main/skills/aprender-aprehender-revolucionar",
+    "release_url": "https://github.com/JaviMontano/material-educativo-metodologia/tree/e23b9a3ce8248edcd850555dceee7435e3b21b35/skills/aprender-aprehender-revolucionar",
+    "tag": "main · e23b9a3",
+    "commit": "e23b9a3ce8248edcd850555dceee7435e3b21b35",
+    "archive_sha256": null,
+    "license": "CC BY-NC-SA 4.0",
+    "locales": {
+      "es": {
+        "eyebrow": "Skill canónica · Método abierto",
+        "title": "Aprender · Aprehender · (R)Evolucionar",
+        "description": "Opera el método contigo: enruta fases, prompts, workflows y verificaciones sin confundir respuestas fluidas con evidencia.",
+        "cta": "Usar skill"
+      },
+      "en": {
+        "eyebrow": "Canonical skill · Open method",
+        "title": "Learn · Embody · (R)Evolve",
+        "description": "Runs the method with you: routes phases, prompts, workflows and checks without confusing fluent answers with evidence.",
+        "cta": "Use skill"
+      },
+      "pt": {
+        "eyebrow": "Skill canônica · Método aberto",
+        "title": "Aprender · Apreender · (R)Evoluir",
+        "description": "Opera o método com você: direciona fases, prompts, workflows e verificações sem confundir respostas fluentes com evidência.",
+        "cta": "Usar skill"
+      }
+    }
+  },
+  "coverage_gaps": [],
+  "identity_assets": {
+    "logo": {
+      "path": "assets/metodologia-logo.svg",
+      "source": "https://metodologia.info/favicon.svg",
+      "sha256": "5f45ae2ebd2cb691db56efd6bf3b7c2a3888e985d6c4a4fd95608d94d0f814fe",
+      "rights": "Official MetodologIA public brand asset"
+    },
+    "javier_photo": {
+      "path": "assets/javier-montano.jpg",
+      "source": "https://avatars.githubusercontent.com/u/3903511?v=4",
+      "profile": "https://github.com/JaviMontano",
+      "sha256": "1fecdedb8e705eeb5ef49d2854b70ede3224014ddd278924cc6b3bc263b75ad5",
+      "rights": "Public founder profile image, linked to its authoritative public profile"
+    }
+  }
+}

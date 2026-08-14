@@ -1,0 +1,127 @@
+{
+  "schema_version": "public-asset-manifest-v1",
+  "brand": "MetodologIA",
+  "assets": [
+    {
+      "path": "assets/site.css",
+      "source": "authored_local",
+      "rights": "MetodologIA project asset"
+    },
+    {
+      "path": "assets/site.js",
+      "source": "authored_local",
+      "rights": "MetodologIA project asset"
+    },
+    {
+      "path": "assets/forms.css",
+      "source": "authored_local",
+      "rights": "MetodologIA project asset"
+    },
+    {
+      "path": "assets/metodologia-logo.svg",
+      "source": "https://metodologia.info/favicon.svg",
+      "rights": "Official MetodologIA public brand asset",
+      "sha256": "5f45ae2ebd2cb691db56efd6bf3b7c2a3888e985d6c4a4fd95608d94d0f814fe"
+    },
+    {
+      "path": "assets/javier-montano.jpg",
+      "source": "https://avatars.githubusercontent.com/u/3903511?v=4",
+      "rights": "Public founder profile image, linked to its authoritative public profile",
+      "sha256": "1fecdedb8e705eeb5ef49d2854b70ede3224014ddd278924cc6b3bc263b75ad5"
+    },
+    {
+      "path": "assets/masterclass-ia-nivel-0.pdf",
+      "source": "owner_supplied_local_export",
+      "rights": "MetodologIA masterclass supplied by the owner for this local pilot",
+      "sha256": "5df5533a29652184f492b2f797ecfa0f1fa47cdb682bfcefb8f30c96014ce402"
+    },
+    {
+      "path": "assets/Poppins-Regular.ttf",
+      "source": "03_artefactos/brand/fonts/vendor/poppins/Poppins-Regular.ttf",
+      "rights": "SIL Open Font License 1.1; see Poppins-OFL.txt",
+      "license_path": "assets/Poppins-OFL.txt",
+      "sha256": "7e65201e9b79159e2300267cc885e16c8dcef2424cdfa09a29bfb0980a94a7ba"
+    },
+    {
+      "path": "assets/Poppins-Regular.woff2",
+      "source": "deterministic subset of assets/Poppins-Regular.ttf",
+      "rights": "SIL Open Font License 1.1; see Poppins-OFL.txt",
+      "license_path": "assets/Poppins-OFL.txt",
+      "generated_by": "fontTools.subset"
+    },
+    {
+      "path": "assets/Poppins-Bold.ttf",
+      "source": "03_artefactos/brand/fonts/vendor/poppins/Poppins-Bold.ttf",
+      "rights": "SIL Open Font License 1.1; see Poppins-OFL.txt",
+      "license_path": "assets/Poppins-OFL.txt",
+      "sha256": "983676516167748b74de6f4771fb384c664fd913acb8b471122ecacf5da5ea6c"
+    },
+    {
+      "path": "assets/Poppins-Bold.woff2",
+      "source": "deterministic subset of assets/Poppins-Bold.ttf",
+      "rights": "SIL Open Font License 1.1; see Poppins-OFL.txt",
+      "license_path": "assets/Poppins-OFL.txt",
+      "generated_by": "fontTools.subset"
+    },
+    {
+      "path": "assets/Poppins-OFL.txt",
+      "source": "03_artefactos/brand/fonts/vendor/poppins/OFL.txt",
+      "rights": "License text",
+      "sha256": "6be04893d770899a015649c7aa3b582f871b272f8747a92b78b17c3e5c8b2573"
+    },
+    {
+      "path": "assets/Montserrat-Variable.ttf",
+      "source": "03_artefactos/brand/fonts/vendor/montserrat/Montserrat-VariableFont_wght.ttf",
+      "rights": "SIL Open Font License 1.1; see Montserrat-OFL.txt",
+      "license_path": "assets/Montserrat-OFL.txt",
+      "sha256": "0f7b311b2f3279e4eef9b2f968bcdbab6e28f4daeb1f049f4f278a902bcd82f7"
+    },
+    {
+      "path": "assets/Montserrat-Variable.woff2",
+      "source": "deterministic subset of assets/Montserrat-Variable.ttf",
+      "rights": "SIL Open Font License 1.1; see Montserrat-OFL.txt",
+      "license_path": "assets/Montserrat-OFL.txt",
+      "generated_by": "fontTools.subset"
+    },
+    {
+      "path": "assets/Montserrat-OFL.txt",
+      "source": "03_artefactos/brand/fonts/vendor/montserrat/OFL.txt",
+      "rights": "License text",
+      "sha256": "8b7141c03fa4f8d44e6345d5d4931709290f0f67875e452e95ac1fd3a027802e"
+    },
+    {
+      "path": "assets/team-javier-montano.webp",
+      "source": "https://javimontano.github.io/trabajar-amplificado/assets/aprender-aprehender-revolucionar/team_javier-montano.webp",
+      "rights": "Public founder portrait from the CC BY-NC-SA 4.0 historical playbook supplied by its author",
+      "sha256": "4cac6ea8b4e303c1e0a27573736114f46ffb1b8783745d1ac1335b4f02da756d"
+    },
+    {
+      "path": "assets/team-daniel-zuluaga.jpg",
+      "source": "https://javimontano.github.io/trabajar-amplificado/assets/aprender-aprehender-revolucionar/team_daniel-zuluaga.jpg",
+      "rights": "Public founder portrait from the CC BY-NC-SA 4.0 historical playbook supplied by its author",
+      "sha256": "2b114074b2487d333adf7c5deccc0d722fb943976be5e7bb4cb2d1d6db425db2"
+    },
+    {
+      "path": "assets/team-german-sepulveda.png",
+      "source": "https://javimontano.github.io/trabajar-amplificado/assets/aprender-aprehender-revolucionar/team_german-sepulveda.png",
+      "rights": "Public founder portrait from the CC BY-NC-SA 4.0 historical playbook supplied by its author",
+      "sha256": "752dda8237655da262b31d1f8d9e3e31fc5afaee2d4c585461c32b1636a77450"
+    },
+    {
+      "path": "assets/team-katherine-oquendo.png",
+      "source": "https://javimontano.github.io/trabajar-amplificado/assets/aprender-aprehender-revolucionar/team_kathe-oquendo.png",
+      "rights": "Public founder portrait from the CC BY-NC-SA 4.0 historical playbook supplied by its author",
+      "sha256": "233ee0b8cc197566933320ab52adaa181fe0265cdcb88450dc4ae71a8138f18a"
+    }
+  ],
+  "external_links_reference_seed": [
+    "https://docs.google.com/forms/d/e/1FAIpQLSeLysigcdIjlq4xguRXhBkN0WbC7H6FOzxylqgJC_7Ws4OtWQ/viewform",
+    "https://notebooklm.google.com/",
+    "https://support.google.com/notebooklm/answer/16164461?hl=es",
+    "https://support.google.com/notebooklm/answer/16215270?hl=es",
+    "https://support.google.com/notebooklm/answer/16179559?hl=es",
+    "https://www.youtube.com/watch?v=rUu1o7iKUMM",
+    "https://github.com/JaviMontano",
+    "https://metodologia.info/"
+  ]
+}

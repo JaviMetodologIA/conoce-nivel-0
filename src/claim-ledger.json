@@ -1,0 +1,14 @@
+{
+  "schema_version":"claim-ledger-v1",
+  "checked_on":"2026-08-11",
+  "claims":[
+    {"claim":"NotebookLM answers can be grounded in selected sources and expose citations.","source":"https://support.google.com/notebooklm/answer/16179559?hl=es","status":"verified_conservative"},
+    {"claim":"Supported source types and limits are documented.","source":"https://support.google.com/notebooklm/answer/16215270?hl=es","status":"verified_conservative"},
+    {"claim":"Deep Research is for users 18+ and availability may vary by plan or surface.","source":"https://support.google.com/notebooklm/answer/16164461?hl=es","status":"verified_with_caution"},
+    {"claim":"Slide 4 uses generative AI as a category label for conversational support across search, synthesis, creation and decisions; it is an editorial synthesis, not a capability guarantee.","source":"https://support.google.com/notebooklm/answer/16164461?hl=es","status":"inference_labeled","nomenclature_checked_on":"2026-08-11"},
+    {"claim":"The current public registration form describes free workshops and a maximum of 25 people per call cycle.","source":"https://docs.google.com/forms/d/e/1FAIpQLSeLysigcdIjlq4xguRXhBkN0WbC7H6FOzxylqgJC_7Ws4OtWQ/viewform","status":"verified_commercial_source","checked_on":"2026-08-11"},
+    {"claim":"The public form states a 90-minute duration in its overview while its selectable schedules reserve two-hour blocks. Until operating authority resolves the discrepancy, public copy uses a 90–120 minute range and structured data omits a fixed duration.","source":"https://docs.google.com/forms/d/e/1FAIpQLSeLysigcdIjlq4xguRXhBkN0WbC7H6FOzxylqgJC_7Ws4OtWQ/viewform","status":"source_conflict_fail_closed","checked_on":"2026-08-11"},
+    {"claim":"MetodologIA runs one Level 0 intake per month, during the first week.","source":"human_decision_2026-08-14","status":"human_authority"}
+  ],
+  "prohibited_claims":["accuracy guarantee","replacement of human judgment"]
+}

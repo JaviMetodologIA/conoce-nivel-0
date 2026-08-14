@@ -1,0 +1,14 @@
+{
+  "schema_version": "curriculum-spec-v1",
+  "route_id": "nivel-0-intro-ia",
+  "brand": "MetodologIA",
+  "status": "human_selected_direction",
+  "languages": ["es", "en", "pt"],
+  "classes": [
+    {"id":"ia-panorama","order":1,"verb":"comprender","resource_state":{"masterclass":"available","workbook":"available","playbook":"available","prompt_library":"available"}},
+    {"id":"ocupado-productivo","order":2,"verb":"priorizar","resource_state":{"masterclass":"upcoming","workbook":"upcoming","playbook":"upcoming","prompt_library":"upcoming"}},
+    {"id":"trabajo-amplificado","order":3,"verb":"amplificar","resource_state":{"masterclass":"upcoming","workbook":"upcoming","playbook":"upcoming","prompt_library":"upcoming"}},
+    {"id":"trabajo-agentico","order":4,"verb":"orquestar","resource_state":{"masterclass":"upcoming","workbook":"upcoming","playbook":"upcoming","prompt_library":"upcoming"}}
+  ],
+  "publication_authorized": false
+}

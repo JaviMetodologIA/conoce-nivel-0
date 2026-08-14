@@ -1,0 +1,30 @@
+{
+  "schema_version":"masterclass-spec-v1",
+  "masterclass_id":"nivel-0-clase-1-ia-notebooklm",
+  "brand":"MetodologIA",
+  "languages":["es","en","pt"],
+  "modes_minutes":[90,120],
+  "extended_mode_block":{"minutes":30,"activity":"prompt 6-10 plus source rubric and debrief"},
+  "controls":["previous","next","keyboard","outline","progress","theme","language","mode"],
+  "slides":[
+    {"id":1,"timing":"0-3","intention":"open","note":"frame outcome","resource":null},
+    {"id":2,"timing":"3-7","intention":"observable outcome","note":"ask for evidence","resource":null},
+    {"id":3,"timing":"7-10","intention":"human responsibility","note":"set agreement","resource":null},
+    {"id":4,"timing":"10-15","intention":"AI landscape","note":"invite examples","resource":null},
+    {"id":5,"timing":"15-20","intention":"separate layers","note":"contrast model product workflow","resource":null},
+    {"id":6,"timing":"20-25","intention":"evidence criterion","note":"inspect one claim","resource":null},
+    {"id":7,"timing":"25-30","intention":"learning cycle","note":"connect to prior practice","resource":null},
+    {"id":8,"timing":"30-35","intention":"NotebookLM role","note":"state limits","resource":"official-help"},
+    {"id":9,"timing":"35-41","intention":"practice step 1","note":"define purpose","resource":"workbook#step-1"},
+    {"id":10,"timing":"41-47","intention":"practice step 2","note":"audit sources","resource":"workbook#step-2"},
+    {"id":11,"timing":"47-53","intention":"practice step 3","note":"target gap","resource":"workbook#step-3"},
+    {"id":12,"timing":"53-59","intention":"practice step 4","note":"binary verdict","resource":"workbook#step-4"},
+    {"id":13,"timing":"59-65","intention":"practice step 5","note":"choose differentiated role","resource":"workbook#step-5"},
+    {"id":14,"timing":"65-70","intention":"debrief","note":"share evidence","resource":null},
+    {"id":15,"timing":"70-80","intention":"transfer","note":"select real context","resource":null},
+    {"id":16,"timing":"80-84","intention":"deepening","note":"preview prompts 6-10","resource":"workbook#depth"},
+    {"id":17,"timing":"84-87","intention":"consolidation","note":"set teach-back","resource":"workbook#consolidation"},
+    {"id":18,"timing":"87-90","intention":"close","note":"commit next action","resource":null}
+  ],
+  "publication_authorized":false
+}

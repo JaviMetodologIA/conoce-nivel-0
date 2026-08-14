@@ -1,0 +1,227 @@
+{
+  "schema_version": "landing-spec-v2",
+  "route_id": "nivel-0-intro-ia",
+  "state": "HUMAN_SELECTED_DIRECTION",
+  "brand_profile": "metodologia-neo-swiss-editorial-motion-v1",
+  "conversion": {
+    "primary": "public_registration_form",
+    "secondary": "open_learning_resources",
+    "price": "free",
+    "cadence": "two_calls_per_month",
+    "capacity_per_cycle": 25,
+    "session_duration_minutes": [90, 120],
+    "duration_note": "The public form describes 90 minutes in its overview and reserves two-hour schedule blocks; the landing communicates the verified range until the operating duration is resolved.",
+    "authority": "public_registration_form_conflict_logged_2026-08-11"
+  },
+  "motion": {
+    "mode": "progressive_enhancement",
+    "allowed_properties": ["opacity", "transform"],
+    "once": true,
+    "scroll_jacking": false,
+    "autoplay": false,
+    "reduced_motion": "static_final_state"
+  },
+  "editorial_pattern": {
+    "structure": "conclusion_first_then_context_evidence_implication",
+    "visible_method_labels": false,
+    "session_sequence": ["title", "hook", "question", "practice", "evidence", "takeaway", "punchline"]
+  },
+  "sections": [
+    "entrada",
+    "tension",
+    "ruta",
+    "demostracion",
+    "experiencia",
+    "resultados",
+    "metodo",
+    "convocatoria"
+  ],
+  "resource_states": {
+    "masterclass-01": "available",
+    "workbook-01": "available",
+    "remaining_14": "upcoming"
+  },
+  "editorial_letters": {
+    "status": "editorial_draft_selected_by_human_for_local_review",
+    "testimonial_claims": false,
+    "publication_authorized": false
+  },
+  "locales": {
+    "es": {
+      "meta_title": "Ruta Nivel 0 · Intro al mundo de la IA",
+      "meta_description": "Talleres gratuitos de MetodologIA para pasar de usar chats a trabajar con criterio, método y supervisión. Una convocatoria al mes, durante la primera semana.",
+      "nav": ["Entrada", "La ruta", "Recursos", "Método"],
+      "enroll": "Inscribirme",
+      "open_resources": "Ver recursos",
+      "hero_eyebrow": "Ruta Nivel 0 · El punto de entrada",
+      "hero_title": "Entiende la IA. <span class=\"gold\">Haz que trabaje contigo.</span>",
+      "hero_lead": "Cuatro clases para pasar de preguntar en un chat a aprender, decidir y trabajar mejor con IA, sin entregar tu criterio.",
+      "n0_caption": "Triple cero para empezar",
+      "n0_principles": [
+        {"value":"0","label":"Costo","note":"Talleres gratuitos"},
+        {"value":"0","label":"Fricción","note":"Paso a paso, sin perfil técnico"},
+        {"value":"0","label":"Riesgo de entrada","note":"Práctica guiada; el criterio sigue siendo tuyo"}
+      ],
+      "offer": ["Sin costo", "1 convocatoria al mes · primera semana", "Máximo 25 personas por ciclo", "Bloques de 90–120 minutos"],
+      "verbs": ["Comprender", "Priorizar", "Amplificar", "Orquestar"],
+      "tension_eyebrow": "Antes de sumar otra herramienta",
+      "tension_title": "Ya tienes IA. ¿Te está ayudando de verdad?",
+      "tension_lead": "Reconoce dónde estás hoy. No hay respuestas correctas: solo un punto de partida. Tu selección no se guarda ni se envía.",
+      "tensions": [
+        ["Información sin comprensión", "Lees, preguntas y acumulas respuestas, pero todavía no sabes qué fuente sostiene una decisión.", "Empieza por comprender"],
+        ["Haces mucho. Lo importante sigue esperando.", "Terminas el día cansado y con muchas tareas resueltas, pero eso que de verdad querías mover sigue para mañana.", "Empieza por priorizar"],
+        ["Herramientas sin método", "Tienes prompts y aplicaciones aisladas, pero no un flujo que puedas repetir, revisar y mejorar.", "Empieza por amplificar"]
+      ],
+      "route_eyebrow": "Una progresión acumulativa",
+      "route_title": "Cuatro clases. Una forma nueva de avanzar.",
+      "route_lead": "Primero entiendes. Después eliges. Luego amplificas. Al final, aprendes a delegar sin perder el control.",
+      "story_labels": {"takeaway":"Qué te llevas"},
+      "classes": [
+        {"verb":"Comprender","title":"IA: qué está pasando y cómo sacarle provecho","hook":"La IA ya está cambiando tu trabajo. La diferencia está en si la usas con intención o solo reaccionas a ella.","question":"¿Cómo aprendo con IA sin confundir una respuesta convincente con una respuesta confiable?","prerequisite":"Curiosidad y uso básico de chat","practice":"Construir y auditar una base en NotebookLM","evidence":"Propósito, fuentes decisivas, vacío aceptado y veredicto","takeaway":"No necesitas saberlo todo. Necesitas preguntar mejor, trabajar con fuentes y saber cuándo verificar.","punchline":"Primero entiende. Luego aprovecha.","bridge":"Con mejor contexto, podrás elegir mejor qué merece tu tiempo","state":"Disponible"},
+        {"verb":"Priorizar","title":"De ocupado a productivo","hook":"Tu agenda no necesita más velocidad. Necesita dirección.","question":"¿Cómo convierto todo lo que tengo por hacer en prioridades que sí pueda sostener?","prerequisite":"Comprender fuentes, límites y propósito","practice":"Se diseñará una pauta de acompañamiento y seguimiento","evidence":"Proyectado: sistema visible de prioridades","takeaway":"Priorizar es decidir qué merece tu energía antes de pedirle a la IA que haga más.","punchline":"No hagas más. Haz avanzar lo importante.","bridge":"Con prioridades claras, podrás diseñar un flujo que te amplifique","state":"Próximamente"},
+        {"verb":"Amplificar","title":"Trabajar amplificado","hook":"La IA deja de ser otra ventana abierta y empieza a formar parte de una forma de trabajar.","question":"¿Cómo conecto aprendizaje, criterio y ejecución en un flujo que pueda repetir y mejorar?","prerequisite":"Propósito y prioridades explícitas","practice":"Se integrará método e IA alrededor de un trabajo real","evidence":"Proyectado: flujo amplificado documentado","takeaway":"Amplificar es conectar criterio, método y herramientas alrededor de un resultado real.","punchline":"Menos improvisación. Más capacidad.","bridge":"Cuando el flujo sea claro, podrás delegar algunos pasos con supervisión","state":"Próximamente"},
+        {"verb":"Orquestar","title":"Trabajo agéntico","hook":"Cuando conoces bien un flujo, puedes delegar pasos sin delegar la responsabilidad.","question":"¿Cómo diseño autonomía útil sin perder visibilidad, límites ni control?","prerequisite":"Un flujo conocido y verificable","practice":"Se modelarán roles, memoria, herramientas y límites","evidence":"Proyectado: primer flujo agéntico supervisado","takeaway":"Un agente útil necesita propósito, herramientas, límites, evidencia y una persona que supervise.","punchline":"La autonomía empieza por diseñar el control.","bridge":"Desde aquí comienzan la práctica autónoma y las rutas avanzadas","state":"Próximamente"}
+      ],
+      "demo_eyebrow": "La metodología en acción",
+      "demo_title": "Así se ve aprender con criterio.",
+      "demo_lead": "No buscas una respuesta rápida. Construyes una base, la pones a prueba y decides qué puedes usar con confianza.",
+      "demo_steps": ["Define un propósito", "Selecciona fuentes", "Audita tensiones y vacíos", "Decide si la base es suficiente", "Activa profesor, asesor o coach", "Explica y transfiere"],
+      "demo_artifacts": ["Mapa de fuentes", "Auditoría citada", "Veredicto honesto", "Teach-back de 3 minutos"],
+      "experience_eyebrow": "Prueba antes de inscribirte",
+      "experience_title": "Pruébalo primero.",
+      "experience_lead": "Abre la primera clase y su workbook. Recorre el método por tu cuenta antes de decidir si quieres vivirlo acompañado.",
+      "masterclass_title": "Masterclass · IA: qué está pasando y cómo sacarle provecho",
+      "masterclass_body": "18 momentos, recorrido de 90 minutos y variante de 120 minutos con una pausa práctica conectada al workbook.",
+      "masterclass_cta": "Ver masterclass",
+      "workbook_title": "Aprende a aprender con NotebookLM",
+      "workbook_body": "Tres rutas de autoentrenamiento: trabajar en sesión, profundizar con prompts y consolidar mediante evidencia y transferencia.",
+      "workbook_cta": "Abrir workbook",
+      "roadmap": "Disponibles: masterclass, workbook, playbook y biblioteca de prompts de la clase 1. En preparación: los recursos de las clases 2–4.",
+      "outcomes_eyebrow": "De tema a evidencia",
+      "outcomes_title": "De una pregunta a una forma de trabajar.",
+      "outcomes_lead": "La clase 1 ya puedes probarla. Lo que sigue muestra la progresión que construiremos, sin prometer resultados que aún no has producido.",
+      "outcomes": [
+        ["Base confiable", "Disponible", "Una base orientada a un propósito, con fuentes revisables y límites explícitos."],
+        ["Sistema de prioridades", "Proyectado", "Una pauta para elegir, planificar y sostener lo que realmente importa."],
+        ["Flujo amplificado", "Proyectado", "Un trabajo real convertido en pasos repetibles, revisables y mejorables."],
+        ["Flujo agéntico supervisado", "Proyectado", "Roles, memoria y herramientas bajo criterios y responsabilidad humana."]
+      ],
+      "organic_loop": "Aprende → produce una evidencia → explícala → reutiliza la plantilla → comparte solo un aprendizaje sanitizado.",
+      "method_eyebrow": "Confianza antes que espectáculo",
+      "method_title": "La herramienta cambia. El método se queda.",
+      "method_lead": "Usamos IA para buscar, pensar y practicar mejor. La decisión, la verificación y la responsabilidad siguen siendo tuyas.",
+      "method_points": [
+        ["Práctica guiada", "La cohorte acompaña la ejecución; la biblioteca permanece abierta para continuar por cuenta propia."],
+        ["Trabajo basado en fuentes", "NotebookLM permite consultar fuentes seleccionadas y revisar citas; tú decides qué importar y verificar."],
+        ["Privacidad explícita", "Este sitio no guarda ni envía tus respuestas. El formulario de inscripción es un servicio externo."],
+        ["Transferencia", "No basta con obtener una respuesta: debes poder explicar el proceso y usarlo en otro contexto."]
+      ],
+      "requirements_title": "¿Qué necesitas?",
+      "requirements": ["Cuenta de Google y navegador actualizado", "Uso básico de una IA conversacional", "Un tema o decisión real", "Disposición para revisar fuentes y cambiar tu forma de trabajar"],
+      "faq": [
+        ["¿Necesito conocimientos técnicos?", "No. La ruta parte de uso conversacional básico y pone el énfasis en método y criterio."],
+        ["¿La cohorte tiene costo?", "No. El formulario público vigente declara talleres gratuitos y máximo 25 personas por ciclo."],
+        ["¿Debo tomar las cuatro clases?", "Puedes empezar por la primera. La progresión completa está diseñada para acumular capacidades."],
+        ["¿Qué ocurre con mis datos?", "La landing no recopila respuestas. Al inscribirte sales a un formulario público de Google Forms."]
+      ],
+      "ambassador_letter": {
+        "label": "Carta de los embajadores",
+        "title": "No tienes que recorrer esta ruta a solas.",
+        "paragraphs": [
+          "Como embajadores, no estamos aquí para decirte que tenemos todas las respuestas. Estamos para compartir una práctica: hacer mejores preguntas, revisar la evidencia y convertir lo aprendido en algo que puedas usar de verdad.",
+          "Prueba, pregunta, trae tu contexto y conserva tu criterio. Una comunidad cobra sentido cuando cada persona puede decir con honestidad qué le funcionó, qué no y qué aprendió en el camino."
+        ],
+        "signature": "Embajadores de MetodologIA",
+        "role": "Comunidad de práctica"
+      },
+      "final_eyebrow": "Una convocatoria al mes · primera semana",
+      "final_title": "Empieza con una pregunta. Sal con una práctica.",
+      "final_lead": "Prueba hoy los recursos abiertos. Si quieres convertirlos en una forma de trabajar, únete a una cohorte gratuita y recorre la ruta con guía.",
+      "form_note": "El enlace abre el formulario público de inscripción en una pestaña nueva.",
+      "javier_letter": {
+        "label": "Una nota personal antes de empezar",
+        "title": "No necesitas dominar cada herramienta. Necesitas una forma propia de avanzar.",
+        "paragraphs": [
+          "Si llegaste hasta aquí, quiero dejarte una idea sencilla: la IA no tiene que alejarte de tu manera de pensar. Bien usada, puede ayudarte a verla con más claridad, ponerla a prueba y convertirla en acción.",
+          "Diseñé esta Ruta Nivel 0 para que puedas empezar sin pretender saberlo todo. Entra con una pregunta real, trabaja con otros y sal con una práctica que puedas repetir. Lo demás se construye paso a paso."
+        ],
+        "signature": "Javier Montaño",
+        "role": "Creador de MetodologIA"
+      },
+      "footer_privacy": "Sin tracking · Sin respuestas guardadas · MetodologIA"
+    },
+    "en": {
+      "meta_title": "Level 0 Route · Intro to the world of AI",
+      "meta_description": "Free MetodologIA workshops to move from using chats to working with judgment, method and supervision. One intake each month, during the first week.",
+      "nav": ["Start", "Route", "Resources", "Method"],
+      "enroll": "Join cohort",
+      "open_resources": "View resources",
+      "hero_eyebrow": "Level 0 Route · The entry point",
+      "hero_title": "Understand AI. <span class=\"gold\">Make it work with you.</span>",
+      "hero_lead": "Four classes to move from asking questions in a chat to learning, deciding and working better with AI—without outsourcing judgment.",
+      "n0_caption": "Triple zero to get started",
+      "n0_principles": [
+        {"value":"0","label":"Cost","note":"Free workshops"},
+        {"value":"0","label":"Friction","note":"Step by step, no technical profile"},
+        {"value":"0","label":"Entry risk","note":"Guided practice; your judgment remains yours"}
+      ],
+      "offer": ["Free", "1 monthly intake · first week", "Up to 25 people per cycle", "90–120 minute blocks"],
+      "verbs": ["Understand", "Prioritize", "Amplify", "Orchestrate"],
+      "tension_eyebrow": "Before adding another tool",
+      "tension_title": "You already have AI. Is it truly helping?",
+      "tension_lead": "Recognize where you are today. There are no right answers—only a starting point. Your selection is not stored or sent.",
+      "tensions": [["Information without understanding","You read, ask and collect answers, but still cannot identify the source behind a decision.","Start by understanding"],["You do a lot. The important work still waits.","You end the day tired and with many tasks completed, yet the work you truly wanted to move forward is postponed again.","Start by prioritizing"],["Tools without method","You have isolated prompts and apps, but no workflow you can repeat, review and improve.","Start by amplifying"]],
+      "route_eyebrow": "A cumulative progression", "route_title": "Four classes. A new way to move forward.", "route_lead": "First you understand. Then you choose. Next you amplify. Finally, you learn to delegate without losing control.",
+      "story_labels":{"takeaway":"What you take with you"},
+      "classes": [
+        {"verb":"Understand","title":"AI: what is happening and how to benefit","hook":"AI is already changing your work. The difference is whether you use it intentionally or simply react to it.","question":"How do I learn with AI without confusing a persuasive answer with a trustworthy one?","prerequisite":"Curiosity and basic chat use","practice":"Build and audit a NotebookLM source base","evidence":"Purpose, decisive sources, accepted gap and verdict","takeaway":"You do not need to know everything. You need better questions, source-grounded work and the judgment to know when to verify.","punchline":"Understand first. Then put AI to work.","bridge":"With better context, you can choose what deserves your time","state":"Available"},
+        {"verb":"Prioritize","title":"From busy to productive","hook":"Your calendar does not need more speed. It needs direction.","question":"How do I turn everything on my plate into priorities I can actually sustain?","prerequisite":"Understand sources, limits and purpose","practice":"A coaching and follow-up pattern will be designed","evidence":"Projected: visible priority system","takeaway":"Prioritizing means choosing what deserves your energy before asking AI to do more.","punchline":"Do not do more. Move what matters.","bridge":"With clear priorities, you can design a workflow that amplifies your work","state":"Coming soon"},
+        {"verb":"Amplify","title":"Amplified work","hook":"AI stops being another open window and becomes part of a way of working.","question":"How do I connect learning, judgment and execution in a workflow I can repeat and improve?","prerequisite":"Explicit purpose and priorities","practice":"Method and AI will be integrated around real work","evidence":"Projected: documented amplified workflow","takeaway":"Amplification connects judgment, method and tools around a real outcome.","punchline":"Less improvisation. More capability.","bridge":"Once the workflow is clear, you can delegate selected steps under supervision","state":"Coming soon"},
+        {"verb":"Orchestrate","title":"Agentic work","hook":"Once you understand a workflow, you can delegate steps without delegating accountability.","question":"How do I design useful autonomy without losing visibility, boundaries or control?","prerequisite":"A known and verifiable workflow","practice":"Roles, memory, tools and boundaries will be modeled","evidence":"Projected: first supervised agentic workflow","takeaway":"A useful agent needs purpose, tools, boundaries, evidence and a person who supervises it.","punchline":"Autonomy begins by designing control.","bridge":"From here, independent practice and advanced routes begin","state":"Coming soon"}
+      ],
+      "demo_eyebrow":"The method in action","demo_title":"This is what learning with judgment looks like.","demo_lead":"You are not chasing a quick answer. You build a source base, test it and decide what you can use with confidence.",
+      "demo_steps":["Set a purpose","Select sources","Audit tensions and gaps","Decide whether the base is sufficient","Activate teacher, advisor or coach","Explain and transfer"],
+      "demo_artifacts":["Source map","Cited audit","Honest verdict","Three-minute teach-back"],
+      "experience_eyebrow":"Try before joining","experience_title":"You do not have to take our word for it. Try it.","experience_lead":"Open the first class and its workbook. Experience the method independently before deciding whether to join a guided cohort.",
+      "masterclass_title":"Masterclass · AI: what is happening and how to benefit","masterclass_body":"18 moments, a 90-minute route and a 120-minute option with guided workbook practice.","masterclass_cta":"View masterclass",
+      "workbook_title":"Learn how to learn with NotebookLM","workbook_body":"Three self-training routes: work in class, deepen with prompts and consolidate through evidence and transfer.","workbook_cta":"Open workbook",
+      "roadmap":"Available: the class 1 masterclass, workbook, playbook and prompt library. In preparation: resources for classes 2–4.",
+      "outcomes_eyebrow":"From topic to evidence","outcomes_title":"From a question to a way of working.","outcomes_lead":"You can try class 1 now. What follows shows the progression we will build without promising outcomes you have not produced yet.",
+      "outcomes":[["Reliable source base","Available","A purpose-driven base with reviewable sources and explicit limits."],["Priority system","Projected","A pattern to choose, plan and sustain what matters."],["Amplified workflow","Projected","Real work turned into repeatable, reviewable and improvable steps."],["Supervised agentic workflow","Projected","Roles, memory and tools governed by human criteria and accountability."]],
+      "organic_loop":"Learn → produce evidence → explain it → reuse the template → share only a sanitized learning.",
+      "method_eyebrow":"Trust before spectacle","method_title":"Tools change. Method remains.","method_lead":"We use AI to search, think and practice better. Decisions, verification and accountability remain yours.",
+      "method_points":[["Guided practice","The cohort supports execution; the library stays open for independent practice."],["Source-grounded work","NotebookLM can query selected sources and expose citations; you decide what to import and verify."],["Explicit privacy","This site does not save or send your answers. Registration uses an external service."],["Transfer","An answer is not enough: you must explain the process and use it in another context."]],
+      "requirements_title":"What do you need?","requirements":["Google account and current browser","Basic use of conversational AI","A real topic or decision","Willingness to inspect sources and change how you work"],
+      "faq":[["Do I need technical knowledge?","No. The route starts from basic conversational use and emphasizes method and judgment."],["Is the cohort free?","Yes. The current public form states free workshops and up to 25 people per cycle."],["Must I take all four classes?","You can start with the first one. The complete route is designed to accumulate capabilities."],["What happens to my data?","The landing collects no answers. Registration opens a public Google Form."]],
+      "ambassador_letter":{"label":"A letter from the ambassadors","title":"You do not have to walk this route alone.","paragraphs":["As ambassadors, we are not here to pretend we have every answer. We are here to share a practice: ask better questions, inspect the evidence and turn learning into something you can actually use.","Try, ask, bring your context and keep your judgment. A community matters when each person can honestly say what worked, what did not and what they learned along the way."],"signature":"MetodologIA Ambassadors","role":"Community of practice"},
+      "final_eyebrow":"One monthly intake · first week","final_title":"Start with a question. Leave with a practice.","final_lead":"Try the open resources today. If you want to turn them into a way of working, join a free cohort and follow the route with guidance.","form_note":"The link opens the public registration form in a new tab.","footer_privacy":"No tracking · No stored answers · MetodologIA"
+      ,"javier_letter":{"label":"A personal note before you begin","title":"You do not need to master every tool. You need your own way to move forward.","paragraphs":["If you made it this far, I want to leave you with one simple idea: AI does not have to pull you away from your way of thinking. Used well, it can help you see it more clearly, test it and turn it into action.","I designed this Level 0 Route so you can begin without pretending to know everything. Bring a real question, work with others and leave with a practice you can repeat. The rest is built step by step."],"signature":"Javier Montaño","role":"Creator of MetodologIA"}
+    },
+    "pt": {
+      "meta_title": "Rota Nível 0 · Introdução ao mundo da IA",
+      "meta_description": "Workshops gratuitos da MetodologIA para passar de usar chats a trabalhar com critério, método e supervisão. Uma turma por mês, durante a primeira semana.",
+      "nav": ["Entrada", "A rota", "Recursos", "Método"], "enroll":"Inscrever-me","open_resources":"Ver recursos",
+      "hero_eyebrow":"Rota Nível 0 · O ponto de entrada","hero_title":"Entenda a IA. <span class=\"gold\">Faça com que ela trabalhe com você.</span>","hero_lead":"Quatro aulas para passar de perguntar em um chat a aprender, decidir e trabalhar melhor com IA, sem delegar seu critério.",
+      "n0_caption":"Triplo zero para começar","n0_principles":[{"value":"0","label":"Custo","note":"Oficinas gratuitas"},{"value":"0","label":"Fricção","note":"Passo a passo, sem perfil técnico"},{"value":"0","label":"Risco de entrada","note":"Prática guiada; o critério continua sendo seu"}],
+      "offer":["Sem custo","1 turma por mês · primeira semana","Máximo de 25 pessoas por ciclo","Blocos de 90–120 minutos"],"verbs":["Compreender","Priorizar","Amplificar","Orquestrar"],
+      "tension_eyebrow":"Antes de adicionar outra ferramenta","tension_title":"Você já tem IA. Ela está realmente ajudando?","tension_lead":"Reconheça onde você está hoje. Não há respostas certas, apenas um ponto de partida. Sua seleção não é salva nem enviada.",
+      "tensions":[["Informação sem compreensão","Você lê, pergunta e acumula respostas, mas ainda não sabe qual fonte sustenta uma decisão.","Comece compreendendo"],["Você faz muito. O que importa continua esperando.","Você termina o dia cansado e com muitas tarefas resolvidas, mas aquilo que realmente queria fazer avançar fica novamente para amanhã.","Comece priorizando"],["Ferramentas sem método","Você tem prompts e aplicativos isolados, mas não um fluxo que possa repetir, revisar e melhorar.","Comece amplificando"]],
+      "route_eyebrow":"Uma progressão cumulativa","route_title":"Quatro aulas. Uma nova forma de avançar.","route_lead":"Primeiro você entende. Depois escolhe. Em seguida amplifica. No final, aprende a delegar sem perder o controle.",
+      "story_labels":{"takeaway":"O que você leva"},
+      "classes":[
+        {"verb":"Compreender","title":"IA: o que está acontecendo e como aproveitar","hook":"A IA já está mudando seu trabalho. A diferença está em usá-la com intenção ou apenas reagir a ela.","question":"Como aprendo com IA sem confundir uma resposta convincente com uma resposta confiável?","prerequisite":"Curiosidade e uso básico de chat","practice":"Construir e auditar uma base no NotebookLM","evidence":"Propósito, fontes decisivas, lacuna aceita e veredito","takeaway":"Você não precisa saber tudo. Precisa fazer perguntas melhores, trabalhar com fontes e saber quando verificar.","punchline":"Primeiro entenda. Depois aproveite.","bridge":"Com melhor contexto, você poderá escolher o que merece seu tempo","state":"Disponível"},
+        {"verb":"Priorizar","title":"De ocupado a produtivo","hook":"Sua agenda não precisa de mais velocidade. Precisa de direção.","question":"Como transformo tudo o que tenho para fazer em prioridades que consigo sustentar?","prerequisite":"Compreender fontes, limites e propósito","practice":"Será criada uma pauta de acompanhamento","evidence":"Projetado: sistema visível de prioridades","takeaway":"Priorizar é decidir o que merece sua energia antes de pedir que a IA faça mais.","punchline":"Não faça mais. Faça avançar o que importa.","bridge":"Com prioridades claras, você poderá criar um fluxo que amplifique seu trabalho","state":"Em breve"},
+        {"verb":"Amplificar","title":"Trabalho amplificado","hook":"A IA deixa de ser outra janela aberta e passa a fazer parte de uma forma de trabalhar.","question":"Como conecto aprendizagem, critério e execução em um fluxo que posso repetir e melhorar?","prerequisite":"Propósito e prioridades explícitas","practice":"Método e IA serão integrados em um trabalho real","evidence":"Projetado: fluxo amplificado documentado","takeaway":"Amplificar é conectar critério, método e ferramentas em torno de um resultado real.","punchline":"Menos improvisação. Mais capacidade.","bridge":"Quando o fluxo estiver claro, você poderá delegar alguns passos com supervisão","state":"Em breve"},
+        {"verb":"Orquestrar","title":"Trabalho agêntico","hook":"Quando você conhece bem um fluxo, pode delegar passos sem delegar a responsabilidade.","question":"Como desenho autonomia útil sem perder visibilidade, limites ou controle?","prerequisite":"Um fluxo conhecido e verificável","practice":"Papéis, memória, ferramentas e limites serão modelados","evidence":"Projetado: primeiro fluxo agêntico supervisionado","takeaway":"Um agente útil precisa de propósito, ferramentas, limites, evidência e uma pessoa que supervisione.","punchline":"A autonomia começa pelo desenho da supervisão.","bridge":"A partir daqui começam a prática autônoma e as rotas avançadas","state":"Em breve"}
+      ],
+      "demo_eyebrow":"A metodologia em ação","demo_title":"Assim se aprende com critério.","demo_lead":"Você não busca uma resposta rápida. Constrói uma base, coloca-a à prova e decide o que pode usar com confiança.","demo_steps":["Defina um propósito","Selecione fontes","Audite tensões e lacunas","Decida se a base é suficiente","Ative professor, assessor ou coach","Explique e transfira"],"demo_artifacts":["Mapa de fontes","Auditoria citada","Veredito honesto","Teach-back de 3 minutos"],
+      "experience_eyebrow":"Experimente antes de se inscrever","experience_title":"Você não precisa acreditar apenas no que dizemos. Experimente.","experience_lead":"Abra a primeira aula e seu workbook. Percorra o método por conta própria antes de decidir se quer vivê-lo acompanhado.","masterclass_title":"Masterclass · IA: o que está acontecendo e como aproveitar","masterclass_body":"18 momentos, percurso de 90 minutos e opção de 120 minutos com prática conectada ao workbook.","masterclass_cta":"Ver masterclass","workbook_title":"Aprenda a aprender com NotebookLM","workbook_body":"Três rotas de autoformação: trabalhar em aula, aprofundar com prompts e consolidar com evidência e transferência.","workbook_cta":"Abrir workbook","roadmap":"Disponíveis: masterclass, workbook, playbook e biblioteca de prompts da aula 1. Em preparação: os recursos das aulas 2–4.",
+      "outcomes_eyebrow":"De tema a evidência","outcomes_title":"De uma pergunta a uma forma de trabalhar.","outcomes_lead":"Você já pode experimentar a aula 1. O restante mostra a progressão que construiremos, sem prometer resultados que você ainda não produziu.","outcomes":[["Base confiável","Disponível","Uma base orientada a propósito, com fontes revisáveis e limites explícitos."],["Sistema de prioridades","Projetado","Uma pauta para escolher, planejar e sustentar o que importa."],["Fluxo amplificado","Projetado","Trabalho real transformado em passos repetíveis, revisáveis e melhoráveis."],["Fluxo agêntico supervisionado","Projetado","Papéis, memória e ferramentas sob critérios e responsabilidade humana."]],"organic_loop":"Aprenda → produza evidência → explique → reutilize o modelo → compartilhe apenas um aprendizado sanitizado.",
+      "method_eyebrow":"Confiança antes de espetáculo","method_title":"A ferramenta muda. O método permanece.","method_lead":"Usamos IA para buscar, pensar e praticar melhor. A decisão, a verificação e a responsabilidade continuam sendo suas.","method_points":[["Prática guiada","A turma acompanha a execução; a biblioteca permanece aberta para prática autônoma."],["Trabalho baseado em fontes","O NotebookLM permite consultar fontes selecionadas e revisar citações; você decide o que importar e verificar."],["Privacidade explícita","Este site não salva nem envia suas respostas. A inscrição usa um serviço externo."],["Transferência","Uma resposta não basta: você deve explicar o processo e usá-lo em outro contexto."]],"requirements_title":"O que você precisa?","requirements":["Conta Google e navegador atualizado","Uso básico de IA conversacional","Um tema ou decisão real","Disposição para revisar fontes e mudar sua forma de trabalhar"],"faq":[["Preciso de conhecimento técnico?","Não. A rota parte do uso conversacional básico e enfatiza método e critério."],["A turma é gratuita?","Sim. O formulário público atual declara workshops gratuitos e máximo de 25 pessoas por ciclo."],["Devo fazer as quatro aulas?","Você pode começar pela primeira. A rota completa foi desenhada para acumular capacidades."],["O que acontece com meus dados?","A landing não coleta respostas. A inscrição abre um Google Form público."]],
+      "ambassador_letter":{"label":"Carta dos embaixadores","title":"Você não precisa percorrer esta rota sozinho.","paragraphs":["Como embaixadores, não estamos aqui para fingir que temos todas as respostas. Estamos aqui para compartilhar uma prática: fazer perguntas melhores, revisar as evidências e transformar o aprendizado em algo que você possa realmente usar.","Experimente, pergunte, traga seu contexto e preserve seu critério. Uma comunidade faz sentido quando cada pessoa pode dizer com honestidade o que funcionou, o que não funcionou e o que aprendeu no caminho."],"signature":"Embaixadores da MetodologIA","role":"Comunidade de prática"},
+      "final_eyebrow":"Uma turma por mês · primeira semana","final_title":"Comece com uma pergunta. Saia com uma prática.","final_lead":"Experimente hoje os recursos abertos. Se quiser transformá-los em uma forma de trabalhar, participe de uma turma gratuita e percorra a rota com orientação.","form_note":"O link abre o formulário público de inscrição em uma nova aba.","footer_privacy":"Sem tracking · Sem respostas salvas · MetodologIA"
+      ,"javier_letter":{"label":"Uma nota pessoal antes de começar","title":"Você não precisa dominar cada ferramenta. Precisa de uma forma própria de avançar.","paragraphs":["Se você chegou até aqui, quero deixar uma ideia simples: a IA não precisa afastar você da sua maneira de pensar. Bem usada, ela pode ajudar a enxergá-la com mais clareza, colocá-la à prova e transformá-la em ação.","Criei esta Rota Nível 0 para que você possa começar sem fingir que sabe tudo. Entre com uma pergunta real, trabalhe com outras pessoas e saia com uma prática que possa repetir. O restante é construído passo a passo."],"signature":"Javier Montaño","role":"Criador da MetodologIA"}
+    }
+  },
+  "publication_authorized": false
+}

@@ -1,0 +1,13 @@
+{
+  "schema_version": "workbook-spec-v1",
+  "workbook_id": "nivel-0-clase-1-notebooklm",
+  "brand": "MetodologIA",
+  "languages": ["es", "en", "pt"],
+  "interaction": {"response_persistence": false, "preferences_persistence": ["theme", "language"], "copy_prompts": true, "print": true},
+  "sheets": [
+    {"id":"session","kind":"guided_session","prompt_numbers":[1,2,3,4,5]},
+    {"id":"depth","kind":"self_serve_depth","prompt_numbers":[6,7,8,9,10]},
+    {"id":"consolidation","kind":"evidence_and_transfer","prompt_numbers":[]}
+  ],
+  "source": {"url":"https://javimontano.github.io/trabajar-amplificado/aprender-aprehender-revolucionar-notebooklm.html","sha256":"a90b4385074da41602931baf3b65c384f55f27476a85bb0b4a62ee042539a1fe"}
+}

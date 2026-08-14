@@ -1,0 +1,179 @@
+{
+  "schema_version": "workbook-advanced-v1",
+  "prompt_format_contract": {
+    "source": "https://javimontano.github.io/prompt-amplificado/biblioteca-prompts.html",
+    "source_sha256": "6570d10b3119955c7e044114300946073edbc57e70da216a9dcfa2c9fa6c629b",
+    "formats": ["natural", "parameters", "spec", "pair"],
+    "required_for": ["preparation-prompts", "workshop-prompts-1-10"]
+  },
+  "locales": {
+    "es": {
+      "start_label": "Tu primer contacto ocurre en el taller",
+      "start_title": "Abre tus herramientas",
+      "start_body": "La sesión parte de un tema real. Abre NotebookLM, entra al asistente Research Blueprint y confirma acceso al Notebook abierto Empoderamiento en IA y Método. Después ejecuta los cinco prompts esenciales.",
+      "links": [["NotebookLM", "Crear y consultar notebooks basados en fuentes", "Abrir app"], ["Research Blueprint", "Convertir una pregunta en un plan de investigación defendible", "Abrir asistente"], ["Empoderamiento en IA y Método", "Notebook abierto que acompaña la práctica del taller", "Abrir notebook"]],
+      "routes_title": "Elige tu ruta",
+      "route_note": "Tiempos orientativos. Cambian según tus iteraciones.",
+      "routes": [["Práctica esencial", "Cinco pasos para aprender a aprender y configurar tu Notebook.", "≈ 30 min"], ["Ruta 10 pasos", "Profundiza, crea, evalúa, simula y configura según tus iteraciones.", "1–2 h"], ["Ruta extendida", "Convierte research revisado en una skill y prueba una conexión MCP local.", "2–4 h"]],
+      "assistant_title": "Asistentes útiles",
+      "assistant_body": "En 2026 los asistentes conviven con agentes más autónomos. Siguen siendo valiosos cuando necesitas una función clara, instrucciones estables, creación rápida y consumo de tokens controlable. No sustituyen el criterio ni convierten una fuente insuficiente en evidencia.",
+      "skill_title": "Skills reutilizables",
+      "skill_body": "Una skill es un paquete reutilizable de instrucciones, criterios, recursos y validaciones que enseña a una IA cómo ejecutar una tarea de forma consistente. Debe declarar fuentes, límites, entradas, salidas y pruebas.",
+      "expert_title": "Research a skill",
+      "expert_steps": ["Define la decisión y el usuario de la skill.", "Usa Research Blueprint para delimitar preguntas, fuentes y aceptación.", "Ejecuta Deep Research y conserva informe, fuentes y fecha.", "Audita autoridad, cobertura, tensiones, derechos y vacíos.", "Importa solo fuentes aprobadas al Notebook abierto o a uno propio.", "Configura el Notebook como asesor basado en fuentes y prueba sus citas.", "Escribe el contrato de la skill: trigger, entradas, salidas, límites y no-go.", "Pide a la IA crear la skill desde el research, sin copiar datos privados.", "Opcional: configura un MCP local comunitario de NotebookLM; inicia sesión tú mismo, revisa permisos y no uses información sensible.", "Ejecuta casos positivos y adversariales; corrige hasta que fuente, salida y límites sean verificables."],
+      "setup_title": "Entorno opcional",
+      "setup_body": "Google ofrece Antigravity IDE para macOS, Windows y Linux. Su guía oficial pide Chrome y una cuenta personal de Gmail. Instala desde la fuente oficial, usa desarrollo orientado a revisión y confirma los límites vigentes de tu plan.",
+      "mcp_warning": "MCP de NotebookLM: integración comunitaria, no oficial de Google. Puede automatizar el navegador y conservar una sesión local. Revisa el repositorio, fija versión, inicia sesión personalmente y evita fuentes confidenciales.",
+      "guide_title": "Cómo usarlo",
+      "guide_body": "Empieza preparando un caso real. En clase recorres cinco pasos con acompañamiento. Después puedes profundizar, consolidar la evidencia y, de forma opcional, convertir una investigación revisada en una skill.",
+      "guide_steps": ["Preparación antes del taller", "Hoja 1 · práctica esencial de 5 pasos", "Hoja 2 · profundización autónoma", "Hoja 3 · consolidación y transferencia", "Ruta experta · research a skill verificable"],
+      "provider_notice": "Las condiciones, límites, precios y funciones dependen de cada proveedor y pueden cambiar. La práctica esencial no exige una suscripción paga. Para las hojas 2 y 3, disponer de un plan pago de ChatGPT o Claude puede ofrecer mayor continuidad y capacidad, pero no garantiza mejores resultados. Verifica siempre las condiciones oficiales vigentes.",
+      "brain_title": "Prepara tu caso",
+      "brain_body": "Empieza con un dictado libre. Usa el mismo campo como espacio de relevo: tras el prompt 1 pega allí la versión confirmada; tras el prompt 2 pega el brief acordado; luego ejecuta el preplan. Nada se guarda al recargar.",
+      "brain_label": "Tu descarga mental",
+      "brain_placeholder": "Ejemplo: quiero aprender sobre…, tengo estas fuentes…, necesito decidir…, me preocupa…, adjuntaré…",
+      "brain_dictation": "Para hablar en vez de escribir, activa el dictado de tu computador o celular dentro de este campo. Esta página no solicita acceso al micrófono.",
+      "brain_empty": "Escribe o dicta primero tu descarga mental.",
+      "brain_prompts": [
+        ["Descargar, limpiar y confirmar", "# Inputs\nDictado: <copia y pega tu dictado, instrucción o prompt aquí>\n\n{{BRAIN_DUMP}}\n\n# Instrucciones\nTrabaja únicamente con el dictado anterior y con los adjuntos que realmente hayas recibido.\n\n1. Limpia repeticiones sin borrar intención, matices ni vocabulario importante.\n2. Organiza propósito, contexto, ideas, preguntas, restricciones, fuentes mencionadas y decisiones pendientes.\n3. Separa hechos expresados por la persona, interpretaciones tuyas y vacíos.\n4. Confirma lo entendido en máximo cinco puntos y declara lo que no pudiste interpretar.\n5. Formula máximo tres preguntas estratégicas, una por vez, para descubrir oportunidad, cuestionar un supuesto o aumentar valor. Espera cada respuesta antes de continuar.\n6. Cierra con una versión limpia y qué cambió en la comprensión. No propongas todavía una solución."],
+        ["Definir el encargo de aprendizaje", "# Inputs\nDictado confirmado: <copia aquí la versión limpia y las respuestas a las preguntas estratégicas>\n\n{{BRAIN_DUMP}}\n\n# Instrucciones\nConvierte lo entendido en un encargo breve antes de hablar de herramientas.\n\n1. Clasifica la intención principal: estudiar, aprender, crear, decidir, preparar una conversación, configurar un asesor o configurar un coach.\n2. Redacta una frase de propósito: “Quiero comprender o producir [RESULTADO] para poder [DECISIÓN O USO]”.\n3. Define audiencia, plazo, nivel actual, restricciones y evidencia mínima de avance.\n4. Explicita qué queda fuera y qué decisión seguirá siendo humana.\n5. Devuelve un brief de una página y pide confirmación. No diseñes todavía el Notebook ni inventes fuentes."],
+        ["Convertir en preplan de NotebookLM", "# Inputs\nDictado: <copia y pega tu dictado, instrucción o prompt aquí>\n\n{{BRAIN_DUMP}}\n\n# Instrucciones\nConvierte el dictado anterior en una preplanificación de NotebookLM.\n\n1. Clasifica el caso principal: estudiar, aprender algo nuevo, crear contenido basado en fuentes, preparar una decisión o reunión, configurar un asesor, configurar un coach o convertir research en una skill.\n2. Propón una frase de propósito: “Este Notebook existe para…”.\n3. Define audiencia, resultado observable y decisión humana final.\n4. Propón fuentes iniciales, vacíos por investigar y materiales que no deben cargarse por privacidad o derechos.\n5. Recomienda un rol basado en fuentes —profesor, asesor o coach— y explica su límite.\n6. Entrega un plan inicial compatible con los cinco pasos del taller: construir, auditar, investigar, decidir suficiencia y activar rol.\n7. Cierra con la primera evidencia que la persona debería producir. No inventes adjuntos, fuentes ni capacidades."]
+      ],
+      "brain_format_labels": {"natural": "Nivel 1", "parameters": "Nivel 2", "spec": "Nivel 3", "pair": "Nivel 4"},
+      "level_convention": {
+        "eyebrow": "Una convención para todos los prompts",
+        "title": "Elige cuánta estructura necesitas",
+        "body": "Los niveles no miden calidad ni dificultad. Expresan cuánto contrato necesita la tarea. Empieza en Nivel 1 y sube solo cuando requieras más control, repetibilidad u orquestación.",
+        "tablist": "Niveles de estructura del prompt",
+        "copy": "Copiar",
+        "copied": "Copiado",
+        "items": [
+          {"key":"natural","level":"Nivel 1","name":"Directo","description":"Una instrucción clara, lista para conversar y ajustar."},
+          {"key":"parameters","level":"Nivel 2","name":"Estructurado","description":"Explicita entradas, opciones, flujo y resultado esperado."},
+          {"key":"spec","level":"Nivel 3","name":"Especificado","description":"Añade contrato, límites, validación y definición de terminado."},
+          {"key":"pair","level":"Nivel 4","name":"Orquestado","description":"Separa instrucciones de sistema y encargo del usuario para reutilizar."}
+        ]
+      },
+      "brain_prompt_specs": [
+        {"role": "Editor de pensamiento y facilitador estratégico fiel a la voz de la persona", "objective": "Descargar, limpiar, confirmar y abrir posibilidades sin resolver todavía el problema", "parameters": [["nivel_limpieza", "conservador"], ["máximo_confirmaciones", "5"], ["máximo_preguntas", "3, una por turno"], ["proponer_solución", "no"]], "workflow": ["Revisa el dictado y solo adjuntos disponibles", "Limpia y organiza conservando intención", "Separa hechos, interpretaciones y vacíos", "Confirma lo entendido", "Formula preguntas estratégicas de una en una", "Devuelve versión limpia y comprensión actualizada"], "guardrails": ["No inventar adjuntos ni contenido", "No borrar matices relevantes", "No imponer conclusiones ni proponer solución"], "output": ["Versión limpia", "Hechos, interpretaciones y vacíos", "Confirmación", "Preguntas secuenciales", "Comprensión actualizada"], "dod": "La persona reconoce su intención, corrige malentendidos y descubre posibilidades antes de definir el encargo."},
+        {"role": "Diseñador de encargos de aprendizaje", "objective": "Convertir la comprensión confirmada en un brief de aprendizaje antes de elegir herramientas", "parameters": [["extensión", "una página"], ["propósito", "comprender o producir para decidir o usar"], ["evidencia_mínima", "observable"], ["diseñar_notebook", "no"]], "workflow": ["Clasifica la intención", "Formula propósito y uso", "Define audiencia, plazo, nivel y restricciones", "Declara evidencia mínima, alcance y decisión humana", "Entrega brief y pide confirmación"], "guardrails": ["No diseñar todavía el Notebook", "No inventar fuentes", "No confundir intención con solución"], "output": ["Intent principal", "Propósito", "Audiencia y contexto", "Evidencia mínima", "Fuera de alcance", "Brief confirmado"], "dod": "Existe un encargo confirmado que permite decidir después qué Notebook y qué fuentes hacen falta."},
+        {"role": "Arquitecto de aprendizaje basado en fuentes", "objective": "Convertir el dictado confirmado en un preplan ejecutable de NotebookLM", "parameters": [["propósito", "inferir y confirmar"], ["rol", "profesor, asesor o coach"], ["profundidad", "preplan inicial"], ["privacidad", "excluir materiales sensibles o sin derechos"]], "workflow": ["Clasifica el caso de uso", "Formula propósito, audiencia, resultado y decisión humana", "Propone fuentes y vacíos", "Selecciona rol y límite", "Mapea los cinco pasos del taller", "Define primera evidencia"], "guardrails": ["No inventar fuentes o capacidades", "No sustituir la decisión humana", "No recomendar subir material privado o sin derechos"], "output": ["Caso de uso", "Propósito", "Fuentes y vacíos", "Rol y límites", "Plan de cinco pasos", "Primera evidencia"], "dod": "El preplan permite abrir NotebookLM y comenzar la práctica con propósito, fuentes y criterio de cierre."}
+      ],
+      "use_cases_title": "Elige un propósito",
+      "use_cases_body": "Elige un destino provisional. Podrás ajustarlo cuando la auditoría de fuentes muestre lo que realmente es posible.",
+      "use_cases": ["Estudiar un tema", "Aprender una capacidad nueva", "Crear contenido basado en fuentes", "Preparar una decisión, reunión o propuesta", "Configurar un asesor con perspectiva experta sustentada en fuentes", "Configurar un coach basado en fuentes", "Convertir una investigación revisada en una skill"]
+    },
+    "en": {
+      "start_label": "Your first contact happens in the workshop",
+      "start_title": "Open your tools",
+      "start_body": "Start with a real topic. Open NotebookLM, enter Research Blueprint, and confirm access to the open AI Empowerment and Method notebook. Then run the five essential prompts.",
+      "links": [["NotebookLM", "Create and query source-grounded notebooks", "Open app"], ["Research Blueprint", "Turn a question into a defensible research plan", "Open assistant"], ["AI Empowerment and Method", "Open notebook supporting the workshop practice", "Open notebook"]],
+      "routes_title": "Choose your route",
+      "route_note": "Estimated times. They vary with your iterations.",
+      "routes": [["Essential practice", "Five steps to learn how to learn and configure your Notebook.", "≈ 30 min"], ["10-step route", "Deepen, create, assess, simulate and configure through iterations.", "1–2 h"], ["Extended route", "Turn reviewed research into a skill and test a local MCP connection.", "2–4 h"]],
+      "assistant_title": "Useful assistants",
+      "assistant_body": "In 2026 assistants coexist with more autonomous agents. They remain useful for a clear function, stable instructions, fast creation, and controllable token use. They do not replace judgment or turn weak sources into evidence.",
+      "skill_title": "Reusable skills",
+      "skill_body": "A skill is a reusable package of instructions, criteria, resources, and checks that teaches an AI how to execute a task consistently. It must declare sources, limits, inputs, outputs, and tests.",
+      "expert_title": "Research to skill",
+      "expert_steps": ["Define the skill decision and user.", "Use Research Blueprint to scope questions, sources, and acceptance.", "Run Deep Research and retain report, sources, and date.", "Audit authority, coverage, tensions, rights, and gaps.", "Import only approved sources into the open notebook or your own.", "Configure the Notebook as a source-grounded advisor and inspect citations.", "Write the skill contract: trigger, inputs, outputs, limits, and no-go.", "Ask the AI to create the skill from research without copying private data.", "Optionally configure a community local NotebookLM MCP; sign in yourself, review permissions, and avoid sensitive information.", "Run positive and adversarial cases; fix until sources, outputs, and limits are verifiable."],
+      "setup_title": "Optional setup",
+      "setup_body": "Google offers Antigravity IDE for macOS, Windows, and Linux. Its official guide requires Chrome and a personal Gmail account. Install from the official source, use review-driven development, and confirm current plan limits.",
+      "mcp_warning": "NotebookLM MCP is a community integration, not an official Google connector. It may automate a browser and retain a local session. Review the repository, pin a version, sign in personally, and avoid confidential sources.",
+      "guide_title": "How to use it",
+      "guide_body": "Start by preparing a real case. In class you complete five guided steps. Then you can deepen the work, consolidate evidence and, optionally, turn reviewed research into a skill.",
+      "guide_steps": ["Before-workshop preparation", "Sheet 1 · essential five-step practice", "Sheet 2 · independent deepening", "Sheet 3 · consolidation and transfer", "Expert route · research to a verifiable skill"],
+      "provider_notice": "Each provider can change its terms, limits, pricing and features. The essential practice does not require a paid subscription. For sheets 2 and 3, a paid ChatGPT or Claude plan may provide more continuity and capacity, but it does not guarantee better results. Always verify current official conditions.",
+      "brain_title": "Prepare your case",
+      "brain_body": "Start with free-form dictation. Reuse the same field as a handoff space: after prompt 1 paste the confirmed version; after prompt 2 paste the agreed brief; then run the preplan. Nothing is retained after reload.",
+      "brain_label": "Your brain dump",
+      "brain_placeholder": "Example: I want to learn about…, I have these sources…, I need to decide…, I am concerned about…, I will attach…",
+      "brain_dictation": "To speak instead of typing, activate your computer or phone's native dictation inside this field. This page does not request microphone access.",
+      "brain_empty": "Write or dictate your brain dump first.",
+      "brain_prompts": [
+        ["Dump, clean and confirm", "# Inputs\nDictation: <paste your dictation, instruction or prompt here>\n\n{{BRAIN_DUMP}}\n\n# Instructions\nWork only with the dictation above and attachments actually received.\n\n1. Remove repetition without erasing intent, nuance or important vocabulary.\n2. Organize purpose, context, ideas, questions, constraints, mentioned sources and pending decisions.\n3. Separate stated facts, your interpretations and unresolved gaps.\n4. Confirm your understanding in no more than five points and declare anything you could not interpret.\n5. Ask at most three strategic questions, one at a time, to reveal opportunity, challenge an assumption or increase value. Wait for each answer.\n6. Close with a clean version and what changed in your understanding. Do not propose a solution yet."],
+        ["Define the learning assignment", "# Inputs\nConfirmed dictation: <paste the clean version and answers to the strategic questions here>\n\n{{BRAIN_DUMP}}\n\n# Instructions\nTurn the understanding into a concise assignment before discussing tools.\n\n1. Classify the main intent: study, learn, create, decide, prepare a conversation, configure an advisor or configure a coach.\n2. Write a purpose sentence: “I want to understand or produce [OUTCOME] so I can [DECISION OR USE]”.\n3. Define audience, deadline, current level, constraints and minimum evidence of progress.\n4. State what is out of scope and which decision remains human.\n5. Return a one-page brief and request confirmation. Do not design the Notebook or invent sources yet."],
+        ["Turn it into a NotebookLM preplan", "# Inputs\nDictation: <paste your dictation, instruction or prompt here>\n\n{{BRAIN_DUMP}}\n\n# Instructions\nTurn the dictation above into a NotebookLM preplan.\n\n1. Classify the primary case: study, learn something new, create source-grounded content, prepare a decision or meeting, configure an advisor, configure a coach, or turn research into a skill.\n2. Propose a purpose sentence: “This Notebook exists to…”.\n3. Define audience, observable outcome and final human decision.\n4. Propose initial sources, research gaps and materials that should not be uploaded because of privacy or rights.\n5. Recommend a source-grounded role —teacher, advisor or coach— and explain its boundary.\n6. Deliver an initial plan compatible with the workshop's five steps: build, audit, research, decide sufficiency and activate a role.\n7. Close with the first evidence the person should produce. Do not invent attachments, sources or capabilities."]
+      ],
+      "brain_format_labels": {"natural": "Level 1", "parameters": "Level 2", "spec": "Level 3", "pair": "Level 4"},
+      "level_convention": {
+        "eyebrow": "One convention for every prompt",
+        "title": "Choose how much structure you need",
+        "body": "Levels do not measure quality or difficulty. They express how much contract the task needs. Start at Level 1 and move up only when you need more control, repeatability or orchestration.",
+        "tablist": "Prompt structure levels",
+        "copy": "Copy",
+        "copied": "Copied",
+        "items": [
+          {"key":"natural","level":"Level 1","name":"Direct","description":"A clear instruction, ready to discuss and refine."},
+          {"key":"parameters","level":"Level 2","name":"Structured","description":"Makes inputs, options, flow and expected result explicit."},
+          {"key":"spec","level":"Level 3","name":"Specified","description":"Adds contract, boundaries, verification and definition of done."},
+          {"key":"pair","level":"Level 4","name":"Orchestrated","description":"Separates system instructions from the user assignment for reuse."}
+        ]
+      },
+      "brain_prompt_specs": [
+        {"role": "Thought editor and strategic facilitator faithful to the person's voice", "objective": "Dump, clean, confirm and open possibilities without solving the problem yet", "parameters": [["cleaning_level", "conservative"], ["confirmation_max", "5"], ["question_max", "3, one per turn"], ["propose_solution", "no"]], "workflow": ["Review dictation and only available attachments", "Clean and organize while preserving intent", "Separate facts, interpretations and gaps", "Confirm understanding", "Ask strategic questions one at a time", "Return clean version and updated understanding"], "guardrails": ["Do not invent attachments or content", "Do not erase relevant nuance", "Do not impose conclusions or propose a solution"], "output": ["Clean version", "Facts, interpretations and gaps", "Confirmation", "Sequential questions", "Updated understanding"], "dod": "The person recognizes their intent, corrects misunderstandings and discovers possibilities before defining the assignment."},
+        {"role": "Learning assignment designer", "objective": "Turn confirmed understanding into a learning brief before choosing tools", "parameters": [["length", "one page"], ["purpose", "understand or produce in order to decide or use"], ["minimum_evidence", "observable"], ["design_notebook", "no"]], "workflow": ["Classify the intent", "State purpose and use", "Define audience, deadline, level and constraints", "Declare minimum evidence, scope and human decision", "Deliver the brief and request confirmation"], "guardrails": ["Do not design the Notebook yet", "Do not invent sources", "Do not confuse intent with solution"], "output": ["Primary intent", "Purpose", "Audience and context", "Minimum evidence", "Out of scope", "Confirmed brief"], "dod": "A confirmed assignment exists, enabling a later decision about the needed Notebook and sources."},
+        {"role": "Source-grounded learning architect", "objective": "Turn the confirmed dictation into an actionable NotebookLM preplan", "parameters": [["purpose", "infer and confirm"], ["role", "teacher, advisor or coach"], ["depth", "initial preplan"], ["privacy", "exclude sensitive or unlicensed material"]], "workflow": ["Classify the use case", "State purpose, audience, outcome and human decision", "Propose sources and gaps", "Select role and boundary", "Map the workshop's five steps", "Define first evidence"], "guardrails": ["Do not invent sources or capabilities", "Do not replace the human decision", "Do not recommend uploading private or unlicensed material"], "output": ["Use case", "Purpose", "Sources and gaps", "Role and boundaries", "Five-step plan", "First evidence"], "dod": "The preplan lets the person open NotebookLM and begin with purpose, sources and a stopping criterion."}
+      ],
+      "use_cases_title": "Choose a purpose",
+      "use_cases_body": "Choose a provisional destination. You can revise it when the source audit reveals what is actually possible.",
+      "use_cases": ["Study a topic", "Learn a new capability", "Create source-grounded content", "Prepare a decision, meeting or proposal", "Configure an advisor with a source-grounded expert perspective", "Configure a source-grounded coach", "Turn reviewed research into a skill"]
+    },
+    "pt": {
+      "start_label": "Seu primeiro contato acontece na oficina",
+      "start_title": "Abra suas ferramentas",
+      "start_body": "Comece com um tema real. Abra o NotebookLM, entre no Research Blueprint e confirme acesso ao notebook aberto Empoderamento em IA e Método. Depois execute os cinco prompts essenciais.",
+      "links": [["NotebookLM", "Crie e consulte notebooks baseados em fontes", "Abrir app"], ["Research Blueprint", "Transforme uma pergunta em plano de pesquisa defensável", "Abrir assistente"], ["Empoderamento em IA e Método", "Notebook aberto que acompanha a prática", "Abrir notebook"]],
+      "routes_title": "Escolha sua rota",
+      "route_note": "Tempos estimados. Variam conforme suas iterações.",
+      "routes": [["Prática essencial", "Cinco passos para aprender a aprender e configurar seu Notebook.", "≈ 30 min"], ["Rota 10 passos", "Aprofunde, crie, avalie, simule e configure conforme as iterações.", "1–2 h"], ["Rota estendida", "Transforme pesquisa revisada em skill e teste uma conexão MCP local.", "2–4 h"]],
+      "assistant_title": "Assistentes úteis",
+      "assistant_body": "Em 2026 os assistentes convivem com agentes mais autônomos. Continuam úteis para função clara, instruções estáveis, criação rápida e consumo controlável de tokens. Não substituem o critério nem transformam fontes fracas em evidência.",
+      "skill_title": "Skills reutilizáveis",
+      "skill_body": "Uma skill é um pacote reutilizável de instruções, critérios, recursos e verificações que ensina a IA a executar uma tarefa com consistência. Deve declarar fontes, limites, entradas, saídas e testes.",
+      "expert_title": "Pesquisa para skill",
+      "expert_steps": ["Defina a decisão e o usuário da skill.", "Use Research Blueprint para delimitar perguntas, fontes e aceitação.", "Execute Deep Research e preserve relatório, fontes e data.", "Audite autoridade, cobertura, tensões, direitos e lacunas.", "Importe apenas fontes aprovadas ao notebook aberto ou ao seu.", "Configure o Notebook como assessor baseado em fontes e revise citações.", "Escreva o contrato da skill: trigger, entradas, saídas, limites e no-go.", "Peça à IA para criar a skill a partir da pesquisa, sem copiar dados privados.", "Opcional: configure MCP local comunitário do NotebookLM; faça login pessoalmente, revise permissões e evite informação sensível.", "Execute casos positivos e adversariais; corrija até fontes, saídas e limites serem verificáveis."],
+      "setup_title": "Ambiente opcional",
+      "setup_body": "O Google oferece Antigravity IDE para macOS, Windows e Linux. O guia oficial pede Chrome e conta Gmail pessoal. Instale da fonte oficial, use desenvolvimento orientado à revisão e confirme os limites atuais do plano.",
+      "mcp_warning": "O MCP do NotebookLM é comunitário, não oficial do Google. Pode automatizar o navegador e guardar sessão local. Revise o repositório, fixe a versão, faça login pessoalmente e evite fontes confidenciais.",
+      "guide_title": "Como usar",
+      "guide_body": "Comece preparando um caso real. Na aula você percorre cinco passos com acompanhamento. Depois pode aprofundar, consolidar a evidência e, opcionalmente, transformar uma pesquisa revisada em uma skill.",
+      "guide_steps": ["Preparação antes da oficina", "Folha 1 · prática essencial de cinco passos", "Folha 2 · aprofundamento autônomo", "Folha 3 · consolidação e transferência", "Rota especialista · pesquisa para skill verificável"],
+      "provider_notice": "As condições, limites, preços e funções dependem de cada provedor e podem mudar. A prática essencial não exige assinatura paga. Para as folhas 2 e 3, um plano pago do ChatGPT ou Claude pode oferecer mais continuidade e capacidade, mas não garante melhores resultados. Verifique sempre as condições oficiais vigentes.",
+      "brain_title": "Prepare seu caso",
+      "brain_body": "Comece com ditado livre. Reutilize o mesmo campo como espaço de passagem: depois do prompt 1 cole a versão confirmada; depois do prompt 2 cole o brief acordado; então execute o pré-plano. Nada é mantido após recarregar.",
+      "brain_label": "Sua descarga mental",
+      "brain_placeholder": "Exemplo: quero aprender sobre…, tenho estas fontes…, preciso decidir…, preocupa-me…, vou anexar…",
+      "brain_dictation": "Para falar em vez de escrever, ative o ditado nativo do computador ou celular dentro deste campo. Esta página não solicita acesso ao microfone.",
+      "brain_empty": "Escreva ou dite primeiro sua descarga mental.",
+      "brain_prompts": [
+        ["Descarregar, limpar e confirmar", "# Inputs\nDitado: <cole seu ditado, instrução ou prompt aqui>\n\n{{BRAIN_DUMP}}\n\n# Instruções\nTrabalhe somente com o ditado anterior e anexos realmente recebidos.\n\n1. Limpe repetições sem apagar intenção, nuances ou vocabulário importante.\n2. Organize propósito, contexto, ideias, perguntas, restrições, fontes mencionadas e decisões pendentes.\n3. Separe fatos declarados, suas interpretações e lacunas.\n4. Confirme o entendimento em no máximo cinco pontos e declare o que não conseguiu interpretar.\n5. Faça no máximo três perguntas estratégicas, uma por vez, para revelar oportunidade, questionar suposição ou aumentar valor. Espere cada resposta.\n6. Termine com uma versão limpa e o que mudou no entendimento. Ainda não proponha solução."],
+        ["Definir o encargo de aprendizagem", "# Inputs\nDitado confirmado: <cole aqui a versão limpa e as respostas às perguntas estratégicas>\n\n{{BRAIN_DUMP}}\n\n# Instruções\nConverta o entendimento em um encargo breve antes de falar de ferramentas.\n\n1. Classifique a intenção principal: estudar, aprender, criar, decidir, preparar conversa, configurar assessor ou configurar coach.\n2. Escreva uma frase de propósito: “Quero compreender ou produzir [RESULTADO] para poder [DECISÃO OU USO]”.\n3. Defina público, prazo, nível atual, restrições e evidência mínima de avanço.\n4. Explicite o que fica fora e qual decisão permanece humana.\n5. Entregue um brief de uma página e peça confirmação. Ainda não projete o Notebook nem invente fontes."],
+        ["Converter em pré-plano de NotebookLM", "# Inputs\nDitado: <cole seu ditado, instrução ou prompt aqui>\n\n{{BRAIN_DUMP}}\n\n# Instruções\nConverta o ditado anterior em um pré-planejamento de NotebookLM.\n\n1. Classifique o caso principal: estudar, aprender algo novo, criar conteúdo baseado em fontes, preparar decisão ou reunião, configurar assessor, configurar coach ou transformar pesquisa em skill.\n2. Proponha uma frase de propósito: “Este Notebook existe para…”.\n3. Defina público, resultado observável e decisão humana final.\n4. Proponha fontes iniciais, lacunas de pesquisa e materiais que não devem ser enviados por privacidade ou direitos.\n5. Recomende um papel baseado em fontes —professor, assessor ou coach— e explique seu limite.\n6. Entregue um plano inicial compatível com os cinco passos da oficina: construir, auditar, pesquisar, decidir suficiência e ativar papel.\n7. Termine com a primeira evidência que a pessoa deve produzir. Não invente anexos, fontes ou capacidades."]
+      ],
+      "brain_format_labels": {"natural": "Nível 1", "parameters": "Nível 2", "spec": "Nível 3", "pair": "Nível 4"},
+      "level_convention": {
+        "eyebrow": "Uma convenção para todos os prompts",
+        "title": "Escolha quanta estrutura você precisa",
+        "body": "Os níveis não medem qualidade nem dificuldade. Expressam quanto contrato a tarefa exige. Comece no Nível 1 e avance apenas quando precisar de mais controle, repetibilidade ou orquestração.",
+        "tablist": "Níveis de estrutura do prompt",
+        "copy": "Copiar",
+        "copied": "Copiado",
+        "items": [
+          {"key":"natural","level":"Nível 1","name":"Direto","description":"Uma instrução clara, pronta para conversar e ajustar."},
+          {"key":"parameters","level":"Nível 2","name":"Estruturado","description":"Explicita entradas, opções, fluxo e resultado esperado."},
+          {"key":"spec","level":"Nível 3","name":"Especificado","description":"Adiciona contrato, limites, verificação e definição de conclusão."},
+          {"key":"pair","level":"Nível 4","name":"Orquestrado","description":"Separa instruções de sistema do pedido do usuário para reutilizar."}
+        ]
+      },
+      "brain_prompt_specs": [
+        {"role": "Editor de pensamento e facilitador estratégico fiel à voz da pessoa", "objective": "Descarregar, limpar, confirmar e abrir possibilidades sem ainda resolver o problema", "parameters": [["nível_limpeza", "conservador"], ["máximo_confirmações", "5"], ["máximo_perguntas", "3, uma por turno"], ["propor_solução", "não"]], "workflow": ["Revise o ditado e somente anexos disponíveis", "Limpe e organize preservando intenção", "Separe fatos, interpretações e lacunas", "Confirme o entendimento", "Faça perguntas estratégicas uma de cada vez", "Devolva versão limpa e entendimento atualizado"], "guardrails": ["Não inventar anexos ou conteúdo", "Não apagar nuances relevantes", "Não impor conclusões nem propor solução"], "output": ["Versão limpa", "Fatos, interpretações e lacunas", "Confirmação", "Perguntas sequenciais", "Entendimento atualizado"], "dod": "A pessoa reconhece sua intenção, corrige mal-entendidos e descobre possibilidades antes de definir o encargo."},
+        {"role": "Designer de encargos de aprendizagem", "objective": "Converter o entendimento confirmado em brief de aprendizagem antes de escolher ferramentas", "parameters": [["extensão", "uma página"], ["propósito", "compreender ou produzir para decidir ou usar"], ["evidência_mínima", "observável"], ["projetar_notebook", "não"]], "workflow": ["Classifique a intenção", "Formule propósito e uso", "Defina público, prazo, nível e restrições", "Declare evidência mínima, escopo e decisão humana", "Entregue o brief e peça confirmação"], "guardrails": ["Não projetar ainda o Notebook", "Não inventar fontes", "Não confundir intenção com solução"], "output": ["Intenção principal", "Propósito", "Público e contexto", "Evidência mínima", "Fora de escopo", "Brief confirmado"], "dod": "Existe um encargo confirmado que permite decidir depois qual Notebook e quais fontes são necessárias."},
+        {"role": "Arquiteto de aprendizagem baseada em fontes", "objective": "Converter o ditado confirmado em pré-plano executável de NotebookLM", "parameters": [["propósito", "inferir e confirmar"], ["papel", "professor, assessor ou coach"], ["profundidade", "pré-plano inicial"], ["privacidade", "excluir material sensível ou sem direitos"]], "workflow": ["Classifique o caso de uso", "Formule propósito, público, resultado e decisão humana", "Proponha fontes e lacunas", "Selecione papel e limite", "Mapeie os cinco passos da oficina", "Defina a primeira evidência"], "guardrails": ["Não inventar fontes ou capacidades", "Não substituir a decisão humana", "Não recomendar envio de material privado ou sem direitos"], "output": ["Caso de uso", "Propósito", "Fontes e lacunas", "Papel e limites", "Plano de cinco passos", "Primeira evidência"], "dod": "O pré-plano permite abrir o NotebookLM e iniciar a prática com propósito, fontes e critério de encerramento."}
+      ],
+      "use_cases_title": "Escolha um propósito",
+      "use_cases_body": "Escolha um destino provisório. Você poderá ajustá-lo quando a auditoria das fontes mostrar o que realmente é possível.",
+      "use_cases": ["Estudar um tema", "Aprender uma capacidade nova", "Criar conteúdo baseado em fontes", "Preparar uma decisão, reunião ou proposta", "Configurar um assessor com perspectiva especialista baseada em fontes", "Configurar um coach baseado em fontes", "Transformar uma pesquisa revisada em uma skill"]
+    }
+  }
+}
