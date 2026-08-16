@@ -2977,31 +2977,60 @@ html[data-theme="dark"] .tension-card > span:not(.tension-num) {
   min-width: 0;
 }
 .prompt-format-tabs {
-  display: flex;
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
   max-width: 100%;
-  flex-wrap: wrap;
   gap: 0.5rem;
   padding: 0.65rem 0.8rem 0;
 }
 .prompt-format-tabs button {
-  display: grid;
-  width: 44px;
-  height: 44px;
-  flex: 0 0 44px;
-  place-items: center;
-  padding: 0;
+  display: flex;
+  min-width: 0;
+  min-height: 56px;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.42rem 0.55rem;
   border: 1px solid rgba(255, 255, 255, 0.22);
-  border-radius: 50%;
+  border-radius: 14px;
   background: rgba(255, 255, 255, 0.06);
   color: #cbd5e1;
-  font: 900 0.82rem var(--head);
+  text-align: left;
   cursor: pointer;
+}
+.prompt-tab-number,
+.prompt-summary-number {
+  display: grid;
+  width: 32px;
+  height: 32px;
+  flex: 0 0 32px;
+  place-items: center;
+  border-radius: 50%;
+  background: color-mix(in srgb, currentColor 10%, transparent);
+  font: 900 0.72rem var(--head);
+}
+.prompt-tab-copy {
+  display: grid;
+  min-width: 0;
+  gap: 0.1rem;
+}
+.prompt-tab-copy strong {
+  font: 800 0.7rem/1.15 var(--head);
+  overflow-wrap: anywhere;
+  word-break: break-word;
+}
+.prompt-tab-copy small {
+  font: 700 0.58rem/1.1 var(--body);
+  opacity: 1;
 }
 .prompt-format-tabs button[aria-selected="true"] {
   border-color: #ffd700;
   background: #ffd700;
   color: #0a122a;
   box-shadow: 0 0 0 2px rgba(255, 215, 0, 0.18);
+}
+.prompt-format-tabs button[aria-selected="true"] .prompt-tab-number {
+  background: #0a122a;
+  color: #ffd700;
 }
 .prompt-format-panels {
   max-width: 100%;
@@ -3016,7 +3045,11 @@ html[data-theme="dark"] .tension-card > span:not(.tension-num) {
   display: none;
 }
 .prompt-level-fallback > summary {
-  min-height: 44px;
+  display: grid;
+  grid-template-columns: 32px minmax(0, 1fr);
+  min-height: 56px;
+  align-items: center;
+  gap: 0.7rem;
   padding: 0.75rem;
   border: 1px solid var(--line);
   border-radius: 10px;
@@ -3025,9 +3058,45 @@ html[data-theme="dark"] .tension-card > span:not(.tension-num) {
   font: 800 0.78rem/1.35 var(--head);
   cursor: pointer;
 }
+.prompt-level-fallback > summary > span:last-child {
+  display: grid;
+  gap: 0.15rem;
+}
+.prompt-level-fallback > summary small {
+  color: var(--muted);
+  font: 500 0.72rem/1.4 var(--body);
+}
 .prompt-level-fallback[open] > summary {
   border-color: var(--gold);
   border-radius: 10px 10px 0 0;
+}
+.prompt-level-context {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  gap: 0.15rem 0.7rem;
+  align-items: baseline;
+  padding: 0.85rem 1rem;
+  border: 1px solid var(--line);
+  border-bottom: 0;
+  border-radius: 14px 14px 0 0;
+  background: color-mix(in srgb, var(--gold-ui) 8%, var(--surface));
+}
+.prompt-level-context > span {
+  color: var(--gold);
+  font: 900 0.62rem/1 var(--head);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+.prompt-level-context > strong {
+  font: 900 0.92rem/1.15 var(--head);
+}
+.prompt-level-context > p {
+  grid-column: 1/-1;
+  max-width: 70ch;
+  margin: 0.25rem 0 0;
+  color: var(--muted);
+  font-size: 0.76rem;
+  line-height: 1.45;
 }
 .prompt-format-panel {
   display: block;
@@ -3035,14 +3104,56 @@ html[data-theme="dark"] .tension-card > span:not(.tension-num) {
   max-width: 100%;
   min-width: 0;
   margin: 0;
-  overflow-x: auto;
+  overflow-x: hidden;
   overflow-y: visible;
-  white-space: pre-wrap;
+  padding: clamp(0.9rem, 2vw, 1.25rem);
+  border: 1px solid var(--line);
+  border-radius: 0 0 14px 14px;
+  background: color-mix(in srgb, var(--surface2) 72%, var(--surface));
+  color: var(--ink);
+  white-space: normal;
   word-break: break-word;
   overflow-wrap: anywhere;
   tab-size: 2;
   font-size: clamp(0.78rem, 1.2vw, 0.88rem);
   line-height: 1.58;
+}
+.prompt-line {
+  display: block;
+  min-width: 0;
+  max-width: 100%;
+  white-space: pre-wrap;
+  word-break: break-word;
+  overflow-wrap: anywhere;
+}
+.prompt-line-empty {
+  min-height: 0.72rem;
+}
+.prompt-line-heading {
+  margin: 0.15rem 0 0.65rem;
+  color: var(--ink);
+  font: 900 1rem/1.25 var(--head);
+}
+.prompt-line-section {
+  margin: 1rem 0 0.45rem;
+  padding-top: 0.8rem;
+  border-top: 1px solid var(--line);
+  color: var(--gold);
+  font: 900 0.9rem/1.3 var(--head);
+}
+.prompt-line-subheading {
+  margin: 0.7rem 0 0.3rem;
+  color: var(--ink);
+  font: 800 0.82rem/1.3 var(--head);
+}
+.prompt-line-field {
+  padding-block: 0.08rem;
+  color: color-mix(in srgb, var(--ink) 88%, var(--gold));
+}
+.prompt-line-list,
+.prompt-line-step {
+  padding-left: 0.45rem;
+  border-left: 2px solid color-mix(in srgb, var(--gold-ui) 38%, transparent);
 }
 .no-js .prompt-format-tabs,
 .no-js .prompt-level-context,
@@ -3062,13 +3173,19 @@ html[data-theme="dark"] .tension-card > span:not(.tension-num) {
   padding: 0 0.8rem 0.8rem;
 }
 .prompt-format-copy {
-  display: grid;
-  width: 48px;
+  display: inline-flex;
+  width: auto;
   height: 48px;
-  min-width: 48px;
-  place-items: center;
-  padding: 0;
-  border-radius: 50%;
+  min-width: 112px;
+  align-items: center;
+  justify-content: center;
+  gap: 0.55rem;
+  padding: 0 1rem;
+  border-color: #e2b400;
+  border-radius: 999px;
+  background: #ffd700;
+  color: #0a122a;
+  font: 800 0.72rem var(--head);
 }
 .prompt-format-copy svg {
   width: 22px;
@@ -4123,6 +4240,15 @@ html[data-theme="dark"] .catalog-resource.available > small {
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
+  }
+  html.js body[data-page="prompts"] .intrapage-trigger {
+    width: 44px;
+    min-width: 44px;
+    justify-content: center;
+    padding: 0;
+  }
+  html.js body[data-page="prompts"] .intrapage-trigger span {
+    display: none;
   }
   .playbook-toc > nav {
     grid-template-columns: 1fr;
@@ -5732,12 +5858,51 @@ html.no-js .masterclass-page .extended {
   overflow-y: auto;
   overscroll-behavior: contain;
 }
+.library-prompt-card[data-prompt-active-level="2"],
+.library-prompt-card[data-prompt-active-level="3"],
+.library-prompt-card[data-prompt-active-level="4"] {
+  grid-template-columns: minmax(15rem, 0.72fr) minmax(18rem, 1.28fr);
+}
+.library-prompt-card[data-prompt-active-level="2"] > .prompt-library,
+.library-prompt-card[data-prompt-active-level="3"] > .prompt-library,
+.library-prompt-card[data-prompt-active-level="4"] > .prompt-library {
+  grid-column: 1/-1;
+  padding-top: 0.25rem;
+  border-top: 1px solid var(--line);
+}
+.library-prompt-card[data-prompt-active-level="1"] .prompt-format-tabs {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+.prompt-library[data-active-level="2"] .prompt-library-actions,
+.prompt-library[data-active-level="3"] .prompt-library-actions,
+.prompt-library[data-active-level="4"] .prompt-library-actions {
+  order: 2;
+  padding-top: 0.15rem;
+}
+.prompt-library[data-active-level="2"] .prompt-format-panels,
+.prompt-library[data-active-level="3"] .prompt-format-panels,
+.prompt-library[data-active-level="4"] .prompt-format-panels {
+  order: 3;
+}
+.library-prompt-card[data-prompt-active-level="2"] .prompt-format-panel,
+.library-prompt-card[data-prompt-active-level="3"] .prompt-format-panel,
+.library-prompt-card[data-prompt-active-level="4"] .prompt-format-panel,
+.brain-prompt-card[data-prompt-active-level="2"] .prompt-format-panel,
+.brain-prompt-card[data-prompt-active-level="3"] .prompt-format-panel,
+.brain-prompt-card[data-prompt-active-level="4"] .prompt-format-panel {
+  min-height: 0;
+  max-height: none;
+  overflow-y: visible;
+  font-size: clamp(0.78rem, 1.1vw, 0.9rem);
+}
+.brain-prompt-card[data-prompt-active-level="2"],
+.brain-prompt-card[data-prompt-active-level="3"],
+.brain-prompt-card[data-prompt-active-level="4"] {
+  grid-template-columns: 1fr;
+}
 .no-js .library-prompt-card .prompt-format-panel {
   min-height: 0;
   max-height: none;
-}
-.library-prompt-card .prompt-format-tabs {
-  grid-template-columns: repeat(4, minmax(44px, 1fr));
 }
 .library-prompt-card .prompt-format-tabs button {
   border-color: var(--line);
@@ -5795,6 +5960,12 @@ html.no-js .masterclass-page .extended {
     grid-template-columns: 1fr;
     padding: 1rem;
   }
+  .library-prompt-card[data-prompt-active-level="1"],
+  .library-prompt-card[data-prompt-active-level="2"],
+  .library-prompt-card[data-prompt-active-level="3"],
+  .library-prompt-card[data-prompt-active-level="4"] {
+    grid-template-columns: minmax(0, 1fr);
+  }
   .library-prompt-card > .prompt-library {
     grid-column: 1;
   }
@@ -5812,9 +5983,22 @@ html.no-js .masterclass-page .extended {
     height: 2.75rem;
   }
   .prompt-format-tabs {
-    justify-content: space-between;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: 0.35rem;
     padding-inline: 0.55rem;
+  }
+  .prompt-format-tabs button {
+    min-height: 60px;
+    gap: 0.3rem;
+    padding-inline: 0.35rem;
+  }
+  .prompt-format-tabs .prompt-tab-number {
+    width: 28px;
+    height: 28px;
+    flex-basis: 28px;
+  }
+  .prompt-format-tabs .prompt-tab-copy strong {
+    font-size: 0.64rem;
   }
   .prompt-library-source {
     align-items: stretch;

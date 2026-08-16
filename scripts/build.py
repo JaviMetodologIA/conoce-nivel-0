@@ -657,19 +657,37 @@ def structured_variants(lang,title,natural,spec=None,context=None):
   pair=f"# system\n{spec['role']}\n\n{c['guardrails']}\n{guardrails}\n\n{c['dod']}\n{spec['dod']}\n\n# user\n{c['inputs']}\n{inputs}\n\n{c['task']}\n{spec['objective']}\n\n{c['workflow']}\n{workflow}\n\n{c['output']}\n{output}"
   return {'natural':natural,'parameters':parameter,'spec':spec_text,'pair':pair}
 
+def prompt_visual_lines(value):
+  """Render prompt source as readable, styleable lines without changing copy bytes."""
+  lines=[]
+  for line in value.split('\n'):
+    stripped=line.strip()
+    kind='body'
+    if not stripped: kind='empty'
+    elif stripped.startswith('### '): kind='subheading'
+    elif stripped.startswith('## '): kind='section'
+    elif stripped.startswith('# '): kind='heading'
+    elif re.match(r'^\d+\.\s',stripped): kind='step'
+    elif stripped.startswith('- '): kind='list'
+    elif re.match(r'^[^:]{1,34}:\s',stripped): kind='field'
+    lines.append(f'<span class="prompt-line prompt-line-{kind}">{esc(line)}</span>')
+  return ''.join(lines)
+
 def prompt_formats_markup(lang,group_id,variants,convention,brain_input=None):
   tabs=[]; panels=[]
   items={item['key']:item for item in convention['items']}
   for index,key in enumerate(('natural','parameters','spec','pair')):
     panel_id=f'{group_id}-{key}'
+    context_id=f'{panel_id}-context'
     item=items[key]
-    tabs.append(f'<button type="button" role="tab" tabindex="{0 if index==0 else -1}" aria-selected="{str(index==0).lower()}" aria-label="{esc(item["level"])}" aria-controls="{panel_id}" data-prompt-format="{key}" data-level-number="{index+1}"><span aria-hidden="true">{index+1}</span></button>')
-    panels.append(f'<details class="prompt-level-fallback"{" open" if index==0 else ""}><summary><span aria-hidden="true">{index+1}</span><span class="sr-only">{esc(item["level"])}</span></summary><pre class="prompt-format-panel" id="{panel_id}" role="tabpanel" tabindex="0" aria-label="{esc(item["level"])}" data-prompt-template>{esc(variants[key])}</pre></details>')
+    label=f'{item["level"]} · {item["name"]}'
+    tabs.append(f'<button type="button" role="tab" tabindex="{0 if index==0 else -1}" aria-selected="{str(index==0).lower()}" aria-label="{esc(label)}" aria-controls="{panel_id}" data-prompt-format="{key}" data-level-number="{index+1}"><span class="prompt-tab-number" aria-hidden="true">{index+1}</span><span class="prompt-tab-copy" aria-hidden="true"><strong>{esc(item["name"])}</strong><small>{esc(item["level"])}</small></span></button>')
+    panels.append(f'''<details class="prompt-level-fallback" data-prompt-level="{index+1}"{" open" if index==0 else ""}><summary><span class="prompt-summary-number" aria-hidden="true">{index+1}</span><span><strong>{esc(label)}</strong><small>{esc(item["description"])}</small></span></summary><div class="prompt-level-context" id="{context_id}"><span>{esc(item["level"])}</span><strong>{esc(item["name"])}</strong><p>{esc(item["description"])}</p></div><pre class="prompt-format-panel prompt-format-panel-{key}" id="{panel_id}" role="tabpanel" tabindex="0" aria-label="{esc(label)}" aria-describedby="{context_id}" data-prompt-template>{prompt_visual_lines(variants[key])}</pre><textarea class="prompt-format-source" hidden aria-hidden="true" tabindex="-1" data-prompt-source>{esc(variants[key])}</textarea></details>''')
   brain_attr=f' data-brain-input="{brain_input}"' if brain_input else ''
   copy_attr=f' data-brain-copy="{group_id}"{brain_attr}' if brain_input else f' data-format-copy="{group_id}"'
   copy_icon='<svg aria-hidden="true" viewBox="0 0 24 24"><rect x="8" y="8" width="11" height="11" rx="2"></rect><path d="M16 8V6a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h2"></path></svg>'
-  copy_aria=f"{convention['copy']} · {convention['items'][0]['level']}"
-  return f'''<div class="prompt-library" data-prompt-library="{group_id}" data-active-level="1"><div class="prompt-format-tabs" role="tablist" aria-label="{esc(convention['tablist'])}">{''.join(tabs)}</div><div class="prompt-format-panels">{''.join(panels)}</div><div class="prompt-library-actions"><button class="copy prompt-format-copy" type="button" aria-label="{esc(copy_aria)}"{copy_attr} data-copy-label="{esc(convention['copy'])}" data-copied-label="{esc(convention['copied'])}">{copy_icon}</button><span class="prompt-copy-status sr-only" role="status" aria-live="polite"></span></div></div>'''
+  copy_aria=f"{convention['copy']} · {convention['items'][0]['level']} · {convention['items'][0]['name']}"
+  return f'''<div class="prompt-library" data-prompt-library="{group_id}" data-active-level="1" data-active-format="natural"><div class="prompt-format-tabs" role="tablist" aria-label="{esc(convention['tablist'])}">{''.join(tabs)}</div><div class="prompt-format-panels">{''.join(panels)}</div><div class="prompt-library-actions"><button class="copy prompt-format-copy" type="button" aria-label="{esc(copy_aria)}"{copy_attr} data-copy-label="{esc(convention['copy'])}" data-copied-label="{esc(convention['copied'])}">{copy_icon}<span>{esc(convention['copy'])}</span></button><span class="prompt-copy-status sr-only" role="status" aria-live="polite"></span></div></div>'''
 
 def level_convention_markup(lang):
   return ''

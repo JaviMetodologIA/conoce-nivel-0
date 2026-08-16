@@ -768,8 +768,13 @@ if (
   levelContract.guides !== 0 ||
   levelContract.libraries !== 13 ||
   levelContract.levels.some((levels) => levels.join("|") !== "1|2|3|4") ||
-  levelContract.visibleLevelText.some(
-    (text) => !["1", "2", "3", "4"].includes(text),
+  levelContract.visibleLevelText.some((text, index) =>
+    ![
+      "1DirectoNivel 1",
+      "2EstructuradoNivel 2",
+      "3EspecificadoNivel 3",
+      "4OrquestadoNivel 4",
+    ].includes(text) || !text.startsWith(String((index % 4) + 1)),
   ) ||
   levelContract.copyIcons !== 13 ||
   levelContract.tabbablePerLibrary.some((count) => count !== 1)

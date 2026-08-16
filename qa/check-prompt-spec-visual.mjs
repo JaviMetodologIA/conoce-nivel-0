@@ -137,6 +137,42 @@ try {
         if (axe.length) throw new Error(`PROMPT_AXE:${locale}:${audience}:${resource}:${theme}:${view.label}:${JSON.stringify(axe)}`);
         axeChecks += 1;
 
+        const uiContract = await page.evaluate((resource) => {
+          const card = document.querySelector(resource === "prompts" ? ".library-prompt-card" : ".brain-prompt-card");
+          const library = card?.querySelector("[data-prompt-library]");
+          const tabs = [...(library?.querySelectorAll("[data-prompt-format]") || [])];
+          const panel = library?.querySelector(".prompt-format-panel:not([hidden])");
+          const context = panel?.closest("details")?.querySelector(".prompt-level-context");
+          const cardBox = card?.getBoundingClientRect();
+          const libraryBox = library?.getBoundingClientRect();
+          return {
+            activeLevel: library?.dataset.activeLevel,
+            activeFormat: library?.dataset.activeFormat,
+            cardLevel: card?.dataset.promptActiveLevel,
+            tabNames: tabs.map((tab) => tab.querySelector("strong")?.textContent?.trim()),
+            tabLabels: tabs.map((tab) => tab.getAttribute("aria-label")),
+            tabOverflow: tabs.some((tab) => tab.scrollWidth > tab.clientWidth + 2),
+            panelClipped: Boolean(panel && panel.scrollHeight > panel.clientHeight + 2 && getComputedStyle(panel).overflowY !== "visible"),
+            contextVisible: Boolean(context && context.getClientRects().length && context.querySelector("p")?.textContent?.trim()),
+            sections: panel?.querySelectorAll(".prompt-line-section").length || 0,
+            lineCount: panel?.querySelectorAll(".prompt-line").length || 0,
+            expandedRatio: cardBox && libraryBox ? libraryBox.width / cardBox.width : 0,
+          };
+        }, resource);
+        if (
+          uiContract.activeLevel !== "3" ||
+          uiContract.activeFormat !== "spec" ||
+          uiContract.cardLevel !== "3" ||
+          uiContract.tabNames.some((name) => !name) ||
+          uiContract.tabLabels.some((label) => !label?.includes(" · ")) ||
+          uiContract.tabOverflow ||
+          uiContract.panelClipped ||
+          !uiContract.contextVisible ||
+          uiContract.sections < 4 ||
+          uiContract.lineCount < 20 ||
+          (resource === "prompts" && width >= 768 && uiContract.expandedRatio < 0.84)
+        ) throw new Error(`PROMPT_UI_CONTRACT:${locale}:${audience}:${resource}:${theme}:${view.label}:${JSON.stringify(uiContract)}`);
+
         await page.evaluate(({ resource, longToken }) => {
           const root = document.querySelector(resource === "prompts" ? ".library-prompt-card" : ".brain-prompt-card");
           const brief = resource === "prompts" ? root?.querySelector("dd") : document.querySelector(".step p");
@@ -150,6 +186,34 @@ try {
 
         if (width === 390 && theme === "light") {
           const firstLibrary = page.locator("[data-prompt-library]:has([data-format-copy])").first();
+          for (const [level, key] of ["natural", "parameters", "spec", "pair"].entries()) {
+            const tab = firstLibrary.locator(`[data-prompt-format="${key}"]`);
+            await tab.click();
+            const levelState = await firstLibrary.evaluate((library, expected) => {
+              const panel = library.querySelector(".prompt-format-panel:not([hidden])");
+              const source = panel?.closest("details")?.querySelector("[data-prompt-source]");
+              const context = panel?.closest("details")?.querySelector(".prompt-level-context");
+              return {
+                activeLevel: library.dataset.activeLevel,
+                activeFormat: library.dataset.activeFormat,
+                cardLevel: library.closest(".library-prompt-card,.brain-prompt-card,.step")?.dataset.promptActiveLevel,
+                panelClass: panel?.className,
+                sourceLength: source?.value.length || 0,
+                context: context?.textContent?.trim(),
+                clipped: Boolean(panel && panel.scrollHeight > panel.clientHeight + 2 && getComputedStyle(panel).overflowY !== "visible"),
+                expected,
+              };
+            }, { number: String(level + 1), key });
+            if (
+              levelState.activeLevel !== String(level + 1) ||
+              levelState.activeFormat !== key ||
+              levelState.cardLevel !== String(level + 1) ||
+              !levelState.panelClass?.includes(`prompt-format-panel-${key}`) ||
+              !levelState.sourceLength ||
+              !levelState.context ||
+              levelState.clipped
+            ) throw new Error(`PROMPT_LEVEL_UI:${locale}:${audience}:${resource}:${key}:${JSON.stringify(levelState)}`);
+          }
           const natural = firstLibrary.locator('[data-prompt-format="natural"]');
           await natural.focus();
           await page.keyboard.press("End");
@@ -164,7 +228,7 @@ try {
 
           const copy = firstLibrary.locator("[data-format-copy]");
           await copy.click();
-          const expected = await firstLibrary.locator('[id$="-spec"][data-prompt-template]').textContent();
+          const expected = await firstLibrary.locator('[data-prompt-level="3"] [data-prompt-source]').inputValue();
           const copied = await page.evaluate(() => navigator.clipboard.readText());
           if (copied !== expected || !(await copy.getAttribute("aria-label"))?.includes("✓")) {
             const status = await firstLibrary.locator(".prompt-copy-status").textContent();
@@ -185,8 +249,14 @@ try {
       await page.goto(`${origin}/${route(locale, audience, resource)}?mutation=long`, { waitUntil: "load" });
       const summaries = page.locator(".prompt-level-fallback > summary");
       const specPanels = page.locator('[id$="-spec"][data-prompt-template]');
+      const sources = page.locator("[data-prompt-source]");
       const expectedPanels = resource === "prompts" ? 14 : 13;
-      if ((await summaries.count()) !== expectedPanels * 4 || (await specPanels.count()) !== expectedPanels)
+      if (
+        (await summaries.count()) !== expectedPanels * 4 ||
+        (await specPanels.count()) !== expectedPanels ||
+        (await sources.count()) !== expectedPanels * 4 ||
+        !(await summaries.nth(2).textContent())?.includes(locale === "es" ? "Especificado" : locale === "en" ? "Specified" : "Especificado")
+      )
         throw new Error(`PROMPT_NO_JS_STRUCTURE:${locale}:${audience}:${resource}`);
       await summaries.nth(2).click();
       if (!(await page.locator(".prompt-level-fallback").nth(2).evaluate((node) => node.open)))
