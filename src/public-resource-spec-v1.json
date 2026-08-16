@@ -5,6 +5,8 @@
   "deck": {
     "id": "ia-que-esta-pasando-masterclass",
     "source_asset": "assets/masterclass-ia-nivel-0.pdf",
+    "media_type": "application/pdf",
+    "document_language": "es",
     "page_count": 18,
     "sha256": "5df5533a29652184f492b2f797ecfa0f1fa47cdb682bfcefb8f30c96014ce402",
     "rights": "MetodologIA masterclass supplied by the owner for this local pilot",
@@ -12,21 +14,24 @@
       "es": {
         "title": "Masterclass oficial · IA: qué está pasando y cómo sacarle provecho",
         "display_title": "IA: qué está pasando y cómo sacarle provecho",
-        "description": "Recorre la masterclass real en 18 láminas, salta entre páginas o descarga el PDF completo.",
+        "description": "Consulta aquí el PDF oficial de la masterclass en sus 18 láminas. Debajo encontrarás una guía textual accesible para acompañar el recorrido.",
+        "language_note": "Documento oficial en español.",
         "open": "Ver masterclass",
         "download": "Descargar PDF"
       },
       "en": {
         "title": "Official masterclass · AI: what is happening and how to benefit",
         "display_title": "AI: what is happening and how to benefit",
-        "description": "Browse the real masterclass in 18 pages, jump between them or download the complete PDF.",
+        "description": "View the official 18-page masterclass PDF here. A localized accessible guide follows below to support the journey.",
+        "language_note": "The official document is currently available in Spanish.",
         "open": "View masterclass",
         "download": "Download PDF"
       },
       "pt": {
         "title": "Masterclass oficial · IA: o que está acontecendo e como aproveitar",
         "display_title": "IA: o que está acontecendo e como aproveitar",
-        "description": "Percorra a masterclass real em 18 páginas, navegue entre elas ou baixe o PDF completo.",
+        "description": "Consulte aqui o PDF oficial da masterclass com 18 páginas. Abaixo, uma guia textual acessível acompanha o percurso.",
+        "language_note": "O documento oficial está disponível atualmente em espanhol.",
         "open": "Ver masterclass",
         "download": "Baixar PDF"
       }
@@ -116,17 +121,24 @@
   "coverage_gaps": [],
   "identity_assets": {
     "logo": {
-      "path": "assets/metodologia-logo.svg",
-      "source": "https://metodologia.info/favicon.svg",
+      "path": "brand-release-v3/assets/metodologia-logo.svg",
+      "source": "Digital Brand v3 portable release",
       "sha256": "5f45ae2ebd2cb691db56efd6bf3b7c2a3888e985d6c4a4fd95608d94d0f814fe",
       "rights": "Official MetodologIA public brand asset"
     },
-    "javier_photo": {
+    "pristino_mark": {
       "path": "assets/javier-montano.jpg",
       "source": "https://avatars.githubusercontent.com/u/3903511?v=4",
       "profile": "https://github.com/JaviMontano",
       "sha256": "1fecdedb8e705eeb5ef49d2854b70ede3224014ddd278924cc6b3bc263b75ad5",
-      "rights": "Public founder profile image, linked to its authoritative public profile"
+      "rights": "Public Prístino avatar from Javier Montaño's authoritative public profile"
+    },
+    "javier_photo": {
+      "path": "assets/team-javier-montano.webp",
+      "source": "https://javimontano.github.io/trabajar-amplificado/assets/aprender-aprehender-revolucionar/team_javier-montano.webp",
+      "profile": "https://github.com/JaviMontano",
+      "sha256": "4cac6ea8b4e303c1e0a27573736114f46ffb1b8783745d1ac1335b4f02da756d",
+      "rights": "Public founder portrait from the CC BY-NC-SA 4.0 historical playbook supplied by its author"
     }
   }
 }

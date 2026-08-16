@@ -15,6 +15,60 @@
     "commit": "e23b9a3ce8248edcd850555dceee7435e3b21b35",
     "license": "CC BY-NC-SA 4.0"
   },
+  "method_identity": {
+    "schema_version": "method-identity-v1",
+    "display_label": "A²(R)E",
+    "role": "method_mark",
+    "organization_mark": "assets/metodologia-logo.svg",
+    "source": {
+      "generator": "scripts/build_method_identity.py",
+      "font": "brand-release-v3/assets/Poppins-Bold.ttf",
+      "font_sha256": "983676516167748b74de6f4771fb384c664fd913acb8b471122ecacf5da5ea6c",
+      "font_license": "SIL Open Font License 1.1",
+      "toolchain": "fontTools 4.60.2",
+      "geometry_rights": "MetodologIA project-owned method identity composition"
+    },
+    "locales": {
+      "es": {
+        "accessible_name": "A²(R)E — Aprender, Aprehender, (R)Evolucionar",
+        "descriptor": "Aprender, Aprehender, (R)Evolucionar"
+      },
+      "en": {
+        "accessible_name": "A²(R)E — Learn, Apprehend, (R)Evolve",
+        "descriptor": "Learn, Apprehend, (R)Evolve"
+      },
+      "pt": {
+        "accessible_name": "A²(R)E — Aprender, Apreender, (R)Evolucionar",
+        "descriptor": "Aprender, Apreender, (R)Evolucionar"
+      }
+    },
+    "assets": {
+      "primary": {
+        "path": "assets/method-a2re-primary.svg",
+        "sha256": "9bb51b15bfc473b4c43741ba1bcc974071d7ce42fc47245fd09d80ec6463d4d3",
+        "viewBox": "0 0 256 256",
+        "width": 256,
+        "height": 256,
+        "minimum_css_px": 64,
+        "rights": "MetodologIA project-owned composition; Poppins outlines under SIL OFL 1.1"
+      },
+      "compact": {
+        "path": "assets/method-a2re-compact.svg",
+        "sha256": "b07a0713a106f1f78491e54667b248ef6a790ce175b0a07ba2e721137e936393",
+        "viewBox": "0 0 480 120",
+        "width": 480,
+        "height": 120,
+        "minimum_css_px": 40,
+        "rights": "MetodologIA project-owned composition; Poppins outlines under SIL OFL 1.1"
+      }
+    },
+    "usage": {
+      "resources": ["landing", "playbook", "prompts"],
+      "excluded_resources": ["workbook", "deck"],
+      "organization_logo_replacement": false,
+      "publication_authorized": false
+    }
+  },
   "founders": [
     {
       "name": "Javier Montaño",

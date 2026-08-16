@@ -1,8 +1,108 @@
 {
-  "build_id": "nivel-0-learning-resources-v5",
+  "build_id": "nivel-0-learning-resources-v9",
+  "conoce_chrome": {
+    "brand_release_immutable": true,
+    "breadcrumbs": {
+      "fragments_allowed": false,
+      "hierarchy": {
+        "editorial": [
+          "home",
+          "current"
+        ],
+        "landing": [
+          "home"
+        ],
+        "resource": [
+          "home",
+          "resources_overview",
+          "current"
+        ],
+        "resources_index": [
+          "home",
+          "current"
+        ]
+      },
+      "jsonld_type": "BreadcrumbList",
+      "last_item": "aria-current-page-not-link",
+      "rendered_ssr": true
+    },
+    "canonical_origin": "https://conoce.metodologia.info/",
+    "display_label": "Conoce · Nivel 0",
+    "parent": {
+      "href": "https://metodologia.info/",
+      "id": "metodologia",
+      "same_tab": true
+    },
+    "publication_authorized": false,
+    "rendered_pages": 54,
+    "schema_version": "conoce-chrome-spec-v1",
+    "self_sha256": "f3b862a736c86e041430b2d4b759504c956335ff3ec782494c91985e7bf8531a",
+    "site_id": "conoce-nivel-0",
+    "source": "src/conoce-chrome-spec-v1.json",
+    "source_sha256": "370ca87adbf0c5b89e9e8c2072d6010f7060c1c2045f414ed779aa6096911cad",
+    "state": "RENDERED_DRAFT",
+    "storage_keys": [
+      "mdg_theme",
+      "mdg_locale",
+      "mdg_audience"
+    ]
+  },
   "deterministic_inputs": true,
-  "manifest_sha256": "bbaac8c00e6555f96314d35bdfe6484e9d4085293e084acec02aa3298f3a14d9",
-  "output_count": 50,
+  "editorial_sitemap": {
+    "canonical_count": 54,
+    "pages": [
+      "level0",
+      "how",
+      "resources_index",
+      "intakes"
+    ],
+    "publication_authorized": false,
+    "rendered_pages": 24,
+    "schema_version": "editorial-sitemap-spec-v1",
+    "self_sha256": "74ba8a170e62765891577cec783cee472984c692ee24eb63802c4f3c0e5711b9",
+    "source": "src/editorial-sitemap-spec-v1.json",
+    "source_sha256": "01889c820e9b03999af6171a83407339b2f4220ddc5b5a838eb2b7c2c4e48b8a",
+    "state": "RENDERED_DRAFT"
+  },
+  "intrapage_navigation": {
+    "desktop_width_px": 260,
+    "publication_authorized": false,
+    "rendered_pages": 54,
+    "schema_version": "intrapage-navigation-spec-v1",
+    "source": "src/intrapage-navigation-spec-v1.json",
+    "source_sha256": "cfae0e0b01c8830805049837fcd87f9388fc6a117af1e20feafef16cd796d342"
+  },
+  "manifest_self_sha256": "76cae333ddc4120ece285ac172dd2dc974d912c7631aed23957a660b27640749",
+  "manifest_sha256": "e4eeacc9eb00b275393ccf66ece0d0b7da9b1f3893faa95d13acc1dd59148421",
+  "method_identity": {
+    "assets": {
+      "compact": "b07a0713a106f1f78491e54667b248ef6a790ce175b0a07ba2e721137e936393",
+      "primary": "9bb51b15bfc473b4c43741ba1bcc974071d7ce42fc47245fd09d80ec6463d4d3"
+    },
+    "display_label": "A²(R)E",
+    "generator_sha256": "0d3da12b73f4d8f0a3ebd418a78a8025a8957ffd9f40878d6be1b406e8254f75",
+    "rendered_pages": 18,
+    "resources": [
+      "landing",
+      "playbook",
+      "prompts"
+    ],
+    "role": "method_mark",
+    "schema_version": "method-identity-v1"
+  },
+  "official_masterclass": {
+    "document_language": "es",
+    "media_type": "application/pdf",
+    "page_count": 18,
+    "primary_surface": true,
+    "publication_authorized": false,
+    "rendered_variants": 6,
+    "sha256": "5df5533a29652184f492b2f797ecfa0f1fa47cdb682bfcefb8f30c96014ce402",
+    "source": "assets/masterclass-ia-nivel-0.pdf"
+  },
+  "output_count": 74,
   "schema_version": "build-receipt-v1",
+  "self_hash_model": "sha256(sorted-json-without-self)",
+  "self_sha256": "53ef0b6091fd42ffd8e61fa6b0c63e2caa7043ef35fb891687acebcc8d48925c",
   "state": "RENDERED_DRAFT"
 }

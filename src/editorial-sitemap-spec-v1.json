@@ -1,0 +1,142 @@
+{
+  "schema_version": "editorial-sitemap-spec-v1",
+  "state": "RENDERED_DRAFT",
+  "publication_authorized": false,
+  "network_required": false,
+  "canonical_origin": "https://conoce.metodologia.info/",
+  "self_hash_model": "sha256(sorted-json-without-self_sha256)",
+  "self_sha256": "74ba8a170e62765891577cec783cee472984c692ee24eb63802c4f3c0e5711b9",
+  "locales": ["es", "en", "pt"],
+  "audiences": ["persona", "empresa"],
+  "page_order": ["level0", "how", "resources_index", "intakes"],
+  "pages": {
+    "level0": {"slugs": {"es": "nivel-0", "en": "level-0", "pt": "nivel-0"}, "anchors": ["level0-start", "purpose", "path", "fit", "metodologia"]},
+    "how": {"slugs": {"es": "como-funciona", "en": "how-it-works", "pt": "como-funciona"}, "anchors": ["how-start", "before", "during", "after", "evidence"]},
+    "resources_index": {"slugs": {"es": "recursos", "en": "resources", "pt": "recursos"}, "anchors": ["resources-start", "masterclass-resource", "workbook-resource", "playbook-resource", "prompts-resource"]},
+    "intakes": {"slugs": {"es": "convocatorias", "en": "intakes", "pt": "turmas"}, "anchors": ["intakes-start", "verification", "process", "requirements", "interest"]}
+  },
+  "audience_copy": {
+    "es": {
+      "persona": {
+        "level0": {"label": "Empieza con algo tuyo", "body": "Trae una pregunta real. El objetivo es que puedas explicar qué hiciste y volver a hacerlo.", "points": ["Una pregunta concreta", "Fuentes que puedas abrir", "Una decisión que dependa de ti"]},
+        "how": {"label": "Haz el recorrido a tu ritmo", "body": "Reserva entre 90 y 120 minutos. Lee, practica y deja una evidencia que puedas revisar después.", "points": ["Elige un caso", "Contrasta con fuentes", "Explica el resultado"]},
+        "resources_index": {"label": "Cuatro recursos, un recorrido", "body": "Usa la masterclass para orientarte, el workbook para practicar y el playbook con los prompts para repetir.", "points": ["Orientarte", "Practicar", "Volver a hacerlo"]},
+        "intakes": {"label": "Si quieres seguir", "body": "Registrar interés expresa que quieres continuar. No confirma participación ni crea un compromiso.", "points": ["Explora los recursos", "Define para qué quieres continuar", "Actúa solo sobre información publicada"]}
+      },
+      "empresa": {
+        "level0": {"label": "Un lenguaje común para el equipo", "body": "Empiecen con un caso de trabajo delimitado. Observen fuentes, decisiones y límites antes de hablar de adopción.", "points": ["Caso con responsable", "Fuentes autorizadas", "Criterio de revisión común"]},
+        "how": {"label": "Práctica breve, evidencia útil", "body": "Dediquen entre 90 y 120 minutos a un caso real. Documenten qué funcionó, qué falta y qué no debe escalarse.", "points": ["Alinear el caso", "Revisar el proceso", "Decidir el siguiente paso"]},
+        "resources_index": {"label": "Una base para habilitar equipos", "body": "Los cuatro recursos permiten preparar, facilitar y repetir la práctica sin convertir una herramienta en política.", "points": ["Orientación compartida", "Ejecución trazable", "Reuso con límites"]},
+        "intakes": {"label": "Explorar una participación", "body": "Registrar interés expresa una intención exploratoria. No autoriza comunicar participación ni movilizar al equipo.", "points": ["Propósito compartido", "Caso y fuentes", "Decisión interna explícita"]}
+      }
+    },
+    "en": {
+      "persona": {
+        "level0": {"label": "Start with something of your own", "body": "Bring a real question. The goal is to explain what you did and be able to do it again.", "points": ["One concrete question", "Sources you can open", "A decision you own"]},
+        "how": {"label": "Take the path at your pace", "body": "Set aside 90 to 120 minutes. Read, practise and leave evidence you can inspect later.", "points": ["Choose a case", "Check it against sources", "Explain the result"]},
+        "resources_index": {"label": "Four resources, one path", "body": "Use the masterclass to orient yourself, the workbook to practise, and the playbook with prompts to repeat.", "points": ["Get oriented", "Practise", "Do it again"]},
+        "intakes": {"label": "If you want to continue", "body": "Registering interest says you want to continue. It does not confirm participation or create a commitment.", "points": ["Explore the resources", "Define why you want to continue", "Act only on published information"]}
+      },
+      "empresa": {
+        "level0": {"label": "A shared language for the team", "body": "Start with a bounded work case. Observe sources, decisions and limits before discussing adoption.", "points": ["A case with an owner", "Authorised sources", "A shared review criterion"]},
+        "how": {"label": "Short practice, useful evidence", "body": "Spend 90 to 120 minutes on a real case. Record what worked, what is missing and what should not scale.", "points": ["Align the case", "Review the process", "Choose the next step"]},
+        "resources_index": {"label": "A foundation for team enablement", "body": "The four resources help teams prepare, facilitate and repeat the practice without turning a tool into policy.", "points": ["Shared orientation", "Traceable execution", "Reuse with boundaries"]},
+        "intakes": {"label": "Explore participation", "body": "Registering interest expresses an exploratory intent. It does not authorise participation claims or team mobilisation.", "points": ["Shared purpose", "Case and sources", "Explicit internal decision"]}
+      }
+    },
+    "pt": {
+      "persona": {
+        "level0": {"label": "Comece com algo seu", "body": "Traga uma pergunta real. O objetivo é explicar o que você fez e conseguir fazer de novo.", "points": ["Uma pergunta concreta", "Fontes que você possa abrir", "Uma decisão que dependa de você"]},
+        "how": {"label": "Faça o percurso no seu ritmo", "body": "Reserve entre 90 e 120 minutos. Leia, pratique e deixe uma evidência que possa revisar depois.", "points": ["Escolha um caso", "Confira com as fontes", "Explique o resultado"]},
+        "resources_index": {"label": "Quatro recursos, um percurso", "body": "Use a masterclass para se orientar, o workbook para praticar e o playbook com prompts para repetir.", "points": ["Orientar-se", "Praticar", "Fazer de novo"]},
+        "intakes": {"label": "Se quiser continuar", "body": "Registrar interesse expressa que você quer continuar. Não confirma participação nem cria compromisso.", "points": ["Explore os recursos", "Defina por que quer continuar", "Aja somente com informação publicada"]}
+      },
+      "empresa": {
+        "level0": {"label": "Uma linguagem comum para a equipe", "body": "Comecem com um caso de trabalho delimitado. Observem fontes, decisões e limites antes de falar em adoção.", "points": ["Caso com responsável", "Fontes autorizadas", "Critério comum de revisão"]},
+        "how": {"label": "Prática breve, evidência útil", "body": "Dediquem entre 90 e 120 minutos a um caso real. Registrem o que funcionou, o que falta e o que não deve escalar.", "points": ["Alinhar o caso", "Revisar o processo", "Decidir o próximo passo"]},
+        "resources_index": {"label": "Uma base para habilitar equipes", "body": "Os quatro recursos ajudam a preparar, facilitar e repetir a prática sem transformar uma ferramenta em política.", "points": ["Orientação compartilhada", "Execução rastreável", "Reuso com limites"]},
+        "intakes": {"label": "Explorar uma participação", "body": "Registrar interesse expressa uma intenção exploratória. Não autoriza comunicar participação nem mobilizar a equipe.", "points": ["Propósito compartilhado", "Caso e fontes", "Decisão interna explícita"]}
+      }
+    }
+  },
+  "copy": {
+    "es": {
+      "level0": {"meta_title": "Nivel 0", "meta_description": "Un punto de partida no técnico para usar IA con método, fuentes y criterio humano.", "eyebrow": "Método primero. IA después.", "title": "Nivel 0", "lead": "Empieza aquí. Una respuesta puede sonar fluida y ser falsa: aprende a revisar antes de aceptar.", "sections": [
+        {"id": "purpose", "title": "Empieza por el método", "body": "Nivel 0 es un punto de partida no técnico. Trabajas con una pregunta real, fuentes que puedas revisar y una decisión que siga siendo tuya.", "points": ["Pregunta antes que herramienta", "Fuente antes que respuesta", "Criterio antes que velocidad"]},
+        {"id": "path", "title": "Aprender es poder volver a hacerlo", "body": "No basta con seguir pasos una vez. Aprendes cuando puedes explicar el proceso, comprobar el resultado y repetirlo sin copiar a ciegas.", "points": ["Comprender", "Practicar", "Explicar", "Repetir"]},
+        {"id": "fit", "title": "No necesitas perfil técnico", "body": "Necesitas una situación que te importe, curiosidad para preguntar y disposición para revisar lo que la IA produce.", "points": []},
+        {"id": "metodologia", "title": "Criterio antes que fluidez", "body": "MetodologIA pone el método y la responsabilidad humana en el centro. La IA ayuda a pensar y producir; no decide qué es verdad ni qué conviene hacer.", "points": ["Confianza antes que espectáculo", "Fuentes visibles", "Decisiones humanas"]}
+      ]},
+      "how": {"meta_title": "Cómo funciona Nivel 0", "meta_description": "Un recorrido de 90 a 120 minutos para leer, practicar con fuentes y dejar evidencia revisable.", "eyebrow": "Un recorrido breve y completo", "title": "Cómo funciona", "lead": "Reserva entre 90 y 120 minutos. Puedes recorrer el sitio a tu ritmo; no necesitas esperar una sesión en vivo.", "sections": [
+        {"id": "before", "title": "Elige algo real", "body": "Empieza con una pregunta, tarea o decisión concreta. Reúne pocas fuentes, pero asegúrate de poder abrirlas y revisarlas.", "points": ["Una pregunta clara", "Fuentes disponibles", "Un resultado útil"]},
+        {"id": "during", "title": "Lee y practica", "body": "Usa la masterclass para orientarte y el workbook para trabajar. Detente cuando una afirmación no tenga respaldo o algo no esté claro.", "points": ["Avanza por bloques", "Conserva citas", "Anota decisiones"]},
+        {"id": "after", "title": "Vuelve a hacerlo", "body": "Apóyate en el playbook y la biblioteca de prompts para repetir el método con otra situación, no para repetir una respuesta.", "points": ["Cambia el caso", "Revisa de nuevo", "Ajusta el proceso"]},
+        {"id": "evidence", "title": "La prueba es poder explicarlo", "body": "El recorrido sirve si puedes mostrar qué fuentes usaste, qué decidiste y cómo volverías a obtener un resultado revisable.", "points": []}
+      ]},
+      "resources_index": {"meta_title": "Recursos de Nivel 0", "meta_description": "Los cuatro recursos reales de Nivel 0: masterclass, workbook, playbook y biblioteca de prompts.", "eyebrow": "Todo lo necesario para empezar", "title": "Recursos", "lead": "No son extras. Estos cuatro recursos forman el recorrido: orientarte, practicar, comprender el método y volver a aplicarlo.", "sections": [
+        {"id": "masterclass-resource", "title": "Masterclass", "body": "Una presentación oficial de 18 páginas, con guía accesible, para entender el punto de partida y el hilo del recorrido.", "points": []},
+        {"id": "workbook-resource", "title": "Cuaderno de práctica", "body": "El workbook reúne hojas para convertir una pregunta en práctica: buscar fuentes, guardar citas y documentar decisiones.", "points": []},
+        {"id": "playbook-resource", "title": "Guía para repetir", "body": "El playbook explica el método para aprender con fuentes, reconocer el espejismo de fluidez y repetir con criterio.", "points": []},
+        {"id": "prompts-resource", "title": "Instrucciones adaptables", "body": "La biblioteca reúne prompts listos para adaptar. Son puntos de partida para pensar mejor, no respuestas para aceptar sin revisar.", "points": []}
+      ]},
+      "intakes": {"meta_title": "Continuidad de Nivel 0", "meta_description": "Qué significa registrar interés para continuar después de recorrer Nivel 0.", "eyebrow": "Continuar sin promesas vacías", "title": "Continuidad", "lead": "Puedes registrar interés para continuar. El formulario expresa una intención; no confirma participación ni crea un compromiso.", "sections": [
+        {"id": "verification", "title": "Qué significa este formulario", "body": "Sirve para expresar interés. Cualquier paso adicional debe comunicarse de forma explícita y por separado.", "points": []},
+        {"id": "process", "title": "Nada se da por hecho", "body": "El recorrido separa tres acciones para mantener claridad.", "points": ["Exploras Nivel 0", "Registras interés", "Actúas solo sobre información publicada"]},
+        {"id": "requirements", "title": "Mientras tanto, sigue practicando", "body": "Elige otra pregunta, trabaja con nuevas fuentes y comprueba si puedes explicar el método sin mirar una respuesta anterior.", "points": []},
+        {"id": "interest", "title": "Registrar interés", "body": "Compartir el formulario no cambia tu estado dentro del recorrido. Conservas la decisión sobre cualquier paso posterior.", "points": []}
+      ]}
+    },
+    "en": {
+      "level0": {"meta_title": "Level 0", "meta_description": "A non-technical starting point for using AI with method, sources and human judgement.", "eyebrow": "Method first. AI second.", "title": "Level 0", "lead": "Start here. A fluent answer can still be false: learn to inspect before you accept.", "sections": [
+        {"id": "purpose", "title": "Start with the method", "body": "Level 0 is a non-technical starting point. Work with a real question, sources you can inspect and a decision that remains yours.", "points": ["Question before tool", "Source before answer", "Judgement before speed"]},
+        {"id": "path", "title": "Learning means being able to do it again", "body": "Following steps once is not enough. You learn when you can explain the process, check the result and repeat it without copying blindly.", "points": ["Understand", "Practise", "Explain", "Repeat"]},
+        {"id": "fit", "title": "You do not need a technical background", "body": "You need a situation that matters, curiosity to ask questions and willingness to inspect what AI produces.", "points": []},
+        {"id": "metodologia", "title": "Judgement before fluency", "body": "MetodologIA keeps method and human responsibility at the centre. AI can help you think and produce; it does not decide what is true or what you should do.", "points": ["Trust before spectacle", "Visible sources", "Human decisions"]}
+      ]},
+      "how": {"meta_title": "How Level 0 works", "meta_description": "A 90-to-120-minute path for reading, practising with sources and leaving reviewable evidence.", "eyebrow": "A short, complete path", "title": "How it works", "lead": "Set aside 90 to 120 minutes. Explore the site at your pace; you do not need to wait for a live session.", "sections": [
+        {"id": "before", "title": "Choose something real", "body": "Start with a concrete question, task or decision. Gather a few sources, but make sure you can open and inspect them.", "points": ["A clear question", "Available sources", "A useful outcome"]},
+        {"id": "during", "title": "Read and practise", "body": "Use the masterclass to get oriented and the workbook to do the work. Pause when a claim lacks support or something is unclear.", "points": ["Move in blocks", "Keep citations", "Record decisions"]},
+        {"id": "after", "title": "Do it again", "body": "Use the playbook and prompt library to repeat the method with another situation, not to repeat an answer.", "points": ["Change the case", "Check again", "Adjust the process"]},
+        {"id": "evidence", "title": "The test is whether you can explain it", "body": "The path works if you can show which sources you used, what you decided and how you would produce another reviewable result.", "points": []}
+      ]},
+      "resources_index": {"meta_title": "Level 0 resources", "meta_description": "The four real Level 0 resources: masterclass, workbook, playbook and prompt library.", "eyebrow": "Everything you need to start", "title": "Resources", "lead": "These are not extras. The four resources form the path: get oriented, practise, understand the method and apply it again.", "sections": [
+        {"id": "masterclass-resource", "title": "Masterclass", "body": "An official 18-page presentation with an accessible guide to understand the starting point and follow the path.", "points": []},
+        {"id": "workbook-resource", "title": "Practice notebook", "body": "The workbook contains sheets that turn a question into practice: find sources, keep citations and document decisions.", "points": []},
+        {"id": "playbook-resource", "title": "Guide for repeating", "body": "The playbook explains the method for learning from sources, spotting the illusion of fluency and repeating with judgement.", "points": []},
+        {"id": "prompts-resource", "title": "Adaptable instructions", "body": "The library contains prompts ready to adapt. They are starting points for better thinking, not answers to accept without checking.", "points": []}
+      ]},
+      "intakes": {"meta_title": "Continuing after Level 0", "meta_description": "What registering interest means after exploring Level 0.", "eyebrow": "Continue without empty promises", "title": "Continue", "lead": "You can register interest in continuing. The form expresses intent; it does not confirm participation or create a commitment.", "sections": [
+        {"id": "verification", "title": "What this form means", "body": "It lets you express interest. Any additional step must be communicated explicitly and separately.", "points": []},
+        {"id": "process", "title": "Nothing is assumed", "body": "The path separates three actions to keep expectations clear.", "points": ["Explore Level 0", "Register interest", "Act only on published information"]},
+        {"id": "requirements", "title": "Keep practising in the meantime", "body": "Choose another question, work with new sources and test whether you can explain the method without looking at an earlier answer.", "points": []},
+        {"id": "interest", "title": "Register interest", "body": "Sharing the form does not change your status in the path. You keep the decision over any later step.", "points": []}
+      ]}
+    },
+    "pt": {
+      "level0": {"meta_title": "Nivel 0", "meta_description": "Um ponto de partida não técnico para usar IA com método, fontes e critério humano.", "eyebrow": "Método primeiro. IA depois.", "title": "Nivel 0", "lead": "Comece aqui. Uma resposta fluente pode ser falsa: aprenda a revisar antes de aceitar.", "sections": [
+        {"id": "purpose", "title": "Comece pelo método", "body": "O Nivel 0 é um ponto de partida não técnico. Trabalhe com uma pergunta real, fontes que possa revisar e uma decisão que continue sendo sua.", "points": ["Pergunta antes da ferramenta", "Fonte antes da resposta", "Critério antes da velocidade"]},
+        {"id": "path", "title": "Aprender é conseguir fazer de novo", "body": "Seguir passos uma vez não basta. Você aprende quando consegue explicar o processo, verificar o resultado e repetir sem copiar às cegas.", "points": ["Compreender", "Praticar", "Explicar", "Repetir"]},
+        {"id": "fit", "title": "Você não precisa ter perfil técnico", "body": "Precisa de uma situação importante, curiosidade para perguntar e disposição para revisar o que a IA produz.", "points": []},
+        {"id": "metodologia", "title": "Critério antes da fluidez", "body": "A MetodologIA mantém o método e a responsabilidade humana no centro. A IA ajuda a pensar e produzir; não decide o que é verdade nem o que convém fazer.", "points": ["Confiança antes do espetáculo", "Fontes visíveis", "Decisões humanas"]}
+      ]},
+      "how": {"meta_title": "Como funciona o Nivel 0", "meta_description": "Um percurso de 90 a 120 minutos para ler, praticar com fontes e deixar evidência revisável.", "eyebrow": "Um percurso breve e completo", "title": "Como funciona", "lead": "Reserve entre 90 e 120 minutos. Percorra o site no seu ritmo; você não precisa esperar uma sessão ao vivo.", "sections": [
+        {"id": "before", "title": "Escolha algo real", "body": "Comece com uma pergunta, tarefa ou decisão concreta. Reúna poucas fontes, mas garanta que possa abri-las e revisá-las.", "points": ["Uma pergunta clara", "Fontes disponíveis", "Um resultado útil"]},
+        {"id": "during", "title": "Leia e pratique", "body": "Use a masterclass para se orientar e o workbook para trabalhar. Pare quando uma afirmação não tiver apoio ou algo não estiver claro.", "points": ["Avance em blocos", "Guarde citações", "Registre decisões"]},
+        {"id": "after", "title": "Faça de novo", "body": "Use o playbook e a biblioteca de prompts para repetir o método com outra situação, não para repetir uma resposta.", "points": ["Mude o caso", "Revise novamente", "Ajuste o processo"]},
+        {"id": "evidence", "title": "A prova é conseguir explicar", "body": "O percurso funciona se você consegue mostrar quais fontes usou, o que decidiu e como produziria outro resultado revisável.", "points": []}
+      ]},
+      "resources_index": {"meta_title": "Recursos do Nivel 0", "meta_description": "Os quatro recursos reais do Nivel 0: masterclass, workbook, playbook e biblioteca de prompts.", "eyebrow": "Tudo o que você precisa para começar", "title": "Recursos", "lead": "Não são extras. Os quatro recursos formam o percurso: orientar-se, praticar, compreender o método e aplicá-lo novamente.", "sections": [
+        {"id": "masterclass-resource", "title": "Masterclass", "body": "Uma apresentação oficial de 18 páginas, com guia acessível, para entender o ponto de partida e acompanhar o percurso.", "points": []},
+        {"id": "workbook-resource", "title": "Caderno de prática", "body": "O workbook reúne folhas que transformam uma pergunta em prática: buscar fontes, guardar citações e documentar decisões.", "points": []},
+        {"id": "playbook-resource", "title": "Guia para repetir", "body": "O playbook explica o método para aprender com fontes, reconhecer a ilusão de fluidez e repetir com critério.", "points": []},
+        {"id": "prompts-resource", "title": "Instruções adaptáveis", "body": "A biblioteca reúne prompts prontos para adaptar. São pontos de partida para pensar melhor, não respostas para aceitar sem revisar.", "points": []}
+      ]},
+      "intakes": {"meta_title": "Continuidade depois do Nivel 0", "meta_description": "O que significa registrar interesse depois de explorar o Nivel 0.", "eyebrow": "Continuar sem promessas vazias", "title": "Continuidade", "lead": "Você pode registrar interesse em continuar. O formulário expressa intenção; não confirma participação nem cria compromisso.", "sections": [
+        {"id": "verification", "title": "O que este formulário significa", "body": "Ele permite expressar interesse. Qualquer passo adicional deve ser comunicado de forma explícita e separada.", "points": []},
+        {"id": "process", "title": "Nada é presumido", "body": "O percurso separa três ações para manter clareza.", "points": ["Explore o Nivel 0", "Registre interesse", "Aja somente com informação publicada"]},
+        {"id": "requirements", "title": "Enquanto isso, continue praticando", "body": "Escolha outra pergunta, trabalhe com novas fontes e teste se consegue explicar o método sem olhar uma resposta anterior.", "points": []},
+        {"id": "interest", "title": "Registrar interesse", "body": "Compartilhar o formulário não muda seu estado no percurso. Você mantém a decisão sobre qualquer passo posterior.", "points": []}
+      ]}
+    }
+  }
+}

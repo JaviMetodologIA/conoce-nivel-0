@@ -1,0 +1,73 @@
+{
+  "schema_version": "nivel-0-audience-positioning-v1",
+  "audiences": ["persona", "empresa"],
+  "locales": {
+    "es": {
+      "persona": {
+        "hero": "Convierte este recurso en una práctica propia, útil desde hoy.",
+        "problem": "El reto no es usar más IA, sino aprender sin perder criterio ni propósito.",
+        "benefits": "Ganas claridad, una práctica repetible y evidencia para decidir tu siguiente paso.",
+        "method": "Avanza con fuentes, preguntas, práctica breve y revisión humana.",
+        "evidence": "Conserva citas, decisiones y un resultado observable; no confundas fluidez con verdad.",
+        "cta": "Completa una práctica y llévala a una situación real esta semana.",
+        "closing": "Tu progreso se mide por lo que puedes explicar, comprobar y volver a hacer.",
+        "resources": {"landing":"elige una ruta personal de aprendizaje","workbook":"construye evidencia paso a paso","playbook":"convierte el método en un hábito","prompts":"formula instrucciones que puedas revisar","deck":"recorre 18 momentos y practica una decisión"}
+      },
+      "empresa": {
+        "hero": "Convierte este recurso en una capacidad operativa que el equipo pueda gobernar.",
+        "problem": "El reto no es desplegar más IA, sino reducir variabilidad, riesgo y trabajo sin trazabilidad.",
+        "benefits": "Obtienes un patrón común, criterios de control y evidencia para priorizar inversión y adopción.",
+        "method": "Trabaja con responsables, fuentes autorizadas, controles, métricas y revisión humana explícita.",
+        "evidence": "Registra origen, decisión, riesgo, responsable y resultado; no promociones pilotos sin evidencia.",
+        "cta": "Selecciona un flujo acotado y define dueño, control, métrica y criterio de salida.",
+        "closing": "El valor aparece cuando la práctica es repetible, auditable y sostenible para el equipo.",
+        "resources": {"landing":"define una ruta común de adopción","workbook":"documenta un piloto gobernable","playbook":"estandariza el método del equipo","prompts":"opera instrucciones con controles","deck":"alinea al equipo en 18 momentos"}
+      }
+    },
+    "en": {
+      "persona": {
+        "hero": "Turn this resource into a personal practice you can use today.",
+        "problem": "The challenge is not using more AI, but learning without losing judgment or purpose.",
+        "benefits": "Gain clarity, a repeatable practice and evidence for choosing your next step.",
+        "method": "Move through sources, questions, short practice and human review.",
+        "evidence": "Keep citations, decisions and an observable result; do not mistake fluency for truth.",
+        "cta": "Complete one practice and apply it to a real situation this week.",
+        "closing": "Progress is what you can explain, verify and do again.",
+        "resources": {"landing":"choose a personal learning route","workbook":"build evidence step by step","playbook":"turn the method into a habit","prompts":"write instructions you can review","deck":"move through 18 moments and practice a decision"}
+      },
+      "empresa": {
+        "hero": "Turn this resource into an operational capability the team can govern.",
+        "problem": "The challenge is not deploying more AI, but reducing variability, risk and untraceable work.",
+        "benefits": "Gain a shared pattern, control criteria and evidence for prioritizing investment and adoption.",
+        "method": "Work with accountable owners, authorized sources, controls, metrics and explicit human review.",
+        "evidence": "Record source, decision, risk, owner and outcome; do not promote pilots without evidence.",
+        "cta": "Choose a bounded workflow and define its owner, control, metric and exit criterion.",
+        "closing": "Value appears when the practice is repeatable, auditable and sustainable for the team.",
+        "resources": {"landing":"define a shared adoption route","workbook":"document a governable pilot","playbook":"standardize the team method","prompts":"operate instructions with controls","deck":"align the team across 18 moments"}
+      }
+    },
+    "pt": {
+      "persona": {
+        "hero": "Transforme este recurso em uma prática pessoal útil desde hoje.",
+        "problem": "O desafio não é usar mais IA, mas aprender sem perder critério nem propósito.",
+        "benefits": "Ganhe clareza, uma prática repetível e evidência para escolher o próximo passo.",
+        "method": "Avance com fontes, perguntas, prática breve e revisão humana.",
+        "evidence": "Preserve citações, decisões e um resultado observável; não confunda fluência com verdade.",
+        "cta": "Conclua uma prática e aplique-a a uma situação real nesta semana.",
+        "closing": "Seu progresso é aquilo que você consegue explicar, verificar e repetir.",
+        "resources": {"landing":"escolha uma rota pessoal de aprendizagem","workbook":"construa evidência passo a passo","playbook":"transforme o método em hábito","prompts":"formule instruções que possa revisar","deck":"percorra 18 momentos e pratique uma decisão"}
+      },
+      "empresa": {
+        "hero": "Transforme este recurso em uma capacidade operacional que a equipe possa governar.",
+        "problem": "O desafio não é implantar mais IA, mas reduzir variabilidade, risco e trabalho sem rastreabilidade.",
+        "benefits": "Obtenha um padrão comum, critérios de controle e evidência para priorizar investimento e adoção.",
+        "method": "Trabalhe com responsáveis, fontes autorizadas, controles, métricas e revisão humana explícita.",
+        "evidence": "Registre origem, decisão, risco, responsável e resultado; não promova pilotos sem evidência.",
+        "cta": "Escolha um fluxo limitado e defina responsável, controle, métrica e critério de saída.",
+        "closing": "O valor aparece quando a prática é repetível, auditável e sustentável para a equipe.",
+        "resources": {"landing":"defina uma rota comum de adoção","workbook":"documente um piloto governável","playbook":"padronize o método da equipe","prompts":"opere instruções com controles","deck":"alinhe a equipe em 18 momentos"}
+      }
+    }
+  },
+  "publication_authorized": false
+}

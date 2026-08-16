@@ -1,0 +1,277 @@
+{
+  "schema_version": "conoce-chrome-spec-v1",
+  "site_id": "conoce-nivel-0",
+  "state": "RENDERED_DRAFT",
+  "publication_authorized": false,
+  "network_required": false,
+  "canonical_origin": "https://conoce.metodologia.info/",
+  "self_hash_model": "sha256(sorted-json-without-self_sha256)",
+  "self_sha256": "f3b862a736c86e041430b2d4b759504c956335ff3ec782494c91985e7bf8531a",
+  "brand_authority": {
+    "release_id": "metodologia-digital-brand-v3",
+    "manifest_sha256": "3deaa35db4120e227325867d8165b0cb448756455698651f8a0dfa1405d99686",
+    "receipt_sha256": "966bf64511232853becff2d33e99181f5ab21cf724fd51dd9a9a98b0faaa1243",
+    "immutable": true,
+    "roles_reused": [
+      "tokens",
+      "fonts",
+      "organization_mark",
+      "asset_rights"
+    ]
+  },
+  "identity": {
+    "display_label": "Conoce · Nivel 0",
+    "organization": "MetodologIA",
+    "organization_relationship": "by",
+    "organization_mark_replacement": false
+  },
+  "allowed_storage_keys": [
+    "mdg_theme",
+    "mdg_locale",
+    "mdg_audience"
+  ],
+  "locales": [
+    "es",
+    "en",
+    "pt"
+  ],
+  "audiences": [
+    "persona",
+    "empresa"
+  ],
+  "pages": [
+    "landing",
+    "deck",
+    "workbook",
+    "playbook",
+    "prompts",
+    "level0",
+    "how",
+    "resources_index",
+    "intakes"
+  ],
+  "home_navigation": [
+    {
+      "id": "level0_page",
+      "page": "level0"
+    },
+    {
+      "id": "how_page",
+      "page": "how"
+    },
+    {
+      "id": "intakes_page",
+      "page": "intakes"
+    }
+  ],
+  "resource_overview": {
+    "id": "resources_overview",
+    "page": "resources_index"
+  },
+  "resources": [
+    {
+      "id": "masterclass",
+      "page": "deck"
+    },
+    {
+      "id": "workbook",
+      "page": "workbook"
+    },
+    {
+      "id": "playbook",
+      "page": "playbook"
+    },
+    {
+      "id": "prompts",
+      "page": "prompts"
+    }
+  ],
+  "breadcrumbs": {
+    "rendered_ssr": true,
+    "jsonld_type": "BreadcrumbList",
+    "fragments_allowed": false,
+    "last_item": "aria-current-page-not-link",
+    "hierarchy": {
+      "landing": ["home"],
+      "editorial": ["home", "current"],
+      "resources_index": ["home", "current"],
+      "resource": ["home", "resources_overview", "current"]
+    }
+  },
+  "parent": {
+    "id": "metodologia",
+    "href": "https://metodologia.info/",
+    "same_tab": true
+  },
+  "parent_routes": [
+    {
+      "id": "metodologia",
+      "href": "https://metodologia.info/"
+    },
+    {
+      "id": "method",
+      "href": "https://metodologia.info/metodo/"
+    },
+    {
+      "id": "campus",
+      "href": "https://campus.metodologia.info/"
+    },
+    {
+      "id": "contact",
+      "href": "https://metodologia.info/contacto/"
+    },
+    {
+      "id": "legal",
+      "href": "https://metodologia.info/legal/"
+    }
+  ],
+  "footer_groups": [
+    {
+      "id": "level0",
+      "items": [
+        "level0_page",
+        "how_page",
+        "resources_overview",
+        "intakes_page"
+      ]
+    },
+    {
+      "id": "resources",
+      "items": [
+        "masterclass",
+        "workbook",
+        "playbook",
+        "prompts"
+      ]
+    },
+    {
+      "id": "methodology",
+      "items": [
+        "metodologia",
+        "method",
+        "campus",
+        "contact",
+        "legal"
+      ]
+    }
+  ],
+  "copy": {
+    "es": {
+      "skip": "Saltar al contenido",
+      "nav_label": "Navegación de Conoce Nivel 0",
+      "menu_open": "Abrir navegación",
+      "menu_close": "Cerrar navegación",
+      "identity_name": "Conoce",
+      "identity_level": "Nivel 0",
+      "identity_by": "por MetodologIA",
+      "identity_accessible": "Conoce · Nivel 0, una experiencia de MetodologIA",
+      "home": "Inicio",
+      "level0_page": "Nivel 0",
+      "how_page": "Cómo funciona",
+      "resources_overview": "Ver todos los recursos",
+      "intakes_page": "Convocatorias",
+      "resources": "Recursos",
+      "masterclass": "Masterclass",
+      "workbook": "Workbook",
+      "playbook": "Playbook",
+      "prompts": "Biblioteca de prompts",
+      "parent_cta": "Ir a MetodologIA ↗",
+      "metodologia": "Sitio principal",
+      "method": "Método",
+      "campus": "Campus",
+      "contact": "Contacto",
+      "legal": "Legal",
+      "level0": "Nivel 0",
+      "methodology": "MetodologIA",
+      "footer_description": "Una ruta breve para aprender, practicar y trabajar con IA sin delegar tu criterio.",
+      "footer_relationship": "Una experiencia de MetodologIA",
+      "theme": "Tema",
+      "light": "Claro",
+      "dark": "Oscuro",
+      "language": "Idioma",
+      "audience": "Audiencia",
+      "persona": "Persona",
+      "empresa": "Empresa",
+      "change_to": "Cambiar a",
+      "preferences": "Preferencias de experiencia"
+    },
+    "en": {
+      "skip": "Skip to content",
+      "nav_label": "Conoce Level 0 navigation",
+      "menu_open": "Open navigation",
+      "menu_close": "Close navigation",
+      "identity_name": "Conoce",
+      "identity_level": "Nivel 0",
+      "identity_by": "by MetodologIA",
+      "identity_accessible": "Conoce · Nivel 0, a MetodologIA experience",
+      "home": "Home",
+      "level0_page": "Level 0",
+      "how_page": "How it works",
+      "resources_overview": "View all resources",
+      "intakes_page": "Intakes",
+      "resources": "Resources",
+      "masterclass": "Masterclass",
+      "workbook": "Workbook",
+      "playbook": "Playbook",
+      "prompts": "Prompt library",
+      "parent_cta": "Go to MetodologIA ↗",
+      "metodologia": "Main site",
+      "method": "Method",
+      "campus": "Campus",
+      "contact": "Contact",
+      "legal": "Legal",
+      "level0": "Level 0",
+      "methodology": "MetodologIA",
+      "footer_description": "A short path to learn, practise and work with AI without delegating your judgement.",
+      "footer_relationship": "A MetodologIA experience",
+      "theme": "Theme",
+      "light": "Light",
+      "dark": "Dark",
+      "language": "Language",
+      "audience": "Audience",
+      "persona": "Individual",
+      "empresa": "Company",
+      "change_to": "Change to",
+      "preferences": "Experience preferences"
+    },
+    "pt": {
+      "skip": "Pular para o conteúdo",
+      "nav_label": "Navegação do Conoce Nível 0",
+      "menu_open": "Abrir navegação",
+      "menu_close": "Fechar navegação",
+      "identity_name": "Conoce",
+      "identity_level": "Nivel 0",
+      "identity_by": "por MetodologIA",
+      "identity_accessible": "Conoce · Nivel 0, uma experiência da MetodologIA",
+      "home": "Início",
+      "level0_page": "Nivel 0",
+      "how_page": "Como funciona",
+      "resources_overview": "Ver todos os recursos",
+      "intakes_page": "Turmas",
+      "resources": "Recursos",
+      "masterclass": "Masterclass",
+      "workbook": "Workbook",
+      "playbook": "Playbook",
+      "prompts": "Biblioteca de prompts",
+      "parent_cta": "Ir para a MetodologIA ↗",
+      "metodologia": "Site principal",
+      "method": "Método",
+      "campus": "Campus",
+      "contact": "Contato",
+      "legal": "Legal",
+      "level0": "Nível 0",
+      "methodology": "MetodologIA",
+      "footer_description": "Uma rota breve para aprender, praticar e trabalhar com IA sem delegar seu critério.",
+      "footer_relationship": "Uma experiência da MetodologIA",
+      "theme": "Tema",
+      "light": "Claro",
+      "dark": "Escuro",
+      "language": "Idioma",
+      "audience": "Público",
+      "persona": "Pessoa",
+      "empresa": "Empresa",
+      "change_to": "Mudar para",
+      "preferences": "Preferências de experiência"
+    }
+  }
+}

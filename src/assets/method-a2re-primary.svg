@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" role="img" aria-labelledby="title desc">
+<title id="title">A²(R)E</title>
+<desc id="desc">Aprender, Aprehender, (R)Evolucionar</desc>
+<defs>
+  <linearGradient id="canvas" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#172d5f"/><stop offset=".62" stop-color="#0a122a"/><stop offset="1" stop-color="#050813"/></linearGradient>
+  <radialGradient id="halo" cx="76%" cy="20%" r="58%"><stop stop-color="#ffd700" stop-opacity=".28"/><stop offset="1" stop-color="#ffd700" stop-opacity="0"/></radialGradient>
+</defs>
+<rect width="256" height="256" rx="44" fill="url(#canvas)"/>
+<rect width="256" height="256" rx="44" fill="url(#halo)"/>
+<rect x="12" y="12" width="232" height="232" rx="34" fill="none" stroke="#ffffff" stroke-opacity=".12"/>
+<path d="M39 171A101 101 0 1 1 217 88" fill="none" stroke="#ffd700" stroke-width="7" stroke-linecap="round"/>
+<circle cx="217" cy="88" r="5" fill="#ffd700"/>
+<path d="M499 124H237L195 0H16L270 702H468L722 0H541ZM455 256 368 513 282 256Z" fill="#f8fafc" transform="translate(55.000 157.000) scale(0.126000 -0.126000)"/><path d="M174 452H348V352H39V448L161 522Q217 557 217 594Q217 607 210.0 614.5Q203 622 192 622Q165 622 162 586H34Q37 644 82.5 679.0Q128 714 205 714Q277 714 315.0 681.0Q353 648 353 603Q353 567 326.0 540.0Q299 513 235 482Z" fill="#ffd700" transform="translate(134.000 84.000) scale(0.049000 -0.049000)"/><path d="M87 348Q87 520 143.0 669.5Q199 819 302 913H470V897Q365 793 308.0 647.5Q251 502 251 348Q251 195 306.0 53.0Q361 -89 461 -193V-209H292Q195 -116 141.0 31.0Q87 178 87 348Z" fill="#f8fafc" transform="translate(76.000 202.000) scale(0.043000 -0.043000)"/><path d="M420 0 274 265H233V0H62V702H349Q432 702 490.5 673.0Q549 644 578.0 593.5Q607 543 607 481Q607 411 567.5 356.0Q528 301 451 278L613 0ZM233 386H339Q386 386 409.5 409.0Q433 432 433 474Q433 514 409.5 537.0Q386 560 339 560H233Z" fill="#f8fafc" transform="translate(95.411 202.000) scale(0.043000 -0.043000)"/><path d="M16 -209V-193Q116 -89 171.0 53.0Q226 195 226 348Q226 502 169.0 647.5Q112 793 7 897V913H175Q278 819 334.0 669.5Q390 520 390 348Q390 178 336.0 31.0Q282 -116 185 -209Z" fill="#f8fafc" transform="translate(122.347 202.000) scale(0.043000 -0.043000)"/><path d="M233 565V423H462V291H233V137H492V0H62V702H492V565Z" fill="#f8fafc" transform="translate(141.758 202.000) scale(0.043000 -0.043000)"/>
+</svg>

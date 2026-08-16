@@ -18,15 +18,29 @@
       "rights": "MetodologIA project asset"
     },
     {
-      "path": "assets/metodologia-logo.svg",
-      "source": "https://metodologia.info/favicon.svg",
-      "rights": "Official MetodologIA public brand asset",
-      "sha256": "5f45ae2ebd2cb691db56efd6bf3b7c2a3888e985d6c4a4fd95608d94d0f814fe"
+      "path": "assets/method-a2re-primary.svg",
+      "source": "scripts/build_method_identity.py using governed Poppins-Bold.ttf outlines",
+      "rights": "MetodologIA project-owned method identity composition; Poppins outlines under SIL Open Font License 1.1",
+      "license_path": "assets/brand/assets/Poppins-OFL.txt",
+      "viewBox": "0 0 256 256",
+      "width": 256,
+      "height": 256,
+      "sha256": "9bb51b15bfc473b4c43741ba1bcc974071d7ce42fc47245fd09d80ec6463d4d3"
+    },
+    {
+      "path": "assets/method-a2re-compact.svg",
+      "source": "scripts/build_method_identity.py using governed Poppins-Bold.ttf outlines",
+      "rights": "MetodologIA project-owned method identity composition; Poppins outlines under SIL Open Font License 1.1",
+      "license_path": "assets/brand/assets/Poppins-OFL.txt",
+      "viewBox": "0 0 480 120",
+      "width": 480,
+      "height": 120,
+      "sha256": "b07a0713a106f1f78491e54667b248ef6a790ce175b0a07ba2e721137e936393"
     },
     {
       "path": "assets/javier-montano.jpg",
       "source": "https://avatars.githubusercontent.com/u/3903511?v=4",
-      "rights": "Public founder profile image, linked to its authoritative public profile",
+      "rights": "Public Prístino avatar from Javier Montaño's authoritative public profile",
       "sha256": "1fecdedb8e705eeb5ef49d2854b70ede3224014ddd278924cc6b3bc263b75ad5"
     },
     {
@@ -34,60 +48,6 @@
       "source": "owner_supplied_local_export",
       "rights": "MetodologIA masterclass supplied by the owner for this local pilot",
       "sha256": "5df5533a29652184f492b2f797ecfa0f1fa47cdb682bfcefb8f30c96014ce402"
-    },
-    {
-      "path": "assets/Poppins-Regular.ttf",
-      "source": "03_artefactos/brand/fonts/vendor/poppins/Poppins-Regular.ttf",
-      "rights": "SIL Open Font License 1.1; see Poppins-OFL.txt",
-      "license_path": "assets/Poppins-OFL.txt",
-      "sha256": "7e65201e9b79159e2300267cc885e16c8dcef2424cdfa09a29bfb0980a94a7ba"
-    },
-    {
-      "path": "assets/Poppins-Regular.woff2",
-      "source": "deterministic subset of assets/Poppins-Regular.ttf",
-      "rights": "SIL Open Font License 1.1; see Poppins-OFL.txt",
-      "license_path": "assets/Poppins-OFL.txt",
-      "generated_by": "fontTools.subset"
-    },
-    {
-      "path": "assets/Poppins-Bold.ttf",
-      "source": "03_artefactos/brand/fonts/vendor/poppins/Poppins-Bold.ttf",
-      "rights": "SIL Open Font License 1.1; see Poppins-OFL.txt",
-      "license_path": "assets/Poppins-OFL.txt",
-      "sha256": "983676516167748b74de6f4771fb384c664fd913acb8b471122ecacf5da5ea6c"
-    },
-    {
-      "path": "assets/Poppins-Bold.woff2",
-      "source": "deterministic subset of assets/Poppins-Bold.ttf",
-      "rights": "SIL Open Font License 1.1; see Poppins-OFL.txt",
-      "license_path": "assets/Poppins-OFL.txt",
-      "generated_by": "fontTools.subset"
-    },
-    {
-      "path": "assets/Poppins-OFL.txt",
-      "source": "03_artefactos/brand/fonts/vendor/poppins/OFL.txt",
-      "rights": "License text",
-      "sha256": "6be04893d770899a015649c7aa3b582f871b272f8747a92b78b17c3e5c8b2573"
-    },
-    {
-      "path": "assets/Montserrat-Variable.ttf",
-      "source": "03_artefactos/brand/fonts/vendor/montserrat/Montserrat-VariableFont_wght.ttf",
-      "rights": "SIL Open Font License 1.1; see Montserrat-OFL.txt",
-      "license_path": "assets/Montserrat-OFL.txt",
-      "sha256": "0f7b311b2f3279e4eef9b2f968bcdbab6e28f4daeb1f049f4f278a902bcd82f7"
-    },
-    {
-      "path": "assets/Montserrat-Variable.woff2",
-      "source": "deterministic subset of assets/Montserrat-Variable.ttf",
-      "rights": "SIL Open Font License 1.1; see Montserrat-OFL.txt",
-      "license_path": "assets/Montserrat-OFL.txt",
-      "generated_by": "fontTools.subset"
-    },
-    {
-      "path": "assets/Montserrat-OFL.txt",
-      "source": "03_artefactos/brand/fonts/vendor/montserrat/OFL.txt",
-      "rights": "License text",
-      "sha256": "8b7141c03fa4f8d44e6345d5d4931709290f0f67875e452e95ac1fd3a027802e"
     },
     {
       "path": "assets/team-javier-montano.webp",

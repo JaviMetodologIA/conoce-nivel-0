@@ -1,7 +1,11 @@
 #!/usr/bin/env python3
 from __future__ import annotations
 import hashlib, html, io, json, posixpath, re, shutil, subprocess, sys
+import xml.etree.ElementTree as ET
 from pathlib import Path
+
+import fontTools
+from brand import AUDIENCES, CHROME_SPEC, EDITORIAL_PAGES, EDITORIAL_SPEC, MANIFEST_RAW, PAGES, RECEIPT_RAW, RELEASE, page_dir as brand_page_dir, shell, theme_bootstrap, validate_chrome_spec, validate_editorial_spec, validate_release
 
 ROOT=Path(__file__).resolve().parents[1]; SRC=ROOT/'src'; DIST=ROOT/'dist'
 FORM='https://docs.google.com/forms/d/e/1FAIpQLSeLysigcdIjlq4xguRXhBkN0WbC7H6FOzxylqgJC_7Ws4OtWQ/viewform'
@@ -20,13 +24,48 @@ ANTHROPIC_RESEARCH='https://support.anthropic.com/en/articles/11088861-using-res
 NOTEBOOK_LIMITS='https://support.google.com/notebooklm/answer/16213268?hl=en'
 NOTEBOOK_MCP='https://github.com/PleasePrompto/notebooklm-mcp'
 REFERENCE_WORKBOOK='https://javimontano.github.io/trabajar-amplificado/aprender-aprehender-revolucionar-notebooklm.html'
-PUBLIC='https://javimetodologia.github.io/'
+PUBLIC='https://conoce.metodologia.info/'
 LANGS=('es','en','pt')
+CURRENT_AUDIENCE='persona'
 LANDING=json.loads((SRC/'landing-spec-v2.json').read_text(encoding='utf-8'))
 RESOURCES=json.loads((SRC/'public-resource-spec-v1.json').read_text(encoding='utf-8'))
 ADVANCED=json.loads((SRC/'workbook-advanced-v1.json').read_text(encoding='utf-8'))
 PLAYBOOK=json.loads((SRC/'playbook-spec-v1.json').read_text(encoding='utf-8'))
+METHOD_IDENTITY=PLAYBOOK.get('method_identity',{})
 PROMPT_LIBRARY=json.loads((SRC/'prompt-library-spec-v1.json').read_text(encoding='utf-8'))
+AUDIENCE_SPEC=json.loads((SRC/'audience-spec-v1.json').read_text(encoding='utf-8'))
+INTRAPAGE_NAV=json.loads((SRC/'intrapage-navigation-spec-v1.json').read_text(encoding='utf-8'))
+EDITORIAL=validate_editorial_spec()
+EXPECTED_INTRAPAGE_ANCHORS={
+  'landing':['entrada','tension','ruta','demostracion','experiencia','resultados','metodo','convocatoria'],
+  'deck':['masterclass-inicio','masterclass-pdf','masterclass-guia'],
+  'workbook':['workbook-inicio','guia','descarga','preparacion','sheet-session','sheet-depth','sheet-consolidation','transferencia'],
+  'playbook':['founders','intro','frameworks','apprehend','tools','workflows','standards','close'],
+  'prompts':['directos','prompt-01','prompt-06','metaprompts'],
+  'level0':['level0-start','purpose','path','fit','metodologia'],
+  'how':['how-start','before','during','after','evidence'],
+  'resources_index':['resources-start','masterclass-resource','workbook-resource','playbook-resource','prompts-resource'],
+  'intakes':['intakes-start','verification','process','requirements','interest'],
+}
+if INTRAPAGE_NAV.get('schema_version')!='intrapage-navigation-spec-v1' or INTRAPAGE_NAV.get('state')!='RENDERED_DRAFT' or INTRAPAGE_NAV.get('publication_authorized') is not False or INTRAPAGE_NAV.get('desktop_width_px')!=260:
+  raise SystemExit('INTRAPAGE_NAV_CONTRACT_INVALID')
+if set(INTRAPAGE_NAV.get('locales',{}))!=set(LANGS) or set(INTRAPAGE_NAV.get('pages',{}))!=set(EXPECTED_INTRAPAGE_ANCHORS):
+  raise SystemExit('INTRAPAGE_NAV_PARITY_INVALID')
+for page,expected in EXPECTED_INTRAPAGE_ANCHORS.items():
+  items=INTRAPAGE_NAV['pages'][page].get('items',[])
+  if [item.get('anchor') for item in items]!=expected or not 3<=len(items)<=8:
+    raise SystemExit(f'INTRAPAGE_NAV_ANCHORS_INVALID:{page}')
+  if any(set(item.get('labels',{}))!=set(LANGS) or not all(item['labels'].values()) for item in items):
+    raise SystemExit(f'INTRAPAGE_NAV_LABELS_INVALID:{page}')
+if AUDIENCE_SPEC.get('audiences') != list(AUDIENCES) or set(AUDIENCE_SPEC.get('locales',{})) != set(LANGS) or AUDIENCE_SPEC.get('publication_authorized') is not False:
+  raise SystemExit('AUDIENCE_POSITIONING_CONTRACT_INVALID')
+AUDIENCE_SURFACES=('hero','problem','benefits','method','evidence','cta','closing')
+AUDIENCE_RESOURCES=('landing','workbook','playbook','prompts','deck')
+for locale in LANGS:
+  for audience in AUDIENCES:
+    variant=AUDIENCE_SPEC['locales'][locale][audience]
+    if set(variant)!=set(AUDIENCE_SURFACES)|{'resources'} or set(variant['resources'])!=set(AUDIENCE_RESOURCES):
+      raise SystemExit(f'AUDIENCE_VARIANT_SHAPE_INVALID:{locale}:{audience}')
 MONTHLY_INTAKE_COPY={
   'es':('1 convocatoria al mes · primera semana','Una convocatoria al mes · primera semana'),
   'en':('1 monthly intake · first week','One monthly intake · first week'),
@@ -40,6 +79,17 @@ if ADVANCED.get('prompt_format_contract',{}).get('formats') != ['natural','param
   raise SystemExit('PROMPT_FORMAT_CONTRACT_INVALID')
 if PLAYBOOK.get('section_ids') != ['hero','intro','founders','assistants','scales','modes','fluency','frameworks','techniques','apprehend','method','integrity','evolve','tools','notebooklm','prompts','workflows','routines','standards','glossary','faq','close']:
   raise SystemExit('PLAYBOOK_SECTION_CONTRACT_INVALID')
+if METHOD_IDENTITY.get('schema_version')!='method-identity-v1' or METHOD_IDENTITY.get('display_label')!='A²(R)E' or METHOD_IDENTITY.get('role')!='method_mark':
+  raise SystemExit('METHOD_IDENTITY_CONTRACT_INVALID')
+if set(METHOD_IDENTITY.get('locales',{}))!=set(LANGS) or set(METHOD_IDENTITY.get('assets',{}))!={'primary','compact'}:
+  raise SystemExit('METHOD_IDENTITY_PARITY_INVALID')
+if METHOD_IDENTITY.get('usage',{}).get('resources')!=['landing','playbook','prompts'] or METHOD_IDENTITY['usage'].get('excluded_resources')!=['workbook','deck'] or METHOD_IDENTITY['usage'].get('organization_logo_replacement') is not False:
+  raise SystemExit('METHOD_IDENTITY_USAGE_INVALID')
+DECK_RESOURCE=RESOURCES.get('deck',{})
+if DECK_RESOURCE.get('media_type')!='application/pdf' or DECK_RESOURCE.get('document_language')!='es' or DECK_RESOURCE.get('page_count')!=18 or set(DECK_RESOURCE.get('locales',{}))!=set(LANGS):
+  raise SystemExit('OFFICIAL_MASTERCLASS_CONTRACT_INVALID')
+if any(not DECK_RESOURCE['locales'][locale].get('language_note') for locale in LANGS):
+  raise SystemExit('OFFICIAL_MASTERCLASS_LANGUAGE_NOTE_MISSING')
 assistant_ids=[item.get('id') for item in PLAYBOOK.get('assistants',[])]
 if assistant_ids != ['prompting','study','research-blueprint'] or any(not item.get('url','').startswith('https://chatgpt.com/g/') or set(item.get('labels',{}))!=set(LANGS) for item in PLAYBOOK.get('assistants',[])):
   raise SystemExit('PLAYBOOK_ASSISTANT_CONTRACT_INVALID')
@@ -153,9 +203,7 @@ def decorate_ui(text, lang):
     .replace(' ↗</strong>',ui_icon('external')+'</strong>')
     .replace(' ↗</em>',ui_icon('external')+'</em>'))
 def page_dir(lang,page):
-    parts=[] if lang=='es' else [lang]
-    if page!='landing': parts.append(page)
-    return '/'.join(parts) or '.'
+    return brand_page_dir(lang,CURRENT_AUDIENCE,page)
 def rel_dir(lang,page,target_lang,target_page=None):
     target_page=page if target_page is None else target_page
     rel=posixpath.relpath(page_dir(target_lang,target_page),page_dir(lang,page))
@@ -164,35 +212,90 @@ def rel_page(lang,page,target_lang,target_page=None):
     target_page=page if target_page is None else target_page
     target=posixpath.join(page_dir(target_lang,target_page), 'index.html')
     return posixpath.relpath(target,page_dir(lang,page))
-def asset_base(lang,page): return rel_dir(lang,page,'es','landing')
+def asset_base(lang,page):
+    rel=posixpath.relpath('.',page_dir(lang,page))
+    return './' if rel=='.' else rel.rstrip('/')+'/'
+def method_mark(lang,page,variant='compact',class_name='method-mark',decorative=False,loading='lazy'):
+    asset=METHOD_IDENTITY['assets'][variant]
+    alt='' if decorative else esc(METHOD_IDENTITY['locales'][lang]['accessible_name'])
+    hidden=' aria-hidden="true"' if decorative else ''
+    return f'''<img class="{esc(class_name)}" src="{asset_base(lang,page)}{esc(asset['path'])}" alt="{alt}" width="{asset['width']}" height="{asset['height']}" loading="{loading}" decoding="async" data-method-mark="{variant}"{hidden}>'''
+def intrapage_navigation(lang,page):
+    ui=INTRAPAGE_NAV['locales'][lang]
+    items=INTRAPAGE_NAV['pages'][page]['items']
+    links=''.join(f'''<li><a href="#{esc(item['anchor'])}" data-intrapage-link><span aria-hidden="true">{index:02d}</span><strong>{esc(item['labels'][lang])}</strong></a></li>''' for index,item in enumerate(items,1))
+    menu_icon='<svg aria-hidden="true" viewBox="0 0 24 24"><path d="M5 7h14M5 12h14M5 17h9"></path></svg>'
+    close_icon='<svg aria-hidden="true" viewBox="0 0 24 24"><path d="m6 6 12 12M18 6 6 18"></path></svg>'
+    return f'''<button class="intrapage-trigger" type="button" aria-expanded="false" aria-controls="intrapage-navigation" data-intrapage-open>{menu_icon}<span>{esc(ui['open'])}</span></button><div class="intrapage-backdrop" data-intrapage-backdrop hidden></div><aside class="intrapage-nav" id="intrapage-navigation" aria-label="{esc(ui['title'])}" data-intrapage-nav tabindex="-1"><header><span>{esc(ui['title'])}</span><button type="button" aria-label="{esc(ui['close'])}" data-intrapage-close>{close_icon}</button></header><nav aria-label="{esc(ui['title'])}"><ol>{links}</ol></nav></aside>'''
+def breadcrumb_model(lang,page):
+    labels={
+      'es':{'nav':'Migas de pan','home':'Inicio','resources':'Recursos'},
+      'en':{'nav':'Breadcrumb','home':'Home','resources':'Resources'},
+      'pt':{'nav':'Navegação estrutural','home':'Início','resources':'Recursos'},
+    }[lang]
+    current=(EDITORIAL['copy'][lang][page]['title'] if page in EDITORIAL_PAGES else {
+      'landing':labels['home'],'deck':T[lang]['masterclass'],'workbook':T[lang]['workbook'],
+      'playbook':T[lang]['playbook'],'prompts':T[lang]['prompts'],
+    }[page])
+    items=[{'label':labels['home'],'page':'landing'}]
+    if page in ('deck','workbook','playbook','prompts'):
+      items.append({'label':labels['resources'],'page':'resources_index'})
+    if page!='landing':
+      items.append({'label':current,'page':page})
+    return labels['nav'],items
+def breadcrumb(lang,page,*legacy):
+    if legacy:
+      return ''
+    label,items=breadcrumb_model(lang,page)
+    rendered=[]
+    for index,item in enumerate(items):
+      current=index==len(items)-1
+      if current:
+        rendered.append(f'<li><span aria-current="page">{esc(item["label"])}</span></li>')
+      else:
+        rendered.append(f'<li><a href="{esc(rel_page(lang,page,lang,item["page"]))}">{esc(item["label"])}</a></li>')
+    return f'''<div class="conoce-breadcrumbs-shell"><nav class="breadcrumbs conoce-breadcrumbs" aria-label="{esc(label)}" data-conoce-breadcrumbs><ol>{''.join(rendered)}</ol></nav></div>'''
 def head(lang,title,page):
     base=asset_base(lang,page)
     l=LANDING['locales'][lang]
-    desc=l['meta_description'] if page=='landing' else {'es':'Ruta Nivel 0 de MetodologIA: aprendizaje y práctica con IA basada en fuentes.','en':'MetodologIA Level 0: source-grounded AI learning and practice.','pt':'Rota Nível 0 da MetodologIA: aprendizagem e prática com IA baseada em fontes.'}[lang]
-    canonical=PUBLIC+('' if lang=='es' else f'{lang}/')+('' if page=='landing' else f'{page}/')
-    alternates=''.join(f'<link rel="alternate" hreflang="{code}" href="{PUBLIC}{"" if code=="es" else code+"/"}{"" if page=="landing" else page+"/"}">' for code in LANGS)
-    alternates+=f'<link rel="alternate" hreflang="x-default" href="{PUBLIC}{"" if page=="landing" else page+"/"}">'
-    social=f'''<meta property="og:type" content="website"><meta property="og:site_name" content="MetodologIA"><meta property="og:title" content="{esc(title)} · MetodologIA"><meta property="og:description" content="{esc(desc)}"><meta property="og:url" content="{canonical}"><meta name="twitter:card" content="summary">'''
-    return f'''<!doctype html><html lang="{lang}" data-theme="light" class="no-js"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>{esc(title)} · MetodologIA</title><meta name="description" content="{esc(desc)}"><link rel="canonical" href="{canonical}">{alternates}{social}<link rel="stylesheet" href="{base}assets/site.css"><link rel="stylesheet" href="{base}assets/forms.css"><noscript><style>.sheet[hidden],.slide{{display:block!important}}</style></noscript></head><body data-page="{page}"><a class="skip" href="#main">{T[lang]['skip']}</a>{header(lang,page)}'''
-def header(lang,page):
-    home=rel_page(lang,page,lang,'landing')
-    navlabel={'es':'Principal','en':'Primary','pt':'Principal'}[lang]; langlabel={'es':'Idioma','en':'Language','pt':'Idioma'}[lang]
-    darklabel={'es':'Tema oscuro','en':'Dark theme','pt':'Tema escuro'}[lang]; lightlabel={'es':'Tema claro','en':'Light theme','pt':'Tema claro'}[lang]
-    links={target:rel_page(lang,page,target) for target in LANGS}
-    asset=asset_base(lang,page)
-    l=LANDING['locales'][lang]
-    nav=''.join(f'<a data-chapter-link href="{home}#{anchor}">{label}</a>' for label,anchor in zip(l['nav'],('entrada','ruta','experiencia','metodo')))
-    return f'''<header class="top"><div class="shell top-in"><a class="brand" href="{home}"><img class="mark" src="{asset}assets/metodologia-logo.svg" alt=""><span><span class="brand-name">Metodolog<b>IA</b></span><span class="brand-role">{T[lang]['route']}</span></span></a><nav class="nav" aria-label="{navlabel}">{nav}</nav><div class="tools"><div class="brand-controls"><div class="langs" aria-label="{langlabel}"><a class="lang" href="{links['es']}" data-lang="es" aria-current="{'true' if lang=='es' else 'false'}">ES</a><a class="lang" href="{links['en']}" data-lang="en" aria-current="{'true' if lang=='en' else 'false'}">EN</a><a class="lang" href="{links['pt']}" data-lang="pt" aria-current="{'true' if lang=='pt' else 'false'}">PT</a></div><button class="theme-toggle" type="button" data-theme data-dark-label="{darklabel}" data-light-label="{lightlabel}" aria-label="{darklabel}" aria-pressed="false"><span data-theme-icon aria-hidden="true">☾</span><span class="theme-copy">{darklabel}</span></button></div><a class="btn top-cta" href="{FORM}" target="_blank" rel="noopener noreferrer">{l['enroll']}{ui_icon('arrow')}</a></div></div><div class="chapter-progress" aria-hidden="true"><span data-reading-progress></span></div></header>'''
+    desc=(EDITORIAL['copy'][lang][page]['meta_description'] if page in EDITORIAL_PAGES else l['meta_description'] if page=='landing' else {'es':'Ruta Nivel 0 de MetodologIA: aprendizaje y práctica con IA basada en fuentes.','en':'MetodologIA Level 0: source-grounded AI learning and practice.','pt':'Rota Nível 0 da MetodologIA: aprendizagem e prática com IA baseada em fontes.'}[lang])
+    route=page_dir(lang,page); canonical=PUBLIC+('' if route=='.' else route+'/')
+    alternates=''.join(f'<link rel="alternate" hreflang="{code}" href="{PUBLIC}{"" if page_dir(code,page)=="." else page_dir(code,page)+"/"}">' for code in LANGS)
+    default_route=page_dir('es',page); alternates+=f'<link rel="alternate" hreflang="x-default" href="{PUBLIC}{"" if default_route=="." else default_route+"/"}">'
+    document_title=f'{title} · Conoce · Nivel 0 · MetodologIA'
+    social=f'''<meta property="og:type" content="website"><meta property="og:site_name" content="MetodologIA"><meta property="og:title" content="{esc(document_title)}"><meta property="og:description" content="{esc(desc)}"><meta property="og:url" content="{canonical}"><meta name="twitter:card" content="summary">'''
+    organization={'@type':'Organization','name':'MetodologIA','url':'https://metodologia.info/'}
+    _,crumbs=breadcrumb_model(lang,page)
+    breadcrumb_json={'@type':'BreadcrumbList','@id':canonical+'#breadcrumb','itemListElement':[{'@type':'ListItem','position':index,'name':item['label'],'item':PUBLIC+('' if page_dir(lang,item['page'])=='.' else page_dir(lang,item['page'])+'/')} for index,item in enumerate(crumbs,1)]}
+    structured={'@context':'https://schema.org','@graph':[{'@type':'WebSite','@id':PUBLIC+'#website','name':'Conoce · Nivel 0','url':PUBLIC,'publisher':organization,'isPartOf':{'@type':'WebSite','name':'MetodologIA','url':'https://metodologia.info/'}},{'@type':'CollectionPage','@id':canonical+'#webpage','name':'Conoce · Nivel 0','headline':title,'url':canonical,'inLanguage':lang,'publisher':organization,'isPartOf':{'@type':'WebSite','name':'MetodologIA','url':'https://metodologia.info/'}},breadcrumb_json]}
+    structured_json=json.dumps(structured,ensure_ascii=False,sort_keys=True,separators=(',',':')).replace('</','<\\/')
+    brand=shell(lang,CURRENT_AUDIENCE,page)
+    return f'''<!doctype html><html lang="{lang}" data-audience="{CURRENT_AUDIENCE}" data-theme="light" class="no-js"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>{esc(document_title)}</title><meta name="description" content="{esc(desc)}"><link rel="icon" href="{base}assets/brand/assets/metodologia-logo.svg" type="image/svg+xml"><link rel="canonical" href="{canonical}">{alternates}{social}<script type="application/ld+json" data-conoce-structured>{structured_json}</script>{theme_bootstrap()}<link rel="stylesheet" href="{brand['stylesheetBase']}/brand-shell.css"><link rel="stylesheet" href="{base}assets/site.css"><link rel="stylesheet" href="{base}assets/forms.css"><noscript><style>.sheet[hidden],.slide{{display:block!important}}</style></noscript></head><body data-page="{page}"><div class="mdg-shell conoce-shell">{brand['header']}</div><div class="mdg-shell conoce-preferences-shell">{brand['controls']}</div>{intrapage_navigation(lang,page)}{breadcrumb(lang,page)}'''
 def end(lang,page):
-    l=LANDING['locales'][lang]
-    resources_label={'es':'Recursos','en':'Resources','pt':'Recursos'}[lang]
-    return f'''<footer class="footer"><div class="shell footer-grid"><div><span class="brand-name">Metodolog<b>IA</b></span><p>{T[lang]['footer']}</p></div><nav aria-label="{resources_label}"><a href="{rel_page(lang,page,lang,'deck')}">Masterclass</a><a href="{rel_page(lang,page,lang,'workbook')}">Workbook</a><a href="{rel_page(lang,page,lang,'playbook')}">Playbook</a><a href="{rel_page(lang,page,lang,'prompts')}">{esc(T[lang]['prompts'])}</a></nav><div><p>{esc(l['footer_privacy'])}</p><span class="draft-state">RENDERED_DRAFT · {lang.upper()}</span></div></div></footer><script src="{asset_base(lang,page)}assets/site.js"></script></body></html>'''
+    brand=shell(lang,CURRENT_AUDIENCE,page)
+    return f'''<div class="mdg-shell conoce-shell">{brand['footer']}</div><script src="{asset_base(lang,page)}assets/site.js"></script></body></html>'''
 
-def breadcrumb(lang,page,resource):
-    home=rel_page(lang,page,lang,'landing')
-    label={'es':'Migas de pan','en':'Breadcrumb','pt':'Navegação estrutural'}[lang]
-    class_label={'es':'Clase 01','en':'Class 01','pt':'Aula 01'}[lang]
-    return f'''<nav class="breadcrumbs" aria-label="{label}"><ol><li><a href="{home}">{esc(T[lang]['route'])}</a></li><li><a href="{home}#ruta">{class_label}</a></li><li aria-current="page">{esc(resource)}</li></ol></nav>'''
+def audience_positioning(lang,page):
+  labels={
+    'es':{'persona':('Diseñado para ti','Tu siguiente práctica',('El reto','Cómo avanzar','Qué comprobar')),'empresa':('Diseñado para equipos','Una capacidad que puede gobernarse',('El reto operativo','Cómo implementarlo','Qué documentar'))},
+    'en':{'persona':('Designed for you','Your next practice',('The challenge','How to move','What to verify')),'empresa':('Designed for teams','A capability you can govern',('The operating challenge','How to implement it','What to document'))},
+    'pt':{'persona':('Feito para você','Sua próxima prática',('O desafio','Como avançar','O que verificar')),'empresa':('Feito para equipes','Uma capacidade governável',('O desafio operacional','Como implementar','O que documentar'))},
+  }[lang][CURRENT_AUDIENCE]
+  copy=AUDIENCE_SPEC['locales'][lang][CURRENT_AUDIENCE]
+  focus=copy['resources'][page]
+  cards=''.join(f'<article data-audience-surface="{key}"><span>{esc(label)}</span><p>{esc(copy[key])}</p></article>' for key,label in zip(('problem','method','evidence'),labels[2]))
+  return f'''<section class="audience-brief" aria-label="{esc(labels[0])}" data-audience-positioning="{CURRENT_AUDIENCE}" data-resource="{page}"><div class="shell audience-brief-inner"><header><span class="eyebrow">{esc(labels[0])}</span><h2>{esc(focus.capitalize())}</h2><p>{esc(copy['hero'])}</p></header><div class="audience-brief-grid">{cards}</div><footer><p data-audience-surface="benefits">{esc(copy['benefits'])}</p><strong data-audience-surface="cta">{esc(copy['cta'])}</strong><small data-audience-surface="closing">{esc(copy['closing'])}</small></footer></div></section>'''
+
+def inject_audience(content,lang,page):
+  match=re.search(r'<main\b[^>]*>',content)
+  if not match: raise RuntimeError(f'AUDIENCE_MAIN_MISSING:{lang}:{CURRENT_AUDIENCE}:{page}')
+  if page in ('landing','deck'):
+    section_end=content.find('</section>',match.end())
+    if section_end<0: raise RuntimeError(f'AUDIENCE_PRIMARY_SURFACE_MISSING:{lang}:{CURRENT_AUDIENCE}:{page}')
+    point=section_end+len('</section>')
+  else: point=match.end()
+  return content[:point]+audience_positioning(lang,page)+content[point:]
+
 
 def resource_catalog(lang,classes):
     labels={'masterclass':T[lang]['masterclass'],'workbook':T[lang]['workbook'],'playbook':T[lang]['playbook'],'prompts':T[lang]['prompts']}
@@ -241,10 +344,10 @@ def landing(lang):
     featured_videos=[item for item in RESOURCES['videos'] if item.get('featured')]
     featured_cards=''.join(f'''<a class="resource-cover video-cover {'video-masterclass' if item['kind']=='masterclass_recording' else 'video-intro'} reveal" href="{item['url']}" target="_blank" rel="noopener noreferrer"><span class="cover-type">{esc(item['locales'][lang]['label'])}</span><span class="cover-number" aria-hidden="true">{'90' if item['kind']=='masterclass_recording' else 'AI'}</span><span class="video-platform">YouTube · MetodologIA</span><h3>{esc(item['locales'][lang]['title'])}</h3><p>{esc(item['locales'][lang]['description'])}</p><strong>{esc(item['locales'][lang]['cta'])}{ui_icon('external')}</strong></a>''' for item in featured_videos)
     playbook_l=PLAYBOOK['locales'][lang]
-    playbook_card=f'''<a class="resource-cover playbook-cover reveal" href="playbook/index.html"><span class="cover-type">Playbook · A³</span><span class="cover-number" aria-hidden="true">A³</span><h3>{esc(playbook_l['title'])}</h3><p>{esc(playbook_l['lead'])}</p><strong>{esc(playbook_l['primary_cta'])}{ui_icon('arrow')}</strong></a>'''
+    playbook_card=f'''<a class="resource-cover playbook-cover reveal" href="playbook/index.html"><span class="cover-type">Playbook · MetodologIA</span>{method_mark(lang,'landing','primary','cover-method-mark')}<h3>{esc(playbook_l['title'])}</h3><p>{esc(playbook_l['lead'])}</p><strong>{esc(playbook_l['primary_cta'])}{ui_icon('arrow')}</strong></a>'''
     skill=RESOURCES['open_skill']
     skill_l=skill['locales'][lang]
-    open_skill=f'''<a class="open-skill-card reveal" href="{skill['url']}" target="_blank" rel="noopener noreferrer" data-open-skill><span class="open-skill-mark" aria-hidden="true">A³</span><span class="eyebrow">{esc(skill_l['eyebrow'])}</span><h3>{esc(skill_l['title'])}</h3><p>{esc(skill_l['description'])}</p><span class="open-skill-meta">{esc(skill['tag'])} · {esc(skill['license'])}</span><strong>{esc(skill_l['cta'])}{ui_icon('external')}</strong></a>'''
+    open_skill=f'''<a class="open-skill-card reveal" href="{skill['url']}" target="_blank" rel="noopener noreferrer" data-open-skill>{method_mark(lang,'landing','compact','open-skill-mark')}<span class="eyebrow">{esc(skill_l['eyebrow'])}</span><h3>{esc(skill_l['title'])}</h3><p>{esc(skill_l['description'])}</p><span class="open-skill-meta">{esc(skill['tag'])} · {esc(skill['license'])}</span><strong>{esc(skill_l['cta'])}{ui_icon('external')}</strong></a>'''
     catalog=resource_catalog(lang,l['classes'])
     catalog_title={'es':'Mapa de los 16 entregables','en':'Map of the 16 deliverables','pt':'Mapa dos 16 entregáveis'}[lang]
     course_json=json.dumps({"@context":"https://schema.org","@type":"Course","name":l['meta_title'],"description":l['meta_description'],"provider":{"@type":"Organization","name":"MetodologIA","url":"https://metodologia.info/"},"isAccessibleForFree":True,"inLanguage":lang,"hasCourseInstance":{"@type":"CourseInstance","courseMode":"online"}},ensure_ascii=False,separators=(',',':'))
@@ -255,8 +358,8 @@ def landing(lang):
 <section class="chapter demo-section" id="demostracion" data-chapter="04"><div class="shell"><div class="section-head reveal"><span class="eyebrow">{esc(l['demo_eyebrow'])}</span><h2 class="h2">{esc(l['demo_title'])}</h2><p class="lead">{esc(l['demo_lead'])}</p></div><div class="demo-grid"><ol class="method-flow">{demo_steps}</ol><div class="artifact-board"><div class="artifact-source-cloud" aria-hidden="true"><span></span><span></span><span></span><span></span><span></span></div>{artifacts}<div class="actions"><a class="btn secondary" href="workbook/index.html#step-1">{esc(l['workbook_cta'])} →</a><a class="text-link" href="deck/index.html#page-9">{esc(deck['open'])} →</a></div></div></div></div></section>
 <section class="chapter experience-section" id="experiencia" data-chapter="05"><div class="shell"><div class="section-head reveal"><span class="eyebrow">{esc(l['experience_eyebrow'])}</span><h2 class="h2">{esc(l['experience_title'])}</h2><p class="lead">{esc(l['experience_lead'])}</p></div><div class="experience-grid">{featured_cards}{playbook_card}</div>{open_skill}<details class="roadmap" open><summary>{catalog_title}<span>16</span></summary><p>{esc(l['roadmap'])}</p><div class="resource-catalog">{catalog}</div></details></div></section>
 <section class="chapter outcomes-section" id="resultados" data-chapter="06"><div class="shell"><div class="section-head reveal"><span class="eyebrow">{esc(l['outcomes_eyebrow'])}</span><h2 class="h2">{esc(l['outcomes_title'])}</h2><p class="lead">{esc(l['outcomes_lead'])}</p></div><div class="outcome-grid">{outcomes}</div><div class="organic-loop"><span class="eyebrow">{organic_label}</span><p>{esc(l['organic_loop'])}</p></div></div></section>
-<section class="chapter method-section" id="metodo" data-chapter="07"><div class="shell"><div class="section-head reveal"><span class="eyebrow">{esc(l['method_eyebrow'])}</span><h2 class="h2">{esc(l['method_title'])}</h2><p class="lead">{esc(l['method_lead'])}</p></div><div class="method-grid">{method}</div><div class="trust-grid"><div><h3>{esc(l['requirements_title'])}</h3><ul class="requirements">{requirements}</ul><a class="official-link" href="{help_url}" target="_blank" rel="noopener noreferrer">{'Consultar límites oficiales de NotebookLM' if lang=='es' else 'Read official NotebookLM limits' if lang=='en' else 'Consultar limites oficiais do NotebookLM'} ↗</a></div><div class="faq">{faq}</div></div><article class="letter-card ambassador-letter reveal" aria-labelledby="ambassador-letter-title"><div class="letter-mark" aria-hidden="true">M<span>IA</span></div><div class="letter-body"><span class="eyebrow">{esc(ambassadors['label'])}</span><h3 id="ambassador-letter-title">{esc(ambassadors['title'])}</h3>{ambassador_paragraphs}<footer><strong>{esc(ambassadors['signature'])}</strong><span>{esc(ambassadors['role'])}</span></footer></div></article></div></section>
-<section class="chapter final-section" id="convocatoria" data-chapter="08"><div class="shell"><article class="letter-card javier-letter reveal" aria-labelledby="javier-letter-title"><a class="letter-mark portrait" href="https://github.com/JaviMontano" target="_blank" rel="noopener noreferrer" aria-label="Javier Montaño · GitHub"><img src="{base}assets/javier-montano.jpg" alt="Javier Montaño" width="460" height="460" loading="lazy" decoding="async"></a><div class="letter-body"><span class="eyebrow">{esc(javier['label'])}</span><h3 id="javier-letter-title">{esc(javier['title'])}</h3>{javier_paragraphs}<footer><strong>{esc(javier['signature'])}</strong><span>{esc(javier['role'])}</span></footer></div></article><div class="final-grid"><div><span class="eyebrow">{esc(l['final_eyebrow'])}</span><h2 class="h2">{esc(l['final_title'])}</h2><p class="lead">{esc(l['final_lead'])}</p><div class="actions"><a class="btn" href="{FORM}" target="_blank" rel="noopener noreferrer">{esc(l['enroll'])} →</a><a class="btn secondary" href="workbook/index.html">{esc(l['workbook_cta'])}</a></div><p class="form-note">{esc(l['form_note'])}</p></div><div class="final-mark" aria-hidden="true"><span>N</span><strong>0</strong><i></i></div></div></div></section>
+<section class="chapter method-section" id="metodo" data-chapter="07"><div class="shell"><div class="section-head reveal"><span class="eyebrow">{esc(l['method_eyebrow'])}</span><h2 class="h2">{esc(l['method_title'])}</h2><p class="lead">{esc(l['method_lead'])}</p></div><div class="method-grid">{method}</div><div class="trust-grid"><div><h3>{esc(l['requirements_title'])}</h3><ul class="requirements">{requirements}</ul><a class="official-link" href="{help_url}" target="_blank" rel="noopener noreferrer">{'Consultar límites oficiales de NotebookLM' if lang=='es' else 'Read official NotebookLM limits' if lang=='en' else 'Consultar limites oficiais do NotebookLM'} ↗</a></div><div class="faq">{faq}</div></div><article class="letter-card ambassador-letter reveal" aria-labelledby="ambassador-letter-title"><div class="letter-mark pristino-mark"><img src="{base}assets/javier-montano.jpg" alt="Prístino · MetodologIA" width="460" height="460" loading="lazy" decoding="async"></div><div class="letter-body"><span class="eyebrow">{esc(ambassadors['label'])}</span><h3 id="ambassador-letter-title">{esc(ambassadors['title'])}</h3>{ambassador_paragraphs}<footer><strong>{esc(ambassadors['signature'])}</strong><span>{esc(ambassadors['role'])}</span></footer></div></article></div></section>
+<section class="chapter final-section" id="convocatoria" data-chapter="08"><div class="shell"><article class="letter-card javier-letter reveal" aria-labelledby="javier-letter-title"><a class="letter-mark portrait founder-portrait" href="https://github.com/JaviMontano" target="_blank" rel="noopener noreferrer" aria-label="Javier Montaño · GitHub"><img src="{base}assets/team-javier-montano.webp" alt="Retrato de Javier Montaño" width="560" height="560" loading="lazy" decoding="async"></a><div class="letter-body"><span class="eyebrow">{esc(javier['label'])}</span><h3 id="javier-letter-title">{esc(javier['title'])}</h3>{javier_paragraphs}<footer><strong>{esc(javier['signature'])}</strong><span>{esc(javier['role'])}</span></footer></div></article><div class="final-grid"><div><span class="eyebrow">{esc(l['final_eyebrow'])}</span><h2 class="h2">{esc(l['final_title'])}</h2><p class="lead">{esc(l['final_lead'])}</p><div class="actions"><a class="btn" href="{FORM}" target="_blank" rel="noopener noreferrer">{esc(l['enroll'])} →</a><a class="btn secondary" href="workbook/index.html">{esc(l['workbook_cta'])}</a></div><p class="form-note">{esc(l['form_note'])}</p></div><div class="final-mark" aria-hidden="true"><span>N</span><strong>0</strong><i></i></div></div></div></section>
 </main><script type="application/ld+json">{course_json}</script>'''+end(lang,'landing')
 
 W={
@@ -389,7 +492,7 @@ def workbook(lang):
     'pt':(('OpenAI · planos',OPENAI_PLANS),('Anthropic · Research',ANTHROPIC_RESEARCH),('NotebookLM · limites',NOTEBOOK_LIMITS),('Antigravity · guia',ANTIGRAVITY_GUIDE)),
   }[lang]
   provider_link_html=''.join(f'<a href="{url}" target="_blank" rel="noopener noreferrer">{esc(label)} ↗</a>' for label,url in provider_links)
-  guide=f'''<section class="workbook-guide" aria-labelledby="guide-title-{lang}"><div class="section-head"><span class="eyebrow">00 · {esc(advanced['guide_title'])}</span><h2 class="h2" id="guide-title-{lang}">{esc(advanced['guide_title'])}</h2><p class="lead">{esc(advanced['guide_body'])}</p></div><ol class="guide-steps">{guide_steps}</ol><aside class="provider-notice"><span aria-hidden="true">i</span><div><strong>{esc('Condiciones de uso' if lang=='es' else 'Usage conditions' if lang=='en' else 'Condições de uso')}</strong><p>{esc(advanced['provider_notice'])}</p><nav aria-label="{esc('Fuentes oficiales' if lang=='es' else 'Official sources' if lang=='en' else 'Fontes oficiais')}">{provider_link_html}</nav></div></aside></section>'''
+  guide=f'''<section class="workbook-guide" id="guia" aria-labelledby="guide-title-{lang}"><div class="section-head"><span class="eyebrow">00 · {esc(advanced['guide_title'])}</span><h2 class="h2" id="guide-title-{lang}">{esc(advanced['guide_title'])}</h2><p class="lead">{esc(advanced['guide_body'])}</p></div><ol class="guide-steps">{guide_steps}</ol><aside class="provider-notice"><span aria-hidden="true">i</span><div><strong>{esc('Condiciones de uso' if lang=='es' else 'Usage conditions' if lang=='en' else 'Condições de uso')}</strong><p>{esc(advanced['provider_notice'])}</p><nav aria-label="{esc('Fuentes oficiales' if lang=='es' else 'Official sources' if lang=='en' else 'Fontes oficiais')}">{provider_link_html}</nav></div></aside></section>'''
   brain_prompt_cards=[]
   for i,(title,template) in enumerate(advanced['brain_prompts'],1):
     pid=f'brain-prompt-{lang}-{i}'
@@ -400,12 +503,12 @@ def workbook(lang):
   brain=f'''<section class="brain-section" aria-labelledby="brain-title-{lang}"><div class="section-head"><span class="eyebrow">{esc(prep_eyebrow)}</span><h2 class="h2" id="brain-title-{lang}">{esc(advanced['brain_title'])}</h2><p class="lead">{esc(advanced['brain_body'])}</p></div><label class="brain-input"><strong>{esc(advanced['brain_label'])}</strong><textarea id="brain-dump-{lang}" rows="8" placeholder="{esc(advanced['brain_placeholder'])}" data-brain-dump></textarea><small>{esc(advanced['brain_dictation'])}</small><span class="brain-status" data-brain-status aria-live="polite" data-empty-message="{esc(advanced['brain_empty'])}"></span></label><div class="brain-prompt-grid">{''.join(brain_prompt_cards)}</div></section>'''
   use_cases=''.join(f'<li><span>{i:02d}</span><p>{esc(item)}</p></li>' for i,item in enumerate(advanced['use_cases'],1))
   cases=f'''<section class="use-cases" aria-labelledby="cases-title-{lang}"><div class="section-head"><span class="eyebrow">Casos de uso · destino provisional</span><h2 class="h2" id="cases-title-{lang}">{esc(advanced['use_cases_title'])}</h2><p class="lead">{esc(advanced['use_cases_body'])}</p></div><ol>{use_cases}</ol></section>'''
-  start=f'''<section class="workshop-start"><div class="section-head"><span class="eyebrow">00 · {esc(advanced['start_label'])}</span><h2 class="h2">{esc(advanced['start_title'])}</h2><p class="lead">{esc(advanced['start_body'])}</p></div><div class="access-grid">{access_cards}</div></section>'''
-  route_map=f'''<section class="workbook-routes"><div class="section-head"><span class="eyebrow">05 · Aprender · Aprehender · Evolucionar</span><h2 class="h2">{esc(advanced['routes_title'])}</h2><p class="route-duration-note">{esc(advanced['route_note'])}</p></div><div class="route-choice-grid three">{routes}</div></section>'''
+  start=f'''<section class="workshop-start" id="descarga"><div class="section-head"><span class="eyebrow">00 · {esc(advanced['start_label'])}</span><h2 class="h2">{esc(advanced['start_title'])}</h2><p class="lead">{esc(advanced['start_body'])}</p></div><div class="access-grid">{access_cards}</div></section>'''
+  route_map=f'''<section class="workbook-routes" id="transferencia"><div class="section-head"><span class="eyebrow">05 · Aprender · Aprehender · Evolucionar</span><h2 class="h2">{esc(advanced['routes_title'])}</h2><p class="route-duration-note">{esc(advanced['route_note'])}</p></div><div class="route-choice-grid three">{routes}</div></section>'''
   concepts=f'''<section class="concept-section"><div class="concept-grid"><article><span>01</span><h2>{esc(advanced['assistant_title'])}</h2><p>{esc(advanced['assistant_body'])}</p></article><article><span>02</span><h2>{esc(advanced['skill_title'])}</h2><p>{esc(advanced['skill_body'])}</p></article></div></section>'''
   expert=f'''<section class="expert-section"><div class="section-head"><span class="eyebrow">Ruta experta · Spec → Build → Verify</span><h2 class="h2">{esc(advanced['expert_title'])}</h2></div><ol class="expert-steps">{expert_steps}</ol><div class="expert-tools"><article><h3>{esc(advanced['setup_title'])}</h3><p>{esc(advanced['setup_body'])}</p><div class="actions"><a class="btn secondary" href="{ANTIGRAVITY}" target="_blank" rel="noopener noreferrer">Antigravity ↗</a><a class="text-link" href="{ANTIGRAVITY_GUIDE}" target="_blank" rel="noopener noreferrer">Google Codelab ↗</a></div></article><article class="warning-card"><h3>NotebookLM MCP</h3><p>{esc(advanced['mcp_warning'])}</p><div class="actions"><a class="btn secondary" href="{NOTEBOOK_MCP}" target="_blank" rel="noopener noreferrer">GitHub · MCP ↗</a><a class="text-link" href="{REFERENCE_WORKBOOK}" target="_blank" rel="noopener noreferrer">Workbook original ↗</a></div></article></div></section>'''
-  prep=f'''<section class="workbook-prep"><div class="section-head"><span class="eyebrow">Antes de continuar</span><h2 class="h2">{esc(intro['prepare'])}</h2></div><div class="prep-grid">{prep_columns}</div><p class="fac-note"><strong>{setup}</strong><br>{w['note']}</p></section>'''
-  return head(lang,w['title'],'workbook')+f'''<main id="main" class="workbook-v2"><section class="doc-hero workbook-hero"><div class="shell">{breadcrumb(lang,'workbook',T[lang]['workbook'])}</div><div class="shell workbook-hero-grid"><div class="workbook-hero-copy"><span class="eyebrow">MetodologIA · {esc(intro['eyebrow'])}</span><h1 class="h1">{w['title']}</h1><p class="lead">{esc(intro['promise'])}</p></div><aside class="workbook-outcome"><span>{esc(intro['outcome'])}</span><strong>{esc(intro['outcome_body'])}</strong></aside><nav class="workbook-hero-actions" aria-label="Workbook"><a class="btn" href="#brain-title-{lang}">{esc(intro['start'])} →</a><a class="text-link" href="../deck/index.html#page-1">{back} →</a><button class="print-link" type="button" onclick="window.print()">PDF / Print</button></nav></div></section><div class="shell workbook-flow">{guide}{brain}{start}{prep}{cases}<section class="workbook-sheets"><div class="section-head"><span class="eyebrow">01–03 · Workbook</span><h2 class="h2">{esc(w['lead'])}</h2></div>{level_convention_markup(lang)}<div class="sheet-tabs" role="tablist" aria-label="Workbook"><button class="tab" role="tab" aria-selected="true" aria-controls="sheet-session" data-sheet="session">1 · {w['tabs'][0]} · 5</button><button class="tab" role="tab" aria-selected="false" aria-controls="sheet-depth" data-sheet="depth">2 · {w['tabs'][1]} · 10</button><button class="tab" role="tab" aria-selected="false" aria-controls="sheet-consolidation" data-sheet="consolidation">3 · {w['tabs'][2]}</button></div><section class="sheet" id="sheet-session" role="tabpanel"><div class="section-head"><span class="eyebrow">01 · {w['tabs'][0]}</span><h2 class="h2">{w['sheet1']}</h2><p class="lead">{w['sheet1p']}</p></div><div class="step-list">{prompt_cards(lang,1,5)}</div>{surfaces}<h3 class="h3">{roles_title}</h3>{roles_table}</section><section class="sheet" id="sheet-depth" role="tabpanel" hidden><div class="section-head"><span class="eyebrow">02 · {w['tabs'][1]}</span><h2 class="h2">{w['sheet2']}</h2><p class="lead">{w['sheet2p']}</p><p class="fac-note"><strong>{rubric}</strong></p></div>{rubric_table}<div class="step-list">{prompt_cards(lang,6,10)}</div><p class="fac-note"><strong>{gate}</strong></p></section><section class="sheet" id="sheet-consolidation" role="tabpanel" hidden><div class="section-head"><span class="eyebrow">03 · {w['tabs'][2]}</span><h2 class="h2">{w['sheet3']}</h2><p class="lead">{w['sheet3p']}</p></div><article class="card evidence"><h3 class="h3">{w['challenge']}</h3><p>{w['challengep']}</p><p><strong>{transfer}</strong></p><div class="checklist">{checks}</div></article><div class="rubric" style="margin-top:1rem">{states}</div></section></section>{route_map}{concepts}{expert}</div></main>'''+end(lang,'workbook')
+  prep=f'''<section class="workbook-prep" id="preparacion"><div class="section-head"><span class="eyebrow">Antes de continuar</span><h2 class="h2">{esc(intro['prepare'])}</h2></div><div class="prep-grid">{prep_columns}</div><p class="fac-note"><strong>{setup}</strong><br>{w['note']}</p></section>'''
+  return head(lang,w['title'],'workbook')+f'''<main id="main" class="workbook-v2"><section class="doc-hero workbook-hero" id="workbook-inicio"><div class="shell">{breadcrumb(lang,'workbook',T[lang]['workbook'])}</div><div class="shell workbook-hero-grid"><div class="workbook-hero-copy"><span class="eyebrow">MetodologIA · {esc(intro['eyebrow'])}</span><h1 class="h1">{w['title']}</h1><p class="lead">{esc(intro['promise'])}</p></div><aside class="workbook-outcome"><span>{esc(intro['outcome'])}</span><strong>{esc(intro['outcome_body'])}</strong></aside><nav class="workbook-hero-actions" aria-label="Workbook"><a class="btn" href="#brain-title-{lang}">{esc(intro['start'])} →</a><a class="text-link" href="../deck/index.html#page-1">{back} →</a><button class="print-link" type="button" onclick="window.print()">PDF / Print</button></nav></div></section><div class="shell workbook-flow">{guide}{brain}{start}{prep}{cases}<section class="workbook-sheets"><div class="section-head"><span class="eyebrow">01–03 · Workbook</span><h2 class="h2">{esc(w['lead'])}</h2></div>{level_convention_markup(lang)}<div class="sheet-tabs" role="tablist" aria-label="Workbook"><button class="tab" role="tab" aria-selected="true" aria-controls="sheet-session" data-sheet="session">1 · {w['tabs'][0]} · 5</button><button class="tab" role="tab" aria-selected="false" aria-controls="sheet-depth" data-sheet="depth">2 · {w['tabs'][1]} · 10</button><button class="tab" role="tab" aria-selected="false" aria-controls="sheet-consolidation" data-sheet="consolidation">3 · {w['tabs'][2]}</button></div><section class="sheet" id="sheet-session" role="tabpanel"><div class="section-head"><span class="eyebrow">01 · {w['tabs'][0]}</span><h2 class="h2">{w['sheet1']}</h2><p class="lead">{w['sheet1p']}</p></div><div class="step-list">{prompt_cards(lang,1,5)}</div>{surfaces}<h3 class="h3">{roles_title}</h3>{roles_table}</section><section class="sheet" id="sheet-depth" role="tabpanel" hidden><div class="section-head"><span class="eyebrow">02 · {w['tabs'][1]}</span><h2 class="h2">{w['sheet2']}</h2><p class="lead">{w['sheet2p']}</p><p class="fac-note"><strong>{rubric}</strong></p></div>{rubric_table}<div class="step-list">{prompt_cards(lang,6,10)}</div><p class="fac-note"><strong>{gate}</strong></p></section><section class="sheet" id="sheet-consolidation" role="tabpanel" hidden><div class="section-head"><span class="eyebrow">03 · {w['tabs'][2]}</span><h2 class="h2">{w['sheet3']}</h2><p class="lead">{w['sheet3p']}</p></div><article class="card evidence"><h3 class="h3">{w['challenge']}</h3><p>{w['challengep']}</p><p><strong>{transfer}</strong></p><div class="checklist">{checks}</div></article><div class="rubric" style="margin-top:1rem">{states}</div></section></section>{route_map}{concepts}{expert}</div></main>'''+end(lang,'workbook')
 
 def playbook_icon(name):
   icons={
@@ -433,7 +536,15 @@ def playbook_icon(name):
 
 def playbook(lang):
   p=PLAYBOOK['locales'][lang]; skill=PLAYBOOK['skill']; base=asset_base(lang,'playbook')
-  toc=''.join(f'<a href="#{esc(section["id"])}"><span>{index:02d}</span>{esc(section["title"])}</a>' for index,section in enumerate(p['sections'],1))
+  complete_sections=[
+    {'id':'hero','title':p['title']},
+    {'id':'founders','title':p['founder_title']},
+    *p['sections'],
+    {'id':'close','title':p['close_title']},
+  ]
+  if len(complete_sections)!=22:
+    raise RuntimeError(f'PLAYBOOK_COMPLETE_INDEX_INVALID:{lang}:{len(complete_sections)}')
+  toc=''.join(f'<a href="#{esc(section["id"])}"><span>{index:02d}</span>{esc(section["title"])}</a>' for index,section in enumerate(complete_sections,1))
   founder_cards=''.join(f'''<li><img src="{base}{esc(x['photo'])}" alt="{esc(x['name'])}" width="560" height="560" decoding="async"><span class="founder-card-copy"><strong>{esc(x['name'])}</strong><span>{esc(x['role'])}</span></span></li>''' for x in PLAYBOOK['founders'])
   assistant_cards=''.join(f'''<a class="playbook-assistant" href="{esc(item['url'])}" target="_blank" rel="noopener noreferrer" data-custom-gpt="{esc(item['id'])}"><span class="eyebrow">ChatGPT · Custom GPT</span><strong>{esc(item['labels'][lang]['title'])}</strong><p>{esc(item['labels'][lang]['description'])}</p><em>{esc(item['labels'][lang]['cta'])}{ui_icon('external')}</em></a>''' for item in PLAYBOOK['assistants'])
   letters=''.join(f'<p>{esc(x)}</p>' for x in p['founder_paragraphs'])
@@ -446,7 +557,8 @@ def playbook(lang):
     sections.append(f'''<section class="playbook-section" id="{esc(section['id'])}" data-playbook-section><div class="playbook-section-index"><span>{index:02d}</span>{playbook_icon(section['icon'])}</div><div class="playbook-section-body"><span class="eyebrow">{esc(p['section_label'])} {index:02d}</span><h2>{esc(section['title'])}</h2><p class="lead">{esc(section['lead'])}</p>{material}{f'<div class="playbook-prompt-grid">{extra}</div>' if extra else ''}</div></section>''')
   journey={'es':('Mapa de lectura','19 capítulos · 4 fases','Fuentes → criterio → práctica → transferencia','Aprender<br>Aprehender<br>(R)Evolucionar','Carta abierta'),'en':('Reading map','19 chapters · 4 phases','Sources → judgment → practice → transfer','Learn<br>Embody<br>(R)Evolve','Open letter'),'pt':('Mapa de leitura','19 capítulos · 4 fases','Fontes → critério → prática → transferência','Aprender<br>Apreender<br>(R)Evoluir','Carta aberta')}[lang]
   hero_title=esc(p['title']).replace('. (R)', '.<br>(R)')
-  return head(lang,p['meta_title'],'playbook')+f'''<main id="main" class="playbook-v1"><section class="playbook-hero"><div class="shell">{breadcrumb(lang,'playbook',T[lang]['playbook'])}</div><div class="shell playbook-hero-grid"><div class="playbook-hero-copy"><span class="eyebrow">{esc(p['eyebrow'])}</span><h1>{hero_title}</h1><p class="lead">{esc(p['lead'])}</p><div class="actions"><a class="btn" href="#intro">{esc(p['primary_cta'])}{ui_icon('arrow')}</a><a class="btn secondary" href="{skill['url']}" target="_blank" rel="noopener noreferrer">{esc(p['secondary_cta'])}{ui_icon('external')}</a></div><dl class="playbook-hero-facts"><div><dt>{journey[0]}</dt><dd>{journey[1]}</dd></div><div><dt>A³</dt><dd>{journey[2]}</dd></div></dl></div><div class="playbook-mark" aria-hidden="true"><span>A</span><strong>³</strong><i></i><b>{journey[3]}</b></div></div></section><div class="shell playbook-layout"><aside class="playbook-toc"><strong>{esc(p['read'])}</strong><nav>{toc}</nav></aside><div class="playbook-content"><section class="founders-letter" id="founders" data-letter-label="{esc(journey[4])}"><div class="founders-letter-copy"><div class="founders-letter-heading"><span class="eyebrow">{esc(p['founder_label'])}</span><h2>{esc(p['founder_title'])}</h2></div><div class="founders-letter-body">{letters}</div></div><ul>{founder_cards}</ul></section>{''.join(sections)}<section class="playbook-close" id="close"><span class="eyebrow">MetodologIA · A³</span><h2>{esc(p['close_title'])}</h2><p>{esc(p['close_lead'])}</p><div class="actions"><a class="btn" href="../workbook/index.html">{esc(p['close_primary'])}{ui_icon('arrow')}</a><a class="btn secondary" href="../deck/index.html">{esc(p['close_secondary'])}{ui_icon('arrow')}</a></div><small>{esc(skill['version'])} · {esc(skill['license'])}</small></section></div></div></main>'''+end(lang,'playbook')
+  full_index=INTRAPAGE_NAV['locales'][lang]['full_index']
+  return head(lang,p['meta_title'],'playbook')+f'''<main id="main" class="playbook-v1"><section class="playbook-hero" id="hero"><div class="shell">{breadcrumb(lang,'playbook',T[lang]['playbook'])}</div><div class="shell playbook-hero-grid"><div class="playbook-hero-copy"><span class="eyebrow">{esc(p['eyebrow'])}</span><h1>{hero_title}</h1><p class="lead">{esc(p['lead'])}</p><div class="actions"><a class="btn" href="#intro">{esc(p['primary_cta'])}{ui_icon('arrow')}</a><a class="btn secondary" href="{skill['url']}" target="_blank" rel="noopener noreferrer">{esc(p['secondary_cta'])}{ui_icon('external')}</a></div><dl class="playbook-hero-facts"><div><dt>{journey[0]}</dt><dd>{journey[1]}</dd></div><div><dt>{method_mark(lang,'playbook','compact','playbook-fact-mark')}</dt><dd>{journey[2]}</dd></div></dl></div><figure class="playbook-mark">{method_mark(lang,'playbook','primary','playbook-primary-mark',loading='eager')}<figcaption>{journey[3]}</figcaption></figure></div></section><div class="shell playbook-layout"><details class="playbook-toc"><summary><strong>{esc(full_index)}</strong><span>22</span></summary><nav aria-label="{esc(full_index)}">{toc}</nav></details><div class="playbook-content"><section class="founders-letter" id="founders" data-letter-label="{esc(journey[4])}"><div class="founders-letter-copy"><div class="founders-letter-heading"><span class="eyebrow">{esc(p['founder_label'])}</span><h2>{esc(p['founder_title'])}</h2></div><div class="founders-letter-body">{letters}</div></div><ul>{founder_cards}</ul></section>{''.join(sections)}<section class="playbook-close" id="close">{method_mark(lang,'playbook','primary','playbook-close-mark',decorative=True)}{method_mark(lang,'playbook','compact','playbook-close-lockup')}<span class="eyebrow">MetodologIA · {esc(METHOD_IDENTITY['locales'][lang]['descriptor'])}</span><h2>{esc(p['close_title'])}</h2><p>{esc(p['close_lead'])}</p><div class="actions"><a class="btn" href="../workbook/index.html">{esc(p['close_primary'])}{ui_icon('arrow')}</a><a class="btn secondary" href="../deck/index.html">{esc(p['close_secondary'])}{ui_icon('arrow')}</a></div><small>{esc(skill['version'])} · {esc(skill['license'])}</small></section></div></div></main>'''+end(lang,'playbook')
 
 def prompt_library_page(lang):
   p=PROMPT_LIBRARY['locales'][lang]
@@ -459,7 +571,7 @@ def prompt_library_page(lang):
     card=f'''<article class="library-prompt-card" id="prompt-{item['id'].lower()}" data-library-prompt data-prompt-kind="{'meta' if item['id'].startswith('M') else 'direct'}"><header><span class="library-prompt-number" aria-hidden="true">{esc(item['id'])}</span><div><span class="eyebrow">{esc(item['phase'])}</span><h3>{esc(item['title'])}</h3><p>{esc(item['purpose'])}</p></div></header><dl class="library-prompt-brief"><div><dt>{esc(p['use'])}</dt><dd>{esc(item['when'])}</dd></div><div><dt>{esc(p['example'])}</dt><dd>{esc(item['example'])}</dd></div><div><dt>{esc(p['evidence'])}</dt><dd>{esc(item['evidence'])}</dd></div></dl>{controls}</article>'''
     (meta if item['id'].startswith('M') else direct).append(card)
   skill=RESOURCES['open_skill']
-  return head(lang,p['meta_title'],'prompts')+f'''<main id="main" class="prompt-library-page"><section class="prompt-library-hero"><div class="shell">{breadcrumb(lang,'prompts',T[lang]['prompts'])}<div class="prompt-library-hero-grid"><div><span class="eyebrow">{esc(p['eyebrow'])}</span><h1>{esc(p['title'])}</h1><p class="lead">{esc(p['lead'])}</p><div class="actions"><a class="btn" href="#directos">{esc(hero_cta)}{ui_icon('arrow')}</a><a class="btn secondary" href="../playbook/index.html">{esc(p['back'])}{ui_icon('arrow')}</a></div></div><div class="prompt-library-score" aria-label="{esc(p['eyebrow'])}"><strong>10</strong><span>+</span><strong>4</strong><small>A³ · MetodologIA</small></div></div></div></section><section class="prompt-library-section shell" id="directos"><div class="section-head"><span class="eyebrow">{esc(p['direct_label'])}</span><h2 class="h2">{esc(p['direct_title'])}</h2></div><div class="library-prompt-list">{''.join(direct)}</div></section><section class="prompt-library-section prompt-library-meta" id="metaprompts"><div class="shell"><div class="section-head"><span class="eyebrow">{esc(p['meta_label'])}</span><h2 class="h2">{esc(p['meta_title_section'])}</h2></div><div class="library-prompt-list">{''.join(meta)}</div><aside class="prompt-library-source"><p>{esc(p['skill_note'])}</p><a class="btn secondary" href="{skill['url']}" target="_blank" rel="noopener noreferrer">{esc(skill['locales'][lang]['cta'])}{ui_icon('external')}</a><a class="btn" href="../workbook/index.html">{esc(p['workbook'])}{ui_icon('arrow')}</a></aside></div></section></main>'''+end(lang,'prompts')
+  return head(lang,p['meta_title'],'prompts')+f'''<main id="main" class="prompt-library-page"><section class="prompt-library-hero"><div class="shell">{breadcrumb(lang,'prompts',T[lang]['prompts'])}<div class="prompt-library-hero-grid"><div><span class="eyebrow">{esc(p['eyebrow'])}</span><h1>{esc(p['title'])}</h1><p class="lead">{esc(p['lead'])}</p><div class="actions"><a class="btn" href="#directos">{esc(hero_cta)}{ui_icon('arrow')}</a><a class="btn secondary" href="../playbook/index.html">{esc(p['back'])}{ui_icon('arrow')}</a></div></div><div class="prompt-library-score" aria-label="{esc(p['eyebrow'])}"><strong>10</strong><span>+</span><strong>4</strong><div class="prompt-library-method">{method_mark(lang,'prompts','compact','prompt-method-mark')}<small>MetodologIA</small></div></div></div></div></section><section class="prompt-library-section shell" id="directos"><div class="section-head"><span class="eyebrow">{esc(p['direct_label'])}</span><h2 class="h2">{esc(p['direct_title'])}</h2></div><div class="library-prompt-list">{''.join(direct)}</div></section><section class="prompt-library-section prompt-library-meta" id="metaprompts"><div class="shell"><div class="section-head"><span class="eyebrow">{esc(p['meta_label'])}</span><h2 class="h2">{esc(p['meta_title_section'])}</h2></div><div class="library-prompt-list">{''.join(meta)}</div><aside class="prompt-library-source"><p>{esc(p['skill_note'])}</p><a class="btn secondary" href="{skill['url']}" target="_blank" rel="noopener noreferrer">{esc(skill['locales'][lang]['cta'])}{ui_icon('external')}</a><a class="btn" href="../workbook/index.html">{esc(p['workbook'])}{ui_icon('arrow')}</a></aside></div></section></main>'''+end(lang,'prompts')
 
 S={
 'es':[('Bienvenida','IA: qué está pasando y cómo sacarle provecho','Hoy no vienes a aprender botones. Vienes a construir criterio y una práctica basada en fuentes.'),('Resultado','Al final podrás demostrar esto','Explicar qué puede aportar la IA, construir una base en NotebookLM y decidir cuándo confiar, verificar o detenerte.'),('Acuerdo','La IA propone. Tú respondes.','Ninguna respuesta sustituye la revisión de fuentes, el contexto ni la decisión humana.'),('Panorama','¿Qué cambió?','La IA generativa volvió conversacionales tareas de búsqueda, síntesis, creación y apoyo a decisiones.'),('Mapa','Modelo, producto y flujo no son lo mismo','Distingue la capacidad base, la interfaz que usas y el proceso donde produces un resultado.'),('Criterio','Fluidez no es evidencia','Una respuesta convincente puede estar incompleta. La pregunta útil es: ¿qué fuente sostiene esta afirmación?'),('Aprender','Aprender a aprender con IA','Define un propósito, reúne fuentes, detecta vacíos, practica recuperación y explica con tus palabras.'),('NotebookLM','Una conversación anclada en tus fuentes','NotebookLM ayuda a consultar fuentes seleccionadas y revisar citas. Tú decides qué importar y cómo usarlo.'),('Práctica 1','Construye la primera base','Abre la hoja En sesión, paso 1. Declara tema, decisión, contexto y audiencia.'),('Práctica 2','Audita antes de acumular','Paso 2. Busca cobertura, tensiones, ambigüedad, calidad, vigencia y sesgo.'),('Práctica 3','Investiga el vacío que importa','Paso 3. Convierte el hallazgo prioritario en investigación a medida.'),('Práctica 4','Detente con criterio','Paso 4. Compara la mejora y decide: base suficiente o repetir investigación.'),('Práctica 5','Activa profesor, asesor o coach','Paso 5. Elige un rol y exige citas, límites y siguiente paso.'),('Puesta en común','¿Qué cambió entre la primera y la segunda base?','Comparte una fuente decisiva, una tensión y un vacío que aceptaste.'),('Transferencia','Llévalo a una decisión real','Elige una reunión, propuesta, aprendizaje o problema donde una base verificable reduzca improvisación.'),('Profundiza','La práctica continúa','La hoja 2 convierte la base en contenido, casos, evaluación, simulación y configuración.'),('Consolida','Demuestra que puedes hacerlo sin guía','La hoja 3 pide evidencia, teach-back y transferencia a otro contexto.'),('Cierre','Tu siguiente paso en 24 horas','Crea o mejora un Notebook, registra el veredicto de suficiencia y explica el proceso en tres minutos.')],
@@ -468,44 +580,90 @@ S={
 }
 
 def masterclass(lang):
-  labels={'es':('Masterclass','Recorrido','Anterior','Siguiente','Nota de facilitación','Abrir workbook'), 'en':('Masterclass','Outline','Previous','Next','Facilitator note','Open workbook'), 'pt':('Masterclass','Percurso','Anterior','Próximo','Nota de facilitação','Abrir workbook')}[lang]
+  deck=RESOURCES['deck']; deck_l=deck['locales'][lang]; base=asset_base(lang,'deck')
+  labels={
+    'es':{'title':'Guía accesible del recorrido','journey':'Recorrido','previous':'Anterior','next':'Siguiente','note':'Guía para facilitar','workbook':'Abrir workbook','class':'Clase 01','moments':'18 láminas','duration':'Duración de la guía','base':'Ruta base','extended':'Con práctica extendida','open_pdf':'Abrir PDF','download':'Descargar PDF','pdf_label':'PDF oficial de la masterclass','pdf_fallback':'Tu navegador no puede mostrar el PDF integrado. Ábrelo en una pestaña o descárgalo.','guide_lead':'Este recorrido textual localizado acompaña el documento oficial y mejora su acceso. No sustituye el contenido ni el diseño del PDF.','phases':('Comprender','Practicar','Transferir')},
+    'en':{'title':'Accessible journey guide','journey':'Outline','previous':'Previous','next':'Next','note':'Facilitation guide','workbook':'Open workbook','class':'Class 01','moments':'18 pages','duration':'Guide duration','base':'Core route','extended':'With extended practice','open_pdf':'Open PDF','download':'Download PDF','pdf_label':'Official masterclass PDF','pdf_fallback':'Your browser cannot display the embedded PDF. Open it in a new tab or download it.','guide_lead':'This localized text journey accompanies the official document and improves access. It does not replace the PDF content or design.','phases':('Understand','Practice','Transfer')},
+    'pt':{'title':'Guia acessível do percurso','journey':'Percurso','previous':'Anterior','next':'Próximo','note':'Guia de facilitação','workbook':'Abrir workbook','class':'Aula 01','moments':'18 páginas','duration':'Duração da guia','base':'Rota base','extended':'Com prática estendida','open_pdf':'Abrir PDF','download':'Baixar PDF','pdf_label':'PDF oficial da masterclass','pdf_fallback':'Seu navegador não consegue exibir o PDF incorporado. Abra-o em uma nova aba ou baixe-o.','guide_lead':'Este percurso textual localizado acompanha o documento oficial e melhora o acesso. Não substitui o conteúdo nem o design do PDF.','phases':('Compreender','Praticar','Transferir')}
+  }[lang]
   help_url=HELP_BY_LANG[lang]
   progress_label={'es':'Progreso de la masterclass','en':'Masterclass progress','pt':'Progresso da masterclass'}[lang]
   timings=['0–3','3–7','7–10','10–15','15–20','20–25','25–30','30–35','35–41','41–47','47–53','53–59','59–65','65–70','70–80','80–84','84–87','87–90']
-  deck=RESOURCES['deck']['locales'][lang]
   video=RESOURCES['videos'][0]; video_l=video['locales'][lang]
-  slides=[]; outline=[]
+  slides=[]; outline_groups=[[],[],[]]
   for i,(k,title,body) in enumerate(S[lang],1):
     link='';
-    if i in (1,8): link+=f'<a class="btn secondary" href="../deck/index.html#page-{i}">{esc(deck["open"])} · {i:02d} →</a>'
     if i==8: link+=f'<a class="btn secondary" href="{help_url}" target="_blank" rel="noopener noreferrer">{("Ayuda oficial" if lang=="es" else "Official help" if lang=="en" else "Ajuda oficial")} ↗</a>'
-    if 9<=i<=13: link=f'<a class="btn" href="../workbook/index.html#step-{i-8}">{labels[5]} · {i-8} →</a>'
-    if i==18: link+=f'<a class="btn secondary" href="{video["url"]}" target="_blank" rel="noopener noreferrer">{esc(video_l["cta"])} · {esc(video_l["title"])} ↗</a>'
+    if 9<=i<=13: link=f'<a class="btn" href="../workbook/index.html#step-{i-8}">{labels["workbook"]} →</a>'
+    if i==18: link+=f'<a class="btn secondary" href="{video["url"]}" target="_blank" rel="noopener noreferrer">{esc(video_l["cta"])} ↗</a>'
     note=(f'Di: “{title}”. Haz: conecta esta idea con un ejemplo del grupo. Observa: una respuesta que distinga evidencia de opinión.' if lang=='es' else f'Say: “{title}”. Do: connect it to one group example. Observe: an answer that separates evidence from opinion.' if lang=='en' else f'Diga: “{title}”. Faça: conecte a ideia a um exemplo do grupo. Observe: resposta que separa evidência de opinião.')
     extended=(f'<aside class="extended"><strong>+30 min:</strong> {esc("Ejecuta un prompt 6–10, revisa la rúbrica y comparte una mejora." if lang=="es" else "Run one prompt 6–10, review the rubric and share one improvement." if lang=="en" else "Execute um prompt 6–10, revise a rubrica e compartilhe uma melhoria.")}</aside>' if i==16 else '')
-    slides.append(f'''<section class="slide{' active' if i==1 else ''}" id="slide-{i}" aria-label="{i} / 18"><span class="eyebrow">{esc(k)} · {timings[i-1]} min</span><h1 class="h1">{esc(title)}</h1><p class="lead">{esc(body)}</p>{link}{extended}<aside class="fac-note"><strong>{labels[4]}:</strong> {esc(note)}</aside><div class="slide-foot"><span>MetodologIA · {T[lang]['route']}</span><span>{i} / 18</span></div></section>''')
-    outline.append(f'<button type="button" data-slide="{i-1}" aria-current="{"true" if i==1 else "false"}">{i:02d} · {esc(title)}</button>')
-  return head(lang,labels[0],'masterclass')+f'''<main id="main" class="deck"><aside class="outline"><h2>{labels[1]}</h2>{''.join(outline)}</aside><div class="stage"><div class="slide-wrap">{''.join(slides)}</div><div class="deck-controls"><button class="btn secondary" type="button" data-prev>← {labels[2]}</button><div><div class="progress" role="progressbar" aria-label="{progress_label}" aria-valuemin="1" aria-valuemax="18" aria-valuenow="1"><span></span></div><span class="mode" data-count></span></div><div class="tools"><button class="lang" type="button" data-mode="90" aria-pressed="true">90</button><button class="lang" type="button" data-mode="120" aria-pressed="false">120</button><span class="mode" data-mode-label>90 min</span><button class="btn" type="button" data-next>{labels[3]} →</button></div></div></div></main>'''+end(lang,'masterclass')
+    phase=0 if i<=8 else 1 if i<=13 else 2
+    actions=f'<div class="slide-actions">{link}</div>' if link else ''
+    slides.append(f'''<section class="slide{' active' if i==1 else ''}" id="slide-{i}" aria-labelledby="slide-title-{i}" data-phase="{phase+1}"><header class="slide-kicker"><span class="eyebrow">{esc(k)} · {timings[i-1]} min</span><span>{i:02d} / 18</span></header><h2 class="h1" id="slide-title-{i}" tabindex="-1">{esc(title)}</h2><p class="lead">{esc(body)}</p>{actions}{extended}<details class="fac-note"><summary>{labels["note"]}</summary><p>{esc(note)}</p></details><div class="slide-foot"><span>MetodologIA · {T[lang]['route']}</span><span>{esc(labels['phases'][phase])}</span></div></section>''')
+    outline_groups[phase].append(f'<button type="button" data-slide="{i-1}" aria-current="{"step" if i==1 else "false"}"><span>{i:02d}</span><strong>{esc(title)}</strong></button>')
+  outline=''.join(f'<section class="outline-group"><h3>{index+1:02d} · {esc(labels["phases"][index])}</h3>{"".join(items)}</section>' for index,items in enumerate(outline_groups))
+  pdf_url=f'{base}{deck["source_asset"]}'
+  official=f'''<section class="official-masterclass" id="masterclass-inicio"><div class="shell">{breadcrumb(lang,'deck',T[lang]['masterclass'])}<header class="official-masterclass-head"><div><span class="eyebrow">MetodologIA · {esc(deck_l['language_note'])}</span><h1>{esc(deck_l['display_title'])}</h1><p class="lead">{esc(deck_l['description'])}</p></div><dl class="official-masterclass-facts"><div><dt>PDF</dt><dd>{deck['page_count']} · {esc(labels['moments'])}</dd></div><div><dt>SHA-256</dt><dd><code>{deck['sha256'][:12]}…</code></dd></div></dl></header><div class="official-pdf-card" id="masterclass-pdf" data-official-masterclass data-official-masterclass-sha256="{deck['sha256']}"><div class="official-pdf-toolbar"><div><h2 tabindex="-1">{esc(labels['pdf_label'])}</h2><span>{esc(deck_l['language_note'])}</span></div><div class="actions"><a class="btn secondary" href="{pdf_url}" target="_blank" rel="noopener">{esc(labels['open_pdf'])}{ui_icon('external')}</a><a class="btn" href="{pdf_url}" download>{esc(labels['download'])} ↓</a></div></div><object class="official-pdf-object" data="{pdf_url}#page=1&amp;view=FitH" type="application/pdf" aria-label="{esc(labels['pdf_label'])}" title="{esc(labels['pdf_label'])}"><div class="official-pdf-fallback"><p>{esc(labels['pdf_fallback'])}</p><a class="btn" href="{pdf_url}" target="_blank" rel="noopener">{esc(labels['open_pdf'])}{ui_icon('external')}</a></div></object></div></div></section>'''
+  guide=f'''<section class="masterclass-player" id="masterclass-guia"><div class="shell"><header class="masterclass-player-head"><div><span class="eyebrow">{esc(labels['class'])} · {esc(labels['title'])}</span><h2>{esc(labels['title'])}</h2><p class="lead">{esc(labels['guide_lead'])}</p></div><dl class="masterclass-facts"><div><dt>{esc(labels['moments'])}</dt><dd>90 min</dd></div><div><dt>{esc(labels['extended'])}</dt><dd>120 min</dd></div></dl></header><div class="deck"><details class="outline" open><summary><span>{esc(labels['journey'])}</span><strong data-outline-count>01 / 18</strong></summary><div class="outline-list">{outline}</div></details><div class="stage"><div class="slide-wrap">{''.join(slides)}</div><nav class="deck-controls" aria-label="{progress_label}"><button class="deck-nav deck-prev" type="button" data-prev aria-label="{esc(labels['previous'])}">{ui_icon('back')}<span>{esc(labels['previous'])}</span></button><div class="deck-progress"><div class="progress" role="progressbar" aria-label="{progress_label}" aria-valuemin="1" aria-valuemax="18" aria-valuenow="1"><span></span></div><div><strong data-count aria-live="polite">1 / 18</strong><span data-phase-current>{esc(labels['phases'][0])}</span></div></div><div class="deck-tools"><div class="deck-mode-group" role="group" aria-label="{esc(labels['duration'])}"><button class="deck-mode" type="button" data-mode="90" aria-pressed="true" aria-label="{esc(labels['base'])} · 90 min"><strong>90</strong><span>min</span></button><button class="deck-mode" type="button" data-mode="120" aria-pressed="false" aria-label="{esc(labels['extended'])} · 120 min"><strong>120</strong><span>min</span></button></div><span class="sr-only" data-mode-label>90 min</span><button class="deck-nav deck-next" type="button" data-next aria-label="{esc(labels['next'])}"><span>{esc(labels['next'])}</span>{ui_icon('arrow')}</button></div></nav></div></div></div></section>'''
+  return head(lang,deck_l['title'],'deck')+f'''<main id="main" class="masterclass-page">{official}{guide}</main>'''+end(lang,'deck')
 
-def deck_viewer(lang):
-  d=RESOURCES['deck']; l=d['locales'][lang]; base=asset_base(lang,'deck')
-  labels={
-    'es':{'index':'Ver las 18 láminas','prev':'Lámina anterior','next':'Lámina siguiente','page':'Lámina','of':'de','download':'Descargar PDF','source':'Masterclass oficial','hint':'Usa ← → o abre el índice. Sin JavaScript, las 18 láminas aparecen en orden.','next_class':'De ocupado a productivo','continuation':'Al terminar, continúa con la clase 2','facilitator':'Facilitada por','role':'Javier Montaño · Fundador de MetodologIA'},
-    'en':{'index':'See all 18 pages','prev':'Previous page','next':'Next page','page':'Page','of':'of','download':'Download PDF','source':'Official masterclass','hint':'Use ← → or open the index. Without JavaScript, all 18 pages appear in order.','next_class':'From busy to productive','continuation':'When finished, continue with class 2','facilitator':'Facilitated by','role':'Javier Montaño · Founder of MetodologIA'},
-    'pt':{'index':'Ver as 18 páginas','prev':'Página anterior','next':'Próxima página','page':'Página','of':'de','download':'Baixar PDF','source':'Masterclass oficial','hint':'Use ← → ou abra o índice. Sem JavaScript, as 18 páginas aparecem em ordem.','next_class':'De ocupado a produtivo','continuation':'Ao terminar, continue com a aula 2','facilitator':'Facilitada por','role':'Javier Montaño · Fundador da MetodologIA'}
-  }[lang]
-  pages=[]; index=[]
-  for i in range(1,d['page_count']+1):
-    page_label=f'{labels["page"]} {i} {labels["of"]} {d["page_count"]}'
-    src=f'{base}assets/masterclass-pages/page-{i:02d}.webp'
-    pages.append(f'<figure class="pdf-sheet{" active" if i==1 else ""}" data-page-id="page-{i}" aria-label="{page_label}"><img src="{src}" alt="{page_label}: {esc(l["display_title"])}" width="1376" height="768" loading="{"eager" if i==1 else "lazy"}" decoding="async"><figcaption>{page_label}</figcaption></figure>')
-    index.append(f'<button type="button" data-pdf-page="{i-1}" aria-current="{"true" if i==1 else "false"}" aria-label="{page_label}">{i:02d}</button>')
-  video=RESOURCES['videos'][0]; video_l=video['locales'][lang]
-  return head(lang,l['title'],'deck')+f'''<main id="main" class="pdf-experience"><section class="pdf-stage">{breadcrumb(lang,'deck',T[lang]['masterclass'])}<header class="pdf-intro"><div><span class="eyebrow">{labels['source']} · PDF · {d['page_count']}</span><h1>{esc(l['display_title'])}</h1><p>{esc(l['description'])}</p><div class="masterclass-author"><a href="https://github.com/JaviMontano" target="_blank" rel="noopener noreferrer" aria-label="Javier Montaño · GitHub"><img src="{base}assets/javier-montano.jpg" alt="Javier Montaño" width="460" height="460" loading="lazy" decoding="async"></a><p><span>{labels['facilitator']}</span><strong>{labels['role']}</strong></p></div><p class="pdf-hint">{labels['hint']}</p></div><div class="pdf-intro-actions"><a class="pdf-download" href="{base}{d['source_asset']}" download>{labels['download']} ↓</a></div></header><details class="pdf-index"><summary>{labels['index']}<span data-pdf-count-summary>1 / {d['page_count']}</span></summary><div>{''.join(index)}</div></details><div class="pdf-viewer"><nav class="pdf-controls" aria-label="{labels['index']}"><button type="button" data-pdf-prev aria-label="{labels['prev']}" disabled>←</button><div><div class="progress" role="progressbar" aria-label="{labels['index']}" aria-valuemin="1" aria-valuemax="{d['page_count']}" aria-valuenow="1"><span></span></div><span class="mode" data-pdf-count aria-live="polite">1 / {d['page_count']}</span></div><button type="button" data-pdf-next aria-label="{labels['next']}">→</button></nav><div class="pdf-pages">{''.join(pages)}</div></div><aside class="pdf-continuation"><span>{labels['continuation']}</span><a href="{video['url']}" target="_blank" rel="noopener noreferrer"><strong>{esc(video_l['title'])}</strong><em>{labels['next_class']} ↗</em></a></aside></section></main>'''+end(lang,'deck')
+def editorial_page(lang,page):
+  content=EDITORIAL['copy'][lang][page]
+  audience=EDITORIAL['audience_copy'][lang][CURRENT_AUDIENCE][page]
+  anchors=EDITORIAL['pages'][page]['anchors']
+  audience_points=''.join(f'<li>{esc(item)}</li>' for item in audience['points'])
+  resource_targets={
+    'masterclass-resource':('deck',{'es':'Abrir masterclass','en':'Open masterclass','pt':'Abrir masterclass'}[lang]),
+    'workbook-resource':('workbook',{'es':'Abrir workbook','en':'Open workbook','pt':'Abrir workbook'}[lang]),
+    'playbook-resource':('playbook',{'es':'Abrir playbook','en':'Open playbook','pt':'Abrir playbook'}[lang]),
+    'prompts-resource':('prompts',{'es':'Abrir biblioteca','en':'Open library','pt':'Abrir biblioteca'}[lang]),
+  }
+  sections=[]
+  for section in content['sections']:
+    points=''.join(f'<li>{esc(item)}</li>' for item in section['points'])
+    extra=''
+    if section['id'] in resource_targets:
+      target,label=resource_targets[section['id']]
+      extra=f'<a class="editorial-link" href="{esc(rel_page(lang,page,lang,target))}">{esc(label)}{ui_icon("arrow")}</a>'
+    elif page=='intakes' and section['id']=='interest':
+      label={'es':'Registrar interés','en':'Register interest','pt':'Registrar interesse'}[lang]
+      extra=f'<a class="editorial-link" href="{FORM}" target="_blank" rel="noopener noreferrer">{esc(label)}{ui_icon("external")}</a>'
+    elif page=='level0' and section['id']=='metodologia':
+      label={'es':'Conocer MetodologIA','en':'Explore MetodologIA','pt':'Conhecer a MetodologIA'}[lang]
+      extra=f'<a class="editorial-link" href="https://metodologia.info/">{esc(label)}{ui_icon("external")}</a>'
+    sections.append(f'''<section class="editorial-section" id="{esc(section['id'])}"><div class="editorial-section-number" aria-hidden="true">{len(sections)+1:02d}</div><div><h2>{esc(section['title'])}</h2><p>{esc(section['body'])}</p>{f'<ul>{points}</ul>' if points else ''}{extra}</div></section>''')
+  return head(lang,content['meta_title'],page)+f'''<main id="main" class="editorial-page" data-editorial-page="{page}" data-editorial-audience="{CURRENT_AUDIENCE}"><section class="editorial-hero" id="{esc(anchors[0])}"><div class="shell editorial-hero-grid"><div><span class="eyebrow">{esc(content['eyebrow'])}</span><h1>{esc(content['title'])}</h1><p class="lead">{esc(content['lead'])}</p></div><aside class="editorial-audience"><span>{esc(audience['label'])}</span><p>{esc(audience['body'])}</p><ul>{audience_points}</ul></aside></div></section><div class="shell editorial-sections">{''.join(sections)}</div></main>'''+end(lang,page)
 
 def write(path,text): path.parent.mkdir(parents=True,exist_ok=True); path.write_text(text,encoding='utf-8')
+def validate_method_identity():
+  subprocess.run([sys.executable,str(ROOT/'scripts/build_method_identity.py'),'--check'],check=True,stdout=subprocess.DEVNULL)
+  source=METHOD_IDENTITY['source']
+  if hashlib.sha256((SRC/source['font']).read_bytes()).hexdigest()!=source['font_sha256'] or f'fontTools {fontTools.__version__}'!=source['toolchain']:
+    raise RuntimeError('METHOD_IDENTITY_SOURCE_DRIFT')
+  forbidden_tags={'script','foreignObject','iframe','object','embed','image','text'}
+  for variant,asset in METHOD_IDENTITY['assets'].items():
+    path=SRC/asset['path']; payload=path.read_bytes(); text=payload.decode('utf-8')
+    if hashlib.sha256(payload).hexdigest()!=asset['sha256'] or not asset.get('rights') or asset.get('minimum_css_px',0)<40:
+      raise RuntimeError(f'METHOD_IDENTITY_ASSET_DRIFT:{variant}')
+    try: root=ET.fromstring(text)
+    except ET.ParseError as error: raise RuntimeError(f'METHOD_IDENTITY_SVG_INVALID:{variant}') from error
+    local=lambda value:value.rsplit('}',1)[-1]
+    if local(root.tag)!='svg' or root.attrib.get('viewBox')!=asset['viewBox'] or any(local(node.tag) in forbidden_tags for node in root.iter()):
+      raise RuntimeError(f'METHOD_IDENTITY_GEOMETRY_INVALID:{variant}')
+    for node in root.iter():
+      for key,value in node.attrib.items():
+        if local(key)=='href' or re.search(r'(?:https?:|//|data:|javascript:|\\)',value,re.I):
+          raise RuntimeError(f'METHOD_IDENTITY_EXTERNAL_REFERENCE:{variant}')
+    if not any(local(node.tag)=='path' for node in root.iter()):
+      raise RuntimeError(f'METHOD_IDENTITY_OUTLINE_MISSING:{variant}')
+
 def build():
-  declared_assets=[RESOURCES['deck'],RESOURCES['identity_assets']['logo'],RESOURCES['identity_assets']['javier_photo'],*PLAYBOOK['founders']]
+  global CURRENT_AUDIENCE
+  brand_manifest,brand_receipt,_=validate_release()
+  chrome_spec=validate_chrome_spec()
+  validate_method_identity()
+  declared_assets=[RESOURCES['deck'],RESOURCES['identity_assets']['logo'],RESOURCES['identity_assets']['pristino_mark'],RESOURCES['identity_assets']['javier_photo'],*METHOD_IDENTITY['assets'].values(),*PLAYBOOK['founders']]
   for declared in declared_assets:
     asset_ref=declared['source_asset'] if 'source_asset' in declared else declared['path'] if 'path' in declared else declared['photo']
     source=SRC/asset_ref
@@ -517,45 +675,86 @@ def build():
       raise RuntimeError(f'Public asset hash mismatch: {source.relative_to(SRC)}')
   if DIST.exists(): shutil.rmtree(DIST)
   (DIST/'assets').mkdir(parents=True)
-  css=(SRC/'site.css').read_text(encoding='utf-8').replace("Poppins-Regular.ttf') format('truetype')","Poppins-Regular.woff2') format('woff2')").replace("Poppins-Bold.ttf') format('truetype')","Poppins-Bold.woff2') format('woff2')").replace("Montserrat-Variable.ttf') format('truetype')","Montserrat-Variable.woff2') format('woff2')")
+  brand_dist=DIST/'assets'/'brand'
+  for folder in ('runtime','assets'):
+    (brand_dist/folder).mkdir(parents=True)
+  for ref in ('runtime/brand-shell.css','assets/metodologia-logo.svg','assets/Poppins-Regular.ttf','assets/Poppins-Bold.ttf','assets/Montserrat-Variable.ttf','assets/Poppins-OFL.txt','assets/Montserrat-OFL.txt'):
+    shutil.copyfile(RELEASE/ref,brand_dist/ref)
+  css=(SRC/'site.css').read_text(encoding='utf-8')
   write(DIST/'assets/site.css',css); shutil.copyfile(SRC/'forms.css',DIST/'assets/forms.css'); shutil.copyfile(SRC/'site.js',DIST/'assets/site.js')
-  for p in sorted((SRC/'assets').iterdir()): shutil.copyfile(p,DIST/'assets'/p.name)
-  font_jobs=(('Poppins-Regular.ttf','Poppins-Regular.woff2'),('Poppins-Bold.ttf','Poppins-Bold.woff2'),('Montserrat-Variable.ttf','Montserrat-Variable.woff2'))
-  for source,target in font_jobs:
-    subprocess.run([sys.executable,'-m','fontTools.subset',str(SRC/'assets'/source),f'--output-file={DIST/"assets"/target}','--flavor=woff2','--unicodes=U+0000-00FF,U+0100-024F,U+2000-206F,U+20AC','--layout-features=*','--no-hinting'],check=True,stdout=subprocess.DEVNULL)
-    (DIST/'assets'/source).unlink()
-  import fitz
-  from PIL import Image
-  page_dir=DIST/'assets'/'masterclass-pages'; page_dir.mkdir()
-  pdf=fitz.open(SRC/RESOURCES['deck']['source_asset'])
-  if len(pdf)!=RESOURCES['deck']['page_count']:
-    raise RuntimeError(f'PDF page count mismatch: expected {RESOURCES["deck"]["page_count"]}, got {len(pdf)}')
-  for i,page in enumerate(pdf,1):
-    pix=page.get_pixmap(matrix=fitz.Matrix(1280/page.rect.width,1280/page.rect.width),alpha=False)
-    image=Image.open(io.BytesIO(pix.tobytes('png'))).convert('RGB')
-    image.save(page_dir/f'page-{i:02d}.webp','WEBP',quality=82,method=6,exact=True)
-  pdf.close()
+  inactive_legacy_assets={'metodologia-logo.svg','Poppins-Regular.ttf','Poppins-Bold.ttf','Montserrat-Variable.ttf','Poppins-OFL.txt','Montserrat-OFL.txt'}
+  for p in sorted((SRC/'assets').iterdir()):
+    if p.name not in inactive_legacy_assets: shutil.copyfile(p,DIST/'assets'/p.name)
   outputs=[]
-  for lang in LANGS:
-    base=DIST if lang=='es' else DIST/lang
-    for rel,content in [('index.html',landing(lang)),('workbook/index.html',workbook(lang)),('playbook/index.html',playbook(lang)),('prompts/index.html',prompt_library_page(lang)),('deck/index.html',deck_viewer(lang))]:
-      content=content.replace('aria-label="Nivel 0"',f'aria-label="{T[lang]["route"]}"').replace('MetodologIA · Nivel 0',f'MetodologIA · {T[lang]["route"]}')
-      content=content.replace('W04 · Profesor / Asesor / Coach',{'es':'W04 · Profesor / Asesor / Coach','en':'W04 · Teacher / Advisor / Coach','pt':'W04 · Professor / Assessor / Coach'}[lang] if rel=='workbook/index.html' else 'W04 · Profesor / Asesor / Coach')
-      content=decorate_ui(content,lang)
-      p=base/rel;write(p,content);outputs.append(p)
+  for audience in AUDIENCES:
+    CURRENT_AUDIENCE=audience
+    for lang in LANGS:
+      rendered=[('landing',landing(lang)),('workbook',workbook(lang)),('playbook',playbook(lang)),('prompts',prompt_library_page(lang)),('deck',masterclass(lang))]
+      rendered += [(page,editorial_page(lang,page)) for page in EDITORIAL_PAGES]
+      for page,content in rendered:
+        if page not in EDITORIAL_PAGES:
+          content=content.replace('aria-label="Nivel 0"',f'aria-label="{T[lang]["route"]}"').replace('MetodologIA · Nivel 0',f'MetodologIA · {T[lang]["route"]}')
+          content=content.replace('W04 · Profesor / Asesor / Coach',{'es':'W04 · Profesor / Asesor / Coach','en':'W04 · Teacher / Advisor / Coach','pt':'W04 · Professor / Assessor / Coach'}[lang] if page=='workbook' else 'W04 · Profesor / Asesor / Coach')
+          content=inject_audience(decorate_ui(content,lang).replace('#page-','#slide-'),lang,page)
+        else:
+          content=decorate_ui(content,lang)
+        if content.count('data-intrapage-nav')!=1 or content.count('data-intrapage-open')!=1:
+          raise RuntimeError(f'INTRAPAGE_NAV_RENDER_INVALID:{lang}:{CURRENT_AUDIENCE}:{page}')
+        if content.count('data-conoce-header')!=1 or content.count('data-conoce-footer')!=1 or content.count('data-conoce-preferences')!=1:
+          raise RuntimeError(f'CONOCE_CHROME_RENDER_INVALID:{lang}:{CURRENT_AUDIENCE}:{page}')
+        if any(slot in content for slot in ('data-mdg-header','data-mdg-controls','data-mdg-footer')):
+          raise RuntimeError(f'CONOCE_CHROME_CORPORATE_SLOT_DRIFT:{lang}:{CURRENT_AUDIENCE}:{page}')
+        if 'brand-shell.js' in content or 'MetodologiaBrand.mount' in content or content.count('data-conoce-parent')!=1:
+          raise RuntimeError(f'CONOCE_CHROME_AUTHORITY_DRIFT:{lang}:{CURRENT_AUDIENCE}:{page}')
+        if re.search(r'<a[^>]*(?:data-conoce-parent[^>]*target=|target=[^>]*data-conoce-parent)',content):
+          raise RuntimeError(f'CONOCE_CHROME_PARENT_TARGET_DRIFT:{lang}:{CURRENT_AUDIENCE}:{page}')
+        for anchor in EXPECTED_INTRAPAGE_ANCHORS[page]:
+          if len(re.findall(rf'\bid="{re.escape(anchor)}"',content))!=1 or content.count(f'href="#{anchor}"')<1:
+            raise RuntimeError(f'INTRAPAGE_NAV_TARGET_INVALID:{lang}:{CURRENT_AUDIENCE}:{page}:{anchor}')
+        if page=='deck':
+          pdf_ref=f'{asset_base(lang,"deck")}{DECK_RESOURCE["source_asset"]}'
+          if content.count('data-official-masterclass ')!=1 or content.count(f'data-official-masterclass-sha256="{DECK_RESOURCE["sha256"]}"')!=1 or content.count(f'data="{pdf_ref}#page=1&amp;view=FitH"')!=1 or content.count(f'href="{pdf_ref}"')<3:
+            raise RuntimeError(f'OFFICIAL_MASTERCLASS_RENDER_INVALID:{lang}:{CURRENT_AUDIENCE}')
+        route=page_dir(lang,page)
+        p=(DIST if route=='.' else DIST/route)/'index.html';write(p,content);outputs.append(p)
+  html_outputs=sorted(p for p in outputs if p.suffix=='.html')
+  if len(html_outputs)!=54:
+    raise RuntimeError(f'METHOD_IDENTITY_ROUTE_COUNT:{len(html_outputs)}')
+  expected_marks={'landing':2,'playbook':4,'prompts':1,'workbook':0,'deck':0,'level0':0,'how':0,'resources_index':0,'intakes':0}
+  stale='A'+chr(179)
+  relevant_pages=0
+  for page_path in html_outputs:
+    content=page_path.read_text(encoding='utf-8')
+    match=re.search(r'<body data-page="([^"]+)"',content)
+    if not match or match.group(1) not in expected_marks:
+      raise RuntimeError(f'METHOD_IDENTITY_PAGE_UNKNOWN:{page_path.relative_to(DIST)}')
+    page=match.group(1); count=content.count('data-method-mark=')
+    if count!=expected_marks[page] or stale in content:
+      raise RuntimeError(f'METHOD_IDENTITY_RENDER_DRIFT:{page_path.relative_to(DIST)}:{count}')
+    relevant_pages += page in METHOD_IDENTITY['usage']['resources']
+  if relevant_pages!=18:
+    raise RuntimeError(f'METHOD_IDENTITY_SURFACE_COUNT:{relevant_pages}')
   sitemap=[]
-  for lang in LANGS:
-    prefix='' if lang=='es' else f'{lang}/'
-    for page in ('','workbook/','playbook/','prompts/','deck/'):
-      sitemap.append(f'  <url><loc>{PUBLIC}{prefix}{page}</loc></url>')
+  for audience in AUDIENCES:
+    CURRENT_AUDIENCE=audience
+    for lang in LANGS:
+      for page in PAGES:
+        route=page_dir(lang,page)
+        sitemap.append(f'  <url><loc>{PUBLIC}{"" if route=="." else route+"/"}</loc></url>')
   write(DIST/'sitemap.xml','<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n'+'\n'.join(sitemap)+'\n</urlset>\n')
   write(DIST/'robots.txt',f'User-agent: *\nAllow: /\nSitemap: {PUBLIC}sitemap.xml\n')
   outputs += [DIST/'sitemap.xml',DIST/'robots.txt']
   outputs += [p for p in (DIST/'assets').rglob('*') if p.is_file()]
   hashes={str(p.relative_to(DIST)):hashlib.sha256(p.read_bytes()).hexdigest() for p in sorted(outputs)}
-  source_hashes={str(p.relative_to(SRC)):hashlib.sha256(p.read_bytes()).hexdigest() for p in sorted(SRC.rglob('*')) if p.is_file()}
-  manifest={'schema_version':'build-manifest-v1','build_id':'nivel-0-learning-resources-v5','state':'RENDERED_DRAFT','publication_authorized':False,'compiler':{'ref':'scripts/build.py','sha256':hashlib.sha256(Path(__file__).read_bytes()).hexdigest()},'outputs':hashes,'sources':source_hashes}
+  source_hashes={str(p.relative_to(SRC)):hashlib.sha256(p.read_bytes()).hexdigest() for p in sorted(SRC.rglob('*')) if p.is_file() and not (p.parent==SRC/'assets' and p.name in inactive_legacy_assets)}
+  chrome_binding={'schema_version':chrome_spec['schema_version'],'site_id':chrome_spec['site_id'],'display_label':chrome_spec['identity']['display_label'],'source':'src/conoce-chrome-spec-v1.json','source_sha256':source_hashes['conoce-chrome-spec-v1.json'],'self_sha256':chrome_spec['self_sha256'],'canonical_origin':chrome_spec['canonical_origin'],'parent':chrome_spec['parent'],'rendered_pages':len(html_outputs),'storage_keys':chrome_spec['allowed_storage_keys'],'brand_release_immutable':chrome_spec['brand_authority']['immutable'],'state':chrome_spec['state'],'publication_authorized':False}
+  chrome_binding['breadcrumbs']=chrome_spec['breadcrumbs']
+  editorial_binding={'schema_version':EDITORIAL['schema_version'],'source':'src/editorial-sitemap-spec-v1.json','source_sha256':source_hashes['editorial-sitemap-spec-v1.json'],'self_sha256':EDITORIAL['self_sha256'],'pages':list(EDITORIAL_PAGES),'rendered_pages':len(EDITORIAL_PAGES)*len(LANGS)*len(AUDIENCES),'canonical_count':len(html_outputs),'state':EDITORIAL['state'],'publication_authorized':False}
+  manifest={'schema_version':'build-manifest-v2','build_id':'nivel-0-learning-resources-v8','state':'RENDERED_DRAFT','publication_authorized':False,'compiler':{'ref':'scripts/build.py','sha256':hashlib.sha256(Path(__file__).read_bytes()).hexdigest()},'variants':{'locales':list(LANGS),'audiences':list(AUDIENCES),'resources':['landing','workbook','playbook','prompts','deck'],'editorial_pages':list(EDITORIAL_PAGES),'canonical_pages':len(html_outputs)},'digital_brand':{'release_id':brand_manifest['releaseId'],'manifest_sha256':MANIFEST_RAW,'receipt_sha256':RECEIPT_RAW,'usage':['tokens','fonts','organization_mark','asset_rights'],'runtime_mount':False,'network_required':False,'publication_authority':False},'conoce_chrome':chrome_binding,'editorial_sitemap':editorial_binding,'official_masterclass':{'source':DECK_RESOURCE['source_asset'],'sha256':DECK_RESOURCE['sha256'],'media_type':DECK_RESOURCE['media_type'],'document_language':DECK_RESOURCE['document_language'],'page_count':DECK_RESOURCE['page_count'],'rendered_variants':len(LANGS)*len(AUDIENCES),'primary_surface':True,'publication_authorized':False},'intrapage_navigation':{'schema_version':INTRAPAGE_NAV['schema_version'],'source':'src/intrapage-navigation-spec-v1.json','source_sha256':source_hashes['intrapage-navigation-spec-v1.json'],'desktop_width_px':INTRAPAGE_NAV['desktop_width_px'],'rendered_pages':len(html_outputs),'publication_authorized':False},'method_identity':{'schema_version':METHOD_IDENTITY['schema_version'],'display_label':METHOD_IDENTITY['display_label'],'role':METHOD_IDENTITY['role'],'generator_sha256':hashlib.sha256((ROOT/METHOD_IDENTITY['source']['generator']).read_bytes()).hexdigest(),'assets':{name:item['sha256'] for name,item in METHOD_IDENTITY['assets'].items()},'resources':METHOD_IDENTITY['usage']['resources'],'rendered_pages':relevant_pages},'outputs':hashes,'sources':source_hashes,'self_hash_model':'sha256(sorted-json-without-self_sha256)'}
+  manifest['build_id']='nivel-0-learning-resources-v9'
+  manifest['self_sha256']=hashlib.sha256((json.dumps({key:value for key,value in manifest.items() if key!='self_sha256'},ensure_ascii=False,sort_keys=True,separators=(',',':'))+'\n').encode('utf-8')).hexdigest()
   write(DIST/'build-manifest.json',json.dumps(manifest,ensure_ascii=False,sort_keys=True,indent=2)+'\n')
-  receipt={'schema_version':'build-receipt-v1','build_id':manifest['build_id'],'manifest_sha256':hashlib.sha256((DIST/'build-manifest.json').read_bytes()).hexdigest(),'output_count':len(hashes),'deterministic_inputs':True,'state':'RENDERED_DRAFT'}
+  receipt={'schema_version':'build-receipt-v1','build_id':manifest['build_id'],'manifest_sha256':hashlib.sha256((DIST/'build-manifest.json').read_bytes()).hexdigest(),'manifest_self_sha256':manifest['self_sha256'],'output_count':len(hashes),'deterministic_inputs':True,'state':'RENDERED_DRAFT','conoce_chrome':manifest['conoce_chrome'],'editorial_sitemap':manifest['editorial_sitemap'],'official_masterclass':manifest['official_masterclass'],'intrapage_navigation':manifest['intrapage_navigation'],'method_identity':manifest['method_identity'],'self_hash_model':'sha256(sorted-json-without-self)'}
+  receipt['self_sha256']=hashlib.sha256(json.dumps(receipt,ensure_ascii=False,sort_keys=True,separators=(',',':')).encode('utf-8')).hexdigest()
   write(DIST/'build-receipt.json',json.dumps(receipt,ensure_ascii=False,sort_keys=True,indent=2)+'\n')
 if __name__=='__main__': build()

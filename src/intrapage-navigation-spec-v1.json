@@ -1,0 +1,124 @@
+{
+  "schema_version": "intrapage-navigation-spec-v1",
+  "state": "RENDERED_DRAFT",
+  "publication_authorized": false,
+  "desktop_width_px": 260,
+  "locales": {
+    "es": {
+      "title": "Índice",
+      "open": "Índice de esta página",
+      "close": "Cerrar índice",
+      "full_index": "Índice completo"
+    },
+    "en": {
+      "title": "On this page",
+      "open": "Table of contents",
+      "close": "Close table of contents",
+      "full_index": "Complete index"
+    },
+    "pt": {
+      "title": "Nesta página",
+      "open": "Índice desta página",
+      "close": "Fechar índice",
+      "full_index": "Índice completo"
+    }
+  },
+  "pages": {
+    "landing": {
+      "surface": "home",
+      "items": [
+        {"anchor": "entrada", "labels": {"es": "Inicio", "en": "Start", "pt": "Início"}},
+        {"anchor": "tension", "labels": {"es": "El reto", "en": "The challenge", "pt": "O desafio"}},
+        {"anchor": "ruta", "labels": {"es": "La ruta", "en": "The route", "pt": "A rota"}},
+        {"anchor": "demostracion", "labels": {"es": "Demostración", "en": "Demonstration", "pt": "Demonstração"}},
+        {"anchor": "experiencia", "labels": {"es": "Recursos", "en": "Resources", "pt": "Recursos"}},
+        {"anchor": "resultados", "labels": {"es": "Resultados", "en": "Outcomes", "pt": "Resultados"}},
+        {"anchor": "metodo", "labels": {"es": "Método", "en": "Method", "pt": "Método"}},
+        {"anchor": "convocatoria", "labels": {"es": "Convocatoria", "en": "Cohort", "pt": "Turma"}}
+      ]
+    },
+    "deck": {
+      "surface": "masterclass",
+      "items": [
+        {"anchor": "masterclass-inicio", "labels": {"es": "Presentación", "en": "Introduction", "pt": "Apresentação"}},
+        {"anchor": "masterclass-pdf", "labels": {"es": "PDF oficial", "en": "Official PDF", "pt": "PDF oficial"}},
+        {"anchor": "masterclass-guia", "labels": {"es": "Guía accesible", "en": "Accessible guide", "pt": "Guia acessível"}}
+      ]
+    },
+    "workbook": {
+      "surface": "workbook",
+      "items": [
+        {"anchor": "workbook-inicio", "labels": {"es": "Inicio", "en": "Start", "pt": "Início"}},
+        {"anchor": "guia", "labels": {"es": "Guía", "en": "Guide", "pt": "Guia"}},
+        {"anchor": "descarga", "labels": {"es": "Abrir herramientas", "en": "Open tools", "pt": "Abrir ferramentas"}},
+        {"anchor": "preparacion", "labels": {"es": "Preparación", "en": "Preparation", "pt": "Preparação"}},
+        {"anchor": "sheet-session", "labels": {"es": "En sesión", "en": "In session", "pt": "Em aula"}},
+        {"anchor": "sheet-depth", "labels": {"es": "Profundidad", "en": "Depth", "pt": "Profundidade"}},
+        {"anchor": "sheet-consolidation", "labels": {"es": "Consolidación", "en": "Consolidation", "pt": "Consolidação"}},
+        {"anchor": "transferencia", "labels": {"es": "Transferencia", "en": "Transfer", "pt": "Transferência"}}
+      ]
+    },
+    "playbook": {
+      "surface": "playbook",
+      "items": [
+        {"anchor": "founders", "labels": {"es": "Carta de fundadores", "en": "Founders' letter", "pt": "Carta dos fundadores"}},
+        {"anchor": "intro", "labels": {"es": "Introducción", "en": "Introduction", "pt": "Introdução"}},
+        {"anchor": "frameworks", "labels": {"es": "Marcos", "en": "Frameworks", "pt": "Frameworks"}},
+        {"anchor": "apprehend", "labels": {"es": "Aprehender", "en": "Embody", "pt": "Apreender"}},
+        {"anchor": "tools", "labels": {"es": "Herramientas", "en": "Tools", "pt": "Ferramentas"}},
+        {"anchor": "workflows", "labels": {"es": "Flujos", "en": "Workflows", "pt": "Fluxos"}},
+        {"anchor": "standards", "labels": {"es": "Estándares", "en": "Standards", "pt": "Padrões"}},
+        {"anchor": "close", "labels": {"es": "Cierre", "en": "Close", "pt": "Fechamento"}}
+      ]
+    },
+    "prompts": {
+      "surface": "prompt-library",
+      "items": [
+        {"anchor": "directos", "labels": {"es": "Prompts directos", "en": "Direct prompts", "pt": "Prompts diretos"}},
+        {"anchor": "prompt-01", "labels": {"es": "Construir la base", "en": "Build the base", "pt": "Construir a base"}},
+        {"anchor": "prompt-06", "labels": {"es": "Crear y aplicar", "en": "Create and apply", "pt": "Criar e aplicar"}},
+        {"anchor": "metaprompts", "labels": {"es": "Metaprompts", "en": "Metaprompts", "pt": "Metaprompts"}}
+      ]
+    },
+    "level0": {
+      "surface": "editorial-level0",
+      "items": [
+        {"anchor": "level0-start", "labels": {"es": "Nivel 0", "en": "Level 0", "pt": "Nivel 0"}},
+        {"anchor": "purpose", "labels": {"es": "Propósito", "en": "Purpose", "pt": "Propósito"}},
+        {"anchor": "path", "labels": {"es": "El recorrido", "en": "The path", "pt": "O percurso"}},
+        {"anchor": "fit", "labels": {"es": "Para quién", "en": "Who it is for", "pt": "Para quem"}},
+        {"anchor": "metodologia", "labels": {"es": "MetodologIA", "en": "MetodologIA", "pt": "MetodologIA"}}
+      ]
+    },
+    "how": {
+      "surface": "editorial-how",
+      "items": [
+        {"anchor": "how-start", "labels": {"es": "Cómo funciona", "en": "How it works", "pt": "Como funciona"}},
+        {"anchor": "before", "labels": {"es": "Antes", "en": "Before", "pt": "Antes"}},
+        {"anchor": "during", "labels": {"es": "Durante", "en": "During", "pt": "Durante"}},
+        {"anchor": "after", "labels": {"es": "Después", "en": "After", "pt": "Depois"}},
+        {"anchor": "evidence", "labels": {"es": "Evidencia", "en": "Evidence", "pt": "Evidência"}}
+      ]
+    },
+    "resources_index": {
+      "surface": "editorial-resources",
+      "items": [
+        {"anchor": "resources-start", "labels": {"es": "Recursos", "en": "Resources", "pt": "Recursos"}},
+        {"anchor": "masterclass-resource", "labels": {"es": "Masterclass", "en": "Masterclass", "pt": "Masterclass"}},
+        {"anchor": "workbook-resource", "labels": {"es": "Workbook", "en": "Workbook", "pt": "Workbook"}},
+        {"anchor": "playbook-resource", "labels": {"es": "Playbook", "en": "Playbook", "pt": "Playbook"}},
+        {"anchor": "prompts-resource", "labels": {"es": "Prompts", "en": "Prompts", "pt": "Prompts"}}
+      ]
+    },
+    "intakes": {
+      "surface": "editorial-intakes",
+      "items": [
+        {"anchor": "intakes-start", "labels": {"es": "Convocatorias", "en": "Intakes", "pt": "Turmas"}},
+        {"anchor": "verification", "labels": {"es": "Qué verificar", "en": "What to verify", "pt": "O que verificar"}},
+        {"anchor": "process", "labels": {"es": "Proceso", "en": "Process", "pt": "Processo"}},
+        {"anchor": "requirements", "labels": {"es": "Qué preparar", "en": "What to prepare", "pt": "O que preparar"}},
+        {"anchor": "interest", "labels": {"es": "Registrar interés", "en": "Register interest", "pt": "Registrar interesse"}}
+      ]
+    }
+  }
+}
