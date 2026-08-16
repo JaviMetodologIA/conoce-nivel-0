@@ -1,5 +1,5 @@
 {
-  "build_id": "nivel-0-learning-resources-v9",
+  "build_id": "nivel-0-learning-resources-v10",
   "conoce_chrome": {
     "brand_release_immutable": true,
     "breadcrumbs": {
@@ -48,6 +48,46 @@
     ]
   },
   "deterministic_inputs": true,
+  "editorial_parity": {
+    "fallback_policy": "forbidden",
+    "inventory": "editorial-string-inventory.json",
+    "inventory_self_sha256": "e5cb7e6c1deded5862625353d16fee05d6ac01630ebf59449ca8aa191225a356",
+    "inventory_sha256": "5795ea9dc0ce6f0ad8f98cc1f23d40ae29a41161e762a0e6603775cff0c138d1",
+    "matrix": {
+      "audiences": [
+        "persona",
+        "empresa"
+      ],
+      "canonical_routes": 54,
+      "locales": [
+        "es",
+        "en",
+        "pt"
+      ],
+      "pages": [
+        "landing",
+        "deck",
+        "workbook",
+        "playbook",
+        "prompts",
+        "level0",
+        "how",
+        "resources_index",
+        "intakes"
+      ]
+    },
+    "publication_authorized": false,
+    "schema_version": "editorial-parity-spec-v1",
+    "self_sha256": "ad07bf72e931202887c1625600579f9e39c1a84a78ecd2891fc70525b7f49fe6",
+    "shared_allowlist": [
+      "organization_and_method_marks",
+      "localized_chrome",
+      "official_spanish_pdf"
+    ],
+    "source": "src/editorial-parity-spec-v1.json",
+    "source_sha256": "df83b1883003c41c16471809a43fcab11442e9c075284b180d4d8d250c5e638c",
+    "state": "RENDERED_DRAFT"
+  },
   "editorial_sitemap": {
     "canonical_count": 54,
     "pages": [
@@ -72,8 +112,8 @@
     "source": "src/intrapage-navigation-spec-v1.json",
     "source_sha256": "cfae0e0b01c8830805049837fcd87f9388fc6a117af1e20feafef16cd796d342"
   },
-  "manifest_self_sha256": "76cae333ddc4120ece285ac172dd2dc974d912c7631aed23957a660b27640749",
-  "manifest_sha256": "e4eeacc9eb00b275393ccf66ece0d0b7da9b1f3893faa95d13acc1dd59148421",
+  "manifest_self_sha256": "b5b51a2e21785cc1ab5ca71633c387444349cce5878e7a98f8cfa982a51a0a77",
+  "manifest_sha256": "d4c5cb8c4416ebe3e9abacac7baf76c9d4235c094f569a211ec8b8527c364c4e",
   "method_identity": {
     "assets": {
       "compact": "b07a0713a106f1f78491e54667b248ef6a790ce175b0a07ba2e721137e936393",
@@ -100,9 +140,9 @@
     "sha256": "5df5533a29652184f492b2f797ecfa0f1fa47cdb682bfcefb8f30c96014ce402",
     "source": "assets/masterclass-ia-nivel-0.pdf"
   },
-  "output_count": 74,
+  "output_count": 75,
   "schema_version": "build-receipt-v1",
   "self_hash_model": "sha256(sorted-json-without-self)",
-  "self_sha256": "53ef0b6091fd42ffd8e61fa6b0c63e2caa7043ef35fb891687acebcc8d48925c",
+  "self_sha256": "febaa58c03aa53bacb495037527820ea6a1b37486e65b70d92e0ab79d8af2580",
   "state": "RENDERED_DRAFT"
 }
