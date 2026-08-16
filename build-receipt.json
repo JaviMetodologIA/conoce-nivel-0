@@ -51,8 +51,8 @@
   "editorial_parity": {
     "fallback_policy": "forbidden",
     "inventory": "editorial-string-inventory.json",
-    "inventory_self_sha256": "e5cb7e6c1deded5862625353d16fee05d6ac01630ebf59449ca8aa191225a356",
-    "inventory_sha256": "5795ea9dc0ce6f0ad8f98cc1f23d40ae29a41161e762a0e6603775cff0c138d1",
+    "inventory_self_sha256": "c0a567f840660880024fa45856f50e4141bc4d6815d09c7f7c557ad6cfa1d48a",
+    "inventory_sha256": "d891514def5cbde1a17fa20c55b5fc92ec911d9fa66ed0fe328b4a320b1b7f6f",
     "matrix": {
       "audiences": [
         "persona",
@@ -112,8 +112,8 @@
     "source": "src/intrapage-navigation-spec-v1.json",
     "source_sha256": "cfae0e0b01c8830805049837fcd87f9388fc6a117af1e20feafef16cd796d342"
   },
-  "manifest_self_sha256": "b5b51a2e21785cc1ab5ca71633c387444349cce5878e7a98f8cfa982a51a0a77",
-  "manifest_sha256": "d4c5cb8c4416ebe3e9abacac7baf76c9d4235c094f569a211ec8b8527c364c4e",
+  "manifest_self_sha256": "08f7e508aeac18740533d65070b7305bc4595ba099db24c489d88030fcf7a1b8",
+  "manifest_sha256": "9bda89e9098c9769205b1d40a70e6d4afc6ea2422800572b4896d531b2fa12a3",
   "method_identity": {
     "assets": {
       "compact": "b07a0713a106f1f78491e54667b248ef6a790ce175b0a07ba2e721137e936393",
@@ -141,8 +141,38 @@
     "source": "assets/masterclass-ia-nivel-0.pdf"
   },
   "output_count": 75,
+  "prompt_library": {
+    "anatomy": [
+      "situation",
+      "request",
+      "execution",
+      "criterion"
+    ],
+    "chain_of_thought_policy": "never_request_store_or_expose_private_reasoning",
+    "format": "SPEC",
+    "intent_authority": {
+      "publication_authorized": false,
+      "rights": "MetodologIA governed contract; no long-form third-party copy reproduced",
+      "schema_version": "prompt-spec-authority-v1",
+      "self_sha256": "08743a264b78853859e4a6cf5e4cb47f8ccc490b2c523d4e6dadd11dc5d14eed",
+      "source": "src/prompt-spec-authority-v1.json",
+      "source_sha256": "64baf1e2299faaca3ff6a89d11dbf92a07be946224960bfe1b60370a9e70753c",
+      "state": "RENDERED_DRAFT"
+    },
+    "prompt_count": 14,
+    "publication_authorized": false,
+    "reference_sources": [
+      "https://javimontano.github.io/prompt-amplificado/biblioteca-prompts.html",
+      "https://javimontano.github.io/prompt-amplificado/crear-prompts.html"
+    ],
+    "rendered_variants": 6,
+    "schema_version": "prompt-library-spec-v1",
+    "source": "src/prompt-library-spec-v1.json",
+    "source_sha256": "ed6d211f29049e99ff97d23e9de5a4824c216118f9e83d0d0d343098a557b836",
+    "state": "RENDERED_DRAFT"
+  },
   "schema_version": "build-receipt-v1",
   "self_hash_model": "sha256(sorted-json-without-self)",
-  "self_sha256": "febaa58c03aa53bacb495037527820ea6a1b37486e65b70d92e0ab79d8af2580",
+  "self_sha256": "4752b828aa98c16689de875826d6fce48abc4031e980122c0d6e3676af4b8bdf",
   "state": "RENDERED_DRAFT"
 }
