@@ -5402,10 +5402,6 @@
           "text": "(R)Evolucionar"
         },
         {
-          "count": 1,
-          "text": "+"
-        },
-        {
           "count": 3,
           "text": "- Auditoría de notebook"
         },
@@ -5610,7 +5606,7 @@
           "text": "3. Entrega solo el resultado final y la metadata de cierre."
         },
         {
-          "count": 1,
+          "count": 2,
           "text": "4"
         },
         {
@@ -5662,7 +5658,7 @@
           "text": "Ayúdame a preparar una presentación sobre [TEMA] para [AUDIENCIA] en [TIEMPO] con decisión [RESULTADO]. Usa [FUENTES]. Construye una tesis, tres ideas, evidencia, tensión, límite y llamado a la acción. Propón una estructura visual concisa y notas de orador. Después ensáyame una sección a la vez, cuestiona afirmaciones débiles y termina con preguntas probables y respuestas citadas."
         },
         {
-          "count": 28,
+          "count": 29,
           "text": "Añade contrato, límites, validación y definición de terminado."
         },
         {
@@ -5910,7 +5906,7 @@
           "text": "Derivada de la skill abierta Aprender · Aprehender · (R)Evolucionar. Las respuestas deben permanecer ligadas a fuentes, límites y decisión humana."
         },
         {
-          "count": 14,
+          "count": 15,
           "text": "Directo"
         },
         {
@@ -6007,6 +6003,10 @@
         },
         {
           "count": 1,
+          "text": "Elige cuánta estructura necesitas"
+        },
+        {
+          "count": 1,
           "text": "Ensaya una conversación exigente y fortalece argumentos con evidencia."
         },
         {
@@ -6070,11 +6070,11 @@
           "text": "Entrevistador para una defensa de arquitectura ante seguridad."
         },
         {
-          "count": 14,
+          "count": 15,
           "text": "Especificado"
         },
         {
-          "count": 14,
+          "count": 15,
           "text": "Estructurado"
         },
         {
@@ -6102,7 +6102,7 @@
           "text": "Explicar RAG a una líder de operaciones con analogías y contraejemplos."
         },
         {
-          "count": 28,
+          "count": 29,
           "text": "Explicita entradas, opciones, flujo y resultado esperado."
         },
         {
@@ -6182,7 +6182,7 @@
           "text": "Nivel 0"
         },
         {
-          "count": 14,
+          "count": 15,
           "text": "Nivel 1"
         },
         {
@@ -6190,7 +6190,7 @@
           "text": "Nivel 1 · Directo"
         },
         {
-          "count": 14,
+          "count": 15,
           "text": "Nivel 2"
         },
         {
@@ -6198,7 +6198,7 @@
           "text": "Nivel 2 · Estructurado"
         },
         {
-          "count": 14,
+          "count": 15,
           "text": "Nivel 3"
         },
         {
@@ -6206,12 +6206,16 @@
           "text": "Nivel 3 · Especificado"
         },
         {
-          "count": 14,
+          "count": 15,
           "text": "Nivel 4"
         },
         {
           "count": 14,
           "text": "Nivel 4 · Orquestado"
+        },
+        {
+          "count": 1,
+          "text": "Niveles de estructura del prompt"
         },
         {
           "count": 14,
@@ -6226,7 +6230,7 @@
           "text": "Opera instrucciones compartidas con fuentes, límites y revisión."
         },
         {
-          "count": 14,
+          "count": 15,
           "text": "Orquestado"
         },
         {
@@ -6282,7 +6286,7 @@
           "text": "Saltar al contenido"
         },
         {
-          "count": 28,
+          "count": 29,
           "text": "Separa instrucciones de sistema y encargo del usuario para reutilizar."
         },
         {
@@ -6303,10 +6307,14 @@
         },
         {
           "count": 1,
+          "text": "Una convención para todos los prompts"
+        },
+        {
+          "count": 1,
           "text": "Una experiencia de MetodologIA"
         },
         {
-          "count": 28,
+          "count": 29,
           "text": "Una instrucción clara, lista para conversar y ajustar."
         },
         {
@@ -6403,6 +6411,10 @@
         },
         {
           "count": 1,
+          "text": "metaprompts"
+        },
+        {
+          "count": 1,
           "text": "necesitas comprender un tema antes de decidir o producir."
         },
         {
@@ -6440,6 +6452,10 @@
         {
           "count": 1,
           "text": "prompt, mapa de objeciones, rúbrica y cierre de aprendizaje."
+        },
+        {
+          "count": 1,
+          "text": "prompts de trabajo"
         },
         {
           "count": 1,
@@ -13499,10 +13515,6 @@
           "text": "(R)Evolve"
         },
         {
-          "count": 1,
-          "text": "+"
-        },
-        {
           "count": 14,
           "text": "- Boundaries, confidence, and the next verifiable step are explicit."
         },
@@ -13707,7 +13719,7 @@
           "text": "3. Return only the final result and closing metadata."
         },
         {
-          "count": 1,
+          "count": 2,
           "text": "4"
         },
         {
@@ -13719,7 +13731,7 @@
           "text": "A MetodologIA experience"
         },
         {
-          "count": 28,
+          "count": 29,
           "text": "A clear instruction, ready to discuss and refine."
         },
         {
@@ -13735,7 +13747,7 @@
           "text": "Act as a learning coach on [TOPIC]. Use only [SOURCES OR NOTEBOOK] and cite every material claim. First ask what I want to achieve and what I think I understand. Then explain one idea at a time, ask me to restate it, diagnose errors and use a counterexample. Separate evidence, inference and missing data. End each round with one retrieval question and the exact source I should review."
         },
         {
-          "count": 28,
+          "count": 29,
           "text": "Adds contract, boundaries, verification and definition of done."
         },
         {
@@ -13785,6 +13797,10 @@
         {
           "count": 1,
           "text": "Check whether a Notebook has purpose, sufficient sources and clear limits."
+        },
+        {
+          "count": 1,
+          "text": "Choose how much structure you need"
         },
         {
           "count": 1,
@@ -13999,7 +14015,7 @@
           "text": "Design governed instruction"
         },
         {
-          "count": 14,
+          "count": 15,
           "text": "Direct"
         },
         {
@@ -14099,7 +14115,7 @@
           "text": "Level 0"
         },
         {
-          "count": 14,
+          "count": 15,
           "text": "Level 1"
         },
         {
@@ -14107,7 +14123,7 @@
           "text": "Level 1 · Direct"
         },
         {
-          "count": 14,
+          "count": 15,
           "text": "Level 2"
         },
         {
@@ -14115,7 +14131,7 @@
           "text": "Level 2 · Structured"
         },
         {
-          "count": 14,
+          "count": 15,
           "text": "Level 3"
         },
         {
@@ -14123,7 +14139,7 @@
           "text": "Level 3 · Specified"
         },
         {
-          "count": 14,
+          "count": 15,
           "text": "Level 4"
         },
         {
@@ -14135,7 +14151,7 @@
           "text": "Main site"
         },
         {
-          "count": 28,
+          "count": 29,
           "text": "Makes inputs, options, flow and expected result explicit."
         },
         {
@@ -14188,6 +14204,10 @@
         },
         {
           "count": 1,
+          "text": "One convention for every prompt"
+        },
+        {
+          "count": 1,
           "text": "Open workbook"
         },
         {
@@ -14195,7 +14215,7 @@
           "text": "Operate shared instructions with sources, boundaries and review."
         },
         {
-          "count": 14,
+          "count": 15,
           "text": "Orchestrated"
         },
         {
@@ -14229,6 +14249,10 @@
         {
           "count": 3,
           "text": "Prompt library"
+        },
+        {
+          "count": 1,
+          "text": "Prompt structure levels"
         },
         {
           "count": 1,
@@ -14379,7 +14403,7 @@
           "text": "Scope includes: Verify a claim before using it as a foundation."
         },
         {
-          "count": 28,
+          "count": 29,
           "text": "Separates system instructions from the user assignment for reuse."
         },
         {
@@ -14395,7 +14419,7 @@
           "text": "Source-grounded coach"
         },
         {
-          "count": 14,
+          "count": 15,
           "text": "Specified"
         },
         {
@@ -14403,7 +14427,7 @@
           "text": "Steps:"
         },
         {
-          "count": 14,
+          "count": 15,
           "text": "Structured"
         },
         {
@@ -14520,6 +14544,10 @@
         },
         {
           "count": 1,
+          "text": "meta-prompts"
+        },
+        {
+          "count": 1,
           "text": "performance by criterion, unresolved objections and improved answers."
         },
         {
@@ -14561,6 +14589,10 @@
         {
           "count": 14,
           "text": "version: 2.0"
+        },
+        {
+          "count": 1,
+          "text": "working prompts"
         },
         {
           "count": 1,
@@ -19902,10 +19934,6 @@
           "text": "(R)Evolve"
         },
         {
-          "count": 1,
-          "text": "+"
-        },
-        {
           "count": 14,
           "text": "- Boundaries, confidence, and the next verifiable step are explicit."
         },
@@ -20110,7 +20138,7 @@
           "text": "3. Return only the final result and closing metadata."
         },
         {
-          "count": 1,
+          "count": 2,
           "text": "4"
         },
         {
@@ -20122,7 +20150,7 @@
           "text": "A MetodologIA experience"
         },
         {
-          "count": 28,
+          "count": 29,
           "text": "A clear instruction, ready to discuss and refine."
         },
         {
@@ -20138,7 +20166,7 @@
           "text": "Adapt a prompt"
         },
         {
-          "count": 28,
+          "count": 29,
           "text": "Adds contract, boundaries, verification and definition of done."
         },
         {
@@ -20188,6 +20216,10 @@
         {
           "count": 1,
           "text": "Check whether a Notebook has purpose, sufficient sources and clear limits."
+        },
+        {
+          "count": 1,
+          "text": "Choose how much structure you need"
         },
         {
           "count": 1,
@@ -20394,7 +20426,7 @@
           "text": "Design an interviewer for [SCENARIO], [ROLE], [AUDIENCE] and [OUTCOME]. It must raise difficulty, ask one thing at a time, require evidence from [SOURCES], introduce realistic objections and score clarity, grounding, judgment and honesty. Deliver system prompt, ten-question map, response branches, rubric, feedback format and simulation limits."
         },
         {
-          "count": 14,
+          "count": 15,
           "text": "Direct"
         },
         {
@@ -20498,7 +20530,7 @@
           "text": "Level 0"
         },
         {
-          "count": 14,
+          "count": 15,
           "text": "Level 1"
         },
         {
@@ -20506,7 +20538,7 @@
           "text": "Level 1 · Direct"
         },
         {
-          "count": 14,
+          "count": 15,
           "text": "Level 2"
         },
         {
@@ -20514,7 +20546,7 @@
           "text": "Level 2 · Structured"
         },
         {
-          "count": 14,
+          "count": 15,
           "text": "Level 3"
         },
         {
@@ -20522,7 +20554,7 @@
           "text": "Level 3 · Specified"
         },
         {
-          "count": 14,
+          "count": 15,
           "text": "Level 4"
         },
         {
@@ -20534,7 +20566,7 @@
           "text": "Main site"
         },
         {
-          "count": 28,
+          "count": 29,
           "text": "Makes inputs, options, flow and expected result explicit."
         },
         {
@@ -20587,10 +20619,14 @@
         },
         {
           "count": 1,
+          "text": "One convention for every prompt"
+        },
+        {
+          "count": 1,
           "text": "Open workbook"
         },
         {
-          "count": 14,
+          "count": 15,
           "text": "Orchestrated"
         },
         {
@@ -20624,6 +20660,10 @@
         {
           "count": 3,
           "text": "Prompt library"
+        },
+        {
+          "count": 1,
+          "text": "Prompt structure levels"
         },
         {
           "count": 1,
@@ -20774,7 +20814,7 @@
           "text": "Scope includes: Verify a claim before using it as a foundation."
         },
         {
-          "count": 28,
+          "count": 29,
           "text": "Separates system instructions from the user assignment for reuse."
         },
         {
@@ -20790,7 +20830,7 @@
           "text": "Source-grounded coach"
         },
         {
-          "count": 14,
+          "count": 15,
           "text": "Specified"
         },
         {
@@ -20802,7 +20842,7 @@
           "text": "Steps:"
         },
         {
-          "count": 14,
+          "count": 15,
           "text": "Structured"
         },
         {
@@ -20923,6 +20963,10 @@
         },
         {
           "count": 1,
+          "text": "meta-prompts"
+        },
+        {
+          "count": 1,
           "text": "performance by criterion, unresolved objections and improved answers."
         },
         {
@@ -20964,6 +21008,10 @@
         {
           "count": 14,
           "text": "version: 2.0"
+        },
+        {
+          "count": 1,
+          "text": "working prompts"
         },
         {
           "count": 1,
@@ -25702,10 +25750,6 @@
           "text": "(R)Evolucionar"
         },
         {
-          "count": 1,
-          "text": "+"
-        },
-        {
           "count": 3,
           "text": "- Auditoría de notebook"
         },
@@ -25910,7 +25954,7 @@
           "text": "3. Entrega solo el resultado final y la metadata de cierre."
         },
         {
-          "count": 1,
+          "count": 2,
           "text": "4"
         },
         {
@@ -25966,7 +26010,7 @@
           "text": "Ayúdame a preparar una presentación sobre [TEMA] para [AUDIENCIA] en [TIEMPO] con decisión [RESULTADO]. Usa [FUENTES]. Construye una tesis, tres ideas, evidencia, tensión, límite y llamado a la acción. Propón una estructura visual concisa y notas de orador. Después ensáyame una sección a la vez, cuestiona afirmaciones débiles y termina con preguntas probables y respuestas citadas."
         },
         {
-          "count": 28,
+          "count": 29,
           "text": "Añade contrato, límites, validación y definición de terminado."
         },
         {
@@ -26214,7 +26258,7 @@
           "text": "Derivada de la skill abierta Aprender · Aprehender · (R)Evolucionar. Las respuestas deben permanecer ligadas a fuentes, límites y decisión humana."
         },
         {
-          "count": 14,
+          "count": 15,
           "text": "Directo"
         },
         {
@@ -26307,6 +26351,10 @@
         },
         {
           "count": 1,
+          "text": "Elige cuánta estructura necesitas"
+        },
+        {
+          "count": 1,
           "text": "Empieza por tu objetivo, añade contexto y fuentes, y pide evidencia antes de ampliar la instrucción."
         },
         {
@@ -26374,11 +26422,11 @@
           "text": "Entrevistador para una defensa de arquitectura ante seguridad."
         },
         {
-          "count": 14,
+          "count": 15,
           "text": "Especificado"
         },
         {
-          "count": 14,
+          "count": 15,
           "text": "Estructurado"
         },
         {
@@ -26406,7 +26454,7 @@
           "text": "Explicar RAG a una líder de operaciones con analogías y contraejemplos."
         },
         {
-          "count": 28,
+          "count": 29,
           "text": "Explicita entradas, opciones, flujo y resultado esperado."
         },
         {
@@ -26494,7 +26542,7 @@
           "text": "Nivel 0"
         },
         {
-          "count": 14,
+          "count": 15,
           "text": "Nivel 1"
         },
         {
@@ -26502,7 +26550,7 @@
           "text": "Nivel 1 · Directo"
         },
         {
-          "count": 14,
+          "count": 15,
           "text": "Nivel 2"
         },
         {
@@ -26510,7 +26558,7 @@
           "text": "Nivel 2 · Estructurado"
         },
         {
-          "count": 14,
+          "count": 15,
           "text": "Nivel 3"
         },
         {
@@ -26518,12 +26566,16 @@
           "text": "Nivel 3 · Especificado"
         },
         {
-          "count": 14,
+          "count": 15,
           "text": "Nivel 4"
         },
         {
           "count": 14,
           "text": "Nivel 4 · Orquestado"
+        },
+        {
+          "count": 1,
+          "text": "Niveles de estructura del prompt"
         },
         {
           "count": 14,
@@ -26534,7 +26586,7 @@
           "text": "Notebook para preparar propuestas de IA con evidencia pública."
         },
         {
-          "count": 14,
+          "count": 15,
           "text": "Orquestado"
         },
         {
@@ -26590,7 +26642,7 @@
           "text": "Saltar al contenido"
         },
         {
-          "count": 28,
+          "count": 29,
           "text": "Separa instrucciones de sistema y encargo del usuario para reutilizar."
         },
         {
@@ -26615,10 +26667,14 @@
         },
         {
           "count": 1,
+          "text": "Una convención para todos los prompts"
+        },
+        {
+          "count": 1,
           "text": "Una experiencia de MetodologIA"
         },
         {
-          "count": 28,
+          "count": 29,
           "text": "Una instrucción clara, lista para conversar y ajustar."
         },
         {
@@ -26703,6 +26759,10 @@
         },
         {
           "count": 1,
+          "text": "metaprompts"
+        },
+        {
+          "count": 1,
           "text": "necesitas comprender un tema antes de decidir o producir."
         },
         {
@@ -26740,6 +26800,10 @@
         {
           "count": 1,
           "text": "prompt, mapa de objeciones, rúbrica y cierre de aprendizaje."
+        },
+        {
+          "count": 1,
+          "text": "prompts de trabajo"
         },
         {
           "count": 1,
@@ -31698,10 +31762,6 @@
           "text": "(R)Evoluir"
         },
         {
-          "count": 1,
-          "text": "+"
-        },
-        {
           "count": 3,
           "text": "- Auditoria de notebook"
         },
@@ -31906,7 +31966,7 @@
           "text": "3. Entregue apenas o resultado final e os metadados de encerramento."
         },
         {
-          "count": 1,
+          "count": 2,
           "text": "4"
         },
         {
@@ -31926,7 +31986,7 @@
           "text": "Abrir workbook"
         },
         {
-          "count": 28,
+          "count": 29,
           "text": "Adiciona contrato, limites, verificação e definição de conclusão."
         },
         {
@@ -32226,7 +32286,7 @@
           "text": "Desenhar instrução governada"
         },
         {
-          "count": 14,
+          "count": 15,
           "text": "Direto"
         },
         {
@@ -32298,11 +32358,15 @@
           "text": "Entrevistador para defesa de arquitetura diante da segurança."
         },
         {
-          "count": 14,
+          "count": 1,
+          "text": "Escolha quanta estrutura você precisa"
+        },
+        {
+          "count": 15,
           "text": "Especificado"
         },
         {
-          "count": 14,
+          "count": 15,
           "text": "Estruturado"
         },
         {
@@ -32318,7 +32382,7 @@
           "text": "Explicar RAG a uma líder de operações com analogias e contraexemplos."
         },
         {
-          "count": 28,
+          "count": 29,
           "text": "Explicita entradas, opções, fluxo e resultado esperado."
         },
         {
@@ -32403,10 +32467,14 @@
         },
         {
           "count": 1,
+          "text": "Níveis de estrutura do prompt"
+        },
+        {
+          "count": 1,
           "text": "Nível 0"
         },
         {
-          "count": 14,
+          "count": 15,
           "text": "Nível 1"
         },
         {
@@ -32414,7 +32482,7 @@
           "text": "Nível 1 · Direto"
         },
         {
-          "count": 14,
+          "count": 15,
           "text": "Nível 2"
         },
         {
@@ -32422,7 +32490,7 @@
           "text": "Nível 2 · Estruturado"
         },
         {
-          "count": 14,
+          "count": 15,
           "text": "Nível 3"
         },
         {
@@ -32430,7 +32498,7 @@
           "text": "Nível 3 · Especificado"
         },
         {
-          "count": 14,
+          "count": 15,
           "text": "Nível 4"
         },
         {
@@ -32502,7 +32570,7 @@
           "text": "Opere instruções compartilhadas com fontes, limites e revisão."
         },
         {
-          "count": 14,
+          "count": 15,
           "text": "Orquestrado"
         },
         {
@@ -32562,7 +32630,7 @@
           "text": "Saída:"
         },
         {
-          "count": 28,
+          "count": 29,
           "text": "Separa instruções de sistema do pedido do usuário para reutilizar."
         },
         {
@@ -32595,10 +32663,14 @@
         },
         {
           "count": 1,
+          "text": "Uma convenção para todos os prompts"
+        },
+        {
+          "count": 1,
           "text": "Uma experiência da MetodologIA"
         },
         {
-          "count": 28,
+          "count": 29,
           "text": "Uma instrução clara, pronta para conversar e ajustar."
         },
         {
@@ -32715,6 +32787,10 @@
         },
         {
           "count": 1,
+          "text": "metaprompts"
+        },
+        {
+          "count": 1,
           "text": "nível demonstrado, citações, lacunas e prática corretiva."
         },
         {
@@ -32752,6 +32828,10 @@
         {
           "count": 1,
           "text": "prompt, rubrica, banco de tarefas e regra de aprovação."
+        },
+        {
+          "count": 1,
+          "text": "prompts de trabalho"
         },
         {
           "count": 1,
@@ -37786,10 +37866,6 @@
           "text": "(R)Evoluir"
         },
         {
-          "count": 1,
-          "text": "+"
-        },
-        {
           "count": 3,
           "text": "- Auditoria de notebook"
         },
@@ -37994,7 +38070,7 @@
           "text": "3. Entregue apenas o resultado final e os metadados de encerramento."
         },
         {
-          "count": 1,
+          "count": 2,
           "text": "4"
         },
         {
@@ -38022,7 +38098,7 @@
           "text": "Adaptar um prompt"
         },
         {
-          "count": 28,
+          "count": 29,
           "text": "Adiciona contrato, limites, verificação e definição de conclusão."
         },
         {
@@ -38318,7 +38394,7 @@
           "text": "Derivada da skill aberta Aprender · Apreender · (R)Evoluir. As respostas devem permanecer ligadas a fontes, limites e decisão humana."
         },
         {
-          "count": 14,
+          "count": 15,
           "text": "Direto"
         },
         {
@@ -38390,11 +38466,15 @@
           "text": "Entrevistador para defesa de arquitetura diante da segurança."
         },
         {
-          "count": 14,
+          "count": 1,
+          "text": "Escolha quanta estrutura você precisa"
+        },
+        {
+          "count": 15,
           "text": "Especificado"
         },
         {
-          "count": 14,
+          "count": 15,
           "text": "Estruturado"
         },
         {
@@ -38410,7 +38490,7 @@
           "text": "Explicar RAG a uma líder de operações com analogias e contraexemplos."
         },
         {
-          "count": 28,
+          "count": 29,
           "text": "Explicita entradas, opções, fluxo e resultado esperado."
         },
         {
@@ -38503,10 +38583,14 @@
         },
         {
           "count": 1,
+          "text": "Níveis de estrutura do prompt"
+        },
+        {
+          "count": 1,
           "text": "Nível 0"
         },
         {
-          "count": 14,
+          "count": 15,
           "text": "Nível 1"
         },
         {
@@ -38514,7 +38598,7 @@
           "text": "Nível 1 · Direto"
         },
         {
-          "count": 14,
+          "count": 15,
           "text": "Nível 2"
         },
         {
@@ -38522,7 +38606,7 @@
           "text": "Nível 2 · Estruturado"
         },
         {
-          "count": 14,
+          "count": 15,
           "text": "Nível 3"
         },
         {
@@ -38530,7 +38614,7 @@
           "text": "Nível 3 · Especificado"
         },
         {
-          "count": 14,
+          "count": 15,
           "text": "Nível 4"
         },
         {
@@ -38598,7 +38682,7 @@
           "text": "O escopo não inclui: afirmações sem procedência, capacidades indisponíveis ou decisões que pertencem à pessoa"
         },
         {
-          "count": 14,
+          "count": 15,
           "text": "Orquestrado"
         },
         {
@@ -38658,7 +38742,7 @@
           "text": "Saída:"
         },
         {
-          "count": 28,
+          "count": 29,
           "text": "Separa instruções de sistema do pedido do usuário para reutilizar."
         },
         {
@@ -38695,10 +38779,14 @@
         },
         {
           "count": 1,
+          "text": "Uma convenção para todos os prompts"
+        },
+        {
+          "count": 1,
           "text": "Uma experiência da MetodologIA"
         },
         {
-          "count": 28,
+          "count": 29,
           "text": "Uma instrução clara, pronta para conversar e ajustar."
         },
         {
@@ -38803,6 +38891,10 @@
         },
         {
           "count": 1,
+          "text": "metaprompts"
+        },
+        {
+          "count": 1,
           "text": "nível demonstrado, citações, lacunas e prática corretiva."
         },
         {
@@ -38840,6 +38932,10 @@
         {
           "count": 1,
           "text": "prompt, rubrica, banco de tarefas e regra de aprovação."
+        },
+        {
+          "count": 1,
+          "text": "prompts de trabalho"
         },
         {
           "count": 1,
@@ -43423,7 +43519,7 @@
   ],
   "schema_version": "editorial-string-inventory-v1",
   "self_hash_model": "sha256(sorted-json-without-self_sha256)",
-  "self_sha256": "cbc02743dcdeda785fd5a6f2334b0ce5b7abc9699bac4d667d8341d03d992fb0",
+  "self_sha256": "de578a8caf1f0a7ebe6a3e63bd53e63de26dc3f5e2d2a3bbeeb6d4837cacad28",
   "source_spec": "src/editorial-parity-spec-v1.json",
   "source_spec_self_sha256": "ad07bf72e931202887c1625600579f9e39c1a84a78ecd2891fc70525b7f49fe6",
   "state": "RENDERED_DRAFT"

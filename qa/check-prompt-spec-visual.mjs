@@ -120,6 +120,50 @@ try {
         const response = await page.goto(`${origin}/${route(locale, audience, resource)}`, { waitUntil: "load" });
         if (!response?.ok()) throw new Error(`PROMPT_ROUTE_FAILED:${locale}:${audience}:${resource}:${view.label}`);
         if (theme === "dark") await page.locator("[data-mdg-theme]").click();
+        if (resource === "prompts") {
+          const heroContract = await page.evaluate(() => {
+            const hero = document.querySelector(".prompt-library-hero");
+            const copy = hero?.querySelector(".prompt-library-hero-copy");
+            const title = hero?.querySelector("h1");
+            const map = hero?.querySelector(".prompt-library-map");
+            const metrics = [...(map?.querySelectorAll(".prompt-library-metrics > *") || [])];
+            const levels = [...(map?.querySelectorAll(".prompt-library-level-map > li") || [])];
+            const box = (node) => node?.getBoundingClientRect();
+            const heroBox = box(hero);
+            const copyBox = box(copy);
+            const titleBox = box(title);
+            const mapBox = box(map);
+            return {
+              metrics: metrics.length,
+              levels: levels.length,
+              titleText: title?.textContent?.trim(),
+              heroOverflow: document.documentElement.scrollWidth > innerWidth + 2,
+              titleOverflow: Boolean(title && (title.scrollWidth > title.clientWidth + 2 || title.scrollHeight > title.clientHeight + 16) && getComputedStyle(title).overflow !== "visible"),
+              mapOverflow: Boolean(map && (map.scrollWidth > map.clientWidth + 2 || map.scrollHeight > map.clientHeight + 2)),
+              metricTargets: metrics.filter((node) => node.matches("a")).map((node) => box(node)?.height || 0),
+              horizontal: Boolean(copyBox && mapBox && mapBox.left > copyBox.right),
+              stacked: Boolean(copyBox && mapBox && mapBox.top > copyBox.bottom),
+              mapTop: mapBox?.top,
+              mapBottom: mapBox?.bottom,
+              heroRight: heroBox?.right,
+              mapRight: mapBox?.right,
+              titleHeight: titleBox?.height,
+            };
+          });
+          if (
+            heroContract.metrics !== 3 ||
+            heroContract.levels !== 4 ||
+            !heroContract.titleText ||
+            heroContract.heroOverflow ||
+            heroContract.titleOverflow ||
+            heroContract.mapOverflow ||
+            heroContract.metricTargets.some((height) => height < 44) ||
+            (width > 1050 && !heroContract.horizontal) ||
+            (width <= 1050 && !heroContract.stacked) ||
+            (width <= 390 && heroContract.mapTop > 844) ||
+            heroContract.mapRight > width + 1
+          ) throw new Error(`PROMPT_HERO_CONTRACT:${locale}:${audience}:${theme}:${view.label}:${JSON.stringify(heroContract)}`);
+        }
         await page.locator('[data-prompt-format="spec"]').evaluateAll((tabs) => tabs.forEach((tab) => tab.click()));
         const panels = page.locator('[id$="-spec"][data-prompt-template]:not([hidden])');
         const expectedPanels = resource === "prompts" ? 14 : 13;
@@ -130,9 +174,14 @@ try {
 
         await page.addScriptTag({ content: axeSource });
         const axe = await page.evaluate(async (resource) => {
-          const root = document.querySelector(resource === "prompts" ? ".library-prompt-card" : ".brain-prompt-card");
-          const result = await window.axe.run(root, { runOnly: { type: "tag", values: ["wcag2a", "wcag2aa"] } });
-          return result.violations.map((item) => ({ id: item.id, impact: item.impact, nodes: item.nodes.length }));
+          const roots = [document.querySelector(resource === "prompts" ? ".library-prompt-card" : ".brain-prompt-card")];
+          if (resource === "prompts") roots.push(document.querySelector(".prompt-library-hero"));
+          const violations = [];
+          for (const root of roots) {
+            const result = await window.axe.run(root, { runOnly: { type: "tag", values: ["wcag2a", "wcag2aa"] } });
+            violations.push(...result.violations.map((item) => ({ id: item.id, impact: item.impact, nodes: item.nodes.length })));
+          }
+          return violations;
         }, resource);
         if (axe.length) throw new Error(`PROMPT_AXE:${locale}:${audience}:${resource}:${theme}:${view.label}:${JSON.stringify(axe)}`);
         axeChecks += 1;
