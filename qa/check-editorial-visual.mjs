@@ -37,7 +37,7 @@ for (const route of routes) {
         violations: result.violations.map((item) => ({id: item.id, nodes: item.nodes.length})),
         overflow: document.documentElement.scrollWidth - innerWidth,
         hero: document.querySelector('.editorial-hero')?.getBoundingClientRect(),
-        audience: document.querySelector('.editorial-audience')?.getBoundingClientRect(),
+        audience: document.querySelector('[data-audience-field="benefits"]')?.getBoundingClientRect(),
         sections: document.querySelectorAll('.editorial-section').length,
         sidebar: document.querySelectorAll('[data-intrapage-nav]').length,
         smallLinks: links.filter((item) => item.getBoundingClientRect().height < 44).map((item) => item.textContent.trim()),

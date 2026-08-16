@@ -8,6 +8,10 @@
   },
   "locales": {
     "es": {
+      "prep_label": "Antes de continuar",
+      "use_cases_label": "Casos de uso · destino provisional",
+      "expert_label": "Ruta experta · Spec → Build → Verify",
+      "route_map_label": "Aprender · Aprehender · Evolucionar",
       "start_label": "Tu primer contacto ocurre en el taller",
       "start_title": "Abre tus herramientas",
       "start_body": "La sesión parte de un tema real. Abre NotebookLM, entra al asistente Research Blueprint y confirma acceso al Notebook abierto Empoderamiento en IA y Método. Después ejecuta los cinco prompts esenciales.",
@@ -64,6 +68,10 @@
       "use_cases": ["Estudiar un tema", "Aprender una capacidad nueva", "Crear contenido basado en fuentes", "Preparar una decisión, reunión o propuesta", "Configurar un asesor con perspectiva experta sustentada en fuentes", "Configurar un coach basado en fuentes", "Convertir una investigación revisada en una skill"]
     },
     "en": {
+      "prep_label": "Before you continue",
+      "use_cases_label": "Use cases · provisional destination",
+      "expert_label": "Expert route · Spec → Build → Verify",
+      "route_map_label": "Learn · Apprehend · Evolve",
       "start_label": "Your first contact happens in the workshop",
       "start_title": "Open your tools",
       "start_body": "Start with a real topic. Open NotebookLM, enter Research Blueprint, and confirm access to the open AI Empowerment and Method notebook. Then run the five essential prompts.",
@@ -120,6 +128,10 @@
       "use_cases": ["Study a topic", "Learn a new capability", "Create source-grounded content", "Prepare a decision, meeting or proposal", "Configure an advisor with a source-grounded expert perspective", "Configure a source-grounded coach", "Turn reviewed research into a skill"]
     },
     "pt": {
+      "prep_label": "Antes de continuar",
+      "use_cases_label": "Casos de uso · destino provisório",
+      "expert_label": "Rota avançada · Spec → Build → Verify",
+      "route_map_label": "Aprender · Apreender · Evoluir",
       "start_label": "Seu primeiro contato acontece na oficina",
       "start_title": "Abra suas ferramentas",
       "start_body": "Comece com um tema real. Abra o NotebookLM, entre no Research Blueprint e confirme acesso ao notebook aberto Empoderamento em IA e Método. Depois execute os cinco prompts essenciais.",

@@ -1,73 +1,544 @@
 {
-  "schema_version": "nivel-0-audience-positioning-v1",
-  "audiences": ["persona", "empresa"],
+  "schema_version": "nivel-0-audience-positioning-v2",
+  "state": "RENDERED_DRAFT",
+  "publication_authorized": false,
+  "audiences": [
+    "persona",
+    "empresa"
+  ],
+  "pages": [
+    "landing",
+    "deck",
+    "workbook",
+    "playbook",
+    "prompts",
+    "level0",
+    "how",
+    "resources_index",
+    "intakes"
+  ],
+  "fields": [
+    "hero",
+    "problem",
+    "benefits",
+    "method",
+    "evidence",
+    "cta",
+    "closing"
+  ],
+  "body_roles": {
+    "hero": "primary_title",
+    "problem": "primary_lead",
+    "benefits": "hero_support",
+    "method": "body_instruction",
+    "evidence": "body_evidence",
+    "cta": "body_action",
+    "closing": "body_closure"
+  },
   "locales": {
     "es": {
       "persona": {
-        "hero": "Convierte este recurso en una práctica propia, útil desde hoy.",
-        "problem": "El reto no es usar más IA, sino aprender sin perder criterio ni propósito.",
-        "benefits": "Ganas claridad, una práctica repetible y evidencia para decidir tu siguiente paso.",
-        "method": "Avanza con fuentes, preguntas, práctica breve y revisión humana.",
-        "evidence": "Conserva citas, decisiones y un resultado observable; no confundas fluidez con verdad.",
-        "cta": "Completa una práctica y llévala a una situación real esta semana.",
-        "closing": "Tu progreso se mide por lo que puedes explicar, comprobar y volver a hacer.",
-        "resources": {"landing":"elige una ruta personal de aprendizaje","workbook":"construye evidencia paso a paso","playbook":"convierte el método en un hábito","prompts":"formula instrucciones que puedas revisar","deck":"recorre 18 momentos y practica una decisión"}
+        "landing": {
+          "hero": "IA con criterio.",
+          "problem": "Empezar no exige dominar herramientas: exige una pregunta real y disposición para comprobar lo que recibes.",
+          "benefits": "Saldrás con una práctica breve, una evidencia propia y un siguiente paso que puedes explicar.",
+          "method": "Elige un recurso, trabaja con una fuente y revisa el resultado antes de reutilizarlo.",
+          "evidence": "Conserva la pregunta, la fuente, tu decisión y algo que puedas volver a hacer.",
+          "cta": "Elegir primer recurso",
+          "closing": "Tu avance comienza cuando puedes explicar qué hiciste y por qué."
+        },
+        "deck": {
+          "hero": "Recorre la masterclass y toma una decisión con mejor contexto.",
+          "problem": "Una presentación fluida puede parecer convincente aunque todavía no hayas contrastado sus ideas.",
+          "benefits": "La guía te ayuda a convertir 18 láminas en preguntas, notas y una decisión personal verificable.",
+          "method": "Mira el PDF en español con la guía localizada y pausa para anotar qué aceptas, dudas o investigarás.",
+          "evidence": "Termina con tres notas: una idea comprendida, una fuente por revisar y una acción concreta.",
+          "cta": "Comenzar recorrido guiado",
+          "closing": "No necesitas memorizar la sesión; necesitas poder defender tu siguiente paso."
+        },
+        "workbook": {
+          "hero": "Convierte una pregunta propia en aprendizaje que puedas repetir.",
+          "problem": "Abrir una herramienta sin una pregunta y fuentes claras suele producir respuestas difíciles de evaluar.",
+          "benefits": "El workbook ordena tu preparación, práctica y consolidación para que no dependas de una conversación aislada.",
+          "method": "Define el tema, carga fuentes pertinentes, ejecuta una instrucción y registra cómo cambió tu comprensión.",
+          "evidence": "Guarda citas, decisiones, dudas abiertas y un resultado que puedas rehacer sin copiar la respuesta.",
+          "cta": "Abrir mi workbook",
+          "closing": "Aprender aquí significa explicar, comprobar y volver a hacer."
+        },
+        "playbook": {
+          "hero": "Haz del método una práctica personal, no una lectura más.",
+          "problem": "Leer consejos sobre IA no cambia tu forma de trabajar si no los pruebas contra una situación real.",
+          "benefits": "El playbook te ofrece criterios, ejemplos y rutinas para aprender con fuentes y revisión humana.",
+          "method": "Elige un capítulo, aplica su pauta a tu caso y anota qué conservarás, ajustarás o descartarás.",
+          "evidence": "Tu evidencia es una decisión trazable y una práctica que mejora al repetirla.",
+          "cta": "Aplicar un capítulo",
+          "closing": "El método se vuelve tuyo cuando puedes usarlo sin repetir frases del documento."
+        },
+        "prompts": {
+          "hero": "Formula instrucciones que te ayuden a pensar, no a delegar el juicio.",
+          "problem": "Un prompt elegante puede producir una respuesta fluida, pero insuficiente o falsa.",
+          "benefits": "La biblioteca te permite comparar cuatro niveles de estructura y elegir el mínimo que tu tarea necesita.",
+          "method": "Empieza por tu objetivo, añade contexto y fuentes, y pide evidencia antes de ampliar la instrucción.",
+          "evidence": "Conserva el prompt, la respuesta, las fuentes revisadas y el cambio que hiciste después de comprobarlas.",
+          "cta": "Adaptar un prompt",
+          "closing": "La mejor instrucción es la que puedes revisar y mejorar con criterio."
+        },
+        "level0": {
+          "hero": "Empieza desde cero técnico, pero no desde cero criterio.",
+          "problem": "La barrera inicial no es saber programar; es distinguir una respuesta útil de una afirmación sin sustento.",
+          "benefits": "Nivel 0 te da un lenguaje común y una práctica sencilla para comenzar sin fingir dominio.",
+          "method": "Parte de una situación cotidiana, consulta fuentes y explica con tus palabras qué aprendiste.",
+          "evidence": "Comprueba si puedes citar el origen, reconocer una duda y repetir la práctica.",
+          "cta": "Conocer mi inicio",
+          "closing": "Tu criterio es el centro; la IA es una herramienta dentro del método."
+        },
+        "how": {
+          "hero": "Recorre Nivel 0 a tu ritmo y termina con algo comprobable.",
+          "problem": "Consumir recursos en orden no garantiza aprendizaje si no haces pausas para practicar y revisar.",
+          "benefits": "El recorrido conecta preparación, práctica y transferencia en una secuencia que puedes retomar.",
+          "method": "Reserva entre 90 y 120 minutos, trabaja un caso real y usa los recursos según la duda que aparezca.",
+          "evidence": "Cierra con una explicación breve, una fuente revisada y una próxima repetición definida.",
+          "cta": "Preparar mi recorrido",
+          "closing": "La experiencia funciona cuando el contenido se convierte en una práctica propia."
+        },
+        "resources_index": {
+          "hero": "Elige el recurso que responde a tu siguiente duda.",
+          "problem": "Abrir todo a la vez añade fricción y oculta qué necesitas aprender primero.",
+          "benefits": "Cuatro recursos cumplen funciones distintas: comprender, practicar, repetir el método y formular instrucciones.",
+          "method": "Usa la masterclass para contexto, el workbook para practicar, el playbook para sostener y los prompts para dirigir.",
+          "evidence": "Sabrás que elegiste bien si el recurso produce una decisión o resultado observable.",
+          "cta": "Elegir un recurso",
+          "closing": "Menos recursos abiertos y más práctica terminada."
+        },
+        "intakes": {
+          "hero": "Expresa tu interés y mantén la continuidad de tu aprendizaje.",
+          "problem": "El interés sin una necesidad concreta hace difícil elegir el apoyo adecuado.",
+          "benefits": "Puedes compartir qué quieres aprender y recibir una ruta coherente con tu punto de partida.",
+          "method": "Describe tu situación, el resultado que buscas y qué has probado hasta ahora.",
+          "evidence": "Una solicitud útil incluye contexto suficiente para orientar el siguiente contacto sin promesas anticipadas.",
+          "cta": "Registrar mi interés",
+          "closing": "La continuidad empieza con una necesidad bien explicada."
+        }
       },
       "empresa": {
-        "hero": "Convierte este recurso en una capacidad operativa que el equipo pueda gobernar.",
-        "problem": "El reto no es desplegar más IA, sino reducir variabilidad, riesgo y trabajo sin trazabilidad.",
-        "benefits": "Obtienes un patrón común, criterios de control y evidencia para priorizar inversión y adopción.",
-        "method": "Trabaja con responsables, fuentes autorizadas, controles, métricas y revisión humana explícita.",
-        "evidence": "Registra origen, decisión, riesgo, responsable y resultado; no promociones pilotos sin evidencia.",
-        "cta": "Selecciona un flujo acotado y define dueño, control, métrica y criterio de salida.",
-        "closing": "El valor aparece cuando la práctica es repetible, auditable y sostenible para el equipo.",
-        "resources": {"landing":"define una ruta común de adopción","workbook":"documenta un piloto gobernable","playbook":"estandariza el método del equipo","prompts":"opera instrucciones con controles","deck":"alinea al equipo en 18 momentos"}
+        "landing": {
+          "hero": "IA con control.",
+          "problem": "Adoptar herramientas sin un lenguaje compartido aumenta variabilidad, riesgo y trabajo difícil de auditar.",
+          "benefits": "La ruta ofrece un punto de partida común, prácticas observables y criterios para decidir qué escalar.",
+          "method": "Selecciona un flujo acotado, asigna responsable, autoriza fuentes y fija una revisión humana.",
+          "evidence": "Registra origen, decisión, control, responsable y resultado antes de ampliar el uso.",
+          "cta": "Definir primer caso",
+          "closing": "La capacidad aparece cuando la práctica es repetible, trazable y gobernable."
+        },
+        "deck": {
+          "hero": "Usa la masterclass para alinear al equipo antes de elegir herramientas.",
+          "problem": "Una visión compartida puede quedarse en entusiasmo si no se traduce en decisiones y límites operativos.",
+          "benefits": "Las 18 láminas y la guía permiten discutir oportunidades, riesgos y responsabilidades con el mismo marco.",
+          "method": "Revisa el PDF en español con la guía localizada y asigna a cada idea una decisión, dueño o pregunta pendiente.",
+          "evidence": "Cierra con un registro de acuerdos, fuentes por validar y un flujo candidato claramente delimitado.",
+          "cta": "Revisar en equipo",
+          "closing": "Alinear no es aprobar todo; es hacer explícitos criterios y desacuerdos."
+        },
+        "workbook": {
+          "hero": "Documenta un piloto que el equipo pueda revisar y repetir.",
+          "problem": "Un experimento sin fuentes autorizadas, responsables ni criterios de salida no produce aprendizaje organizacional.",
+          "benefits": "El workbook convierte la sesión en un registro común de preparación, ejecución, evidencia y transferencia.",
+          "method": "Define el flujo, el dueño, las fuentes permitidas, el control humano y la métrica antes de ejecutar.",
+          "evidence": "Conserva entradas, citas, decisiones, excepciones y resultado para que otra persona pueda auditar el piloto.",
+          "cta": "Estructurar el piloto",
+          "closing": "Un piloto útil deja más trazabilidad que entusiasmo."
+        },
+        "playbook": {
+          "hero": "Convierte el método en un estándar de trabajo compartido.",
+          "problem": "Las buenas prácticas aisladas se pierden cuando cada persona improvisa fuentes, instrucciones y revisiones.",
+          "benefits": "El playbook ayuda a acordar pautas, roles y rutinas sin convertirlas en una receta rígida.",
+          "method": "Selecciona capítulos por riesgo operativo, asigna responsables y adapta cada pauta al flujo real.",
+          "evidence": "El estándar debe mostrar quién decide, qué se verifica y cómo se registran excepciones.",
+          "cta": "Definir pauta compartida",
+          "closing": "Estandarizar sirve para aprender juntos, no para ocultar el juicio profesional."
+        },
+        "prompts": {
+          "hero": "Opera instrucciones compartidas con fuentes, límites y revisión.",
+          "problem": "Copiar prompts entre equipos sin contexto crea resultados inconsistentes y responsabilidades ambiguas.",
+          "benefits": "La biblioteca ofrece niveles comparables para diseñar instrucciones según el riesgo y la repetición del flujo.",
+          "method": "Vincula objetivo, datos permitidos, formato, evidencia esperada, responsable y criterio de revisión.",
+          "evidence": "Versiona la instrucción y registra fuentes, resultado, revisión humana y cambios aprobados.",
+          "cta": "Diseñar instrucción gobernada",
+          "closing": "Una instrucción reutilizable necesita control de cambios, no solo buena redacción."
+        },
+        "level0": {
+          "hero": "Crea un punto de partida no técnico para una adopción responsable.",
+          "problem": "Sin conceptos comunes, cada área interpreta de forma distinta qué puede delegarse y qué debe verificarse.",
+          "benefits": "Nivel 0 permite discutir utilidad, límites y responsabilidad antes de comprometer procesos.",
+          "method": "Trabaja un caso compartido, identifica fuentes autorizadas y asigna explícitamente la decisión humana.",
+          "evidence": "El equipo debe poder explicar origen, riesgo, control y resultado con el mismo vocabulario.",
+          "cta": "Alinear el inicio",
+          "closing": "La tecnología entra después de acordar método, criterio y responsabilidad."
+        },
+        "how": {
+          "hero": "Recorre Nivel 0 como una práctica de alineación operativa.",
+          "problem": "Completar contenidos no demuestra capacidad si el equipo no transfiere lo aprendido a un flujo real.",
+          "benefits": "El recorrido conecta preparación, práctica y evidencia para orientar una siguiente decisión compartida.",
+          "method": "Dedica entre 90 y 120 minutos, usa un caso acotado y define roles antes de abrir las herramientas.",
+          "evidence": "Cierra con acuerdos, preguntas abiertas, un resultado revisado y responsable para la continuidad.",
+          "cta": "Preparar práctica compartida",
+          "closing": "La experiencia vale cuando mejora una decisión operativa concreta."
+        },
+        "resources_index": {
+          "hero": "Asigna cada recurso a una necesidad concreta del equipo.",
+          "problem": "Distribuir materiales sin propósito ni responsables produce consumo, no capacidad compartida.",
+          "benefits": "Los cuatro recursos separan contexto, ejecución, estandarización e instrucciones para facilitar su gobierno.",
+          "method": "Usa la masterclass para alinear, el workbook para documentar, el playbook para acordar y los prompts para operar.",
+          "evidence": "Cada recurso debe dejar un acuerdo, artefacto o decisión que el equipo pueda revisar.",
+          "cta": "Mapear recursos",
+          "closing": "Un recurso cuenta cuando cambia una práctica y deja evidencia."
+        },
+        "intakes": {
+          "hero": "Describe la necesidad del equipo antes de definir la continuidad.",
+          "problem": "Una solicitud genérica impide evaluar contexto, responsables y resultado esperado.",
+          "benefits": "Registrar la necesidad permite orientar una conversación sin presumir disponibilidad ni compromiso.",
+          "method": "Explica el flujo, las personas involucradas, el riesgo, lo intentado y el resultado que buscan.",
+          "evidence": "Una solicitud gobernable identifica contexto, responsable y criterio para decidir el siguiente paso.",
+          "cta": "Registrar interés empresarial",
+          "closing": "La continuidad se diseña desde una necesidad verificable, no desde una promesa."
+        }
       }
     },
     "en": {
       "persona": {
-        "hero": "Turn this resource into a personal practice you can use today.",
-        "problem": "The challenge is not using more AI, but learning without losing judgment or purpose.",
-        "benefits": "Gain clarity, a repeatable practice and evidence for choosing your next step.",
-        "method": "Move through sources, questions, short practice and human review.",
-        "evidence": "Keep citations, decisions and an observable result; do not mistake fluency for truth.",
-        "cta": "Complete one practice and apply it to a real situation this week.",
-        "closing": "Progress is what you can explain, verify and do again.",
-        "resources": {"landing":"choose a personal learning route","workbook":"build evidence step by step","playbook":"turn the method into a habit","prompts":"write instructions you can review","deck":"move through 18 moments and practice a decision"}
+        "landing": {
+          "hero": "AI with judgement.",
+          "problem": "Getting started does not require tool mastery; it requires a real question and a willingness to check what you receive.",
+          "benefits": "You will leave with a short practice, evidence of your own and a next step you can explain.",
+          "method": "Choose one resource, work from a source and review the result before reusing it.",
+          "evidence": "Keep the question, source, decision and something you can do again.",
+          "cta": "Choose first resource",
+          "closing": "Progress starts when you can explain what you did and why."
+        },
+        "deck": {
+          "hero": "Work through the masterclass and make one better-informed decision.",
+          "problem": "A fluent presentation can sound convincing even when its ideas have not yet been checked.",
+          "benefits": "The guide turns 18 pages into questions, notes and a personal decision you can verify.",
+          "method": "View the Spanish PDF with the localized guide and pause to note what you accept, doubt or will investigate.",
+          "evidence": "Finish with three notes: one understood idea, one source to review and one concrete action.",
+          "cta": "Start guided journey",
+          "closing": "You do not need to memorize the session; you need to defend your next step."
+        },
+        "workbook": {
+          "hero": "Turn one of your questions into learning you can repeat.",
+          "problem": "Opening a tool without a clear question and sources usually produces answers that are hard to judge.",
+          "benefits": "The workbook orders preparation, practice and consolidation so you do not depend on one conversation.",
+          "method": "Define the topic, load relevant sources, run one instruction and record how your understanding changed.",
+          "evidence": "Keep citations, decisions, open doubts and a result you can rebuild without copying the answer.",
+          "cta": "Open my workbook",
+          "closing": "Learning here means explaining, checking and doing it again."
+        },
+        "playbook": {
+          "hero": "Make the method a personal practice, not another reading.",
+          "problem": "Reading AI advice does not change your work until you test it against a real situation.",
+          "benefits": "The playbook provides criteria, examples and routines for learning from sources with human review.",
+          "method": "Choose one chapter, apply its pattern to your case and note what you will keep, adjust or discard.",
+          "evidence": "Your evidence is a traceable decision and a practice that improves when repeated.",
+          "cta": "Apply one chapter",
+          "closing": "The method becomes yours when you can use it without repeating the document's phrases."
+        },
+        "prompts": {
+          "hero": "Write instructions that help you think instead of outsourcing judgement.",
+          "problem": "An elegant prompt can produce a fluent answer that is still insufficient or false.",
+          "benefits": "The library lets you compare four levels of structure and choose the minimum your task needs.",
+          "method": "Start with your goal, add context and sources, and ask for evidence before expanding the instruction.",
+          "evidence": "Keep the prompt, response, reviewed sources and the change you made after checking them.",
+          "cta": "Adapt a prompt",
+          "closing": "The best instruction is one you can review and improve with judgement."
+        },
+        "level0": {
+          "hero": "Start with zero technical background, but not zero judgement.",
+          "problem": "The first barrier is not coding; it is telling a useful answer from an unsupported claim.",
+          "benefits": "Level 0 gives you shared language and a simple practice for beginning without pretending mastery.",
+          "method": "Start from an everyday situation, consult sources and explain what you learned in your own words.",
+          "evidence": "Check whether you can cite the origin, name a doubt and repeat the practice.",
+          "cta": "Understand my start",
+          "closing": "Your judgement stays central; AI is one tool within the method."
+        },
+        "how": {
+          "hero": "Move through Level 0 at your pace and finish with something verifiable.",
+          "problem": "Consuming resources in order does not ensure learning unless you pause to practise and review.",
+          "benefits": "The journey connects preparation, practice and transfer in a sequence you can resume.",
+          "method": "Set aside 90 to 120 minutes, work on a real case and use resources as questions arise.",
+          "evidence": "Close with a short explanation, one reviewed source and a defined next repetition.",
+          "cta": "Prepare my journey",
+          "closing": "The experience works when content becomes your own practice."
+        },
+        "resources_index": {
+          "hero": "Choose the resource that answers your next question.",
+          "problem": "Opening everything at once adds friction and hides what you need to learn first.",
+          "benefits": "Four resources serve different jobs: understanding, practising, repeating the method and writing instructions.",
+          "method": "Use the masterclass for context, workbook for practice, playbook for continuity and prompts for direction.",
+          "evidence": "You chose well if the resource produces an observable decision or result.",
+          "cta": "Choose one resource",
+          "closing": "Open fewer resources and finish more practice."
+        },
+        "intakes": {
+          "hero": "Express your interest and maintain continuity in your learning.",
+          "problem": "Interest without a concrete need makes it difficult to choose the right support.",
+          "benefits": "You can share what you want to learn and receive a path consistent with your starting point.",
+          "method": "Describe your situation, desired result and what you have tried so far.",
+          "evidence": "A useful request provides enough context to guide the next contact without advance promises.",
+          "cta": "Register my interest",
+          "closing": "Continuity starts with a well-explained need."
+        }
       },
       "empresa": {
-        "hero": "Turn this resource into an operational capability the team can govern.",
-        "problem": "The challenge is not deploying more AI, but reducing variability, risk and untraceable work.",
-        "benefits": "Gain a shared pattern, control criteria and evidence for prioritizing investment and adoption.",
-        "method": "Work with accountable owners, authorized sources, controls, metrics and explicit human review.",
-        "evidence": "Record source, decision, risk, owner and outcome; do not promote pilots without evidence.",
-        "cta": "Choose a bounded workflow and define its owner, control, metric and exit criterion.",
-        "closing": "Value appears when the practice is repeatable, auditable and sustainable for the team.",
-        "resources": {"landing":"define a shared adoption route","workbook":"document a governable pilot","playbook":"standardize the team method","prompts":"operate instructions with controls","deck":"align the team across 18 moments"}
+        "landing": {
+          "hero": "AI with control.",
+          "problem": "Adopting tools without shared language increases variability, risk and work that is hard to audit.",
+          "benefits": "The route provides a common starting point, observable practices and criteria for deciding what to scale.",
+          "method": "Select a bounded workflow, assign an owner, authorize sources and set human review.",
+          "evidence": "Record origin, decision, control, owner and outcome before expanding use.",
+          "cta": "Define first case",
+          "closing": "Capability appears when practice is repeatable, traceable and governable."
+        },
+        "deck": {
+          "hero": "Use the masterclass to align the team before choosing tools.",
+          "problem": "A shared vision can remain enthusiasm unless it becomes operating decisions and boundaries.",
+          "benefits": "The 18 pages and guide support one discussion of opportunities, risks and responsibilities.",
+          "method": "Review the Spanish PDF with the localized guide and assign each idea a decision, owner or open question.",
+          "evidence": "Close with recorded agreements, sources to validate and one clearly bounded candidate workflow.",
+          "cta": "Review as team",
+          "closing": "Alignment does not mean approving everything; it makes criteria and disagreements explicit."
+        },
+        "workbook": {
+          "hero": "Document a pilot the team can review and repeat.",
+          "problem": "An experiment without authorized sources, owners or exit criteria does not create organizational learning.",
+          "benefits": "The workbook turns the session into a shared record of preparation, execution, evidence and transfer.",
+          "method": "Define the workflow, owner, allowed sources, human control and metric before execution.",
+          "evidence": "Keep inputs, citations, decisions, exceptions and outcomes so another person can audit the pilot.",
+          "cta": "Structure team pilot",
+          "closing": "A useful pilot leaves more traceability than enthusiasm."
+        },
+        "playbook": {
+          "hero": "Turn the method into a shared working standard.",
+          "problem": "Isolated good practices disappear when everyone improvises sources, instructions and reviews.",
+          "benefits": "The playbook helps agree patterns, roles and routines without turning them into a rigid recipe.",
+          "method": "Select chapters by operating risk, assign owners and adapt each pattern to the actual workflow.",
+          "evidence": "The standard must show who decides, what is verified and how exceptions are recorded.",
+          "cta": "Define shared pattern",
+          "closing": "Standardization supports shared learning; it does not hide professional judgement."
+        },
+        "prompts": {
+          "hero": "Operate shared instructions with sources, boundaries and review.",
+          "problem": "Copying prompts across teams without context creates inconsistent results and unclear accountability.",
+          "benefits": "The library offers comparable levels for designing instructions by workflow risk and repetition.",
+          "method": "Bind goal, permitted data, format, expected evidence, owner and review criterion.",
+          "evidence": "Version the instruction and record sources, output, human review and approved changes.",
+          "cta": "Design governed instruction",
+          "closing": "A reusable instruction needs change control, not only good wording."
+        },
+        "level0": {
+          "hero": "Create a non-technical starting point for responsible adoption.",
+          "problem": "Without shared concepts, each area interprets differently what can be delegated and what must be checked.",
+          "benefits": "Level 0 enables discussion of utility, boundaries and accountability before processes are committed.",
+          "method": "Work on one shared case, identify authorized sources and explicitly assign the human decision.",
+          "evidence": "The team should explain origin, risk, control and outcome with the same language.",
+          "cta": "Align the start",
+          "closing": "Technology enters after method, judgement and accountability are agreed."
+        },
+        "how": {
+          "hero": "Use Level 0 as an operating alignment practice.",
+          "problem": "Completing content does not prove capability unless the team transfers learning to a real workflow.",
+          "benefits": "The journey connects preparation, practice and evidence to guide a shared next decision.",
+          "method": "Set aside 90 to 120 minutes, use a bounded case and define roles before opening tools.",
+          "evidence": "Close with agreements, open questions, a reviewed result and an owner for continuity.",
+          "cta": "Prepare team practice",
+          "closing": "The experience matters when it improves one concrete operating decision."
+        },
+        "resources_index": {
+          "hero": "Assign each resource to a concrete team need.",
+          "problem": "Distributing materials without purpose or ownership produces consumption, not shared capability.",
+          "benefits": "The four resources separate context, execution, standardization and instructions for easier governance.",
+          "method": "Use the masterclass to align, workbook to document, playbook to agree and prompts to operate.",
+          "evidence": "Each resource should leave an agreement, artifact or decision the team can review.",
+          "cta": "Map team resources",
+          "closing": "A resource counts when it changes practice and leaves evidence."
+        },
+        "intakes": {
+          "hero": "Describe the team's need before defining continuity.",
+          "problem": "A generic request prevents evaluation of context, ownership and the desired result.",
+          "benefits": "Registering the need can guide a conversation without assuming availability or commitment.",
+          "method": "Explain the workflow, people involved, risk, previous attempts and the result sought.",
+          "evidence": "A governable request identifies context, owner and a criterion for choosing the next step.",
+          "cta": "Register team interest",
+          "closing": "Continuity is designed from a verifiable need, not from a promise."
+        }
       }
     },
     "pt": {
       "persona": {
-        "hero": "Transforme este recurso em uma prática pessoal útil desde hoje.",
-        "problem": "O desafio não é usar mais IA, mas aprender sem perder critério nem propósito.",
-        "benefits": "Ganhe clareza, uma prática repetível e evidência para escolher o próximo passo.",
-        "method": "Avance com fontes, perguntas, prática breve e revisão humana.",
-        "evidence": "Preserve citações, decisões e um resultado observável; não confunda fluência com verdade.",
-        "cta": "Conclua uma prática e aplique-a a uma situação real nesta semana.",
-        "closing": "Seu progresso é aquilo que você consegue explicar, verificar e repetir.",
-        "resources": {"landing":"escolha uma rota pessoal de aprendizagem","workbook":"construa evidência passo a passo","playbook":"transforme o método em hábito","prompts":"formule instruções que possa revisar","deck":"percorra 18 momentos e pratique uma decisão"}
+        "landing": {
+          "hero": "IA com critério.",
+          "problem": "Começar não exige dominar ferramentas; exige uma pergunta real e disposição para verificar o que você recebe.",
+          "benefits": "Você sairá com uma prática breve, uma evidência própria e um próximo passo que consegue explicar.",
+          "method": "Escolha um recurso, trabalhe com uma fonte e revise o resultado antes de reutilizá-lo.",
+          "evidence": "Guarde a pergunta, a fonte, sua decisão e algo que possa fazer novamente.",
+          "cta": "Escolher primeiro recurso",
+          "closing": "Seu avanço começa quando consegue explicar o que fez e por quê."
+        },
+        "deck": {
+          "hero": "Percorra a masterclass e tome uma decisão com mais contexto.",
+          "problem": "Uma apresentação fluente pode parecer convincente mesmo quando suas ideias ainda não foram verificadas.",
+          "benefits": "A guia transforma 18 páginas em perguntas, notas e uma decisão pessoal verificável.",
+          "method": "Consulte o PDF em espanhol com a guia localizada e pause para anotar o que aceita, duvida ou investigará.",
+          "evidence": "Termine com três notas: uma ideia compreendida, uma fonte para revisar e uma ação concreta.",
+          "cta": "Começar percurso guiado",
+          "closing": "Você não precisa memorizar a sessão; precisa defender seu próximo passo."
+        },
+        "workbook": {
+          "hero": "Transforme uma pergunta própria em aprendizagem que possa repetir.",
+          "problem": "Abrir uma ferramenta sem pergunta e fontes claras costuma produzir respostas difíceis de avaliar.",
+          "benefits": "O workbook organiza preparação, prática e consolidação para você não depender de uma conversa isolada.",
+          "method": "Defina o tema, carregue fontes relevantes, execute uma instrução e registre como sua compreensão mudou.",
+          "evidence": "Guarde citações, decisões, dúvidas abertas e um resultado que possa refazer sem copiar a resposta.",
+          "cta": "Abrir meu workbook",
+          "closing": "Aprender aqui significa explicar, verificar e fazer novamente."
+        },
+        "playbook": {
+          "hero": "Faça do método uma prática pessoal, não apenas mais uma leitura.",
+          "problem": "Ler conselhos sobre IA não muda seu trabalho até você testá-los em uma situação real.",
+          "benefits": "O playbook oferece critérios, exemplos e rotinas para aprender com fontes e revisão humana.",
+          "method": "Escolha um capítulo, aplique sua pauta ao seu caso e anote o que manterá, ajustará ou descartará.",
+          "evidence": "Sua evidência é uma decisão rastreável e uma prática que melhora ao ser repetida.",
+          "cta": "Aplicar um capítulo",
+          "closing": "O método se torna seu quando você o usa sem repetir frases do documento."
+        },
+        "prompts": {
+          "hero": "Formule instruções que ajudem você a pensar, não a delegar o julgamento.",
+          "problem": "Um prompt elegante pode produzir uma resposta fluente, mas insuficiente ou falsa.",
+          "benefits": "A biblioteca permite comparar quatro níveis de estrutura e escolher o mínimo necessário para sua tarefa.",
+          "method": "Comece pelo objetivo, acrescente contexto e fontes e peça evidências antes de ampliar a instrução.",
+          "evidence": "Guarde o prompt, a resposta, as fontes revisadas e a mudança feita depois da verificação.",
+          "cta": "Adaptar um prompt",
+          "closing": "A melhor instrução é aquela que você consegue revisar e melhorar com critério."
+        },
+        "level0": {
+          "hero": "Comece do zero técnico, mas não do zero em critério.",
+          "problem": "A primeira barreira não é programar; é distinguir uma resposta útil de uma afirmação sem suporte.",
+          "benefits": "O Nivel 0 oferece linguagem comum e uma prática simples para começar sem fingir domínio.",
+          "method": "Parta de uma situação cotidiana, consulte fontes e explique com suas palavras o que aprendeu.",
+          "evidence": "Verifique se consegue citar a origem, reconhecer uma dúvida e repetir a prática.",
+          "cta": "Conhecer meu início",
+          "closing": "Seu critério permanece no centro; a IA é uma ferramenta dentro do método."
+        },
+        "how": {
+          "hero": "Percorra o Nivel 0 no seu ritmo e termine com algo verificável.",
+          "problem": "Consumir recursos em ordem não garante aprendizagem sem pausas para praticar e revisar.",
+          "benefits": "O percurso conecta preparação, prática e transferência em uma sequência que você pode retomar.",
+          "method": "Reserve de 90 a 120 minutos, trabalhe um caso real e use os recursos conforme surgirem dúvidas.",
+          "evidence": "Feche com uma explicação breve, uma fonte revisada e uma próxima repetição definida.",
+          "cta": "Preparar meu percurso",
+          "closing": "A experiência funciona quando o conteúdo vira uma prática própria."
+        },
+        "resources_index": {
+          "hero": "Escolha o recurso que responde à sua próxima dúvida.",
+          "problem": "Abrir tudo ao mesmo tempo aumenta a fricção e esconde o que você precisa aprender primeiro.",
+          "benefits": "Quatro recursos cumprem funções distintas: compreender, praticar, repetir o método e formular instruções.",
+          "method": "Use a masterclass para contexto, o workbook para praticar, o playbook para sustentar e os prompts para dirigir.",
+          "evidence": "Você escolheu bem se o recurso produz uma decisão ou resultado observável.",
+          "cta": "Escolher um recurso",
+          "closing": "Menos recursos abertos e mais práticas concluídas."
+        },
+        "intakes": {
+          "hero": "Expresse seu interesse e mantenha a continuidade da aprendizagem.",
+          "problem": "Interesse sem uma necessidade concreta dificulta a escolha do apoio adequado.",
+          "benefits": "Você pode compartilhar o que deseja aprender e receber uma rota coerente com seu ponto de partida.",
+          "method": "Descreva sua situação, o resultado desejado e o que já tentou até agora.",
+          "evidence": "Uma solicitação útil oferece contexto suficiente para orientar o próximo contato sem promessas antecipadas.",
+          "cta": "Registrar meu interesse",
+          "closing": "A continuidade começa com uma necessidade bem explicada."
+        }
       },
       "empresa": {
-        "hero": "Transforme este recurso em uma capacidade operacional que a equipe possa governar.",
-        "problem": "O desafio não é implantar mais IA, mas reduzir variabilidade, risco e trabalho sem rastreabilidade.",
-        "benefits": "Obtenha um padrão comum, critérios de controle e evidência para priorizar investimento e adoção.",
-        "method": "Trabalhe com responsáveis, fontes autorizadas, controles, métricas e revisão humana explícita.",
-        "evidence": "Registre origem, decisão, risco, responsável e resultado; não promova pilotos sem evidência.",
-        "cta": "Escolha um fluxo limitado e defina responsável, controle, métrica e critério de saída.",
-        "closing": "O valor aparece quando a prática é repetível, auditável e sustentável para a equipe.",
-        "resources": {"landing":"defina uma rota comum de adoção","workbook":"documente um piloto governável","playbook":"padronize o método da equipe","prompts":"opere instruções com controles","deck":"alinhe a equipe em 18 momentos"}
+        "landing": {
+          "hero": "IA com controle.",
+          "problem": "Adotar ferramentas sem linguagem compartilhada aumenta variabilidade, risco e trabalho difícil de auditar.",
+          "benefits": "A rota oferece um ponto de partida comum, práticas observáveis e critérios para decidir o que ampliar.",
+          "method": "Selecione um fluxo limitado, atribua responsável, autorize fontes e estabeleça revisão humana.",
+          "evidence": "Registre origem, decisão, controle, responsável e resultado antes de ampliar o uso.",
+          "cta": "Definir primeiro caso",
+          "closing": "A capacidade aparece quando a prática é repetível, rastreável e governável."
+        },
+        "deck": {
+          "hero": "Use a masterclass para alinhar a equipe antes de escolher ferramentas.",
+          "problem": "Uma visão compartilhada pode ficar no entusiasmo se não virar decisões e limites operacionais.",
+          "benefits": "As 18 páginas e a guia permitem discutir oportunidades, riscos e responsabilidades com o mesmo referencial.",
+          "method": "Revise o PDF em espanhol com a guia localizada e associe cada ideia a uma decisão, responsável ou questão aberta.",
+          "evidence": "Feche com acordos registrados, fontes para validar e um fluxo candidato claramente delimitado.",
+          "cta": "Revisar em equipe",
+          "closing": "Alinhar não é aprovar tudo; é tornar critérios e divergências explícitos."
+        },
+        "workbook": {
+          "hero": "Documente um piloto que a equipe possa revisar e repetir.",
+          "problem": "Um experimento sem fontes autorizadas, responsáveis ou critérios de saída não gera aprendizagem organizacional.",
+          "benefits": "O workbook transforma a sessão em registro comum de preparação, execução, evidência e transferência.",
+          "method": "Defina o fluxo, responsável, fontes permitidas, controle humano e métrica antes de executar.",
+          "evidence": "Guarde entradas, citações, decisões, exceções e resultado para que outra pessoa possa auditar o piloto.",
+          "cta": "Estruturar o piloto",
+          "closing": "Um piloto útil deixa mais rastreabilidade do que entusiasmo."
+        },
+        "playbook": {
+          "hero": "Transforme o método em um padrão de trabalho compartilhado.",
+          "problem": "Boas práticas isoladas desaparecem quando cada pessoa improvisa fontes, instruções e revisões.",
+          "benefits": "O playbook ajuda a combinar pautas, papéis e rotinas sem transformá-los em receita rígida.",
+          "method": "Selecione capítulos pelo risco operacional, atribua responsáveis e adapte cada pauta ao fluxo real.",
+          "evidence": "O padrão deve mostrar quem decide, o que se verifica e como as exceções são registradas.",
+          "cta": "Definir pauta compartilhada",
+          "closing": "Padronizar serve para aprender juntos, não para esconder o julgamento profissional."
+        },
+        "prompts": {
+          "hero": "Opere instruções compartilhadas com fontes, limites e revisão.",
+          "problem": "Copiar prompts entre equipes sem contexto cria resultados inconsistentes e responsabilidades ambíguas.",
+          "benefits": "A biblioteca oferece níveis comparáveis para desenhar instruções conforme risco e repetição do fluxo.",
+          "method": "Vincule objetivo, dados permitidos, formato, evidência esperada, responsável e critério de revisão.",
+          "evidence": "Versione a instrução e registre fontes, resultado, revisão humana e mudanças aprovadas.",
+          "cta": "Desenhar instrução governada",
+          "closing": "Uma instrução reutilizável precisa de controle de mudanças, não só boa redação."
+        },
+        "level0": {
+          "hero": "Crie um ponto de partida não técnico para uma adoção responsável.",
+          "problem": "Sem conceitos comuns, cada área interpreta de modo diferente o que pode delegar e o que deve verificar.",
+          "benefits": "O Nivel 0 permite discutir utilidade, limites e responsabilidade antes de comprometer processos.",
+          "method": "Trabalhe um caso compartilhado, identifique fontes autorizadas e atribua explicitamente a decisão humana.",
+          "evidence": "A equipe deve explicar origem, risco, controle e resultado com a mesma linguagem.",
+          "cta": "Alinhar o início",
+          "closing": "A tecnologia entra depois do acordo sobre método, critério e responsabilidade."
+        },
+        "how": {
+          "hero": "Percorra o Nivel 0 como uma prática de alinhamento operacional.",
+          "problem": "Concluir conteúdos não demonstra capacidade se a equipe não transfere o aprendizado para um fluxo real.",
+          "benefits": "O percurso conecta preparação, prática e evidência para orientar uma próxima decisão compartilhada.",
+          "method": "Reserve de 90 a 120 minutos, use um caso limitado e defina papéis antes de abrir as ferramentas.",
+          "evidence": "Feche com acordos, questões abertas, um resultado revisado e responsável pela continuidade.",
+          "cta": "Preparar prática compartilhada",
+          "closing": "A experiência vale quando melhora uma decisão operacional concreta."
+        },
+        "resources_index": {
+          "hero": "Associe cada recurso a uma necessidade concreta da equipe.",
+          "problem": "Distribuir materiais sem propósito nem responsáveis gera consumo, não capacidade compartilhada.",
+          "benefits": "Os quatro recursos separam contexto, execução, padronização e instruções para facilitar o governo.",
+          "method": "Use a masterclass para alinhar, o workbook para documentar, o playbook para combinar e os prompts para operar.",
+          "evidence": "Cada recurso deve deixar um acordo, artefato ou decisão que a equipe possa revisar.",
+          "cta": "Mapear recursos",
+          "closing": "Um recurso conta quando muda uma prática e deixa evidência."
+        },
+        "intakes": {
+          "hero": "Descreva a necessidade da equipe antes de definir a continuidade.",
+          "problem": "Uma solicitação genérica impede avaliar contexto, responsáveis e resultado esperado.",
+          "benefits": "Registrar a necessidade permite orientar uma conversa sem presumir disponibilidade ou compromisso.",
+          "method": "Explique o fluxo, pessoas envolvidas, risco, tentativas anteriores e resultado buscado.",
+          "evidence": "Uma solicitação governável identifica contexto, responsável e critério para escolher o próximo passo.",
+          "cta": "Registrar interesse empresarial",
+          "closing": "A continuidade é desenhada a partir de uma necessidade verificável, não de uma promessa."
+        }
       }
     }
-  },
-  "publication_authorized": false
+  }
 }

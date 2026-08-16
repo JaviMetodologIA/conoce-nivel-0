@@ -2,6 +2,8 @@
 from __future__ import annotations
 import hashlib, html, io, json, posixpath, re, shutil, subprocess, sys
 import xml.etree.ElementTree as ET
+from collections import Counter
+from html.parser import HTMLParser
 from pathlib import Path
 
 import fontTools
@@ -35,6 +37,7 @@ METHOD_IDENTITY=PLAYBOOK.get('method_identity',{})
 PROMPT_LIBRARY=json.loads((SRC/'prompt-library-spec-v1.json').read_text(encoding='utf-8'))
 AUDIENCE_SPEC=json.loads((SRC/'audience-spec-v1.json').read_text(encoding='utf-8'))
 INTRAPAGE_NAV=json.loads((SRC/'intrapage-navigation-spec-v1.json').read_text(encoding='utf-8'))
+PARITY=json.loads((SRC/'editorial-parity-spec-v1.json').read_text(encoding='utf-8'))
 EDITORIAL=validate_editorial_spec()
 EXPECTED_INTRAPAGE_ANCHORS={
   'landing':['entrada','tension','ruta','demostracion','experiencia','resultados','metodo','convocatoria'],
@@ -57,23 +60,98 @@ for page,expected in EXPECTED_INTRAPAGE_ANCHORS.items():
     raise SystemExit(f'INTRAPAGE_NAV_ANCHORS_INVALID:{page}')
   if any(set(item.get('labels',{}))!=set(LANGS) or not all(item['labels'].values()) for item in items):
     raise SystemExit(f'INTRAPAGE_NAV_LABELS_INVALID:{page}')
-if AUDIENCE_SPEC.get('audiences') != list(AUDIENCES) or set(AUDIENCE_SPEC.get('locales',{})) != set(LANGS) or AUDIENCE_SPEC.get('publication_authorized') is not False:
-  raise SystemExit('AUDIENCE_POSITIONING_CONTRACT_INVALID')
 AUDIENCE_SURFACES=('hero','problem','benefits','method','evidence','cta','closing')
-AUDIENCE_RESOURCES=('landing','workbook','playbook','prompts','deck')
-for locale in LANGS:
-  for audience in AUDIENCES:
-    variant=AUDIENCE_SPEC['locales'][locale][audience]
-    if set(variant)!=set(AUDIENCE_SURFACES)|{'resources'} or set(variant['resources'])!=set(AUDIENCE_RESOURCES):
-      raise SystemExit(f'AUDIENCE_VARIANT_SHAPE_INVALID:{locale}:{audience}')
+def validate_audience_spec(document=None):
+  spec=AUDIENCE_SPEC if document is None else document
+  required={'schema_version','state','publication_authorized','audiences','pages','fields','body_roles','locales'}
+  if set(spec)!=required or spec.get('schema_version')!='nivel-0-audience-positioning-v2' or spec.get('state')!='RENDERED_DRAFT' or spec.get('audiences')!=list(AUDIENCES) or spec.get('pages')!=list(PAGES) or set(spec.get('locales',{}))!=set(LANGS) or spec.get('publication_authorized') is not False:
+    raise SystemExit('AUDIENCE_POSITIONING_CONTRACT_INVALID')
+  if spec.get('fields')!=list(AUDIENCE_SURFACES) or set(spec.get('body_roles',{}))!=set(AUDIENCE_SURFACES):
+    raise SystemExit('AUDIENCE_POSITIONING_FIELDS_INVALID')
+  for locale in LANGS:
+    if set(spec['locales'][locale])!=set(AUDIENCES):
+      raise SystemExit(f'AUDIENCE_LOCALE_MATRIX_INVALID:{locale}')
+    for audience in AUDIENCES:
+      variant=spec['locales'][locale][audience]
+      if set(variant)!=set(PAGES):
+        raise SystemExit(f'AUDIENCE_VARIANT_SHAPE_INVALID:{locale}:{audience}')
+      for page in PAGES:
+        if set(variant[page])!=set(AUDIENCE_SURFACES) or any(not isinstance(variant[page][field],str) or not variant[page][field].strip() for field in AUDIENCE_SURFACES):
+          raise SystemExit(f'AUDIENCE_PAGE_FIELDS_INVALID:{locale}:{audience}:{page}')
+  for locale in LANGS:
+    for page in PAGES:
+      for field in AUDIENCE_SURFACES:
+        if spec['locales'][locale]['persona'][page][field].casefold()==spec['locales'][locale]['empresa'][page][field].casefold():
+          raise SystemExit(f'AUDIENCE_PAGE_FIELD_CLONE:{locale}:{page}:{field}')
+  return spec
+
+validate_audience_spec()
+
+def canonical_self(value,field):
+  payload={key:item for key,item in value.items() if key!=field}
+  raw=json.dumps(payload,ensure_ascii=False,sort_keys=True,separators=(',',':'))+'\n'
+  return hashlib.sha256(raw.encode('utf-8')).hexdigest()
+
+def nested(document,path):
+  value=document
+  for key in path.split('.'):
+    if not isinstance(value,dict) or key not in value:
+      raise SystemExit(f'EDITORIAL_PARITY_SOURCE_ROOT_MISSING:{path}')
+    value=value[key]
+  return value
+
+def validate_editorial_parity(spec=None):
+  spec=PARITY if spec is None else spec
+  required={'schema_version','state','publication_authorized','network_required','fallback_policy','self_hash_model','self_sha256','matrix','localized_sources','required_audience_surfaces','shared_allowlist','string_inventory','official_pdf','preference_controls'}
+  if set(spec)!=required or spec.get('schema_version')!='editorial-parity-spec-v1':
+    raise SystemExit('EDITORIAL_PARITY_SHAPE_INVALID')
+  if spec.get('state')!='RENDERED_DRAFT' or spec.get('publication_authorized') is not False or spec.get('network_required') is not False or spec.get('fallback_policy')!='forbidden':
+    raise SystemExit('EDITORIAL_PARITY_GOVERNANCE_INVALID')
+  if spec.get('self_hash_model')!='sha256(sorted-json-without-self_sha256)' or spec.get('self_sha256')!=canonical_self(spec,'self_sha256'):
+    raise SystemExit('EDITORIAL_PARITY_SELF_DRIFT')
+  matrix=spec.get('matrix',{})
+  if matrix!={'locales':list(LANGS),'audiences':list(AUDIENCES),'pages':list(PAGES),'canonical_routes':54}:
+    raise SystemExit('EDITORIAL_PARITY_MATRIX_INVALID')
+  if spec.get('required_audience_surfaces')!=list(AUDIENCE_SURFACES):
+    raise SystemExit('EDITORIAL_PARITY_AUDIENCE_SURFACES_INVALID')
+  if [item.get('id') for item in spec.get('shared_allowlist',[])]!=['organization_and_method_marks','localized_chrome','official_spanish_pdf'] or any(set(item)!={'id','scope','reason'} or not item['scope'] or not item['reason'].strip() for item in spec['shared_allowlist']):
+    raise SystemExit('EDITORIAL_PARITY_ALLOWLIST_INVALID')
+  for source in spec.get('localized_sources',[]):
+    if set(source)!={'path','root','dimensions'} or not source['path'].startswith('src/'):
+      raise SystemExit('EDITORIAL_PARITY_SOURCE_INVALID')
+    path=ROOT/source['path']
+    document=json.loads(path.read_text(encoding='utf-8'))
+    value=nested(document,source['root'])
+    if set(value)!=set(LANGS):
+      raise SystemExit(f'EDITORIAL_PARITY_LOCALE_GAP:{source["path"]}:{source["root"]}')
+    if source['dimensions']==['locale','audience']:
+      for locale in LANGS:
+        if set(value[locale])!=set(AUDIENCES):
+          raise SystemExit(f'EDITORIAL_PARITY_AUDIENCE_GAP:{source["path"]}:{source["root"]}:{locale}')
+    elif source['dimensions']!=['locale']:
+      raise SystemExit('EDITORIAL_PARITY_DIMENSION_INVALID')
+  pdf=spec.get('official_pdf',{})
+  pdf_path=ROOT/pdf.get('source','')
+  deck_resource=RESOURCES['deck']
+  if pdf.get('sha256')!=deck_resource.get('sha256') or not pdf_path.is_file() or hashlib.sha256(pdf_path.read_bytes()).hexdigest()!=pdf['sha256'] or pdf.get('document_language')!='es' or pdf.get('bytes_immutable') is not True:
+    raise SystemExit('EDITORIAL_PARITY_PDF_INVALID')
+  for locale in LANGS:
+    deck_copy=deck_resource['locales'][locale]
+    if not deck_copy['description'].strip() or not deck_copy['language_note'].strip():
+      raise SystemExit(f'EDITORIAL_PARITY_PDF_LOCALIZATION_MISSING:{locale}')
+  controls=spec.get('preference_controls',{})
+  if controls.get('keys')!=['mdg_theme','mdg_locale','mdg_audience'] or controls.get('protocols')!=['file','http'] or controls.get('real_click_required') is not True:
+    raise SystemExit('EDITORIAL_PARITY_CONTROLS_INVALID')
+
+validate_editorial_parity()
 MONTHLY_INTAKE_COPY={
   'es':('1 convocatoria al mes · primera semana','Una convocatoria al mes · primera semana'),
   'en':('1 monthly intake · first week','One monthly intake · first week'),
   'pt':('1 turma por mês · primeira semana','Uma turma por mês · primeira semana'),
 }
 for locale,(offer_copy,final_copy) in MONTHLY_INTAKE_COPY.items():
-  landing_locale=LANDING.get('locales',{}).get(locale,{})
-  if offer_copy not in landing_locale.get('offer',[]) or landing_locale.get('final_eyebrow') != final_copy:
+  landing_locale=LANDING['locales'][locale]
+  if offer_copy not in landing_locale['offer'] or landing_locale['final_eyebrow'] != final_copy:
     raise SystemExit(f'LANDING_MONTHLY_INTAKE_CONTRACT_INVALID: {locale}')
 if ADVANCED.get('prompt_format_contract',{}).get('formats') != ['natural','parameters','spec','pair']:
   raise SystemExit('PROMPT_FORMAT_CONTRACT_INVALID')
@@ -275,26 +353,36 @@ def end(lang,page):
     brand=shell(lang,CURRENT_AUDIENCE,page)
     return f'''<div class="mdg-shell conoce-shell">{brand['footer']}</div><script src="{asset_base(lang,page)}assets/site.js"></script></body></html>'''
 
-def audience_positioning(lang,page):
-  labels={
-    'es':{'persona':('Diseñado para ti','Tu siguiente práctica',('El reto','Cómo avanzar','Qué comprobar')),'empresa':('Diseñado para equipos','Una capacidad que puede gobernarse',('El reto operativo','Cómo implementarlo','Qué documentar'))},
-    'en':{'persona':('Designed for you','Your next practice',('The challenge','How to move','What to verify')),'empresa':('Designed for teams','A capability you can govern',('The operating challenge','How to implement it','What to document'))},
-    'pt':{'persona':('Feito para você','Sua próxima prática',('O desafio','Como avançar','O que verificar')),'empresa':('Feito para equipes','Uma capacidade governável',('O desafio operacional','Como implementar','O que documentar'))},
-  }[lang][CURRENT_AUDIENCE]
-  copy=AUDIENCE_SPEC['locales'][lang][CURRENT_AUDIENCE]
-  focus=copy['resources'][page]
-  cards=''.join(f'<article data-audience-surface="{key}"><span>{esc(label)}</span><p>{esc(copy[key])}</p></article>' for key,label in zip(('problem','method','evidence'),labels[2]))
-  return f'''<section class="audience-brief" aria-label="{esc(labels[0])}" data-audience-positioning="{CURRENT_AUDIENCE}" data-resource="{page}"><div class="shell audience-brief-inner"><header><span class="eyebrow">{esc(labels[0])}</span><h2>{esc(focus.capitalize())}</h2><p>{esc(copy['hero'])}</p></header><div class="audience-brief-grid">{cards}</div><footer><p data-audience-surface="benefits">{esc(copy['benefits'])}</p><strong data-audience-surface="cta">{esc(copy['cta'])}</strong><small data-audience-surface="closing">{esc(copy['closing'])}</small></footer></div></section>'''
-
-def inject_audience(content,lang,page):
-  match=re.search(r'<main\b[^>]*>',content)
-  if not match: raise RuntimeError(f'AUDIENCE_MAIN_MISSING:{lang}:{CURRENT_AUDIENCE}:{page}')
-  if page in ('landing','deck'):
-    section_end=content.find('</section>',match.end())
-    if section_end<0: raise RuntimeError(f'AUDIENCE_PRIMARY_SURFACE_MISSING:{lang}:{CURRENT_AUDIENCE}:{page}')
-    point=section_end+len('</section>')
-  else: point=match.end()
-  return content[:point]+audience_positioning(lang,page)+content[point:]
+def adapt_audience_body(content,lang,page):
+  copy=AUDIENCE_SPEC['locales'][lang][CURRENT_AUDIENCE][page]
+  main=re.search(r'<main\b[^>]*>',content)
+  if not main:raise RuntimeError(f'AUDIENCE_MAIN_MISSING:{lang}:{CURRENT_AUDIENCE}:{page}')
+  content=content[:main.end()-1]+f' data-audience-content="{CURRENT_AUDIENCE}">'+content[main.end():]
+  h1=re.search(r'<h1\b([^>]*)>[\s\S]*?</h1>',content)
+  if not h1:raise RuntimeError(f'AUDIENCE_HERO_MISSING:{lang}:{CURRENT_AUDIENCE}:{page}')
+  content=content[:h1.start()]+f'<h1{h1.group(1)} data-audience-field="hero">{esc(copy["hero"])}</h1>'+content[h1.end():]
+  lead=re.search(r'<p\b([^>]*\bclass="[^"]*\blead\b[^"]*"[^>]*)>[\s\S]*?</p>',content)
+  if not lead:raise RuntimeError(f'AUDIENCE_LEAD_MISSING:{lang}:{CURRENT_AUDIENCE}:{page}')
+  problem=f'<p{lead.group(1)} data-audience-field="problem">{esc(copy["problem"])}</p>'
+  benefit=''
+  content=content[:lead.start()]+problem+benefit+content[lead.end():]
+  section_end=content.find('</section>',main.end())
+  if section_end<0:raise RuntimeError(f'AUDIENCE_PRIMARY_SURFACE_MISSING:{lang}:{CURRENT_AUDIENCE}:{page}')
+  benefit_card=''
+  if page not in EDITORIAL_PAGES:
+    official_context=f'<p data-official-localized-guide-context>{esc(DECK_RESOURCE["locales"][lang]["description"])}</p>' if page=='deck' else ''
+    benefit_card=f'<article class="card evidence"><p data-audience-field="benefits">{esc(copy["benefits"])}</p>{official_context}</article>'
+  guidance=f'''<div class="shell rubric" data-audience-guidance="{CURRENT_AUDIENCE}">{benefit_card}<article class="card evidence"><p data-audience-field="method">{esc(copy['method'])}</p></article><article class="card evidence"><p data-audience-field="evidence">{esc(copy['evidence'])}</p></article></div>'''
+  point=section_end+len('</section>');content=content[:point]+guidance+content[point:]
+  close=content.rfind('</main>')
+  if close<0:raise RuntimeError(f'AUDIENCE_MAIN_CLOSE_MISSING:{lang}:{CURRENT_AUDIENCE}:{page}')
+  anchor=EXPECTED_INTRAPAGE_ANCHORS[page][-1]
+  action=f'''<section class="section" data-audience-action="{CURRENT_AUDIENCE}"><div class="shell"><a class="btn primary" href="#{esc(anchor)}" data-audience-field="cta">{esc(copy['cta'])}</a><p class="lead" data-audience-field="closing">{esc(copy['closing'])}</p></div></section>'''
+  content=content[:close]+action+content[close:]
+  for field in AUDIENCE_SURFACES:
+    if content.count(f'data-audience-field="{field}"')!=1:
+      raise RuntimeError(f'AUDIENCE_FIELD_RENDER_INVALID:{lang}:{CURRENT_AUDIENCE}:{page}:{field}')
+  return content
 
 
 def resource_catalog(lang,classes):
@@ -359,7 +447,7 @@ def landing(lang):
 <section class="chapter experience-section" id="experiencia" data-chapter="05"><div class="shell"><div class="section-head reveal"><span class="eyebrow">{esc(l['experience_eyebrow'])}</span><h2 class="h2">{esc(l['experience_title'])}</h2><p class="lead">{esc(l['experience_lead'])}</p></div><div class="experience-grid">{featured_cards}{playbook_card}</div>{open_skill}<details class="roadmap" open><summary>{catalog_title}<span>16</span></summary><p>{esc(l['roadmap'])}</p><div class="resource-catalog">{catalog}</div></details></div></section>
 <section class="chapter outcomes-section" id="resultados" data-chapter="06"><div class="shell"><div class="section-head reveal"><span class="eyebrow">{esc(l['outcomes_eyebrow'])}</span><h2 class="h2">{esc(l['outcomes_title'])}</h2><p class="lead">{esc(l['outcomes_lead'])}</p></div><div class="outcome-grid">{outcomes}</div><div class="organic-loop"><span class="eyebrow">{organic_label}</span><p>{esc(l['organic_loop'])}</p></div></div></section>
 <section class="chapter method-section" id="metodo" data-chapter="07"><div class="shell"><div class="section-head reveal"><span class="eyebrow">{esc(l['method_eyebrow'])}</span><h2 class="h2">{esc(l['method_title'])}</h2><p class="lead">{esc(l['method_lead'])}</p></div><div class="method-grid">{method}</div><div class="trust-grid"><div><h3>{esc(l['requirements_title'])}</h3><ul class="requirements">{requirements}</ul><a class="official-link" href="{help_url}" target="_blank" rel="noopener noreferrer">{'Consultar límites oficiales de NotebookLM' if lang=='es' else 'Read official NotebookLM limits' if lang=='en' else 'Consultar limites oficiais do NotebookLM'} ↗</a></div><div class="faq">{faq}</div></div><article class="letter-card ambassador-letter reveal" aria-labelledby="ambassador-letter-title"><div class="letter-mark pristino-mark"><img src="{base}assets/javier-montano.jpg" alt="Prístino · MetodologIA" width="460" height="460" loading="lazy" decoding="async"></div><div class="letter-body"><span class="eyebrow">{esc(ambassadors['label'])}</span><h3 id="ambassador-letter-title">{esc(ambassadors['title'])}</h3>{ambassador_paragraphs}<footer><strong>{esc(ambassadors['signature'])}</strong><span>{esc(ambassadors['role'])}</span></footer></div></article></div></section>
-<section class="chapter final-section" id="convocatoria" data-chapter="08"><div class="shell"><article class="letter-card javier-letter reveal" aria-labelledby="javier-letter-title"><a class="letter-mark portrait founder-portrait" href="https://github.com/JaviMontano" target="_blank" rel="noopener noreferrer" aria-label="Javier Montaño · GitHub"><img src="{base}assets/team-javier-montano.webp" alt="Retrato de Javier Montaño" width="560" height="560" loading="lazy" decoding="async"></a><div class="letter-body"><span class="eyebrow">{esc(javier['label'])}</span><h3 id="javier-letter-title">{esc(javier['title'])}</h3>{javier_paragraphs}<footer><strong>{esc(javier['signature'])}</strong><span>{esc(javier['role'])}</span></footer></div></article><div class="final-grid"><div><span class="eyebrow">{esc(l['final_eyebrow'])}</span><h2 class="h2">{esc(l['final_title'])}</h2><p class="lead">{esc(l['final_lead'])}</p><div class="actions"><a class="btn" href="{FORM}" target="_blank" rel="noopener noreferrer">{esc(l['enroll'])} →</a><a class="btn secondary" href="workbook/index.html">{esc(l['workbook_cta'])}</a></div><p class="form-note">{esc(l['form_note'])}</p></div><div class="final-mark" aria-hidden="true"><span>N</span><strong>0</strong><i></i></div></div></div></section>
+<section class="chapter final-section" id="convocatoria" data-chapter="08"><div class="shell"><article class="letter-card javier-letter reveal" aria-labelledby="javier-letter-title"><a class="letter-mark portrait founder-portrait" href="https://github.com/JaviMontano" target="_blank" rel="noopener noreferrer" aria-label="Javier Montaño · GitHub"><img src="{base}assets/team-javier-montano.webp" alt="{esc(javier['portrait_alt'])}" width="560" height="560" loading="lazy" decoding="async"></a><div class="letter-body"><span class="eyebrow">{esc(javier['label'])}</span><h3 id="javier-letter-title">{esc(javier['title'])}</h3>{javier_paragraphs}<footer><strong>{esc(javier['signature'])}</strong><span>{esc(javier['role'])}</span></footer></div></article><div class="final-grid"><div><span class="eyebrow">{esc(l['final_eyebrow'])}</span><h2 class="h2">{esc(l['final_title'])}</h2><p class="lead">{esc(l['final_lead'])}</p><div class="actions"><a class="btn" href="{FORM}" target="_blank" rel="noopener noreferrer">{esc(l['enroll'])} →</a><a class="btn secondary" href="workbook/index.html">{esc(l['workbook_cta'])}</a></div><p class="form-note">{esc(l['form_note'])}</p></div><div class="final-mark" aria-hidden="true"><span>N</span><strong>0</strong><i></i></div></div></div></section>
 </main><script type="application/ld+json">{course_json}</script>'''+end(lang,'landing')
 
 W={
@@ -502,12 +590,12 @@ def workbook(lang):
   prep_eyebrow=('Preparación · una entrada, tres movimientos' if lang=='es' else 'Preparation · one input, three moves' if lang=='en' else 'Preparação · uma entrada, três movimentos')
   brain=f'''<section class="brain-section" aria-labelledby="brain-title-{lang}"><div class="section-head"><span class="eyebrow">{esc(prep_eyebrow)}</span><h2 class="h2" id="brain-title-{lang}">{esc(advanced['brain_title'])}</h2><p class="lead">{esc(advanced['brain_body'])}</p></div><label class="brain-input"><strong>{esc(advanced['brain_label'])}</strong><textarea id="brain-dump-{lang}" rows="8" placeholder="{esc(advanced['brain_placeholder'])}" data-brain-dump></textarea><small>{esc(advanced['brain_dictation'])}</small><span class="brain-status" data-brain-status aria-live="polite" data-empty-message="{esc(advanced['brain_empty'])}"></span></label><div class="brain-prompt-grid">{''.join(brain_prompt_cards)}</div></section>'''
   use_cases=''.join(f'<li><span>{i:02d}</span><p>{esc(item)}</p></li>' for i,item in enumerate(advanced['use_cases'],1))
-  cases=f'''<section class="use-cases" aria-labelledby="cases-title-{lang}"><div class="section-head"><span class="eyebrow">Casos de uso · destino provisional</span><h2 class="h2" id="cases-title-{lang}">{esc(advanced['use_cases_title'])}</h2><p class="lead">{esc(advanced['use_cases_body'])}</p></div><ol>{use_cases}</ol></section>'''
+  cases=f'''<section class="use-cases" aria-labelledby="cases-title-{lang}"><div class="section-head"><span class="eyebrow">{esc(advanced['use_cases_label'])}</span><h2 class="h2" id="cases-title-{lang}">{esc(advanced['use_cases_title'])}</h2><p class="lead">{esc(advanced['use_cases_body'])}</p></div><ol>{use_cases}</ol></section>'''
   start=f'''<section class="workshop-start" id="descarga"><div class="section-head"><span class="eyebrow">00 · {esc(advanced['start_label'])}</span><h2 class="h2">{esc(advanced['start_title'])}</h2><p class="lead">{esc(advanced['start_body'])}</p></div><div class="access-grid">{access_cards}</div></section>'''
-  route_map=f'''<section class="workbook-routes" id="transferencia"><div class="section-head"><span class="eyebrow">05 · Aprender · Aprehender · Evolucionar</span><h2 class="h2">{esc(advanced['routes_title'])}</h2><p class="route-duration-note">{esc(advanced['route_note'])}</p></div><div class="route-choice-grid three">{routes}</div></section>'''
+  route_map=f'''<section class="workbook-routes" id="transferencia"><div class="section-head"><span class="eyebrow">05 · {esc(advanced['route_map_label'])}</span><h2 class="h2">{esc(advanced['routes_title'])}</h2><p class="route-duration-note">{esc(advanced['route_note'])}</p></div><div class="route-choice-grid three">{routes}</div></section>'''
   concepts=f'''<section class="concept-section"><div class="concept-grid"><article><span>01</span><h2>{esc(advanced['assistant_title'])}</h2><p>{esc(advanced['assistant_body'])}</p></article><article><span>02</span><h2>{esc(advanced['skill_title'])}</h2><p>{esc(advanced['skill_body'])}</p></article></div></section>'''
-  expert=f'''<section class="expert-section"><div class="section-head"><span class="eyebrow">Ruta experta · Spec → Build → Verify</span><h2 class="h2">{esc(advanced['expert_title'])}</h2></div><ol class="expert-steps">{expert_steps}</ol><div class="expert-tools"><article><h3>{esc(advanced['setup_title'])}</h3><p>{esc(advanced['setup_body'])}</p><div class="actions"><a class="btn secondary" href="{ANTIGRAVITY}" target="_blank" rel="noopener noreferrer">Antigravity ↗</a><a class="text-link" href="{ANTIGRAVITY_GUIDE}" target="_blank" rel="noopener noreferrer">Google Codelab ↗</a></div></article><article class="warning-card"><h3>NotebookLM MCP</h3><p>{esc(advanced['mcp_warning'])}</p><div class="actions"><a class="btn secondary" href="{NOTEBOOK_MCP}" target="_blank" rel="noopener noreferrer">GitHub · MCP ↗</a><a class="text-link" href="{REFERENCE_WORKBOOK}" target="_blank" rel="noopener noreferrer">Workbook original ↗</a></div></article></div></section>'''
-  prep=f'''<section class="workbook-prep" id="preparacion"><div class="section-head"><span class="eyebrow">Antes de continuar</span><h2 class="h2">{esc(intro['prepare'])}</h2></div><div class="prep-grid">{prep_columns}</div><p class="fac-note"><strong>{setup}</strong><br>{w['note']}</p></section>'''
+  expert=f'''<section class="expert-section"><div class="section-head"><span class="eyebrow">{esc(advanced['expert_label'])}</span><h2 class="h2">{esc(advanced['expert_title'])}</h2></div><ol class="expert-steps">{expert_steps}</ol><div class="expert-tools"><article><h3>{esc(advanced['setup_title'])}</h3><p>{esc(advanced['setup_body'])}</p><div class="actions"><a class="btn secondary" href="{ANTIGRAVITY}" target="_blank" rel="noopener noreferrer">Antigravity ↗</a><a class="text-link" href="{ANTIGRAVITY_GUIDE}" target="_blank" rel="noopener noreferrer">Google Codelab ↗</a></div></article><article class="warning-card"><h3>NotebookLM MCP</h3><p>{esc(advanced['mcp_warning'])}</p><div class="actions"><a class="btn secondary" href="{NOTEBOOK_MCP}" target="_blank" rel="noopener noreferrer">GitHub · MCP ↗</a><a class="text-link" href="{REFERENCE_WORKBOOK}" target="_blank" rel="noopener noreferrer">Workbook original ↗</a></div></article></div></section>'''
+  prep=f'''<section class="workbook-prep" id="preparacion"><div class="section-head"><span class="eyebrow">{esc(advanced['prep_label'])}</span><h2 class="h2">{esc(intro['prepare'])}</h2></div><div class="prep-grid">{prep_columns}</div><p class="fac-note"><strong>{setup}</strong><br>{w['note']}</p></section>'''
   return head(lang,w['title'],'workbook')+f'''<main id="main" class="workbook-v2"><section class="doc-hero workbook-hero" id="workbook-inicio"><div class="shell">{breadcrumb(lang,'workbook',T[lang]['workbook'])}</div><div class="shell workbook-hero-grid"><div class="workbook-hero-copy"><span class="eyebrow">MetodologIA · {esc(intro['eyebrow'])}</span><h1 class="h1">{w['title']}</h1><p class="lead">{esc(intro['promise'])}</p></div><aside class="workbook-outcome"><span>{esc(intro['outcome'])}</span><strong>{esc(intro['outcome_body'])}</strong></aside><nav class="workbook-hero-actions" aria-label="Workbook"><a class="btn" href="#brain-title-{lang}">{esc(intro['start'])} →</a><a class="text-link" href="../deck/index.html#page-1">{back} →</a><button class="print-link" type="button" onclick="window.print()">PDF / Print</button></nav></div></section><div class="shell workbook-flow">{guide}{brain}{start}{prep}{cases}<section class="workbook-sheets"><div class="section-head"><span class="eyebrow">01–03 · Workbook</span><h2 class="h2">{esc(w['lead'])}</h2></div>{level_convention_markup(lang)}<div class="sheet-tabs" role="tablist" aria-label="Workbook"><button class="tab" role="tab" aria-selected="true" aria-controls="sheet-session" data-sheet="session">1 · {w['tabs'][0]} · 5</button><button class="tab" role="tab" aria-selected="false" aria-controls="sheet-depth" data-sheet="depth">2 · {w['tabs'][1]} · 10</button><button class="tab" role="tab" aria-selected="false" aria-controls="sheet-consolidation" data-sheet="consolidation">3 · {w['tabs'][2]}</button></div><section class="sheet" id="sheet-session" role="tabpanel"><div class="section-head"><span class="eyebrow">01 · {w['tabs'][0]}</span><h2 class="h2">{w['sheet1']}</h2><p class="lead">{w['sheet1p']}</p></div><div class="step-list">{prompt_cards(lang,1,5)}</div>{surfaces}<h3 class="h3">{roles_title}</h3>{roles_table}</section><section class="sheet" id="sheet-depth" role="tabpanel" hidden><div class="section-head"><span class="eyebrow">02 · {w['tabs'][1]}</span><h2 class="h2">{w['sheet2']}</h2><p class="lead">{w['sheet2p']}</p><p class="fac-note"><strong>{rubric}</strong></p></div>{rubric_table}<div class="step-list">{prompt_cards(lang,6,10)}</div><p class="fac-note"><strong>{gate}</strong></p></section><section class="sheet" id="sheet-consolidation" role="tabpanel" hidden><div class="section-head"><span class="eyebrow">03 · {w['tabs'][2]}</span><h2 class="h2">{w['sheet3']}</h2><p class="lead">{w['sheet3p']}</p></div><article class="card evidence"><h3 class="h3">{w['challenge']}</h3><p>{w['challengep']}</p><p><strong>{transfer}</strong></p><div class="checklist">{checks}</div></article><div class="rubric" style="margin-top:1rem">{states}</div></section></section>{route_map}{concepts}{expert}</div></main>'''+end(lang,'workbook')
 
 def playbook_icon(name):
@@ -610,9 +698,8 @@ def masterclass(lang):
 
 def editorial_page(lang,page):
   content=EDITORIAL['copy'][lang][page]
-  audience=EDITORIAL['audience_copy'][lang][CURRENT_AUDIENCE][page]
+  audience=AUDIENCE_SPEC['locales'][lang][CURRENT_AUDIENCE][page]
   anchors=EDITORIAL['pages'][page]['anchors']
-  audience_points=''.join(f'<li>{esc(item)}</li>' for item in audience['points'])
   resource_targets={
     'masterclass-resource':('deck',{'es':'Abrir masterclass','en':'Open masterclass','pt':'Abrir masterclass'}[lang]),
     'workbook-resource':('workbook',{'es':'Abrir workbook','en':'Open workbook','pt':'Abrir workbook'}[lang]),
@@ -633,9 +720,59 @@ def editorial_page(lang,page):
       label={'es':'Conocer MetodologIA','en':'Explore MetodologIA','pt':'Conhecer a MetodologIA'}[lang]
       extra=f'<a class="editorial-link" href="https://metodologia.info/">{esc(label)}{ui_icon("external")}</a>'
     sections.append(f'''<section class="editorial-section" id="{esc(section['id'])}"><div class="editorial-section-number" aria-hidden="true">{len(sections)+1:02d}</div><div><h2>{esc(section['title'])}</h2><p>{esc(section['body'])}</p>{f'<ul>{points}</ul>' if points else ''}{extra}</div></section>''')
-  return head(lang,content['meta_title'],page)+f'''<main id="main" class="editorial-page" data-editorial-page="{page}" data-editorial-audience="{CURRENT_AUDIENCE}"><section class="editorial-hero" id="{esc(anchors[0])}"><div class="shell editorial-hero-grid"><div><span class="eyebrow">{esc(content['eyebrow'])}</span><h1>{esc(content['title'])}</h1><p class="lead">{esc(content['lead'])}</p></div><aside class="editorial-audience"><span>{esc(audience['label'])}</span><p>{esc(audience['body'])}</p><ul>{audience_points}</ul></aside></div></section><div class="shell editorial-sections">{''.join(sections)}</div></main>'''+end(lang,page)
+  return head(lang,content['meta_title'],page)+f'''<main id="main" class="editorial-page" data-editorial-page="{page}" data-editorial-audience="{CURRENT_AUDIENCE}"><section class="editorial-hero" id="{esc(anchors[0])}"><div class="shell editorial-hero-grid"><div><span class="eyebrow">{esc(content['eyebrow'])}</span><h1>{esc(content['title'])}</h1><p class="lead">{esc(content['lead'])}</p></div><div class="card evidence" data-audience-field="benefits"><p>{esc(audience['benefits'])}</p></div></div></section><div class="shell editorial-sections">{''.join(sections)}</div></main>'''+end(lang,page)
 
 def write(path,text): path.parent.mkdir(parents=True,exist_ok=True); path.write_text(text,encoding='utf-8')
+
+def normalized_string(value):
+  return ' '.join(html.unescape(value).split())
+
+class EditorialStringParser(HTMLParser):
+  excluded={'script','style','template','svg'}
+  void={'area','base','br','col','embed','hr','img','input','link','meta','param','source','track','wbr'}
+  accessible=('aria-label','alt','title','placeholder')
+  def __init__(self):
+    super().__init__(convert_charrefs=True)
+    self.stack=[];self.in_body=False;self.visible=Counter();self.access=Counter()
+  def handle_starttag(self,tag,attrs):
+    attrs=dict(attrs);parent_hidden=self.stack[-1][1] if self.stack else False
+    hidden=parent_hidden or tag in self.excluded or 'hidden' in attrs or attrs.get('aria-hidden')=='true'
+    if tag=='body': self.in_body=True
+    if self.in_body and not hidden:
+      for attribute in self.accessible:
+        value=normalized_string(attrs.get(attribute,''))
+        if value:self.access[(attribute,value)]+=1
+      if tag in ('input','button') and attrs.get('type','').lower() in ('submit','reset','button'):
+        value=normalized_string(attrs.get('value',''))
+        if value:self.access[('input_value',value)]+=1
+    if tag not in self.void:self.stack.append((tag,hidden))
+  def handle_startendtag(self,tag,attrs): self.handle_starttag(tag,attrs)
+  def handle_endtag(self,tag):
+    if tag in self.void:return
+    while self.stack:
+      opened,_=self.stack.pop()
+      if opened==tag:break
+    if tag=='body':self.in_body=False
+  def handle_data(self,data):
+    if self.in_body and not (self.stack and self.stack[-1][1]):
+      value=normalized_string(data)
+      if value:self.visible[value]+=1
+
+def editorial_string_inventory(html_outputs):
+  routes=[]
+  for page_path in html_outputs:
+    source=page_path.read_text(encoding='utf-8');parser=EditorialStringParser();parser.feed(source)
+    locale=re.search(r'<html lang="([^"]+)"',source).group(1)
+    audience=re.search(r'<html[^>]+data-audience="([^"]+)"',source).group(1)
+    page=re.search(r'<body data-page="([^"]+)"',source).group(1)
+    routes.append({
+      'route':str(page_path.relative_to(DIST)),'locale':locale,'audience':audience,'page':page,
+      'visible_text':[{'text':text,'count':count} for text,count in sorted(parser.visible.items())],
+      'accessible_text':[{'attribute':attribute,'text':text,'count':count} for (attribute,text),count in sorted(parser.access.items())],
+    })
+  inventory={'schema_version':'editorial-string-inventory-v1','state':'RENDERED_DRAFT','publication_authorized':False,'source_spec':'src/editorial-parity-spec-v1.json','source_spec_self_sha256':PARITY['self_sha256'],'route_count':len(routes),'routes':routes,'self_hash_model':'sha256(sorted-json-without-self_sha256)'}
+  inventory['self_sha256']=canonical_self(inventory,'self_sha256')
+  return inventory
 def validate_method_identity():
   subprocess.run([sys.executable,str(ROOT/'scripts/build_method_identity.py'),'--check'],check=True,stdout=subprocess.DEVNULL)
   source=METHOD_IDENTITY['source']
@@ -695,9 +832,10 @@ def build():
         if page not in EDITORIAL_PAGES:
           content=content.replace('aria-label="Nivel 0"',f'aria-label="{T[lang]["route"]}"').replace('MetodologIA · Nivel 0',f'MetodologIA · {T[lang]["route"]}')
           content=content.replace('W04 · Profesor / Asesor / Coach',{'es':'W04 · Profesor / Asesor / Coach','en':'W04 · Teacher / Advisor / Coach','pt':'W04 · Professor / Assessor / Coach'}[lang] if page=='workbook' else 'W04 · Profesor / Asesor / Coach')
-          content=inject_audience(decorate_ui(content,lang).replace('#page-','#slide-'),lang,page)
+          content=decorate_ui(content,lang).replace('#page-','#slide-')
         else:
           content=decorate_ui(content,lang)
+        content=adapt_audience_body(content,lang,page)
         if content.count('data-intrapage-nav')!=1 or content.count('data-intrapage-open')!=1:
           raise RuntimeError(f'INTRAPAGE_NAV_RENDER_INVALID:{lang}:{CURRENT_AUDIENCE}:{page}')
         if content.count('data-conoce-header')!=1 or content.count('data-conoce-footer')!=1 or content.count('data-conoce-preferences')!=1:
@@ -708,6 +846,8 @@ def build():
           raise RuntimeError(f'CONOCE_CHROME_AUTHORITY_DRIFT:{lang}:{CURRENT_AUDIENCE}:{page}')
         if re.search(r'<a[^>]*(?:data-conoce-parent[^>]*target=|target=[^>]*data-conoce-parent)',content):
           raise RuntimeError(f'CONOCE_CHROME_PARENT_TARGET_DRIFT:{lang}:{CURRENT_AUDIENCE}:{page}')
+        if content.count(f'data-audience-content="{CURRENT_AUDIENCE}"')!=1 or 'data-audience-positioning=' in content or '<aside class="editorial-audience">' in content:
+          raise RuntimeError(f'EDITORIAL_PARITY_AUDIENCE_RENDER_INVALID:{lang}:{CURRENT_AUDIENCE}:{page}')
         for anchor in EXPECTED_INTRAPAGE_ANCHORS[page]:
           if len(re.findall(rf'\bid="{re.escape(anchor)}"',content))!=1 or content.count(f'href="#{anchor}"')<1:
             raise RuntimeError(f'INTRAPAGE_NAV_TARGET_INVALID:{lang}:{CURRENT_AUDIENCE}:{page}:{anchor}')
@@ -734,6 +874,12 @@ def build():
     relevant_pages += page in METHOD_IDENTITY['usage']['resources']
   if relevant_pages!=18:
     raise RuntimeError(f'METHOD_IDENTITY_SURFACE_COUNT:{relevant_pages}')
+  inventory=editorial_string_inventory(html_outputs)
+  if inventory['route_count']!=PARITY['matrix']['canonical_routes']:
+    raise RuntimeError(f'EDITORIAL_PARITY_INVENTORY_COUNT:{inventory["route_count"]}')
+  inventory_path=DIST/PARITY['string_inventory']['output']
+  write(inventory_path,json.dumps(inventory,ensure_ascii=False,sort_keys=True,indent=2)+'\n')
+  outputs.append(inventory_path)
   sitemap=[]
   for audience in AUDIENCES:
     CURRENT_AUDIENCE=audience
@@ -750,11 +896,11 @@ def build():
   chrome_binding={'schema_version':chrome_spec['schema_version'],'site_id':chrome_spec['site_id'],'display_label':chrome_spec['identity']['display_label'],'source':'src/conoce-chrome-spec-v1.json','source_sha256':source_hashes['conoce-chrome-spec-v1.json'],'self_sha256':chrome_spec['self_sha256'],'canonical_origin':chrome_spec['canonical_origin'],'parent':chrome_spec['parent'],'rendered_pages':len(html_outputs),'storage_keys':chrome_spec['allowed_storage_keys'],'brand_release_immutable':chrome_spec['brand_authority']['immutable'],'state':chrome_spec['state'],'publication_authorized':False}
   chrome_binding['breadcrumbs']=chrome_spec['breadcrumbs']
   editorial_binding={'schema_version':EDITORIAL['schema_version'],'source':'src/editorial-sitemap-spec-v1.json','source_sha256':source_hashes['editorial-sitemap-spec-v1.json'],'self_sha256':EDITORIAL['self_sha256'],'pages':list(EDITORIAL_PAGES),'rendered_pages':len(EDITORIAL_PAGES)*len(LANGS)*len(AUDIENCES),'canonical_count':len(html_outputs),'state':EDITORIAL['state'],'publication_authorized':False}
-  manifest={'schema_version':'build-manifest-v2','build_id':'nivel-0-learning-resources-v8','state':'RENDERED_DRAFT','publication_authorized':False,'compiler':{'ref':'scripts/build.py','sha256':hashlib.sha256(Path(__file__).read_bytes()).hexdigest()},'variants':{'locales':list(LANGS),'audiences':list(AUDIENCES),'resources':['landing','workbook','playbook','prompts','deck'],'editorial_pages':list(EDITORIAL_PAGES),'canonical_pages':len(html_outputs)},'digital_brand':{'release_id':brand_manifest['releaseId'],'manifest_sha256':MANIFEST_RAW,'receipt_sha256':RECEIPT_RAW,'usage':['tokens','fonts','organization_mark','asset_rights'],'runtime_mount':False,'network_required':False,'publication_authority':False},'conoce_chrome':chrome_binding,'editorial_sitemap':editorial_binding,'official_masterclass':{'source':DECK_RESOURCE['source_asset'],'sha256':DECK_RESOURCE['sha256'],'media_type':DECK_RESOURCE['media_type'],'document_language':DECK_RESOURCE['document_language'],'page_count':DECK_RESOURCE['page_count'],'rendered_variants':len(LANGS)*len(AUDIENCES),'primary_surface':True,'publication_authorized':False},'intrapage_navigation':{'schema_version':INTRAPAGE_NAV['schema_version'],'source':'src/intrapage-navigation-spec-v1.json','source_sha256':source_hashes['intrapage-navigation-spec-v1.json'],'desktop_width_px':INTRAPAGE_NAV['desktop_width_px'],'rendered_pages':len(html_outputs),'publication_authorized':False},'method_identity':{'schema_version':METHOD_IDENTITY['schema_version'],'display_label':METHOD_IDENTITY['display_label'],'role':METHOD_IDENTITY['role'],'generator_sha256':hashlib.sha256((ROOT/METHOD_IDENTITY['source']['generator']).read_bytes()).hexdigest(),'assets':{name:item['sha256'] for name,item in METHOD_IDENTITY['assets'].items()},'resources':METHOD_IDENTITY['usage']['resources'],'rendered_pages':relevant_pages},'outputs':hashes,'sources':source_hashes,'self_hash_model':'sha256(sorted-json-without-self_sha256)'}
-  manifest['build_id']='nivel-0-learning-resources-v9'
+  parity_binding={'schema_version':PARITY['schema_version'],'source':'src/editorial-parity-spec-v1.json','source_sha256':source_hashes['editorial-parity-spec-v1.json'],'self_sha256':PARITY['self_sha256'],'matrix':PARITY['matrix'],'fallback_policy':PARITY['fallback_policy'],'shared_allowlist':[item['id'] for item in PARITY['shared_allowlist']],'inventory':str(inventory_path.relative_to(DIST)),'inventory_sha256':hashes[str(inventory_path.relative_to(DIST))],'inventory_self_sha256':inventory['self_sha256'],'state':PARITY['state'],'publication_authorized':False}
+  manifest={'schema_version':'build-manifest-v2','build_id':'nivel-0-learning-resources-v10','state':'RENDERED_DRAFT','publication_authorized':False,'compiler':{'ref':'scripts/build.py','sha256':hashlib.sha256(Path(__file__).read_bytes()).hexdigest()},'variants':{'locales':list(LANGS),'audiences':list(AUDIENCES),'resources':['landing','workbook','playbook','prompts','deck'],'editorial_pages':list(EDITORIAL_PAGES),'canonical_pages':len(html_outputs)},'digital_brand':{'release_id':brand_manifest['releaseId'],'manifest_sha256':MANIFEST_RAW,'receipt_sha256':RECEIPT_RAW,'usage':['tokens','fonts','organization_mark','asset_rights'],'runtime_mount':False,'network_required':False,'publication_authority':False},'conoce_chrome':chrome_binding,'editorial_sitemap':editorial_binding,'editorial_parity':parity_binding,'official_masterclass':{'source':DECK_RESOURCE['source_asset'],'sha256':DECK_RESOURCE['sha256'],'media_type':DECK_RESOURCE['media_type'],'document_language':DECK_RESOURCE['document_language'],'page_count':DECK_RESOURCE['page_count'],'rendered_variants':len(LANGS)*len(AUDIENCES),'primary_surface':True,'publication_authorized':False},'intrapage_navigation':{'schema_version':INTRAPAGE_NAV['schema_version'],'source':'src/intrapage-navigation-spec-v1.json','source_sha256':source_hashes['intrapage-navigation-spec-v1.json'],'desktop_width_px':INTRAPAGE_NAV['desktop_width_px'],'rendered_pages':len(html_outputs),'publication_authorized':False},'method_identity':{'schema_version':METHOD_IDENTITY['schema_version'],'display_label':METHOD_IDENTITY['display_label'],'role':METHOD_IDENTITY['role'],'generator_sha256':hashlib.sha256((ROOT/METHOD_IDENTITY['source']['generator']).read_bytes()).hexdigest(),'assets':{name:item['sha256'] for name,item in METHOD_IDENTITY['assets'].items()},'resources':METHOD_IDENTITY['usage']['resources'],'rendered_pages':relevant_pages},'outputs':hashes,'sources':source_hashes,'self_hash_model':'sha256(sorted-json-without-self_sha256)'}
   manifest['self_sha256']=hashlib.sha256((json.dumps({key:value for key,value in manifest.items() if key!='self_sha256'},ensure_ascii=False,sort_keys=True,separators=(',',':'))+'\n').encode('utf-8')).hexdigest()
   write(DIST/'build-manifest.json',json.dumps(manifest,ensure_ascii=False,sort_keys=True,indent=2)+'\n')
-  receipt={'schema_version':'build-receipt-v1','build_id':manifest['build_id'],'manifest_sha256':hashlib.sha256((DIST/'build-manifest.json').read_bytes()).hexdigest(),'manifest_self_sha256':manifest['self_sha256'],'output_count':len(hashes),'deterministic_inputs':True,'state':'RENDERED_DRAFT','conoce_chrome':manifest['conoce_chrome'],'editorial_sitemap':manifest['editorial_sitemap'],'official_masterclass':manifest['official_masterclass'],'intrapage_navigation':manifest['intrapage_navigation'],'method_identity':manifest['method_identity'],'self_hash_model':'sha256(sorted-json-without-self)'}
+  receipt={'schema_version':'build-receipt-v1','build_id':manifest['build_id'],'manifest_sha256':hashlib.sha256((DIST/'build-manifest.json').read_bytes()).hexdigest(),'manifest_self_sha256':manifest['self_sha256'],'output_count':len(hashes),'deterministic_inputs':True,'state':'RENDERED_DRAFT','conoce_chrome':manifest['conoce_chrome'],'editorial_sitemap':manifest['editorial_sitemap'],'editorial_parity':manifest['editorial_parity'],'official_masterclass':manifest['official_masterclass'],'intrapage_navigation':manifest['intrapage_navigation'],'method_identity':manifest['method_identity'],'self_hash_model':'sha256(sorted-json-without-self)'}
   receipt['self_sha256']=hashlib.sha256(json.dumps(receipt,ensure_ascii=False,sort_keys=True,separators=(',',':')).encode('utf-8')).hexdigest()
   write(DIST/'build-receipt.json',json.dumps(receipt,ensure_ascii=False,sort_keys=True,indent=2)+'\n')
 if __name__=='__main__': build()

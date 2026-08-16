@@ -1,0 +1,65 @@
+{
+  "schema_version": "editorial-parity-spec-v1",
+  "state": "RENDERED_DRAFT",
+  "publication_authorized": false,
+  "network_required": false,
+  "fallback_policy": "forbidden",
+  "self_hash_model": "sha256(sorted-json-without-self_sha256)",
+  "self_sha256": "ad07bf72e931202887c1625600579f9e39c1a84a78ecd2891fc70525b7f49fe6",
+  "matrix": {
+    "locales": ["es", "en", "pt"],
+    "audiences": ["persona", "empresa"],
+    "pages": ["landing", "deck", "workbook", "playbook", "prompts", "level0", "how", "resources_index", "intakes"],
+    "canonical_routes": 54
+  },
+  "localized_sources": [
+    {"path": "src/conoce-chrome-spec-v1.json", "root": "copy", "dimensions": ["locale"]},
+    {"path": "src/landing-spec-v2.json", "root": "locales", "dimensions": ["locale"]},
+    {"path": "src/public-resource-spec-v1.json", "root": "deck.locales", "dimensions": ["locale"]},
+    {"path": "src/workbook-advanced-v1.json", "root": "locales", "dimensions": ["locale"]},
+    {"path": "src/playbook-spec-v1.json", "root": "locales", "dimensions": ["locale"]},
+    {"path": "src/prompt-library-spec-v1.json", "root": "locales", "dimensions": ["locale"]},
+    {"path": "src/intrapage-navigation-spec-v1.json", "root": "locales", "dimensions": ["locale"]},
+    {"path": "src/audience-spec-v1.json", "root": "locales", "dimensions": ["locale", "audience"]},
+    {"path": "src/editorial-sitemap-spec-v1.json", "root": "audience_copy", "dimensions": ["locale", "audience"]},
+    {"path": "src/editorial-sitemap-spec-v1.json", "root": "copy", "dimensions": ["locale"]}
+  ],
+  "required_audience_surfaces": ["hero", "problem", "benefits", "method", "evidence", "cta", "closing"],
+  "shared_allowlist": [
+    {
+      "id": "organization_and_method_marks",
+      "scope": ["all_pages"],
+      "reason": "MetodologIA, Conoce · Nivel 0 and A²(R)E are governed identities and do not change by audience."
+    },
+    {
+      "id": "localized_chrome",
+      "scope": ["header", "footer", "preferences", "breadcrumbs", "intrapage_navigation"],
+      "reason": "Navigation and preference controls stay stable within each locale so changing audience never changes wayfinding."
+    },
+    {
+      "id": "official_spanish_pdf",
+      "scope": ["deck"],
+      "reason": "The approved PDF bytes remain Spanish and immutable; title, guide and language note are localized around the document."
+    }
+  ],
+  "string_inventory": {
+    "output": "editorial-string-inventory.json",
+    "coverage": ["visible_text", "aria-label", "alt", "title", "placeholder", "input_value"],
+    "normalization": "unicode-whitespace-collapse",
+    "include_occurrence_counts": true
+  },
+  "official_pdf": {
+    "source": "src/assets/masterclass-ia-nivel-0.pdf",
+    "sha256": "5df5533a29652184f492b2f797ecfa0f1fa47cdb682bfcefb8f30c96014ce402",
+    "document_language": "es",
+    "localized_guide": true,
+    "localized_language_note": true,
+    "bytes_immutable": true
+  },
+  "preference_controls": {
+    "keys": ["mdg_theme", "mdg_locale", "mdg_audience"],
+    "progressive_enhancement": true,
+    "protocols": ["file", "http"],
+    "real_click_required": true
+  }
+}

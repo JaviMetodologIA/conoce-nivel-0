@@ -8,6 +8,7 @@ import re
 import sys
 import xml.etree.ElementTree as ET
 from pathlib import Path
+from bs4 import BeautifulSoup
 
 ROOT = Path(__file__).resolve().parents[1]
 DIST = ROOT / "dist"
@@ -43,6 +44,7 @@ def reject(code: str, mutate) -> None:
 
 
 source = json.loads(EDITORIAL_SPEC.read_text(encoding="utf-8"))
+audience_source = json.loads((ROOT / "src/audience-spec-v1.json").read_text(encoding="utf-8"))
 validate_editorial_spec()
 
 
@@ -186,9 +188,21 @@ for locale in LOCALES:
     for page in EDITORIAL_PAGES:
         persona = ((DIST if page_dir(locale, "persona", page) == "." else DIST / page_dir(locale, "persona", page)) / "index.html").read_text(encoding="utf-8")
         empresa = ((DIST if page_dir(locale, "empresa", page) == "." else DIST / page_dir(locale, "empresa", page)) / "index.html").read_text(encoding="utf-8")
-        p_card = re.search(r'<aside class="editorial-audience">([\s\S]*?)</aside>', persona).group(1)
-        e_card = re.search(r'<aside class="editorial-audience">([\s\S]*?)</aside>', empresa).group(1)
-        if p_card == e_card:
+        if '<aside class="editorial-audience">' in persona or '<aside class="editorial-audience">' in empresa:
+            raise AssertionError(f"EDITORIAL_AUDIENCE_ASIDE_PRESENT:{locale}:{page}")
+        pair = []
+        for variant, html in (("persona", persona), ("empresa", empresa)):
+            soup = BeautifulSoup(html, "html.parser")
+            rendered = {}
+            for field in audience_source["fields"]:
+                nodes = soup.select(f'[data-audience-field="{field}"]')
+                if len(nodes) != 1:
+                    raise AssertionError(f"EDITORIAL_AUDIENCE_FIELD_MISSING:{locale}:{page}:{variant}:{field}")
+                rendered[field] = " ".join(nodes[0].get_text(" ", strip=True).split())
+                if rendered[field] != audience_source["locales"][locale][variant][page][field]:
+                    raise AssertionError(f"EDITORIAL_AUDIENCE_FIELD_DRIFT:{locale}:{page}:{variant}:{field}")
+            pair.append(rendered)
+        if any(pair[0][field] == pair[1][field] for field in audience_source["fields"]):
             raise AssertionError(f"EDITORIAL_AUDIENCE_NOT_MATERIAL:{locale}:{page}")
 
 sitemap_root = ET.parse(DIST / "sitemap.xml").getroot()

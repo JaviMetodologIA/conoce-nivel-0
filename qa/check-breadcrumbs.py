@@ -114,7 +114,7 @@ for mutation in mutations:
         raise AssertionError("BREADCRUMB_MUTATION_PASSED")
 
 manifest = json.loads((DIST / "build-manifest.json").read_text(encoding="utf-8"))
-if manifest.get("build_id") != "nivel-0-learning-resources-v9" or manifest.get("conoce_chrome", {}).get("breadcrumbs") != CHROME["breadcrumbs"]:
+if manifest.get("build_id") != "nivel-0-learning-resources-v10" or manifest.get("conoce_chrome", {}).get("breadcrumbs") != CHROME["breadcrumbs"]:
     raise AssertionError("BREADCRUMB_MANIFEST_BINDING")
 
 print(f"BREADCRUMBS_OK pages={html_count} header_home=54 jsonld=54 mutations={len(mutations)} fragments=0")
