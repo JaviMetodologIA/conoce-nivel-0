@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 from __future__ import annotations
-import hashlib, html, io, json, posixpath, re, shutil, subprocess, sys
+import hashlib, html, io, json, posixpath, re, shutil, subprocess, sys, unicodedata
 import xml.etree.ElementTree as ET
 from collections import Counter
 from html.parser import HTMLParser
@@ -35,6 +35,11 @@ ADVANCED=json.loads((SRC/'workbook-advanced-v1.json').read_text(encoding='utf-8'
 PLAYBOOK=json.loads((SRC/'playbook-spec-v1.json').read_text(encoding='utf-8'))
 METHOD_IDENTITY=PLAYBOOK.get('method_identity',{})
 PROMPT_LIBRARY=json.loads((SRC/'prompt-library-spec-v1.json').read_text(encoding='utf-8'))
+PROMPT_SPEC_AUTHORITY_PATH=SRC/'prompt-spec-authority-v1.json'
+PROMPT_SPEC_AUTHORITY_RAW=hashlib.sha256(PROMPT_SPEC_AUTHORITY_PATH.read_bytes()).hexdigest()
+PROMPT_SPEC_AUTHORITY_EXPECTED_SHA256='64baf1e2299faaca3ff6a89d11dbf92a07be946224960bfe1b60370a9e70753c'
+PROMPT_SPEC_AUTHORITY_EXPECTED_SELF_SHA256='08743a264b78853859e4a6cf5e4cb47f8ccc490b2c523d4e6dadd11dc5d14eed'
+PROMPT_SPEC_AUTHORITY=json.loads(PROMPT_SPEC_AUTHORITY_PATH.read_text(encoding='utf-8'))
 AUDIENCE_SPEC=json.loads((SRC/'audience-spec-v1.json').read_text(encoding='utf-8'))
 INTRAPAGE_NAV=json.loads((SRC/'intrapage-navigation-spec-v1.json').read_text(encoding='utf-8'))
 PARITY=json.loads((SRC/'editorial-parity-spec-v1.json').read_text(encoding='utf-8'))
@@ -181,8 +186,138 @@ for locale in LANGS:
   items=PROMPT_LIBRARY['locales'][locale]['items']
   if len(items)!=14 or [x['id'] for x in items]!=['01','02','03','04','05','06','07','08','09','10','M1','M2','M3','M4']:
     raise SystemExit(f'PROMPT_LIBRARY_COUNT_INVALID: {locale}')
+prompt_spec_contract=PROMPT_LIBRARY.get('spec_contract',{})
 if PROMPT_LIBRARY.get('level_formats') != ['natural','parameters','spec','pair'] or PROMPT_LIBRARY.get('publication_authorized') is not False:
   raise SystemExit('PROMPT_LIBRARY_CONTRACT_INVALID')
+if prompt_spec_contract.get('anatomy') != ['situation','request','execution','criterion'] or prompt_spec_contract.get('chain_of_thought_policy') != 'never_request_store_or_expose_private_reasoning':
+  raise SystemExit('PROMPT_LIBRARY_SPEC_CONTRACT_INVALID')
+if prompt_spec_contract.get('provenance_required') is not True or prompt_spec_contract.get('publication_authorized') is not False:
+  raise SystemExit('PROMPT_LIBRARY_SPEC_GOVERNANCE_INVALID')
+for locale in LANGS:
+  spec_copy=PROMPT_LIBRARY['locales'][locale].get('spec_format',{})
+  required=('situation','request','execution','criterion','expert_role','default_role','deliverable','scope_in','scope_out','steps','edge_cases','output','observable_criteria','criterion_items','dod','dod_value','provenance','provenance_items','metadata','metadata_items','reasoning_policy')
+  if any(not spec_copy.get(key) for key in required):
+    raise SystemExit(f'PROMPT_LIBRARY_SPEC_LOCALE_INVALID:{locale}')
+  expected_labels={
+    'es':('Situación','Pedido','Ejecución','Criterio'),
+    'en':('Situation','Request','Execution','Criterion'),
+    'pt':('Situação','Pedido','Execução','Critério'),
+  }[locale]
+  if tuple(spec_copy[key] for key in ('situation','request','execution','criterion')) != expected_labels:
+    raise SystemExit(f'PROMPT_LIBRARY_SPEC_LANGUAGE_INVALID:{locale}')
+
+def prompt_semantic_words(value):
+  normalized=''.join(character for character in unicodedata.normalize('NFKD',value.casefold()) if not unicodedata.combining(character))
+  return set(re.findall(r'[a-z]{5,}',normalized))
+
+def prompt_semantic_text(value):
+  return ''.join(character for character in unicodedata.normalize('NFKD',value.casefold()) if not unicodedata.combining(character))
+
+def validate_prompt_spec_authority(document=None):
+  authority=PROMPT_SPEC_AUTHORITY if document is None else document
+  required={'schema_version','authority','purpose','state','publication_authorized','source_provenance','anchor_policy','locales','self_hash_model','self_sha256'}
+  if set(authority)!=required or authority.get('schema_version')!='prompt-spec-authority-v1' or authority.get('authority')!='MetodologIA':
+    raise SystemExit('PROMPT_SPEC_AUTHORITY_SHAPE_INVALID')
+  if document is None and PROMPT_SPEC_AUTHORITY_RAW!=PROMPT_SPEC_AUTHORITY_EXPECTED_SHA256:
+    raise SystemExit('PROMPT_SPEC_AUTHORITY_PIN_DRIFT')
+  if authority.get('self_hash_model')!='sha256(sorted-json-without-self_sha256)' or authority.get('self_sha256')!=PROMPT_SPEC_AUTHORITY_EXPECTED_SELF_SHA256 or authority.get('self_sha256')!=canonical_self(authority,'self_sha256'):
+    raise SystemExit('PROMPT_SPEC_AUTHORITY_SELF_DRIFT')
+  if authority.get('state')!='RENDERED_DRAFT' or authority.get('publication_authorized') is not False:
+    raise SystemExit('PROMPT_SPEC_AUTHORITY_GOVERNANCE_INVALID')
+  provenance=authority.get('source_provenance',{})
+  if set(provenance)!={'kind','derived_from','method','rights'} or provenance.get('kind')!='governed_local_contract' or len(provenance.get('derived_from',[]))!=2 or not provenance.get('method') or not provenance.get('rights'):
+    raise SystemExit('PROMPT_SPEC_AUTHORITY_PROVENANCE_INVALID')
+  policy=authority.get('anchor_policy',{})
+  ids=['01','02','03','04','05','06','07','08','09','10','M1','M2','M3','M4']
+  if policy!={'prompt_ids':ids,'anchor_kinds':['intent','evidence'],'minimum_per_kind':2,'require_unique_signatures':True,'consumer_may_override':False}:
+    raise SystemExit('PROMPT_SPEC_AUTHORITY_POLICY_INVALID')
+  anchors=authority.get('locales',{})
+  if set(anchors)!=set(LANGS) or any(set(anchors[locale])!=set(ids) for locale in LANGS):
+    raise SystemExit('PROMPT_SPEC_AUTHORITY_MATRIX_INVALID')
+  return authority
+
+def validate_prompt_library(document=None,authority_document=None):
+  source=PROMPT_LIBRARY if document is None else document
+  authority=validate_prompt_spec_authority(authority_document)
+  contract=source.get('spec_contract',{})
+  specificity=contract.get('semantic_specificity',{})
+  material_fields=specificity.get('material_fields')
+  minimums=specificity.get('minimum_characters',{})
+  if material_fields!=['purpose','when','example','evidence','prompt'] or set(minimums)!=set(material_fields):
+    raise SystemExit('PROMPT_LIBRARY_SPECIFICITY_CONTRACT_INVALID')
+  if specificity.get('minimum_distinct_variables',0)<2 or specificity.get('minimum_evidence_anchor_overlap',0)<1 or specificity.get('require_unique_within_locale') is not True:
+    raise SystemExit('PROMPT_LIBRARY_SPECIFICITY_DEPTH_INVALID')
+  forbidden=specificity.get('forbidden_locale_signals',{})
+  allowlist={prompt_semantic_text(value) for value in specificity.get('locale_cognate_allowlist',[])}
+  authority_binding=specificity.get('intent_authority',{})
+  expected_binding={'source':'src/prompt-spec-authority-v1.json','source_sha256':PROMPT_SPEC_AUTHORITY_EXPECTED_SHA256,'self_sha256':authority['self_sha256'],'consumer_override':False}
+  if authority_binding!=expected_binding:
+    raise SystemExit('PROMPT_LIBRARY_AUTHORITY_BINDING_INVALID')
+  anchors=authority['locales']
+  if set(forbidden)!=set(LANGS) or specificity.get('locale_leak_threshold')!=1 or not allowlist:
+    raise SystemExit('PROMPT_LIBRARY_LOCALE_AUTHORITY_INVALID')
+  if any(not value or not re.fullmatch(r'[a-z0-9_]+',value) for value in allowlist):
+    raise SystemExit('PROMPT_LIBRARY_LOCALE_ALLOWLIST_INVALID')
+  minimum_anchor_count=specificity.get('minimum_anchor_count',0)
+  minimum_diversity=specificity.get('minimum_lexical_diversity',0)
+  if minimum_anchor_count<2 or not 0.65<=minimum_diversity<=1:
+    raise SystemExit('PROMPT_LIBRARY_ANCHOR_CONTRACT_INVALID')
+  locales=source.get('locales')
+  if not isinstance(locales,dict) or set(locales)!=set(LANGS):
+    raise SystemExit('PROMPT_LIBRARY_SEMANTIC_LOCALES_INVALID')
+  for locale in LANGS:
+    localized=locales[locale]
+    items=localized.get('items',[])
+    if [item.get('id') for item in items]!=['01','02','03','04','05','06','07','08','09','10','M1','M2','M3','M4']:
+      raise SystemExit(f'PROMPT_LIBRARY_SEMANTIC_MATRIX_INVALID:{locale}')
+    if set(anchors[locale])!={item['id'] for item in items}:
+      raise SystemExit(f'PROMPT_LIBRARY_ANCHOR_MATRIX_INVALID:{locale}')
+    signatures=[]
+    for field in material_fields:
+      values=[' '.join(item.get(field,'').split()).casefold() for item in items]
+      if len(set(values))!=len(items):
+        raise SystemExit(f'PROMPT_LIBRARY_SEMANTIC_CLONE:{locale}:{field}')
+    for item in items:
+      anchor_set=anchors[locale][item['id']]
+      if set(anchor_set)!= {'intent','evidence'} or any(not isinstance(anchor_set[kind],list) or len(anchor_set[kind])<minimum_anchor_count or len(set(anchor_set[kind]))!=len(anchor_set[kind]) for kind in ('intent','evidence')):
+        raise SystemExit(f'PROMPT_LIBRARY_ANCHOR_SHAPE_INVALID:{locale}:{item["id"]}')
+      signatures.append(tuple(sorted(anchor_set['intent']+anchor_set['evidence'])))
+      for field in material_fields:
+        if len(item.get(field,'').strip())<minimums[field]:
+          raise SystemExit(f'PROMPT_LIBRARY_SEMANTIC_GENERIC:{locale}:{item.get("id")}:{field}')
+      variables={value.strip().casefold() for value in re.findall(r'\[([^]]+)\]',item['prompt']) if value.strip()}
+      if len(variables)<specificity['minimum_distinct_variables']:
+        raise SystemExit(f'PROMPT_LIBRARY_SEMANTIC_VARIABLES:{locale}:{item["id"]}')
+      overlap=prompt_semantic_words(item['evidence']) & prompt_semantic_words(item['prompt'])
+      if len(overlap)<specificity['minimum_evidence_anchor_overlap']:
+        raise SystemExit(f'PROMPT_LIBRARY_SEMANTIC_ANCHOR:{locale}:{item["id"]}')
+      prompt_text=prompt_semantic_text(item['prompt'])
+      intro_text=prompt_semantic_text(item['title']+' '+item['purpose'])
+      evidence_text=prompt_semantic_text(item['evidence'])
+      intent_shared=0
+      for anchor in anchor_set['intent']:
+        normalized_anchor=prompt_semantic_text(anchor)
+        if len(normalized_anchor)<4 or normalized_anchor not in prompt_text+intro_text:
+          raise SystemExit(f'PROMPT_LIBRARY_INTENT_ANCHOR_MISSING:{locale}:{item["id"]}:{anchor}')
+        intent_shared += normalized_anchor in prompt_text and normalized_anchor in intro_text
+      if intent_shared<1:
+        raise SystemExit(f'PROMPT_LIBRARY_INTENT_DIVERGENCE:{locale}:{item["id"]}')
+      for anchor in anchor_set['evidence']:
+        normalized_anchor=prompt_semantic_text(anchor)
+        if len(normalized_anchor)<4 or normalized_anchor not in prompt_text or normalized_anchor not in evidence_text:
+          raise SystemExit(f'PROMPT_LIBRARY_EVIDENCE_ANCHOR_MISSING:{locale}:{item["id"]}:{anchor}')
+      words=re.findall(r'[a-z]{4,}',prompt_text)
+      if not words or len(set(words))/len(words)<minimum_diversity:
+        raise SystemExit(f'PROMPT_LIBRARY_REDUNDANT_FILLER:{locale}:{item["id"]}')
+      combined=' '+prompt_semantic_text(' '.join(item[field] for field in material_fields))+' '
+      for sentence in re.split(r'[.!?\n]+',combined):
+        hits=[signal for signal in forbidden[locale] if prompt_semantic_text(signal) not in allowlist and re.search(rf'(?<!\w){re.escape(prompt_semantic_text(signal))}(?!\w)',sentence)]
+        if hits:
+          raise SystemExit(f'PROMPT_LIBRARY_LOCALE_LEAK:{locale}:{item["id"]}:{hits[0]}')
+    if len(set(signatures))!=len(signatures):
+      raise SystemExit(f'PROMPT_LIBRARY_ANCHOR_SIGNATURE_CLONE:{locale}')
+
+validate_prompt_library()
 
 T={
 'es':{'skip':'Saltar al contenido','route':'Ruta Nivel 0','nav_route':'La ruta','nav_resources':'Recursos','enroll':'Inscribirme','open':'Próxima cohorte · Inscripciones abiertas','eyebrow':'Ruta de entrada · 4 clases · práctica real','hero':'Intro al mundo de la <span class="gold">IA</span>','lead':'Aprende a aprender, producir y trabajar con IA. Pasa de entender qué ocurre a dirigir un primer flujo agéntico sin delegar tu criterio.','see':'Ver las 4 clases','media':'Comprender. Priorizar. Amplificar. Orquestar.','classes':'clases conectadas','available':'recursos disponibles','routes':'rutas de autoentrenamiento','entry':'entrada común','progression':'Una progresión clara','four':'Cuatro clases. Una nueva forma de trabajar.','progress_lead':'Cada clase produce una práctica observable y abre el siguiente paso.','explore':'Explorar recursos','library':'Biblioteca viva','continues':'La clase termina. La práctica continúa.','library_lead':'Entra a lo disponible. Lo que sigue se muestra con honestidad, sin enlaces vacíos.','masterclass':'Masterclass','workbook':'Workbook','playbook':'Playbook','prompts':'Biblioteca de prompts','ready':'Disponible →','soon':'Próximamente','purpose_master':'Comprende el panorama y sigue una práctica guiada.','purpose_work':'Construye una base verificable durante la sesión.','purpose_play':'Repite el método después de la clase.','purpose_prompts':'Adapta instrucciones por objetivo y contexto.','footer':'Método + IA = Soberanía','class1':'IA: qué está pasando y cómo sacarle provecho','class1p':'Aprende a aprender con IA y usa NotebookLM como asistente basado en tus fuentes.','class2':'De ocupado a productivo','class2p':'Convierte la IA en coach para elegir, planificar y sostener lo importante.','class3':'Trabajar amplificado','class3p':'Integra método e IA para acelerar sin delegar tu criterio.','class4':'Trabajo agéntico','class4p':'Diseña un flujo supervisado con roles, memoria, herramientas y límites.','verbs':['Comprender','Priorizar','Amplificar','Orquestar']},
@@ -463,11 +598,12 @@ FORMAT_COPY={
   'en':{'parameters':'# Parameters','inputs':'# Inputs','task':'# Task','workflow':'# Workflow','guardrails':'# Guardrails','output':'# Expected output','dod':'# Definition of Done','role':'# Role','objective':'# Objective','base':'# Base prompt','adjust':'Complete or adjust values in brackets before running.'},
   'pt':{'parameters':'# Parâmetros','inputs':'# Inputs','task':'# Tarefa','workflow':'# Fluxo','guardrails':'# Guardrails','output':'# Saída esperada','dod':'# Definition of Done','role':'# Papel','objective':'# Objetivo','base':'# Prompt base','adjust':'Complete ou ajuste os valores entre colchetes antes de executar.'}}
 
-def structured_variants(lang,title,natural,spec=None):
+def structured_variants(lang,title,natural,spec=None,context=None):
   c=FORMAT_COPY[lang]
   if spec is None:
     spec={
       'role':('Asistente MetodologIA orientado a evidencia' if lang=='es' else 'Evidence-oriented MetodologIA assistant' if lang=='en' else 'Assistente MetodologIA orientado a evidências'),
+      'spec_role':PROMPT_LIBRARY['locales'][lang]['spec_format']['default_role'],
       'objective':title,
       'parameters':[['profundidad','operativa'],['formato','estructurado'],['fuentes','solo fuentes disponibles'],['vacíos','declarar coverage_gap']] if lang=='es' else [['depth','operational'],['format','structured'],['sources','available sources only'],['gaps','declare coverage_gap']] if lang=='en' else [['profundidade','operacional'],['formato','estruturado'],['fontes','somente fontes disponíveis'],['lacunas','declarar coverage_gap']],
       'workflow':[natural],
@@ -482,7 +618,42 @@ def structured_variants(lang,title,natural,spec=None):
   uses_dump='{{BRAIN_DUMP}}' in natural
   inputs=f'{input_line}\n\n{{{{BRAIN_DUMP}}}}' if uses_dump else c['adjust']
   parameter=f"{c['parameters']}\n{params}\n\n{c['inputs']}\n{inputs}\n\n{c['task']}\n{spec['objective']}\n\n{c['workflow']}\n{workflow}\n\n{c['guardrails']}\n{guardrails}\n\n{c['output']}\n{output}"
-  spec_text=f"# SPEC MetodologIA\nversion: 1.0\nstatus: executable\n\n{c['role']}\n{spec['role']}\n\n{c['objective']}\n{spec['objective']}\n\n{c['inputs']}\n{inputs}\n\n{c['workflow']}\n{workflow}\n\n{c['guardrails']}\n{guardrails}\n\n{c['output']}\n{output}\n\n{c['dod']}\n{spec['dod']}"
+  anatomy=PROMPT_LIBRARY['locales'][lang]['spec_format']
+  context=context or {
+    'when':spec['objective'],
+    'example':title,
+    'purpose':spec['objective'],
+    'evidence':'; '.join(spec['output']),
+  }
+  execution_steps=[*spec['workflow'],anatomy['step_review'],anatomy['step_finish']]
+  execution='\n'.join(f'{index}. {step}' for index,step in enumerate(execution_steps,1))
+  edge_cases='\n'.join(f'- {item}' for item in anatomy['edge_case_items'])
+  criteria='\n'.join(f'- {item}' for item in anatomy['criterion_items'])
+  provenance='\n'.join(f'- {item}' for item in anatomy['provenance_items'])
+  metadata='\n'.join(f'- {item}' for item in anatomy['metadata_items'])
+  spec_role=spec['spec_role'] if 'spec_role' in spec else spec['role']
+  spec_text=(
+    '# SPEC MetodologIA\nversion: 2.0\nstatus: executable\n\n'
+    f"## S — {anatomy['situation']}\n"
+    f"{anatomy['context']}: {context['when']}\n"
+    f"{anatomy['example_label']}: {context['example']}\n"
+    f"{c['inputs']}\n{inputs}\n\n"
+    f"## P — {anatomy['request']}\n"
+    f"{anatomy['expert_role']}: {spec_role}\n"
+    f"{anatomy['deliverable']}: {context['evidence']}\n"
+    f"{anatomy['scope_in']}: {context['purpose']}\n"
+    f"{anatomy['scope_out']}: {anatomy['scope_out_value']}\n\n"
+    f"## E — {anatomy['execution']}\n"
+    f"{anatomy['steps']}:\n{execution}\n\n"
+    f"### {anatomy['edge_cases']}\n{edge_cases}\n\n"
+    f"## C — {anatomy['criterion']}\n"
+    f"{anatomy['output']}:\n{output}\n\n"
+    f"{anatomy['observable_criteria']}:\n{criteria}\n\n"
+    f"{anatomy['dod']}: {anatomy['dod_value']}\n\n"
+    f"## {anatomy['provenance']}\n{provenance}\n\n"
+    f"## {anatomy['metadata']}\n{metadata}\n\n"
+    f"{anatomy['reasoning_policy']}"
+  )
   pair=f"# system\n{spec['role']}\n\n{c['guardrails']}\n{guardrails}\n\n{c['dod']}\n{spec['dod']}\n\n# user\n{c['inputs']}\n{inputs}\n\n{c['task']}\n{spec['objective']}\n\n{c['workflow']}\n{workflow}\n\n{c['output']}\n{output}"
   return {'natural':natural,'parameters':parameter,'spec':spec_text,'pair':pair}
 
@@ -493,7 +664,7 @@ def prompt_formats_markup(lang,group_id,variants,convention,brain_input=None):
     panel_id=f'{group_id}-{key}'
     item=items[key]
     tabs.append(f'<button type="button" role="tab" tabindex="{0 if index==0 else -1}" aria-selected="{str(index==0).lower()}" aria-label="{esc(item["level"])}" aria-controls="{panel_id}" data-prompt-format="{key}" data-level-number="{index+1}"><span aria-hidden="true">{index+1}</span></button>')
-    panels.append(f'<details class="prompt-level-fallback"{" open" if index==0 else ""}><summary><span aria-hidden="true">{index+1}</span><span class="sr-only">{esc(item["level"])}</span></summary><pre class="prompt-format-panel" id="{panel_id}" role="tabpanel" aria-label="{esc(item["level"])}" data-prompt-template>{esc(variants[key])}</pre></details>')
+    panels.append(f'<details class="prompt-level-fallback"{" open" if index==0 else ""}><summary><span aria-hidden="true">{index+1}</span><span class="sr-only">{esc(item["level"])}</span></summary><pre class="prompt-format-panel" id="{panel_id}" role="tabpanel" tabindex="0" aria-label="{esc(item["level"])}" data-prompt-template>{esc(variants[key])}</pre></details>')
   brain_attr=f' data-brain-input="{brain_input}"' if brain_input else ''
   copy_attr=f' data-brain-copy="{group_id}"{brain_attr}' if brain_input else f' data-format-copy="{group_id}"'
   copy_icon='<svg aria-hidden="true" viewBox="0 0 24 24"><rect x="8" y="8" width="11" height="11" rx="2"></rect><path d="M16 8V6a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h2"></path></svg>'
@@ -654,7 +825,7 @@ def prompt_library_page(lang):
   direct=[]; meta=[]
   for item in p['items']:
     group=f'library-{lang}-{item["id"].lower()}'
-    formats=structured_variants(lang,item['title'],item['prompt'])
+    formats=structured_variants(lang,item['title'],item['prompt'],context=item)
     controls=prompt_formats_markup(lang,group,formats,ADVANCED['locales'][lang]['level_convention'])
     card=f'''<article class="library-prompt-card" id="prompt-{item['id'].lower()}" data-library-prompt data-prompt-kind="{'meta' if item['id'].startswith('M') else 'direct'}"><header><span class="library-prompt-number" aria-hidden="true">{esc(item['id'])}</span><div><span class="eyebrow">{esc(item['phase'])}</span><h3>{esc(item['title'])}</h3><p>{esc(item['purpose'])}</p></div></header><dl class="library-prompt-brief"><div><dt>{esc(p['use'])}</dt><dd>{esc(item['when'])}</dd></div><div><dt>{esc(p['example'])}</dt><dd>{esc(item['example'])}</dd></div><div><dt>{esc(p['evidence'])}</dt><dd>{esc(item['evidence'])}</dd></div></dl>{controls}</article>'''
     (meta if item['id'].startswith('M') else direct).append(card)
@@ -897,10 +1068,11 @@ def build():
   chrome_binding['breadcrumbs']=chrome_spec['breadcrumbs']
   editorial_binding={'schema_version':EDITORIAL['schema_version'],'source':'src/editorial-sitemap-spec-v1.json','source_sha256':source_hashes['editorial-sitemap-spec-v1.json'],'self_sha256':EDITORIAL['self_sha256'],'pages':list(EDITORIAL_PAGES),'rendered_pages':len(EDITORIAL_PAGES)*len(LANGS)*len(AUDIENCES),'canonical_count':len(html_outputs),'state':EDITORIAL['state'],'publication_authorized':False}
   parity_binding={'schema_version':PARITY['schema_version'],'source':'src/editorial-parity-spec-v1.json','source_sha256':source_hashes['editorial-parity-spec-v1.json'],'self_sha256':PARITY['self_sha256'],'matrix':PARITY['matrix'],'fallback_policy':PARITY['fallback_policy'],'shared_allowlist':[item['id'] for item in PARITY['shared_allowlist']],'inventory':str(inventory_path.relative_to(DIST)),'inventory_sha256':hashes[str(inventory_path.relative_to(DIST))],'inventory_self_sha256':inventory['self_sha256'],'state':PARITY['state'],'publication_authorized':False}
-  manifest={'schema_version':'build-manifest-v2','build_id':'nivel-0-learning-resources-v10','state':'RENDERED_DRAFT','publication_authorized':False,'compiler':{'ref':'scripts/build.py','sha256':hashlib.sha256(Path(__file__).read_bytes()).hexdigest()},'variants':{'locales':list(LANGS),'audiences':list(AUDIENCES),'resources':['landing','workbook','playbook','prompts','deck'],'editorial_pages':list(EDITORIAL_PAGES),'canonical_pages':len(html_outputs)},'digital_brand':{'release_id':brand_manifest['releaseId'],'manifest_sha256':MANIFEST_RAW,'receipt_sha256':RECEIPT_RAW,'usage':['tokens','fonts','organization_mark','asset_rights'],'runtime_mount':False,'network_required':False,'publication_authority':False},'conoce_chrome':chrome_binding,'editorial_sitemap':editorial_binding,'editorial_parity':parity_binding,'official_masterclass':{'source':DECK_RESOURCE['source_asset'],'sha256':DECK_RESOURCE['sha256'],'media_type':DECK_RESOURCE['media_type'],'document_language':DECK_RESOURCE['document_language'],'page_count':DECK_RESOURCE['page_count'],'rendered_variants':len(LANGS)*len(AUDIENCES),'primary_surface':True,'publication_authorized':False},'intrapage_navigation':{'schema_version':INTRAPAGE_NAV['schema_version'],'source':'src/intrapage-navigation-spec-v1.json','source_sha256':source_hashes['intrapage-navigation-spec-v1.json'],'desktop_width_px':INTRAPAGE_NAV['desktop_width_px'],'rendered_pages':len(html_outputs),'publication_authorized':False},'method_identity':{'schema_version':METHOD_IDENTITY['schema_version'],'display_label':METHOD_IDENTITY['display_label'],'role':METHOD_IDENTITY['role'],'generator_sha256':hashlib.sha256((ROOT/METHOD_IDENTITY['source']['generator']).read_bytes()).hexdigest(),'assets':{name:item['sha256'] for name,item in METHOD_IDENTITY['assets'].items()},'resources':METHOD_IDENTITY['usage']['resources'],'rendered_pages':relevant_pages},'outputs':hashes,'sources':source_hashes,'self_hash_model':'sha256(sorted-json-without-self_sha256)'}
+  prompt_binding={'schema_version':PROMPT_LIBRARY['schema_version'],'source':'src/prompt-library-spec-v1.json','source_sha256':source_hashes['prompt-library-spec-v1.json'],'format':prompt_spec_contract['format'],'anatomy':prompt_spec_contract['anatomy'],'prompt_count':PROMPT_LIBRARY['prompt_count']+PROMPT_LIBRARY['meta_prompt_count'],'rendered_variants':len(LANGS)*len(AUDIENCES),'reference_sources':[item['url'] for item in PROMPT_LIBRARY['reference_sources']],'chain_of_thought_policy':prompt_spec_contract['chain_of_thought_policy'],'intent_authority':{'schema_version':PROMPT_SPEC_AUTHORITY['schema_version'],'source':'src/prompt-spec-authority-v1.json','source_sha256':source_hashes['prompt-spec-authority-v1.json'],'self_sha256':PROMPT_SPEC_AUTHORITY['self_sha256'],'rights':PROMPT_SPEC_AUTHORITY['source_provenance']['rights'],'state':PROMPT_SPEC_AUTHORITY['state'],'publication_authorized':False},'state':PROMPT_LIBRARY['state'],'publication_authorized':False}
+  manifest={'schema_version':'build-manifest-v2','build_id':'nivel-0-learning-resources-v10','state':'RENDERED_DRAFT','publication_authorized':False,'compiler':{'ref':'scripts/build.py','sha256':hashlib.sha256(Path(__file__).read_bytes()).hexdigest()},'variants':{'locales':list(LANGS),'audiences':list(AUDIENCES),'resources':['landing','workbook','playbook','prompts','deck'],'editorial_pages':list(EDITORIAL_PAGES),'canonical_pages':len(html_outputs)},'digital_brand':{'release_id':brand_manifest['releaseId'],'manifest_sha256':MANIFEST_RAW,'receipt_sha256':RECEIPT_RAW,'usage':['tokens','fonts','organization_mark','asset_rights'],'runtime_mount':False,'network_required':False,'publication_authority':False},'conoce_chrome':chrome_binding,'editorial_sitemap':editorial_binding,'editorial_parity':parity_binding,'prompt_library':prompt_binding,'official_masterclass':{'source':DECK_RESOURCE['source_asset'],'sha256':DECK_RESOURCE['sha256'],'media_type':DECK_RESOURCE['media_type'],'document_language':DECK_RESOURCE['document_language'],'page_count':DECK_RESOURCE['page_count'],'rendered_variants':len(LANGS)*len(AUDIENCES),'primary_surface':True,'publication_authorized':False},'intrapage_navigation':{'schema_version':INTRAPAGE_NAV['schema_version'],'source':'src/intrapage-navigation-spec-v1.json','source_sha256':source_hashes['intrapage-navigation-spec-v1.json'],'desktop_width_px':INTRAPAGE_NAV['desktop_width_px'],'rendered_pages':len(html_outputs),'publication_authorized':False},'method_identity':{'schema_version':METHOD_IDENTITY['schema_version'],'display_label':METHOD_IDENTITY['display_label'],'role':METHOD_IDENTITY['role'],'generator_sha256':hashlib.sha256((ROOT/METHOD_IDENTITY['source']['generator']).read_bytes()).hexdigest(),'assets':{name:item['sha256'] for name,item in METHOD_IDENTITY['assets'].items()},'resources':METHOD_IDENTITY['usage']['resources'],'rendered_pages':relevant_pages},'outputs':hashes,'sources':source_hashes,'self_hash_model':'sha256(sorted-json-without-self_sha256)'}
   manifest['self_sha256']=hashlib.sha256((json.dumps({key:value for key,value in manifest.items() if key!='self_sha256'},ensure_ascii=False,sort_keys=True,separators=(',',':'))+'\n').encode('utf-8')).hexdigest()
   write(DIST/'build-manifest.json',json.dumps(manifest,ensure_ascii=False,sort_keys=True,indent=2)+'\n')
-  receipt={'schema_version':'build-receipt-v1','build_id':manifest['build_id'],'manifest_sha256':hashlib.sha256((DIST/'build-manifest.json').read_bytes()).hexdigest(),'manifest_self_sha256':manifest['self_sha256'],'output_count':len(hashes),'deterministic_inputs':True,'state':'RENDERED_DRAFT','conoce_chrome':manifest['conoce_chrome'],'editorial_sitemap':manifest['editorial_sitemap'],'editorial_parity':manifest['editorial_parity'],'official_masterclass':manifest['official_masterclass'],'intrapage_navigation':manifest['intrapage_navigation'],'method_identity':manifest['method_identity'],'self_hash_model':'sha256(sorted-json-without-self)'}
+  receipt={'schema_version':'build-receipt-v1','build_id':manifest['build_id'],'manifest_sha256':hashlib.sha256((DIST/'build-manifest.json').read_bytes()).hexdigest(),'manifest_self_sha256':manifest['self_sha256'],'output_count':len(hashes),'deterministic_inputs':True,'state':'RENDERED_DRAFT','conoce_chrome':manifest['conoce_chrome'],'editorial_sitemap':manifest['editorial_sitemap'],'editorial_parity':manifest['editorial_parity'],'prompt_library':manifest['prompt_library'],'official_masterclass':manifest['official_masterclass'],'intrapage_navigation':manifest['intrapage_navigation'],'method_identity':manifest['method_identity'],'self_hash_model':'sha256(sorted-json-without-self)'}
   receipt['self_sha256']=hashlib.sha256(json.dumps(receipt,ensure_ascii=False,sort_keys=True,separators=(',',':')).encode('utf-8')).hexdigest()
   write(DIST/'build-receipt.json',json.dumps(receipt,ensure_ascii=False,sort_keys=True,indent=2)+'\n')
 if __name__=='__main__': build()

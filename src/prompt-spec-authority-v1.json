@@ -1,0 +1,75 @@
+{
+  "schema_version": "prompt-spec-authority-v1",
+  "authority": "MetodologIA",
+  "purpose": "Independent canonical intent and evidence anchors for the governed SPEC prompt library",
+  "state": "RENDERED_DRAFT",
+  "publication_authorized": false,
+  "source_provenance": {
+    "kind": "governed_local_contract",
+    "derived_from": [
+      "https://javimontano.github.io/prompt-amplificado/biblioteca-prompts.html",
+      "https://javimontano.github.io/prompt-amplificado/crear-prompts.html"
+    ],
+    "method": "Prompt-specific editorial intent review; public references used only as secondary structural guidance",
+    "rights": "MetodologIA governed contract; no long-form third-party copy reproduced"
+  },
+  "anchor_policy": {
+    "prompt_ids": ["01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "M1", "M2", "M3", "M4"],
+    "anchor_kinds": ["intent", "evidence"],
+    "minimum_per_kind": 2,
+    "require_unique_signatures": true,
+    "consumer_may_override": false
+  },
+  "locales": {
+    "es": {
+      "01": {"intent": ["delimit", "tema"], "evidence": ["fuente", "tension"]},
+      "02": {"intent": ["aprend", "coach"], "evidence": ["fuente", "pregunta"]},
+      "03": {"intent": ["vacio", "alcance"], "evidence": ["vacio", "residual"]},
+      "04": {"intent": ["verific", "afirmacion"], "evidence": ["veredicto", "demostrable"]},
+      "05": {"intent": ["audit", "conserv"], "evidence": ["veredicto", "suficien"]},
+      "06": {"intent": ["practic", "aplica"], "evidence": ["practic", "rubrica"]},
+      "07": {"intent": ["notebook", "proposito"], "evidence": ["diagnost", "configur"]},
+      "08": {"intent": ["evalu", "transfer"], "evidence": ["nivel", "practic"]},
+      "09": {"intent": ["simul", "entrevist"], "evidence": ["objecion", "respuesta"]},
+      "10": {"intent": ["presenta", "eviden"], "evidence": ["estructura", "pregunta"]},
+      "M1": {"intent": ["coach", "aprend"], "evidence": ["prompt", "limite"]},
+      "M2": {"intent": ["evalu", "observ"], "evidence": ["evaluador", "rubrica"]},
+      "M3": {"intent": ["entrevist", "audiencia"], "evidence": ["prompt", "rubrica"]},
+      "M4": {"intent": ["prepar", "entreg"], "evidence": ["preparacion", "checklist"]}
+    },
+    "en": {
+      "01": {"intent": ["bound", "topic"], "evidence": ["source", "tension"]},
+      "02": {"intent": ["learn", "source"], "evidence": ["source", "question"]},
+      "03": {"intent": ["scope", "research"], "evidence": ["cited", "residual"]},
+      "04": {"intent": ["verif", "claim"], "evidence": ["verdict", "demonstrable"]},
+      "05": {"intent": ["audit", "retain"], "evidence": ["verdict", "sufficien"]},
+      "06": {"intent": ["practice", "application"], "evidence": ["practice", "rubric"]},
+      "07": {"intent": ["notebook", "source"], "evidence": ["diagnos", "configur"]},
+      "08": {"intent": ["assess", "transfer"], "evidence": ["level", "practice"]},
+      "09": {"intent": ["simulat", "evidence"], "evidence": ["objection", "answer"]},
+      "10": {"intent": ["present", "narrat"], "evidence": ["structure", "question"]},
+      "M1": {"intent": ["coach", "source"], "evidence": ["prompt", "limit"]},
+      "M2": {"intent": ["evaluat", "observ"], "evidence": ["evaluator", "rubric"]},
+      "M3": {"intent": ["interview", "audience"], "evidence": ["prompt", "rubric"]},
+      "M4": {"intent": ["prepar", "deliver"], "evidence": ["preparation", "checklist"]}
+    },
+    "pt": {
+      "01": {"intent": ["delimit", "tema"], "evidence": ["fonte", "tenso"]},
+      "02": {"intent": ["aprend", "coach"], "evidence": ["fonte", "pergunta"]},
+      "03": {"intent": ["lacuna", "escopo"], "evidence": ["lacuna", "residual"]},
+      "04": {"intent": ["verif", "afirm"], "evidence": ["veredito", "demonstravel"]},
+      "05": {"intent": ["audit", "manter"], "evidence": ["veredito", "suficien"]},
+      "06": {"intent": ["pratic", "aplica"], "evidence": ["pratic", "rubrica"]},
+      "07": {"intent": ["notebook", "proposito"], "evidence": ["diagnost", "configur"]},
+      "08": {"intent": ["avali", "transfer"], "evidence": ["nivel", "pratic"]},
+      "09": {"intent": ["simul", "evidencia"], "evidence": ["objec", "resposta"]},
+      "10": {"intent": ["apresent", "narrativ"], "evidence": ["estrutura", "pergunta"]},
+      "M1": {"intent": ["coach", "aprend"], "evidence": ["prompt", "limite"]},
+      "M2": {"intent": ["avali", "observ"], "evidence": ["prompt", "rubrica"]},
+      "M3": {"intent": ["entrevist", "publico"], "evidence": ["prompt", "rubrica"]},
+      "M4": {"intent": ["prepar", "entreg"], "evidence": ["preparacao", "checklist"]}
+    }
+  },
+  "self_hash_model": "sha256(sorted-json-without-self_sha256)",
+  "self_sha256": "08743a264b78853859e4a6cf5e4cb47f8ccc490b2c523d4e6dadd11dc5d14eed"
+}

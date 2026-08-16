@@ -7,6 +7,54 @@
   "prompt_count": 10,
   "meta_prompt_count": 4,
   "level_formats": ["natural", "parameters", "spec", "pair"],
+  "reference_sources": [
+    {
+      "url": "https://javimontano.github.io/prompt-amplificado/biblioteca-prompts.html",
+      "role": "secondary_reference",
+      "used_for": ["four_format_convention", "spec_positioning"],
+      "rights": "Public MetodologIA reference; structure consulted, no long-form copy reproduced"
+    },
+    {
+      "url": "https://javimontano.github.io/prompt-amplificado/crear-prompts.html",
+      "role": "secondary_reference",
+      "used_for": ["spec_anatomy", "acceptance_criteria", "definition_of_done"],
+      "rights": "Public MetodologIA reference; structure consulted, no long-form copy reproduced"
+    }
+  ],
+  "spec_contract": {
+    "format": "SPEC",
+    "anatomy": ["situation", "request", "execution", "criterion"],
+    "request_requires": ["expert_role", "deliverable", "scope_in", "scope_out"],
+    "execution_requires": ["ordered_steps", "edge_cases"],
+    "criterion_requires": ["output", "observable_acceptance_criteria", "definition_of_done"],
+    "provenance_required": true,
+    "metadata_required": ["sources_used", "assumptions", "coverage_gaps", "global_confidence"],
+    "chain_of_thought_policy": "never_request_store_or_expose_private_reasoning",
+    "semantic_specificity": {
+      "material_fields": ["purpose", "when", "example", "evidence", "prompt"],
+      "minimum_characters": {"purpose": 45, "when": 35, "example": 35, "evidence": 40, "prompt": 300},
+      "minimum_distinct_variables": 2,
+      "minimum_evidence_anchor_overlap": 1,
+      "minimum_anchor_count": 2,
+      "minimum_lexical_diversity": 0.7,
+      "require_unique_within_locale": true,
+      "locale_leak_threshold": 1,
+      "locale_cognate_allowlist": ["metodologia", "notebooklm", "prompt", "system", "qbr", "rag", "coverage_gap", "decidir", "evidencia"],
+      "forbidden_locale_signals": {
+        "es": ["the", "sources", "evidence", "outcome", "scope", "deliverable", "pesquisa", "fontes", "evidências", "escopo", "entregável"],
+        "en": ["quiero", "necesitas", "fuentes", "evidencia", "investigación", "comprender", "decidir", "audiencia", "delimita", "incertidumbres", "vacíos", "pesquisa", "fontes", "evidências", "escopo", "entregável"],
+        "pt": ["quiero", "quieres", "necesitas", "fuentes", "evidencia", "investigación", "comprender", "decidir", "audiencia", "delimita", "incertidumbres", "vacíos", "the", "sources", "evidence", "outcome", "scope", "deliverable"]
+      },
+      "intent_authority": {
+        "source": "src/prompt-spec-authority-v1.json",
+        "source_sha256": "64baf1e2299faaca3ff6a89d11dbf92a07be946224960bfe1b60370a9e70753c",
+        "self_sha256": "08743a264b78853859e4a6cf5e4cb47f8ccc490b2c523d4e6dadd11dc5d14eed",
+        "consumer_override": false
+      }
+    },
+    "state": "RENDERED_DRAFT",
+    "publication_authorized": false
+  },
   "locales": {
     "es": {
       "meta_title": "Biblioteca de prompts · IA: qué está pasando y cómo sacarle provecho",
@@ -23,6 +71,43 @@
       "skill_note": "Derivada de la skill abierta Aprender · Aprehender · (R)Evolucionar. Las respuestas deben permanecer ligadas a fuentes, límites y decisión humana.",
       "back": "Ver playbook",
       "workbook": "Abrir workbook",
+      "spec_format": {
+        "situation": "Situación",
+        "request": "Pedido",
+        "execution": "Ejecución",
+        "criterion": "Criterio",
+        "context": "Contexto",
+        "example_label": "Caso de referencia",
+        "expert_role": "Rol experto",
+        "default_role": "Especialista en aprendizaje e investigación basada en evidencia",
+        "deliverable": "Entregable",
+        "scope_in": "El alcance incluye",
+        "scope_out": "El alcance no incluye",
+        "scope_out_value": "afirmaciones sin procedencia, capacidades no disponibles ni decisiones que corresponden a la persona",
+        "steps": "Pasos",
+        "edge_cases": "Casos borde",
+        "edge_case_items": [
+          "Si falta un dato material, formula hasta tres preguntas concretas antes de continuar.",
+          "Si las fuentes se contradicen, muestra la tensión y no fuerces una conclusión.",
+          "Si la evidencia no alcanza, declara coverage_gap y especifica qué permitiría cerrarlo."
+        ],
+        "output": "Salida",
+        "observable_criteria": "Criterios observables",
+        "criterion_items": [
+          "El resultado responde al propósito y respeta el alcance declarado.",
+          "Cada afirmación material se vincula a una fuente o se marca como inferencia, supuesto o vacío.",
+          "Los límites, la confianza y el siguiente paso verificable quedan explícitos."
+        ],
+        "dod": "Definition of Done",
+        "dod_value": "Un tercero puede ejecutar el prompt en un paso y revisar el resultado, su procedencia y sus límites.",
+        "provenance": "Etiquetas de procedencia",
+        "provenance_items": ["[FUENTE] evidencia verificable", "[INFERENCIA] conclusión derivada", "[SUPUESTO] dato no confirmado", "[VACÍO] evidencia faltante"],
+        "metadata": "Metadata de cierre",
+        "metadata_items": ["fuentes utilizadas", "supuestos activos", "coverage_gaps", "confianza global de 0.0 a 1.0"],
+        "reasoning_policy": "No solicites ni expongas razonamiento privado o cadena de pensamiento; entrega solo conclusiones, evidencia y metadatos auditables.",
+        "step_review": "Verifica procedencia, límites y consistencia antes de entregar.",
+        "step_finish": "Entrega solo el resultado final y la metadata de cierre."
+      },
       "items": [
         {"id":"01","phase":"Aprender","title":"Blueprint de investigación","purpose":"Convierte un tema amplio en una investigación delimitada y verificable.","when":"necesitas comprender un tema antes de decidir o producir.","example":"IA generativa para un equipo comercial no técnico.","evidence":"preguntas, alcance, fuentes prioritarias, tensiones y criterio de suficiencia.","prompt":"Quiero comprender [TEMA] para [DECISIÓN O RESULTADO]. Mi contexto es [CONTEXTO], la audiencia es [AUDIENCIA] y el horizonte es [FECHA O REGIÓN]. Delimita el alcance; formula preguntas esenciales; separa hechos, interpretaciones e incertidumbres; prioriza fuentes primarias con autor, fecha, enlace y razón; identifica tensiones y vacíos. Termina con un criterio observable para decidir cuándo la base es suficiente. No inventes fuentes ni certeza."},
         {"id":"02","phase":"Aprender","title":"Coach basado en fuentes","purpose":"Aprende mediante preguntas, explicaciones y citas tomadas de una base concreta.","when":"ya tienes fuentes y quieres comprender, no solo resumir.","example":"Explicar RAG a una líder de operaciones con analogías y contraejemplos.","evidence":"explicación citada, pregunta de recuperación y siguiente fuente a revisar.","prompt":"Actúa como coach de aprendizaje sobre [TEMA]. Usa exclusivamente [FUENTES O NOTEBOOK] y cita cada afirmación material. Primero pregunta qué intento lograr y qué creo entender. Después explica una idea por turno, pide que la reformule con mis palabras, detecta errores y usa un contraejemplo. Separa evidencia, inferencia y dato faltante. Cierra cada ronda con una pregunta de recuperación y la fuente exacta que debo revisar."},
@@ -55,6 +140,43 @@
       "skill_note": "Derived from the open Learn · Embody · (R)Evolve skill. Answers must remain tied to sources, boundaries and human judgment.",
       "back": "View playbook",
       "workbook": "Open workbook",
+      "spec_format": {
+        "situation": "Situation",
+        "request": "Request",
+        "execution": "Execution",
+        "criterion": "Criterion",
+        "context": "Context",
+        "example_label": "Reference case",
+        "expert_role": "Expert role",
+        "default_role": "Specialist in evidence-grounded learning and research",
+        "deliverable": "Deliverable",
+        "scope_in": "Scope includes",
+        "scope_out": "Scope excludes",
+        "scope_out_value": "claims without provenance, unavailable capabilities, or decisions that belong to the person",
+        "steps": "Steps",
+        "edge_cases": "Edge cases",
+        "edge_case_items": [
+          "If material information is missing, ask up to three concrete questions before continuing.",
+          "If sources conflict, surface the tension and do not force a conclusion.",
+          "If evidence is insufficient, declare coverage_gap and state what would close it."
+        ],
+        "output": "Output",
+        "observable_criteria": "Observable acceptance criteria",
+        "criterion_items": [
+          "The result answers the purpose and respects the declared scope.",
+          "Every material claim links to a source or is marked as inference, assumption, or gap.",
+          "Boundaries, confidence, and the next verifiable step are explicit."
+        ],
+        "dod": "Definition of Done",
+        "dod_value": "A third party can run the prompt in one step and inspect the result, its provenance, and its boundaries.",
+        "provenance": "Provenance tags",
+        "provenance_items": ["[SOURCE] verifiable evidence", "[INFERENCE] derived conclusion", "[ASSUMPTION] unconfirmed information", "[GAP] missing evidence"],
+        "metadata": "Closing metadata",
+        "metadata_items": ["sources used", "active assumptions", "coverage_gaps", "global confidence from 0.0 to 1.0"],
+        "reasoning_policy": "Do not request or expose private reasoning or chain of thought; return only conclusions, evidence, and auditable metadata.",
+        "step_review": "Check provenance, boundaries, and consistency before delivery.",
+        "step_finish": "Return only the final result and closing metadata."
+      },
       "items": [
         {"id":"01","phase":"Learn","title":"Research blueprint","purpose":"Turn a broad topic into bounded, verifiable research.","when":"you need to understand a topic before deciding or producing.","example":"Generative AI for a non-technical sales team.","evidence":"questions, scope, priority sources, tensions and sufficiency rule.","prompt":"I need to understand [TOPIC] for [DECISION OR OUTCOME]. My context is [CONTEXT], audience [AUDIENCE], and horizon [DATE OR REGION]. Bound the scope; frame essential questions; separate facts, interpretations and uncertainty; prioritize primary sources with author, date, link and reason; identify tensions and gaps. End with an observable rule for deciding when the base is sufficient. Do not invent sources or certainty."},
         {"id":"02","phase":"Learn","title":"Source-grounded coach","purpose":"Learn through questions, explanations and citations from a defined source base.","when":"you have sources and want understanding rather than a summary.","example":"Explain RAG to an operations lead through analogies and counterexamples.","evidence":"cited explanation, retrieval question and next source to review.","prompt":"Act as a learning coach on [TOPIC]. Use only [SOURCES OR NOTEBOOK] and cite every material claim. First ask what I want to achieve and what I think I understand. Then explain one idea at a time, ask me to restate it, diagnose errors and use a counterexample. Separate evidence, inference and missing data. End each round with one retrieval question and the exact source I should review."},
@@ -87,6 +209,43 @@
       "skill_note": "Derivada da skill aberta Aprender · Apreender · (R)Evoluir. As respostas devem permanecer ligadas a fontes, limites e decisão humana.",
       "back": "Ver playbook",
       "workbook": "Abrir workbook",
+      "spec_format": {
+        "situation": "Situação",
+        "request": "Pedido",
+        "execution": "Execução",
+        "criterion": "Critério",
+        "context": "Contexto",
+        "example_label": "Caso de referência",
+        "expert_role": "Papel especialista",
+        "default_role": "Especialista em aprendizagem e pesquisa baseada em evidências",
+        "deliverable": "Entregável",
+        "scope_in": "O escopo inclui",
+        "scope_out": "O escopo não inclui",
+        "scope_out_value": "afirmações sem procedência, capacidades indisponíveis ou decisões que pertencem à pessoa",
+        "steps": "Passos",
+        "edge_cases": "Casos-limite",
+        "edge_case_items": [
+          "Se faltar informação material, faça até três perguntas concretas antes de continuar.",
+          "Se as fontes entrarem em conflito, mostre a tensão e não force uma conclusão.",
+          "Se a evidência for insuficiente, declare coverage_gap e indique o que permitiria fechá-lo."
+        ],
+        "output": "Saída",
+        "observable_criteria": "Critérios de aceitação observáveis",
+        "criterion_items": [
+          "O resultado responde ao propósito e respeita o escopo declarado.",
+          "Cada afirmação material se vincula a uma fonte ou é marcada como inferência, suposição ou lacuna.",
+          "Limites, confiança e próximo passo verificável ficam explícitos."
+        ],
+        "dod": "Definition of Done",
+        "dod_value": "Um terceiro pode executar o prompt em um passo e revisar o resultado, sua procedência e seus limites.",
+        "provenance": "Etiquetas de procedência",
+        "provenance_items": ["[FONTE] evidência verificável", "[INFERÊNCIA] conclusão derivada", "[SUPOSIÇÃO] informação não confirmada", "[LACUNA] evidência ausente"],
+        "metadata": "Metadados de encerramento",
+        "metadata_items": ["fontes utilizadas", "suposições ativas", "coverage_gaps", "confiança global de 0.0 a 1.0"],
+        "reasoning_policy": "Não solicite nem exponha raciocínio privado ou cadeia de pensamento; entregue apenas conclusões, evidências e metadados auditáveis.",
+        "step_review": "Verifique procedência, limites e consistência antes de entregar.",
+        "step_finish": "Entregue apenas o resultado final e os metadados de encerramento."
+      },
       "items": [
         {"id":"01","phase":"Aprender","title":"Blueprint de pesquisa","purpose":"Transforme um tema amplo em pesquisa delimitada e verificável.","when":"precisa compreender um tema antes de decidir ou produzir.","example":"IA generativa para uma equipe comercial não técnica.","evidence":"perguntas, escopo, fontes prioritárias, tensões e critério de suficiência.","prompt":"Quero compreender [TEMA] para [DECISÃO OU RESULTADO]. Meu contexto é [CONTEXTO], o público é [PÚBLICO] e o horizonte é [DATA OU REGIÃO]. Delimite o escopo; formule perguntas essenciais; separe fatos, interpretações e incertezas; priorize fontes primárias com autor, data, link e razão; identifique tensões e lacunas. Termine com um critério observável para decidir quando a base é suficiente. Não invente fontes nem certeza."},
         {"id":"02","phase":"Aprender","title":"Coach baseado em fontes","purpose":"Aprenda com perguntas, explicações e citações de uma base definida.","when":"já possui fontes e quer compreender, não apenas resumir.","example":"Explicar RAG a uma líder de operações com analogias e contraexemplos.","evidence":"explicação citada, pergunta de recuperação e próxima fonte.","prompt":"Atue como coach de aprendizagem sobre [TEMA]. Use somente [FONTES OU NOTEBOOK] e cite cada afirmação material. Primeiro pergunte o que quero alcançar e o que acredito entender. Depois explique uma ideia por vez, peça que eu a reformule, detecte erros e use um contraexemplo. Separe evidência, inferência e dado ausente. Feche cada rodada com uma pergunta de recuperação e a fonte exata que devo revisar."},

@@ -412,9 +412,26 @@ button {
 }
 .step {
   display: grid;
-  grid-template-columns: 62px 1fr;
+  grid-template-columns: 62px minmax(0, 1fr);
   gap: 1rem;
+  max-width: 100%;
+  min-width: 0;
+  overflow: clip;
   padding: 1.2rem;
+}
+.step > *,
+.step > div,
+.step .prompt,
+.step .prompt > * {
+  max-width: 100%;
+  min-width: 0;
+}
+.step h3,
+.step p,
+.prompt-head,
+.prompt-level-fallback > summary {
+  overflow-wrap: anywhere;
+  word-break: break-word;
 }
 .step-num {
   display: grid;
@@ -2910,6 +2927,8 @@ html[data-theme="dark"] .tension-card > span:not(.tension-num) {
   grid-template-columns: minmax(180px, 260px) minmax(0, 1fr);
   gap: 1.25rem;
   min-width: 0;
+  max-width: 100%;
+  overflow: clip;
   padding: clamp(1rem, 2vw, 1.4rem);
   border: 1px solid var(--line);
   border-radius: 18px;
@@ -2918,6 +2937,14 @@ html[data-theme="dark"] .tension-card > span:not(.tension-num) {
   transition:
     transform 0.2s var(--ease),
     border-color 0.2s;
+}
+.brain-prompt-card > *,
+.brain-prompt-card header,
+.brain-prompt-card header > *,
+.brain-prompt-card .prompt,
+.brain-prompt-card .prompt > * {
+  max-width: 100%;
+  min-width: 0;
 }
 .brain-prompt-card:hover,
 .brain-prompt-card:focus-within {
@@ -2932,6 +2959,9 @@ html[data-theme="dark"] .tension-card > span:not(.tension-num) {
 .brain-prompt-card h3 {
   max-width: 20ch;
   margin: 0.65rem 0 0;
+  overflow-wrap: anywhere;
+  word-break: break-word;
+  hyphens: auto;
   font: 900 clamp(1.15rem, 2vw, 1.45rem)/1.12 var(--head);
 }
 .brain-prompt-card .prompt {
@@ -2943,10 +2973,13 @@ html[data-theme="dark"] .tension-card > span:not(.tension-num) {
 .prompt-library {
   display: grid;
   gap: 0.55rem;
+  max-width: 100%;
   min-width: 0;
 }
 .prompt-format-tabs {
   display: flex;
+  max-width: 100%;
+  flex-wrap: wrap;
   gap: 0.5rem;
   padding: 0.65rem 0.8rem 0;
 }
@@ -2971,9 +3004,12 @@ html[data-theme="dark"] .tension-card > span:not(.tension-num) {
   box-shadow: 0 0 0 2px rgba(255, 215, 0, 0.18);
 }
 .prompt-format-panels {
+  max-width: 100%;
   min-width: 0;
 }
 .prompt-level-fallback {
+  max-width: 100%;
+  min-width: 0;
   margin: 0;
 }
 .js .prompt-level-fallback > summary {
@@ -2994,11 +3030,17 @@ html[data-theme="dark"] .tension-card > span:not(.tension-num) {
   border-radius: 10px 10px 0 0;
 }
 .prompt-format-panel {
+  display: block;
   width: 100%;
+  max-width: 100%;
+  min-width: 0;
   margin: 0;
-  overflow: visible;
+  overflow-x: auto;
+  overflow-y: visible;
   white-space: pre-wrap;
+  word-break: break-word;
   overflow-wrap: anywhere;
+  tab-size: 2;
   font-size: clamp(0.78rem, 1.2vw, 0.88rem);
   line-height: 1.58;
 }
@@ -5605,6 +5647,30 @@ html.no-js .masterclass-page .extended {
   border-radius: 1.5rem;
   background: var(--surface);
   box-shadow: 0 18px 50px -46px rgba(10, 18, 42, 0.7);
+  min-width: 0;
+  max-width: 100%;
+  overflow: clip;
+}
+.library-prompt-card > *,
+.library-prompt-card header > div,
+.library-prompt-brief,
+.library-prompt-brief div,
+.prompt-library-source > * {
+  min-width: 0;
+  max-width: 100%;
+}
+.library-prompt-card p,
+.library-prompt-card dt,
+.library-prompt-card dd,
+.prompt-library-source p,
+.prompt-library-source a {
+  overflow-wrap: anywhere;
+  word-break: break-word;
+}
+.library-prompt-card h3 {
+  overflow-wrap: anywhere;
+  word-break: break-word;
+  hyphens: auto;
 }
 .library-prompt-card > header {
   display: grid;
@@ -5624,7 +5690,7 @@ html.no-js .masterclass-page .extended {
 }
 .library-prompt-card h3 {
   margin: 0.25rem 0 0.5rem;
-  font: 900 clamp(1.2rem, 2vw, 1.65rem)/1.05 var(--head);
+  font: 900 clamp(1.2rem, 1.7vw, 1.45rem)/1.1 var(--head);
 }
 .library-prompt-card header p {
   margin: 0;
@@ -5662,6 +5728,14 @@ html.no-js .masterclass-page .extended {
   max-height: 22rem;
   font-size: 0.76rem;
 }
+.js .library-prompt-card .prompt-format-panel {
+  overflow-y: auto;
+  overscroll-behavior: contain;
+}
+.no-js .library-prompt-card .prompt-format-panel {
+  min-height: 0;
+  max-height: none;
+}
 .library-prompt-card .prompt-format-tabs {
   grid-template-columns: repeat(4, minmax(44px, 1fr));
 }
@@ -5690,6 +5764,9 @@ html.no-js .masterclass-page .extended {
   border: 1px solid var(--line);
   border-radius: 1.5rem;
   background: var(--surface);
+  min-width: 0;
+  max-width: 100%;
+  overflow: clip;
 }
 .prompt-library-source p {
   max-width: 62ch;
@@ -5725,6 +5802,19 @@ html.no-js .masterclass-page .extended {
     min-height: 0;
     max-height: none;
     font-size: 0.72rem;
+  }
+  .library-prompt-card > header {
+    grid-template-columns: 3rem minmax(0, 1fr);
+    gap: 0.75rem;
+  }
+  .library-prompt-number {
+    width: 2.75rem;
+    height: 2.75rem;
+  }
+  .prompt-format-tabs {
+    justify-content: space-between;
+    gap: 0.35rem;
+    padding-inline: 0.55rem;
   }
   .prompt-library-source {
     align-items: stretch;
