@@ -1002,8 +1002,12 @@ NFKD sin acentos + casefold; corchetes literales): [CONFIG]
 2. **P2** ≥2 ocorrências de `meu ` ou `minha ` em `prompt`.
 3. **P3 (obligatorio)** `prompt` NÃO contém `[equipe]`, `[processo]`,
    `[area]`, `nossa equipe`, `nossa organizacao`.
-4. **P4** `purpose`/`when` em 2ª pessoa: ≥1 de `voce precisa` ·
-   `voce quer` · `deve` · `sua `.
+4. **P4** `purpose`/`when` em 2ª pessoa: ≥1 de `voce` · `deve` · `sua ` ·
+   `seu `. Ampliado en fase 4 (revisión adversarial, ítem m1): la lista
+   original solo admitía `sua `, y eso forzaba cambiar el **significado** del
+   texto pt para satisfacer el marcador (p. ej. «sua decisão ou entrega» donde
+   es dice «tu resultado» y en «your outcome»). Se corrige la carta, no el
+   significado: `seu ` y `voce` son igual de nativos en 2ª persona. [CÓDIGO]
 5. **P5** decisão individual: contém `[decisao` sem `da equipe` dentro do
    mesmo colchete.
 6. **P6** zero léxico de governança: `governanca` · `comite` · `aprovacao` ·

@@ -19,8 +19,8 @@
         "purpose": "Convierte un tema amplio en una investigación delimitada, con dentro/fuera explícito y un criterio de suficiencia comprobable.",
         "when": "necesitas comprender un tema nuevo antes de decidir o producir, y todavía no tienes base construida.",
         "example": "IA generativa aplicada a mi trabajo comercial, antes de elegir en qué formarme.",
-        "evidence": "alcance dentro/fuera, preguntas esenciales, fuentes prioritarias con razón, tensiones señaladas y criterio de suficiencia comprobable.",
-        "prompt": "Quiero comprender [TEMA] para tomar [DECISIÓN O RESULTADO]. Mi contexto es [CONTEXTO], mi audiencia es [AUDIENCIA], el horizonte temporal es [HORIZONTE TEMPORAL] y la jurisdicción es [REGIÓN O JURISDICCIÓN]. Delimita el alcance con una lista dentro/fuera explícita; formula las preguntas esenciales; separa hechos, interpretaciones e incertidumbres; prioriza fuentes primarias con autor, fecha, enlace y razón de elección; identifica tensiones entre posiciones y vacíos abiertos, y señálame el riesgo de decidir con la base incompleta. Si el tema ya llega delimitado, valida el recorte en vez de recortarlo otra vez. Si no encuentras fuentes primarias, declara coverage_gap y detente. Cierra con un criterio de suficiencia comprobable: una pregunta que yo pueda responder sin adjetivos cuando la base alcance. No inventes fuentes ni certeza.",
+        "evidence": "alcance dentro/fuera, preguntas esenciales, fuentes prioritarias filtradas por vigencia y región, tensiones señaladas y criterio de suficiencia comprobable.",
+        "prompt": "Quiero comprender [TEMA] para tomar [DECISIÓN O RESULTADO]. Mi contexto es [CONTEXTO]. Delimita el alcance con una lista dentro/fuera explícita; formula las preguntas esenciales; separa hechos, interpretaciones e incertidumbres. Prioriza fuentes primarias con autor, fecha, enlace y razón, filtradas por vigencia dentro de [HORIZONTE TEMPORAL] y aplicabilidad en [REGIÓN O JURISDICCIÓN]; si esas dos restricciones chocan, pídeme cuál manda antes de seguir. Identifica tensiones entre posiciones y vacíos abiertos, y señala mi riesgo de decidir con la base incompleta. Si el tema ya llega delimitado, valida el recorte en vez de recortarlo otra vez. Si no hay fuentes primarias, declara coverage_gap y detente. Cierra con un criterio de suficiencia comprobable: una pregunta que yo pueda responder ante [AUDIENCIA] sin adjetivos. No inventes fuentes ni certeza.",
         "level_spec": {
           "role": "Arquitecto de investigación que delimita antes de buscar",
           "spec_role": "Especialista en aprendizaje e investigación basada en evidencia",
@@ -32,22 +32,22 @@
             ],
             [
               "fuentes",
-              "primarias, con autor, fecha, enlace y razón"
+              "primarias, filtradas por vigencia del horizonte y aplicabilidad de la región"
             ],
             [
-              "horizontes",
-              "vigencia temporal y jurisdicción como restricciones separadas"
+              "conflicto_de_horizontes",
+              "si vigencia y jurisdicción chocan, se pide cuál manda"
             ],
             [
               "suficiencia",
-              "una pregunta respondible sin adjetivos"
+              "una pregunta respondible sin adjetivos ante la audiencia declarada"
             ]
           ],
           "workflow": [
-            "Registrar tema, decisión personal, contexto, audiencia y horizontes",
+            "Registrar tema, decisión personal, contexto y audiencia",
             "Delimitar el alcance dentro/fuera o validar un recorte ya hecho",
             "Formular preguntas esenciales separando hechos, interpretaciones e incertidumbres",
-            "Priorizar fuentes primarias con autor, fecha, enlace y razón",
+            "Filtrar fuentes primarias por vigencia temporal y aplicabilidad regional, y resolver el conflicto si lo hay",
             "Cerrar con tensiones, vacíos y el criterio de suficiencia comprobable"
           ],
           "guardrails": [
@@ -57,21 +57,21 @@
           ],
           "output": [
             "Blueprint con alcance dentro/fuera",
-            "Fuentes prioritarias con razón de elección",
+            "Fuentes prioritarias con razón de elección y filtro de vigencia y región",
             "Criterio de suficiencia comprobable"
           ],
-          "dod": "Blueprint revisable: alcance explícito, cada fuente con razón y una pregunta de suficiencia respondible sin adjetivos.",
+          "dod": "Blueprint revisable: alcance explícito, cada fuente con razón y filtro aplicado, y una pregunta de suficiencia respondible sin adjetivos.",
           "edge_cases": [
             "Tema ya estrecho: validar en vez de recortar",
             "Cero fuentes primarias: coverage_gap",
-            "Vigencia temporal y jurisdicción en conflicto: pedir prioridad antes de seguir"
+            "Vigencia temporal y jurisdicción en conflicto: el prompt pide cuál manda antes de seguir"
           ]
         },
         "why_it_works": {
           "acceptance_criteria": [
             "El alcance tiene lista dentro/fuera explícita",
-            "Cada fuente recomendada trae autor, fecha, enlace y razón de elección",
-            "El criterio de suficiencia es una condición comprobable, no un adjetivo"
+            "Cada fuente recomendada trae autor, fecha, enlace y razón, y pasa el filtro de vigencia y región",
+            "El criterio de suficiencia es una condición comprobable ante la audiencia declarada, no un adjetivo"
           ],
           "edge_cases": [
             "Tema ya delimitado: el prompt valida el recorte en lugar de destruir alcance útil",
@@ -84,20 +84,21 @@
             "Todavía no existe base construida; si ya existe, corresponde 03 o 05"
           ],
           "limits": [
-            "Delimita la investigación, no la ejecuta; no garantiza exactitud"
+            "Delimita la investigación, no la ejecuta",
+            "No garantiza exactitud: el filtro reduce ruido, no valida el contenido de la fuente"
           ]
         },
         "traceability": [
           {
-            "claim": "La intención y su evidencia esperada provienen de la biblioteca publicada del método.",
+            "claim": "La intención 01 —convertir un tema amplio en investigación delimitada— y su evidencia esperada provienen de la biblioteca publicada del método.",
             "source": "https://javimontano.github.io/prompt-amplificado/biblioteca-prompts.html"
           },
           {
-            "claim": "La estructura rol–objetivo–parámetros–flujo sigue la guía pública de creación de prompts.",
+            "claim": "El orden rol, objetivo, parámetros y flujo del nivel especificación sigue la guía pública de creación de prompts.",
             "source": "https://javimontano.github.io/prompt-amplificado/crear-prompts.html"
           },
           {
-            "claim": "La convención coverage_gap y el cierre por criterio observable son norma interna del método.",
+            "claim": "Cerrar por criterio de suficiencia comprobable y declarar coverage_gap cuando no hay fuentes primarias son normas internas del método.",
             "source": "method_internal"
           }
         ]
@@ -107,8 +108,8 @@
         "purpose": "Convierte un tema amplio en una investigación delimitada que los miembros del equipo pueden repartir, con alcance acordado y criterio revisable.",
         "when": "el proceso o una decisión con responsable exige comprender un tema antes de invertir.",
         "example": "IA generativa para la operación comercial, antes de comprometer presupuesto de formación del área.",
-        "evidence": "alcance acordado dentro/fuera, fuentes primarias con derechos de uso, tensiones señaladas y criterio de suficiencia listo para revisión del responsable.",
-        "prompt": "Nuestro equipo necesita comprender [TEMA] antes de [DECISIÓN DEL EQUIPO], una decisión con responsable definido. El contexto operativo es [CONTEXTO], la base la consumirá [EQUIPO], el horizonte temporal es [HORIZONTE TEMPORAL] y la jurisdicción es [REGIÓN O JURISDICCIÓN]. Delimita el alcance con dentro/fuera explícito y repartible entre miembros; separa hechos, interpretaciones e incertidumbres; prioriza fuentes primarias con autor, fecha, enlace, razón y derechos de uso interno; identifica tensiones entre posiciones y el riesgo operativo de decidir con la base incompleta. Si no hay fuentes primarias con derechos claros, declara coverage_gap y detente. Cierra con un criterio de suficiencia que pueda comprobar un revisor distinto de quien investiga, listo para revisión del responsable.",
+        "evidence": "alcance acordado dentro/fuera, fuentes primarias con derechos de uso y filtro de vigencia y región, tensiones señaladas y criterio de suficiencia listo para revisión del responsable.",
+        "prompt": "Nuestro equipo necesita comprender [TEMA] antes de [DECISIÓN DEL EQUIPO], con responsable definido. La consumirá [EQUIPO] dentro de [PROCESO]. Delimita el alcance con dentro/fuera explícito y repartible entre miembros; separa hechos, interpretaciones e incertidumbres. Prioriza fuentes primarias con autor, fecha, enlace, razón y derechos de uso interno, filtradas por vigencia dentro de [HORIZONTE TEMPORAL] y aplicabilidad en [REGIÓN O JURISDICCIÓN]; si chocan, decide el responsable. Identifica tensiones entre posiciones y el riesgo operativo de decidir sin base completa. Si el tema ya llega delimitado, valida el recorte, no lo rehagas. Si no hay fuentes primarias con derechos claros, declara coverage_gap y detente. No inventes fuentes ni certeza. Cierra con un criterio de suficiencia comprobable por un revisor distinto de quien investiga, listo para revisión.",
         "level_spec": {
           "role": "Arquitecto de investigación para equipos: delimita antes de invertir",
           "spec_role": "Especialista en aprendizaje e investigación basada en evidencia",
@@ -116,15 +117,15 @@
           "parameters": [
             [
               "alcance",
-              "dentro/fuera acordado con el responsable"
+              "dentro/fuera acordado con el responsable y repartible entre miembros"
             ],
             [
               "fuentes",
-              "primarias con derechos de uso interno verificados"
+              "primarias con derechos de uso interno y filtro de vigencia y región"
             ],
             [
-              "consumo",
-              "base repartible entre miembros del equipo"
+              "conflicto_de_horizontes",
+              "si vigencia y jurisdicción chocan, decide el responsable"
             ],
             [
               "revisión",
@@ -132,33 +133,33 @@
             ]
           ],
           "workflow": [
-            "Registrar decisión con responsable y quién consumirá la base",
-            "Delimitar alcance dentro/fuera repartible entre miembros",
+            "Registrar decisión con responsable, equipo consumidor y proceso afectado",
+            "Delimitar alcance dentro/fuera repartible, o validar un recorte ya hecho",
             "Separar hechos, interpretaciones e incertidumbres",
-            "Priorizar fuentes primarias con derechos de uso interno",
+            "Filtrar fuentes primarias por derechos de uso, vigencia y aplicabilidad regional",
             "Cerrar con tensiones, riesgo operativo y criterio revisable"
           ],
           "guardrails": [
-            "Fuentes sin derechos de uso claros no entran a la base",
-            "Sin fuentes primarias con derechos: declarar coverage_gap y detenerse",
+            "No inventar fuentes ni certeza, tampoco bajo presión de calendario",
+            "Fuentes sin derechos de uso claros no entran a la base: declarar coverage_gap y detenerse",
             "No sustituir la decisión del responsable: el blueprint informa, no aprueba"
           ],
           "output": [
             "Blueprint con alcance acordado y repartible",
-            "Fuentes con derechos de uso y razón de elección",
+            "Fuentes con derechos de uso, razón de elección y filtro aplicado",
             "Criterio de suficiencia listo para revisión"
           ],
-          "dod": "Blueprint repartible: alcance acordado, derechos de uso verificados y criterio comprobable por un tercero.",
+          "dod": "Blueprint repartible: alcance acordado, derechos de uso verificados, filtro aplicado y criterio comprobable por un tercero.",
           "edge_cases": [
+            "Tema ya delimitado por otra área: validar el recorte en vez de rehacerlo",
             "Decisión sin responsable claro: pedirlo antes de delimitar",
-            "Fuentes con derechos ambiguos: excluir y declarar el hueco",
-            "Horizontes en conflicto entre áreas: escalar la prioridad al responsable"
+            "Vigencia y jurisdicción en conflicto entre áreas: el responsable decide cuál manda"
           ]
         },
         "why_it_works": {
           "acceptance_criteria": [
             "El alcance dentro/fuera queda acordado y es repartible entre miembros del equipo",
-            "Cada fuente trae autor, fecha, enlace, razón y derechos de uso interno",
+            "Cada fuente trae autor, fecha, enlace, razón, derechos de uso interno y filtro de vigencia y región",
             "El criterio de suficiencia lo puede comprobar un revisor distinto de quien investiga"
           ],
           "edge_cases": [
@@ -172,20 +173,25 @@
             "Existe un responsable de la decisión y un equipo que consumirá la base"
           ],
           "limits": [
-            "Informa la decisión, no la aprueba; no ejecuta la investigación ni garantiza exactitud"
+            "Informa la decisión, no la aprueba",
+            "No ejecuta la investigación ni garantiza exactitud de las fuentes elegidas"
           ]
         },
         "traceability": [
           {
-            "claim": "La intención y su evidencia esperada provienen de la biblioteca publicada del método.",
+            "claim": "La intención 01 —convertir un tema amplio en investigación delimitada— y su evidencia esperada provienen de la biblioteca publicada del método.",
             "source": "https://javimontano.github.io/prompt-amplificado/biblioteca-prompts.html"
           },
           {
-            "claim": "La estructura rol–objetivo–parámetros–flujo sigue la guía pública de creación de prompts.",
+            "claim": "El orden rol, objetivo, parámetros y flujo del nivel especificación sigue la guía pública de creación de prompts.",
             "source": "https://javimontano.github.io/prompt-amplificado/crear-prompts.html"
           },
           {
-            "claim": "La convención coverage_gap y el cierre por criterio observable son norma interna del método.",
+            "claim": "Cerrar por criterio de suficiencia comprobable y declarar coverage_gap cuando no hay fuentes primarias son normas internas del método.",
+            "source": "method_internal"
+          },
+          {
+            "claim": "Exigir derechos de uso interno por fuente y un revisor distinto de quien investiga es política interna para bases compartidas por un equipo.",
             "source": "method_internal"
           }
         ]
@@ -197,8 +203,8 @@
         "purpose": "Turn a broad topic into bounded research with an explicit in/out list and a sufficiency rule you can test.",
         "when": "you need to understand a new topic before deciding or producing, and have no base built yet.",
         "example": "Generative AI applied to my sales work, before choosing what to train in.",
-        "evidence": "in/out scope list, essential questions, priority sources with reasons, named tensions and a testable sufficiency rule.",
-        "prompt": "I need to understand [TOPIC] to make [DECISION OR OUTCOME]. My context is [CONTEXT], my audience is [AUDIENCE], the time horizon is [TIME HORIZON] and the jurisdiction is [REGION OR JURISDICTION]. Bound the scope with an explicit in/out list; frame the essential questions; separate facts, interpretations and uncertainty; prioritize primary sources with author, date, link and reason; name the tensions between positions and the open gaps, and flag the risk of deciding on an incomplete base. If the topic is already narrow, validate the cut instead of narrowing it again. If no primary sources exist, declare coverage_gap and stop. Close with one testable sufficiency rule: a question I can answer without adjectives once the base is enough. Do not invent sources or certainty.",
+        "evidence": "in/out scope list, essential questions, priority sources filtered by validity and region, named tensions and a testable sufficiency rule.",
+        "prompt": "I need to understand [TOPIC] to make [DECISION OR OUTCOME]. My context is [CONTEXT]. Bound the scope with an explicit in/out list; frame the essential questions; separate facts, interpretations and uncertainty. Prioritize primary sources with author, date, link and reason, filtered by validity within [TIME HORIZON] and applicability in [REGION OR JURISDICTION]; if those two constraints clash, ask me which one wins before continuing. Name the tensions between positions and the open gaps, and flag my risk of deciding on an incomplete base. If the topic is already narrow, validate the cut instead of narrowing it again. If no primary sources exist, declare coverage_gap and stop. Close with one testable sufficiency rule: a question I can answer for [AUDIENCE] without adjectives. Do not invent sources or certainty.",
         "level_spec": {
           "role": "Research architect who bounds before searching",
           "spec_role": "Specialist in evidence-grounded learning and research",
@@ -210,22 +216,22 @@
             ],
             [
               "sources",
-              "primary, with author, date, link and reason"
+              "primary, filtered by horizon validity and regional applicability"
             ],
             [
-              "horizons",
-              "time validity and jurisdiction as separate constraints"
+              "horizon_clash",
+              "if validity and jurisdiction clash, ask which one wins"
             ],
             [
               "sufficiency",
-              "one question answerable without adjectives"
+              "one question answerable without adjectives for the declared audience"
             ]
           ],
           "workflow": [
-            "Record topic, personal decision, context, audience and horizons",
+            "Record topic, personal decision, context and audience",
             "Bound the in/out scope or validate a cut already made",
             "Frame essential questions separating facts, interpretations and uncertainty",
-            "Prioritize primary sources with author, date, link and reason",
+            "Filter primary sources by time validity and regional applicability, resolving any clash",
             "Close with tensions, gaps and the testable sufficiency rule"
           ],
           "guardrails": [
@@ -235,21 +241,21 @@
           ],
           "output": [
             "Blueprint with in/out scope",
-            "Priority sources with reasons",
+            "Priority sources with reasons and the validity and region filter applied",
             "Testable sufficiency rule"
           ],
-          "dod": "Reviewable blueprint: explicit scope, every source with a reason, and a sufficiency question answerable without adjectives.",
+          "dod": "Reviewable blueprint: explicit scope, every source with a reason and filter applied, and a sufficiency question answerable without adjectives.",
           "edge_cases": [
             "Topic already narrow: validate instead of cutting",
             "Zero primary sources: coverage_gap",
-            "Time validity and jurisdiction in conflict: ask for priority before continuing"
+            "Time validity and jurisdiction in conflict: the prompt asks which one wins before continuing"
           ]
         },
         "why_it_works": {
           "acceptance_criteria": [
             "The scope has an explicit in/out list",
-            "Every recommended source carries author, date, link and reason",
-            "The sufficiency rule is a testable condition, not an adjective"
+            "Every recommended source carries author, date, link and reason, and passes the validity and region filter",
+            "The sufficiency rule is a testable condition for the declared audience, not an adjective"
           ],
           "edge_cases": [
             "Topic already bounded: the prompt validates the cut instead of destroying useful scope",
@@ -262,20 +268,21 @@
             "No base exists yet; if one does, 03 or 05 applies instead"
           ],
           "limits": [
-            "It bounds the research, it does not run it; accuracy is not guaranteed"
+            "It bounds the research, it does not run it",
+            "Accuracy is not guaranteed: the filter cuts noise, it does not validate source content"
           ]
         },
         "traceability": [
           {
-            "claim": "The intent and its expected output come from the method's published prompt library.",
+            "claim": "Intent 01 — turning a broad topic into bounded research — and its expected output come from the published prompt library.",
             "source": "https://javimontano.github.io/prompt-amplificado/biblioteca-prompts.html"
           },
           {
-            "claim": "The role–objective–parameters–workflow structure follows the public prompt-creation guide.",
+            "claim": "The role, objective, parameters and workflow ordering of the specification level follows the public prompt-creation guide.",
             "source": "https://javimontano.github.io/prompt-amplificado/crear-prompts.html"
           },
           {
-            "claim": "The coverage_gap convention and observable-criterion closes are internal method policy.",
+            "claim": "Closing on a testable sufficiency rule and declaring coverage_gap when no primary sources exist are internal method policy.",
             "source": "method_internal"
           }
         ]
@@ -285,8 +292,8 @@
         "purpose": "Turn a broad topic into bounded research the team can split up, with agreed scope and a reviewable sufficiency rule.",
         "when": "a process or an accountable decision requires understanding a topic before investing.",
         "example": "Generative AI for the sales operation, before committing training budget for the area.",
-        "evidence": "agreed in/out scope, primary sources with usage rights, named tensions and a sufficiency rule ready for review by the accountable owner.",
-        "prompt": "Our team needs to understand [TOPIC] before [TEAM DECISION], a decision with a defined accountable owner. The operating context is [CONTEXT], the base will be consumed by [TEAM], the time horizon is [TIME HORIZON] and the jurisdiction is [REGION OR JURISDICTION]. Bound the scope with an explicit in/out list the members can split up; separate facts, interpretations and uncertainty; prioritize primary sources with author, date, link, reason and internal usage rights; name the tensions between positions and the operational risk of deciding on an incomplete base. If no primary sources with clear rights exist, declare coverage_gap and stop. Close with a sufficiency rule that a reviewer other than the researcher can test, ready for review by the accountable owner.",
+        "evidence": "agreed in/out scope, primary sources with usage rights and a validity and region filter, named tensions and a sufficiency rule ready for review.",
+        "prompt": "Our team needs to understand [TOPIC] before [TEAM DECISION], with a defined owner. The base will be consumed by [TEAM] within [PROCESS]. Bound the scope with an explicit in/out list the members can split up; separate facts, interpretations and uncertainty. Prioritize primary sources with author, date, link, reason and internal usage rights, filtered by validity within [TIME HORIZON] and applicability in [REGION OR JURISDICTION]; if they clash, the accountable owner decides. Name the tensions between positions and the operational risk of deciding on an incomplete base. If the topic is already narrow, validate the cut, do not redo it. If no primary sources with clear rights exist, declare coverage_gap and stop. Do not invent sources or certainty. Close with a sufficiency rule a reviewer other than the researcher can test.",
         "level_spec": {
           "role": "Research architect for teams: bound before investing",
           "spec_role": "Specialist in evidence-grounded learning and research",
@@ -294,15 +301,15 @@
           "parameters": [
             [
               "scope",
-              "in/out list agreed with the accountable owner"
+              "in/out list agreed with the owner and splittable across members"
             ],
             [
               "sources",
-              "primary, with verified internal usage rights"
+              "primary, with internal usage rights and a validity and region filter"
             ],
             [
-              "consumption",
-              "base splittable across team members"
+              "horizon_clash",
+              "if validity and jurisdiction clash, the owner decides"
             ],
             [
               "review",
@@ -310,33 +317,33 @@
             ]
           ],
           "workflow": [
-            "Record the accountable decision and who will consume the base",
-            "Bound an in/out scope splittable across members",
+            "Record the accountable decision, the consuming team and the affected process",
+            "Bound a splittable in/out scope, or validate a cut already made",
             "Separate facts, interpretations and uncertainty",
-            "Prioritize primary sources with internal usage rights",
+            "Filter primary sources by usage rights, validity and regional applicability",
             "Close with tensions, operational risk and a reviewable rule"
           ],
           "guardrails": [
-            "Sources without clear usage rights do not enter the base",
-            "No primary sources with rights: declare coverage_gap and stop",
+            "Never invent sources or certainty, not even under schedule pressure",
+            "Sources without clear usage rights do not enter the base: declare coverage_gap and stop",
             "Never replace the accountable decision: the blueprint informs, it does not approve"
           ],
           "output": [
             "Blueprint with agreed, splittable scope",
-            "Sources with usage rights and reasons",
+            "Sources with usage rights, reasons and the filter applied",
             "Sufficiency rule ready for review"
           ],
-          "dod": "Splittable blueprint: agreed scope, verified usage rights, and a rule testable by a third party.",
+          "dod": "Splittable blueprint: agreed scope, verified usage rights, filter applied and a rule testable by a third party.",
           "edge_cases": [
+            "Topic already bounded by another area: validate the cut instead of redoing it",
             "Decision without a clear owner: request one before bounding",
-            "Sources with ambiguous rights: exclude and declare the hole",
-            "Conflicting horizons across areas: escalate priority to the owner"
+            "Validity and jurisdiction conflicting across areas: the owner decides which one wins"
           ]
         },
         "why_it_works": {
           "acceptance_criteria": [
             "The in/out scope is agreed and splittable across team members",
-            "Every source carries author, date, link, reason and internal usage rights",
+            "Every source carries author, date, link, reason, internal usage rights and the validity and region filter",
             "The sufficiency rule can be tested by a reviewer other than the researcher"
           ],
           "edge_cases": [
@@ -350,20 +357,25 @@
             "A decision owner exists and a team will consume the base"
           ],
           "limits": [
-            "It informs the decision, it does not approve it; it neither runs the research nor guarantees accuracy"
+            "It informs the decision, it does not approve it",
+            "It neither runs the research nor guarantees the accuracy of the chosen sources"
           ]
         },
         "traceability": [
           {
-            "claim": "The intent and its expected output come from the method's published prompt library.",
+            "claim": "Intent 01 — turning a broad topic into bounded research — and its expected output come from the published prompt library.",
             "source": "https://javimontano.github.io/prompt-amplificado/biblioteca-prompts.html"
           },
           {
-            "claim": "The role–objective–parameters–workflow structure follows the public prompt-creation guide.",
+            "claim": "The role, objective, parameters and workflow ordering of the specification level follows the public prompt-creation guide.",
             "source": "https://javimontano.github.io/prompt-amplificado/crear-prompts.html"
           },
           {
-            "claim": "The coverage_gap convention and observable-criterion closes are internal method policy.",
+            "claim": "Closing on a testable sufficiency rule and declaring coverage_gap when no primary sources exist are internal method policy.",
+            "source": "method_internal"
+          },
+          {
+            "claim": "Requiring internal usage rights per source and a reviewer other than the researcher is internal policy for team-shared bases.",
             "source": "method_internal"
           }
         ]
@@ -375,8 +387,8 @@
         "purpose": "Transforme um tema amplo em pesquisa delimitada, com dentro/fora explícito e um critério de suficiência verificável.",
         "when": "você precisa compreender um tema novo antes de decidir ou produzir, e ainda não tem base construída.",
         "example": "IA generativa aplicada ao meu trabalho comercial, antes de escolher em que me formar.",
-        "evidence": "escopo dentro/fora, perguntas essenciais, fontes prioritárias com razão, tensões nomeadas e critério de suficiência verificável.",
-        "prompt": "Quero compreender [TEMA] para tomar [DECISÃO OU RESULTADO]. Meu contexto é [CONTEXTO], meu público é [PÚBLICO], o horizonte temporal é [HORIZONTE TEMPORAL] e a jurisdição é [REGIÃO OU JURISDIÇÃO]. Delimite o escopo com uma lista dentro/fora explícita; formule as perguntas essenciais; separe fatos, interpretações e incertezas; priorize fontes primárias com autor, data, link e razão de escolha; identifique tensões entre posições e lacunas abertas, e aponte o risco de eu decidir com a base incompleta. Se o tema já chegar delimitado, valide o recorte em vez de recortar de novo. Se não houver fontes primárias, declare coverage_gap e pare. Feche com um critério de suficiência verificável: uma pergunta que eu consiga responder sem adjetivos quando a base bastar. Não invente fontes nem certeza.",
+        "evidence": "escopo dentro/fora, perguntas essenciais, fontes prioritárias filtradas por vigência e região, tensões nomeadas e critério de suficiência verificável.",
+        "prompt": "Quero compreender [TEMA] para tomar [DECISÃO OU RESULTADO]. Meu contexto é [CONTEXTO]. Delimite o escopo com uma lista dentro/fora explícita; formule as perguntas essenciais; separe fatos, interpretações e incertezas. Priorize fontes primárias com autor, data, link e razão, filtradas por vigência dentro de [HORIZONTE TEMPORAL] e aplicabilidade em [REGIÃO OU JURISDIÇÃO]; se colidirem, pergunte qual prevalece antes de seguir. Identifique tensões entre posições e lacunas abertas, e aponte meu risco de decidir com a base incompleta. Se o tema já chegar delimitado, valide o recorte, não o refaça. Se não houver fontes primárias, declare coverage_gap e pare. Feche com um critério de suficiência verificável: uma pergunta que eu consiga responder diante de [PÚBLICO] sem adjetivos. Não invente fontes nem certeza.",
         "level_spec": {
           "role": "Arquiteto de pesquisa que define o recorte antes de buscar",
           "spec_role": "Especialista em aprendizagem e pesquisa baseada em evidências",
@@ -388,72 +400,73 @@
             ],
             [
               "fontes",
-              "primárias, com autor, data, link e razão"
+              "primárias, filtradas por vigência do horizonte e aplicabilidade da região"
             ],
             [
-              "horizontes",
-              "vigência temporal e jurisdição como restrições separadas"
+              "conflito_de_horizontes",
+              "se vigência e jurisdição colidem, perguntar qual prevalece"
             ],
             [
               "suficiência",
-              "uma pergunta respondível sem adjetivos"
+              "uma pergunta respondível sem adjetivos diante do público declarado"
             ]
           ],
           "workflow": [
-            "Registrar tema, decisão pessoal, contexto, público e horizontes",
+            "Registrar tema, decisão pessoal, contexto e público",
             "Delimitar o escopo dentro/fora ou validar um recorte já feito",
             "Formular perguntas essenciais separando fatos, interpretações e incertezas",
-            "Priorizar fontes primárias com autor, data, link e razão",
+            "Filtrar fontes primárias por vigência temporal e aplicabilidade regional, resolvendo o conflito se houver",
             "Fechar com tensões, lacunas e o critério de suficiência verificável"
           ],
           "guardrails": [
             "Não inventar fontes nem certeza",
             "Sem fontes primárias disponíveis: declarar coverage_gap e parar",
-            "Tema já delimitado: validar o recorte, não redelimitar"
+            "Tema já delimitado: validar o recorte, não refazer"
           ],
           "output": [
             "Blueprint com escopo dentro/fora",
-            "Fontes prioritárias com razão de escolha",
+            "Fontes prioritárias com razão de escolha e filtro de vigência e região",
             "Critério de suficiência verificável"
           ],
-          "dod": "Blueprint revisável: escopo explícito, cada fonte com razão e uma pergunta de suficiência respondível sem adjetivos.",
+          "dod": "Blueprint revisável: escopo explícito, cada fonte com razão e filtro aplicado, e uma pergunta de suficiência respondível sem adjetivos.",
           "edge_cases": [
             "Tema já estreito: validar em vez de recortar",
             "Zero fontes primárias: coverage_gap",
-            "Vigência temporal e jurisdição em conflito: pedir prioridade antes de seguir"
+            "Vigência temporal e jurisdição em conflito: o prompt pergunta qual prevalece antes de seguir"
           ]
         },
         "why_it_works": {
           "acceptance_criteria": [
             "O escopo tem lista dentro/fora explícita",
-            "Cada fonte recomendada traz autor, data, link e razão de escolha",
-            "O critério de suficiência é uma condição verificável, não um adjetivo"
+            "Cada fonte recomendada traz autor, data, link e razão, e passa o filtro de vigência e região",
+            "O critério de suficiência é uma condição verificável diante do público declarado, não um adjetivo"
           ],
           "edge_cases": [
             "Tema já delimitado: o prompt valida o recorte em vez de destruir escopo útil",
             "Sem fontes primárias disponíveis: declara-se coverage_gap em vez de inventar"
           ],
           "tradeoffs": [
-            "Delimitar reduz cobertura em troca de verificabilidade"
+            "Definir o recorte reduz cobertura em troca de verificabilidade"
           ],
           "assumptions": [
             "Ainda não existe base construída; se já existe, o caso é 03 ou 05"
           ],
           "limits": [
-            "Define o recorte da pesquisa, não a executa; não garante exatidão"
+            "Define o recorte da pesquisa, não a executa",
+            "Não garante exatidão: o filtro reduz ruído, não valida o conteúdo da fonte"
           ]
         },
         "traceability": [
           {
-            "claim": "A intenção e sua evidência esperada vêm da biblioteca publicada do método.",
+            "claim": "A intenção 01 — transformar um tema amplo em pesquisa delimitada — e sua evidência esperada vêm da biblioteca publicada do método.",
             "source": "https://javimontano.github.io/prompt-amplificado/biblioteca-prompts.html"
           },
           {
-            "claim": "A estrutura papel–objetivo–parâmetros–fluxo segue o guia público de criação de prompts.",
+            "claim": "A ordem papel, objetivo, parâmetros e fluxo do nível especificação segue o guia público de criação de prompts.",
             "source": "https://javimontano.github.io/prompt-amplificado/crear-prompts.html"
           },
           {
-            "claim": "A convenção coverage_gap e o fechamento por critério observável são norma interna do método.",
+            "claim": "Fechar por critério de suficiência verificável e declarar coverage_gap quando não há fontes primárias são normas internas do método.",
             "source": "method_internal"
           }
         ]
@@ -463,8 +476,8 @@
         "purpose": "Transforme um tema amplo em pesquisa delimitada que os membros da equipe podem dividir, com escopo acordado e critério revisável.",
         "when": "o processo ou uma decisão com responsável exige compreender um tema antes de investir.",
         "example": "IA generativa para a operação comercial, antes de comprometer orçamento de formação da área.",
-        "evidence": "escopo acordado dentro/fora, fontes primárias com direitos de uso, tensões nomeadas e critério de suficiência pronto para revisão do responsável.",
-        "prompt": "Nossa equipe precisa compreender [TEMA] antes de [DECISÃO DA EQUIPE], uma decisão com responsável definido. O contexto operacional é [CONTEXTO], a base será consumida por [EQUIPE], o horizonte temporal é [HORIZONTE TEMPORAL] e a jurisdição é [REGIÃO OU JURISDIÇÃO]. Delimite o escopo com dentro/fora explícito e divisível entre membros; separe fatos, interpretações e incertezas; priorize fontes primárias com autor, data, link, razão e direitos de uso interno; identifique tensões entre posições e o risco operacional de decidir com a base incompleta. Se não houver fontes primárias com direitos claros, declare coverage_gap e pare. Feche com um critério de suficiência que um revisor diferente de quem pesquisa consiga testar, pronto para revisão do responsável.",
+        "evidence": "escopo acordado dentro/fora, fontes primárias com direitos de uso e filtro de vigência e região, tensões nomeadas e critério de suficiência pronto para revisão.",
+        "prompt": "Nossa equipe precisa compreender [TEMA] antes de [DECISÃO DA EQUIPE], com responsável definido. Será consumida por [EQUIPE] dentro de [PROCESSO]. Delimite o escopo com dentro/fora explícito e divisível entre membros; separe fatos, interpretações e incertezas. Priorize fontes primárias com autor, data, link, razão e direitos de uso interno, filtradas por vigência dentro de [HORIZONTE TEMPORAL] e aplicabilidade em [REGIÃO OU JURISDIÇÃO]; se colidirem, o responsável decide. Identifique tensões entre posições e o risco operacional de decidir sem base completa. Se o tema já chegar delimitado, valide o recorte, não o refaça. Se não houver fontes primárias com direitos claros, declare coverage_gap e pare. Não invente fontes nem certeza. Feche com um critério de suficiência testável por revisor diferente de quem pesquisa.",
         "level_spec": {
           "role": "Arquiteto de pesquisa para equipes: recorte definido antes de investir",
           "spec_role": "Especialista em aprendizagem e pesquisa baseada em evidências",
@@ -472,15 +485,15 @@
           "parameters": [
             [
               "escopo",
-              "dentro/fora acordado com o responsável"
+              "dentro/fora acordado com o responsável e divisível entre membros"
             ],
             [
               "fontes",
-              "primárias com direitos de uso interno verificados"
+              "primárias com direitos de uso interno e filtro de vigência e região"
             ],
             [
-              "consumo",
-              "base divisível entre membros da equipe"
+              "conflito_de_horizontes",
+              "se vigência e jurisdição colidem, decide o responsável"
             ],
             [
               "revisão",
@@ -488,33 +501,33 @@
             ]
           ],
           "workflow": [
-            "Registrar a decisão com responsável e quem consumirá a base",
-            "Delimitar escopo dentro/fora divisível entre membros",
+            "Registrar a decisão com responsável, a equipe consumidora e o processo afetado",
+            "Delimitar escopo dentro/fora divisível, ou validar um recorte já feito",
             "Separar fatos, interpretações e incertezas",
-            "Priorizar fontes primárias com direitos de uso interno",
+            "Filtrar fontes primárias por direitos de uso, vigência e aplicabilidade regional",
             "Fechar com tensões, risco operacional e critério revisável"
           ],
           "guardrails": [
-            "Fontes sem direitos de uso claros não entram na base",
-            "Sem fontes primárias com direitos: declarar coverage_gap e parar",
+            "Não inventar fontes nem certeza, nem sob pressão de calendário",
+            "Fontes sem direitos de uso claros não entram na base: declarar coverage_gap e parar",
             "Não substituir a decisão do responsável: o blueprint informa, não aprova"
           ],
           "output": [
             "Blueprint com escopo acordado e divisível",
-            "Fontes com direitos de uso e razão de escolha",
+            "Fontes com direitos de uso, razão de escolha e filtro aplicado",
             "Critério de suficiência pronto para revisão"
           ],
-          "dod": "Blueprint divisível: escopo acordado, direitos de uso verificados e critério testável por terceiro.",
+          "dod": "Blueprint divisível: escopo acordado, direitos de uso verificados, filtro aplicado e critério testável por terceiro.",
           "edge_cases": [
+            "Tema já delimitado por outra área: validar o recorte em vez de refazê-lo",
             "Decisão sem responsável claro: pedir antes de delimitar",
-            "Fontes com direitos ambíguos: excluir e declarar o buraco",
-            "Horizontes em conflito entre áreas: escalar a prioridade ao responsável"
+            "Vigência e jurisdição em conflito entre áreas: o responsável decide qual prevalece"
           ]
         },
         "why_it_works": {
           "acceptance_criteria": [
             "O escopo dentro/fora fica acordado e é divisível entre membros da equipe",
-            "Cada fonte traz autor, data, link, razão e direitos de uso interno",
+            "Cada fonte traz autor, data, link, razão, direitos de uso interno e o filtro de vigência e região",
             "O critério de suficiência pode ser testado por revisor diferente de quem pesquisa"
           ],
           "edge_cases": [
@@ -528,20 +541,25 @@
             "Existe um responsável pela decisão e uma equipe que consumirá a base"
           ],
           "limits": [
-            "Informa a decisão, não a aprova; não executa a pesquisa nem garante exatidão"
+            "Informa a decisão, não a aprova",
+            "Não executa a pesquisa nem garante a exatidão das fontes escolhidas"
           ]
         },
         "traceability": [
           {
-            "claim": "A intenção e sua evidência esperada vêm da biblioteca publicada do método.",
+            "claim": "A intenção 01 — transformar um tema amplo em pesquisa delimitada — e sua evidência esperada vêm da biblioteca publicada do método.",
             "source": "https://javimontano.github.io/prompt-amplificado/biblioteca-prompts.html"
           },
           {
-            "claim": "A estrutura papel–objetivo–parâmetros–fluxo segue o guia público de criação de prompts.",
+            "claim": "A ordem papel, objetivo, parâmetros e fluxo do nível especificação segue o guia público de criação de prompts.",
             "source": "https://javimontano.github.io/prompt-amplificado/crear-prompts.html"
           },
           {
-            "claim": "A convenção coverage_gap e o fechamento por critério observável são norma interna do método.",
+            "claim": "Fechar por critério de suficiência verificável e declarar coverage_gap quando não há fontes primárias são normas internas do método.",
+            "source": "method_internal"
+          },
+          {
+            "claim": "Exigir direitos de uso interno por fonte e um revisor diferente de quem pesquisa é política interna para bases compartilhadas por uma equipe.",
             "source": "method_internal"
           }
         ]
@@ -549,5 +567,5 @@
     }
   },
   "self_hash_model": "sha256(sorted-json-without-self_sha256)",
-  "self_sha256": "285bb0bbada56f25621360cb4306a36d4732782acd368cafcc8f1efdf567d095"
+  "self_sha256": "8cc447ca3db0605b3c1ed7441047947d2b136990b53d8cf7c9d66a6854e8561f"
 }
