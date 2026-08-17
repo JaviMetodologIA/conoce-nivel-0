@@ -120,7 +120,7 @@
         "purpose": "Mide la comprensión de la base del taller por fundamentos, intermedio, avanzado y aplicación, con rúbrica citada y resultado agregable por el facilitador, comparable entre corridas y nunca entre personas.",
         "when": "el proceso exige evidencia de dominio antes de habilitar a alguien y hay un responsable.",
         "example": "Quiz aplicado de cuatro niveles sobre agentes y límites, para el área.",
-        "evidence": "calificación citada por respuesta, nivel alcanzado, riesgo operativo de habilitar bajo el umbral y cierre con fortalezas, lagunas, fuentes a revisar y práctica, listo para revisión del responsable.",
+        "evidence": "calificación citada por respuesta, nivel alcanzado, riesgo operativo de habilitar bajo el umbral y cierre con fortalezas, lagunas, fuentes a revisar y práctica, listo para revisión.",
         "prompt": "Evalúame sobre [TEMA] solo con el Notebook, desde [NIVEL], umbral de [PROCESO]. Una pregunta por vez: fundamentos, intermedio, avanzado, aplicación. Califica: demostrada (cita la condición), parcial (omite una), ausente (sin cita). Avanza solo con demostrada; si no, segundo intento que la sustituye; sin fundamentos no avanzas. Corrige citando; no enseñes contenido nuevo: se mide, no se explica. Sin cobertura, sustitúyela. Cierra con fortalezas, lagunas, fuentes a revisar, práctica de [TEMA], riesgo operativo del umbral, comparable entre corridas del equipo. No inventes preguntas ni citas.",
         "level_spec": {
           "role": "Evaluador de taller para el equipo que califica contra la base y contra la rúbrica, nunca contra otra persona",
@@ -622,5 +622,5 @@
     }
   },
   "self_hash_model": "sha256(sorted-json-without-self_sha256)",
-  "self_sha256": "c1bb5a6c2d06b2c3c8b91e7dba3e6577b8f0cb95baa6dcd98e940f9eece54550"
+  "self_sha256": "7acc653bfcc4bc7e840fb774efdb92d892fcfffd1d397094a071cf81114aa255"
 }

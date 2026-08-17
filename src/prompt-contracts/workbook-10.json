@@ -11,7 +11,7 @@
       "W05",
       "W07"
     ],
-    "decision_rule": "Usa W10 cuando la base ya fue auditada y declarada suficiente y el paso es escribir la configuración final del Notebook: instrucción, límites, prompts de inicio y guía de prueba. Si todavía hay que decidir fuente por fuente qué conservar, actualizar o retirar y si la base alcanza, eso se audita antes con 07, cuya configuración llega como recomendación de insumo y no como instrucción final: esa es la frontera. Si solo hace falta activar un rol para una consulta puntual, usa W05; si aún no está claro qué casos vale la pena cubrir, usa W07. W10 no re-audita fuentes, no emite veredicto de suficiencia y no autoriza publicación ni conectores."
+    "decision_rule": "Usa W10 cuando la base ya fue auditada y declarada suficiente y el paso es escribir la configuración final del Notebook: instrucción, límites, prompts de inicio y guía de prueba. Si todavía hay que decidir fuente por fuente qué conservar, actualizar o retirar y si la base alcanza, eso se audita antes con W02 y se cierra en W04 (o con 05 suelto); 07 audita el contenedor y su configuración llega como recomendación de insumo, no como instrucción final: esa es la frontera con W10. Si solo hace falta activar un rol para una consulta puntual, usa W05; si aún no está claro qué casos vale la pena cubrir, usa W07. W10 no re-audita fuentes, no emite veredicto de suficiencia y no autoriza publicación ni conectores."
   },
   "locales": {
     "es": {
@@ -29,7 +29,7 @@
           "parameters": [
             [
               "entrada_del_paso_previo",
-              "auditoría del contenedor y veredicto de suficiencia ya emitidos, tomados como dados"
+              "auditoría de la base (W02) y del contenedor hechas, con el veredicto de suficiencia ya emitido en W04, tomados como dados"
             ],
             [
               "instruccion",
@@ -57,7 +57,7 @@
           ],
           "guardrails": [
             "No inventar capacidades del asistente ni fuentes que la base no tenga",
-            "No re-decidir la relevancia fuente por fuente ni emitir veredicto de suficiencia: eso se audita antes, con 07",
+            "No re-decidir la relevancia fuente por fuente ni emitir veredicto de suficiencia: eso se auditó y se cerró en pasos previos del taller; de 07 solo llega la configuración recomendada",
             "Restricciones que contradicen el propósito: detenerse y señalarlo antes de configurar",
             "Material privado en la base: escribir el límite explícito de no exposición",
             "La configuración no autoriza publicación ni conectores"
@@ -92,7 +92,7 @@
             "La base llega auditada y declarada suficiente en pasos previos; la configuración recomendada por la auditoría es insumo y no instrucción final"
           ],
           "limits": [
-            "Configura el asistente; no re-audita fuentes ni emite veredicto de suficiencia: eso es 07",
+            "Configura el asistente; no re-audita fuentes ni emite veredicto de suficiencia: eso se cerró en pasos previos del taller; de 07 llega la configuración recomendada, no la instrucción final",
             "No prioriza qué casos vale la pena cubrir: eso es W07",
             "No autoriza publicación ni conectores: RENDERED_DRAFT no es publicado"
           ]
@@ -130,7 +130,7 @@
           "parameters": [
             [
               "entrada_del_paso_previo",
-              "auditoría del contenedor y veredicto de suficiencia del proceso, tomados como dados"
+              "auditoría de la base (W02) y del contenedor hechas, con el veredicto de suficiencia del proceso ya emitido en W04, tomados como dados"
             ],
             [
               "instruccion",
@@ -158,7 +158,7 @@
           ],
           "guardrails": [
             "No inventar capacidades del asistente ni fuentes ausentes de la base",
-            "No re-decidir la relevancia fuente por fuente ni emitir veredicto de suficiencia: eso se audita antes, con 07",
+            "No re-decidir la relevancia fuente por fuente ni emitir veredicto de suficiencia: eso se auditó y se cerró en pasos previos del taller; de 07 solo llega la configuración recomendada",
             "Restricciones que contradicen el propósito: detenerse y señalarlo antes de configurar",
             "Material privado o de cliente en la base: límite explícito de no exposición y riesgo operativo declarado",
             "La configuración no autoriza publicación ni conectores: la ratificación es del responsable"
@@ -193,7 +193,7 @@
             "El proceso declaró suficiente la base y existe un responsable que ratifica la instrucción"
           ],
           "limits": [
-            "Configura el asistente; no re-audita fuentes ni emite veredicto de suficiencia: eso es 07",
+            "Configura el asistente; no re-audita fuentes ni emite veredicto de suficiencia: eso se cerró en pasos previos del taller; de 07 llega la configuración recomendada, no la instrucción final",
             "No prioriza qué casos vale la pena cubrir: eso es W07",
             "No autoriza publicación ni conectores: la ratificación del responsable es un gate aparte"
           ]
@@ -233,7 +233,7 @@
           "parameters": [
             [
               "input_from_previous_step",
-              "container audit and sufficiency verdict already issued, taken as given"
+              "base audit (W02) and container audit done, with the sufficiency verdict already issued in W04, taken as given"
             ],
             [
               "instruction",
@@ -261,7 +261,7 @@
           ],
           "guardrails": [
             "Never invent assistant capabilities or sources the base lacks",
-            "Do not re-decide source-by-source relevance or issue a sufficiency verdict: that is audited earlier, with 07",
+            "Do not re-decide source-by-source relevance or issue a sufficiency verdict: that was audited and closed in earlier workshop steps; from 07 only the recommended configuration arrives",
             "Constraints that contradict the purpose: stop and flag before configuring",
             "Private material in the base: write the explicit non-exposure limit",
             "The configuration authorizes neither publication nor connectors"
@@ -296,7 +296,7 @@
             "The base arrives audited and declared sufficient in earlier steps; the audit configuration is input, not the final instruction"
           ],
           "limits": [
-            "It configures the assistant; it neither re-audits sources nor issues a sufficiency verdict: that is 07",
+            "It configures the assistant; it neither re-audits sources nor issues a sufficiency verdict: that closed in earlier workshop steps; from 07 the recommended configuration arrives, not the final instruction",
             "It does not rank which cases are worth covering: that is W07",
             "It authorizes neither publication nor connectors: RENDERED_DRAFT is not published"
           ]
@@ -334,7 +334,7 @@
           "parameters": [
             [
               "input_from_previous_step",
-              "container audit and the process sufficiency verdict, taken as given"
+              "base audit (W02) and container audit done, with the process sufficiency verdict already issued in W04, taken as given"
             ],
             [
               "instruction",
@@ -362,7 +362,7 @@
           ],
           "guardrails": [
             "Never invent assistant capabilities or sources absent from the base",
-            "Do not re-decide source-by-source relevance or issue a sufficiency verdict: that is audited earlier, with 07",
+            "Do not re-decide source-by-source relevance or issue a sufficiency verdict: that was audited and closed in earlier workshop steps; from 07 only the recommended configuration arrives",
             "Constraints that contradict the purpose: stop and flag before configuring",
             "Private or client material in the base: explicit non-exposure limit and declared operational risk",
             "The configuration authorizes neither publication nor connectors: ratification belongs to the accountable owner"
@@ -397,7 +397,7 @@
             "The process declared the base sufficient and an accountable owner ratifies the instruction"
           ],
           "limits": [
-            "It configures the assistant; it neither re-audits sources nor issues a sufficiency verdict: that is 07",
+            "It configures the assistant; it neither re-audits sources nor issues a sufficiency verdict: that closed in earlier workshop steps; from 07 the recommended configuration arrives, not the final instruction",
             "It does not rank which cases are worth covering: that is W07",
             "It authorizes neither publication nor connectors: owner ratification is a separate gate"
           ]
@@ -437,7 +437,7 @@
           "parameters": [
             [
               "entrada_do_passo_anterior",
-              "auditoria do contêiner e veredicto de suficiência já emitidos, tomados como dados"
+              "auditoria da base (W02) e do contêiner feitas, com o veredicto de suficiência já emitido em W04, tomados como dados"
             ],
             [
               "instrucao",
@@ -465,7 +465,7 @@
           ],
           "guardrails": [
             "Não inventar capacidades do assistente nem fontes que a base não tem",
-            "Não redecidir a relevância fonte por fonte nem emitir veredicto de suficiência: isso se audita antes, com 07",
+            "Não redecidir a relevância fonte por fonte nem emitir veredicto de suficiência: isso foi auditado e fechado em passos anteriores da oficina; de 07 chega apenas a configuração recomendada",
             "Restrições que contradizem o propósito: parar e sinalizar antes de configurar",
             "Material privado na base: escrever o limite explícito de não exposição",
             "A configuração não autoriza publicação nem conectores"
@@ -500,7 +500,7 @@
             "A base chega auditada e declarada suficiente nos passos anteriores; a configuração recomendada pela auditoria é insumo, não instrução final"
           ],
           "limits": [
-            "Configura o assistente; não reaudita fontes nem emite veredicto de suficiência: isso é 07",
+            "Configura o assistente; não reaudita fontes nem emite veredicto de suficiência: isso se fechou em passos anteriores da oficina; de 07 chega a configuração recomendada, não a instrução final",
             "Não prioriza quais casos vale a pena cobrir: isso é W07",
             "Não autoriza publicação nem conectores: RENDERED_DRAFT não é publicado"
           ]
@@ -538,7 +538,7 @@
           "parameters": [
             [
               "entrada_do_passo_anterior",
-              "auditoria do contêiner e veredicto de suficiência do processo, tomados como dados"
+              "auditoria da base (W02) e do contêiner feitas, com o veredicto de suficiência do processo já emitido em W04, tomados como dados"
             ],
             [
               "instrucao",
@@ -566,7 +566,7 @@
           ],
           "guardrails": [
             "Não inventar capacidades do assistente nem fontes ausentes da base",
-            "Não redecidir a relevância fonte por fonte nem emitir veredicto de suficiência: isso se audita antes, com 07",
+            "Não redecidir a relevância fonte por fonte nem emitir veredicto de suficiência: isso foi auditado e fechado em passos anteriores da oficina; de 07 chega apenas a configuração recomendada",
             "Restrições que contradizem o propósito: parar e sinalizar antes de configurar",
             "Material privado ou de cliente na base: limite explícito de não exposição e risco operacional declarado",
             "A configuração não autoriza publicação nem conectores: a ratificação é do responsável"
@@ -601,7 +601,7 @@
             "O processo declarou a base suficiente e existe um responsável que ratifica a instrução"
           ],
           "limits": [
-            "Configura o assistente; não reaudita fontes nem emite veredicto de suficiência: isso é 07",
+            "Configura o assistente; não reaudita fontes nem emite veredicto de suficiência: isso se fechou em passos anteriores da oficina; de 07 chega a configuração recomendada, não a instrução final",
             "Não prioriza quais casos vale a pena cobrir: isso é W07",
             "Não autoriza publicação nem conectores: a ratificação do responsável é um gate à parte"
           ]
@@ -628,5 +628,5 @@
     }
   },
   "self_hash_model": "sha256(sorted-json-without-self_sha256)",
-  "self_sha256": "5715f4cde826c7d509951af0e53208405a29837067da53dee2c6593c35fb264b"
+  "self_sha256": "67baff3c539bd2794652e4cfa49ee4b10364a228de381d9ebae291059db7b6bd"
 }

@@ -20,7 +20,7 @@
         "purpose": "Simula la entrevista, QBR o defensa que te espera y sube la presión solo cuando tu respuesta anterior cita la base del taller y responde la objeción.",
         "when": "debes defender pronto algo que ya escribiste o decidiste en el taller.",
         "example": "QBR con preguntas hostiles sobre mi piloto y sus controles.",
-        "evidence": "apertura con audiencia, resultado y tiempo, una evaluación por respuesta citando mi frase, y cierre con fortalezas, vacíos y tres mejoras con acción, alternativas y cita.",
+        "evidence": "apertura con audiencia, resultado y tiempo, una pregunta por turno sobre evidencia, alternativas, riesgos y límites, una evaluación por respuesta citando mi frase, y cierre con fortalezas, vacíos y tres mejoras con acción y cita.",
         "prompt": "Simula una [ENTREVISTA | QBR | DEFENSA] sobre [TEMA]; mi Notebook es la única base de citas. Pídeme antes audiencia, resultado y tiempo: poco tiempo, menos preguntas, nunca peor evaluación. Sin pieza o decisión hecha, detente: se prueba lo que existe, no se redacta. Una pregunta por vez sobre evidencia, alternativas, riesgos y límites; sube de aclaración a dato en contra y a consecuencia solo si la anterior citó y respondió; si no, repite. Evalúa citando mi frase. Cierra con fortalezas, vacíos y tres mejoras de [TEMA] con acción y cita. No inventes objeciones sin riesgo real ni citas.",
         "level_spec": {
           "role": "Entrevistador de taller que prueba lo que ya existe, sin reescribirlo",
@@ -63,10 +63,10 @@
           ],
           "output": [
             "Apertura con audiencia, resultado y tiempo fijados",
-            "Una pregunta por turno con su evaluación citando la frase del usuario",
-            "Cierre con fortalezas, vacíos y tres mejoras con acción, alternativas y cita"
+            "Una pregunta por turno sobre evidencia, alternativas, riesgos y límites, con su evaluación citando la frase del usuario",
+            "Cierre con fortalezas, vacíos y tres mejoras con acción y cita"
           ],
-          "dod": "Ensayo revisable: apertura con audiencia, resultado y tiempo, cada evaluación citando la frase evaluada, y tres mejoras con acción y cita de la base.",
+          "dod": "Ensayo con apertura, evaluación y cierre comprobables: audiencia, resultado y tiempo fijados, cada evaluación citando la frase evaluada, y tres mejoras con acción y cita de la base.",
           "edge_cases": [
             "Sin material que defender: se detiene y deriva a producir la pieza en W06",
             "Tiempo declarado corto: menos preguntas, misma exigencia de evaluación",
@@ -120,7 +120,7 @@
         "purpose": "Simula la entrevista, QBR o defensa ante dirección de una decisión ya documentada del equipo, con objeciones de gobernanza y costo que suben solo con respuesta citada.",
         "when": "el proceso exige defender ante dirección una decisión ya documentada y hay un responsable.",
         "example": "QBR del área con preguntas hostiles sobre el piloto y sus controles.",
-        "evidence": "apertura con audiencia, resultado y tiempo, evaluación citada por respuesta, objeción trazada a un riesgo operativo y cierre con fortalezas, vacíos y tres mejoras con acción, alternativas y cita, listo para revisión.",
+        "evidence": "apertura con audiencia, resultado y tiempo, una pregunta por turno sobre evidencia, alternativas, riesgos y límites, evaluación citada por respuesta, objeción trazada a un riesgo operativo y cierre con fortalezas, vacíos y tres mejoras con acción y cita, listo para revisión.",
         "prompt": "Simula [ENTREVISTA | QBR | DEFENSA] ante dirección sobre [TEMA] en [PROCESO]; el Notebook del equipo es la base. Pide audiencia, resultado y tiempo; poco tiempo: menos preguntas, no peor evaluación. Sin pieza o decisión documentada, detente: se prueba, no se redacta. Una pregunta por vez: evidencia, alternativas, riesgos y límites; sube de aclaración a dato en contra y a consecuencia si la anterior citó y respondió. Cada objeción nombra un riesgo operativo de [PROCESO]. Cierra con fortalezas, vacíos y tres mejoras con acción y cita; listo para revisión. No inventes objeciones ni citas.",
         "level_spec": {
           "role": "Entrevistador de taller para el equipo que prueba una decisión documentada, sin reescribirla",
@@ -163,8 +163,8 @@
           ],
           "output": [
             "Apertura con audiencia, resultado y tiempo fijados",
-            "Una pregunta por turno, con la objeción trazada a un riesgo operativo y su evaluación citada",
-            "Cierre con fortalezas, vacíos y tres mejoras con acción, alternativas y cita, listo para revisión"
+            "Una pregunta por turno sobre evidencia, alternativas, riesgos y límites, con la objeción trazada a un riesgo operativo y su evaluación citada",
+            "Cierre con fortalezas, vacíos y tres mejoras con acción y cita, listo para revisión"
           ],
           "dod": "Ensayo revisable: apertura con audiencia, resultado y tiempo, cada objeción trazada a un riesgo operativo, evaluación citada y tres mejoras con acción y cita.",
           "edge_cases": [
@@ -222,7 +222,7 @@
         "purpose": "Simulates the interview, QBR or defence ahead of you and raises pressure only when your previous answer quotes the workshop base and answers the objection.",
         "when": "you must soon defend something you already wrote or decided in the workshop.",
         "example": "A QBR with hostile questions about my pilot and its controls.",
-        "evidence": "an opening with audience, outcome and time, a grade per answer quoting my words, and a close with strengths, gaps and three improvements with action, alternatives and quote.",
+        "evidence": "an opening with audience, outcome and time, one question per turn on evidence, alternatives, risks and limits, a grade per answer quoting my words, and a close with strengths, gaps and three improvements with action and quote.",
         "prompt": "Simulate an [INTERVIEW | QBR | DEFENSE] on [TOPIC]; my Notebook is the only source of quotes. Ask me first audience, outcome and time: less time, fewer questions, never a softer grade. Without a piece or decision already made, stop; this tests what exists, it does not draft. One question per turn: evidence, alternatives, risks, limits; move clarification, counter-evidence, consequence only if my previous answer quoted the base; otherwise repeat. Grade quoting my words. End with strengths, gaps and three improvements on [TOPIC] with action and quote. Do not invent objections or quotes.",
         "level_spec": {
           "role": "Workshop interviewer who tests what already exists, without rewriting it",
@@ -265,10 +265,10 @@
           ],
           "output": [
             "Opening with audience, outcome and time fixed",
-            "One question per turn with its grade quoting the user words",
-            "Close with strengths, gaps and three improvements with action, alternatives and quote"
+            "One question per turn on evidence, alternatives, risks and limits, with its grade quoting the user words",
+            "Close with strengths, gaps and three improvements with action and quote"
           ],
-          "dod": "Reviewable rehearsal: opening with audience, outcome and time, every grade quoting the answer, and three improvements with action and a quote from the base.",
+          "dod": "Checkable rehearsal: opening with audience, outcome and time, every grade quoting the answer, and three improvements with action and a quote from the base.",
           "edge_cases": [
             "Nothing to defend: it stops and routes to producing the piece in W06",
             "Declared time is short: fewer questions, same grading demand",
@@ -322,7 +322,7 @@
         "purpose": "Simulates the interview, QBR or defence before leadership of a decision the team already documented, with governance and cost objections that rise only on a quoted answer.",
         "when": "the process requires defending a documented decision before leadership and there is an accountable owner.",
         "example": "An area QBR with hostile questions about the pilot and its controls.",
-        "evidence": "an opening with audience, outcome and time, a quoted grade per answer, each objection traced to an operational risk and a close with strengths, gaps and three improvements with action, alternatives and quote, ready for review.",
+        "evidence": "an opening with audience, outcome and time, one question per turn on evidence, alternatives, risks and limits, a quoted grade per answer, each objection traced to an operational risk and a close with strengths, gaps and three improvements with action and quote, ready for review.",
         "prompt": "Simulate [INTERVIEW | QBR | DEFENSE] before leadership on [TOPIC] in [PROCESS]; the team Notebook is the base. Ask first audience, outcome and time: less time, fewer questions, no softer grade. No documented piece or decision: stop; this tests, it does not draft. One question per turn: evidence, alternatives, risks, limits; move clarification, counter-evidence, consequence only if the previous answer quoted. Each objection names an operational risk of [PROCESS]. End with strengths, gaps, three improvements with action and quote, ready for review. Do not invent objections or quotes.",
         "level_spec": {
           "role": "Workshop interviewer for the team who tests a documented decision, without rewriting it",
@@ -365,8 +365,8 @@
           ],
           "output": [
             "Opening with audience, outcome and time fixed",
-            "One question per turn, with the objection traced to an operational risk and its quoted grade",
-            "Close with strengths, gaps and three improvements with action, alternatives and quote, ready for review"
+            "One question per turn on evidence, alternatives, risks and limits, with the objection traced to an operational risk and its quoted grade",
+            "Close with strengths, gaps and three improvements with action and quote, ready for review"
           ],
           "dod": "Reviewable rehearsal: opening with audience, outcome and time, every objection traced to an operational risk, a quoted grade and three improvements with action and quote.",
           "edge_cases": [
@@ -424,7 +424,7 @@
         "purpose": "Simula a entrevista, QBR ou defesa que vem aí e sobe a pressão só quando sua resposta anterior cita a base da oficina e responde à objeção.",
         "when": "você deve defender em breve algo que já escreveu ou decidiu na oficina.",
         "example": "QBR com perguntas hostis sobre meu piloto e seus controles.",
-        "evidence": "abertura com público, resultado e tempo, uma avaliação por resposta citando minha frase, e fechamento com forças, lacunas e três melhorias com ação, alternativas e citação.",
+        "evidence": "abertura com público, resultado e tempo, uma pergunta por turno sobre evidência, alternativas, riscos e limites, uma avaliação por resposta citando minha frase, e fechamento com forças, lacunas e três melhorias com ação e citação.",
         "prompt": "Simule uma [ENTREVISTA | QBR | DEFESA] sobre [TEMA]; meu Notebook é a única base de citações. Pergunte antes público, resultado e tempo: pouco tempo, menos perguntas, nunca avaliação frouxa. Sem peça ou decisão feita, pare: testa-se o que existe, não se redige. Uma pergunta por vez sobre evidência, alternativas, riscos e limites; suba de esclarecimento a dado contrário e a consequência só se a anterior citou a base; senão, repita. Avalie citando minha frase. Feche com forças, lacunas e três melhorias de [TEMA] com ação e citação. Não invente objeções sem risco real nem citações.",
         "level_spec": {
           "role": "Entrevistador de oficina que testa o que já existe, sem reescrever",
@@ -467,10 +467,10 @@
           ],
           "output": [
             "Abertura com público, resultado e tempo fixados",
-            "Uma pergunta por turno com sua avaliação citando a frase do usuário",
-            "Fechamento com forças, lacunas e três melhorias com ação, alternativas e citação"
+            "Uma pergunta por turno sobre evidência, alternativas, riscos e limites, com sua avaliação citando a frase do usuário",
+            "Fechamento com forças, lacunas e três melhorias com ação e citação"
           ],
-          "dod": "Ensaio revisável: abertura com público, resultado e tempo, cada avaliação citando a frase avaliada, e três melhorias com ação e citação da base.",
+          "dod": "Ensaio verificável: abertura com público, resultado e tempo, cada avaliação citando a frase avaliada, e três melhorias com ação e citação da base.",
           "edge_cases": [
             "Sem material a defender: para e encaminha a produzir a peça em W06",
             "Tempo declarado curto: menos perguntas, mesma exigência de avaliação",
@@ -524,7 +524,7 @@
         "purpose": "Simula a entrevista, QBR ou defesa perante a diretoria de uma decisão já documentada da equipe, com objeções de governança e custo que sobem só com resposta citada.",
         "when": "o processo exige defender perante a diretoria uma decisão documentada e há um responsável.",
         "example": "QBR da área com perguntas hostis sobre o piloto e seus controles.",
-        "evidence": "abertura com público, resultado e tempo, avaliação citada por resposta, objeção ligada a um risco operacional e fechamento com forças, lacunas e três melhorias com ação, alternativas e citação, pronto para revisão.",
+        "evidence": "abertura com público, resultado e tempo, uma pergunta por turno sobre evidência, alternativas, riscos e limites, avaliação citada por resposta, objeção ligada a um risco operacional e fechamento com forças, lacunas e três melhorias com ação e citação, pronto para revisão.",
         "prompt": "Simule [ENTREVISTA | QBR | DEFESA] perante a diretoria sobre [TEMA] em [PROCESSO]; o Notebook da equipe é a base. Pergunte antes público, resultado e tempo: pouco tempo, menos perguntas, não avaliação frouxa. Sem peça ou decisão documentada, pare: testa-se, não se redige. Uma pergunta por vez: evidência, alternativas, riscos e limites; suba esclarecimento, dado contrário, consequência só se a anterior citou a base. Cada objeção nomeia um risco operacional de [PROCESSO]. Feche com forças, lacunas e três melhorias com ação e citação, pronto para revisão. Não invente objeções nem citações.",
         "level_spec": {
           "role": "Entrevistador de oficina da equipe que testa uma decisão documentada, sem reescrever",
@@ -567,8 +567,8 @@
           ],
           "output": [
             "Abertura com público, resultado e tempo fixados",
-            "Uma pergunta por turno, com a objeção ligada a um risco operacional e sua avaliação citada",
-            "Fechamento com forças, lacunas e três melhorias com ação, alternativas e citação, pronto para revisão"
+            "Uma pergunta por turno sobre evidência, alternativas, riscos e limites, com a objeção ligada a um risco operacional e sua avaliação citada",
+            "Fechamento com forças, lacunas e três melhorias com ação e citação, pronto para revisão"
           ],
           "dod": "Ensaio revisável: abertura com público, resultado e tempo, cada objeção ligada a um risco operacional, avaliação citada e três melhorias com ação e citação.",
           "edge_cases": [
@@ -622,5 +622,5 @@
     }
   },
   "self_hash_model": "sha256(sorted-json-without-self_sha256)",
-  "self_sha256": "74b0de70e3d133fb6678d8b02322a35e389aef14992a6285bae472f9a7a5d8a9"
+  "self_sha256": "5484a7d663d4176790faaf2fe51e888b32ca36a02a99ef75a8852f3fc0b9dd76"
 }
