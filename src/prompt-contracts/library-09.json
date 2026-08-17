@@ -1,0 +1,618 @@
+{
+  "schema_version": "prompt-intent-contract-v1",
+  "intent_id": "09",
+  "surface": "library",
+  "phase": "(R)Evolucionar",
+  "state": "RENDERED_DRAFT",
+  "publication_authorized": false,
+  "boundary": {
+    "distinct_from": [
+      "10",
+      "M3",
+      "M4",
+      "W09"
+    ],
+    "decision_rule": "Usa 09 cuando el contenido a defender ya existe y necesitas presión adversarial creciente que lo pruebe con objeciones calibradas contra tu respuesta anterior; si el entregable aún no existe y necesitas construir narrativa, seleccionar evidencia y ensayar por partes, usa el preparador 10 (o M4). El simulador no redacta ni reestructura el entregable; M3 genera un entrevistador y W09 es su activación de taller."
+  },
+  "locales": {
+    "es": {
+      "persona": {
+        "title": "Simulador de entrevista",
+        "purpose": "Somete un argumento que ya existe a objeciones que suben de nivel solo cuando tu respuesta anterior cita la base y responde la objeción.",
+        "when": "debes defender ante preguntas difíciles algo que ya escribiste o decidiste.",
+        "example": "Defender mi piloto de IA y sus controles ante una entrevista técnica exigente.",
+        "evidence": "objeción por turno trazada a un riesgo real, evaluación por criterio con el fragmento citado de mi respuesta, y tres respuestas reescritas con citas de la base.",
+        "prompt": "Simula una entrevista o defensa sobre [TEMA]; [FUENTES] es la única base de citas. Pídeme primero mi tesis y mis tres afirmaciones; si no existen, detente: eso es 10. Una pregunta por turno, en tres niveles: aclaración, dato en contra, consecuencia con alternativa. Sube un nivel solo si mi respuesta anterior citó [FUENTES] y respondió la objeción; si no, repítelo; dos fallos bajan uno. Cada objeción nombra un riesgo real de [TEMA]: costo, límite o alternativa. Evalúa claridad, fundamento, criterio y honestidad con el fragmento citado: declarar el límite sin respaldo puntúa acierto; afirmarlo sin respaldo, fallo. Cierra con vacíos críticos y tres respuestas reescritas con citas. No redactes mi entregable: eso es 10. No inventes citas.",
+        "level_spec": {
+          "role": "Entrevistador adversarial que calibra la presión contra la respuesta anterior",
+          "spec_role": "Especialista en aprendizaje e investigación basada en evidencia",
+          "objective": "Probar bajo presión creciente un argumento que ya existe, sin reescribir el entregable",
+          "parameters": [
+            [
+              "prerrequisito",
+              "tesis y tres afirmaciones ya existentes; si faltan, se detiene y deriva al preparador 10"
+            ],
+            [
+              "niveles",
+              "aclaración, dato en contra, consecuencia con alternativa"
+            ],
+            [
+              "calibración",
+              "sube un nivel solo si la respuesta anterior citó la base y respondió la objeción; dos fallos bajan un nivel"
+            ],
+            [
+              "honestidad",
+              "declarar el límite sin respaldo puntúa como acierto; afirmar sin respaldo puntúa como fallo"
+            ],
+            [
+              "citas",
+              "toda cita sale de la base declarada"
+            ]
+          ],
+          "workflow": [
+            "Verificar que el contenido a defender ya existe antes de la primera pregunta",
+            "Fijar los tres niveles de dificultad y la regla de subida y bajada",
+            "Preguntar de a una, trazando la objeción a un riesgo real del tema",
+            "Evaluar por criterio citando el fragmento de la respuesta que lo justifica",
+            "Cerrar con vacíos críticos y tres respuestas reescritas con citas de la base"
+          ],
+          "guardrails": [
+            "No inventar citas, datos ni objeciones sin riesgo real detrás",
+            "No redactar ni reestructurar el entregable ni construir narrativa: eso es el preparador 10",
+            "Contenido inexistente: detenerse y derivar al preparador 10 en vez de fabricarlo"
+          ],
+          "output": [
+            "Objeción por turno con su nivel y el riesgo que la origina",
+            "Evaluación por criterio con el fragmento citado que la justifica",
+            "Tres respuestas reescritas con citas de la base declarada"
+          ],
+          "dod": "Sesión reproducible: cada subida o bajada de nivel queda justificada por la respuesta anterior y cada reescritura cita la base, verificable por un tercero.",
+          "edge_cases": [
+            "Colapso en la primera pregunta: bajar un nivel de dificultad",
+            "Pregunta cuya respuesta honesta es no sé: la declaración de límite puntúa como acierto",
+            "Sin base de citas disponible: declarar coverage_gap y no simular la defensa"
+          ]
+        },
+        "why_it_works": {
+          "acceptance_criteria": [
+            "Cada objeción nombra un riesgo concreto del tema y su nivel sube solo si la respuesta anterior citó la base y respondió la objeción",
+            "Honesta está definida en la misma sesión: declarar el límite o la incertidumbre sin respaldo puntúa acierto y afirmar sin respaldo puntúa fallo; no es un adjetivo",
+            "Las tres respuestas reescritas citan la base declarada y un tercero puede verificar cada cita contra ella"
+          ],
+          "edge_cases": [
+            "Colapso en la primera pregunta: la dificultad baja un nivel antes de seguir",
+            "Respuesta honesta es no sé: se puntúa la declaración de límite como acierto, no como fallo"
+          ],
+          "tradeoffs": [
+            "El texto congelado incluía objeciones adversariales sin base de citas: se añade [FUENTES] como base obligatoria y sin ella la simulación no arranca",
+            "Se pierden las variables [AUDIENCIA] y [RESULTADO] del texto congelado: el nivel de dificultad calibrado sustituye al perfil de audiencia",
+            "El registro explícito del descenso de dificultad sale del prompt por presupuesto 2× y queda como criterio de la sesión",
+            "Presión creciente a cambio de una sesión incómoda pero diagnóstica"
+          ],
+          "assumptions": [
+            "El contenido a defender ya existe; si no, la simulación se detiene y deriva a 10"
+          ],
+          "limits": [
+            "Prueba el argumento; no redacta, no reestructura ni construye narrativa: eso corresponde al preparador (10)",
+            "Mide la defensa, no la verdad del contenido: superar la presión no valida la tesis"
+          ]
+        },
+        "traceability": [
+          {
+            "claim": "La intención 09 —ensayar una conversación exigente y fortalecer argumentos— y su evidencia esperada provienen de la biblioteca publicada del método.",
+            "source": "https://javimontano.github.io/prompt-amplificado/biblioteca-prompts.html"
+          },
+          {
+            "claim": "Preguntar de a una y cerrar con respuestas reescritas y citadas sigue la guía pública de creación de prompts.",
+            "source": "https://javimontano.github.io/prompt-amplificado/crear-prompts.html"
+          },
+          {
+            "claim": "Calibrar la dificultad contra la respuesta anterior y operativizar la honestidad como declaración de límite son normas internas del método.",
+            "source": "method_internal"
+          }
+        ]
+      },
+      "empresa": {
+        "title": "Simulador de defensa ante dirección",
+        "purpose": "Somete una decisión ya tomada del equipo a objeciones de gobernanza, costo y riesgo que suben de nivel solo cuando la respuesta anterior cita la base.",
+        "when": "el equipo debe defender ante dirección una decisión que ya está tomada y documentada.",
+        "example": "Defender ante dirección el piloto de IA del área y sus controles de riesgo.",
+        "evidence": "objeción por turno trazada a un riesgo operativo del proceso, evaluación por criterio con el fragmento citado, y tres respuestas reescritas listas para revisión.",
+        "prompt": "Simula una entrevista de defensa ante dirección sobre [TEMA] en [PROCESO]; [FUENTES] es la única base de citas. Pide primero la tesis y las tres afirmaciones documentadas; si faltan, detente: es 10. Una pregunta por turno, en tres niveles: aclaración, dato en contra, consecuencia con alternativa. Sube un nivel solo si la respuesta anterior citó [FUENTES] y respondió; si no, repítelo; dos fallos bajan uno. Cada objeción nombra un riesgo operativo de [PROCESO]: gobernanza, costo o alternativa. Evalúa claridad, fundamento, criterio y honestidad con el fragmento citado: declarar el límite sin respaldo puntúa acierto. Cierra con vacíos críticos y tres respuestas reescritas con citas de [TEMA]. No redactes el entregable: eso es 10. No inventes citas.",
+        "level_spec": {
+          "role": "Entrevistador adversarial de gobernanza que calibra la presión contra la respuesta anterior",
+          "spec_role": "Especialista en aprendizaje e investigación basada en evidencia",
+          "objective": "Probar bajo presión una decisión documentada antes de exponerla a dirección",
+          "parameters": [
+            [
+              "prerrequisito",
+              "tesis y tres afirmaciones ya documentadas; si faltan, se detiene y deriva al preparador 10"
+            ],
+            [
+              "niveles",
+              "aclaración, dato en contra, consecuencia con alternativa"
+            ],
+            [
+              "calibración",
+              "sube un nivel solo si la respuesta anterior citó la base y respondió la objeción; dos fallos bajan un nivel"
+            ],
+            [
+              "riesgo",
+              "gobernanza, costo y alternativa descartada del proceso afectado"
+            ],
+            [
+              "revisión",
+              "tres respuestas reescritas listas para revisión del responsable"
+            ]
+          ],
+          "workflow": [
+            "Verificar que la decisión ya está documentada antes de la primera pregunta",
+            "Fijar los tres niveles y la regla de subida y bajada",
+            "Preguntar de a una, trazando la objeción a un riesgo operativo del proceso",
+            "Evaluar por criterio citando el fragmento de la respuesta que lo justifica",
+            "Cerrar con vacíos críticos y respuestas reescritas listas para revisión"
+          ],
+          "guardrails": [
+            "No inventar citas, cifras ni objeciones sin riesgo operativo real detrás",
+            "No redactar ni reestructurar el entregable del equipo: eso es el preparador 10",
+            "Decisión no documentada: detenerse y derivar al preparador 10",
+            "No sustituir el juicio de dirección: la simulación prueba, no aprueba"
+          ],
+          "output": [
+            "Objeción por turno con su nivel y el riesgo operativo que la origina",
+            "Evaluación por criterio con el fragmento citado que la justifica",
+            "Tres respuestas reescritas con citas, listas para revisión"
+          ],
+          "dod": "Ensayo revisable: cada cambio de nivel queda justificado por la respuesta anterior, cada objeción se ata a un riesgo del proceso y cada reescritura cita la base.",
+          "edge_cases": [
+            "Colapso en la primera pregunta: bajar un nivel de dificultad",
+            "Respuesta honesta es no sé: la declaración de límite puntúa como acierto",
+            "Sin base con derechos de uso interno: declarar coverage_gap y no simular"
+          ]
+        },
+        "why_it_works": {
+          "acceptance_criteria": [
+            "Cada objeción nombra un riesgo operativo concreto del proceso y su nivel sube solo si la respuesta anterior citó la base y respondió la objeción",
+            "Honesta está definida en la sesión: declarar el límite sin respaldo puntúa acierto, de modo que decir no sé con fundamento no penaliza",
+            "Las tres respuestas reescritas citan la base y un revisor distinto de quien defiende puede verificar cada cita"
+          ],
+          "edge_cases": [
+            "Colapso en la primera pregunta: la dificultad baja un nivel antes de seguir",
+            "Decisión aún no documentada: la simulación se detiene y deriva al preparador 10"
+          ],
+          "tradeoffs": [
+            "El texto congelado no declaraba base de citas: se añade [FUENTES] como base obligatoria con derechos de uso interno",
+            "Se pierden las variables [AUDIENCIA] y [RESULTADO] del texto congelado: dirección y el proceso afectado fijan ahora el marco de la defensa",
+            "El registro explícito del descenso de dificultad y el sello listo para revisión salen del prompt por presupuesto 2× y quedan en la evidencia esperada",
+            "La presión de gobernanza alarga el ensayo a cambio de exponer vacíos antes de la reunión real"
+          ],
+          "assumptions": [
+            "La decisión ya está tomada y documentada y existe un responsable que revisa el resultado"
+          ],
+          "limits": [
+            "Prueba la defensa; no redacta ni reestructura el entregable: eso corresponde al preparador (10)",
+            "Informa a quien defiende; no aprueba la decisión ni sustituye el juicio de dirección"
+          ]
+        },
+        "traceability": [
+          {
+            "claim": "La intención 09 —ensayo de conversación exigente con objeciones y respuestas mejoradas— y su evidencia esperada provienen de la biblioteca publicada del método.",
+            "source": "https://javimontano.github.io/prompt-amplificado/biblioteca-prompts.html"
+          },
+          {
+            "claim": "Preguntar de a una y cerrar con tres respuestas reescritas y citadas sigue la guía pública de creación de prompts.",
+            "source": "https://javimontano.github.io/prompt-amplificado/crear-prompts.html"
+          },
+          {
+            "claim": "Calibrar la dificultad contra la respuesta anterior y puntuar la declaración de límite como acierto son normas internas del método.",
+            "source": "method_internal"
+          },
+          {
+            "claim": "Exigir decisión documentada antes de simular y dejar las reescrituras listas para revisión del responsable es política interna para defensas ante dirección.",
+            "source": "method_internal"
+          }
+        ]
+      }
+    },
+    "en": {
+      "persona": {
+        "title": "Interview simulator",
+        "purpose": "Put an argument that already exists under objections whose difficulty rises only when your previous answer cited the base and answered the objection.",
+        "when": "you must defend something you already wrote or decided under hard questions.",
+        "example": "Defend my AI pilot and its controls in a demanding technical interview.",
+        "evidence": "one objection per turn traced to a real risk, per-criterion scoring with the quoted fragment of my answer, and three rewritten answers cited from the base.",
+        "prompt": "Simulate an interview or defence on [TOPIC]; [SOURCES] is the only quote base. First ask for my thesis and three claims; if missing, stop: that is 10. One question per turn: clarification, counter-fact, consequence with alternative. Raise a level only if my previous answer quoted [SOURCES] and answered the objection; otherwise repeat; two failures drop a level. Every objection names a real [TOPIC] risk: cost, limit or alternative. Score clarity, grounding, judgment and honesty with the quoted fragment: declaring a limit without backing is a hit; claiming without it, a miss. Close with critical gaps and three rewritten cited answers. Never draft my deliverable: that is 10. Do not invent quotes.",
+        "level_spec": {
+          "role": "Adversarial interviewer who calibrates pressure against the previous answer",
+          "spec_role": "Specialist in evidence-grounded learning and research",
+          "objective": "Test an already existing argument under rising pressure without rewriting the deliverable",
+          "parameters": [
+            [
+              "prerequisite",
+              "thesis and three claims already exist; if missing, stop and route to preparer 10"
+            ],
+            [
+              "levels",
+              "clarification, counter-fact, consequence with alternative"
+            ],
+            [
+              "calibration",
+              "raise one level only if the previous answer quoted the base and answered the objection; two failures drop one level"
+            ],
+            [
+              "honesty",
+              "declaring the limit without backing scores a hit; claiming without backing scores a miss"
+            ],
+            [
+              "quotes",
+              "every quote comes from the declared base"
+            ]
+          ],
+          "workflow": [
+            "Verify the content to defend already exists before the first question",
+            "Fix the three difficulty levels and the raise and drop rule",
+            "Ask one at a time, tracing the objection to a real risk of the topic",
+            "Score per criterion quoting the fragment of the answer that justifies it",
+            "Close with critical gaps and three rewritten answers cited from the base"
+          ],
+          "guardrails": [
+            "Never invent quotes, data or objections without a real risk behind them",
+            "Never draft or restructure the deliverable or build narrative: that is preparer 10",
+            "Content that does not exist: stop and route to preparer 10 instead of fabricating it"
+          ],
+          "output": [
+            "One objection per turn with its level and the risk behind it",
+            "Per-criterion scoring with the quoted fragment that justifies it",
+            "Three rewritten answers cited from the declared base"
+          ],
+          "dod": "Reproducible session: every level change is justified by the previous answer and every rewrite quotes the base, verifiable by a third party.",
+          "edge_cases": [
+            "Collapse on the first question: lower the difficulty one level",
+            "Question whose honest answer is I do not know: the limit declaration scores as a hit",
+            "No quotable base available: declare coverage_gap and do not simulate the defence"
+          ]
+        },
+        "why_it_works": {
+          "acceptance_criteria": [
+            "Every objection names a concrete risk of the topic and its difficulty rises only if the previous answer quoted the base and answered the objection",
+            "Honest is defined inside the session: declaring the limit without backing scores a hit and claiming without backing scores a miss; it is not an adjective",
+            "The three rewritten answers quote the declared base and a third party can check each quote against it"
+          ],
+          "edge_cases": [
+            "Collapse on the first question: difficulty drops one level before continuing",
+            "Honest answer is I do not know: the limit declaration scores as a hit, not a miss"
+          ],
+          "tradeoffs": [
+            "The frozen text ran adversarial objections with no quotable base: [SOURCES] is added as a mandatory base and the simulation does not start without it",
+            "The frozen variables [AUDIENCE] and [OUTCOME] are lost: the calibrated difficulty level replaces the audience profile",
+            "The explicit log of the difficulty drop leaves the prompt under the 2x budget and remains a session criterion",
+            "Rising pressure in exchange for an uncomfortable but diagnostic session"
+          ],
+          "assumptions": [
+            "The content to defend already exists; otherwise the simulation stops and routes to 10"
+          ],
+          "limits": [
+            "It tests the argument; it neither drafts, restructures nor builds narrative: that belongs to the preparer (10)",
+            "It measures the defence, not the truth of the content: surviving pressure does not validate the thesis"
+          ]
+        },
+        "traceability": [
+          {
+            "claim": "Intent 09 — rehearsing a demanding conversation and strengthening arguments — and its expected output come from the published prompt library.",
+            "source": "https://javimontano.github.io/prompt-amplificado/biblioteca-prompts.html"
+          },
+          {
+            "claim": "Asking one question at a time and closing with rewritten cited answers follows the public prompt-creation guide.",
+            "source": "https://javimontano.github.io/prompt-amplificado/crear-prompts.html"
+          },
+          {
+            "claim": "Calibrating difficulty against the previous answer and operationalizing honesty as a limit declaration are internal method policy.",
+            "source": "method_internal"
+          }
+        ]
+      },
+      "empresa": {
+        "title": "Leadership defence simulator",
+        "purpose": "Put a decision the team already made under governance, cost and risk objections whose difficulty rises only when the previous answer cited the base.",
+        "when": "the team must defend before leadership a decision that is already made and documented.",
+        "example": "Defend the area AI pilot and its risk controls before leadership.",
+        "evidence": "one objection per turn traced to an operational risk of the process, per-criterion scoring with the quoted fragment, and three rewritten answers ready for review.",
+        "prompt": "Simulate a leadership defence on [TOPIC] in [PROCESS]; [SOURCES] is the only quote base. First ask for the thesis and three documented claims; if missing, stop: that is 10. One question per turn: clarification, counter-fact, consequence with alternative. Raise a level only if the previous answer quoted [SOURCES] and answered; else repeat; two failures drop a level. Every objection names an operational risk of [PROCESS]: governance, cost or alternative. Score clarity, grounding, judgment and honesty with the quoted fragment: declaring a limit without backing is a hit. Close with critical gaps and three rewritten cited [TOPIC] answers. Never draft the deliverable: that is 10. Do not invent quotes.",
+        "level_spec": {
+          "role": "Adversarial governance interviewer who calibrates pressure against the previous answer",
+          "spec_role": "Specialist in evidence-grounded learning and research",
+          "objective": "Test a documented decision under pressure before it reaches leadership",
+          "parameters": [
+            [
+              "prerequisite",
+              "thesis and three documented claims; if missing, stop and route to preparer 10"
+            ],
+            [
+              "levels",
+              "clarification, counter-fact, consequence with alternative"
+            ],
+            [
+              "calibration",
+              "raise one level only if the previous answer quoted the base and answered the objection; two failures drop one level"
+            ],
+            [
+              "risk",
+              "governance, cost and discarded alternative of the affected process"
+            ],
+            [
+              "review",
+              "three rewritten answers ready for review by the accountable owner"
+            ]
+          ],
+          "workflow": [
+            "Verify the decision is already documented before the first question",
+            "Fix the three levels and the raise and drop rule",
+            "Ask one at a time, tracing the objection to an operational risk of the process",
+            "Score per criterion quoting the fragment of the answer that justifies it",
+            "Close with critical gaps and rewritten answers ready for review"
+          ],
+          "guardrails": [
+            "Never invent quotes, figures or objections without a real operational risk behind them",
+            "Never draft or restructure the team deliverable: that is preparer 10",
+            "Undocumented decision: stop and route to preparer 10",
+            "Never replace leadership judgment: the simulation tests, it does not approve"
+          ],
+          "output": [
+            "One objection per turn with its level and the operational risk behind it",
+            "Per-criterion scoring with the quoted fragment that justifies it",
+            "Three rewritten cited answers ready for review"
+          ],
+          "dod": "Reviewable rehearsal: every level change is justified by the previous answer, every objection ties to a process risk and every rewrite quotes the base.",
+          "edge_cases": [
+            "Collapse on the first question: lower the difficulty one level",
+            "Honest answer is I do not know: the limit declaration scores as a hit",
+            "No base with internal usage rights: declare coverage_gap and do not simulate"
+          ]
+        },
+        "why_it_works": {
+          "acceptance_criteria": [
+            "Every objection names a concrete operational risk of the process and its difficulty rises only if the previous answer quoted the base and answered the objection",
+            "Honest is defined inside the session: declaring the limit without backing scores a hit, so an evidenced I do not know is not penalized",
+            "The three rewritten answers quote the base and a reviewer other than the defender can check each quote"
+          ],
+          "edge_cases": [
+            "Collapse on the first question: difficulty drops one level before continuing",
+            "Decision not documented yet: the simulation stops and routes to preparer 10"
+          ],
+          "tradeoffs": [
+            "The frozen text declared no quotable base: [SOURCES] is added as a mandatory base with internal usage rights",
+            "The frozen variables [AUDIENCE] and [OUTCOME] are lost: leadership and the affected process now frame the defence",
+            "The explicit difficulty-drop log and the ready-for-review stamp leave the prompt under the 2x budget and stay in the expected output",
+            "Governance pressure lengthens the rehearsal in exchange for exposing gaps before the real meeting"
+          ],
+          "assumptions": [
+            "The decision is already made and documented and an accountable owner reviews the result"
+          ],
+          "limits": [
+            "It tests the defence; it neither drafts nor restructures the deliverable: that belongs to the preparer (10)",
+            "It informs the defender; it does not approve the decision nor replace leadership judgment"
+          ]
+        },
+        "traceability": [
+          {
+            "claim": "Intent 09 — a demanding rehearsal with objections and improved answers — and its expected output come from the published prompt library.",
+            "source": "https://javimontano.github.io/prompt-amplificado/biblioteca-prompts.html"
+          },
+          {
+            "claim": "Asking one question at a time and closing with three rewritten cited answers follows the public prompt-creation guide.",
+            "source": "https://javimontano.github.io/prompt-amplificado/crear-prompts.html"
+          },
+          {
+            "claim": "Calibrating difficulty against the previous answer and scoring a limit declaration as a hit are internal method policy.",
+            "source": "method_internal"
+          },
+          {
+            "claim": "Requiring a documented decision before simulating and leaving rewrites ready for owner review is internal policy for leadership defences.",
+            "source": "method_internal"
+          }
+        ]
+      }
+    },
+    "pt": {
+      "persona": {
+        "title": "Simulador de entrevista",
+        "purpose": "Submeta um argumento que já existe a objeções cuja dificuldade sobe só quando sua resposta anterior cita a base e responde a objeção.",
+        "when": "você deve defender sob perguntas difíceis algo que já escreveu ou decidiu.",
+        "example": "Defender meu piloto de IA e seus controles em uma entrevista técnica exigente.",
+        "evidence": "objeção por rodada ligada a um risco real, avaliação por critério com o trecho citado da minha resposta, e três respostas reescritas com citações da base.",
+        "prompt": "Simule uma entrevista ou defesa sobre [TEMA]; [FONTES] é a única base de citações. Peça primeiro minha tese e minhas três afirmações; se não existem, pare: isso é 10. Uma pergunta por rodada: esclarecimento, dado contrário, depois consequência com alternativa. Suba um nível só se minha resposta anterior citou [FONTES] e respondeu a objeção; se não, repita; duas falhas descem um nível. Cada objeção nomeia um risco real de [TEMA]: custo, limite ou alternativa. Avalie clareza, fundamento, critério e honestidade com o trecho citado: declarar o limite sem respaldo pontua acerto; afirmá-lo sem respaldo, falha. Feche com lacunas críticas e três respostas reescritas com citações. Não redija meu entregável: isso é 10. Não invente citações.",
+        "level_spec": {
+          "role": "Entrevistador adversarial que calibra a pressão contra a resposta anterior",
+          "spec_role": "Especialista em aprendizagem e pesquisa baseada em evidências",
+          "objective": "Testar sob pressão crescente um argumento que já existe, sem reescrever o entregável",
+          "parameters": [
+            [
+              "prerrequisito",
+              "tese e três afirmações já existentes; se faltarem, parar e encaminhar ao preparador 10"
+            ],
+            [
+              "niveis",
+              "esclarecimento, dado contrário, consequência com alternativa"
+            ],
+            [
+              "calibracao",
+              "sobe um nível só se a resposta anterior citou a base e respondeu a objeção; duas falhas descem um nível"
+            ],
+            [
+              "honestidade",
+              "declarar o limite sem respaldo pontua como acerto; afirmar sem respaldo pontua como falha"
+            ],
+            [
+              "citacoes",
+              "toda citação sai da base declarada"
+            ]
+          ],
+          "workflow": [
+            "Verificar que o conteúdo a defender já existe antes da primeira pergunta",
+            "Fixar os três níveis de dificuldade e a regra de subida e descida",
+            "Perguntar uma por vez, ligando a objeção a um risco real do tema",
+            "Avaliar por critério citando o trecho da resposta que o justifica",
+            "Fechar com lacunas críticas e três respostas reescritas com citações da base"
+          ],
+          "guardrails": [
+            "Nunca invente citações, dados nem objeções sem risco real por trás",
+            "Nunca redigir ou reestruturar o entregável nem construir narrativa: isso é o preparador 10",
+            "Conteúdo inexistente: parar e encaminhar ao preparador 10 em vez de fabricá-lo"
+          ],
+          "output": [
+            "Objeção por rodada com seu nível e o risco que a origina",
+            "Avaliação por critério com o trecho citado que a justifica",
+            "Três respostas reescritas com citações da base declarada"
+          ],
+          "dod": "Sessão reproduzível: cada subida ou descida de nível fica justificada pela resposta anterior e cada reescrita cita a base, verificável por terceiro.",
+          "edge_cases": [
+            "Colapso na primeira pergunta: baixar um nível de dificuldade",
+            "Pergunta cuja resposta honesta é não sei: a declaração de limite pontua como acerto",
+            "Sem base de citações disponível: declarar coverage_gap e não simular a defesa"
+          ]
+        },
+        "why_it_works": {
+          "acceptance_criteria": [
+            "Cada objeção nomeia um risco concreto do tema e seu nível sobe só se a resposta anterior citou a base e respondeu a objeção",
+            "Honesta está definida na própria sessão: declarar o limite sem respaldo pontua acerto e afirmar sem respaldo pontua falha; não é um adjetivo",
+            "As três respostas reescritas citam a base declarada e um terceiro consegue verificar cada citação contra ela"
+          ],
+          "edge_cases": [
+            "Colapso na primeira pergunta: a dificuldade desce um nível antes de seguir",
+            "Resposta honesta é não sei: pontua-se a declaração de limite como acerto, não como falha"
+          ],
+          "tradeoffs": [
+            "O texto congelado trazia objeções adversariais sem base de citações: acrescenta-se [FONTES] como base obrigatória e sem ela a simulação não começa",
+            "Perdem-se as variáveis [PÚBLICO] e [RESULTADO] do texto congelado: o nível de dificuldade calibrado substitui o perfil de público",
+            "O registro explícito da descida de dificuldade sai do prompt pelo orçamento 2× e fica como critério da sessão",
+            "Pressão crescente em troca de uma sessão incômoda mas diagnóstica"
+          ],
+          "assumptions": [
+            "O conteúdo a defender já existe; se não, a simulação para e encaminha ao 10"
+          ],
+          "limits": [
+            "Testa o argumento; não redige, não reestrutura nem constrói narrativa: isso pertence ao preparador (10)",
+            "Mede a defesa, não a verdade do conteúdo: suportar a pressão não valida a tese"
+          ]
+        },
+        "traceability": [
+          {
+            "claim": "A intenção 09 — ensaiar uma conversa exigente e fortalecer argumentos — e sua evidência esperada vêm da biblioteca publicada do método.",
+            "source": "https://javimontano.github.io/prompt-amplificado/biblioteca-prompts.html"
+          },
+          {
+            "claim": "Perguntar uma por vez e fechar com respostas reescritas e citadas segue o guia público de criação de prompts.",
+            "source": "https://javimontano.github.io/prompt-amplificado/crear-prompts.html"
+          },
+          {
+            "claim": "Calibrar a dificuldade contra a resposta anterior e operacionalizar a honestidade como declaração de limite são normas internas do método.",
+            "source": "method_internal"
+          }
+        ]
+      },
+      "empresa": {
+        "title": "Simulador de defesa diante da diretoria",
+        "purpose": "Submeta uma decisão já tomada da equipe a objeções de governança, custo e risco cuja dificuldade sobe só quando a resposta anterior cita a base.",
+        "when": "a equipe deve defender diante da diretoria uma decisão que já está tomada e documentada.",
+        "example": "Defender diante da diretoria o piloto de IA da área e seus controles de risco.",
+        "evidence": "objeção por rodada ligada a um risco operacional do processo, avaliação por critério com o trecho citado, e três respostas reescritas prontas para revisão.",
+        "prompt": "Simule uma entrevista de defesa diante da diretoria sobre [TEMA] em [PROCESSO]; [FONTES] é a única base de citações. Peça a tese e as três afirmações documentadas; se faltarem, pare: é 10. Uma pergunta por rodada: esclarecimento, dado contrário, depois consequência com alternativa. Suba um nível só se a resposta anterior citou [FONTES] e respondeu a objeção; se não, repita; duas falhas descem um nível. Cada objeção nomeia um risco operacional de [PROCESSO]: governança, custo ou alternativa. Avalie clareza, fundamento, critério e honestidade com o trecho citado: declarar o limite sem respaldo pontua acerto. Feche com lacunas críticas e três respostas reescritas de [TEMA], citadas. Não redija o entregável: isso é 10. Não invente citações.",
+        "level_spec": {
+          "role": "Entrevistador adversarial de governança que calibra a pressão contra a resposta anterior",
+          "spec_role": "Especialista em aprendizagem e pesquisa baseada em evidências",
+          "objective": "Testar sob pressão uma decisão documentada antes de expô-la à diretoria",
+          "parameters": [
+            [
+              "prerrequisito",
+              "tese e três afirmações já documentadas; se faltarem, parar e encaminhar ao preparador 10"
+            ],
+            [
+              "niveis",
+              "esclarecimento, dado contrário, consequência com alternativa"
+            ],
+            [
+              "calibracao",
+              "sobe um nível só se a resposta anterior citou a base e respondeu a objeção; duas falhas descem um nível"
+            ],
+            [
+              "risco",
+              "governança, custo e alternativa descartada do processo afetado"
+            ],
+            [
+              "revisao",
+              "três respostas reescritas prontas para revisão do responsável"
+            ]
+          ],
+          "workflow": [
+            "Verificar que a decisão já está documentada antes da primeira pergunta",
+            "Fixar os três níveis e a regra de subida e descida",
+            "Perguntar uma por vez, ligando a objeção a um risco operacional do processo",
+            "Avaliar por critério citando o trecho da resposta que o justifica",
+            "Fechar com lacunas críticas e respostas reescritas prontas para revisão"
+          ],
+          "guardrails": [
+            "Nunca invente citações, números nem objeções sem risco operacional real por trás",
+            "Nunca redigir ou reestruturar o entregável da equipe: isso é o preparador 10",
+            "Decisão não documentada: parar e encaminhar ao preparador 10",
+            "Nunca substituir o juízo da diretoria: a simulação testa, não aprova"
+          ],
+          "output": [
+            "Objeção por rodada com seu nível e o risco operacional que a origina",
+            "Avaliação por critério com o trecho citado que a justifica",
+            "Três respostas reescritas com citações, prontas para revisão"
+          ],
+          "dod": "Ensaio revisável: cada mudança de nível fica justificada pela resposta anterior, cada objeção liga-se a um risco do processo e cada reescrita cita a base.",
+          "edge_cases": [
+            "Colapso na primeira pergunta: baixar um nível de dificuldade",
+            "Resposta honesta é não sei: a declaração de limite pontua como acerto",
+            "Sem base com direitos de uso interno: declarar coverage_gap e não simular"
+          ]
+        },
+        "why_it_works": {
+          "acceptance_criteria": [
+            "Cada objeção nomeia um risco operacional concreto do processo e seu nível sobe só se a resposta anterior citou a base e respondeu a objeção",
+            "Honesta está definida na sessão: declarar o limite sem respaldo pontua acerto, de modo que dizer não sei com fundamento não penaliza",
+            "As três respostas reescritas citam a base e um revisor diferente de quem defende consegue verificar cada citação"
+          ],
+          "edge_cases": [
+            "Colapso na primeira pergunta: a dificuldade desce um nível antes de seguir",
+            "Decisão ainda não documentada: a simulação para e encaminha ao preparador 10"
+          ],
+          "tradeoffs": [
+            "O texto congelado não declarava base de citações: acrescenta-se [FONTES] como base obrigatória com direitos de uso interno",
+            "Perdem-se as variáveis [PÚBLICO] e [RESULTADO] do texto congelado: a diretoria e o processo afetado passam a enquadrar a defesa",
+            "O registro da descida de dificuldade e o selo pronto para revisão saem do prompt pelo orçamento 2× e ficam na evidência esperada",
+            "A pressão de governança alonga o ensaio em troca de expor lacunas antes da reunião real"
+          ],
+          "assumptions": [
+            "A decisão já está tomada e documentada e existe um responsável que revisa o resultado"
+          ],
+          "limits": [
+            "Testa a defesa; não redige nem reestrutura o entregável: isso pertence ao preparador (10)",
+            "Informa quem defende; não aprova a decisão nem substitui o juízo da diretoria"
+          ]
+        },
+        "traceability": [
+          {
+            "claim": "A intenção 09 — ensaio de conversa exigente com objeções e respostas melhoradas — e sua evidência esperada vêm da biblioteca publicada do método.",
+            "source": "https://javimontano.github.io/prompt-amplificado/biblioteca-prompts.html"
+          },
+          {
+            "claim": "Perguntar uma por vez e fechar com três respostas reescritas e citadas segue o guia público de criação de prompts.",
+            "source": "https://javimontano.github.io/prompt-amplificado/crear-prompts.html"
+          },
+          {
+            "claim": "Calibrar a dificuldade contra a resposta anterior e pontuar a declaração de limite como acerto são normas internas do método.",
+            "source": "method_internal"
+          },
+          {
+            "claim": "Exigir decisão documentada antes de simular e deixar as reescritas prontas para revisão do responsável é política interna para defesas diante da diretoria.",
+            "source": "method_internal"
+          }
+        ]
+      }
+    }
+  },
+  "self_hash_model": "sha256(sorted-json-without-self_sha256)",
+  "self_sha256": "f4bc91372336a8ede53f3bb1b9e8b64a8f4a4cea051962b5b35b6d2b5f3085d6"
+}

@@ -1,0 +1,616 @@
+{
+  "schema_version": "prompt-intent-contract-v1",
+  "intent_id": "10",
+  "surface": "library",
+  "phase": "(R)Evolucionar",
+  "state": "RENDERED_DRAFT",
+  "publication_authorized": false,
+  "boundary": {
+    "distinct_from": [
+      "09",
+      "M4"
+    ],
+    "decision_rule": "Usa 10 cuando el entregable aún no existe y hay que construirlo: tesis, tres ideas con evidencia citada, estructura derivada del tiempo y ensayo por secciones tras confirmación; si el contenido a defender ya existe y necesitas presión adversarial creciente que lo pruebe, usa el simulador 09 (o W09/M3). El preparador no aplica interrogatorio adversarial creciente ni califica bajo presión; M4 genera un preparador, 10 prepara y ensaya una presentación concreta."
+  },
+  "locales": {
+    "es": {
+      "persona": {
+        "title": "Coach de presentación",
+        "purpose": "Construye desde cero la narrativa que aún no existe: tesis en una frase, tres ideas citadas, estructura con minutos y ensayo por secciones tras tu confirmación.",
+        "when": "debes presentar lo aprendido y todavía no tienes guion ni estructura.",
+        "example": "Preparar mi presentación de ocho minutos sobre oportunidades y límites de la IA.",
+        "evidence": "tesis en una frase, estructura con minutos por bloque, notas de orador, y cinco preguntas probables con respuesta citada tras el ensayo.",
+        "prompt": "Ayúdame a construir una presentación sobre [TEMA] en [TIEMPO] con [FUENTES]. Si el guion ya existe, detente: eso es 09. Escribe la tesis en una frase y tres ideas, cada una con cita literal de [FUENTES], más límite y llamado a la acción. Reparte [TIEMPO] en bloques con minutos que sumen el total; si no caben tres ideas, corta una y di cuál. Idea sin cita: degrádala a hipótesis o elimínala. Pregunta si mi audiencia llega hostil o neutral y ajusta la tensión. Estructura concisa: una idea por bloque, sin texto que yo lea en voz alta, y notas de orador en mi voz. Tras mi confirmación, ensaya sección por sección y cierra con cinco preguntas probables de [TEMA] y respuestas citadas. No me interrogues con presión creciente: eso es 09. No inventes citas.",
+        "level_spec": {
+          "role": "Preparador que construye la narrativa antes de ensayarla",
+          "spec_role": "Especialista en aprendizaje e investigación basada en evidencia",
+          "objective": "Convertir comprensión en un guion citado y ensayable ajustado al tiempo disponible",
+          "parameters": [
+            [
+              "tesis",
+              "una frase"
+            ],
+            [
+              "ideas",
+              "tres, cada una con cita literal de la base"
+            ],
+            [
+              "estructura",
+              "bloques con minutos que suman el tiempo declarado; si no caben tres ideas, se corta una y se declara"
+            ],
+            [
+              "concisión",
+              "una idea por bloque, sin texto para leer en voz alta"
+            ],
+            [
+              "transición",
+              "el ensayo empieza solo con la confirmación explícita del guion"
+            ]
+          ],
+          "workflow": [
+            "Verificar que el guion aún no existe; si existe, derivar al simulador 09",
+            "Escribir la tesis en una frase y tres ideas con cita literal",
+            "Derivar la estructura de los minutos disponibles y declarar los cortes",
+            "Ajustar tensión y llamado a la acción según la postura de la audiencia",
+            "Pedir confirmación del guion y solo entonces ensayar sección por sección"
+          ],
+          "guardrails": [
+            "No inventar citas ni evidencia para sostener una idea sin respaldo",
+            "No aplicar interrogatorio adversarial creciente ni calificar bajo presión: eso es el simulador 09",
+            "Guion ya existente: detenerse y derivar a 09 en vez de reescribirlo"
+          ],
+          "output": [
+            "Tesis en una frase y tres ideas con cita literal",
+            "Estructura con minutos por bloque y notas de orador",
+            "Cinco preguntas probables con respuesta citada"
+          ],
+          "dod": "Guion ensayable: la tesis cabe en una frase, cada idea trae su cita, los minutos suman el tiempo declarado y el ensayo empezó tras confirmación explícita.",
+          "edge_cases": [
+            "Evidencia insuficiente para una idea: degradarla a hipótesis declarada o eliminarla",
+            "Audiencia hostil: subir la tensión y endurecer el llamado a la acción",
+            "El tiempo no alcanza para tres ideas: cortar una y declarar cuál"
+          ]
+        },
+        "why_it_works": {
+          "acceptance_criteria": [
+            "La tesis cabe en una frase y cada una de las tres ideas trae una cita literal de la base declarada",
+            "Los bloques de la estructura llevan minutos y suman el tiempo declarado; si se corta una idea, el guion dice cuál y por qué",
+            "Concisa está definida aquí: una idea por bloque y sin texto que el orador deba leer en voz alta",
+            "El ensayo no empieza hasta mi confirmación explícita del guion"
+          ],
+          "edge_cases": [
+            "Idea sin cita disponible: se degrada a hipótesis declarada o se elimina, no se rellena",
+            "Audiencia hostil frente a neutral: cambian la tensión y el llamado a la acción, no las citas"
+          ],
+          "tradeoffs": [
+            "Se pierden las variables [AUDIENCIA] y [RESULTADO] del texto congelado: la postura de la audiencia se pregunta en la sesión para liberar presupuesto",
+            "La tensión del texto congelado solo sobrevive en el ajuste por postura de audiencia; el guion la deriva de ahí",
+            "Guion más corto y citado a cambio de menos efecto retórico"
+          ],
+          "assumptions": [
+            "La comprensión del tema ya existe; si no, corresponde retroceder a 01–08"
+          ],
+          "limits": [
+            "Ensaya secciones; no simula interrogatorio adversarial creciente ni califica bajo presión: eso corresponde al simulador (09)",
+            "Prepara el guion; no garantiza la decisión de la audiencia"
+          ]
+        },
+        "traceability": [
+          {
+            "claim": "La intención 10 —convertir comprensión en narrativa clara y defendible— y su evidencia esperada provienen de la biblioteca publicada del método.",
+            "source": "https://javimontano.github.io/prompt-amplificado/biblioteca-prompts.html"
+          },
+          {
+            "claim": "La secuencia tesis, ideas, evidencia, tensión, límite y llamado a la acción sigue la guía pública de creación de prompts.",
+            "source": "https://javimontano.github.io/prompt-amplificado/crear-prompts.html"
+          },
+          {
+            "claim": "Derivar la estructura de los minutos disponibles y exigir confirmación explícita antes de ensayar son normas internas del método.",
+            "source": "method_internal"
+          }
+        ]
+      },
+      "empresa": {
+        "title": "Coach de presentación del equipo",
+        "purpose": "Construye la narrativa que el equipo aún no tiene: tesis, tres ideas citadas, estructura con minutos y guion reutilizable por otro presentador.",
+        "when": "el proceso exige llevar una decisión a dirección y el guion todavía no existe.",
+        "example": "Preparar la presentación del área sobre oportunidades y límites de la IA.",
+        "evidence": "tesis en una frase, estructura con minutos por bloque, notas de orador reutilizables, riesgo operativo declarado y cinco preguntas probables con respuesta citada, listo para revisión.",
+        "prompt": "Ayuda a [EQUIPO] a construir una presentación sobre [TEMA] en [TIEMPO] con [FUENTES], decisión de dirección. Si el guion ya existe, detente: eso es 09. Escribe la tesis en una frase y tres ideas, cada una con cita literal de [FUENTES], más límite y llamado a la acción. Reparte [TIEMPO] en bloques con minutos que sumen el total; si no caben tres ideas, corta una y di cuál. Idea sin cita: degrádala a hipótesis o elimínala. Estructura concisa: una idea por bloque, sin texto para leer en voz alta, y notas de orador reutilizables por [EQUIPO]. Tras la confirmación del responsable, ensaya sección por sección y cierra con cinco preguntas probables de [TEMA] y respuestas citadas. No interrogues con presión creciente: eso es 09. No inventes citas.",
+        "level_spec": {
+          "role": "Preparador que construye un guion reutilizable antes de ensayarlo",
+          "spec_role": "Especialista en aprendizaje e investigación basada en evidencia",
+          "objective": "Convertir la comprensión del equipo en un guion citado, ensayable y reutilizable por otro presentador",
+          "parameters": [
+            [
+              "tesis",
+              "una frase"
+            ],
+            [
+              "ideas",
+              "tres, cada una con cita literal de la base acordada"
+            ],
+            [
+              "estructura",
+              "bloques con minutos que suman el tiempo declarado; si no caben tres ideas, se corta una y se declara"
+            ],
+            [
+              "reutilización",
+              "notas de orador utilizables por otro presentador del equipo"
+            ],
+            [
+              "transición",
+              "el ensayo empieza solo con la confirmación del responsable"
+            ]
+          ],
+          "workflow": [
+            "Verificar que el guion aún no existe; si existe, derivar al simulador 09",
+            "Escribir tesis y tres ideas con cita literal de la base acordada",
+            "Derivar la estructura de los minutos y declarar los cortes",
+            "Declarar el límite y el llamado a la acción de la decisión de dirección",
+            "Pedir confirmación del responsable y solo entonces ensayar sección por sección"
+          ],
+          "guardrails": [
+            "No inventar citas ni evidencia para sostener una idea sin respaldo",
+            "No aplicar interrogatorio adversarial creciente ni calificar bajo presión: eso es el simulador 09",
+            "Guion ya existente: detenerse y derivar a 09 en vez de reescribirlo",
+            "No decidir por dirección: el guion propone, la decisión es de quien aprueba"
+          ],
+          "output": [
+            "Tesis en una frase y tres ideas con cita literal",
+            "Estructura con minutos por bloque y notas reutilizables por otro presentador",
+            "Cinco preguntas probables con respuesta citada, listas para revisión"
+          ],
+          "dod": "Guion revisable y reutilizable: minutos que suman el tiempo, cada idea con su cita, riesgo operativo declarado y ensayo iniciado tras confirmación del responsable.",
+          "edge_cases": [
+            "Evidencia insuficiente para una idea: degradarla a hipótesis declarada o eliminarla",
+            "Tres ideas que no caben en el tiempo: cortar una y nombrarla",
+            "Sin responsable que confirme el guion: pedirlo antes de ensayar"
+          ]
+        },
+        "why_it_works": {
+          "acceptance_criteria": [
+            "La tesis cabe en una frase y cada una de las tres ideas trae cita literal de la base acordada",
+            "Los bloques llevan minutos que suman el tiempo declarado y el guion dice qué idea se cortó si no caben",
+            "Concisa está definida aquí: una idea por bloque y sin texto que el orador deba leer en voz alta",
+            "Otro presentador del equipo puede ejecutar el guion con las notas, sin volver a construirlo"
+          ],
+          "edge_cases": [
+            "Idea sin cita disponible: se degrada a hipótesis declarada o se elimina",
+            "Sin responsable que confirme el guion: se pide antes de empezar el ensayo"
+          ],
+          "tradeoffs": [
+            "Se pierden las variables [AUDIENCIA] y [RESULTADO] del texto congelado: dirección y el proceso afectado fijan el marco y liberan presupuesto",
+            "El ajuste por postura hostil o neutral y el riesgo operativo salen del prompt empresa por presupuesto 2× y quedan en la evidencia esperada",
+            "Un guion reutilizable exige notas más explícitas a cambio de menos improvisación del presentador"
+          ],
+          "assumptions": [
+            "La comprensión del tema ya existe en el equipo y hay un responsable que confirma el guion"
+          ],
+          "limits": [
+            "Ensaya secciones; no simula interrogatorio adversarial creciente ni califica bajo presión: eso corresponde al simulador (09)",
+            "Prepara el guion; no aprueba la decisión de dirección ni garantiza su resultado"
+          ]
+        },
+        "traceability": [
+          {
+            "claim": "La intención 10 —narrativa clara, defendible y accionable con guion, estructura y ensayo— proviene de la biblioteca publicada del método.",
+            "source": "https://javimontano.github.io/prompt-amplificado/biblioteca-prompts.html"
+          },
+          {
+            "claim": "El orden tesis, ideas con evidencia, tensión, límite y llamado a la acción del guion de equipo sigue la guía pública de creación de prompts.",
+            "source": "https://javimontano.github.io/prompt-amplificado/crear-prompts.html"
+          },
+          {
+            "claim": "Derivar los bloques de los minutos disponibles y no ensayar sin confirmación del responsable son normas internas del método.",
+            "source": "method_internal"
+          },
+          {
+            "claim": "Exigir notas reutilizables por otro presentador y declarar el riesgo operativo de la decisión es política interna para presentaciones de equipo.",
+            "source": "method_internal"
+          }
+        ]
+      }
+    },
+    "en": {
+      "persona": {
+        "title": "Presentation coach",
+        "purpose": "Build the narrative that does not exist yet: a one-sentence thesis, three cited ideas, a structure in timed blocks and rehearsal after your confirmation.",
+        "when": "you must present what you learned and you have no script or structure yet.",
+        "example": "Prepare my eight-minute talk on AI opportunities and limits.",
+        "evidence": "one-sentence thesis, structure with minutes per block, speaker notes, and five likely questions with cited answers after the rehearsal.",
+        "prompt": "Help me build a presentation on [TOPIC] in [TIME] from [SOURCES]. If the script exists, stop: that is 09. Write a one-sentence thesis and three ideas, each with a literal quote from [SOURCES], plus limit and call to action. Split [TIME] into timed blocks adding to the total; if three ideas do not fit, cut one, named. Idea without a quote: declare it a hypothesis or drop it. Ask if my audience is hostile or neutral, then tune tension. Concise structure: one idea per block, no text read aloud, plus notes in my voice. After my yes, rehearse section by section, then five likely [TOPIC] questions, cited. No rising-pressure interrogation: that is 09. Do not invent quotes.",
+        "level_spec": {
+          "role": "Preparer who builds the narrative before rehearsing it",
+          "spec_role": "Specialist in evidence-grounded learning and research",
+          "objective": "Turn understanding into a cited, rehearsable script fitted to the available time",
+          "parameters": [
+            [
+              "thesis",
+              "one sentence"
+            ],
+            [
+              "ideas",
+              "three, each with a literal quote from the base"
+            ],
+            [
+              "structure",
+              "blocks with minutes adding to the declared time; if three ideas do not fit, one is cut and declared"
+            ],
+            [
+              "concision",
+              "one idea per block, no text to read aloud"
+            ],
+            [
+              "transition",
+              "rehearsal starts only on explicit confirmation of the script"
+            ]
+          ],
+          "workflow": [
+            "Verify the script does not exist yet; if it does, route to simulator 09",
+            "Write the thesis in one sentence and three ideas with literal quotes",
+            "Derive the structure from the available minutes and declare the cuts",
+            "Tune tension and call to action to the audience stance",
+            "Ask for confirmation of the script and only then rehearse section by section"
+          ],
+          "guardrails": [
+            "Never invent quotes or evidence to prop up an unsupported idea",
+            "Never apply rising adversarial interrogation or score under pressure: that is simulator 09",
+            "Script already exists: stop and route to 09 instead of rewriting it"
+          ],
+          "output": [
+            "One-sentence thesis and three ideas with literal quotes",
+            "Structure with minutes per block and speaker notes",
+            "Five likely questions with cited answers"
+          ],
+          "dod": "Rehearsable script: the thesis fits one sentence, every idea carries its quote, the minutes add to the declared time and rehearsal began after explicit confirmation.",
+          "edge_cases": [
+            "Insufficient evidence for an idea: downgrade it to a declared hypothesis or drop it",
+            "Hostile audience: raise the tension and harden the call to action",
+            "Time does not fit three ideas: cut one and declare which"
+          ]
+        },
+        "why_it_works": {
+          "acceptance_criteria": [
+            "The thesis fits in one sentence and each of the three ideas carries a literal quote from the declared base",
+            "The structure blocks carry minutes adding to the declared time; if an idea is cut, the script says which and why",
+            "Concise is defined here: one idea per block and no text the speaker must read aloud",
+            "Rehearsal does not start until my explicit confirmation of the script"
+          ],
+          "edge_cases": [
+            "Idea without an available quote: downgraded to a declared hypothesis or dropped, never padded",
+            "Hostile versus neutral audience: tension and call to action change, the quotes do not"
+          ],
+          "tradeoffs": [
+            "The frozen variables [AUDIENCE] and [OUTCOME] are lost: the audience stance is asked in session to free budget",
+            "The tension of the frozen text survives only in the audience-stance tuning; the script derives it from there",
+            "A shorter cited script in exchange for less rhetorical effect"
+          ],
+          "assumptions": [
+            "Understanding of the topic already exists; otherwise stepping back to 01-08 applies"
+          ],
+          "limits": [
+            "It rehearses sections; it neither simulates rising adversarial interrogation nor scores under pressure: that belongs to the simulator (09)",
+            "It prepares the script; it does not guarantee the audience decision"
+          ]
+        },
+        "traceability": [
+          {
+            "claim": "Intent 10 — turning understanding into a clear, defensible narrative — and its expected output come from the published prompt library.",
+            "source": "https://javimontano.github.io/prompt-amplificado/biblioteca-prompts.html"
+          },
+          {
+            "claim": "The thesis, ideas, evidence, tension, limit and call-to-action sequence follows the public prompt-creation guide.",
+            "source": "https://javimontano.github.io/prompt-amplificado/crear-prompts.html"
+          },
+          {
+            "claim": "Deriving the structure from the available minutes and requiring explicit confirmation before rehearsal are internal method policy.",
+            "source": "method_internal"
+          }
+        ]
+      },
+      "empresa": {
+        "title": "Team presentation coach",
+        "purpose": "Build the narrative the team does not have yet: thesis, three cited ideas, timed structure and a script another presenter can reuse.",
+        "when": "the process requires taking a decision to leadership and no script exists yet.",
+        "example": "Prepare the area talk on AI opportunities and limits for leadership.",
+        "evidence": "one-sentence thesis, structure with minutes per block, reusable speaker notes, declared operational risk and five likely questions with cited answers, ready for review.",
+        "prompt": "Help [TEAM] build a presentation on [TOPIC] in [TIME] from [SOURCES] for a leadership decision. If the script exists, stop: that is 09. Write a one-sentence thesis and three ideas, each with a literal quote from [SOURCES], plus limit and call to action. Split [TIME] into timed blocks adding to the total; if three ideas do not fit, cut one and say which. Idea without a quote: declare it a hypothesis or drop it. Concise structure: one idea per block, no text read aloud, plus notes reusable by [TEAM]. After the owner confirms, rehearse section by section, then five likely [TOPIC] questions, cited. No rising-pressure interrogation: that is 09. Do not invent quotes.",
+        "level_spec": {
+          "role": "Preparer who builds a reusable script before rehearsing it",
+          "spec_role": "Specialist in evidence-grounded learning and research",
+          "objective": "Turn team understanding into a cited, rehearsable script another presenter can reuse",
+          "parameters": [
+            [
+              "thesis",
+              "one sentence"
+            ],
+            [
+              "ideas",
+              "three, each with a literal quote from the agreed base"
+            ],
+            [
+              "structure",
+              "blocks with minutes adding to the declared time; if three ideas do not fit, one is cut and declared"
+            ],
+            [
+              "reuse",
+              "speaker notes usable by another presenter on the team"
+            ],
+            [
+              "transition",
+              "rehearsal starts only on confirmation by the accountable owner"
+            ]
+          ],
+          "workflow": [
+            "Verify the script does not exist yet; if it does, route to simulator 09",
+            "Write the thesis and three ideas with literal quotes from the agreed base",
+            "Derive the structure from the minutes and declare the cuts",
+            "State the limit and the call to action of the leadership decision",
+            "Ask the owner to confirm and only then rehearse section by section"
+          ],
+          "guardrails": [
+            "Never invent quotes or evidence to prop up an unsupported idea",
+            "Never apply rising adversarial interrogation or score under pressure: that is simulator 09",
+            "Script already exists: stop and route to 09 instead of rewriting it",
+            "Never decide for leadership: the script proposes, the approver decides"
+          ],
+          "output": [
+            "One-sentence thesis and three ideas with literal quotes",
+            "Structure with minutes per block and notes reusable by another presenter",
+            "Five likely questions with cited answers, ready for review"
+          ],
+          "dod": "Reviewable, reusable script: minutes adding to the declared time, every idea with its quote, operational risk declared and rehearsal started after owner confirmation.",
+          "edge_cases": [
+            "Insufficient evidence for an idea: downgrade it to a declared hypothesis or drop it",
+            "Three ideas that do not fit the time: cut one and name it",
+            "No owner to confirm the script: request one before rehearsing"
+          ]
+        },
+        "why_it_works": {
+          "acceptance_criteria": [
+            "The thesis fits one sentence and each of the three ideas carries a literal quote from the agreed base",
+            "The blocks carry minutes adding to the declared time and the script states which idea was cut when they do not fit",
+            "Concise is defined here: one idea per block and no text the speaker must read aloud",
+            "Another presenter on the team can run the script from the notes without rebuilding it"
+          ],
+          "edge_cases": [
+            "Idea without an available quote: downgraded to a declared hypothesis or dropped",
+            "No owner to confirm the script: it is requested before rehearsal starts"
+          ],
+          "tradeoffs": [
+            "The frozen variables [AUDIENCE] and [OUTCOME] are lost: leadership and the affected process set the frame and free budget",
+            "The hostile-or-neutral stance tuning and the operational risk leave the empresa prompt under the 2x budget and stay in the expected output",
+            "A reusable script demands more explicit notes in exchange for less presenter improvisation"
+          ],
+          "assumptions": [
+            "The team already understands the topic and an accountable owner confirms the script"
+          ],
+          "limits": [
+            "It rehearses sections; it neither simulates rising adversarial interrogation nor scores under pressure: that belongs to the simulator (09)",
+            "It prepares the script; it neither approves the leadership decision nor guarantees its outcome"
+          ]
+        },
+        "traceability": [
+          {
+            "claim": "Intent 10 — a clear, defensible and actionable narrative with script, structure and rehearsal — comes from the published prompt library.",
+            "source": "https://javimontano.github.io/prompt-amplificado/biblioteca-prompts.html"
+          },
+          {
+            "claim": "The thesis, cited ideas, tension, limit and call-to-action ordering of the team script follows the public prompt-creation guide.",
+            "source": "https://javimontano.github.io/prompt-amplificado/crear-prompts.html"
+          },
+          {
+            "claim": "Deriving the blocks from the available minutes and never rehearsing without owner confirmation are internal method policy.",
+            "source": "method_internal"
+          },
+          {
+            "claim": "Requiring notes reusable by another presenter and declaring the operational risk of the decision is internal policy for team presentations.",
+            "source": "method_internal"
+          }
+        ]
+      }
+    },
+    "pt": {
+      "persona": {
+        "title": "Coach de apresentação",
+        "purpose": "Construa a narrativa que ainda não existe: tese em uma frase, três ideias citadas, estrutura com minutos e ensaio por seções após sua confirmação.",
+        "when": "você deve apresentar o que aprendeu e ainda não tem roteiro nem estrutura.",
+        "example": "Preparar minha apresentação de oito minutos sobre oportunidades e limites da IA.",
+        "evidence": "tese em uma frase, estrutura com minutos por bloco, notas do orador, e cinco perguntas prováveis com resposta citada depois do ensaio.",
+        "prompt": "Ajude-me a construir uma apresentação sobre [TEMA] em [TEMPO] com [FONTES]. Se o roteiro já existe, pare: isso é 09. Escreva a tese em uma frase e três ideias com citação literal de [FONTES], mais limite e chamada à ação. Divida [TEMPO] em blocos cujos minutos somem o total; se não couberem três ideias, corte uma, nomeada. Ideia sem citação: rebaixe a hipótese ou elimine. Pergunte se o público é hostil ou neutro e ajuste a tensão. Estrutura concisa: uma ideia por bloco, sem texto lido em voz alta, e notas na minha voz. Após minha confirmação, ensaie seção por seção e feche com cinco perguntas prováveis de [TEMA], citadas. Sem interrogatório de pressão crescente: isso é 09. Não invente citações.",
+        "level_spec": {
+          "role": "Preparador que constrói a narrativa antes de ensaiá-la",
+          "spec_role": "Especialista em aprendizagem e pesquisa baseada em evidências",
+          "objective": "Transformar compreensão em roteiro citado e ensaiável ajustado ao tempo disponível",
+          "parameters": [
+            [
+              "tese",
+              "uma frase"
+            ],
+            [
+              "ideias",
+              "três, cada uma com citação literal da base"
+            ],
+            [
+              "estrutura",
+              "blocos com minutos que somam o tempo declarado; se três ideias não couberem, corta-se uma e declara-se"
+            ],
+            [
+              "concisao",
+              "uma ideia por bloco, sem texto para ler em voz alta"
+            ],
+            [
+              "transicao",
+              "o ensaio começa só com a confirmação explícita do roteiro"
+            ]
+          ],
+          "workflow": [
+            "Verificar que o roteiro ainda não existe; se existe, encaminhar ao simulador 09",
+            "Escrever a tese em uma frase e três ideias com citação literal",
+            "Derivar a estrutura dos minutos disponíveis e declarar os cortes",
+            "Ajustar tensão e chamada à ação conforme a postura do público",
+            "Pedir confirmação do roteiro e só então ensaiar seção por seção"
+          ],
+          "guardrails": [
+            "Nunca invente citações nem evidência para sustentar uma ideia sem respaldo",
+            "Nunca aplicar interrogatório adversarial crescente nem pontuar sob pressão: isso é o simulador 09",
+            "Roteiro já existente: parar e encaminhar ao 09 em vez de reescrevê-lo"
+          ],
+          "output": [
+            "Tese em uma frase e três ideias com citação literal",
+            "Estrutura com minutos por bloco e notas do orador",
+            "Cinco perguntas prováveis com resposta citada"
+          ],
+          "dod": "Roteiro ensaiável: a tese cabe em uma frase, cada ideia traz sua citação, os minutos somam o tempo declarado e o ensaio começou após confirmação explícita.",
+          "edge_cases": [
+            "Evidência insuficiente para uma ideia: rebaixar a hipótese declarada ou eliminar",
+            "Público hostil: subir a tensão e endurecer a chamada à ação",
+            "O tempo não comporta três ideias: cortar uma e declarar qual"
+          ]
+        },
+        "why_it_works": {
+          "acceptance_criteria": [
+            "A tese cabe em uma frase e cada uma das três ideias traz citação literal da base declarada",
+            "Os blocos da estrutura levam minutos que somam o tempo declarado; se uma ideia for cortada, o roteiro diz qual e por quê",
+            "Concisa está definida aqui: uma ideia por bloco e sem texto que o orador tenha de ler em voz alta",
+            "O ensaio não começa até minha confirmação explícita do roteiro"
+          ],
+          "edge_cases": [
+            "Ideia sem citação disponível: rebaixa-se a hipótese declarada ou elimina-se, não se preenche",
+            "Público hostil frente a neutro: mudam a tensão e a chamada à ação, não as citações"
+          ],
+          "tradeoffs": [
+            "Perdem-se as variáveis [PÚBLICO] e [RESULTADO] do texto congelado: a postura do público é perguntada na sessão para liberar orçamento",
+            "A tensão do texto congelado sobrevive só no ajuste por postura do público; o roteiro a deriva dali",
+            "Roteiro mais curto e citado em troca de menos efeito retórico"
+          ],
+          "assumptions": [
+            "A compreensão do tema já existe; se não, cabe retroceder a 01-08"
+          ],
+          "limits": [
+            "Ensaia seções; não simula interrogatório adversarial crescente nem pontua sob pressão: isso pertence ao simulador (09)",
+            "Prepara o roteiro; não garante a decisão do público"
+          ]
+        },
+        "traceability": [
+          {
+            "claim": "A intenção 10 — transformar compreensão em narrativa clara e defensável — e sua evidência esperada vêm da biblioteca publicada do método.",
+            "source": "https://javimontano.github.io/prompt-amplificado/biblioteca-prompts.html"
+          },
+          {
+            "claim": "A sequência tese, ideias, evidência, tensão, limite e chamada à ação segue o guia público de criação de prompts.",
+            "source": "https://javimontano.github.io/prompt-amplificado/crear-prompts.html"
+          },
+          {
+            "claim": "Derivar a estrutura dos minutos disponíveis e exigir confirmação explícita antes de ensaiar são normas internas do método.",
+            "source": "method_internal"
+          }
+        ]
+      },
+      "empresa": {
+        "title": "Coach de apresentação da equipe",
+        "purpose": "Construa a narrativa que a equipe ainda não tem: tese, três ideias citadas, estrutura com minutos e roteiro reutilizável por outro apresentador.",
+        "when": "o processo exige levar uma decisão à diretoria e o roteiro ainda não existe.",
+        "example": "Preparar a apresentação da área sobre oportunidades e limites da IA.",
+        "evidence": "tese em uma frase, estrutura com minutos por bloco, notas do orador reutilizáveis, risco operacional declarado e cinco perguntas prováveis com resposta citada, pronto para revisão.",
+        "prompt": "Ajude [EQUIPE] a construir uma apresentação sobre [TEMA] em [TEMPO] com [FONTES], decisão da diretoria. Se o roteiro já existe, pare: isso é 09. Escreva a tese em uma frase e três ideias com citação literal de [FONTES], mais limite e chamada à ação. Divida [TEMPO] em blocos cujos minutos somem o total; se não couberem três ideias, corte uma, nomeada. Ideia sem citação: rebaixe a hipótese ou elimine. Estrutura concisa: uma ideia por bloco, sem texto lido em voz alta, e notas reutilizáveis por [EQUIPE]. Após a confirmação do responsável, ensaie seção por seção e feche com cinco perguntas prováveis de [TEMA], citadas. Não interrogue com pressão crescente: isso é 09. Não invente citações.",
+        "level_spec": {
+          "role": "Preparador que constrói um roteiro reutilizável antes de ensaiá-lo",
+          "spec_role": "Especialista em aprendizagem e pesquisa baseada em evidências",
+          "objective": "Transformar a compreensão da equipe em roteiro citado, ensaiável e reutilizável por outro apresentador",
+          "parameters": [
+            [
+              "tese",
+              "uma frase"
+            ],
+            [
+              "ideias",
+              "três, cada uma com citação literal da base acordada"
+            ],
+            [
+              "estrutura",
+              "blocos com minutos que somam o tempo declarado; se três ideias não couberem, corta-se uma e declara-se"
+            ],
+            [
+              "reutilizacao",
+              "notas do orador utilizáveis por outro apresentador da equipe"
+            ],
+            [
+              "transicao",
+              "o ensaio começa só com a confirmação do responsável"
+            ]
+          ],
+          "workflow": [
+            "Verificar que o roteiro ainda não existe; se existe, encaminhar ao simulador 09",
+            "Escrever tese e três ideias com citação literal da base acordada",
+            "Derivar a estrutura dos minutos e declarar os cortes",
+            "Declarar o limite e a chamada à ação da decisão da diretoria",
+            "Pedir a confirmação do responsável e só então ensaiar seção por seção"
+          ],
+          "guardrails": [
+            "Nunca invente citações nem evidência para sustentar uma ideia sem respaldo",
+            "Nunca aplicar interrogatório adversarial crescente nem pontuar sob pressão: isso é o simulador 09",
+            "Roteiro já existente: parar e encaminhar ao 09 em vez de reescrevê-lo",
+            "Nunca decidir pela diretoria: o roteiro propõe, quem aprova decide"
+          ],
+          "output": [
+            "Tese em uma frase e três ideias com citação literal",
+            "Estrutura com minutos por bloco e notas reutilizáveis por outro apresentador",
+            "Cinco perguntas prováveis com resposta citada, prontas para revisão"
+          ],
+          "dod": "Roteiro revisável e reutilizável: minutos que somam o tempo, cada ideia com sua citação, risco operacional declarado e ensaio iniciado após confirmação do responsável.",
+          "edge_cases": [
+            "Evidência insuficiente para uma ideia: rebaixar a hipótese declarada ou eliminar",
+            "Três ideias que não cabem no tempo: cortar uma e nomeá-la",
+            "Sem responsável que confirme o roteiro: pedir antes de ensaiar"
+          ]
+        },
+        "why_it_works": {
+          "acceptance_criteria": [
+            "A tese cabe em uma frase e cada uma das três ideias traz citação literal da base acordada",
+            "Os blocos levam minutos que somam o tempo declarado e o roteiro diz qual ideia foi cortada quando não cabem",
+            "Concisa está definida aqui: uma ideia por bloco e sem texto que o orador tenha de ler em voz alta",
+            "Outro apresentador da equipe consegue executar o roteiro com as notas, sem reconstruí-lo"
+          ],
+          "edge_cases": [
+            "Ideia sem citação disponível: rebaixa-se a hipótese declarada ou elimina-se",
+            "Sem responsável que confirme o roteiro: pede-se antes de começar o ensaio"
+          ],
+          "tradeoffs": [
+            "Perdem-se as variáveis [PÚBLICO] e [RESULTADO] do texto congelado: a diretoria e o processo afetado fixam o enquadramento e liberam orçamento",
+            "O ajuste por postura hostil ou neutra e o risco operacional saem do prompt empresa pelo orçamento 2× e ficam na evidência esperada",
+            "Um roteiro reutilizável exige notas mais explícitas em troca de menos improviso do apresentador"
+          ],
+          "assumptions": [
+            "A compreensão do tema já existe na equipe e há um responsável que confirma o roteiro"
+          ],
+          "limits": [
+            "Ensaia seções; não simula interrogatório adversarial crescente nem pontua sob pressão: isso pertence ao simulador (09)",
+            "Prepara o roteiro; não aprova a decisão da diretoria nem garante seu resultado"
+          ]
+        },
+        "traceability": [
+          {
+            "claim": "A intenção 10 — narrativa clara, defensável e acionável com roteiro, estrutura e ensaio — vem da biblioteca publicada do método.",
+            "source": "https://javimontano.github.io/prompt-amplificado/biblioteca-prompts.html"
+          },
+          {
+            "claim": "A ordem tese, ideias citadas, tensão, limite e chamada à ação do roteiro de equipe segue o guia público de criação de prompts.",
+            "source": "https://javimontano.github.io/prompt-amplificado/crear-prompts.html"
+          },
+          {
+            "claim": "Derivar os blocos dos minutos disponíveis e não ensaiar sem a confirmação do responsável são normas internas do método.",
+            "source": "method_internal"
+          },
+          {
+            "claim": "Exigir notas reutilizáveis por outro apresentador e declarar o risco operacional da decisão é política interna para apresentações de equipe.",
+            "source": "method_internal"
+          }
+        ]
+      }
+    }
+  },
+  "self_hash_model": "sha256(sorted-json-without-self_sha256)",
+  "self_sha256": "4582ea34aa7f8368be24ab42ee85823ba61e7ec98f04a3a01a0c26b6cb007fe3"
+}

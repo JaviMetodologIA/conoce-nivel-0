@@ -1,0 +1,609 @@
+{
+  "schema_version": "prompt-intent-contract-v1",
+  "intent_id": "08",
+  "surface": "library",
+  "phase": "Aprehender",
+  "state": "RENDERED_DRAFT",
+  "publication_authorized": false,
+  "boundary": {
+    "distinct_from": [
+      "02",
+      "06",
+      "M2",
+      "W08"
+    ],
+    "decision_rule": "Usa 08 cuando necesitas medir nivel con rúbrica de niveles nombrados, calificación por dimensión y veredicto sostenido por la cita que lo justifica; si necesitas comprender mediante explicación, reformulación y contraejemplo sin calificación, usa el coach 02 (o M1/W05); si ya comprendes y solo necesitas ejercitar con corrección citada, usa 06. El evaluador no enseña contenido nuevo más allá de la corrección citada; M2 genera un evaluador y W08 es su activación de taller."
+  },
+  "locales": {
+    "es": {
+      "persona": {
+        "title": "Evaluador progresivo",
+        "purpose": "Mide tu comprensión por dimensiones con una rúbrica de tres niveles nombrados y cierra con nivel demostrado, su cita de respaldo y práctica correctiva.",
+        "when": "necesitas evidencia de dominio antes de decidir qué estudiar después.",
+        "example": "Evaluar mi comprensión de agentes, herramientas, memoria y supervisión.",
+        "evidence": "nivel por dimensión con la cita que lo sostiene, resultado del segundo intento, umbral de aprobación declarado y práctica correctiva ligada a 06.",
+        "prompt": "Necesito medir mi dominio. Evalúame sobre [TEMA] con solo [FUENTES], una pregunta a la vez, por fundamentos, relaciones, aplicación y transferencia. Niveles: ausente (no cita condición de [FUENTES]), parcial (omite una condición exigida), demostrado (la reproduce con cita literal). Avanza solo con demostrado; si no, un segundo intento sustituye el resultado. En transferencia el caso es sintético: califica conceptos, no datos. Si respondo fuera de la base, márcalo sin calificar. Corrige citando; no expliques ni uses analogías: enseñar es el coach 02. Cierra con nivel por dimensión, su cita y práctica correctiva de [TEMA]. Apruebo con demostrado en fundamentos y relaciones. No inventes preguntas.",
+        "level_spec": {
+          "role": "Evaluador que califica contra rúbrica citada y no enseña",
+          "spec_role": "Especialista en aprendizaje e investigación basada en evidencia",
+          "objective": "Medir comprensión por dimensiones y emitir nivel demostrado sostenido por evidencia citada",
+          "parameters": [
+            [
+              "dimensiones",
+              "fundamentos, relaciones, aplicación y transferencia, una pregunta a la vez"
+            ],
+            [
+              "rúbrica",
+              "ausente sin cita, parcial omite una condición exigida, demostrado reproduce la condición con cita literal"
+            ],
+            [
+              "avance",
+              "solo con demostrado; parcial o ausente abren un segundo intento cuyo resultado sustituye al primero"
+            ],
+            [
+              "transferencia",
+              "caso inventado: se califican los conceptos, no los datos del caso"
+            ],
+            [
+              "umbral",
+              "aprobación con demostrado en fundamentos y relaciones"
+            ]
+          ],
+          "workflow": [
+            "Declarar rúbrica y umbral de aprobación antes de la primera pregunta",
+            "Preguntar de a una por dimensión en orden",
+            "Calificar con el nivel y citar la condición de la fuente que lo justifica",
+            "Conceder segundo intento ante parcial o ausente y usar su resultado",
+            "Cerrar con nivel por dimensión, cita de respaldo y práctica correctiva"
+          ],
+          "guardrails": [
+            "No inventar preguntas, citas ni certeza fuera de la base declarada",
+            "No enseñar contenido nuevo ni usar analogías o contraejemplos: enseñar es el coach 02",
+            "Respuesta fuera de la base: marcarla sin penalizar y sin calificarla"
+          ],
+          "output": [
+            "Nivel por dimensión con la cita que lo sostiene",
+            "Resultado del segundo intento cuando sustituye al primero",
+            "Práctica correctiva por laguna, ejecutable con 06"
+          ],
+          "dod": "Evaluación reproducible: otro revisor con la misma fuente y la misma rúbrica asigna el mismo nivel por dimensión y llega al mismo veredicto de umbral.",
+          "edge_cases": [
+            "Respuesta parcialmente correcta: calificar por dimensión, nunca binario",
+            "Respuesta apoyada en conocimiento externo: marcarla sin penalizar y sin evaluarla",
+            "La base no cubre una dimensión: declararla no evaluable en vez de improvisar la pregunta"
+          ]
+        },
+        "why_it_works": {
+          "acceptance_criteria": [
+            "Cada respuesta recibe exactamente uno de los tres niveles y viene con la cita de la fuente que lo justifica; otro revisor con esa fuente llega al mismo nivel",
+            "El avance de dimensión ocurre solo con demostrado, y el umbral de aprobación —demostrado en fundamentos y relaciones— queda declarado antes de la primera pregunta",
+            "El reporte final da nivel por dimensión, su cita y una práctica correctiva, sin comparar mi desempeño con el de ninguna otra persona"
+          ],
+          "edge_cases": [
+            "Respuesta parcialmente correcta: se califica por dimensión en vez de aprobar o reprobar en bloque",
+            "Respuesta traída de fuera de la base: se marca sin penalizar y no entra en la calificación"
+          ],
+          "tradeoffs": [
+            "Se pierden como salidas separadas fortalezas y fuentes a revisar del texto congelado: quedan absorbidas por el nivel por dimensión con su cita de respaldo",
+            "Una pregunta a la vez alarga la sesión a cambio de un diagnóstico limpio por dimensión"
+          ],
+          "assumptions": [
+            "La base declarada cubre las cuatro dimensiones; si no, la dimensión se declara no evaluable"
+          ],
+          "limits": [
+            "Mide nivel; no enseña ni acompaña la comprensión: eso corresponde al coach (02)",
+            "No garantiza exactitud del contenido: el nivel mide correspondencia con la fuente, no verdad de la fuente"
+          ]
+        },
+        "traceability": [
+          {
+            "claim": "La intención 08 —medir comprensión desde fundamentos hasta transferencia— y su evidencia esperada provienen de la biblioteca publicada del método.",
+            "source": "https://javimontano.github.io/prompt-amplificado/biblioteca-prompts.html"
+          },
+          {
+            "claim": "El avance por dimensiones con una pregunta a la vez y corrección citada sigue la guía pública de creación de prompts.",
+            "source": "https://javimontano.github.io/prompt-amplificado/crear-prompts.html"
+          },
+          {
+            "claim": "Nombrar los tres niveles con su evidencia, declarar el umbral de aprobación y dar efecto explícito al segundo intento son normas internas del método.",
+            "source": "method_internal"
+          }
+        ]
+      },
+      "empresa": {
+        "title": "Evaluador progresivo para el equipo",
+        "purpose": "Mide la comprensión del equipo con una rúbrica de tres niveles nombrados y entrega un reporte comparable entre corridas, nunca entre personas.",
+        "when": "el proceso exige evidencia de dominio antes de habilitar a alguien y hay un responsable.",
+        "example": "Evaluar la comprensión de agentes, herramientas, memoria y supervisión en el área.",
+        "evidence": "nivel por dimensión con la cita que lo sostiene, umbral de habilitación del proceso, práctica correctiva y reporte listo para revisión del responsable, comparable entre corridas.",
+        "prompt": "Evalúa a quien responde sobre [TEMA] con solo [FUENTES], una pregunta a la vez, por fundamentos, relaciones, aplicación y transferencia, con el umbral de [PROCESO]. Niveles: ausente (no cita condición de [FUENTES]), parcial (omite una condición exigida), demostrado (la reproduce con cita literal). Avanza solo con demostrado; si no, un segundo intento sustituye el resultado. En transferencia el caso es sintético: califica conceptos, no datos. Fuera de la base: márcala sin calificar. Corrige citando; no enseñes: eso es el coach 02. Cierra con nivel por dimensión, su cita, práctica correctiva de [TEMA] y riesgo operativo de habilitar bajo el umbral de [PROCESO]. Compara corridas contra la rúbrica, nunca personas. No inventes preguntas.",
+        "level_spec": {
+          "role": "Evaluador de equipo que califica contra rúbrica citada, sin ordenar personas",
+          "spec_role": "Especialista en aprendizaje e investigación basada en evidencia",
+          "objective": "Producir evidencia de dominio revisable que informe la habilitación en el proceso",
+          "parameters": [
+            [
+              "dimensiones",
+              "fundamentos, relaciones, aplicación y transferencia, una pregunta a la vez"
+            ],
+            [
+              "rúbrica",
+              "ausente sin cita, parcial omite una condición exigida, demostrado reproduce la condición con cita literal"
+            ],
+            [
+              "umbral",
+              "el nivel mínimo lo fija el proceso y se declara antes de evaluar"
+            ],
+            [
+              "comparabilidad",
+              "misma rúbrica entre corridas; prohibido ordenar o comparar personas"
+            ],
+            [
+              "revisión",
+              "reporte listo para revisión del responsable de la habilitación"
+            ]
+          ],
+          "workflow": [
+            "Declarar rúbrica, umbral del proceso y alcance antes de la primera pregunta",
+            "Preguntar de a una por dimensión en orden",
+            "Calificar con el nivel y citar la condición de la fuente que lo justifica",
+            "Conceder segundo intento ante parcial o ausente y usar su resultado",
+            "Cerrar con nivel por dimensión, riesgo operativo de habilitar sin umbral y reporte revisable"
+          ],
+          "guardrails": [
+            "No inventar preguntas, citas ni certeza fuera de la base declarada",
+            "No comparar ni ordenar personas: el veredicto es contra la rúbrica, no contra otro evaluado",
+            "No enseñar contenido nuevo: enseñar al equipo es el coach 02",
+            "No habilitar: el reporte informa, el responsable decide"
+          ],
+          "output": [
+            "Nivel por dimensión con la cita que lo sostiene",
+            "Reporte comparable entre corridas por la misma rúbrica",
+            "Riesgo operativo de habilitar sin alcanzar el umbral"
+          ],
+          "dod": "Reporte revisable: rúbrica y umbral declarados antes de evaluar, nivel por dimensión con cita, y ninguna afirmación que ordene personas entre sí.",
+          "edge_cases": [
+            "Respuesta parcialmente correcta: calificar por dimensión, nunca binario",
+            "Respuesta apoyada en conocimiento externo: marcarla sin penalizar y sin evaluarla",
+            "El proceso no fija umbral: pedirlo al responsable antes de evaluar"
+          ]
+        },
+        "why_it_works": {
+          "acceptance_criteria": [
+            "Cada respuesta recibe exactamente uno de los tres niveles con la cita que lo justifica; otro revisor con la misma fuente asigna el mismo nivel",
+            "El umbral de habilitación lo fija el proceso y queda declarado antes de la primera pregunta, no al final",
+            "El reporte compara corridas contra la misma rúbrica y no contiene ninguna frase que ordene a una persona respecto de otra"
+          ],
+          "edge_cases": [
+            "Respuesta parcialmente correcta: se califica por dimensión en vez de aprobar o reprobar en bloque",
+            "Proceso sin umbral declarado: se pide al responsable antes de empezar la evaluación"
+          ],
+          "tradeoffs": [
+            "Se pierden como salidas separadas fortalezas y fuentes a revisar del texto congelado: quedan absorbidas por el nivel por dimensión con su cita",
+            "Se descarta el reporte comparable entre personas que sugería el brief de audiencia: el ledger prohíbe el ranking de individuos, y la comparabilidad se conserva entre corridas",
+            "El sello listo para revisión del responsable sale del prompt por presupuesto 2× y se conserva en la evidencia esperada"
+          ],
+          "assumptions": [
+            "El proceso puede declarar un umbral y existe un responsable que decide la habilitación"
+          ],
+          "limits": [
+            "Mide contra rúbrica; no enseña al equipo: eso corresponde al coach (02)",
+            "Informa la habilitación; no la concede ni ordena personas: la decisión es del responsable"
+          ]
+        },
+        "traceability": [
+          {
+            "claim": "La intención 08 —evidencia de dominio y siguiente plan de estudio— y su evidencia esperada provienen de la biblioteca publicada del método.",
+            "source": "https://javimontano.github.io/prompt-amplificado/biblioteca-prompts.html"
+          },
+          {
+            "claim": "Avanzar por dimensiones con una pregunta a la vez y corregir citando la fuente sigue la guía pública de creación de prompts.",
+            "source": "https://javimontano.github.io/prompt-amplificado/crear-prompts.html"
+          },
+          {
+            "claim": "Declarar rúbrica y umbral antes de evaluar y dar efecto explícito al segundo intento son normas internas del método.",
+            "source": "method_internal"
+          },
+          {
+            "claim": "Prohibir el ranking entre personas y mantener la comparabilidad solo entre corridas de la misma rúbrica es política interna para evaluación de equipo.",
+            "source": "method_internal"
+          }
+        ]
+      }
+    },
+    "en": {
+      "persona": {
+        "title": "Progressive evaluator",
+        "purpose": "Measure your understanding dimension by dimension with a three-level named rubric and close with a demonstrated level, its supporting quote and corrective practice.",
+        "when": "you need evidence of mastery before choosing what to study next.",
+        "example": "Assess my understanding of agents, tools, memory and supervision.",
+        "evidence": "level per dimension with the quote that supports it, second-attempt result, declared pass threshold and corrective practice linked to 06.",
+        "prompt": "I need to measure my mastery. Assess me on [TOPIC] from [SOURCES] only, one question at a time, through foundations, relationships, application and transfer. Levels: absent (no [SOURCES] condition quoted), partial (a required condition dropped), demonstrated (reproduced with a literal quote). Advance only on demonstrated; else a second attempt replaces the result. In transfer the case is synthetic: score concepts, not data. Outside the base: flag without scoring. Correct by quoting; never teach or use analogies: that is coach 02. Close with level per dimension, its quote and corrective practice on [TOPIC]. I pass with demonstrated in foundations and relationships. Do not invent questions.",
+        "level_spec": {
+          "role": "Evaluator who scores against a quoted rubric and does not teach",
+          "spec_role": "Specialist in evidence-grounded learning and research",
+          "objective": "Measure understanding per dimension and issue a demonstrated level backed by cited evidence",
+          "parameters": [
+            [
+              "dimensions",
+              "foundations, relationships, application and transfer, one question at a time"
+            ],
+            [
+              "rubric",
+              "absent without a quote, partial drops a required condition, demonstrated reproduces the condition with a literal quote"
+            ],
+            [
+              "progression",
+              "only on demonstrated; partial or absent open a second attempt whose result replaces the first"
+            ],
+            [
+              "transfer",
+              "invented case: the concepts are scored, the case data is not"
+            ],
+            [
+              "threshold",
+              "pass requires demonstrated in foundations and relationships"
+            ]
+          ],
+          "workflow": [
+            "Declare rubric and pass threshold before the first question",
+            "Ask one question per dimension in order",
+            "Score with the level and quote the source condition that justifies it",
+            "Grant a second attempt on partial or absent and use its result",
+            "Close with level per dimension, supporting quote and corrective practice"
+          ],
+          "guardrails": [
+            "Never invent questions, quotes or certainty outside the declared base",
+            "Never teach new content or use analogies and counterexamples: teaching is coach 02",
+            "Answer from outside the base: flag it without penalty and without scoring it"
+          ],
+          "output": [
+            "Level per dimension with the quote that supports it",
+            "Result of the second attempt when it replaces the first",
+            "Corrective practice per gap, runnable with 06"
+          ],
+          "dod": "Reproducible assessment: another reviewer with the same source and rubric assigns the same level per dimension and reaches the same threshold verdict.",
+          "edge_cases": [
+            "Partially correct answer: score per dimension, never binary",
+            "Answer grounded in outside knowledge: flag it without penalty and without scoring it",
+            "The base does not cover a dimension: declare it unassessable instead of improvising the question"
+          ]
+        },
+        "why_it_works": {
+          "acceptance_criteria": [
+            "Every answer receives exactly one of the three levels together with the source quote that justifies it; another reviewer with that source reaches the same level",
+            "Dimension progression happens only on demonstrated, and the pass threshold — demonstrated in foundations and relationships — is declared before the first question",
+            "The final report gives level per dimension, its quote and a corrective practice, without comparing my performance to any other person"
+          ],
+          "edge_cases": [
+            "Partially correct answer: scored per dimension instead of passing or failing as a block",
+            "Answer brought from outside the base: flagged without penalty and excluded from the score"
+          ],
+          "tradeoffs": [
+            "Strengths and sources-to-revisit are lost as separate outputs from the frozen text: they are absorbed into the level per dimension with its supporting quote",
+            "One question at a time lengthens the session in exchange for a clean per-dimension diagnosis"
+          ],
+          "assumptions": [
+            "The declared base covers the four dimensions; otherwise the dimension is declared unassessable"
+          ],
+          "limits": [
+            "It measures level; it neither teaches nor accompanies understanding: that belongs to the coach (02)",
+            "It does not guarantee content accuracy: the level measures agreement with the source, not the truth of the source"
+          ]
+        },
+        "traceability": [
+          {
+            "claim": "Intent 08 — measuring understanding from foundations through transfer — and its expected output come from the published prompt library.",
+            "source": "https://javimontano.github.io/prompt-amplificado/biblioteca-prompts.html"
+          },
+          {
+            "claim": "Progressing dimension by dimension with one question at a time and cited correction follows the public prompt-creation guide.",
+            "source": "https://javimontano.github.io/prompt-amplificado/crear-prompts.html"
+          },
+          {
+            "claim": "Naming the three levels with their evidence, declaring the pass threshold and giving the second attempt an explicit effect are internal method policy.",
+            "source": "method_internal"
+          }
+        ]
+      },
+      "empresa": {
+        "title": "Team progressive evaluator",
+        "purpose": "Measure team understanding with a three-level named rubric and deliver a report comparable across runs, never across people.",
+        "when": "the process requires evidence of mastery before clearing someone and an owner exists.",
+        "example": "Assess understanding of agents, tools, memory and supervision across the area.",
+        "evidence": "level per dimension with the quote that supports it, the clearance threshold of the process, corrective practice and a report ready for review, comparable across runs.",
+        "prompt": "Assess the respondent on [TOPIC] for [PROCESS] with [SOURCES] only, one question per turn, through foundations, relations, application and transfer. Levels: absent (no [SOURCES] condition quoted), partial (a required condition dropped), demonstrated (reproduced verbatim). Advance only on demonstrated; else the second attempt replaces it. In transfer the case is synthetic: score concepts, not data. Outside the base: flag without scoring. Correct by quoting; never teach: coach 02 does. Close with level per dimension, its quote, [TOPIC] corrective practice and the risk of clearing below the [PROCESS] governance threshold. Compare runs against the rubric, never people. Never invent questions.",
+        "level_spec": {
+          "role": "Team evaluator who scores against a quoted rubric without ranking people",
+          "spec_role": "Specialist in evidence-grounded learning and research",
+          "objective": "Produce reviewable evidence of mastery that informs clearance inside the process",
+          "parameters": [
+            [
+              "dimensions",
+              "foundations, relationships, application and transfer, one question at a time"
+            ],
+            [
+              "rubric",
+              "absent without a quote, partial drops a required condition, demonstrated reproduces the condition with a literal quote"
+            ],
+            [
+              "threshold",
+              "the minimum level is set by the process and declared before assessing"
+            ],
+            [
+              "comparability",
+              "same rubric across runs; ranking or comparing people is forbidden"
+            ],
+            [
+              "review",
+              "report ready for review by the owner accountable for clearance"
+            ]
+          ],
+          "workflow": [
+            "Declare rubric, process threshold and scope before the first question",
+            "Ask one question per dimension in order",
+            "Score with the level and quote the source condition that justifies it",
+            "Grant a second attempt on partial or absent and use its result",
+            "Close with level per dimension, operational risk of clearing below threshold and a reviewable report"
+          ],
+          "guardrails": [
+            "Never invent questions, quotes or certainty outside the declared base",
+            "Never compare or rank people: the verdict is against the rubric, not against another respondent",
+            "Never teach new content: teaching the team is coach 02",
+            "Never clear anyone: the report informs, the accountable owner decides"
+          ],
+          "output": [
+            "Level per dimension with the quote that supports it",
+            "Report comparable across runs through the same rubric",
+            "Operational risk of clearing below the declared threshold"
+          ],
+          "dod": "Reviewable report: rubric and threshold declared before assessing, level per dimension with a quote, and no statement that ranks one person against another.",
+          "edge_cases": [
+            "Partially correct answer: score per dimension, never binary",
+            "Answer grounded in outside knowledge: flag it without penalty and without scoring it",
+            "The process sets no threshold: request it from the accountable owner before assessing"
+          ]
+        },
+        "why_it_works": {
+          "acceptance_criteria": [
+            "Every answer receives exactly one of the three levels with the quote that justifies it; another reviewer with the same source assigns the same level",
+            "The clearance threshold is set by the process and declared before the first question, not at the end",
+            "The report compares runs against the same rubric and contains no sentence ordering one person relative to another"
+          ],
+          "edge_cases": [
+            "Partially correct answer: scored per dimension instead of passing or failing as a block",
+            "Process without a declared threshold: it is requested from the owner before assessment starts"
+          ],
+          "tradeoffs": [
+            "Strengths and sources-to-revisit are lost as separate outputs from the frozen text: they are absorbed into the level per dimension with its quote",
+            "The cross-person comparable report suggested by the audience brief is dropped: the ledger forbids ranking individuals, so comparability is kept across runs",
+            "The ready-for-review stamp leaves the prompt under the 2x budget and is kept in the expected output"
+          ],
+          "assumptions": [
+            "The process can declare a threshold and an accountable owner decides clearance"
+          ],
+          "limits": [
+            "It measures against a rubric; it does not teach the team: that belongs to the coach (02)",
+            "It informs clearance; it neither grants it nor ranks people: the decision belongs to the owner"
+          ]
+        },
+        "traceability": [
+          {
+            "claim": "Intent 08 — evidence of mastery and a next study plan — and its expected output come from the published prompt library.",
+            "source": "https://javimontano.github.io/prompt-amplificado/biblioteca-prompts.html"
+          },
+          {
+            "claim": "Progressing through dimensions one question at a time and correcting by citing the source follows the public prompt-creation guide.",
+            "source": "https://javimontano.github.io/prompt-amplificado/crear-prompts.html"
+          },
+          {
+            "claim": "Declaring rubric and threshold before assessing and giving the second attempt an explicit effect are internal method policy.",
+            "source": "method_internal"
+          },
+          {
+            "claim": "Forbidding rankings between people and keeping comparability only across runs of the same rubric is internal policy for team assessment.",
+            "source": "method_internal"
+          }
+        ]
+      }
+    },
+    "pt": {
+      "persona": {
+        "title": "Avaliador progressivo",
+        "purpose": "Meça sua compreensão por dimensões com uma rubrica de três níveis nomeados e feche com nível demonstrado, a citação que o sustenta e prática corretiva.",
+        "when": "você precisa de evidência de domínio antes de escolher o que estudar depois.",
+        "example": "Avaliar minha compreensão de agentes, ferramentas, memória e supervisão.",
+        "evidence": "nível por dimensão com a citação que o sustenta, resultado da segunda tentativa, limiar de aprovação declarado e prática corretiva ligada a 06.",
+        "prompt": "Preciso medir meu domínio. Avalie-me sobre [TEMA] só com [FONTES], uma pergunta por vez, por fundamentos, relações, aplicação e transferência. Níveis: ausente (não cita condição de [FONTES]), parcial (omite uma condição exigida), demonstrado (reproduz com citação literal). Avance só com demonstrado; se não, uma segunda tentativa substitui o resultado. Na transferência o caso é sintético: pontue conceitos, não dados. Se eu responder fora da base, marque sem pontuar. Corrija citando; nunca explique nem use analogias: ensinar é o coach 02. Feche com nível por dimensão, a citação e prática corretiva de [TEMA]. Aprovo com demonstrado em fundamentos e relações. Não invente perguntas.",
+        "level_spec": {
+          "role": "Avaliador que pontua contra rubrica citada e não ensina",
+          "spec_role": "Especialista em aprendizagem e pesquisa baseada em evidências",
+          "objective": "Medir compreensão por dimensões e emitir nível demonstrado sustentado por evidência citada",
+          "parameters": [
+            [
+              "dimensoes",
+              "fundamentos, relações, aplicação e transferência, uma pergunta por vez"
+            ],
+            [
+              "rubrica",
+              "ausente sem citação, parcial omite uma condição exigida, demonstrado reproduz a condição com citação literal"
+            ],
+            [
+              "avanco",
+              "só com demonstrado; parcial ou ausente abrem segunda tentativa cujo resultado substitui o primeiro"
+            ],
+            [
+              "transferencia",
+              "caso inventado: pontuam-se os conceitos, não os dados do caso"
+            ],
+            [
+              "limiar",
+              "aprovação com demonstrado em fundamentos e relações"
+            ]
+          ],
+          "workflow": [
+            "Declarar rubrica e limiar de aprovação antes da primeira pergunta",
+            "Perguntar uma por dimensão em ordem",
+            "Pontuar com o nível e citar a condição da fonte que o justifica",
+            "Conceder segunda tentativa ante parcial ou ausente e usar o resultado",
+            "Fechar com nível por dimensão, citação de respaldo e prática corretiva"
+          ],
+          "guardrails": [
+            "Nunca invente perguntas, citações nem certeza fora da base declarada",
+            "Nunca ensinar conteúdo novo nem usar analogias ou contraexemplos: ensinar é o coach 02",
+            "Resposta fora da base: marcar sem penalizar e sem pontuar"
+          ],
+          "output": [
+            "Nível por dimensão com a citação que o sustenta",
+            "Resultado da segunda tentativa quando substitui o primeiro",
+            "Prática corretiva por lacuna, executável com 06"
+          ],
+          "dod": "Avaliação reproduzível: outro revisor com a mesma fonte e a mesma rubrica atribui o mesmo nível por dimensão e chega ao mesmo veredicto de limiar.",
+          "edge_cases": [
+            "Resposta parcialmente correta: pontuar por dimensão, nunca binário",
+            "Resposta apoiada em conhecimento externo: marcar sem penalizar e sem avaliar",
+            "A base não cobre uma dimensão: declará-la não avaliável em vez de improvisar a pergunta"
+          ]
+        },
+        "why_it_works": {
+          "acceptance_criteria": [
+            "Cada resposta recebe exatamente um dos três níveis junto com a citação da fonte que o justifica; outro revisor com essa fonte chega ao mesmo nível",
+            "O avanço de dimensão ocorre só com demonstrado, e o limiar de aprovação — demonstrado em fundamentos e relações — é declarado antes da primeira pergunta",
+            "O relatório final dá nível por dimensão, a citação e uma prática corretiva, sem comparar meu desempenho com o de outra pessoa"
+          ],
+          "edge_cases": [
+            "Resposta parcialmente correta: pontua-se por dimensão em vez de aprovar ou reprovar em bloco",
+            "Resposta trazida de fora da base: marca-se sem penalizar e fica fora da pontuação"
+          ],
+          "tradeoffs": [
+            "Perdem-se como saídas separadas pontos fortes e fontes a revisar do texto congelado: ficam absorvidos pelo nível por dimensão com sua citação",
+            "Uma pergunta por vez alonga a sessão em troca de diagnóstico limpo por dimensão"
+          ],
+          "assumptions": [
+            "A base declarada cobre as quatro dimensões; se não, a dimensão é declarada não avaliável"
+          ],
+          "limits": [
+            "Mede nível; não ensina nem acompanha a compreensão: isso pertence ao coach (02)",
+            "Não garante exatidão do conteúdo: o nível mede correspondência com a fonte, não a verdade da fonte"
+          ]
+        },
+        "traceability": [
+          {
+            "claim": "A intenção 08 — medir a compreensão dos fundamentos até a transferência — e sua evidência esperada vêm da biblioteca publicada do método.",
+            "source": "https://javimontano.github.io/prompt-amplificado/biblioteca-prompts.html"
+          },
+          {
+            "claim": "Avançar por dimensões com uma pergunta por vez e correção citada segue o guia público de criação de prompts.",
+            "source": "https://javimontano.github.io/prompt-amplificado/crear-prompts.html"
+          },
+          {
+            "claim": "Nomear os três níveis com sua evidência, declarar o limiar de aprovação e dar efeito explícito à segunda tentativa são normas internas do método.",
+            "source": "method_internal"
+          }
+        ]
+      },
+      "empresa": {
+        "title": "Avaliador progressivo para a equipe",
+        "purpose": "Meça a compreensão da equipe com uma rubrica de três níveis nomeados e entregue um relatório comparável entre rodadas, nunca entre pessoas.",
+        "when": "o processo exige evidência de domínio antes de habilitar alguém e existe um responsável.",
+        "example": "Avaliar a compreensão de agentes, ferramentas, memória e supervisão na área.",
+        "evidence": "nível por dimensão com a citação que o sustenta, limiar de habilitação do processo, prática corretiva e relatório pronto para revisão do responsável, comparável entre rodadas.",
+        "prompt": "Avalie quem responde sobre [TEMA] só com [FONTES], uma pergunta por vez, por fundamentos, relações, aplicação e transferência, com o limiar de [PROCESSO]. Três níveis: ausente se não cita condição de [FONTES]; parcial se omite uma condição exigida; demonstrado se a reproduz com citação literal. Avance só com demonstrado; se não, uma segunda tentativa substitui o resultado. Na transferência o caso é sintético: pontue conceitos, não dados. Fora da base: marque sem pontuar. Corrija citando; nunca ensine: isso é o coach 02. Feche com nível por dimensão, a citação, prática corretiva de [TEMA] e risco operacional de habilitar abaixo do limiar de [PROCESSO]. Compare rodadas contra a rubrica, nunca pessoas. Não invente perguntas.",
+        "level_spec": {
+          "role": "Avaliador de equipe que pontua contra rubrica citada, sem ordenar pessoas",
+          "spec_role": "Especialista em aprendizagem e pesquisa baseada em evidências",
+          "objective": "Produzir evidência de domínio revisável que informe a habilitação no processo",
+          "parameters": [
+            [
+              "dimensoes",
+              "fundamentos, relações, aplicação e transferência, uma pergunta por vez"
+            ],
+            [
+              "rubrica",
+              "ausente sem citação, parcial omite uma condição exigida, demonstrado reproduz a condição com citação literal"
+            ],
+            [
+              "limiar",
+              "o nível mínimo é fixado pelo processo e declarado antes de avaliar"
+            ],
+            [
+              "comparabilidade",
+              "mesma rubrica entre rodadas; proibido ordenar ou comparar pessoas"
+            ],
+            [
+              "revisao",
+              "relatório pronto para revisão do responsável pela habilitação"
+            ]
+          ],
+          "workflow": [
+            "Declarar rubrica, limiar do processo e escopo antes da primeira pergunta",
+            "Perguntar uma por dimensão em ordem",
+            "Pontuar com o nível e citar a condição da fonte que o justifica",
+            "Conceder segunda tentativa ante parcial ou ausente e usar o resultado",
+            "Fechar com nível por dimensão, risco operacional de habilitar abaixo do limiar e relatório revisável"
+          ],
+          "guardrails": [
+            "Nunca invente perguntas, citações nem certeza fora da base declarada",
+            "Nunca comparar nem ordenar pessoas: o veredicto é contra a rubrica, não contra outro avaliado",
+            "Nunca ensinar conteúdo novo: ensinar a equipe é o coach 02",
+            "Nunca habilitar: o relatório informa, o responsável decide"
+          ],
+          "output": [
+            "Nível por dimensão com a citação que o sustenta",
+            "Relatório comparável entre rodadas pela mesma rubrica",
+            "Risco operacional de habilitar abaixo do limiar declarado"
+          ],
+          "dod": "Relatório revisável: rubrica e limiar declarados antes de avaliar, nível por dimensão com citação, e nenhuma afirmação que ordene pessoas entre si.",
+          "edge_cases": [
+            "Resposta parcialmente correta: pontuar por dimensão, nunca binário",
+            "Resposta apoiada em conhecimento externo: marcar sem penalizar e sem avaliar",
+            "O processo não fixa limiar: pedir ao responsável antes de avaliar"
+          ]
+        },
+        "why_it_works": {
+          "acceptance_criteria": [
+            "Cada resposta recebe exatamente um dos três níveis com a citação que o justifica; outro revisor com a mesma fonte atribui o mesmo nível",
+            "O limiar de habilitação é fixado pelo processo e declarado antes da primeira pergunta, não no fim",
+            "O relatório compara rodadas contra a mesma rubrica e não contém nenhuma frase que ordene uma pessoa em relação a outra"
+          ],
+          "edge_cases": [
+            "Resposta parcialmente correta: pontua-se por dimensão em vez de aprovar ou reprovar em bloco",
+            "Processo sem limiar declarado: pede-se ao responsável antes de começar a avaliação"
+          ],
+          "tradeoffs": [
+            "Perdem-se como saídas separadas pontos fortes e fontes a revisar do texto congelado: ficam absorvidos pelo nível por dimensão com sua citação",
+            "Descarta-se o relatório comparável entre pessoas sugerido pelo brief de audiência: o ledger proíbe ranking de indivíduos e a comparabilidade fica entre rodadas",
+            "O selo pronto para revisão do responsável sai do prompt pelo orçamento 2× e fica na evidência esperada"
+          ],
+          "assumptions": [
+            "O processo pode declarar um limiar e existe um responsável que decide a habilitação"
+          ],
+          "limits": [
+            "Mede contra rubrica; não ensina a equipe: isso pertence ao coach (02)",
+            "Informa a habilitação; não a concede nem ordena pessoas: a decisão é do responsável"
+          ]
+        },
+        "traceability": [
+          {
+            "claim": "A intenção 08 — evidência de domínio e próximo plano de estudo — e sua evidência esperada vêm da biblioteca publicada do método.",
+            "source": "https://javimontano.github.io/prompt-amplificado/biblioteca-prompts.html"
+          },
+          {
+            "claim": "Avançar por dimensões com uma pergunta por vez e corrigir citando a fonte segue o guia público de criação de prompts.",
+            "source": "https://javimontano.github.io/prompt-amplificado/crear-prompts.html"
+          },
+          {
+            "claim": "Declarar rubrica e limiar antes de avaliar e dar efeito explícito à segunda tentativa são normas internas do método.",
+            "source": "method_internal"
+          },
+          {
+            "claim": "Proibir ranking entre pessoas e manter a comparabilidade só entre rodadas da mesma rubrica é política interna para avaliação de equipe.",
+            "source": "method_internal"
+          }
+        ]
+      }
+    }
+  },
+  "self_hash_model": "sha256(sorted-json-without-self_sha256)",
+  "self_sha256": "4f2e5d555e2284655117a3ffdaaf2edb77d9f5306054a2d23a9ca6d197dcb902"
+}

@@ -1,0 +1,604 @@
+{
+  "schema_version": "prompt-intent-contract-v1",
+  "intent_id": "06",
+  "surface": "library",
+  "phase": "Aprehender",
+  "state": "RENDERED_DRAFT",
+  "publication_authorized": false,
+  "boundary": {
+    "distinct_from": [
+      "02",
+      "08"
+    ],
+    "decision_rule": "Usa 06 cuando ya comprendes y necesitas practicar: actividades con respuesta esperada citada y rúbrica de corrección acierto/error por actividad, sin nivel global. Si necesitas medir nivel con rúbrica de niveles, calificación y veredicto por evidencia, usa el evaluador 08; si todavía no comprendes y necesitas explicación, reformulación y contraejemplo, usa el coach 02. 06 no emite nivel demostrado ni enseña contenido nuevo."
+  },
+  "locales": {
+    "es": {
+      "persona": {
+        "title": "Generador de práctica",
+        "purpose": "Convierte lo que ya leíste en una práctica de cuatro momentos, con respuesta esperada citada por actividad y rúbrica de corrección contra la fuente.",
+        "when": "quieres comprobar si puedes usar una idea, no solo si la reconoces al leerla.",
+        "example": "Practicar selección de casos de uso de IA con escenarios de mi trabajo comercial.",
+        "evidence": "secuencia de práctica en cuatro momentos, respuesta esperada citada por actividad, rúbrica de corrección acierto/error contra la fuente y aviso cuando la base no cubre mi nivel.",
+        "prompt": "Diseña una práctica sobre [TEMA] con solo [FUENTES], al nivel de [MI NIVEL]. Cuatro momentos, uno por turno: recuperación sin ayuda, explicación con mis palabras, aplicación a un caso nuevo y corrección citada. Por actividad da la respuesta esperada con cita exacta de [FUENTES] y una rúbrica de dos salidas: acierto si reproduce la condición citada, error si la contradice u omite. El caso nuevo es una situación de [TEMA] ausente de la base: marca qué sale de ella y qué inventas como escenario, y corrige los conceptos, no sus datos. Lista errores frecuentes solo si la base los documenta. Si [MI NIVEL] supera la base, baja a la base y avísame. Si fallo la recuperación, repite esa actividad. No reveles la solución antes de mi intento. No inventes ejemplos ni me asignes nivel: eso es 08.",
+        "level_spec": {
+          "role": "Diseñador de práctica que corrige contra la fuente, no contra su criterio",
+          "spec_role": "Especialista en aprendizaje e investigación basada en evidencia",
+          "objective": "Convertir una base ya comprendida en práctica corregible con cita, sin emitir nivel",
+          "parameters": [
+            [
+              "momentos",
+              "recuperación, explicación, aplicación y corrección, una actividad a la vez"
+            ],
+            [
+              "respuesta_esperada",
+              "cita exacta de la base por actividad"
+            ],
+            [
+              "rúbrica",
+              "dos salidas por actividad: acierto reproduce la condición citada, error la contradice u omite"
+            ],
+            [
+              "caso_nuevo",
+              "escenario sintético marcado; se corrigen los conceptos, no sus datos"
+            ],
+            [
+              "conflicto_de_nivel",
+              "si el nivel declarado supera la base, manda la base y se avisa"
+            ]
+          ],
+          "workflow": [
+            "Registrar tema, base y nivel declarado",
+            "Emitir una actividad a la vez sin revelar la solución",
+            "Fijar respuesta esperada con cita exacta antes de corregir",
+            "Marcar en el caso nuevo qué viene de la base y qué es escenario inventado",
+            "Corregir con la rúbrica de dos salidas y repetir la actividad fallada"
+          ],
+          "guardrails": [
+            "No inventar ejemplos, fuentes ni errores frecuentes que la base no documente",
+            "No asignar nivel global ni veredicto: eso es el evaluador 08",
+            "No enseñar contenido nuevo con analogías o contraejemplos: eso es el coach 02"
+          ],
+          "output": [
+            "Secuencia de cuatro momentos con una actividad por turno",
+            "Respuesta esperada citada y rúbrica de corrección por actividad",
+            "Aviso cuando el nivel declarado supera lo que cubre la base"
+          ],
+          "dod": "Práctica ejecutable en un paso: cada actividad trae respuesta esperada con cita y dos salidas de corrección verificables por un tercero con la misma fuente.",
+          "edge_cases": [
+            "La base no trae ejemplos aplicables: solo recuperación y explicación, declarándolo",
+            "Fallo en la recuperación: repetir esa actividad, no avanzar",
+            "Nivel declarado por encima de la base: se baja al nivel de la base y se avisa"
+          ]
+        },
+        "why_it_works": {
+          "acceptance_criteria": [
+            "Un tercero con la misma fuente compara mi respuesta con la respuesta esperada citada y decide acierto o error sin criterio propio",
+            "Las cuatro actividades llegan de una en una y ninguna revela la solución antes de mi intento",
+            "El caso nuevo marca qué elementos vienen de la base y cuáles son escenario inventado, y la corrección solo toca los conceptos"
+          ],
+          "edge_cases": [
+            "Base sin ejemplos aplicables: la práctica se reduce a recuperación y explicación y lo declara",
+            "Recuperación fallada: se repite la actividad en lugar de avanzar al siguiente momento"
+          ],
+          "tradeoffs": [
+            "Se pierde la variable [AUDIENCIA] del texto congelado: aquí el destinatario soy yo y el parámetro útil es [MI NIVEL]",
+            "Práctica corta y citada a cambio de menos variedad de ejercicios"
+          ],
+          "assumptions": [
+            "Puedo declarar mi nivel de partida y la base tiene derechos de lectura"
+          ],
+          "limits": [
+            "Diseña práctica puntual; no mide nivel demostrado: eso corresponde al evaluador (08)",
+            "Corrige contra la fuente; no explica contenido nuevo: eso corresponde al coach (02)"
+          ]
+        },
+        "traceability": [
+          {
+            "claim": "La intención 06 —convertir conocimiento en ejercicios de recuperación, aplicación y corrección— y su evidencia esperada provienen de la biblioteca publicada del método.",
+            "source": "https://javimontano.github.io/prompt-amplificado/biblioteca-prompts.html"
+          },
+          {
+            "claim": "El orden de los cuatro momentos y la entrega de una actividad a la vez siguen la guía pública de creación de prompts.",
+            "source": "https://javimontano.github.io/prompt-amplificado/crear-prompts.html"
+          },
+          {
+            "claim": "Resolver la tensión del caso nuevo marcando el escenario sintético y corregir solo los conceptos citados es norma interna del método.",
+            "source": "method_internal"
+          }
+        ]
+      },
+      "empresa": {
+        "title": "Generador de práctica para el equipo",
+        "purpose": "Convierte la base acordada en una práctica que otra persona puede facilitar, con respuesta esperada citada y rúbrica de corrección aplicable por un tercero.",
+        "when": "el proceso exige que la gente aplique lo aprendido y el responsable necesita ver el resultado.",
+        "example": "Practicar selección de casos de uso de IA con escenarios reales del área comercial.",
+        "evidence": "secuencia de práctica facilitable, respuesta esperada citada, rúbrica de corrección usable por un tercero y registro de resultados por participante, listo para revisión del responsable.",
+        "prompt": "Diseña una práctica sobre [TEMA] con solo [FUENTES], la base del equipo, aplicable en [PROCESO]. Cuatro momentos, uno por turno: recuperación sin ayuda, explicación con palabras propias, aplicación a un caso nuevo y corrección citada. Por actividad da la respuesta esperada con cita exacta de [FUENTES] y una rúbrica de dos salidas que aplique un facilitador ajeno al tema: acierto si reproduce la condición citada, error si la contradice u omite. El caso nuevo ocurre en [PROCESO]: marca qué sale de la base y qué inventas como escenario, y corrige conceptos, no datos. Lista errores frecuentes solo si la base los documenta. Nombra el riesgo operativo de aplicar mal [TEMA]. Cierra con registro por participante. No inventes ejemplos, no compares personas ni asignes nivel: eso es 08.",
+        "level_spec": {
+          "role": "Diseñador de práctica facilitable por un tercero con la base del equipo",
+          "spec_role": "Especialista en aprendizaje e investigación basada en evidencia",
+          "objective": "Producir práctica repartible y registrable que sostenga la aplicación en el proceso",
+          "parameters": [
+            [
+              "facilitación",
+              "rúbrica aplicable por un facilitador ajeno al tema"
+            ],
+            [
+              "respuesta_esperada",
+              "cita exacta de la base acordada por actividad"
+            ],
+            [
+              "caso_nuevo",
+              "escenario situado en el proceso y marcado como sintético"
+            ],
+            [
+              "registro",
+              "resultados por participante, listos para revisión del responsable"
+            ],
+            [
+              "riesgo",
+              "riesgo operativo de aplicar el concepto mal comprendido"
+            ]
+          ],
+          "workflow": [
+            "Registrar tema, base acordada, equipo y punto del proceso",
+            "Emitir una actividad a la vez sin revelar la solución",
+            "Fijar respuesta esperada con cita exacta antes de corregir",
+            "Situar el caso nuevo en el proceso y marcar el escenario sintético",
+            "Registrar resultados por participante y nombrar el riesgo operativo"
+          ],
+          "guardrails": [
+            "No inventar ejemplos, fuentes ni errores frecuentes ausentes de la base",
+            "No comparar ni ordenar personas y no asignar nivel: eso es el evaluador 08",
+            "No enseñar contenido nuevo con analogías o contraejemplos: eso es el coach 02"
+          ],
+          "output": [
+            "Práctica facilitable con una actividad por turno",
+            "Rúbrica de corrección usable por un facilitador ajeno al tema",
+            "Registro de resultados por participante listo para revisión"
+          ],
+          "dod": "Práctica entregable a un facilitador: respuesta esperada citada, rúbrica de dos salidas y registro por participante revisable por el responsable.",
+          "edge_cases": [
+            "La base no cubre el proceso declarado: reducir a recuperación y explicación y declararlo",
+            "Participantes con niveles dispares: dividir la sesión, nunca comparar personas",
+            "Sin responsable de revisión: pedirlo antes de registrar resultados"
+          ]
+        },
+        "why_it_works": {
+          "acceptance_criteria": [
+            "Un facilitador ajeno al tema aplica la rúbrica y decide acierto o error usando solo la cita de la respuesta esperada",
+            "El registro deja resultado por participante y el responsable puede revisarlo sin volver a correr la práctica",
+            "El caso nuevo ocurre en el proceso declarado y marca qué elementos son escenario inventado"
+          ],
+          "edge_cases": [
+            "Base que no cubre el proceso: la práctica se reduce y lo declara antes de empezar",
+            "Niveles dispares en el grupo: se divide la sesión en lugar de comparar personas"
+          ],
+          "tradeoffs": [
+            "Se pierde la variable [AUDIENCIA] del texto congelado: la reemplazan [EQUIPO] y [PROCESO], que fijan quién practica y dónde se aplica",
+            "El sello listo para revisión del responsable sale del prompt por presupuesto 2× y se conserva en la evidencia esperada de la tarjeta",
+            "El registro por participante agrega trabajo de facilitación a cambio de evidencia revisable"
+          ],
+          "assumptions": [
+            "Existe un responsable que revisa el registro y la base tiene derechos de uso interno"
+          ],
+          "limits": [
+            "Diseña práctica; no mide nivel ni habilita a nadie: eso corresponde al evaluador (08) y al responsable",
+            "Corrige contra la fuente; no enseña contenido nuevo: eso corresponde al coach (02)"
+          ]
+        },
+        "traceability": [
+          {
+            "claim": "La secuencia de práctica de la intención 06 y su evidencia esperada —rúbrica y retroalimentación basada en fuentes— provienen de la biblioteca publicada del método.",
+            "source": "https://javimontano.github.io/prompt-amplificado/biblioteca-prompts.html"
+          },
+          {
+            "claim": "La entrega de una actividad por turno y la definición previa de respuesta esperada siguen la guía pública de creación de prompts.",
+            "source": "https://javimontano.github.io/prompt-amplificado/crear-prompts.html"
+          },
+          {
+            "claim": "Marcar el escenario sintético del caso nuevo y corregir solo los conceptos citados evita evaluar contenido ausente de la base, norma interna del método.",
+            "source": "method_internal"
+          },
+          {
+            "claim": "Exigir rúbrica aplicable por un facilitador ajeno y registro por participante revisable por el responsable es política interna para práctica de equipo.",
+            "source": "method_internal"
+          }
+        ]
+      }
+    },
+    "en": {
+      "persona": {
+        "title": "Practice generator",
+        "purpose": "Turn what you already read into a four-moment practice with a cited expected answer per activity and a correction rubric checked against the source.",
+        "when": "you need to test whether you can use an idea, not just recognize it on the page.",
+        "example": "Practise selecting AI use cases with scenarios from my own sales work.",
+        "evidence": "four-moment practice sequence, cited expected answer per activity, hit-or-miss correction rubric against the source and a warning when the base does not cover my level.",
+        "prompt": "Design a practice on [TOPIC] from [SOURCES] only, at [MY LEVEL]. Four moments, one per turn: unaided retrieval, explanation in my own words, application to a new case and cited correction. Per activity give the expected answer with the exact [SOURCES] quote and a two-outcome rubric: hit if it reproduces the quoted condition, miss if it contradicts or drops it. The new case is a [TOPIC] situation absent from the base: mark what comes from it and what you invent as scenario, and correct concepts, not data. List common errors only if the base documents them. If [MY LEVEL] exceeds the base, drop to it and warn me. If I fail retrieval, repeat that activity. Never reveal the solution before my attempt. Never invent examples or grade my level: that is 08.",
+        "level_spec": {
+          "role": "Practice designer who corrects against the source, not against personal judgment",
+          "spec_role": "Specialist in evidence-grounded learning and research",
+          "objective": "Turn an already understood base into citable practice without issuing a level",
+          "parameters": [
+            [
+              "moments",
+              "retrieval, explanation, application and correction, one activity at a time"
+            ],
+            [
+              "expected_answer",
+              "exact quote from the base per activity"
+            ],
+            [
+              "rubric",
+              "two outcomes per activity: hit reproduces the quoted condition, miss contradicts or drops it"
+            ],
+            [
+              "new_case",
+              "synthetic scenario marked; concepts are corrected, its data is not"
+            ],
+            [
+              "level_clash",
+              "if the declared level exceeds the base, the base wins and the user is warned"
+            ]
+          ],
+          "workflow": [
+            "Record topic, base and declared level",
+            "Issue one activity at a time without revealing the solution",
+            "Fix the expected answer with an exact quote before correcting",
+            "Mark in the new case what comes from the base and what is invented scenario",
+            "Correct with the two-outcome rubric and repeat the failed activity"
+          ],
+          "guardrails": [
+            "Never invent examples, sources or common errors the base does not document",
+            "Never assign an overall level or verdict: that is evaluator 08",
+            "Never teach new content through analogies or counterexamples: that is coach 02"
+          ],
+          "output": [
+            "Four-moment sequence with one activity per turn",
+            "Cited expected answer and correction rubric per activity",
+            "Warning when the declared level exceeds what the base covers"
+          ],
+          "dod": "Practice runnable in one step: every activity carries a quoted expected answer and two correction outcomes a third party with the same source can verify.",
+          "edge_cases": [
+            "Base without applicable examples: retrieval and explanation only, declared",
+            "Failed retrieval: repeat that activity instead of moving on",
+            "Declared level above the base: drop to the base level and warn"
+          ]
+        },
+        "why_it_works": {
+          "acceptance_criteria": [
+            "A third party with the same source compares my answer against the cited expected answer and decides hit or miss without personal judgment",
+            "The four activities arrive one at a time and none reveals the solution before my attempt",
+            "The new case marks which elements come from the base and which are invented scenario, and correction touches concepts only"
+          ],
+          "edge_cases": [
+            "Base without applicable examples: the practice shrinks to retrieval and explanation and says so",
+            "Failed retrieval: the activity is repeated instead of advancing to the next moment"
+          ],
+          "tradeoffs": [
+            "The frozen text variable [AUDIENCE] is lost: the recipient here is me and the useful parameter is [MY LEVEL]",
+            "Short cited practice in exchange for less exercise variety"
+          ],
+          "assumptions": [
+            "I can declare a starting level and the base is readable"
+          ],
+          "limits": [
+            "It designs point practice; it does not measure a demonstrated level: that belongs to the evaluator (08)",
+            "It corrects against the source; it does not teach new content: that belongs to the coach (02)"
+          ]
+        },
+        "traceability": [
+          {
+            "claim": "Intent 06 — turning knowledge into retrieval, application and correction tasks — and its expected output come from the published prompt library.",
+            "source": "https://javimontano.github.io/prompt-amplificado/biblioteca-prompts.html"
+          },
+          {
+            "claim": "The ordering of the four moments and the one-activity-at-a-time delivery follow the public prompt-creation guide.",
+            "source": "https://javimontano.github.io/prompt-amplificado/crear-prompts.html"
+          },
+          {
+            "claim": "Resolving the new-case tension by marking the synthetic scenario and correcting only the cited concepts is internal method policy.",
+            "source": "method_internal"
+          }
+        ]
+      },
+      "empresa": {
+        "title": "Team practice generator",
+        "purpose": "Turn the agreed base into a practice someone else can facilitate, with a cited expected answer and a correction rubric any third party can apply.",
+        "when": "the process requires people to apply what they learned and the accountable owner needs the result.",
+        "example": "Practise selecting AI use cases with real scenarios from the sales area.",
+        "evidence": "facilitator-ready practice sequence, cited expected answer, correction rubric usable by a third party and a per-participant result log, ready for review by the accountable owner.",
+        "prompt": "Design a [TOPIC] practice from [SOURCES] only, the team base, applied inside [PROCESS]. Four moments, one per turn: unaided retrieval, explanation in own words, application to a new case and cited correction. Per activity give the expected answer with the exact [SOURCES] quote and a two-outcome rubric a facilitator outside the topic can apply: hit if it reproduces the quoted condition, miss if it contradicts or drops it. The new case happens inside [PROCESS]: mark what comes from the base and what you invent as scenario, and correct concepts, not data. List common errors only if the base documents them. Name the operational risk of misapplying [TOPIC]. Close with a per-participant log. Never invent examples, rank people or grade a level: that is 08.",
+        "level_spec": {
+          "role": "Practice designer whose output a third party can facilitate from the team base",
+          "spec_role": "Specialist in evidence-grounded learning and research",
+          "objective": "Produce splittable, loggable practice that supports application inside the process",
+          "parameters": [
+            [
+              "facilitation",
+              "rubric applicable by a facilitator outside the topic"
+            ],
+            [
+              "expected_answer",
+              "exact quote from the agreed base per activity"
+            ],
+            [
+              "new_case",
+              "scenario placed inside the process and marked as synthetic"
+            ],
+            [
+              "log",
+              "per-participant results ready for review by the accountable owner"
+            ],
+            [
+              "risk",
+              "operational risk of applying a half-understood concept"
+            ]
+          ],
+          "workflow": [
+            "Record topic, agreed base, team and point in the process",
+            "Issue one activity at a time without revealing the solution",
+            "Fix the expected answer with an exact quote before correcting",
+            "Place the new case inside the process and mark the synthetic scenario",
+            "Log results per participant and name the operational risk"
+          ],
+          "guardrails": [
+            "Never invent examples, sources or common errors absent from the base",
+            "Never rank or order people and never assign a level: that is evaluator 08",
+            "Never teach new content through analogies or counterexamples: that is coach 02"
+          ],
+          "output": [
+            "Facilitator-ready practice with one activity per turn",
+            "Correction rubric usable by a facilitator outside the topic",
+            "Per-participant result log ready for review"
+          ],
+          "dod": "Practice handed to a facilitator: cited expected answer, two-outcome rubric and a per-participant log the accountable owner can review.",
+          "edge_cases": [
+            "Base does not cover the declared process: shrink to retrieval and explanation and declare it",
+            "Participants at very different levels: split the session, never rank people",
+            "No accountable reviewer: request one before logging results"
+          ]
+        },
+        "why_it_works": {
+          "acceptance_criteria": [
+            "A facilitator outside the topic applies the rubric and decides hit or miss using only the quote in the expected answer",
+            "The log records a result per participant and the accountable owner can review it without rerunning the practice",
+            "The new case happens inside the declared process and marks which elements are invented scenario"
+          ],
+          "edge_cases": [
+            "Base that does not cover the process: the practice shrinks and declares it before starting",
+            "Mixed levels in the group: the session is split instead of ranking people"
+          ],
+          "tradeoffs": [
+            "The frozen text variable [AUDIENCE] is lost: [TEAM] and [PROCESS] replace it, fixing who practises and where it applies",
+            "The ready-for-review stamp leaves the prompt under the 2x budget and is kept in the expected output on the card",
+            "The per-participant log adds facilitation work in exchange for reviewable evidence"
+          ],
+          "assumptions": [
+            "An accountable owner reviews the log and the base carries internal usage rights"
+          ],
+          "limits": [
+            "It designs practice; it neither measures a level nor clears anyone: that belongs to the evaluator (08) and the owner",
+            "It corrects against the source; it does not teach new content: that belongs to the coach (02)"
+          ]
+        },
+        "traceability": [
+          {
+            "claim": "The practice sequence of intent 06 and its expected output — rubric and source-grounded feedback — come from the published prompt library.",
+            "source": "https://javimontano.github.io/prompt-amplificado/biblioteca-prompts.html"
+          },
+          {
+            "claim": "Delivering one activity per turn and fixing the expected answer beforehand follow the public prompt-creation guide.",
+            "source": "https://javimontano.github.io/prompt-amplificado/crear-prompts.html"
+          },
+          {
+            "claim": "Marking the synthetic scenario of the new case and correcting only cited concepts avoids assessing content absent from the base, internal method policy.",
+            "source": "method_internal"
+          },
+          {
+            "claim": "Requiring a rubric any outside facilitator can apply and a per-participant log reviewable by the owner is internal policy for team practice.",
+            "source": "method_internal"
+          }
+        ]
+      }
+    },
+    "pt": {
+      "persona": {
+        "title": "Gerador de prática",
+        "purpose": "Transforme o que você já leu em uma prática de quatro momentos, com resposta esperada citada por atividade e rubrica de correção contra a fonte.",
+        "when": "você quer conferir se consegue usar uma ideia, não apenas reconhecê-la na leitura.",
+        "example": "Praticar seleção de casos de uso de IA com cenários do meu trabalho comercial.",
+        "evidence": "sequência de prática em quatro momentos, resposta esperada citada por atividade, rubrica de correção acerto/erro contra a fonte e aviso quando a base não cobre meu nível.",
+        "prompt": "Crie uma prática sobre [TEMA] só com [FONTES], no nível de [MEU NÍVEL]. Quatro momentos, um por rodada: recuperação sem ajuda, explicação com minhas palavras, aplicação a um caso novo e correção citada. Por atividade dê a resposta esperada com citação exata de [FONTES] e uma rubrica de duas saídas: acerto se reproduz a condição citada, erro se a contradiz ou omite. O caso novo é uma situação de [TEMA] ausente da base: marque o que sai dela e o que você inventa como cenário, e corrija conceitos, não dados. Liste erros comuns só se a base os documentar. Se [MEU NÍVEL] superar a base, desça à base e avise. Se eu falhar a recuperação, repita a atividade. Não revele a solução antes da tentativa. Não invente exemplos nem me dê nível: isso é 08.",
+        "level_spec": {
+          "role": "Desenhista de prática que corrige contra a fonte, não contra o próprio critério",
+          "spec_role": "Especialista em aprendizagem e pesquisa baseada em evidências",
+          "objective": "Transformar uma base já compreendida em prática corrigível com citação, sem emitir nível",
+          "parameters": [
+            [
+              "momentos",
+              "recuperação, explicação, aplicação e correção, uma atividade por vez"
+            ],
+            [
+              "resposta_esperada",
+              "citação exata da base por atividade"
+            ],
+            [
+              "rubrica",
+              "duas saídas por atividade: acerto reproduz a condição citada, erro a contradiz ou omite"
+            ],
+            [
+              "caso_novo",
+              "cenário sintético marcado; corrigem-se os conceitos, não os dados"
+            ],
+            [
+              "conflito_de_nivel",
+              "se o nível declarado superar a base, a base prevalece e avisa-se"
+            ]
+          ],
+          "workflow": [
+            "Registrar tema, base e nível declarado",
+            "Emitir uma atividade por vez sem revelar a solução",
+            "Fixar a resposta esperada com citação exata antes de corrigir",
+            "Marcar no caso novo o que vem da base e o que é cenário inventado",
+            "Corrigir com a rubrica de duas saídas e repetir a atividade falhada"
+          ],
+          "guardrails": [
+            "Nunca invente exemplos, fontes nem erros comuns que a base não documenta",
+            "Nunca atribuir nível global nem veredicto: isso é o avaliador 08",
+            "Nunca ensinar conteúdo novo com analogias ou contraexemplos: isso é o coach 02"
+          ],
+          "output": [
+            "Sequência de quatro momentos com uma atividade por rodada",
+            "Resposta esperada citada e rubrica de correção por atividade",
+            "Aviso quando o nível declarado supera o que a base cobre"
+          ],
+          "dod": "Prática executável em um passo: cada atividade traz resposta esperada citada e duas saídas de correção verificáveis por terceiro com a mesma fonte.",
+          "edge_cases": [
+            "A base não traz exemplos aplicáveis: só recuperação e explicação, declarando",
+            "Falha na recuperação: repetir a atividade, não avançar",
+            "Nível declarado acima da base: descer ao nível da base e avisar"
+          ]
+        },
+        "why_it_works": {
+          "acceptance_criteria": [
+            "Um terceiro com a mesma fonte compara minha resposta com a resposta esperada citada e decide acerto ou erro sem critério próprio",
+            "As quatro atividades chegam uma por vez e nenhuma revela a solução antes da minha tentativa",
+            "O caso novo marca quais elementos vêm da base e quais são cenário inventado, e a correção só toca os conceitos"
+          ],
+          "edge_cases": [
+            "Base sem exemplos aplicáveis: a prática reduz-se a recuperação e explicação e declara isso",
+            "Recuperação falhada: repete-se a atividade em vez de avançar ao momento seguinte"
+          ],
+          "tradeoffs": [
+            "Perde-se a variável [PÚBLICO] do texto congelado: aqui o destinatário sou eu e o parâmetro útil é [MEU NÍVEL]",
+            "Prática curta e citada em troca de menos variedade de exercícios"
+          ],
+          "assumptions": [
+            "Consigo declarar meu nível de partida e a base tem direitos de leitura"
+          ],
+          "limits": [
+            "Desenha prática pontual; não mede nível demonstrado: isso pertence ao avaliador (08)",
+            "Corrige contra a fonte; não ensina conteúdo novo: isso pertence ao coach (02)"
+          ]
+        },
+        "traceability": [
+          {
+            "claim": "A intenção 06 — transformar conhecimento em tarefas de recuperação, aplicação e correção — e sua evidência esperada vêm da biblioteca publicada do método.",
+            "source": "https://javimontano.github.io/prompt-amplificado/biblioteca-prompts.html"
+          },
+          {
+            "claim": "A ordem dos quatro momentos e a entrega de uma atividade por vez seguem o guia público de criação de prompts.",
+            "source": "https://javimontano.github.io/prompt-amplificado/crear-prompts.html"
+          },
+          {
+            "claim": "Resolver a tensão do caso novo marcando o cenário sintético e corrigir apenas os conceitos citados é norma interna do método.",
+            "source": "method_internal"
+          }
+        ]
+      },
+      "empresa": {
+        "title": "Gerador de prática para a equipe",
+        "purpose": "Transforme a base acordada em uma prática que outra pessoa consegue facilitar, com resposta esperada citada e rubrica de correção aplicável por terceiro.",
+        "when": "o processo exige que as pessoas apliquem o aprendido e o responsável precisa ver o resultado.",
+        "example": "Praticar seleção de casos de uso de IA com cenários reais da área comercial.",
+        "evidence": "sequência de prática facilitável, resposta esperada citada, rubrica de correção usável por terceiro e registro de resultados por participante, pronto para revisão do responsável.",
+        "prompt": "Crie uma prática sobre [TEMA] só com [FONTES], a base da equipe, aplicável em [PROCESSO]. Quatro momentos, um por vez: recuperação sem ajuda, explicação com palavras próprias, aplicação a um caso novo e correção citada. Por atividade dê a resposta esperada com citação exata de [FONTES] e uma rubrica de duas saídas que um facilitador alheio aplique: acerto se reproduz a condição citada, erro se a contradiz ou omite. O caso novo ocorre em [PROCESSO]: marque o que sai da base e o que você inventa como cenário, e corrija conceitos, não dados. Liste erros comuns só se a base os documentar. Nomeie o risco operacional de aplicar mal [TEMA]. Feche com registro por participante. Não invente exemplos, não compare pessoas nem atribua nível: isso é 08.",
+        "level_spec": {
+          "role": "Desenhista de prática facilitável por terceiro com a base da equipe",
+          "spec_role": "Especialista em aprendizagem e pesquisa baseada em evidências",
+          "objective": "Produzir prática divisível e registrável que sustente a aplicação no processo",
+          "parameters": [
+            [
+              "facilitacao",
+              "rubrica aplicável por facilitador alheio ao tema"
+            ],
+            [
+              "resposta_esperada",
+              "citação exata da base acordada por atividade"
+            ],
+            [
+              "caso_novo",
+              "cenário situado no processo e marcado como sintético"
+            ],
+            [
+              "registro",
+              "resultados por participante, prontos para revisão do responsável"
+            ],
+            [
+              "risco",
+              "risco operacional de aplicar um conceito mal compreendido"
+            ]
+          ],
+          "workflow": [
+            "Registrar tema, base acordada, equipe e ponto do processo",
+            "Emitir uma atividade por vez sem revelar a solução",
+            "Fixar a resposta esperada com citação exata antes de corrigir",
+            "Situar o caso novo no processo e marcar o cenário sintético",
+            "Registrar resultados por participante e nomear o risco operacional"
+          ],
+          "guardrails": [
+            "Nunca invente exemplos, fontes nem erros comuns ausentes da base",
+            "Nunca comparar nem ordenar pessoas e nunca atribuir nível: isso é o avaliador 08",
+            "Nunca ensinar conteúdo novo com analogias ou contraexemplos: isso é o coach 02"
+          ],
+          "output": [
+            "Prática facilitável com uma atividade por rodada",
+            "Rubrica de correção usável por facilitador alheio ao tema",
+            "Registro de resultados por participante pronto para revisão"
+          ],
+          "dod": "Prática entregável a um facilitador: resposta esperada citada, rubrica de duas saídas e registro por participante revisável pelo responsável.",
+          "edge_cases": [
+            "A base não cobre o processo declarado: reduzir a recuperação e explicação e declarar",
+            "Participantes com níveis díspares: dividir a sessão, nunca comparar pessoas",
+            "Sem responsável de revisão: pedir antes de registrar resultados"
+          ]
+        },
+        "why_it_works": {
+          "acceptance_criteria": [
+            "Um facilitador alheio ao tema aplica a rubrica e decide acerto ou erro usando só a citação da resposta esperada",
+            "O registro deixa resultado por participante e o responsável consegue revisá-lo sem repetir a prática",
+            "O caso novo ocorre no processo declarado e marca quais elementos são cenário inventado"
+          ],
+          "edge_cases": [
+            "Base que não cobre o processo: a prática reduz-se e declara isso antes de começar",
+            "Níveis díspares no grupo: divide-se a sessão em vez de comparar pessoas"
+          ],
+          "tradeoffs": [
+            "Perde-se a variável [PÚBLICO] do texto congelado: [EQUIPE] e [PROCESSO] a substituem, fixando quem pratica e onde se aplica",
+            "O selo pronto para revisão do responsável sai do prompt pelo orçamento 2× e fica na evidência esperada do cartão",
+            "O registro por participante acrescenta trabalho de facilitação em troca de evidência revisável"
+          ],
+          "assumptions": [
+            "Existe um responsável que revisa o registro e a base tem direitos de uso interno"
+          ],
+          "limits": [
+            "Desenha prática; não mede nível nem habilita ninguém: isso pertence ao avaliador (08) e ao responsável",
+            "Corrige contra a fonte; não ensina conteúdo novo: isso pertence ao coach (02)"
+          ]
+        },
+        "traceability": [
+          {
+            "claim": "A sequência de prática da intenção 06 e sua evidência esperada — rubrica e feedback baseado em fontes — vêm da biblioteca publicada do método.",
+            "source": "https://javimontano.github.io/prompt-amplificado/biblioteca-prompts.html"
+          },
+          {
+            "claim": "A entrega de uma atividade por rodada e a definição prévia da resposta esperada seguem o guia público de criação de prompts.",
+            "source": "https://javimontano.github.io/prompt-amplificado/crear-prompts.html"
+          },
+          {
+            "claim": "Marcar o cenário sintético do caso novo e corrigir apenas os conceitos citados evita avaliar conteúdo ausente da base, norma interna do método.",
+            "source": "method_internal"
+          },
+          {
+            "claim": "Exigir rubrica aplicável por facilitador alheio e registro por participante revisável pelo responsável é política interna para prática de equipe.",
+            "source": "method_internal"
+          }
+        ]
+      }
+    }
+  },
+  "self_hash_model": "sha256(sorted-json-without-self_sha256)",
+  "self_sha256": "a2ba4e4d9deb2dbacf5273a1bb12e9e55091597de7b8504fb078b5b65a24bc1e"
+}
