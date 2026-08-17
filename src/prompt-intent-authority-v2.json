@@ -1,0 +1,875 @@
+{
+  "schema_version": "prompt-intent-authority-v2",
+  "authority": "MetodologIA",
+  "purpose": "Independent canonical intent and evidence anchors for the governed prompt intent contracts (library, workbook and workbook brain surfaces)",
+  "state": "RENDERED_DRAFT",
+  "publication_authorized": false,
+  "status": "provisional_until_phase_3",
+  "source_provenance": {
+    "kind": "governed_local_contract",
+    "derived_from": [
+      "https://javimontano.github.io/prompt-amplificado/biblioteca-prompts.html",
+      "https://javimontano.github.io/prompt-amplificado/crear-prompts.html"
+    ],
+    "method": "Library anchors copied from prompt-spec-authority-v1; workbook and brain anchors provisionally derived from the current rendered natural prompt texts pinned in snapshots/baseline",
+    "rights": "MetodologIA governed contract; no long-form third-party copy reproduced"
+  },
+  "anchor_policy": {
+    "prompt_ids": [
+      "01",
+      "02",
+      "03",
+      "04",
+      "05",
+      "06",
+      "07",
+      "08",
+      "09",
+      "10",
+      "M1",
+      "M2",
+      "M3",
+      "M4",
+      "W01",
+      "W02",
+      "W03",
+      "W04",
+      "W05",
+      "W06",
+      "W07",
+      "W08",
+      "W09",
+      "W10",
+      "B1",
+      "B2",
+      "B3"
+    ],
+    "anchor_kinds": [
+      "intent",
+      "evidence"
+    ],
+    "minimum_per_kind": 2,
+    "require_unique_signatures": true,
+    "consumer_may_override": false
+  },
+  "locales": {
+    "es": {
+      "01": {
+        "intent": [
+          "delimit",
+          "tema"
+        ],
+        "evidence": [
+          "fuente",
+          "tension"
+        ]
+      },
+      "02": {
+        "intent": [
+          "aprend",
+          "coach"
+        ],
+        "evidence": [
+          "fuente",
+          "pregunta"
+        ]
+      },
+      "03": {
+        "intent": [
+          "vacio",
+          "alcance"
+        ],
+        "evidence": [
+          "vacio",
+          "residual"
+        ]
+      },
+      "04": {
+        "intent": [
+          "verific",
+          "afirmacion"
+        ],
+        "evidence": [
+          "veredicto",
+          "demostrable"
+        ]
+      },
+      "05": {
+        "intent": [
+          "audit",
+          "conserv"
+        ],
+        "evidence": [
+          "veredicto",
+          "suficien"
+        ]
+      },
+      "06": {
+        "intent": [
+          "practic",
+          "aplica"
+        ],
+        "evidence": [
+          "practic",
+          "rubrica"
+        ]
+      },
+      "07": {
+        "intent": [
+          "notebook",
+          "proposito"
+        ],
+        "evidence": [
+          "diagnost",
+          "configur"
+        ]
+      },
+      "08": {
+        "intent": [
+          "evalu",
+          "transfer"
+        ],
+        "evidence": [
+          "nivel",
+          "practic"
+        ]
+      },
+      "09": {
+        "intent": [
+          "simul",
+          "entrevist"
+        ],
+        "evidence": [
+          "objecion",
+          "respuesta"
+        ]
+      },
+      "10": {
+        "intent": [
+          "presenta",
+          "eviden"
+        ],
+        "evidence": [
+          "estructura",
+          "pregunta"
+        ]
+      },
+      "M1": {
+        "intent": [
+          "coach",
+          "aprend"
+        ],
+        "evidence": [
+          "prompt",
+          "limite"
+        ]
+      },
+      "M2": {
+        "intent": [
+          "evalu",
+          "observ"
+        ],
+        "evidence": [
+          "evaluador",
+          "rubrica"
+        ]
+      },
+      "M3": {
+        "intent": [
+          "entrevist",
+          "audiencia"
+        ],
+        "evidence": [
+          "prompt",
+          "rubrica"
+        ]
+      },
+      "M4": {
+        "intent": [
+          "prepar",
+          "entreg"
+        ],
+        "evidence": [
+          "preparacion",
+          "checklist"
+        ]
+      },
+      "W01": {
+        "intent": [
+          "verificab",
+          "conocimiento"
+        ],
+        "evidence": [
+          "informe",
+          "primarias"
+        ]
+      },
+      "W02": {
+        "intent": [
+          "audita",
+          "hallazgo"
+        ],
+        "evidence": [
+          "cobertura",
+          "priorizados"
+        ]
+      },
+      "W03": {
+        "intent": [
+          "diagnostico",
+          "impacto"
+        ],
+        "evidence": [
+          "aceptacion",
+          "research"
+        ]
+      },
+      "W04": {
+        "intent": [
+          "importe",
+          "refutadas"
+        ],
+        "evidence": [
+          "residual",
+          "suficiente"
+        ]
+      },
+      "W05": {
+        "intent": [
+          "especializado",
+          "notebook"
+        ],
+        "evidence": [
+          "inferencia",
+          "faltante"
+        ]
+      },
+      "W06": {
+        "intent": [
+          "contenido",
+          "tesis"
+        ],
+        "evidence": [
+          "editoriales",
+          "pieza"
+        ]
+      },
+      "W07": {
+        "intent": [
+          "casos de uso",
+          "experimento"
+        ],
+        "evidence": [
+          "esfuerzo",
+          "complejidad"
+        ]
+      },
+      "W08": {
+        "intent": [
+          "evaluame",
+          "fundamentos"
+        ],
+        "evidence": [
+          "fortalezas",
+          "lagunas"
+        ]
+      },
+      "W09": {
+        "intent": [
+          "simula",
+          "entrevista"
+        ],
+        "evidence": [
+          "alternativas",
+          "mejoras"
+        ]
+      },
+      "W10": {
+        "intent": [
+          "configuracion",
+          "personalizada"
+        ],
+        "evidence": [
+          "inicio",
+          "calidad"
+        ]
+      },
+      "B1": {
+        "intent": [
+          "dictado",
+          "repeticiones"
+        ],
+        "evidence": [
+          "estrategicas",
+          "entendido"
+        ]
+      },
+      "B2": {
+        "intent": [
+          "encargo",
+          "herramientas"
+        ],
+        "evidence": [
+          "brief",
+          "confirmacion"
+        ]
+      },
+      "B3": {
+        "intent": [
+          "preplanificacion",
+          "notebooklm"
+        ],
+        "evidence": [
+          "taller",
+          "evidencia"
+        ]
+      }
+    },
+    "en": {
+      "01": {
+        "intent": [
+          "bound",
+          "topic"
+        ],
+        "evidence": [
+          "source",
+          "tension"
+        ]
+      },
+      "02": {
+        "intent": [
+          "learn",
+          "source"
+        ],
+        "evidence": [
+          "source",
+          "question"
+        ]
+      },
+      "03": {
+        "intent": [
+          "scope",
+          "research"
+        ],
+        "evidence": [
+          "cited",
+          "residual"
+        ]
+      },
+      "04": {
+        "intent": [
+          "verif",
+          "claim"
+        ],
+        "evidence": [
+          "verdict",
+          "demonstrable"
+        ]
+      },
+      "05": {
+        "intent": [
+          "audit",
+          "retain"
+        ],
+        "evidence": [
+          "verdict",
+          "sufficien"
+        ]
+      },
+      "06": {
+        "intent": [
+          "practice",
+          "application"
+        ],
+        "evidence": [
+          "practice",
+          "rubric"
+        ]
+      },
+      "07": {
+        "intent": [
+          "notebook",
+          "source"
+        ],
+        "evidence": [
+          "diagnos",
+          "configur"
+        ]
+      },
+      "08": {
+        "intent": [
+          "assess",
+          "transfer"
+        ],
+        "evidence": [
+          "level",
+          "practice"
+        ]
+      },
+      "09": {
+        "intent": [
+          "simulat",
+          "evidence"
+        ],
+        "evidence": [
+          "objection",
+          "answer"
+        ]
+      },
+      "10": {
+        "intent": [
+          "present",
+          "narrat"
+        ],
+        "evidence": [
+          "structure",
+          "question"
+        ]
+      },
+      "M1": {
+        "intent": [
+          "coach",
+          "source"
+        ],
+        "evidence": [
+          "prompt",
+          "limit"
+        ]
+      },
+      "M2": {
+        "intent": [
+          "evaluat",
+          "observ"
+        ],
+        "evidence": [
+          "evaluator",
+          "rubric"
+        ]
+      },
+      "M3": {
+        "intent": [
+          "interview",
+          "audience"
+        ],
+        "evidence": [
+          "prompt",
+          "rubric"
+        ]
+      },
+      "M4": {
+        "intent": [
+          "prepar",
+          "deliver"
+        ],
+        "evidence": [
+          "preparation",
+          "checklist"
+        ]
+      },
+      "W01": {
+        "intent": [
+          "verifiable",
+          "knowledge"
+        ],
+        "evidence": [
+          "cited report",
+          "primary"
+        ]
+      },
+      "W02": {
+        "intent": [
+          "audit this",
+          "finding"
+        ],
+        "evidence": [
+          "coverage",
+          "prioritized"
+        ]
+      },
+      "W03": {
+        "intent": [
+          "diagnosis",
+          "highest-impact"
+        ],
+        "evidence": [
+          "acceptance",
+          "research"
+        ]
+      },
+      "W04": {
+        "intent": [
+          "imported",
+          "refuted"
+        ],
+        "evidence": [
+          "residual",
+          "sufficient"
+        ]
+      },
+      "W05": {
+        "intent": [
+          "specialized",
+          "notebook"
+        ],
+        "evidence": [
+          "inference",
+          "missing"
+        ]
+      },
+      "W06": {
+        "intent": [
+          "content type",
+          "thesis"
+        ],
+        "evidence": [
+          "editorial",
+          "final piece"
+        ]
+      },
+      "W07": {
+        "intent": [
+          "use cases",
+          "experiment"
+        ],
+        "evidence": [
+          "effort",
+          "complexity"
+        ]
+      },
+      "W08": {
+        "intent": [
+          "assess me",
+          "foundations"
+        ],
+        "evidence": [
+          "strengths",
+          "revisit"
+        ]
+      },
+      "W09": {
+        "intent": [
+          "simulate",
+          "interview"
+        ],
+        "evidence": [
+          "alternatives",
+          "improvements"
+        ]
+      },
+      "W10": {
+        "intent": [
+          "configuration",
+          "personalized"
+        ],
+        "evidence": [
+          "starter",
+          "test guide"
+        ]
+      },
+      "B1": {
+        "intent": [
+          "dictation",
+          "repetition"
+        ],
+        "evidence": [
+          "strategic",
+          "understanding"
+        ]
+      },
+      "B2": {
+        "intent": [
+          "assignment",
+          "tools"
+        ],
+        "evidence": [
+          "brief",
+          "confirmation"
+        ]
+      },
+      "B3": {
+        "intent": [
+          "preplan",
+          "notebooklm"
+        ],
+        "evidence": [
+          "workshop",
+          "evidence"
+        ]
+      }
+    },
+    "pt": {
+      "01": {
+        "intent": [
+          "delimit",
+          "tema"
+        ],
+        "evidence": [
+          "fonte",
+          "tenso"
+        ]
+      },
+      "02": {
+        "intent": [
+          "aprend",
+          "coach"
+        ],
+        "evidence": [
+          "fonte",
+          "pergunta"
+        ]
+      },
+      "03": {
+        "intent": [
+          "lacuna",
+          "escopo"
+        ],
+        "evidence": [
+          "lacuna",
+          "residual"
+        ]
+      },
+      "04": {
+        "intent": [
+          "verif",
+          "afirm"
+        ],
+        "evidence": [
+          "veredito",
+          "demonstravel"
+        ]
+      },
+      "05": {
+        "intent": [
+          "audit",
+          "manter"
+        ],
+        "evidence": [
+          "veredito",
+          "suficien"
+        ]
+      },
+      "06": {
+        "intent": [
+          "pratic",
+          "aplica"
+        ],
+        "evidence": [
+          "pratic",
+          "rubrica"
+        ]
+      },
+      "07": {
+        "intent": [
+          "notebook",
+          "proposito"
+        ],
+        "evidence": [
+          "diagnost",
+          "configur"
+        ]
+      },
+      "08": {
+        "intent": [
+          "avali",
+          "transfer"
+        ],
+        "evidence": [
+          "nivel",
+          "pratic"
+        ]
+      },
+      "09": {
+        "intent": [
+          "simul",
+          "evidencia"
+        ],
+        "evidence": [
+          "objec",
+          "resposta"
+        ]
+      },
+      "10": {
+        "intent": [
+          "apresent",
+          "narrativ"
+        ],
+        "evidence": [
+          "estrutura",
+          "pergunta"
+        ]
+      },
+      "M1": {
+        "intent": [
+          "coach",
+          "aprend"
+        ],
+        "evidence": [
+          "prompt",
+          "limite"
+        ]
+      },
+      "M2": {
+        "intent": [
+          "avali",
+          "observ"
+        ],
+        "evidence": [
+          "prompt",
+          "rubrica"
+        ]
+      },
+      "M3": {
+        "intent": [
+          "entrevist",
+          "publico"
+        ],
+        "evidence": [
+          "prompt",
+          "rubrica"
+        ]
+      },
+      "M4": {
+        "intent": [
+          "prepar",
+          "entreg"
+        ],
+        "evidence": [
+          "preparacao",
+          "checklist"
+        ]
+      },
+      "W01": {
+        "intent": [
+          "verificavel",
+          "conhecimento"
+        ],
+        "evidence": [
+          "relatorio",
+          "primarias"
+        ]
+      },
+      "W02": {
+        "intent": [
+          "audite",
+          "achado"
+        ],
+        "evidence": [
+          "cobertura",
+          "priorizadas"
+        ]
+      },
+      "W03": {
+        "intent": [
+          "diagnostico",
+          "impacto"
+        ],
+        "evidence": [
+          "aceitacao",
+          "research"
+        ]
+      },
+      "W04": {
+        "intent": [
+          "importei",
+          "refutadas"
+        ],
+        "evidence": [
+          "residual",
+          "suficiente"
+        ]
+      },
+      "W05": {
+        "intent": [
+          "especializado",
+          "notebook"
+        ],
+        "evidence": [
+          "inferencia",
+          "ausente"
+        ]
+      },
+      "W06": {
+        "intent": [
+          "conteudo",
+          "tese"
+        ],
+        "evidence": [
+          "editoriais",
+          "peca"
+        ]
+      },
+      "W07": {
+        "intent": [
+          "casos de uso",
+          "experimento"
+        ],
+        "evidence": [
+          "esforco",
+          "complexidade"
+        ]
+      },
+      "W08": {
+        "intent": [
+          "avalie-me",
+          "fundamentos"
+        ],
+        "evidence": [
+          "forcas",
+          "revisar"
+        ]
+      },
+      "W09": {
+        "intent": [
+          "simule",
+          "entrevista"
+        ],
+        "evidence": [
+          "alternativas",
+          "melhorias"
+        ]
+      },
+      "W10": {
+        "intent": [
+          "configuracao",
+          "personalizada"
+        ],
+        "evidence": [
+          "iniciais",
+          "teste"
+        ]
+      },
+      "B1": {
+        "intent": [
+          "ditado",
+          "repeticoes"
+        ],
+        "evidence": [
+          "estrategicas",
+          "entendimento"
+        ]
+      },
+      "B2": {
+        "intent": [
+          "encargo",
+          "ferramentas"
+        ],
+        "evidence": [
+          "brief",
+          "confirmacao"
+        ]
+      },
+      "B3": {
+        "intent": [
+          "pre-planejamento",
+          "notebooklm"
+        ],
+        "evidence": [
+          "oficina",
+          "evidencia"
+        ]
+      }
+    }
+  },
+  "self_hash_model": "sha256(sorted-json-without-self_sha256)",
+  "self_sha256": "281448caebbe1a0b729b1eb1633b0c9f55de412f6fea27105e144c8c7fa49982"
+}

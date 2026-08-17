@@ -213,14 +213,18 @@ def prompt_semantic_words(value):
 def prompt_semantic_text(value):
   return ''.join(character for character in unicodedata.normalize('NFKD',value.casefold()) if not unicodedata.combining(character))
 
-def validate_prompt_spec_authority(document=None):
+PROMPT_LIBRARY_IDS=('01','02','03','04','05','06','07','08','09','10','M1','M2','M3','M4')
+
+def validate_prompt_spec_authority(document=None,*,schema_version='prompt-spec-authority-v1',prompt_ids=PROMPT_LIBRARY_IDS,expected_self_sha256=PROMPT_SPEC_AUTHORITY_EXPECTED_SELF_SHA256,source_sha256=None,expected_source_sha256=None,allowed_extra_keys=frozenset()):
   authority=PROMPT_SPEC_AUTHORITY if document is None else document
-  required={'schema_version','authority','purpose','state','publication_authorized','source_provenance','anchor_policy','locales','self_hash_model','self_sha256'}
-  if set(authority)!=required or authority.get('schema_version')!='prompt-spec-authority-v1' or authority.get('authority')!='MetodologIA':
+  required={'schema_version','authority','purpose','state','publication_authorized','source_provenance','anchor_policy','locales','self_hash_model','self_sha256'}|set(allowed_extra_keys)
+  if set(authority)!=required or authority.get('schema_version')!=schema_version or authority.get('authority')!='MetodologIA':
     raise SystemExit('PROMPT_SPEC_AUTHORITY_SHAPE_INVALID')
-  if document is None and PROMPT_SPEC_AUTHORITY_RAW!=PROMPT_SPEC_AUTHORITY_EXPECTED_SHA256:
+  if document is None:
+    source_sha256,expected_source_sha256=PROMPT_SPEC_AUTHORITY_RAW,PROMPT_SPEC_AUTHORITY_EXPECTED_SHA256
+  if expected_source_sha256 is not None and source_sha256!=expected_source_sha256:
     raise SystemExit('PROMPT_SPEC_AUTHORITY_PIN_DRIFT')
-  if authority.get('self_hash_model')!='sha256(sorted-json-without-self_sha256)' or authority.get('self_sha256')!=PROMPT_SPEC_AUTHORITY_EXPECTED_SELF_SHA256 or authority.get('self_sha256')!=canonical_self(authority,'self_sha256'):
+  if authority.get('self_hash_model')!='sha256(sorted-json-without-self_sha256)' or (expected_self_sha256 is not None and authority.get('self_sha256')!=expected_self_sha256) or authority.get('self_sha256')!=canonical_self(authority,'self_sha256'):
     raise SystemExit('PROMPT_SPEC_AUTHORITY_SELF_DRIFT')
   if authority.get('state')!='RENDERED_DRAFT' or authority.get('publication_authorized') is not False:
     raise SystemExit('PROMPT_SPEC_AUTHORITY_GOVERNANCE_INVALID')
@@ -228,7 +232,7 @@ def validate_prompt_spec_authority(document=None):
   if set(provenance)!={'kind','derived_from','method','rights'} or provenance.get('kind')!='governed_local_contract' or len(provenance.get('derived_from',[]))!=2 or not provenance.get('method') or not provenance.get('rights'):
     raise SystemExit('PROMPT_SPEC_AUTHORITY_PROVENANCE_INVALID')
   policy=authority.get('anchor_policy',{})
-  ids=['01','02','03','04','05','06','07','08','09','10','M1','M2','M3','M4']
+  ids=list(prompt_ids)
   if policy!={'prompt_ids':ids,'anchor_kinds':['intent','evidence'],'minimum_per_kind':2,'require_unique_signatures':True,'consumer_may_override':False}:
     raise SystemExit('PROMPT_SPEC_AUTHORITY_POLICY_INVALID')
   anchors=authority.get('locales',{})
@@ -236,9 +240,9 @@ def validate_prompt_spec_authority(document=None):
     raise SystemExit('PROMPT_SPEC_AUTHORITY_MATRIX_INVALID')
   return authority
 
-def validate_prompt_library(document=None,authority_document=None):
+def validate_prompt_library(document=None,authority_document=None,*,prompt_ids=PROMPT_LIBRARY_IDS,intent_authority_binding=None,authority_options=None):
   source=PROMPT_LIBRARY if document is None else document
-  authority=validate_prompt_spec_authority(authority_document)
+  authority=validate_prompt_spec_authority(authority_document,**(authority_options or {'prompt_ids':prompt_ids}))
   contract=source.get('spec_contract',{})
   specificity=contract.get('semantic_specificity',{})
   material_fields=specificity.get('material_fields')
@@ -250,7 +254,7 @@ def validate_prompt_library(document=None,authority_document=None):
   forbidden=specificity.get('forbidden_locale_signals',{})
   allowlist={prompt_semantic_text(value) for value in specificity.get('locale_cognate_allowlist',[])}
   authority_binding=specificity.get('intent_authority',{})
-  expected_binding={'source':'src/prompt-spec-authority-v1.json','source_sha256':PROMPT_SPEC_AUTHORITY_EXPECTED_SHA256,'self_sha256':authority['self_sha256'],'consumer_override':False}
+  expected_binding=intent_authority_binding if intent_authority_binding is not None else {'source':'src/prompt-spec-authority-v1.json','source_sha256':PROMPT_SPEC_AUTHORITY_EXPECTED_SHA256,'self_sha256':authority['self_sha256'],'consumer_override':False}
   if authority_binding!=expected_binding:
     raise SystemExit('PROMPT_LIBRARY_AUTHORITY_BINDING_INVALID')
   anchors=authority['locales']
@@ -268,7 +272,7 @@ def validate_prompt_library(document=None,authority_document=None):
   for locale in LANGS:
     localized=locales[locale]
     items=localized.get('items',[])
-    if [item.get('id') for item in items]!=['01','02','03','04','05','06','07','08','09','10','M1','M2','M3','M4']:
+    if [item.get('id') for item in items]!=list(prompt_ids):
       raise SystemExit(f'PROMPT_LIBRARY_SEMANTIC_MATRIX_INVALID:{locale}')
     if set(anchors[locale])!={item['id'] for item in items}:
       raise SystemExit(f'PROMPT_LIBRARY_ANCHOR_MATRIX_INVALID:{locale}')
@@ -316,6 +320,25 @@ def validate_prompt_library(document=None,authority_document=None):
           raise SystemExit(f'PROMPT_LIBRARY_LOCALE_LEAK:{locale}:{item["id"]}:{hits[0]}')
     if len(set(signatures))!=len(signatures):
       raise SystemExit(f'PROMPT_LIBRARY_ANCHOR_SIGNATURE_CLONE:{locale}')
+
+def compose_prompt_documents(contracts,intent_authority=None):
+  """Assemble one synthetic per-audience document (items per locale) from
+  prompt-intent-contract-v1 contracts, shaped for validate_prompt_library.
+  Not consumed by the active build; used by qa/check-prompt-contracts.py."""
+  documents={}
+  for audience in AUDIENCES:
+    locales={}
+    for locale in LANGS:
+      items=[]
+      for contract in contracts:
+        cell=contract['locales'][locale][audience]
+        items.append({'id':contract['intent_id'],'title':cell['title'],'purpose':cell['purpose'],'when':cell['when'],'example':cell['example'],'evidence':cell['evidence'],'prompt':cell['prompt']})
+      locales[locale]={'items':items,'spec_format':PROMPT_LIBRARY['locales'][locale]['spec_format']}
+    spec_contract=json.loads(json.dumps(PROMPT_LIBRARY['spec_contract']))
+    if intent_authority is not None:
+      spec_contract['semantic_specificity']['intent_authority']=dict(intent_authority)
+    documents[audience]={'schema_version':'prompt-intent-contract-composite-v1','state':'RENDERED_DRAFT','publication_authorized':False,'spec_contract':spec_contract,'locales':locales}
+  return documents
 
 validate_prompt_library()
 
