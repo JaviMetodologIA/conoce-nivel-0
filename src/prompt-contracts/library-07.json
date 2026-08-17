@@ -54,8 +54,7 @@
           "guardrails": [
             "No inventar fuentes ni certeza",
             "Derechos dudosos o material personal: retirar por defecto, nunca conservar a la espera de aclaración",
-            "No re-decidir la relevancia fuente por fuente ni emitir veredicto de suficiencia: eso es 05",
-            "No verificar una afirmación concreta ni darle veredicto: eso es 04"
+            "No re-decidir la relevancia fuente por fuente ni emitir veredicto de suficiencia: eso es 05"
           ],
           "output": [
             "Diagnóstico ejecutivo del Notebook",
@@ -90,7 +89,6 @@
           ],
           "limits": [
             "Audita el contenedor y su comportamiento, no re-decide la relevancia fuente por fuente ni emite veredicto de suficiencia: eso es 05",
-            "No verifica una afirmación concreta ni emite su veredicto: eso es 04",
             "La configuración es recomendación y no autoriza publicación ni uso del asistente"
           ]
         },
@@ -148,8 +146,7 @@
           "guardrails": [
             "No inventar fuentes ni certeza, tampoco para que la base parezca lista",
             "Derechos dudosos o material personal de un cliente: retirar por defecto y registrar el riesgo",
-            "No re-decidir la relevancia fuente por fuente ni emitir veredicto de suficiencia: eso es 05",
-            "No verificar una afirmación concreta ni darle veredicto: eso es 04"
+            "No re-decidir la relevancia fuente por fuente ni emitir veredicto de suficiencia: eso es 05"
           ],
           "output": [
             "Diagnóstico ejecutivo del Notebook compartido",
@@ -184,7 +181,6 @@
           ],
           "limits": [
             "Audita el contenedor compartido, no re-decide la relevancia fuente por fuente ni emite veredicto de suficiencia: eso es 05",
-            "No verifica una afirmación concreta ni emite su veredicto: eso es 04",
             "La configuración es recomendación sujeta a ratificación: no autoriza publicación ni uso del asistente"
           ]
         },
@@ -248,8 +244,7 @@
           "guardrails": [
             "Never invent sources or certainty",
             "Doubtful rights or personal material: remove by default, never keep it pending clarification",
-            "Do not re-decide relevance source by source or issue a sufficiency verdict: that is 05",
-            "Do not verify a single claim or give it a verdict: that is 04"
+            "Do not re-decide relevance source by source or issue a sufficiency verdict: that is 05"
           ],
           "output": [
             "Executive diagnosis of the Notebook",
@@ -284,7 +279,6 @@
           ],
           "limits": [
             "It audits the container and its behaviour; it does not re-decide relevance source by source or issue a sufficiency verdict: that is 05",
-            "It does not verify a single claim or issue its verdict: that is 04",
             "The configuration is a recommendation and authorizes neither publication nor use of the assistant"
           ]
         },
@@ -342,8 +336,7 @@
           "guardrails": [
             "Never invent sources or certainty, not even to make the base look ready",
             "Doubtful rights or personal client material: remove by default and log the risk",
-            "Do not re-decide relevance source by source or issue a sufficiency verdict: that is 05",
-            "Do not verify a single claim or give it a verdict: that is 04"
+            "Do not re-decide relevance source by source or issue a sufficiency verdict: that is 05"
           ],
           "output": [
             "Executive diagnosis of the shared Notebook",
@@ -378,7 +371,6 @@
           ],
           "limits": [
             "It audits the shared container; it does not re-decide relevance source by source or issue a sufficiency verdict: that is 05",
-            "It does not verify a single claim or issue its verdict: that is 04",
             "The configuration is a recommendation pending ratification: it authorizes neither publication nor use of the assistant"
           ]
         },
@@ -442,8 +434,7 @@
           "guardrails": [
             "Nunca invente fontes nem certeza",
             "Direitos duvidosos ou material pessoal: retirar por padrão, nunca manter à espera de esclarecimento",
-            "Não redecidir a relevância fonte a fonte nem emitir veredito de suficiência: isso é 05",
-            "Não verificar uma afirmação concreta nem dar-lhe veredito: isso é 04"
+            "Não redecidir a relevância fonte a fonte nem emitir veredito de suficiência: isso é 05"
           ],
           "output": [
             "Diagnóstico executivo do Notebook",
@@ -478,7 +469,6 @@
           ],
           "limits": [
             "Audita o contêiner e seu comportamento, não redecide a relevância fonte a fonte nem emite veredito de suficiência: isso é 05",
-            "Não verifica uma afirmação concreta nem emite o veredito dela: isso é 04",
             "A configuração é recomendação e não autoriza publicação nem uso do assistente"
           ]
         },
@@ -536,8 +526,7 @@
           "guardrails": [
             "Nunca invente fontes nem certeza, nem para a base parecer pronta",
             "Direitos duvidosos ou material pessoal de cliente: retirar por padrão e registrar o risco",
-            "Não redecidir a relevância fonte a fonte nem emitir veredito de suficiência: isso é 05",
-            "Não verificar uma afirmação concreta nem dar-lhe veredito: isso é 04"
+            "Não redecidir a relevância fonte a fonte nem emitir veredito de suficiência: isso é 05"
           ],
           "output": [
             "Diagnóstico executivo do Notebook compartilhado",
@@ -572,7 +561,6 @@
           ],
           "limits": [
             "Audita o contêiner compartilhado, não redecide a relevância fonte a fonte nem emite veredito de suficiência: isso é 05",
-            "Não verifica uma afirmação concreta nem emite o veredito dela: isso é 04",
             "A configuração é recomendação sujeita a ratificação: não autoriza publicação nem uso do assistente"
           ]
         },
@@ -598,5 +586,5 @@
     }
   },
   "self_hash_model": "sha256(sorted-json-without-self_sha256)",
-  "self_sha256": "fed83d2045f8ff4d3810dd771a520aadb3a79a59b0d07a1df0ed6e66f6e80bf2"
+  "self_sha256": "8626f456f4658beaffcf9531054fadd0fc980927fb6d869616344fcc3d548168"
 }
