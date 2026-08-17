@@ -1,0 +1,602 @@
+{
+  "schema_version": "prompt-intent-contract-v1",
+  "intent_id": "M1",
+  "surface": "library",
+  "phase": "Metaprompt",
+  "state": "RENDERED_DRAFT",
+  "publication_authorized": false,
+  "boundary": {
+    "distinct_from": [
+      "02",
+      "M2",
+      "M4"
+    ],
+    "decision_rule": "Usa M1 cuando necesitas el instrumento y no la sesión: M1 diseña un coach —system prompt, preguntas de diagnóstico, límites y pruebas adversariales— mientras 02 imparte la sesión sobre un tema con sus fuentes; M1 no explica el tema ni corrige reformulaciones, y quien pide la clase debe ir a 02. Si lo que hace falta es medir nivel con rúbrica, calificación y veredicto por evidencia, usa el generador de evaluador M2 (o el evaluador 08): el coach que M1 genera no emite niveles, puntajes ni veredictos. M4 genera un preparador de entrega, no un coach que enseñe."
+  },
+  "locales": {
+    "es": {
+      "persona": {
+        "title": "Generador de coach de aprendizaje",
+        "purpose": "Diseña el instrumento y no la sesión: un system prompt de coach reutilizable, con preguntas de diagnóstico, límites declarados y pruebas que intentan inducir invención.",
+        "when": "quieres reutilizar tu método en otro tema o audiencia y necesitas el coach como pieza, no una clase suelta.",
+        "example": "Coach de ciberseguridad para líderes no técnicos, armado sobre mis apuntes del último curso.",
+        "evidence": "system prompt del coach con rol, base, flujo y mensaje inicial, cinco preguntas de diagnóstico, límites declarados y tres pruebas adversariales con su respuesta correcta.",
+        "prompt": "Diseña un coach de aprendizaje sobre [TEMA] para [AUDIENCIA] con [FUENTES] como mi base única: quiero el instrumento, no la sesión. No expliques [TEMA] aquí ni corrijas reformulaciones; impartir la sesión es 02. Entrega un system prompt reutilizable con rol, base, flujo por turnos y el mensaje inicial de mi primera sesión; cinco preguntas de diagnóstico que cambien si [AUDIENCIA] es novata o experta, y si mezcla niveles diseña para la más novata y dilo. En los límites escribe que el coach no emite nivel, puntaje ni veredicto: calificar es M2. Si [FUENTES] no cubren [TEMA], el coach abre declarando coverage_gap en vez de rellenar. Cierra con tres pruebas adversariales: el ataque que intenta inducir invención y la respuesta correcta, que es declarar el límite. No prometas que el coach nunca falla ni inventes fuentes.",
+        "level_spec": {
+          "role": "Diseñador de instrumentos de aprendizaje: construye el coach, no la clase",
+          "spec_role": "Especialista en aprendizaje e investigación basada en evidencia",
+          "objective": "Producir un system prompt de coach reutilizable para mi plan de estudio, con límites y pruebas adversariales",
+          "parameters": [
+            [
+              "nivel",
+              "meta: la salida es el instrumento; la sesión sobre el tema es 02"
+            ],
+            [
+              "diagnostico",
+              "cinco preguntas que se bifurcan según la audiencia sea novata o experta"
+            ],
+            [
+              "frontera_coach_evaluador",
+              "el coach generado no emite nivel, puntaje ni veredicto: calificar es M2"
+            ],
+            [
+              "pruebas",
+              "ataque que intenta inducir invención más la respuesta correcta esperada"
+            ]
+          ],
+          "workflow": [
+            "Registrar tema, audiencia y base disponible como configuración del instrumento, no como materia a explicar",
+            "Escribir el system prompt del coach: rol, base exclusiva, flujo por turnos y mensaje inicial",
+            "Derivar cinco preguntas de diagnóstico bifurcadas por nivel de la audiencia",
+            "Declarar los límites, incluida la prohibición explícita de calificar",
+            "Cerrar con tres pruebas adversariales, cada una con ataque y respuesta correcta"
+          ],
+          "guardrails": [
+            "No inventar fuentes, capacidades del coach ni pruebas que no se ejecutaron",
+            "No impartir la sesión de coaching sobre el tema: eso es 02",
+            "No prometer que el coach nunca inventa: una prueba no demuestra ausencia de invención",
+            "Base insuficiente: el coach generado abre declarando coverage_gap"
+          ],
+          "output": [
+            "System prompt del coach reutilizable con rol, base, flujo y mensaje inicial",
+            "Cinco preguntas de diagnóstico bifurcadas por nivel de audiencia",
+            "Límites explícitos y tres pruebas adversariales con respuesta esperada"
+          ],
+          "dod": "Instrumento revisable: system prompt con las cinco partes completas, límites que prohíben calificar por escrito, y tres pruebas con ataque y respuesta correcta.",
+          "edge_cases": [
+            "Audiencia mixta novata y experta: diseñar para la más novata y declararlo",
+            "Fuentes que no cubren el tema: el coach abre con coverage_gap",
+            "Se pide la sesión en lugar del instrumento: derivar a 02 sin explicar el tema"
+          ]
+        },
+        "why_it_works": {
+          "acceptance_criteria": [
+            "El system prompt trae rol, base, flujo, límites y mensaje inicial, y ninguno queda vacío",
+            "Cada prueba adversarial nombra el ataque y la respuesta correcta esperada, que es declarar el límite",
+            "Los límites incluyen por escrito la prohibición de emitir nivel, puntaje o veredicto",
+            "La salida no contiene ninguna explicación del tema: si la contiene, el pedido era 02"
+          ],
+          "edge_cases": [
+            "Audiencia mixta: el prompt fija la regla (diseñar para la más novata) en vez de dejarla al criterio del modelo",
+            "Fuentes insuficientes: el coach generado abre con coverage_gap en vez de rellenar"
+          ],
+          "tradeoffs": [
+            "El coach queda limitado a la base a cambio de que sus respuestas sean rastreables",
+            "Diseñar el instrumento cuesta un turno que la sesión directa de 02 no cobra",
+            "Se sustituye «tres pruebas que demuestren que no inventa» por «tres ataques con respuesta correcta»: se pierde la promesa, se gana una prueba ejecutable"
+          ],
+          "assumptions": [
+            "Quien use el coach mantendrá la base actualizada",
+            "La audiencia declarada corresponde a quien realmente usará el coach"
+          ],
+          "limits": [
+            "Genera el instrumento, no imparte la sesión: enseñar sobre el tema es 02",
+            "No emite nivel, puntaje ni veredicto: medir es M2 y 08",
+            "No garantiza que el coach nunca falle: las pruebas documentan respuestas, no demuestran ausencia de invención"
+          ]
+        },
+        "traceability": [
+          {
+            "claim": "La intención M1 —crear un coach especializado que enseñe desde una base de fuentes— y su evidencia esperada (system prompt, preguntas iniciales, límites y prueba adversarial) provienen de la biblioteca publicada del método.",
+            "source": "https://javimontano.github.io/prompt-amplificado/biblioteca-prompts.html"
+          },
+          {
+            "claim": "Entregar el coach como system prompt con rol, objetivo, flujo y límites sigue el orden del nivel especificación de la guía pública de creación de prompts.",
+            "source": "https://javimontano.github.io/prompt-amplificado/crear-prompts.html"
+          },
+          {
+            "claim": "Reformular «pruebas que demuestren que no inventa» como «ataques que intentan inducir invención con su respuesta correcta» es corrección interna del método: una prueba no demuestra ausencia.",
+            "source": "method_internal"
+          }
+        ]
+      },
+      "empresa": {
+        "title": "Generador de coach de aprendizaje para el equipo",
+        "purpose": "Diseña el instrumento desplegable: un system prompt de coach con responsable, regla de mantenimiento de la base y límites ratificados, listo para revisión.",
+        "when": "el proceso exige que varias personas comprendan lo mismo y hace falta un coach reutilizable con responsable.",
+        "example": "Coach de ciberseguridad desplegado a líderes no técnicos del área comercial y mantenido por seguridad.",
+        "evidence": "system prompt del coach con rol, base y mensaje inicial, responsable del instrumento, regla de mantenimiento, límites ratificados por gobernanza y tres pruebas adversariales con respuesta esperada, listo para revisión.",
+        "prompt": "Diseña un coach de aprendizaje sobre [TEMA] para [EQUIPO] con [FUENTES] de derechos internos: queremos el instrumento, no la sesión; impartirla es 02. Entrega un system prompt reutilizable por el equipo con rol, base, flujo por turnos y mensaje inicial; cinco preguntas de diagnóstico que cambien si [EQUIPO] llega novato o experto, y si mezcla niveles diseña para el más novato y decláralo. En los límites escribe que el coach no emite nivel, puntaje ni veredicto: calificar es M2. Nombra un responsable del equipo para el instrumento y la regla de mantenimiento de la base. Si [FUENTES] no cubren [TEMA] o no tienen derechos claros, el coach abre con coverage_gap y nombra el riesgo operativo de enseñar sin base. Cierra con tres pruebas adversariales: ataque que intenta inducir invención y respuesta correcta. No inventes fuentes.",
+        "level_spec": {
+          "role": "Diseñador de instrumentos de aprendizaje para equipos: construye el coach desplegable, no la sesión",
+          "spec_role": "Especialista en aprendizaje e investigación basada en evidencia",
+          "objective": "Producir un coach desplegable al equipo con responsable, mantenimiento de la base y límites ratificados",
+          "parameters": [
+            [
+              "nivel",
+              "meta: la salida es el instrumento desplegable; la sesión con el equipo es 02"
+            ],
+            [
+              "propiedad",
+              "responsable nombrado del instrumento y regla de mantenimiento de la base"
+            ],
+            [
+              "frontera_coach_evaluador",
+              "el coach desplegado no emite nivel, puntaje ni veredicto: habilitar por medición es M2 y 08"
+            ],
+            [
+              "derechos",
+              "la base solo entra con derechos de uso interno verificados"
+            ]
+          ],
+          "workflow": [
+            "Registrar tema, equipo consumidor y base con derechos como configuración del instrumento",
+            "Escribir el system prompt reutilizable por el equipo con rol, base, flujo y mensaje inicial",
+            "Derivar cinco preguntas de diagnóstico bifurcadas por nivel del equipo",
+            "Nombrar responsable del instrumento, regla de mantenimiento y límites ratificados",
+            "Cerrar con tres pruebas adversariales y el riesgo operativo de enseñar sin base"
+          ],
+          "guardrails": [
+            "No inventar fuentes, derechos de uso ni resultados de pruebas",
+            "No impartir la sesión con el equipo: eso es 02",
+            "No desplegar sin responsable nombrado ni sin límites ratificados",
+            "Base sin derechos claros: coverage_gap y detención antes de generar"
+          ],
+          "output": [
+            "System prompt del coach reutilizable por el equipo",
+            "Responsable del instrumento y regla de mantenimiento de la base",
+            "Límites ratificados y tres pruebas adversariales con respuesta esperada"
+          ],
+          "dod": "Instrumento listo para revisión: system prompt completo, responsable nombrado, regla de mantenimiento escrita, límites que prohíben calificar y tres pruebas documentadas.",
+          "edge_cases": [
+            "Equipo con niveles mezclados: diseñar para el más novato y declararlo",
+            "Fuentes sin derechos de uso interno: coverage_gap antes de generar",
+            "Nadie acepta ser responsable del instrumento: no se despliega"
+          ]
+        },
+        "why_it_works": {
+          "acceptance_criteria": [
+            "El system prompt es reutilizable por el equipo sin edición y trae rol, base, flujo, límites y mensaje inicial",
+            "Existe un responsable nombrado del instrumento y una regla de mantenimiento verificable de la base",
+            "Los límites ratificados prohíben por escrito emitir nivel, puntaje o veredicto sobre personas",
+            "El riesgo operativo de enseñar sin base queda nombrado en la salida"
+          ],
+          "edge_cases": [
+            "Base sin derechos internos: se declara coverage_gap en vez de asumir permisos",
+            "Equipo con niveles mezclados: la regla de diseño queda fijada, no negociada en sesión"
+          ],
+          "tradeoffs": [
+            "Exigir responsable y derechos frena el despliegue a cambio de un coach mantenible",
+            "Se comprime la prosa de diagnóstico para pagar el mantenimiento y la gobernanza sin perder mecanismos"
+          ],
+          "assumptions": [
+            "El equipo tiene una base con derechos de uso interno y alguien que la mantenga"
+          ],
+          "limits": [
+            "Genera el instrumento, no imparte la sesión con el equipo: eso es 02",
+            "No habilita a nadie: medir y habilitar es M2 y 08",
+            "No garantiza que el coach nunca falle ni sustituye el juicio del responsable"
+          ]
+        },
+        "traceability": [
+          {
+            "claim": "El encargo de M1 —un coach reutilizable con system prompt, preguntas iniciales, límites y prueba adversarial— está publicado en la biblioteca del método y aquí se despliega a un equipo.",
+            "source": "https://javimontano.github.io/prompt-amplificado/biblioteca-prompts.html"
+          },
+          {
+            "claim": "La forma del instrumento (rol, objetivo, parámetros, flujo, límites) reproduce el nivel especificación descrito en la guía pública de creación de prompts.",
+            "source": "https://javimontano.github.io/prompt-amplificado/crear-prompts.html"
+          },
+          {
+            "claim": "Exigir responsable nombrado del instrumento, derechos de uso interno de la base y límites ratificados antes de desplegar un coach a un equipo es política interna del método.",
+            "source": "method_internal"
+          },
+          {
+            "claim": "Nombrar el riesgo operativo de enseñar sobre una base incompleta, en lugar de prometer que el coach no fallará, es la regla interna que evita una garantía de exactitud.",
+            "source": "method_internal"
+          }
+        ]
+      }
+    },
+    "en": {
+      "persona": {
+        "title": "Learning coach generator",
+        "purpose": "Design the instrument, not the session: a reusable coach system prompt with diagnostic questions, declared limits and tests that try to induce invention.",
+        "when": "you want to reuse your method on another topic or audience and you need the coach as a part, not a class.",
+        "example": "Cybersecurity coach for non-technical leaders, built on my notes from last quarter's course.",
+        "evidence": "coach system prompt with role, base, flow and opening message, five diagnostic questions, declared limits and three adversarial tests with the correct answer.",
+        "prompt": "Design a learning coach on [TOPIC] for [AUDIENCE] with [SOURCES] as my only source base: I want the instrument, not the session. Do not explain [TOPIC] or correct restatements; running the session is 02. Deliver a reusable system prompt with role, base, turn flow and the opening message of my first session; five diagnostic questions that change if [AUDIENCE] is new or expert, and if it mixes levels, design for the newest. In the limits write that the coach never issues a level, score or verdict: grading is M2. If [SOURCES] do not cover [TOPIC], the coach opens by declaring coverage_gap instead of filling. Close with three adversarial tests: the attack that tries to induce invention and the correct answer, which is to declare the limit. Never promise the coach cannot fail.",
+        "level_spec": {
+          "role": "Learning-instrument designer: builds the coach, not the class",
+          "spec_role": "Specialist in evidence-grounded learning and research",
+          "objective": "Produce a reusable coach system prompt for my own study plan, with limits and adversarial tests",
+          "parameters": [
+            [
+              "level",
+              "meta: the output is the instrument; the session on the topic is 02"
+            ],
+            [
+              "diagnostic",
+              "five questions that branch on whether the audience is new or expert"
+            ],
+            [
+              "coach_evaluator_boundary",
+              "the generated coach issues no level, score or verdict: grading is M2"
+            ],
+            [
+              "tests",
+              "attack that tries to induce invention plus the expected correct answer"
+            ]
+          ],
+          "workflow": [
+            "Record topic, audience and available base as instrument configuration, not as material to explain",
+            "Write the coach system prompt: role, exclusive base, turn flow and opening message",
+            "Derive five diagnostic questions branched by audience level",
+            "Declare the limits, including the explicit ban on grading",
+            "Close with three adversarial tests, each with attack and correct answer"
+          ],
+          "guardrails": [
+            "Never invent sources, coach capabilities or test results that were not produced",
+            "Never run the coaching session on the topic: that is 02",
+            "Never promise the coach cannot invent: one test does not prove absence of invention",
+            "Insufficient base: the generated coach opens by declaring coverage_gap"
+          ],
+          "output": [
+            "Reusable coach system prompt with role, base, flow and opening message",
+            "Five diagnostic questions branched by audience level",
+            "Explicit limits and three adversarial tests with expected answers"
+          ],
+          "dod": "Reviewable instrument: system prompt with all five parts filled, limits banning grading in writing, and three tests with attack and correct answer.",
+          "edge_cases": [
+            "Mixed new and expert audience: design for the newest and declare it",
+            "Sources that do not cover the topic: the coach opens with coverage_gap",
+            "The session is requested instead of the instrument: route to 02 without explaining the topic"
+          ]
+        },
+        "why_it_works": {
+          "acceptance_criteria": [
+            "The system prompt carries role, base, flow, limits and opening message, none of them empty",
+            "Each adversarial test names the attack and the expected correct answer, which is to declare the limit",
+            "The limits state in writing that no level, score or verdict may be issued",
+            "The output contains no explanation of the topic: if it does, the request was 02"
+          ],
+          "edge_cases": [
+            "Mixed audience: the prompt fixes the rule (design for the newest) rather than leaving it to the model",
+            "Insufficient sources: the generated coach opens with coverage_gap instead of filling"
+          ],
+          "tradeoffs": [
+            "The coach stays bounded to the base in exchange for traceable answers",
+            "Designing the instrument costs a turn that a direct 02 session does not charge",
+            "«Three tests proving it does not invent» becomes «three attacks with a correct answer»: the promise is lost, an executable test is gained"
+          ],
+          "assumptions": [
+            "Whoever uses the coach will keep the base up to date",
+            "The declared audience matches whoever will actually use the coach"
+          ],
+          "limits": [
+            "It generates the instrument, it does not run the session: teaching the topic is 02",
+            "It issues no level, score or verdict: measuring is M2 and 08",
+            "It does not guarantee the coach will never fail: tests document answers, they do not prove absence of invention"
+          ]
+        },
+        "traceability": [
+          {
+            "claim": "Intent M1 — creating a specialized coach that teaches from a source base — and its expected output (system prompt, opening questions, limits and adversarial test) come from the published prompt library.",
+            "source": "https://javimontano.github.io/prompt-amplificado/biblioteca-prompts.html"
+          },
+          {
+            "claim": "Delivering the coach as a system prompt with role, objective, flow and limits follows the specification-level ordering of the public prompt-creation guide.",
+            "source": "https://javimontano.github.io/prompt-amplificado/crear-prompts.html"
+          },
+          {
+            "claim": "Restating «tests that prove it does not invent» as «attacks that try to induce invention, with their correct answer» is an internal method correction: a test cannot prove absence.",
+            "source": "method_internal"
+          }
+        ]
+      },
+      "empresa": {
+        "title": "Team learning coach generator",
+        "purpose": "Design the deployable instrument: a coach system prompt with an accountable owner, a base maintenance rule and ratified limits, ready for review.",
+        "when": "the process needs several people to understand the same thing and a reusable coach with an owner.",
+        "example": "Cybersecurity coach deployed to non-technical leaders in the sales area and maintained by the security function.",
+        "evidence": "coach system prompt with role, base and opening message, instrument owner, maintenance rule, limits ratified by governance and three adversarial tests with the expected answer, ready for review.",
+        "prompt": "Design a learning coach on [TOPIC] for [TEAM] with [SOURCES] under internal rights: we want the instrument, not the session; running it is 02. Deliver a system prompt reusable by the team, with role, base, turn flow and opening message; five diagnostic questions that change if [TEAM] arrives new or expert, and if it mixes levels design for the newest and declare it. In the limits write that the coach never issues a level, score or verdict: grading is M2. Name an accountable owner of the instrument and the base maintenance rule. If [SOURCES] do not cover [TOPIC] or lack clear rights, the coach opens with coverage_gap and names the operational risk of teaching without a base. Close with three adversarial tests: the attack that tries to induce invention and the correct answer.",
+        "level_spec": {
+          "role": "Learning-instrument designer for teams: builds the deployable coach, not the session",
+          "spec_role": "Specialist in evidence-grounded learning and research",
+          "objective": "Produce a coach deployable to the team with an owner, base maintenance and ratified limits",
+          "parameters": [
+            [
+              "level",
+              "meta: the output is the deployable instrument; the session with the team is 02"
+            ],
+            [
+              "ownership",
+              "named instrument owner and a base maintenance rule"
+            ],
+            [
+              "coach_evaluator_boundary",
+              "the deployed coach issues no level, score or verdict: clearing by measurement is M2 and 08"
+            ],
+            [
+              "rights",
+              "the base enters only with verified internal usage rights"
+            ]
+          ],
+          "workflow": [
+            "Record topic, consuming team and rights-cleared base as instrument configuration",
+            "Write the system prompt reusable by the team with role, base, flow and opening message",
+            "Derive five diagnostic questions branched by team level",
+            "Name the instrument owner, the maintenance rule and the ratified limits",
+            "Close with three adversarial tests and the operational risk of teaching without a base"
+          ],
+          "guardrails": [
+            "Never invent sources, usage rights or test results",
+            "Never run the session with the team: that is 02",
+            "Never deploy without a named owner and ratified limits",
+            "Base without clear rights: coverage_gap and stop before generating"
+          ],
+          "output": [
+            "Coach system prompt reusable by the team",
+            "Instrument owner and base maintenance rule",
+            "Ratified limits and three adversarial tests with expected answers"
+          ],
+          "dod": "Instrument ready for review: complete system prompt, named owner, written maintenance rule, limits banning grading and three documented tests.",
+          "edge_cases": [
+            "Team with mixed levels: design for the newest and declare it",
+            "Sources without internal usage rights: coverage_gap before generating",
+            "Nobody accepts ownership of the instrument: it is not deployed"
+          ]
+        },
+        "why_it_works": {
+          "acceptance_criteria": [
+            "The system prompt is reusable by the team without edits and carries role, base, flow, limits and opening message",
+            "A named instrument owner and a verifiable base maintenance rule exist",
+            "The ratified limits ban issuing a level, score or verdict about people, in writing",
+            "The operational risk of teaching without a base is named in the output"
+          ],
+          "edge_cases": [
+            "Base without internal rights: coverage_gap is declared instead of assuming permissions",
+            "Team with mixed levels: the design rule is fixed, not negotiated mid-session"
+          ],
+          "tradeoffs": [
+            "Requiring an owner and rights slows deployment in exchange for a maintainable coach",
+            "Diagnostic prose is compressed to pay for maintenance and governance without dropping mechanisms"
+          ],
+          "assumptions": [
+            "The team has a base with internal usage rights and someone to maintain it"
+          ],
+          "limits": [
+            "It generates the instrument, it does not run the session with the team: that is 02",
+            "It clears nobody: measuring and clearing is M2 and 08",
+            "It does not guarantee the coach will never fail, nor replace the owner's judgment"
+          ]
+        },
+        "traceability": [
+          {
+            "claim": "The M1 brief — a reusable coach with system prompt, opening questions, limits and adversarial test — is published in the method library and is deployed here to a team.",
+            "source": "https://javimontano.github.io/prompt-amplificado/biblioteca-prompts.html"
+          },
+          {
+            "claim": "The instrument shape (role, objective, parameters, flow, limits) reproduces the specification level described in the public prompt-creation guide.",
+            "source": "https://javimontano.github.io/prompt-amplificado/crear-prompts.html"
+          },
+          {
+            "claim": "Requiring a named instrument owner, internal usage rights for the base and ratified limits before deploying a coach to a team is internal method policy.",
+            "source": "method_internal"
+          },
+          {
+            "claim": "Naming the operational risk of teaching on an incomplete base, instead of promising the coach will not fail, is the internal rule that avoids an accuracy guarantee.",
+            "source": "method_internal"
+          }
+        ]
+      }
+    },
+    "pt": {
+      "persona": {
+        "title": "Gerador de coach de aprendizagem",
+        "purpose": "Projete o instrumento e não a sessão: um system prompt de coach reutilizável, com perguntas de diagnóstico, limites declarados e testes que tentam induzir invenção.",
+        "when": "você quer reutilizar seu método em outro tema ou público e precisa do coach como peça, não de uma aula.",
+        "example": "Coach de cibersegurança para líderes não técnicos, montado sobre minhas anotações do último curso.",
+        "evidence": "system prompt do coach com papel, base, fluxo e mensagem inicial, cinco perguntas de diagnóstico, limites declarados e três testes adversariais com a resposta correta.",
+        "prompt": "Projete um coach de aprendizagem sobre [TEMA] para [PÚBLICO] com [FONTES] como minha base única: quero o instrumento, não a sessão. Não explique [TEMA] aqui nem corrija reformulações; conduzir a sessão é 02. Entregue um system prompt reutilizável com papel, base, fluxo por rodadas e a mensagem inicial da minha primeira sessão; cinco perguntas de diagnóstico que mudem se [PÚBLICO] for novato ou experiente, e se misturar níveis projete para o mais novato e diga. Nos limites escreva que o coach não emite nível, pontuação nem veredito: pontuar é M2. Se [FONTES] não cobrirem [TEMA], o coach abre declarando coverage_gap em vez de preencher. Feche com três testes adversariais: o ataque que tenta induzir invenção e a resposta correta, que é declarar o limite. Não prometa que o coach nunca falha nem invente fontes.",
+        "level_spec": {
+          "role": "Projetista de instrumentos de aprendizagem: constrói o coach, não a aula",
+          "spec_role": "Especialista em aprendizagem e pesquisa baseada em evidências",
+          "objective": "Produzir um system prompt de coach reutilizável para o meu plano de estudo, com limites e testes adversariais",
+          "parameters": [
+            [
+              "nivel",
+              "meta: a saída é o instrumento; a sessão sobre o tema é 02"
+            ],
+            [
+              "diagnostico",
+              "cinco perguntas que se ramificam conforme o público seja novato ou experiente"
+            ],
+            [
+              "fronteira_coach_avaliador",
+              "o coach gerado não emite nível, pontuação nem veredito: pontuar é M2"
+            ],
+            [
+              "testes",
+              "ataque que tenta induzir invenção mais a resposta correta esperada"
+            ]
+          ],
+          "workflow": [
+            "Registrar tema, público e base disponível como configuração do instrumento, não como matéria a explicar",
+            "Escrever o system prompt do coach: papel, base exclusiva, fluxo por rodadas e mensagem inicial",
+            "Derivar cinco perguntas de diagnóstico ramificadas pelo nível do público",
+            "Declarar os limites, incluída a proibição explícita de pontuar",
+            "Fechar com três testes adversariais, cada um com ataque e resposta correta"
+          ],
+          "guardrails": [
+            "Não inventar fontes, capacidades do coach nem resultados de testes",
+            "Não conduzir a sessão de coaching sobre o tema: isso é 02",
+            "Não prometer que o coach nunca inventa: um teste não prova ausência de invenção",
+            "Base insuficiente: o coach gerado abre declarando coverage_gap"
+          ],
+          "output": [
+            "System prompt do coach reutilizável com papel, base, fluxo e mensagem inicial",
+            "Cinco perguntas de diagnóstico ramificadas pelo nível do público",
+            "Limites explícitos e três testes adversariais com resposta esperada"
+          ],
+          "dod": "Instrumento revisável: system prompt com as cinco partes completas, limites que proíbem pontuar por escrito, e três testes com ataque e resposta correta.",
+          "edge_cases": [
+            "Público misto novato e experiente: projetar para o mais novato e declarar",
+            "Fontes que não cobrem o tema: o coach abre com coverage_gap",
+            "Pede-se a sessão em vez do instrumento: encaminhar para 02 sem explicar o tema"
+          ]
+        },
+        "why_it_works": {
+          "acceptance_criteria": [
+            "O system prompt traz papel, base, fluxo, limites e mensagem inicial, e nenhum fica vazio",
+            "Cada teste adversarial nomeia o ataque e a resposta correta esperada, que é declarar o limite",
+            "Os limites incluem por escrito a proibição de emitir nível, pontuação ou veredito",
+            "A saída não contém explicação do tema: se contiver, o pedido era 02"
+          ],
+          "edge_cases": [
+            "Público misto: o prompt fixa a regra (projetar para o mais novato) em vez de deixá-la ao critério do modelo",
+            "Fontes insuficientes: o coach gerado abre com coverage_gap em vez de preencher"
+          ],
+          "tradeoffs": [
+            "O coach fica limitado à base em troca de respostas rastreáveis",
+            "Projetar o instrumento custa uma rodada que a sessão direta de 02 não cobra",
+            "«Três testes que provem que não inventa» vira «três ataques com resposta correta»: perde-se a promessa, ganha-se um teste executável"
+          ],
+          "assumptions": [
+            "Quem usar o coach manterá a base atualizada",
+            "O público declarado corresponde a quem realmente usará o coach"
+          ],
+          "limits": [
+            "Gera o instrumento, não conduz a sessão: ensinar o tema é 02",
+            "Não emite nível, pontuação nem veredito: medir é M2 e 08",
+            "Não garante que o coach nunca falhe: os testes documentam respostas, não provam ausência de invenção"
+          ]
+        },
+        "traceability": [
+          {
+            "claim": "A intenção M1 — criar um coach especializado que ensine a partir de fontes — e sua evidência esperada (system prompt, perguntas iniciais, limites e teste adversarial) vêm da biblioteca publicada do método.",
+            "source": "https://javimontano.github.io/prompt-amplificado/biblioteca-prompts.html"
+          },
+          {
+            "claim": "Entregar o coach como system prompt com papel, objetivo, fluxo e limites segue a ordem do nível especificação do guia público de criação de prompts.",
+            "source": "https://javimontano.github.io/prompt-amplificado/crear-prompts.html"
+          },
+          {
+            "claim": "Reformular «testes que provam que não inventa» como «ataques que tentam induzir invenção, com a resposta correta» é correção interna do método: um teste não prova ausência.",
+            "source": "method_internal"
+          }
+        ]
+      },
+      "empresa": {
+        "title": "Gerador de coach de aprendizagem para a equipe",
+        "purpose": "Projete o instrumento implantável: um system prompt de coach com responsável, regra de manutenção da base e limites ratificados, pronto para revisão.",
+        "when": "o processo exige que várias pessoas compreendam o mesmo e falta um coach reutilizável com responsável.",
+        "example": "Coach de cibersegurança implantado para líderes não técnicos da área comercial e mantido pela segurança.",
+        "evidence": "system prompt do coach com papel, base e mensagem inicial, responsável pelo instrumento, regra de manutenção, limites ratificados pela governança e três testes adversariais com a resposta esperada, pronto para revisão.",
+        "prompt": "Projete um coach de aprendizagem sobre [TEMA] para [EQUIPE] com [FONTES] de direitos internos: queremos o instrumento, não a sessão; conduzi-la é 02. Entregue um system prompt reutilizável pela equipe, com papel, base, fluxo por rodadas e mensagem inicial; cinco perguntas de diagnóstico que mudem se [EQUIPE] chegar novata ou experiente, e se misturar níveis projete para o mais novato e declare. Nos limites escreva que o coach não emite nível, pontuação nem veredito: pontuar é M2. Nomeie um responsável da equipe pelo instrumento e a regra de manutenção da base. Se [FONTES] não cobrirem [TEMA] ou não tiverem direitos claros, o coach abre com coverage_gap e nomeia o risco operacional de ensinar sem base. Feche com três testes adversariais: ataque que tenta induzir invenção e resposta correta. Não invente fontes.",
+        "level_spec": {
+          "role": "Projetista de instrumentos de aprendizagem para equipes: constrói o coach implantável, não a sessão",
+          "spec_role": "Especialista em aprendizagem e pesquisa baseada em evidências",
+          "objective": "Produzir um coach implantável na equipe com responsável, manutenção da base e limites ratificados",
+          "parameters": [
+            [
+              "nivel",
+              "meta: a saída é o instrumento implantável; a sessão com a equipe é 02"
+            ],
+            [
+              "propriedade",
+              "responsável nomeado pelo instrumento e regra de manutenção da base"
+            ],
+            [
+              "fronteira_coach_avaliador",
+              "o coach implantado não emite nível, pontuação nem veredito: habilitar por medição é M2 e 08"
+            ],
+            [
+              "direitos",
+              "a base entra apenas com direitos de uso interno verificados"
+            ]
+          ],
+          "workflow": [
+            "Registrar tema, equipe consumidora e base com direitos como configuração do instrumento",
+            "Escrever o system prompt reutilizável pela equipe com papel, base, fluxo e mensagem inicial",
+            "Derivar cinco perguntas de diagnóstico ramificadas pelo nível da equipe",
+            "Nomear responsável pelo instrumento, regra de manutenção e limites ratificados",
+            "Fechar com três testes adversariais e o risco operacional de ensinar sem base"
+          ],
+          "guardrails": [
+            "Não inventar fontes, direitos de uso nem resultados de testes",
+            "Não conduzir a sessão com a equipe: isso é 02",
+            "Não implantar sem responsável nomeado nem sem limites ratificados",
+            "Base sem direitos claros: coverage_gap e parada antes de gerar"
+          ],
+          "output": [
+            "System prompt do coach reutilizável pela equipe",
+            "Responsável pelo instrumento e regra de manutenção da base",
+            "Limites ratificados e três testes adversariais com resposta esperada"
+          ],
+          "dod": "Instrumento pronto para revisão: system prompt completo, responsável nomeado, regra de manutenção escrita, limites que proíbem pontuar e três testes documentados.",
+          "edge_cases": [
+            "Equipe com níveis misturados: projetar para o mais novato e declarar",
+            "Fontes sem direitos de uso interno: coverage_gap antes de gerar",
+            "Ninguém aceita ser responsável pelo instrumento: não se implanta"
+          ]
+        },
+        "why_it_works": {
+          "acceptance_criteria": [
+            "O system prompt é reutilizável pela equipe sem edição e traz papel, base, fluxo, limites e mensagem inicial",
+            "Existe responsável nomeado pelo instrumento e regra verificável de manutenção da base",
+            "Os limites ratificados proíbem por escrito emitir nível, pontuação ou veredito sobre pessoas",
+            "O risco operacional de ensinar sem base fica nomeado na saída"
+          ],
+          "edge_cases": [
+            "Base sem direitos internos: declara-se coverage_gap em vez de presumir permissões",
+            "Equipe com níveis misturados: a regra de projeto fica fixada, não negociada em sessão"
+          ],
+          "tradeoffs": [
+            "Exigir responsável e direitos freia a implantação em troca de um coach sustentável",
+            "A prosa de diagnóstico é comprimida para pagar manutenção e governança sem perder mecanismos"
+          ],
+          "assumptions": [
+            "A equipe tem base com direitos de uso interno e alguém que a mantenha"
+          ],
+          "limits": [
+            "Gera o instrumento, não conduz a sessão com a equipe: isso é 02",
+            "Não habilita ninguém: medir e habilitar é M2 e 08",
+            "Não garante que o coach nunca falhe nem substitui o julgamento do responsável"
+          ]
+        },
+        "traceability": [
+          {
+            "claim": "O encargo de M1 — um coach reutilizável com system prompt, perguntas iniciais, limites e teste adversarial — está publicado na biblioteca do método e aqui é implantado numa equipe.",
+            "source": "https://javimontano.github.io/prompt-amplificado/biblioteca-prompts.html"
+          },
+          {
+            "claim": "A forma do instrumento (papel, objetivo, parâmetros, fluxo, limites) reproduz o nível especificação descrito no guia público de criação de prompts.",
+            "source": "https://javimontano.github.io/prompt-amplificado/crear-prompts.html"
+          },
+          {
+            "claim": "Exigir responsável nomeado pelo instrumento, direitos de uso interno da base e limites ratificados antes de implantar um coach numa equipe é política interna do método.",
+            "source": "method_internal"
+          },
+          {
+            "claim": "Nomear o risco operacional de ensinar sobre base incompleta, em vez de prometer que o coach não falhará, é a regra interna que evita uma garantia de exatidão.",
+            "source": "method_internal"
+          }
+        ]
+      }
+    }
+  },
+  "self_hash_model": "sha256(sorted-json-without-self_sha256)",
+  "self_sha256": "c5bf5ede6123d9274e20f684c7944afc0b07eeae8f4044b268bb9deb7fab3caf"
+}

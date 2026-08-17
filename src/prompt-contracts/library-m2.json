@@ -1,0 +1,626 @@
+{
+  "schema_version": "prompt-intent-contract-v1",
+  "intent_id": "M2",
+  "surface": "library",
+  "phase": "Metaprompt",
+  "state": "RENDERED_DRAFT",
+  "publication_authorized": false,
+  "boundary": {
+    "distinct_from": [
+      "08",
+      "M1",
+      "M3"
+    ],
+    "decision_rule": "Usa M2 cuando necesitas el instrumento de medición y no la medición: M2 diseña un evaluador —system prompt, rúbrica observable de niveles nombrados con su evidencia, banco de ocho tareas, regla de avance y regla de reintento— mientras 08 ejecuta la evaluación sobre un tema con sus fuentes; M2 no formula preguntas al evaluado ni le asigna nivel. Si lo que hace falta es comprender mediante explicación, reformulación y contraejemplo sin calificación, usa el generador de coach M1 (o el coach 02): el evaluador que M2 genera no enseña más allá de la corrección citada y nunca compara personas. M3 genera un entrevistador que presiona una defensa ya escrita, no un evaluador de dominio."
+  },
+  "locales": {
+    "es": {
+      "persona": {
+        "title": "Generador de evaluador progresivo",
+        "purpose": "Diseña el instrumento de medición y no la medición: rúbrica observable de tres niveles nombrados, banco de ocho tareas y reglas explícitas de avance y de reintento.",
+        "when": "necesitas comprobar tu dominio en otro tema y quieres un evaluador reutilizable, no una sesión suelta.",
+        "example": "Evaluador de uso seguro de IA para medir mi propio dominio antes de aplicarlo en un caso real.",
+        "evidence": "system prompt del evaluador, rúbrica observable de tres niveles con la evidencia que exige cada uno, ocho tareas graduadas, regla de avance, regla de reintento y reporte final por dimensión.",
+        "prompt": "Diseña un evaluador de [TEMA] con [FUENTES]: quiero el instrumento para medir mi dominio, no que me evalúes: eso es 08. Entrega su system prompt con rúbrica observable: ausente si no cita condición de [FUENTES], parcial si omite una exigida, demostrado si la cita literal. Ocho tareas de [TEMA], dos por nivel: recuperación, explicación, aplicación, transferencia. Avanza solo con demostrado; un reintento sustituye el resultado. Corrige citando, no enseña ni usa analogías (eso es M1) y no revela la solución antes de mi intento. Tarea sin cobertura en [FUENTES]: se excluye, no se inventa. Acierto de fuera de la base: se registra sin puntuar. Compara corridas contra la rúbrica, nunca personas.",
+        "level_spec": {
+          "role": "Diseñador de instrumentos de medición: construye el evaluador, no el veredicto",
+          "spec_role": "Especialista en aprendizaje e investigación basada en evidencia",
+          "objective": "Producir un evaluador reutilizable con rúbrica observable, banco de tareas y reglas de avance y reintento",
+          "parameters": [
+            [
+              "nivel",
+              "meta: la salida es el instrumento; medir mi dominio sobre el tema es 08"
+            ],
+            [
+              "rubrica",
+              "tres niveles nombrados: ausente, parcial, demostrado, cada uno con la evidencia que exige"
+            ],
+            [
+              "banco",
+              "ocho tareas, dos por nivel cognitivo: recuperación, explicación, aplicación, transferencia"
+            ],
+            [
+              "reintento",
+              "uno por tarea, sustituye el resultado; el avance solo ocurre con demostrado"
+            ],
+            [
+              "frontera_evaluador_coach",
+              "el evaluador generado corrige citando y no enseña ni usa analogías: eso es M1"
+            ]
+          ],
+          "workflow": [
+            "Registrar tema y base disponible como configuración del instrumento, no como examen a rendir",
+            "Escribir la rúbrica de tres niveles nombrados con la evidencia observable que exige cada nivel",
+            "Derivar ocho tareas repartidas dos por nivel cognitivo y descartar las que la base no cubre",
+            "Fijar la regla de avance, la de reintento y el guardrail anti-revelación",
+            "Cerrar con el formato de reporte final por dimensión, comparable entre corridas"
+          ],
+          "guardrails": [
+            "No inventar tareas ni preguntas fuera de la base",
+            "No ejecutar la evaluación ni asignarme nivel: eso es 08",
+            "El evaluador no revela la solución antes del intento",
+            "El evaluador no enseña contenido nuevo más allá de la corrección citada",
+            "Nunca comparar personas: la comparación es contra la rúbrica, entre corridas"
+          ],
+          "output": [
+            "System prompt del evaluador con rúbrica de tres niveles nombrados",
+            "Ocho tareas graduadas mapeadas a los cuatro niveles cognitivos",
+            "Regla de avance, regla de reintento y reporte final por dimensión"
+          ],
+          "dod": "Instrumento revisable: cada nivel de la rúbrica trae la evidencia que lo demuestra, las ocho tareas están mapeadas, y avance, reintento y anti-revelación están escritos.",
+          "edge_cases": [
+            "Tarea sin cobertura en la base: se excluye del banco, no se inventa",
+            "Respuesta correcta traída de fuera de la base: se registra sin puntuar",
+            "Se pide la evaluación en lugar del instrumento: derivar a 08"
+          ]
+        },
+        "why_it_works": {
+          "acceptance_criteria": [
+            "La rúbrica nombra tres niveles y cada uno declara la evidencia observable que lo demuestra: cita de condición ausente, condición omitida, reproducción literal",
+            "Las ocho tareas están mapeadas dos a dos a recuperación, explicación, aplicación y transferencia",
+            "La regla de avance y la de reintento indican máximo y efecto en el resultado, sin adjetivos",
+            "El instrumento no contiene ninguna comparación entre personas"
+          ],
+          "edge_cases": [
+            "Base que no cubre un nivel cognitivo: se declara y el banco baja de ocho tareas en vez de inventarlas",
+            "Acierto por conocimiento externo: queda registrado sin puntaje, porque la medición es contra la base"
+          ],
+          "tradeoffs": [
+            "Medición estrecha, solo contra la base, a cambio de un veredicto defendible con cita",
+            "«Ocho tareas graduadas» sin dimensión se sustituye por dos tareas por nivel cognitivo: se pierde libertad de graduación, se gana un banco auditable"
+          ],
+          "assumptions": [
+            "La base cubre los cuatro niveles cognitivos; si no, el banco se recorta y se declara"
+          ],
+          "limits": [
+            "Genera el instrumento, no ejecuta la evaluación: medir es 08",
+            "No enseña: explicar, reformular y usar contraejemplos es M1 y 02",
+            "El nivel medido describe la respuesta contra la base, no la capacidad de la persona"
+          ]
+        },
+        "traceability": [
+          {
+            "claim": "La intención M2 —crear una evaluación progresiva, observable y ligada a evidencia— y su evidencia esperada (prompt del evaluador, rúbrica, banco de tareas y regla de aprobación) provienen de la biblioteca publicada del método.",
+            "source": "https://javimontano.github.io/prompt-amplificado/biblioteca-prompts.html"
+          },
+          {
+            "claim": "Expresar el evaluador como especificación con rol, objetivo, parámetros, flujo y casos borde sigue la guía pública de creación de prompts.",
+            "source": "https://javimontano.github.io/prompt-amplificado/crear-prompts.html"
+          },
+          {
+            "claim": "Mapear las ocho tareas a recuperación, explicación, aplicación y transferencia, y declarar máximo de reintento con su efecto, son reglas internas que hacen graduable el banco.",
+            "source": "method_internal"
+          }
+        ]
+      },
+      "empresa": {
+        "title": "Generador de evaluador progresivo para el equipo",
+        "purpose": "Diseña el instrumento de medición del equipo: rúbrica observable de niveles nombrados, reglas de avance y reintento y un reporte comparable entre corridas, listo para revisión.",
+        "when": "el proceso exige evidencia de dominio antes de habilitar y hace falta un evaluador reutilizable con responsable.",
+        "example": "Evaluador de uso responsable de IA para el equipo de talento, antes de habilitar su uso en el proceso.",
+        "evidence": "system prompt del evaluador, rúbrica observable de tres niveles con su evidencia, ocho tareas, regla de avance y de reintento, umbral de habilitación y reporte comparable entre corridas, listo para revisión del responsable.",
+        "prompt": "Diseña un evaluador de [TEMA] para [EQUIPO] con [FUENTES]: queremos el instrumento, no la medición: medir es 08. Entrega su system prompt con rúbrica observable: ausente si no cita condición de [FUENTES], parcial si omite una exigida, demostrado si la cita literal. Ocho tareas de [TEMA], dos por nivel: recuperación, explicación, aplicación, transferencia. Avanza solo con demostrado; un reintento sustituye el resultado. Corrige citando, no enseña (eso es M1) ni revela la solución antes del intento. Tarea sin cobertura: se excluye, no se inventa. Fija umbral de habilitación, verificador distinto del productor y el riesgo operativo de habilitar a [EQUIPO] por debajo. Compara corridas contra la rúbrica, nunca personas del equipo.",
+        "level_spec": {
+          "role": "Diseñador de instrumentos de medición para equipos: construye el evaluador y su umbral, no la habilitación",
+          "spec_role": "Especialista en aprendizaje e investigación basada en evidencia",
+          "objective": "Producir un evaluador aplicable al equipo con rúbrica observable, umbral de habilitación y reporte comparable entre corridas",
+          "parameters": [
+            [
+              "nivel",
+              "meta: la salida es el instrumento; medir a quien responde es 08"
+            ],
+            [
+              "rubrica",
+              "tres niveles nombrados con la evidencia que exige cada uno, idénticos entre corridas"
+            ],
+            [
+              "umbral",
+              "nivel mínimo de habilitación declarado antes de aplicar el instrumento"
+            ],
+            [
+              "verificacion",
+              "verificador distinto de quien produce el instrumento"
+            ],
+            [
+              "frontera_evaluador_coach",
+              "el evaluador generado corrige citando y no enseña: eso es M1"
+            ]
+          ],
+          "workflow": [
+            "Registrar tema, equipo evaluable y base como configuración del instrumento",
+            "Escribir la rúbrica de tres niveles nombrados con evidencia observable por nivel",
+            "Derivar ocho tareas dos por nivel cognitivo y excluir lo que la base no cubre",
+            "Fijar umbral de habilitación, regla de avance, regla de reintento y anti-revelación",
+            "Cerrar con reporte comparable entre corridas, verificador distinto y riesgo operativo de habilitar por debajo del umbral"
+          ],
+          "guardrails": [
+            "No inventar tareas, umbrales ni resultados",
+            "No ejecutar la evaluación ni habilitar a nadie: eso es 08 y la decisión del responsable",
+            "El evaluador no revela la solución antes del intento",
+            "El evaluador no enseña contenido nuevo más allá de la corrección citada",
+            "Prohibido comparar o rankear personas del equipo: la comparación es entre corridas contra la rúbrica"
+          ],
+          "output": [
+            "System prompt del evaluador con rúbrica y umbral de habilitación",
+            "Ocho tareas mapeadas y reglas de avance y reintento",
+            "Reporte comparable entre corridas con verificador distinto del productor"
+          ],
+          "dod": "Instrumento listo para revisión: rúbrica con evidencia por nivel, umbral declarado, verificador distinto nombrado y reporte comparable entre corridas sin comparación entre personas.",
+          "edge_cases": [
+            "Base que no cubre una dimensión del proceso: se excluye y se declara el vacío",
+            "Presión por rankear al equipo: el instrumento lo rechaza por diseño",
+            "Sin verificador distinto disponible: no se aplica el instrumento"
+          ]
+        },
+        "why_it_works": {
+          "acceptance_criteria": [
+            "La rúbrica nombra tres niveles y declara para cada uno la evidencia observable, con el mismo texto en todas las corridas",
+            "El umbral de habilitación está escrito antes de aplicar el instrumento, no después de ver resultados",
+            "El reporte permite comparar corridas contra la rúbrica y no contiene comparación entre personas",
+            "Existe un verificador distinto de quien produjo el instrumento"
+          ],
+          "edge_cases": [
+            "Dimensión sin cobertura en la base: se excluye del banco y se declara el vacío",
+            "Acierto por conocimiento externo del evaluado: se registra sin puntuar"
+          ],
+          "tradeoffs": [
+            "Un umbral fijado antes reduce flexibilidad a cambio de una habilitación defendible",
+            "La divergencia de audiencia se paga comprimiendo la prosa del banco, no quitando la rúbrica ni las reglas de avance"
+          ],
+          "assumptions": [
+            "Existe un responsable que decide la habilitación y una base con cobertura de las cuatro dimensiones"
+          ],
+          "limits": [
+            "Genera el instrumento, no ejecuta la evaluación ni habilita: medir es 08 y habilitar es del responsable",
+            "No enseña al equipo: eso es M1 y 02",
+            "El nivel describe la respuesta contra la base y no sustituye el juicio de quien habilita"
+          ]
+        },
+        "traceability": [
+          {
+            "claim": "El encargo de M2 —una evaluación progresiva, observable y ligada a evidencia, con rúbrica, banco de tareas y regla de aprobación— está publicado en la biblioteca del método y aquí se aplica a un equipo.",
+            "source": "https://javimontano.github.io/prompt-amplificado/biblioteca-prompts.html"
+          },
+          {
+            "claim": "La estructura del instrumento como especificación con parámetros, flujo y casos borde reproduce el nivel especificación de la guía pública de creación de prompts.",
+            "source": "https://javimontano.github.io/prompt-amplificado/crear-prompts.html"
+          },
+          {
+            "claim": "Exigir umbral de habilitación declarado antes de aplicar, verificador distinto de quien produce el instrumento y decisión de habilitación documentada es política interna del método.",
+            "source": "method_internal"
+          },
+          {
+            "claim": "Prohibir la comparación entre personas y limitar la comparación a corridas contra la misma rúbrica es la regla interna que evita usar el instrumento como sustituto del juicio humano.",
+            "source": "method_internal"
+          }
+        ]
+      }
+    },
+    "en": {
+      "persona": {
+        "title": "Progressive evaluator generator",
+        "purpose": "Design the measuring instrument, not the measurement: an observable rubric with three named levels, an eight-task bank and explicit advance and retry rules.",
+        "when": "you need to test your mastery on another topic and want a reusable evaluator, not a one-off session.",
+        "example": "Safe-AI-use evaluator to measure my own mastery before applying it in a real case.",
+        "evidence": "evaluator system prompt, observable rubric of three levels with the evidence each one demands, eight graded tasks, advance rule, retry rule and a final report per dimension.",
+        "prompt": "Design an evaluator for [TOPIC] from [SOURCES]: I want the instrument to measure my mastery, not to be assessed: that is 08. Deliver its system prompt with an observable rubric: absent if no [SOURCES] condition is quoted, partial if a required one is dropped, demonstrated if quoted verbatim. Eight [TOPIC] tasks, two per level: retrieval, explanation, application, transfer. Advance only on demonstrated; one retry replaces the result. It corrects by quoting, never teaches or uses analogies (that is M1) and never reveals the answer before my attempt. Task uncovered by [SOURCES]: dropped, never invented. A hit from outside the base is logged unscored. Compare runs against the rubric, never people.",
+        "level_spec": {
+          "role": "Measuring-instrument designer: builds the evaluator, not the verdict",
+          "spec_role": "Specialist in evidence-grounded learning and research",
+          "objective": "Produce a reusable evaluator with an observable rubric, a task bank and advance and retry rules",
+          "parameters": [
+            [
+              "level",
+              "meta: the output is the instrument; measuring my mastery on the topic is 08"
+            ],
+            [
+              "rubric",
+              "three named levels — absent, partial, demonstrated — each with the evidence it demands"
+            ],
+            [
+              "bank",
+              "eight tasks, two per cognitive level: retrieval, explanation, application, transfer"
+            ],
+            [
+              "retry",
+              "one per task, replacing the result; advancing happens only on demonstrated"
+            ],
+            [
+              "evaluator_coach_boundary",
+              "the generated evaluator corrects by quoting and never teaches or uses analogies: that is M1"
+            ]
+          ],
+          "workflow": [
+            "Record topic and available base as instrument configuration, not as an exam to sit",
+            "Write the three named rubric levels with the observable evidence each level demands",
+            "Derive eight tasks, two per cognitive level, dropping anything the base does not cover",
+            "Fix the advance rule, the retry rule and the no-reveal guardrail",
+            "Close with the final report format per dimension, comparable across runs"
+          ],
+          "guardrails": [
+            "Never invent tasks or questions outside the base",
+            "Never run the assessment or assign me a level: that is 08",
+            "The evaluator never reveals the answer before the attempt",
+            "The evaluator never teaches new content beyond the quoted correction",
+            "Never compare people: comparison runs against the rubric, across runs"
+          ],
+          "output": [
+            "Evaluator system prompt with a three-level named rubric",
+            "Eight graded tasks mapped to the four cognitive levels",
+            "Advance rule, retry rule and a final report per dimension"
+          ],
+          "dod": "Reviewable instrument: every rubric level carries the evidence that proves it, the eight tasks are mapped, and advance, retry and no-reveal are written down.",
+          "edge_cases": [
+            "Task not covered by the base: dropped from the bank, never invented",
+            "Correct answer from outside the base: logged without a score",
+            "The assessment is requested instead of the instrument: route to 08"
+          ]
+        },
+        "why_it_works": {
+          "acceptance_criteria": [
+            "The rubric names three levels and each declares its observable evidence: no condition quoted, a required condition dropped, verbatim reproduction",
+            "The eight tasks map two by two to retrieval, explanation, application and transfer",
+            "Advance and retry rules state the maximum and the effect on the result, with no adjectives",
+            "The instrument contains no comparison between people"
+          ],
+          "edge_cases": [
+            "Base missing a cognitive level: it is declared and the bank drops below eight tasks instead of inventing them",
+            "A hit from outside knowledge: logged unscored, because measurement runs against the base"
+          ],
+          "tradeoffs": [
+            "Narrow, base-only measurement in exchange for a verdict defensible by quote",
+            "«Eight graded tasks» with no stated dimension becomes two tasks per cognitive level: grading freedom is lost, an auditable bank is gained"
+          ],
+          "assumptions": [
+            "The base covers the four cognitive levels; otherwise the bank shrinks and says so"
+          ],
+          "limits": [
+            "It generates the instrument, it does not run the assessment: measuring is 08",
+            "It does not teach: explaining, restating and counterexamples are M1 and 02",
+            "The measured level describes the answer against the base, not the person's capability"
+          ]
+        },
+        "traceability": [
+          {
+            "claim": "Intent M2 — creating a progressive, observable, evidence-bound assessment — and its expected output (evaluator prompt, rubric, task bank and pass rule) come from the published prompt library.",
+            "source": "https://javimontano.github.io/prompt-amplificado/biblioteca-prompts.html"
+          },
+          {
+            "claim": "Stating the evaluator as a specification with role, objective, parameters, flow and edge cases follows the public prompt-creation guide.",
+            "source": "https://javimontano.github.io/prompt-amplificado/crear-prompts.html"
+          },
+          {
+            "claim": "Mapping the eight tasks to retrieval, explanation, application and transfer, and declaring a retry maximum with its effect, are internal rules that make the bank gradable.",
+            "source": "method_internal"
+          }
+        ]
+      },
+      "empresa": {
+        "title": "Team progressive evaluator generator",
+        "purpose": "Design the team's measuring instrument: an observable rubric with named levels, advance and retry rules and a report comparable across runs, ready for review.",
+        "when": "the process requires evidence of mastery before clearing someone and a reusable evaluator with an accountable owner.",
+        "example": "Responsible-AI-use evaluator for the talent team, before clearing its use inside the process.",
+        "evidence": "evaluator system prompt, observable rubric of three levels with its evidence, eight tasks, advance and retry rules, clearance threshold and a report comparable across runs, ready for the owner's review.",
+        "prompt": "Design an evaluator on [TOPIC] for [TEAM] from [SOURCES]: we want the instrument, not the measurement; assessing is 08. Deliver its system prompt with an observable rubric: absent if no [SOURCES] condition is quoted, partial if a required one is dropped, demonstrated if quoted verbatim. Eight [TOPIC] tasks, two per level: retrieval, explanation, application, transfer. Advance only on demonstrated; one retry replaces the result. It corrects by quoting, never teaches (that is M1) nor reveals the answer before the attempt. Task uncovered: dropped, never invented. Set the clearance threshold, an accountable verifier other than the author and the operational risk of clearing [TEAM] below it.",
+        "level_spec": {
+          "role": "Measuring-instrument designer for teams: builds the evaluator and its threshold, not the clearance",
+          "spec_role": "Specialist in evidence-grounded learning and research",
+          "objective": "Produce an evaluator applicable to the team with an observable rubric, a clearance threshold and a report comparable across runs",
+          "parameters": [
+            [
+              "level",
+              "meta: the output is the instrument; measuring the respondent is 08"
+            ],
+            [
+              "rubric",
+              "three named levels with the evidence each demands, identical across runs"
+            ],
+            [
+              "threshold",
+              "minimum clearance level declared before the instrument is applied"
+            ],
+            [
+              "verification",
+              "a verifier other than the author of the instrument"
+            ],
+            [
+              "evaluator_coach_boundary",
+              "the generated evaluator corrects by quoting and never teaches: that is M1"
+            ]
+          ],
+          "workflow": [
+            "Record topic, assessable team and base as instrument configuration",
+            "Write the three named rubric levels with observable evidence per level",
+            "Derive eight tasks two per cognitive level and exclude what the base does not cover",
+            "Fix the clearance threshold, advance rule, retry rule and no-reveal guardrail",
+            "Close with a report comparable across runs, a distinct verifier and the operational risk of clearing below the threshold"
+          ],
+          "guardrails": [
+            "Never invent tasks, thresholds or results",
+            "Never run the assessment or clear anyone: that is 08 and the owner's decision",
+            "The evaluator never reveals the answer before the attempt",
+            "The evaluator never teaches new content beyond the quoted correction",
+            "Ranking or comparing people on the team is banned: comparison runs across runs against the rubric"
+          ],
+          "output": [
+            "Evaluator system prompt with rubric and clearance threshold",
+            "Eight mapped tasks with advance and retry rules",
+            "Report comparable across runs, with a verifier other than the author"
+          ],
+          "dod": "Instrument ready for review: rubric with evidence per level, declared threshold, named distinct verifier and a report comparable across runs with no comparison between people.",
+          "edge_cases": [
+            "Base missing a dimension of the process: excluded, with the gap declared",
+            "Pressure to rank the team: the instrument refuses it by design",
+            "No distinct verifier available: the instrument is not applied"
+          ]
+        },
+        "why_it_works": {
+          "acceptance_criteria": [
+            "The rubric names three levels and declares the observable evidence for each, with identical wording across runs",
+            "The clearance threshold is written before the instrument is applied, not after seeing results",
+            "The report compares runs against the rubric and contains no comparison between people",
+            "A verifier other than the instrument's author exists"
+          ],
+          "edge_cases": [
+            "Dimension not covered by the base: excluded from the bank and the gap declared",
+            "Respondent's hit from outside knowledge: logged without a score"
+          ],
+          "tradeoffs": [
+            "A threshold fixed up front reduces flexibility in exchange for a defensible clearance",
+            "The audience divergence is paid by compressing the bank prose, not by removing the rubric or the advance rules"
+          ],
+          "assumptions": [
+            "An owner decides clearance and the base covers the four dimensions"
+          ],
+          "limits": [
+            "It generates the instrument, it neither assesses nor clears: measuring is 08, clearing belongs to the owner",
+            "It does not teach the team: that is M1 and 02",
+            "The level describes the answer against the base and does not replace the judgment of whoever clears"
+          ]
+        },
+        "traceability": [
+          {
+            "claim": "The M2 brief — a progressive, observable, evidence-bound assessment with rubric, task bank and pass rule — is published in the method library and is applied here to a team.",
+            "source": "https://javimontano.github.io/prompt-amplificado/biblioteca-prompts.html"
+          },
+          {
+            "claim": "Structuring the instrument as a specification with parameters, flow and edge cases reproduces the specification level of the public prompt-creation guide.",
+            "source": "https://javimontano.github.io/prompt-amplificado/crear-prompts.html"
+          },
+          {
+            "claim": "Requiring a clearance threshold declared before application, a verifier other than the instrument's author and a documented clearance decision is internal method policy.",
+            "source": "method_internal"
+          },
+          {
+            "claim": "Banning comparison between people and limiting comparison to runs against the same rubric is the internal rule that keeps the instrument from replacing human judgment.",
+            "source": "method_internal"
+          }
+        ]
+      }
+    },
+    "pt": {
+      "persona": {
+        "title": "Gerador de avaliador progressivo",
+        "purpose": "Projete o instrumento de medição e não a medição: rubrica observável de três níveis nomeados, banco de oito tarefas e regras explícitas de avanço e de nova tentativa.",
+        "when": "você precisa comprovar seu domínio em outro tema e quer um avaliador reutilizável, não uma sessão avulsa.",
+        "example": "Avaliador de uso seguro de IA para medir meu próprio domínio antes de aplicá-lo num caso real.",
+        "evidence": "system prompt do avaliador, rubrica observável de três níveis com a evidência que cada um exige, oito tarefas graduadas, regra de avanço, regra de nova tentativa e relatório final por dimensão.",
+        "prompt": "Projete um avaliador de [TEMA] com [FONTES]: quero o instrumento para medir meu domínio, não que me avalie agora; isso é 08. Entregue o system prompt dele com rubrica observável: ausente se não cita condição de [FONTES], parcial se omite uma exigida, demonstrado se a cita literal. Oito tarefas de [TEMA], duas por nível: recuperação, explicação, aplicação, transferência. Avance só com demonstrado; uma nova tentativa substitui o resultado. Corrige citando, não ensina nem usa analogias (isso é M1) e não revela a solução antes da minha tentativa. Tarefa sem cobertura em [FONTES]: exclui-se, não se inventa. Acerto de fora da base: registra-se sem pontuar. Compare rodadas contra a rubrica, nunca pessoas.",
+        "level_spec": {
+          "role": "Projetista de instrumentos de medição: constrói o avaliador, não o veredito",
+          "spec_role": "Especialista em aprendizagem e pesquisa baseada em evidências",
+          "objective": "Produzir um avaliador reutilizável com rubrica observável, banco de tarefas e regras de avanço e nova tentativa",
+          "parameters": [
+            [
+              "nivel",
+              "meta: a saída é o instrumento; medir meu domínio sobre o tema é 08"
+            ],
+            [
+              "rubrica",
+              "três níveis nomeados — ausente, parcial, demonstrado — cada um com a evidência que exige"
+            ],
+            [
+              "banco",
+              "oito tarefas, duas por nível cognitivo: recuperação, explicação, aplicação, transferência"
+            ],
+            [
+              "nova_tentativa",
+              "uma por tarefa, substitui o resultado; o avanço só ocorre com demonstrado"
+            ],
+            [
+              "fronteira_avaliador_coach",
+              "o avaliador gerado corrige citando e não ensina nem usa analogias: isso é M1"
+            ]
+          ],
+          "workflow": [
+            "Registrar tema e base disponível como configuração do instrumento, não como prova a fazer",
+            "Escrever os três níveis nomeados da rubrica com a evidência observável que cada um exige",
+            "Derivar oito tarefas, duas por nível cognitivo, descartando o que a base não cobre",
+            "Fixar a regra de avanço, a de nova tentativa e o guardrail de não revelar",
+            "Fechar com o formato do relatório final por dimensão, comparável entre rodadas"
+          ],
+          "guardrails": [
+            "Não inventar tarefas nem perguntas fora da base",
+            "Não executar a avaliação nem me atribuir nível: isso é 08",
+            "O avaliador não revela a solução antes da tentativa",
+            "O avaliador não ensina conteúdo novo além da correção citada",
+            "Nunca comparar pessoas: a comparação é contra a rubrica, entre rodadas"
+          ],
+          "output": [
+            "System prompt do avaliador com rubrica de três níveis nomeados",
+            "Oito tarefas graduadas mapeadas aos quatro níveis cognitivos",
+            "Regra de avanço, regra de nova tentativa e relatório final por dimensão"
+          ],
+          "dod": "Instrumento revisável: cada nível da rubrica traz a evidência que o demonstra, as oito tarefas estão mapeadas, e avanço, nova tentativa e não revelar estão escritos.",
+          "edge_cases": [
+            "Tarefa sem cobertura na base: excluída do banco, nunca inventada",
+            "Resposta correta vinda de fora da base: registrada sem pontuação",
+            "Pede-se a avaliação em vez do instrumento: encaminhar para 08"
+          ]
+        },
+        "why_it_works": {
+          "acceptance_criteria": [
+            "A rubrica nomeia três níveis e cada um declara a evidência observável: condição não citada, condição exigida omitida, reprodução literal",
+            "As oito tarefas mapeiam duas a duas para recuperação, explicação, aplicação e transferência",
+            "As regras de avanço e de nova tentativa dizem o máximo e o efeito no resultado, sem adjetivos",
+            "O instrumento não contém comparação entre pessoas"
+          ],
+          "edge_cases": [
+            "Base sem um nível cognitivo: declara-se e o banco fica com menos de oito tarefas em vez de inventá-las",
+            "Acerto por conhecimento externo: registrado sem pontuação, porque a medição é contra a base"
+          ],
+          "tradeoffs": [
+            "Medição estreita, só contra a base, em troca de um veredito defensável por citação",
+            "«Oito tarefas graduadas» sem dimensão vira duas tarefas por nível cognitivo: perde-se liberdade de graduação, ganha-se um banco auditável"
+          ],
+          "assumptions": [
+            "A base cobre os quatro níveis cognitivos; caso contrário o banco encolhe e isso é declarado"
+          ],
+          "limits": [
+            "Gera o instrumento, não executa a avaliação: medir é 08",
+            "Não ensina: explicar, reformular e usar contraexemplos é M1 e 02",
+            "O nível medido descreve a resposta contra a base, não a capacidade da pessoa"
+          ]
+        },
+        "traceability": [
+          {
+            "claim": "A intenção M2 — criar uma avaliação progressiva, observável e ligada a evidência — e sua evidência esperada (prompt do avaliador, rubrica, banco de tarefas e regra de aprovação) vêm da biblioteca publicada do método.",
+            "source": "https://javimontano.github.io/prompt-amplificado/biblioteca-prompts.html"
+          },
+          {
+            "claim": "Expressar o avaliador como especificação com papel, objetivo, parâmetros, fluxo e casos-limite segue o guia público de criação de prompts.",
+            "source": "https://javimontano.github.io/prompt-amplificado/crear-prompts.html"
+          },
+          {
+            "claim": "Mapear as oito tarefas para recuperação, explicação, aplicação e transferência, e declarar máximo de nova tentativa com seu efeito, são regras internas que tornam o banco graduável.",
+            "source": "method_internal"
+          }
+        ]
+      },
+      "empresa": {
+        "title": "Gerador de avaliador progressivo para a equipe",
+        "purpose": "Projete o instrumento de medição da equipe: rubrica observável de níveis nomeados, regras de avanço e nova tentativa e um relatório comparável entre rodadas, pronto para revisão.",
+        "when": "o processo exige evidência de domínio antes de habilitar alguém e falta um avaliador reutilizável com responsável.",
+        "example": "Avaliador de uso responsável de IA para a equipe de talentos, antes de habilitar o uso no processo.",
+        "evidence": "system prompt do avaliador, rubrica observável de três níveis com sua evidência, oito tarefas, regras de avanço e nova tentativa, limiar de habilitação e relatório comparável entre rodadas, pronto para revisão do responsável.",
+        "prompt": "Projete um avaliador de [TEMA] para [EQUIPE] com [FONTES]: queremos o instrumento, não a medição; avaliar é 08. Entregue o system prompt dele com rubrica observável: ausente se não cita condição de [FONTES], parcial se omite uma exigida, demonstrado se a cita literal. Oito tarefas de [TEMA], duas por nível: recuperação, explicação, aplicação, transferência. Avance só com demonstrado; uma nova tentativa substitui o resultado. Corrige citando, não ensina (isso é M1) nem revela a solução antes da tentativa. Tarefa sem cobertura: exclui-se, não se inventa. Fixe o limiar de habilitação, um verificador diferente do produtor e o risco operacional de habilitar [EQUIPE] abaixo. Compare rodadas contra a rubrica, nunca pessoas da equipe.",
+        "level_spec": {
+          "role": "Projetista de instrumentos de medição para equipes: constrói o avaliador e seu limiar, não a habilitação",
+          "spec_role": "Especialista em aprendizagem e pesquisa baseada em evidências",
+          "objective": "Produzir um avaliador aplicável à equipe com rubrica observável, limiar de habilitação e relatório comparável entre rodadas",
+          "parameters": [
+            [
+              "nivel",
+              "meta: a saída é o instrumento; medir quem responde é 08"
+            ],
+            [
+              "rubrica",
+              "três níveis nomeados com a evidência que cada um exige, idênticos entre rodadas"
+            ],
+            [
+              "limiar",
+              "nível mínimo de habilitação declarado antes de aplicar o instrumento"
+            ],
+            [
+              "verificacao",
+              "verificador diferente de quem produz o instrumento"
+            ],
+            [
+              "fronteira_avaliador_coach",
+              "o avaliador gerado corrige citando e não ensina: isso é M1"
+            ]
+          ],
+          "workflow": [
+            "Registrar tema, equipe avaliável e base como configuração do instrumento",
+            "Escrever os três níveis nomeados da rubrica com evidência observável por nível",
+            "Derivar oito tarefas duas por nível cognitivo e excluir o que a base não cobre",
+            "Fixar limiar de habilitação, regra de avanço, regra de nova tentativa e não revelar",
+            "Fechar com relatório comparável entre rodadas, verificador diferente e risco operacional de habilitar abaixo do limiar"
+          ],
+          "guardrails": [
+            "Não inventar tarefas, limiares nem resultados",
+            "Não executar a avaliação nem habilitar ninguém: isso é 08 e decisão do responsável",
+            "O avaliador não revela a solução antes da tentativa",
+            "O avaliador não ensina conteúdo novo além da correção citada",
+            "Proibido comparar ou ranquear pessoas da equipe: a comparação é entre rodadas contra a rubrica"
+          ],
+          "output": [
+            "System prompt do avaliador com rubrica e limiar de habilitação",
+            "Oito tarefas mapeadas com regras de avanço e nova tentativa",
+            "Relatório comparável entre rodadas com verificador diferente do produtor"
+          ],
+          "dod": "Instrumento pronto para revisão: rubrica com evidência por nível, limiar declarado, verificador diferente nomeado e relatório comparável entre rodadas sem comparação entre pessoas.",
+          "edge_cases": [
+            "Base sem uma dimensão do processo: excluída, com a lacuna declarada",
+            "Pressão para ranquear a equipe: o instrumento recusa por projeto",
+            "Sem verificador diferente disponível: o instrumento não é aplicado"
+          ]
+        },
+        "why_it_works": {
+          "acceptance_criteria": [
+            "A rubrica nomeia três níveis e declara a evidência observável de cada um, com o mesmo texto em todas as rodadas",
+            "O limiar de habilitação está escrito antes de aplicar o instrumento, não depois de ver resultados",
+            "O relatório compara rodadas contra a rubrica e não contém comparação entre pessoas",
+            "Existe um verificador diferente de quem produziu o instrumento"
+          ],
+          "edge_cases": [
+            "Dimensão sem cobertura na base: excluída do banco e lacuna declarada",
+            "Acerto por conhecimento externo de quem responde: registrado sem pontuação"
+          ],
+          "tradeoffs": [
+            "Um limiar fixado antes reduz flexibilidade em troca de uma habilitação defensável",
+            "A divergência de público é paga comprimindo a prosa do banco, não removendo a rubrica nem as regras de avanço"
+          ],
+          "assumptions": [
+            "Existe um responsável que decide a habilitação e uma base que cobre as quatro dimensões"
+          ],
+          "limits": [
+            "Gera o instrumento, não executa a avaliação nem habilita: medir é 08 e habilitar é do responsável",
+            "Não ensina a equipe: isso é M1 e 02",
+            "O nível descreve a resposta contra a base e não substitui o julgamento de quem habilita"
+          ]
+        },
+        "traceability": [
+          {
+            "claim": "O encargo de M2 — avaliação progressiva, observável e ligada a evidência, com rubrica, banco de tarefas e regra de aprovação — está publicado na biblioteca do método e aqui é aplicado a uma equipe.",
+            "source": "https://javimontano.github.io/prompt-amplificado/biblioteca-prompts.html"
+          },
+          {
+            "claim": "Estruturar o instrumento como especificação com parâmetros, fluxo e casos-limite reproduz o nível especificação do guia público de criação de prompts.",
+            "source": "https://javimontano.github.io/prompt-amplificado/crear-prompts.html"
+          },
+          {
+            "claim": "Exigir limiar de habilitação declarado antes de aplicar, verificador diferente de quem produz o instrumento e decisão de habilitação documentada é política interna do método.",
+            "source": "method_internal"
+          },
+          {
+            "claim": "Proibir a comparação entre pessoas e limitar a comparação a rodadas contra a mesma rubrica é a regra interna que impede usar o instrumento como substituto do julgamento humano.",
+            "source": "method_internal"
+          }
+        ]
+      }
+    }
+  },
+  "self_hash_model": "sha256(sorted-json-without-self_sha256)",
+  "self_sha256": "d2508f6824e1ed11e0aa7b7639a45dd4942aa3ace21a089189e99e9016b870cf"
+}
