@@ -32,6 +32,21 @@ def norm(value: str) -> str:
     return ''.join(c for c in unicodedata.normalize('NFKD', value.casefold()) if not unicodedata.combining(c))
 
 
+# Length cap = max(2 x baseline natural chars, LENGTH_FLOOR).
+# Ratified 2026-08: the pure 2x rule is unsatisfiable on the short workbook
+# baselines (239-286c => caps of 478-572c). The mandatory quality tokens of an
+# elevated prompt -- epistemic floor (~31c), negation-by-mechanism (55-100c),
+# the E1 organizational variable (8-10c) -- eat 20-29% of a 478c cap, leaving
+# no room for the rules the elevation exists to encode. The 600c floor is the
+# smallest value that keeps the 30 cells of W06-W10 authorable; long baselines
+# (library 01-M4, brain B1-B3) stay governed by the stricter 2x term.
+LENGTH_FLOOR = 600
+
+
+def length_cap(baseline_chars: int) -> int:
+    return max(2 * baseline_chars, LENGTH_FLOOR)
+
+
 def canonical_self(value: dict, field: str) -> str:
     payload = {key: item for key, item in value.items() if key != field}
     raw = json.dumps(payload, ensure_ascii=False, sort_keys=True, separators=(',', ':')) + '\n'
@@ -50,6 +65,239 @@ TRACE_ALLOWLIST = (
     | {'method_internal'}
 )
 
+# --- Tone charter §E of prompt-elevation-briefs.md (FROZEN; mirrored, never edited here).
+# Evaluated exactly like the rest of the gate: substring over NFKD-without-accents
+# + casefold, literal brackets.
+#
+# Two deliberate readings, both stricter than the prose, both ratified:
+#  1. E3 says "(en prompt o evidence)". This gate scores E2-E5 over the PROMPT ONLY.
+#     The evidence escape hatch is what let four defective cells pass adversarial
+#     review: an organizational word sitting in `evidence` does not make the text
+#     the user pastes organizational.
+#  2. AMENDMENT (pending against the frozen charter, applied here): E5 lists the
+#     literal `reutilizable por el equipo` / `reusable by the team` /
+#     `reutilizavel pela equipe`, but the variable form `reutilizable por [EQUIPO]`
+#     is semantically identical and is what a well-formed empresa prompt actually
+#     writes. Both forms are accepted. The charter itself stays frozen.
+PERSONA_TONE = {
+    'es': {
+        'p1': ['quiero', 'necesito', 'ayudame', 'mi contexto'],
+        'p2': (['mi ', 'mis '], 2),
+        'p3_forbidden': ['[equipo]', '[proceso]', '[area]', 'nuestro equipo', 'nuestra organizacion'],
+        'p4_card': ['necesitas', 'quieres', 'debes', 'tu '],
+        'p6_forbidden': ['gobernanza', 'comite', 'aprobacion', 'trazabilidad del proceso'],
+    },
+    'en': {
+        'p1': ['i want', 'i need', 'help me', 'my context'],
+        'p2': (['my '], 2),
+        'p3_forbidden': ['[team]', '[process]', '[business area]', 'our team', 'our organization'],
+        'p4_card': ['you want', 'you need', 'you must', 'your '],
+        'p6_forbidden': ['governance', 'approval', 'sign-off', 'committee'],
+    },
+    'pt': {
+        'p1': ['quero', 'preciso', 'ajude-me', 'meu contexto'],
+        'p2': (['meu ', 'minha '], 2),
+        'p3_forbidden': ['[equipe]', '[processo]', '[area]', 'nossa equipe', 'nossa organizacao'],
+        'p4_card': ['voce', 'deve', 'sua ', 'seu '],
+        'p6_forbidden': ['governanca', 'comite', 'aprovacao', 'rastreabilidade'],
+    },
+}
+EMPRESA_TONE = {
+    'es': {
+        'e1': ['[equipo]', '[proceso]', '[area]', '[rol responsable]'],
+        'markers': {
+            'E2': ['nuestro equipo', 'nuestra organizacion', 'del equipo', 'el proceso'],
+            'E3': ['gobernanza', 'aprobacion', 'responsable', 'trazabilidad', 'comite', 'direccion'],
+            'E4': ['riesgo operativo', 'riesgo organizacional', 'impacto en el proceso'],
+            'E5': ['reutilizable por el equipo', 'reutilizable por [equipo]', 'listo para revision',
+                   'para compartir con', 'comparable entre'],
+        },
+    },
+    'en': {
+        'e1': ['[team]', '[process]', '[business area]', '[owner role]'],
+        'markers': {
+            'E2': ['our team', 'the team', 'our organization'],
+            'E3': ['governance', 'approval', 'accountable', 'traceability', 'leadership'],
+            'E4': ['operational risk', 'organizational risk', 'process impact'],
+            'E5': ['reusable by the team', 'reusable by [team]', 'ready for review',
+                   'to share with', 'comparable across'],
+        },
+    },
+    'pt': {
+        'e1': ['[equipe]', '[processo]', '[area]', '[responsavel]'],
+        'markers': {
+            'E2': ['nossa equipe', 'nosso time', 'nossa organizacao', 'da equipe'],
+            'E3': ['governanca', 'aprovacao', 'responsavel', 'rastreabilidade', 'comite', 'diretoria'],
+            'E4': ['risco operacional', 'risco organizacional', 'impacto no processo'],
+            'E5': ['reutilizavel pela equipe', 'reutilizavel pela [equipe]', 'pronto para revisao',
+                   'para compartilhar com', 'comparavel entre'],
+        },
+    },
+}
+
+
+def anchor_excuses(term: str, anchors: dict) -> bool:
+    """Charter §E: authority anchors prevail over any charter prohibition."""
+    for anchor in anchors['intent'] + anchors['evidence']:
+        normalized = norm(anchor)
+        if normalized and (normalized in term or term in normalized):
+            return True
+    return False
+
+
+def tone_violations(cell: dict, locale: str, audience: str, anchors: dict, where: str) -> list[str]:
+    prompt = norm(cell['prompt'])
+    card = norm(cell['purpose'] + ' ' + cell['when'])
+    found = []
+    if audience == 'persona':
+        cfg = PERSONA_TONE[locale]
+        leaked = [token for token in cfg['p3_forbidden'] if token in prompt]
+        if leaked:
+            found.append(f'PROMPT_CONTRACT_TONE_MARKER:{where}:P3:{leaked[0]}')
+        satisfied = []
+        if any(token in prompt for token in cfg['p1']):
+            satisfied.append('P1')
+        tokens, needed = cfg['p2']
+        if sum(prompt.count(token) for token in tokens) >= needed:
+            satisfied.append('P2')
+        if not [t for t in cfg['p6_forbidden'] if t in prompt and not anchor_excuses(t, anchors)]:
+            satisfied.append('P6')
+        if len(satisfied) < 2:
+            found.append(f'PROMPT_CONTRACT_TONE_MARKER:{where}:prompt_markers={"+".join(satisfied) or "none"}<2')
+        if not any(token in card for token in cfg['p4_card']):
+            found.append(f'PROMPT_CONTRACT_TONE_MARKER:{where}:P4_card_absent')
+        return found
+    cfg = EMPRESA_TONE[locale]
+    if not any(token in prompt for token in cfg['e1']):
+        found.append(f'PROMPT_CONTRACT_TONE_MARKER:{where}:E1_absent')
+    hits = [name for name, tokens in sorted(cfg['markers'].items()) if any(t in prompt for t in tokens)]
+    if len(hits) < 2:
+        found.append(f'PROMPT_CONTRACT_TONE_MARKER:{where}:prompt_markers={"+".join(hits) or "none"}<2')
+    if not any(t in card for tokens in cfg['markers'].values() for t in tokens):
+        found.append(f'PROMPT_CONTRACT_TONE_MARKER:{where}:card_marker_absent')
+    return found
+
+
+# --- R8: no promise without a producer.
+# Every content term promised in `evidence` and `level_spec.dod` must be produced
+# by an instruction of the SAME cell (`prompt` + `level_spec.workflow` +
+# `level_spec.output`). Matching is by 4-char root prefix so inflection
+# (importable/importar, citada/citar) does not create false positives; the rule
+# still catches whole promises nobody generates (e.g. "riesgo operativo
+# declarado" in dod with no instruction asking for it).
+WORD_RE = re.compile(r'[a-z0-9]+')
+ROOT_LEN = 4
+PROMISE_STOPWORDS = {
+    # es
+    'cuando', 'donde', 'porque', 'segun', 'sobre', 'entre', 'desde', 'hasta', 'aunque', 'mientras',
+    'tambien', 'ademas', 'luego', 'antes', 'despues', 'todos', 'todas', 'otros', 'otras', 'mismo',
+    'misma', 'cada', 'para', 'como', 'esta', 'este', 'estos', 'estas', 'segundo', 'menos', 'sino',
+    'cuales', 'cual', 'quien', 'quienes', 'sus', 'una', 'unos', 'unas', 'segun',
+    # en
+    'which', 'where', 'when', 'that', 'with', 'from', 'their', 'there', 'these', 'those', 'while',
+    'after', 'before', 'about', 'every', 'other', 'should', 'would', 'could', 'being', 'because',
+    'across', 'within', 'each', 'into', 'than', 'then', 'they', 'them',
+    # pt
+    'quando', 'onde', 'sobre', 'entre', 'desde', 'embora', 'enquanto', 'depois', 'mesma', 'mesmo',
+    'pelos', 'pelas', 'pela', 'pelo', 'nesta', 'neste', 'essa', 'esse', 'essas', 'esses',
+}
+
+
+FRAGMENT_RE = re.compile(r'[;,:.()\[\]—–]| y | e | and | o | or | ou ')
+# Calibration against the 25 authored contracts: term-by-term matching produced
+# 276 false positives (inflection and evaluative adjectives: "revisable",
+# "observable", "tercero"). The rule that survives calibration is per FRAGMENT
+# and asks for one producer, not all: a fragment is unproduced only when NOT ONE
+# of its content terms is generated anywhere in the cell's instructions.
+# Fragments carrying >=3 content terms block (a whole promised clause nobody
+# writes); 2-term fragments are reported as warnings, because at that size the
+# fragment is usually a quality adjective pair ("Ensayo revisable") rather than
+# a promise. ponytail: fixed threshold, not a per-locale model — revisit only if
+# a real defect ever hides in a 2-term fragment.
+PROMISE_BLOCK_TERMS = 3
+
+
+def promise_terms(text: str) -> list[str]:
+    return [w for w in WORD_RE.findall(norm(text))
+            if len(w) >= 5 and not w.isdigit() and w not in PROMISE_STOPWORDS]
+
+
+def producer_roots(texts: list[str]) -> set[str]:
+    return {word[:ROOT_LEN] for word in WORD_RE.findall(norm(' '.join(texts)))}
+
+
+def promise_violations(cell: dict, where: str) -> list[str]:
+    level_spec = cell['level_spec']
+    roots = producer_roots([cell['prompt'], *level_spec['workflow'], *level_spec['output']])
+    found = []
+    for field, text in (('evidence', cell['evidence']), ('dod', level_spec['dod'])):
+        for fragment in FRAGMENT_RE.split(f' {text} '):
+            terms = promise_terms(fragment)
+            if len(terms) < 2 or any(term[:ROOT_LEN] in roots for term in terms):
+                continue
+            code = f'PROMPT_CONTRACT_PROMISE_NO_PRODUCER:{where}:{field}:{" ".join(terms)}'
+            found.append(code if len(terms) >= PROMISE_BLOCK_TERMS else f'WARN:{code}')
+    return found
+
+
+# --- R9: a cited authority must resolve.
+FILE_RE = re.compile(r'[A-Za-z0-9_][A-Za-z0-9_./\-]*\.(?:json|md|py|yml)\b')
+PROHIBITION_MARKERS = ('prohib', 'proib', 'forbid', 'veta ', 'impide', 'no permite', 'bans ')
+LEDGER_MARKERS = ('ledger', 'claim-ledger')
+PROHIBITED_CLAIMS = tuple(norm(claim) for claim in LEDGER.get('prohibited_claims', []))
+
+
+def repo_files() -> set[str]:
+    names = set()
+    skip = {'.git', 'node_modules', '__pycache__'}
+    for path in ROOT.rglob('*'):
+        if not path.is_file() or skip & set(path.parts):
+            continue
+        names.add(path.name)
+        names.add(str(path.relative_to(ROOT)))
+    return names
+
+
+REPO_FILES = repo_files()
+
+
+def authority_violations(cell: dict, where: str) -> list[str]:
+    texts = [text for values in cell['why_it_works'].values() for text in values]
+    texts += [entry['claim'] for entry in cell['traceability'] if isinstance(entry, dict)]
+    found = []
+    for text in texts:
+        for cited in FILE_RE.findall(text):
+            if cited not in REPO_FILES and cited.lstrip('./') not in REPO_FILES:
+                found.append(f'PROMPT_CONTRACT_AUTHORITY_UNRESOLVED:{where}:file:{cited}')
+        lowered = norm(text)
+        if any(marker in lowered for marker in LEDGER_MARKERS) and any(m in lowered for m in PROHIBITION_MARKERS):
+            if not any(claim in lowered for claim in PROHIBITED_CLAIMS):
+                found.append(f'PROMPT_CONTRACT_AUTHORITY_UNRESOLVED:{where}:ledger_prohibition')
+    return found
+
+
+# --- R10: no bare library id in material text.
+# The prompt is text the user pastes into a chat: an id there is a dangling
+# reference. Ids stay legal in boundary, guardrails, limits and assumptions.
+BARE_ID_RE = re.compile(r'(?<![0-9A-Za-z_/#.\-])(?:0[1-9]|10|M[1-4]|W0[1-9]|W10|B[1-3])(?![0-9A-Za-z_/#.\-])')
+# In material text the bare `10` is indistinguishable from the cardinal ten, and
+# the corpus uses it that way ("10 casos de uso", "exactamente 10 prompts": 18
+# cells). Material scanning therefore drops the bare `10` only; `W10` and the
+# zero-padded 01-09 stay, and reference contexts (guardrails/limits) keep the
+# full pattern, where "eso es 10" really is the library id.
+# ponytail: ceiling accepted — a genuine bare `10` reference in a prompt escapes.
+MATERIAL_ID_RE = re.compile(r'(?<![0-9A-Za-z_/#.\-])(?:0[1-9]|M[1-4]|W0[1-9]|W10|B[1-3])(?![0-9A-Za-z_/#.\-])')
+
+
+def bare_id_violations(cell: dict, where: str) -> list[str]:
+    found = []
+    for field in ('title', *MATERIAL_FIELDS):
+        hits = sorted(set(MATERIAL_ID_RE.findall(cell[field])))
+        if hits:
+            found.append(f'PROMPT_CONTRACT_BARE_ID:{where}:{field}:{",".join(hits)}')
+    return found
+
+
 # Authority v2 integrity: shape essentials, canonical self hash, unique signatures.
 if AUTHORITY.get('schema_version') != 'prompt-intent-authority-v2' or AUTHORITY.get('status') not in ('provisional_until_phase_3', 'frozen_phase_3'):
     raise SystemExit('PROMPT_CONTRACT_AUTHORITY_SHAPE_INVALID')
@@ -66,7 +314,10 @@ for locale in LANGS:
         raise SystemExit(f'PROMPT_CONTRACT_AUTHORITY_SIGNATURE_CLONE:{locale}')
 
 
-def validate_contract(contract: dict) -> None:
+def validate_contract(contract: dict) -> list[str]:
+    """Structural defects raise (they make the rest unreadable); content defects
+    are collected so one run reports every offending cell, not just the first."""
+    found: list[str] = []
     required = {'schema_version', 'intent_id', 'surface', 'phase', 'state', 'publication_authorized', 'boundary', 'locales', 'self_hash_model', 'self_sha256'}
     intent_id = contract.get('intent_id')
     if set(contract) != required or contract.get('schema_version') != 'prompt-intent-contract-v1':
@@ -103,6 +354,16 @@ def validate_contract(contract: dict) -> None:
             why = cell['why_it_works']
             if set(why) != WHY_FIELDS or any(not isinstance(why[field], list) or not why[field] for field in WHY_FIELDS):
                 raise SystemExit(f'PROMPT_CONTRACT_WHY_INVALID:{where}')
+        # Audience separation is checked before content so a cloned cell reports
+        # the clone, not the downstream tone defect the clone happens to create.
+        persona, empresa = localized['persona'], localized['empresa']
+        for field in MATERIAL_FIELDS:
+            if persona[field].casefold() == empresa[field].casefold():
+                raise SystemExit(f'PROMPT_CONTRACT_AUDIENCE_CLONE:{locale}:{intent_id}:{field}')
+        for audience in AUDIENCES:
+            cell = localized[audience]
+            level_spec = cell['level_spec']
+            where = f'{locale}:{audience}:{intent_id}'
             for field, minimum in MINIMUMS.items():
                 if len(cell[field].strip()) < minimum:
                     raise SystemExit(f'PROMPT_CONTRACT_FIELD_GENERIC:{where}:{field}')
@@ -124,58 +385,115 @@ def validate_contract(contract: dict) -> None:
             baseline = BASELINE[locale].get(baseline_key)
             if baseline is None:
                 raise SystemExit(f'PROMPT_CONTRACT_BASELINE_MISSING:{where}')
-            if len(cell['prompt']) > 2 * baseline['chars']:
-                raise SystemExit(f'PROMPT_CONTRACT_LENGTH_EXCESS:{where}:{len(cell["prompt"])}>{2 * baseline["chars"]}')
+            cap = length_cap(baseline['chars'])
+            if len(cell['prompt']) > cap:
+                raise SystemExit(f'PROMPT_CONTRACT_LENGTH_EXCESS:{where}:{len(cell["prompt"])}>{cap}')
             trace = cell['traceability']
             if not isinstance(trace, list) or not trace:
                 raise SystemExit(f'PROMPT_CONTRACT_TRACE_INVALID:{where}')
             for entry in trace:
                 if set(entry) != {'claim', 'source'} or not str(entry['claim']).strip() or entry['source'] not in TRACE_ALLOWLIST:
                     raise SystemExit(f'PROMPT_CONTRACT_TRACE_INVALID:{where}:{entry.get("source")}')
-        persona, empresa = localized['persona'], localized['empresa']
-        for field in MATERIAL_FIELDS:
-            if persona[field].casefold() == empresa[field].casefold():
-                raise SystemExit(f'PROMPT_CONTRACT_AUDIENCE_CLONE:{locale}:{intent_id}:{field}')
+            found += tone_violations(cell, locale, audience, anchors, where)
+            found += promise_violations(cell, where)
+            found += authority_violations(cell, where)
+            found += bare_id_violations(cell, where)
+            # R11b: an id named in guardrails/limits must be declared as a border
+            # of this very contract, otherwise the exclusion is unverifiable.
+            declared = set(boundary['distinct_from']) | {intent_id}
+            named = {pid for text in (*level_spec['guardrails'], *cell['why_it_works']['limits'])
+                     for pid in BARE_ID_RE.findall(text)}
+            for pid in sorted(named - declared):
+                found.append(f'PROMPT_CONTRACT_ID_NOT_IN_BOUNDARY:{where}:{pid}')
+    return found
 
 
-def validate_set(contracts: list[dict]) -> None:
+def boundary_symmetry_violations(contracts: list[dict]) -> list[str]:
+    """R11a: if A declares B a distinct neighbour and B is on disk, B must say so too."""
+    by_id = {contract.get('intent_id'): contract for contract in contracts
+             if isinstance(contract.get('boundary'), dict)}
+    found = []
+    for intent_id, contract in sorted(by_id.items(), key=lambda item: str(item[0])):
+        for other in contract['boundary'].get('distinct_from', []):
+            twin = by_id.get(other)
+            if twin is not None and intent_id not in twin['boundary'].get('distinct_from', []):
+                found.append(f'PROMPT_CONTRACT_ASYMMETRIC_BOUNDARY:{intent_id}->{other}')
+    return found
+
+
+def collect_violations(contracts: list[dict]) -> list[str]:
     seen = [contract.get('intent_id') for contract in contracts]
     if len(set(seen)) != len(seen):
         raise SystemExit(f'PROMPT_CONTRACT_DUPLICATE_INTENT:{sorted(pid for pid in set(seen) if seen.count(pid) > 1)}')
+    found = boundary_symmetry_violations(contracts)
     for contract in contracts:
-        validate_contract(contract)
+        found += validate_contract(contract)
+    return found
+
+
+def validate_set(contracts: list[dict]) -> None:
+    # Set-level borders first: they are the only rule a single contract cannot
+    # express, and structural checks below raise instead of collecting.
+    for item in boundary_symmetry_violations(contracts):
+        raise SystemExit(item)
+    blocking = [item for item in collect_violations(contracts) if not item.startswith('WARN:')]
+    if blocking:
+        raise SystemExit(blocking[0])
 
 
 # --- Built-in mutations: a synthetic valid contract must pass, mutants must fail.
 
+PROMPT_EXTRA = {
+    ('persona', 'es'): '',
+    ('persona', 'en'): '',
+    ('persona', 'pt'): '',
+    ('empresa', 'es'): ' Ajusta el resultado a [EQUIPO] y el proceso, con riesgo operativo declarado y responsable nombrado.',
+    ('empresa', 'en'): ' Adapt the result for [TEAM] and the process, with operational risk stated and an accountable owner.',
+    ('empresa', 'pt'): ' Ajuste o resultado para [EQUIPE] e o processo, com risco operacional declarado e responsavel nomeado.',
+}
+CARD_EXTRA = {
+    ('persona', 'es'): ' Decides tú qué entra y qué queda fuera.',
+    ('persona', 'en'): ' You decide what stays inside the scope.',
+    ('persona', 'pt'): ' Voce decide o que entra no recorte.',
+    ('empresa', 'es'): ' Nuestro equipo revisa el resultado con gobernanza declarada.',
+    ('empresa', 'en'): ' Our team reviews the result with declared governance.',
+    ('empresa', 'pt'): ' Nossa equipe revisa o resultado com governanca declarada.',
+}
+EVIDENCE_EXTRA = {
+    ('persona', 'es'): '', ('persona', 'en'): '', ('persona', 'pt'): '',
+    ('empresa', 'es'): ' Incluye un responsable nombrado.',
+    ('empresa', 'en'): ' It includes an accountable owner.',
+    ('empresa', 'pt'): ' Inclui um responsavel nomeado.',
+}
+SYNTHETIC_DOD = 'Entrega revisable con límites declarados y fuentes citadas.'
+SYNTHETIC_STEP = 'Entregar un resultado revisable con límites declarados y fuentes citadas.'
+
+
 def synthetic_contract() -> dict:
-    suffix = {
-        'es': ' Ajusta el resultado al equipo de la organización.',
-        'en': ' Adapt the result to the organization team.',
-        'pt': ' Ajuste o resultado à equipe da organização.',
-    }
+    """Positive control: must satisfy every rule of this gate, tone charter included."""
     locales = {}
     for locale in LANGS:
         item = next(entry for entry in LIBRARY['locales'][locale]['items'] if entry['id'] == '01')
         cells = {}
         for audience in AUDIENCES:
-            extra = '' if audience == 'persona' else suffix[locale]
+            key = (audience, locale)
+            card, evidence = CARD_EXTRA[key], item['evidence'] + EVIDENCE_EXTRA[key]
             cells[audience] = {
                 'title': item['title'],
-                'purpose': item['purpose'] + extra,
-                'when': item['when'] + extra,
-                'example': item['example'] + extra,
-                'evidence': item['evidence'] + extra,
-                'prompt': item['prompt'] + extra,
+                'purpose': item['purpose'] + card,
+                'when': item['when'] + card,
+                'example': item['example'] + card,
+                'evidence': evidence,
+                'prompt': item['prompt'] + PROMPT_EXTRA[key],
                 'level_spec': {
                     'role': 'Asistente MetodologIA orientado a evidencia',
                     'spec_role': LIBRARY['locales'][locale]['spec_format']['default_role'],
                     'objective': item['title'],
                     'parameters': [['profundidad', 'operativa'], ['formato', 'estructurado']],
-                    'workflow': [item['purpose']],
+                    'workflow': [item['purpose'], SYNTHETIC_STEP],
                     'guardrails': ['No inventar fuentes, citas o capacidades'],
-                    'output': [item['evidence']],
-                    'dod': 'Entrega revisable con límites declarados.',
+                    'output': [evidence],
+                    'dod': SYNTHETIC_DOD,
                     'edge_cases': ['Fuentes insuficientes: declarar coverage_gap.'],
                 },
                 'why_it_works': {
@@ -220,7 +538,7 @@ def run_mutations(baseline_contract: dict) -> int:
     candidate = copy.deepcopy(baseline_contract)
     cell = candidate['locales']['es']['persona']
     filler = ' Revisa las fuentes primarias con tensiones y criterio observable antes de decidir.'
-    while len(cell['prompt']) <= 2 * BASELINE['es']['library/01/es/persona/natural']['chars']:
+    while len(cell['prompt']) <= length_cap(BASELINE['es']['library/01/es/persona/natural']['chars']):
         cell['prompt'] += filler
     mutations.append(('length_excess_2x', reseal(candidate), 'PROMPT_CONTRACT_LENGTH_EXCESS'))
 
@@ -250,9 +568,37 @@ def run_mutations(baseline_contract: dict) -> int:
     candidate['intent_id'] = 'W01'
     mutations.append(('surface_id_mismatch', reseal(candidate), 'PROMPT_CONTRACT_SURFACE_INVALID'))
 
+    # --- Mutations for the rules hardened in this pass.
+
+    candidate = copy.deepcopy(baseline_contract)
+    cell = candidate['locales']['es']['empresa']
+    cell['prompt'] = cell['prompt'].replace(
+        PROMPT_EXTRA[('empresa', 'es')],
+        ' Ajusta el resultado a [EQUIPO] con responsable nombrado.')
+    mutations.append(('tone_charter_single_marker', reseal(candidate), 'PROMPT_CONTRACT_TONE_MARKER'))
+
+    candidate = copy.deepcopy(baseline_contract)
+    candidate['locales']['es']['persona']['evidence'] += ' Ranking nominal de individuos por desempeno trimestral.'
+    mutations.append(('promise_without_producer', reseal(candidate), 'PROMPT_CONTRACT_PROMISE_NO_PRODUCER'))
+
+    candidate = copy.deepcopy(baseline_contract)
+    candidate['locales']['es']['persona']['why_it_works']['limits'] = [
+        'El ledger prohíbe el ranking de individuos.']
+    mutations.append(('invented_authority', reseal(candidate), 'PROMPT_CONTRACT_AUTHORITY_UNRESOLVED'))
+
+    candidate = copy.deepcopy(baseline_contract)
+    candidate['locales']['es']['persona']['prompt'] += ' Complementa con W07 cuando el taller ya tenga base.'
+    mutations.append(('bare_id_in_prompt', reseal(candidate), 'PROMPT_CONTRACT_BARE_ID'))
+
+    twin = copy.deepcopy(baseline_contract)
+    twin['intent_id'] = '02'
+    twin['boundary'] = {'distinct_from': ['03'], 'decision_rule': twin['boundary']['decision_rule']}
+    mutations.append(('asymmetric_boundary', [copy.deepcopy(baseline_contract), reseal(twin)],
+                      'PROMPT_CONTRACT_ASYMMETRIC_BOUNDARY'))
+
     for name, mutant, expected in mutations:
         try:
-            validate_set([mutant])
+            validate_set(mutant if isinstance(mutant, list) else [mutant])
         except SystemExit as error:
             if not str(error).startswith(expected):
                 raise SystemExit(f'PROMPT_CONTRACT_MUTATION_WRONG_REJECTION:{name}:{error}')
@@ -264,10 +610,19 @@ def run_mutations(baseline_contract: dict) -> int:
 def main() -> None:
     paths = sorted(CONTRACTS_DIR.glob('*.json')) if CONTRACTS_DIR.is_dir() else []
     contracts = [json.loads(path.read_text(encoding='utf-8')) for path in paths]
-    validate_set(contracts)
+    found = collect_violations(contracts)
+    violations = [item for item in found if not item.startswith('WARN:')]
+    warnings = [item for item in found if item.startswith('WARN:')]
+    for item in warnings:
+        print(item)
+    if violations:
+        for violation in violations:
+            print(violation)
+        raise SystemExit(f'PROMPT_CONTRACTS_FAILED violations={len(violations)} warnings={len(warnings)}')
     mutation_count = run_mutations(synthetic_contract())
     note = '' if contracts else ' note=contracts_dir_empty_pass'
-    print(f'PROMPT_CONTRACTS_OK contracts={len(contracts)} ids={len(ALL_IDS)} locales={len(LANGS)} audiences={len(AUDIENCES)} mutations={mutation_count}{note}')
+    print(f'PROMPT_CONTRACTS_OK contracts={len(contracts)} ids={len(ALL_IDS)} locales={len(LANGS)} '
+          f'audiences={len(AUDIENCES)} mutations={mutation_count} warnings={len(warnings)}{note}')
 
 
 if __name__ == '__main__':
