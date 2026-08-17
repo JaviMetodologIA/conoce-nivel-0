@@ -1,0 +1,548 @@
+{
+  "schema_version": "prompt-intent-contract-v1",
+  "intent_id": "03",
+  "surface": "library",
+  "phase": "Aprender",
+  "state": "RENDERED_DRAFT",
+  "publication_authorized": false,
+  "boundary": {
+    "distinct_from": [
+      "01",
+      "05",
+      "W03"
+    ],
+    "decision_rule": "Usa 03 cuando un diagnóstico previo ya nombró un vacío concreto que bloquea el resultado y hay que investigar solo ese vacío; si todavía no existe base ni diagnóstico, delimita la investigación completa con 01. 03 no abre temas nuevos ni redefine el alcance global; 05 audita la base y W03 es la variante de taller."
+  },
+  "locales": {
+    "es": {
+      "persona": {
+        "title": "Investigación profunda",
+        "purpose": "Cierra un vacío ya diagnosticado con hallazgos citados, sin ampliar el alcance sin control.",
+        "when": "una auditoría previa reveló la brecha que bloquea tu resultado.",
+        "example": "Comprobar límites legales de usar mis conversaciones como material de estudio.",
+        "evidence": "informe citado que responde el vacío, tabla con confianza en escala declarada y riesgo residual con condición de cierre.",
+        "prompt": "Necesito cerrar el vacío [VACÍO], ya diagnosticado, porque bloquea [DECISIÓN BLOQUEADA]. Mi criterio de aceptación es [CRITERIO DE ACEPTACIÓN]. Investiga solo ese vacío: dentro del alcance, el vacío; fuera, cualquier tema nuevo. Antes de empezar declara la escala de confianza que usarás (alta/media/baja y qué significa cada nivel). Entrega hallazgos citados; una tabla afirmación | evidencia | confianza | límite; contradicciones con ambas fuentes; y el riesgo residual con la condición que lo cerraría. Si el vacío no se puede cerrar con fuentes públicas, dilo: «no demostrable con el alcance dado». Si el vacío muta mientras investigas, re-declara el alcance antes de seguir. Si falta contexto sobre mi caso, hazme máximo tres preguntas; si aún falta, declara coverage_gap en vez de suponer.",
+        "level_spec": {
+          "role": "Investigador de profundidad que cierra un vacío a la vez",
+          "spec_role": "Especialista en aprendizaje e investigación basada en evidencia",
+          "objective": "Cerrar un vacío diagnosticado con hallazgos citados y riesgo residual explícito",
+          "parameters": [
+            [
+              "alcance",
+              "solo el vacío diagnosticado; todo tema nuevo queda fuera"
+            ],
+            [
+              "confianza",
+              "escala alta/media/baja definida antes de investigar"
+            ],
+            [
+              "preguntas_previas",
+              "máximo tres; si aún falta contexto, coverage_gap"
+            ],
+            [
+              "riesgo_residual",
+              "nombrado con la condición que lo cerraría"
+            ]
+          ],
+          "workflow": [
+            "Confirmar el vacío diagnosticado y el criterio de aceptación",
+            "Declarar la escala de confianza y el alcance cerrado",
+            "Investigar solo el vacío con fuentes citadas",
+            "Tabular afirmación | evidencia | confianza | límite y listar contradicciones",
+            "Cerrar con riesgo residual y su condición de cierre"
+          ],
+          "guardrails": [
+            "No abrir temas nuevos ni redefinir el alcance global",
+            "Vacío incerrable con fuentes públicas: declararlo, no forzar el cierre",
+            "No prometer exactitud: confianza siempre en la escala declarada"
+          ],
+          "output": [
+            "Hallazgos citados que responden el vacío",
+            "Tabla con confianza en escala declarada",
+            "Riesgo residual con condición de cierre"
+          ],
+          "dod": "Informe citado que responde el vacío, con confianza en escala declarada y riesgo residual con condición de cierre.",
+          "edge_cases": [
+            "El vacío muta al investigar: re-declarar el alcance antes de seguir",
+            "Tras tres preguntas sigue faltando contexto: coverage_gap"
+          ]
+        },
+        "why_it_works": {
+          "acceptance_criteria": [
+            "Cada afirmación de la tabla trae evidencia citada y confianza en la escala declarada",
+            "Las contradicciones se listan con ambas fuentes",
+            "El riesgo residual se nombra junto a la condición que lo cerraría"
+          ],
+          "edge_cases": [
+            "Vacío incerrable con fuentes públicas: veredicto explícito «no demostrable con el alcance dado»",
+            "El vacío muta al investigar: se re-declara el alcance antes de seguir"
+          ],
+          "tradeoffs": [
+            "Profundidad en un solo vacío a cambio de no ampliar cobertura"
+          ],
+          "assumptions": [
+            "Un diagnóstico previo (05/W02) nombró el vacío"
+          ],
+          "limits": [
+            "No re-delimita el tema completo (eso es 01) ni abre temas nuevos"
+          ]
+        },
+        "traceability": [
+          {
+            "claim": "La intención y su evidencia esperada provienen de la biblioteca publicada del método.",
+            "source": "https://javimontano.github.io/prompt-amplificado/biblioteca-prompts.html"
+          },
+          {
+            "claim": "La estructura rol–objetivo–parámetros–flujo sigue la guía pública de creación de prompts.",
+            "source": "https://javimontano.github.io/prompt-amplificado/crear-prompts.html"
+          },
+          {
+            "claim": "La convención coverage_gap y el cierre por criterio observable son norma interna del método.",
+            "source": "method_internal"
+          }
+        ]
+      },
+      "empresa": {
+        "title": "Investigación profunda para el proceso",
+        "purpose": "Cierra el vacío que bloquea el proceso con hallazgos citados y alcance bajo control, revisables por un tercero.",
+        "when": "una auditoría del equipo reveló una brecha que frena una decisión con responsable.",
+        "example": "Comprobar límites legales y operativos de un copiloto interno antes de desplegarlo al área.",
+        "evidence": "informe citado que responde el vacío, confianza en escala comparable entre corridas y riesgo residual con condición de cierre y responsable.",
+        "prompt": "Investiga el vacío [VACÍO], nombrado por un diagnóstico previo, porque bloquea [PROCESO] y una decisión del equipo con responsable. El criterio de aceptación es [CRITERIO DE ACEPTACIÓN], revisable por un tercero distinto de quien investiga. Alcance cerrado: dentro, el vacío; fuera, todo tema nuevo. Declara antes la escala de confianza (alta/media/baja con definición) para que el resultado sea comparable entre corridas. Entrega hallazgos citados; tabla afirmación | evidencia | confianza | límite; contradicciones con ambas fuentes; y el riesgo residual con la condición que lo cerraría y su impacto en el proceso. Si el vacío no se cierra con fuentes públicas, decláralo: «no demostrable con el alcance dado». Si falta contexto material, haz máximo tres preguntas al responsable; si aún falta, declara coverage_gap en vez de suponer.",
+        "level_spec": {
+          "role": "Investigador de profundidad al servicio de un proceso con responsable",
+          "spec_role": "Especialista en aprendizaje e investigación basada en evidencia",
+          "objective": "Cerrar el vacío que bloquea el proceso con un informe citado y revisable por terceros",
+          "parameters": [
+            [
+              "precondición",
+              "diagnóstico previo con vacío nombrado y responsable identificado"
+            ],
+            [
+              "comparabilidad",
+              "escala de confianza fija para comparar entre corridas"
+            ],
+            [
+              "revisión",
+              "criterio de aceptación verificable por un tercero"
+            ],
+            [
+              "impacto",
+              "riesgo residual ligado al proceso afectado"
+            ]
+          ],
+          "workflow": [
+            "Confirmar vacío, responsable y criterio de aceptación revisable",
+            "Declarar escala de confianza fija y alcance cerrado",
+            "Investigar solo el vacío con fuentes citadas",
+            "Tabular hallazgos y contradicciones con ambas fuentes",
+            "Cerrar con riesgo residual, condición de cierre e impacto en el proceso"
+          ],
+          "guardrails": [
+            "No abrir temas nuevos ni redefinir el alcance global",
+            "Las preguntas de contexto van al responsable, máximo tres",
+            "Sin cierre posible con fuentes públicas: declararlo, no forzar el veredicto"
+          ],
+          "output": [
+            "Informe citado que responde el vacío",
+            "Tabla comparable entre corridas",
+            "Riesgo residual con condición de cierre e impacto en el proceso"
+          ],
+          "dod": "Informe citado y revisable por un tercero, con confianza comparable entre corridas y riesgo residual ligado al proceso.",
+          "edge_cases": [
+            "El vacío muta al investigar: re-declarar el alcance con el responsable",
+            "Tras tres preguntas al responsable sigue faltando contexto: coverage_gap"
+          ]
+        },
+        "why_it_works": {
+          "acceptance_criteria": [
+            "Cada afirmación trae evidencia citada y confianza en una escala fija, comparable entre corridas",
+            "El criterio de aceptación lo puede verificar un tercero distinto de quien investiga",
+            "El riesgo residual queda ligado al proceso afectado, con condición de cierre"
+          ],
+          "edge_cases": [
+            "Vacío incerrable con fuentes públicas: veredicto explícito «no demostrable con el alcance dado»",
+            "El vacío muta al investigar: el alcance se re-declara con el responsable antes de seguir"
+          ],
+          "tradeoffs": [
+            "Fijar la escala y el revisor tercero agrega pasos a cambio de resultados comparables y auditables"
+          ],
+          "assumptions": [
+            "Un diagnóstico previo del equipo nombró el vacío y existe un responsable del proceso"
+          ],
+          "limits": [
+            "No re-delimita el tema completo ni decide el despliegue: informa la decisión del responsable"
+          ]
+        },
+        "traceability": [
+          {
+            "claim": "La intención y su evidencia esperada provienen de la biblioteca publicada del método.",
+            "source": "https://javimontano.github.io/prompt-amplificado/biblioteca-prompts.html"
+          },
+          {
+            "claim": "La estructura rol–objetivo–parámetros–flujo sigue la guía pública de creación de prompts.",
+            "source": "https://javimontano.github.io/prompt-amplificado/crear-prompts.html"
+          },
+          {
+            "claim": "La convención coverage_gap y el cierre por criterio observable son norma interna del método.",
+            "source": "method_internal"
+          }
+        ]
+      }
+    },
+    "en": {
+      "persona": {
+        "title": "Deep research",
+        "purpose": "Close one diagnosed gap with cited research, without uncontrolled scope growth.",
+        "when": "a previous audit revealed the gap blocking your outcome.",
+        "example": "Check the legal limits of using my chat logs as study material.",
+        "evidence": "cited report answering the gap, a confidence scale declared up front and residual risk with its closing condition.",
+        "prompt": "I need to close the gap [GAP], already diagnosed, because it blocks [DECISION AT STAKE]. My acceptance criterion is [ACCEPTANCE CRITERION]. Research only that gap: in scope, the gap; out of scope, any new topic. Before starting, declare the confidence scale you will use (high/medium/low and what each level means). Deliver cited findings; a claim | evidence | confidence | limit table; contradictions with both sources; and the residual risk with the condition that would close it. If the gap cannot be closed with public sources, say so: not provable within the given scope. If the gap mutates while you research, restate the scope before continuing. If context about my case is missing, ask me at most three questions; if it is still missing, declare coverage_gap instead of assuming.",
+        "level_spec": {
+          "role": "Depth researcher who closes one gap at a time",
+          "spec_role": "Specialist in evidence-grounded learning and research",
+          "objective": "Close a diagnosed gap with cited findings and explicit residual risk",
+          "parameters": [
+            [
+              "scope",
+              "only the diagnosed gap; any new topic stays out"
+            ],
+            [
+              "confidence",
+              "high/medium/low scale defined before researching"
+            ],
+            [
+              "prior_questions",
+              "at most three; if context is still missing, coverage_gap"
+            ],
+            [
+              "residual_risk",
+              "named with the condition that would close it"
+            ]
+          ],
+          "workflow": [
+            "Confirm the diagnosed gap and the acceptance criterion",
+            "Declare the confidence scale and the closed scope",
+            "Research only the gap with cited sources",
+            "Tabulate claim | evidence | confidence | limit and list contradictions",
+            "Close with residual risk and its closing condition"
+          ],
+          "guardrails": [
+            "Never open new topics or redefine the global scope",
+            "Gap unclosable with public sources: declare it, do not force a close",
+            "Never promise accuracy: confidence always on the declared scale"
+          ],
+          "output": [
+            "Cited findings answering the gap",
+            "Table with confidence on a declared scale",
+            "Residual risk with a closing condition"
+          ],
+          "dod": "Cited report answering the gap, with confidence on a declared scale and residual risk with a closing condition.",
+          "edge_cases": [
+            "The gap mutates during research: restate the scope before continuing",
+            "Context still missing after three questions: coverage_gap"
+          ]
+        },
+        "why_it_works": {
+          "acceptance_criteria": [
+            "Every claim in the table carries cited evidence and confidence on the declared scale",
+            "Contradictions are listed with both sources",
+            "Residual risk is named together with the condition that would close it"
+          ],
+          "edge_cases": [
+            "Gap unclosable with public sources: explicit verdict — not provable within the given scope",
+            "The gap mutates during research: the scope is restated before continuing"
+          ],
+          "tradeoffs": [
+            "Depth on a single gap in exchange for not expanding coverage"
+          ],
+          "assumptions": [
+            "A previous audit (05/W02) named the gap"
+          ],
+          "limits": [
+            "It does not re-bound the whole topic (that is 01) nor open new topics"
+          ]
+        },
+        "traceability": [
+          {
+            "claim": "The intent and its expected output come from the method's published prompt library.",
+            "source": "https://javimontano.github.io/prompt-amplificado/biblioteca-prompts.html"
+          },
+          {
+            "claim": "The role–objective–parameters–workflow structure follows the public prompt-creation guide.",
+            "source": "https://javimontano.github.io/prompt-amplificado/crear-prompts.html"
+          },
+          {
+            "claim": "The coverage_gap convention and observable-criterion closes are internal method policy.",
+            "source": "method_internal"
+          }
+        ]
+      },
+      "empresa": {
+        "title": "Deep research for the process",
+        "purpose": "Close the gap blocking the team's process with cited research and controlled scope, reviewable by a third party.",
+        "when": "a team audit revealed a gap holding back an accountable decision.",
+        "example": "Check legal and operational limits of an internal copilot before area rollout.",
+        "evidence": "cited report answering the gap, confidence comparable across runs and residual risk with a closing condition and an owner.",
+        "prompt": "Research the gap [GAP], named by a prior audit, because it blocks [PROCESS] and a decision the team must own. The acceptance criterion is [ACCEPTANCE CRITERION], reviewable by someone other than the researcher. Scope is closed: in, the gap; out, any new topic. Declare the confidence scale first (high/medium/low with definitions) so results stay comparable across runs. Deliver cited findings; a claim | evidence | confidence | limit table; contradictions with both sources; and the residual risk with its closing condition and process impact. If the gap cannot be closed with public sources, state it: not provable within the given scope. If material context is missing, ask the accountable owner at most three questions; then declare coverage_gap instead of assuming.",
+        "level_spec": {
+          "role": "Depth researcher serving a process with an accountable owner",
+          "spec_role": "Specialist in evidence-grounded learning and research",
+          "objective": "Close the gap blocking the process with a cited report reviewable by third parties",
+          "parameters": [
+            [
+              "precondition",
+              "prior audit with a named gap and an identified owner"
+            ],
+            [
+              "comparability",
+              "fixed confidence scale to compare across runs"
+            ],
+            [
+              "review",
+              "acceptance criterion verifiable by a third party"
+            ],
+            [
+              "impact",
+              "residual risk tied to the affected process"
+            ]
+          ],
+          "workflow": [
+            "Confirm the gap, the owner and the reviewable acceptance criterion",
+            "Declare a fixed confidence scale and a closed scope",
+            "Research only the gap with cited sources",
+            "Tabulate findings and contradictions with both sources",
+            "Close with residual risk, closing condition and process impact"
+          ],
+          "guardrails": [
+            "Never open new topics or redefine the global scope",
+            "Context questions go to the accountable owner, three at most",
+            "No close possible with public sources: declare it, do not force a verdict"
+          ],
+          "output": [
+            "Cited report answering the gap",
+            "Table comparable across runs",
+            "Residual risk with closing condition and process impact"
+          ],
+          "dod": "Cited report reviewable by a third party, with confidence comparable across runs and residual risk tied to the process.",
+          "edge_cases": [
+            "The gap mutates during research: restate the scope with the owner",
+            "Context still missing after three questions to the owner: coverage_gap"
+          ]
+        },
+        "why_it_works": {
+          "acceptance_criteria": [
+            "Every claim carries cited evidence and confidence on a fixed scale, comparable across runs",
+            "The acceptance criterion can be verified by someone other than the researcher",
+            "Residual risk is tied to the affected process, with a closing condition"
+          ],
+          "edge_cases": [
+            "Gap unclosable with public sources: explicit verdict — not provable within the given scope",
+            "The gap mutates during research: the scope is restated with the owner before continuing"
+          ],
+          "tradeoffs": [
+            "Fixing the scale and the third-party reviewer adds steps in exchange for comparable, auditable results"
+          ],
+          "assumptions": [
+            "A prior team audit named the gap and the process has an owner"
+          ],
+          "limits": [
+            "It does not re-bound the whole topic nor decide the rollout: it informs the owner's decision"
+          ]
+        },
+        "traceability": [
+          {
+            "claim": "The intent and its expected output come from the method's published prompt library.",
+            "source": "https://javimontano.github.io/prompt-amplificado/biblioteca-prompts.html"
+          },
+          {
+            "claim": "The role–objective–parameters–workflow structure follows the public prompt-creation guide.",
+            "source": "https://javimontano.github.io/prompt-amplificado/crear-prompts.html"
+          },
+          {
+            "claim": "The coverage_gap convention and observable-criterion closes are internal method policy.",
+            "source": "method_internal"
+          }
+        ]
+      }
+    },
+    "pt": {
+      "persona": {
+        "title": "Pesquisa profunda",
+        "purpose": "Feche uma lacuna já diagnosticada com achados citados, sem ampliar o escopo sem controle.",
+        "when": "uma auditoria anterior revelou a lacuna que trava sua decisão ou entrega.",
+        "example": "Verificar limites legais de usar minhas conversas como material de estudo.",
+        "evidence": "relatório citado que responde à lacuna, confiança em escala declarada e risco residual com condição de fechamento.",
+        "prompt": "Preciso fechar a lacuna [LACUNA], já diagnosticada, porque bloqueia [DECISÃO TRAVADA]. Meu critério de aceitação é [CRITÉRIO DE ACEITAÇÃO]. Pesquise apenas essa lacuna: dentro do escopo, a lacuna; fora, qualquer tema novo. Antes de começar, declare a escala de confiança que vai usar (alta/média/baixa e o que cada nível significa). Entregue achados citados; tabela afirmação | evidência | confiança | limite; contradições com as duas fontes; e o risco residual com a condição que o fecharia. Se a lacuna não puder ser fechada com fontes públicas, diga: «não demonstrável com o escopo dado». Se a lacuna mudar durante a pesquisa, redeclare o escopo antes de seguir. Se faltar contexto sobre meu caso, faça no máximo três perguntas; se ainda faltar, declare coverage_gap em vez de supor.",
+        "level_spec": {
+          "role": "Pesquisador de profundidade que fecha uma lacuna por vez",
+          "spec_role": "Especialista em aprendizagem e pesquisa baseada em evidências",
+          "objective": "Fechar uma lacuna diagnosticada com achados citados e risco residual explícito",
+          "parameters": [
+            [
+              "escopo",
+              "apenas a lacuna diagnosticada; todo tema novo fica fora"
+            ],
+            [
+              "confiança",
+              "escala alta/média/baixa definida antes de pesquisar"
+            ],
+            [
+              "perguntas_previas",
+              "no máximo três; se ainda faltar contexto, coverage_gap"
+            ],
+            [
+              "risco_residual",
+              "nomeado com a condição que o fecharia"
+            ]
+          ],
+          "workflow": [
+            "Confirmar a lacuna diagnosticada e o critério de aceitação",
+            "Declarar a escala de confiança e o escopo fechado",
+            "Pesquisar apenas a lacuna com fontes citadas",
+            "Tabular afirmação | evidência | confiança | limite e listar contradições",
+            "Fechar com risco residual e sua condição de fechamento"
+          ],
+          "guardrails": [
+            "Não abrir temas novos nem redefinir o escopo global",
+            "Lacuna sem fechamento com fontes públicas: declarar, não forçar o veredicto",
+            "Não prometer exatidão: confiança sempre na escala declarada"
+          ],
+          "output": [
+            "Achados citados que respondem à lacuna",
+            "Tabela com confiança em escala declarada",
+            "Risco residual com condição de fechamento"
+          ],
+          "dod": "Relatório citado que responde à lacuna, com confiança em escala declarada e risco residual com condição de fechamento.",
+          "edge_cases": [
+            "A lacuna muda durante a pesquisa: redeclarar o escopo antes de seguir",
+            "Após três perguntas ainda falta contexto: coverage_gap"
+          ]
+        },
+        "why_it_works": {
+          "acceptance_criteria": [
+            "Cada afirmação da tabela traz evidência citada e confiança na escala declarada",
+            "As contradições são listadas com as duas fontes",
+            "O risco residual é nomeado junto com a condição que o fecharia"
+          ],
+          "edge_cases": [
+            "Lacuna sem fechamento com fontes públicas: veredicto explícito «não demonstrável com o escopo dado»",
+            "A lacuna muda durante a pesquisa: o escopo é redeclarado antes de seguir"
+          ],
+          "tradeoffs": [
+            "Profundidade em uma única lacuna em troca de não ampliar a cobertura"
+          ],
+          "assumptions": [
+            "Um diagnóstico anterior (05/W02) nomeou a lacuna"
+          ],
+          "limits": [
+            "Não redelimita o tema completo (isso é 01) nem abre temas novos"
+          ]
+        },
+        "traceability": [
+          {
+            "claim": "A intenção e sua evidência esperada vêm da biblioteca publicada do método.",
+            "source": "https://javimontano.github.io/prompt-amplificado/biblioteca-prompts.html"
+          },
+          {
+            "claim": "A estrutura papel–objetivo–parâmetros–fluxo segue o guia público de criação de prompts.",
+            "source": "https://javimontano.github.io/prompt-amplificado/crear-prompts.html"
+          },
+          {
+            "claim": "A convenção coverage_gap e o fechamento por critério observável são norma interna do método.",
+            "source": "method_internal"
+          }
+        ]
+      },
+      "empresa": {
+        "title": "Pesquisa profunda para o processo",
+        "purpose": "Feche a lacuna que trava o processo com achados citados e escopo sob controle, revisáveis por terceiros.",
+        "when": "uma auditoria da equipe revelou uma lacuna que trava uma decisão com responsável.",
+        "example": "Verificar limites legais e operacionais de um copiloto interno antes do uso pela área.",
+        "evidence": "relatório citado que responde à lacuna, confiança comparável entre execuções e risco residual com condição de fechamento e responsável.",
+        "prompt": "Pesquise a lacuna [LACUNA], nomeada por um diagnóstico anterior, porque bloqueia [PROCESSO] e uma decisão da equipe com responsável. O critério de aceitação é [CRITÉRIO DE ACEITAÇÃO], revisável por alguém diferente de quem pesquisa. Escopo fechado: dentro, a lacuna; fora, qualquer tema novo. Declare antes a escala de confiança (alta/média/baixa com definição) para que o resultado seja comparável entre execuções. Entregue achados citados; tabela afirmação | evidência | confiança | limite; contradições com as duas fontes; e o risco residual com condição de fechamento e impacto no processo. Se a lacuna não fechar com fontes públicas, declare: «não demonstrável com o escopo dado». Se faltar contexto material, faça no máximo três perguntas ao responsável; depois declare coverage_gap em vez de supor.",
+        "level_spec": {
+          "role": "Pesquisador de profundidade a serviço de um processo com responsável",
+          "spec_role": "Especialista em aprendizagem e pesquisa baseada em evidências",
+          "objective": "Fechar a lacuna que trava o processo com relatório citado e revisável por terceiros",
+          "parameters": [
+            [
+              "precondição",
+              "diagnóstico anterior com lacuna nomeada e responsável identificado"
+            ],
+            [
+              "comparabilidade",
+              "escala de confiança fixa para comparar entre execuções"
+            ],
+            [
+              "revisão",
+              "critério de aceitação verificável por terceiro"
+            ],
+            [
+              "impacto",
+              "risco residual ligado ao processo afetado"
+            ]
+          ],
+          "workflow": [
+            "Confirmar lacuna, responsável e critério de aceitação revisável",
+            "Declarar escala de confiança fixa e escopo fechado",
+            "Pesquisar apenas a lacuna com fontes citadas",
+            "Tabular achados e contradições com as duas fontes",
+            "Fechar com risco residual, condição de fechamento e impacto no processo"
+          ],
+          "guardrails": [
+            "Não abrir temas novos nem redefinir o escopo global",
+            "As perguntas de contexto vão ao responsável, no máximo três",
+            "Sem fechamento possível com fontes públicas: declarar, não forçar o veredicto"
+          ],
+          "output": [
+            "Relatório citado que responde à lacuna",
+            "Tabela comparável entre execuções",
+            "Risco residual com condição de fechamento e impacto no processo"
+          ],
+          "dod": "Relatório citado e revisável por terceiro, com confiança comparável entre execuções e risco residual ligado ao processo.",
+          "edge_cases": [
+            "A lacuna muda durante a pesquisa: redeclarar o escopo com o responsável",
+            "Após três perguntas ao responsável ainda falta contexto: coverage_gap"
+          ]
+        },
+        "why_it_works": {
+          "acceptance_criteria": [
+            "Cada afirmação traz evidência citada e confiança em escala fixa, comparável entre execuções",
+            "O critério de aceitação pode ser verificado por alguém diferente de quem pesquisa",
+            "O risco residual fica ligado ao processo afetado, com condição de fechamento"
+          ],
+          "edge_cases": [
+            "Lacuna sem fechamento com fontes públicas: veredicto explícito «não demonstrável com o escopo dado»",
+            "A lacuna muda durante a pesquisa: o escopo é redeclarado com o responsável antes de seguir"
+          ],
+          "tradeoffs": [
+            "Fixar a escala e o revisor terceiro adiciona passos em troca de resultados comparáveis e auditáveis"
+          ],
+          "assumptions": [
+            "Um diagnóstico anterior da equipe nomeou a lacuna e o processo tem responsável"
+          ],
+          "limits": [
+            "Não redelimita o tema completo nem decide a implantação: informa a decisão do responsável"
+          ]
+        },
+        "traceability": [
+          {
+            "claim": "A intenção e sua evidência esperada vêm da biblioteca publicada do método.",
+            "source": "https://javimontano.github.io/prompt-amplificado/biblioteca-prompts.html"
+          },
+          {
+            "claim": "A estrutura papel–objetivo–parâmetros–fluxo segue o guia público de criação de prompts.",
+            "source": "https://javimontano.github.io/prompt-amplificado/crear-prompts.html"
+          },
+          {
+            "claim": "A convenção coverage_gap e o fechamento por critério observável são norma interna do método.",
+            "source": "method_internal"
+          }
+        ]
+      }
+    }
+  },
+  "self_hash_model": "sha256(sorted-json-without-self_sha256)",
+  "self_sha256": "09cba20811a47bab01b83997984b06b78eedd34fd9da7f04fd412988d85300b2"
+}
