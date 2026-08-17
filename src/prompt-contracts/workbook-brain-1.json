@@ -1,0 +1,586 @@
+{
+  "schema_version": "prompt-intent-contract-v1",
+  "intent_id": "B1",
+  "surface": "workbook_brain",
+  "phase": "Preparación",
+  "state": "RENDERED_DRAFT",
+  "publication_authorized": false,
+  "boundary": {
+    "distinct_from": [
+      "B2",
+      "B3"
+    ],
+    "decision_rule": "Los tres prompts de preparación se usan antes de entrar al taller, sobre material dictado que todavía no es un encargo. Usa B1 cuando el texto sigue crudo y hay que quitar repeticiones sin perder matices ni vocabulario y confirmar lo entendido; si ya existe una versión confirmada y falta convertirla en encargo con audiencia, plazo y evidencia mínima, usa B2; si el encargo ya está acordado y toca preplanificar el Notebook con fuentes, exclusiones y rol, usa B3. B1 no clasifica la intención, no elige herramienta y no ejecuta ningún paso del taller: entrega el insumo con el que se entra."
+  },
+  "locales": {
+    "es": {
+      "persona": {
+        "title": "Descargar, limpiar y confirmar",
+        "purpose": "Convierte tu dictado crudo en una versión limpia: quita repeticiones sin borrar tu vocabulario y confirma lo entendido antes de que decidas nada.",
+        "when": "quieres entrar al taller con tu caso ordenado y todavía no sabes qué estás pidiendo exactamente.",
+        "example": "Dicté quince minutos sobre por qué quiero usar IA en mi trabajo y quedó desordenado.",
+        "evidence": "versión limpia con mis términos conservados, lo dicho, lo interpretado y lo vacío separados, confirmación de lo entendido en cinco puntos y hasta tres preguntas estratégicas respondidas una por turno.",
+        "prompt": "Quiero descargar y ordenar mi dictado antes del taller. Busco [PROPÓSITO DE LA SESIÓN] y pido un [NIVEL DE LIMPIEZA], conservador o agresivo. Pego mi dictado aquí: {{BRAIN_DUMP}}. Trabaja solo con ese dictado y con los adjuntos que hayas recibido de verdad: no inventes frases, datos ni adjuntos que yo no haya dictado. Quita repeticiones al [NIVEL DE LIMPIEZA] pedido sin borrar intención ni matices; si limpiar amenaza un término técnico que usé, conserva mi término y avísame. Si [PROPÓSITO DE LA SESIÓN] llega vacío, pídemelo antes de limpiar; si el dictado es ininteligible, pide que lo repita. Ordena propósito, contexto, ideas, preguntas, restricciones, fuentes mencionadas y decisiones pendientes según su distancia a [PROPÓSITO DE LA SESIÓN]. Separa lo que dije, lo que interpretas y lo que quedó vacío. Confirma lo entendido en máximo cinco puntos y declara lo no interpretable en vez de rellenarlo. Después hazme máximo tres preguntas estratégicas, una por turno y esperando respuesta: primero la que puede cambiar el propósito, luego la que cuestiona un supuesto, luego la que abre valor. Cierra con la versión limpia y qué cambió en lo entendido. Si el dictado ya llega limpio, dilo y devuélveme solo los vacíos. Si te pido una solución o una herramienta, decláralo fuera de este turno.",
+        "level_spec": {
+          "role": "Editor de pensamiento fiel a mi voz que confirma antes de resolver",
+          "spec_role": "Especialista en preparación de casos y encargos de aprendizaje",
+          "objective": "Descargar, limpiar y confirmar el dictado sin proponer todavía una solución",
+          "parameters": [
+            [
+              "nivel_limpieza",
+              "conservador o agresivo; ante duda con un término propio del hablante, gana el término"
+            ],
+            [
+              "maximo_confirmaciones",
+              "cinco puntos de lo entendido, cada uno marcable como correcto o corregido"
+            ],
+            [
+              "maximo_preguntas",
+              "tres estratégicas, una por turno, esperando respuesta antes de la siguiente"
+            ],
+            [
+              "proponer_solucion",
+              "no en este turno: se declara fuera y se deja para el encargo"
+            ]
+          ],
+          "workflow": [
+            "Registrar el propósito de la sesión y el nivel de limpieza pedido",
+            "Quitar repeticiones conservando intención, matices y vocabulario del hablante",
+            "Ordenar propósito, contexto, ideas, preguntas, restricciones, fuentes mencionadas y decisiones pendientes por distancia al propósito",
+            "Separar lo dicho, lo interpretado y lo vacío",
+            "Confirmar lo entendido en cinco puntos y declarar lo no interpretable",
+            "Formular hasta tres preguntas estratégicas de una en una y cerrar con la versión limpia"
+          ],
+          "guardrails": [
+            "No inventar frases, datos ni adjuntos que la persona no haya dictado",
+            "Dictado vacío o ininteligible: pedir que lo repita, nunca completarlo",
+            "No proponer solución ni herramienta: definir el encargo es B2 y preplanificar el Notebook es B3"
+          ],
+          "output": [
+            "Versión limpia con el vocabulario del hablante conservado",
+            "Lo dicho, lo interpretado y lo vacío separados",
+            "Confirmación de lo entendido en cinco puntos",
+            "Hasta tres preguntas estratégicas secuenciales",
+            "Qué cambió en lo entendido"
+          ],
+          "dod": "La versión limpia conserva los términos del hablante, los cinco puntos quedan confirmados o corregidos y las tres preguntas estratégicas están respondidas o declaradas pendientes.",
+          "edge_cases": [
+            "Dictado que ya llega limpio: decirlo y devolver solo los vacíos, no volver a limpiar",
+            "Nivel agresivo que amenaza un término técnico del hablante: conservar el término y avisar",
+            "Respuestas que llegan como nueva divagación: una segunda pasada de limpieza y cierre"
+          ]
+        },
+        "why_it_works": {
+          "acceptance_criteria": [
+            "Cada término técnico del dictado aparece igual en la versión limpia, sin parafraseo",
+            "La confirmación tiene cinco puntos o menos y cada uno se puede marcar como correcto o corregido",
+            "Las preguntas llegan de a una: la siguiente solo aparece después de la respuesta anterior"
+          ],
+          "edge_cases": [
+            "Dictado ininteligible: se pide repetirlo en vez de rellenar el vacío",
+            "Propósito de sesión ausente: se pide antes de limpiar, porque el orden depende de él"
+          ],
+          "tradeoffs": [
+            "Fidelidad a la voz a cambio de una prosa menos pulida",
+            "Este turno no separa autoría porque asume una sola voz; a cambio expone el control de nivel de limpieza que la celda de equipo fija en conservador",
+            "La definición de terminado original prometía que la persona «descubre posibilidades»: se sustituye por hechos del turno —puntos confirmados, términos conservados, preguntas respondidas— porque el descubrimiento no lo produce ni lo verifica el prompt"
+          ],
+          "assumptions": [
+            "El dictado es la única fuente disponible: no hay adjuntos implícitos"
+          ],
+          "limits": [
+            "Confirma comprensión; no clasifica la intención ni redacta el encargo",
+            "No propone fuentes ni diseña el Notebook, y no promete que la comprensión sea correcta: solo la deja revisable"
+          ]
+        },
+        "traceability": [
+          {
+            "claim": "El prompt de descarga mental, su límite de cinco confirmaciones y sus tres preguntas estratégicas una por turno provienen del material de preparación publicado del método.",
+            "source": "https://javimontano.github.io/prompt-amplificado/biblioteca-prompts.html"
+          },
+          {
+            "claim": "El orden rol, objetivo, parámetros y flujo del nivel especificación de esta celda sigue la guía pública de creación de prompts.",
+            "source": "https://javimontano.github.io/prompt-amplificado/crear-prompts.html"
+          },
+          {
+            "claim": "Conservar el término del hablante cuando la limpieza lo amenaza y pedir un nuevo dictado en vez de completar lo ininteligible son normas internas del método.",
+            "source": "method_internal"
+          }
+        ]
+      },
+      "empresa": {
+        "title": "Descargar, limpiar y confirmar el dictado de una sesión",
+        "purpose": "Convierte el dictado de una reunión en una versión limpia: quita repeticiones, atribuye cada voz y deja lo entendido confirmado y listo para revisión.",
+        "when": "el proceso avanza con notas dictadas por varias personas y nadie sabe qué quedó decidido.",
+        "example": "Grabación de una reunión donde tres personas describieron el mismo problema de forma distinta.",
+        "evidence": "versión limpia con cada voz atribuida, hechos, interpretaciones y vacíos separados, lo entendido confirmado en cinco puntos, decisiones pendientes con dueño y riesgo, y hasta tres preguntas estratégicas dirigidas a quien puede responderlas.",
+        "prompt": "Necesitamos ordenar el dictado de una sesión de [EQUIPO] sobre [PROCESO] antes del taller. Lo pego aquí: {{BRAIN_DUMP}}. Trabaja solo con ese dictado y con los adjuntos realmente recibidos: no inventes frases, datos ni adjuntos que nadie haya dictado. Quita repeticiones en modo conservador, sin borrar intención, matices ni el vocabulario propio de [PROCESO]. Atribuye cada idea a quien la dijo; si el dictado no lo permite, márcala como no atribuida en vez de adivinar. Si dos voces de [EQUIPO] se contradicen, deja ambas y marca la contradicción; no la resuelvas. Separa hechos dichos, interpretaciones tuyas y vacíos. Confirma lo entendido en máximo cinco puntos y declara lo no interpretable. Lista las decisiones pendientes del equipo con un dueño propuesto y, para cada una, el riesgo operativo de seguir sin decidirla. Después haz máximo tres preguntas estratégicas, una por turno y esperando respuesta, dirigidas a quien pueda responderlas. Cierra con la versión limpia y qué cambió en lo entendido, en un formato listo para revisión por alguien que no estuvo en la sesión. Si el dictado ya llega limpio y atribuido, dilo y devuelve solo los vacíos. No propongas todavía solución ni herramienta.",
+        "level_spec": {
+          "role": "Editor de pensamiento fiel a las varias voces de la sesión, que confirma antes de resolver",
+          "spec_role": "Especialista en preparación de casos y encargos de aprendizaje",
+          "objective": "Convertir un dictado de varias voces en material confirmado, atribuido y revisable",
+          "parameters": [
+            [
+              "nivel_limpieza",
+              "conservador fijo: comprimir más borraría la autoría de cada voz"
+            ],
+            [
+              "atribucion",
+              "cada idea lleva quién la dijo o la marca de no atribuida"
+            ],
+            [
+              "maximo_confirmaciones",
+              "cinco puntos de lo entendido, cada uno marcable como correcto o corregido"
+            ],
+            [
+              "maximo_preguntas",
+              "tres estratégicas, una por turno, dirigidas a quien puede responderlas"
+            ]
+          ],
+          "workflow": [
+            "Registrar el equipo emisor y el proceso del que habla la sesión",
+            "Quitar repeticiones en modo conservador sin tocar el vocabulario del proceso",
+            "Atribuir cada idea a su voz o marcarla como no atribuida, dejando las contradicciones visibles",
+            "Separar hechos dichos, interpretaciones y vacíos",
+            "Confirmar lo entendido en cinco puntos y listar decisiones pendientes con dueño y riesgo operativo",
+            "Formular hasta tres preguntas estratégicas de una en una y cerrar en formato revisable"
+          ],
+          "guardrails": [
+            "No inventar frases, datos ni adjuntos que nadie haya dictado",
+            "No adivinar autoría: sin evidencia en el dictado, la idea queda no atribuida",
+            "No resolver contradicciones entre voces ni proponer herramienta: el encargo es B2 y el preplan del Notebook es B3"
+          ],
+          "output": [
+            "Versión limpia con cada idea atribuida o marcada como no atribuida",
+            "Contradicciones entre voces señaladas sin resolver",
+            "Confirmación de lo entendido en cinco puntos",
+            "Decisiones pendientes con dueño propuesto y riesgo operativo",
+            "Hasta tres preguntas estratégicas secuenciales"
+          ],
+          "dod": "Cada idea queda atribuida o marcada como no atribuida, los cinco puntos quedan confirmados o corregidos y cada decisión pendiente tiene dueño propuesto y riesgo declarado.",
+          "edge_cases": [
+            "Dictado sin marcas de quién habla: todo queda no atribuido y se dice, en vez de repartir voces",
+            "Dos voces contradictorias sobre el mismo punto: ambas se conservan y la contradicción se marca",
+            "Dictado que ya llega limpio y atribuido: se devuelven solo los vacíos"
+          ]
+        },
+        "why_it_works": {
+          "acceptance_criteria": [
+            "Toda idea del resumen tiene autor declarado o la marca explícita de no atribuida",
+            "Cada decisión pendiente lista un dueño propuesto y el riesgo operativo de no decidirla",
+            "Alguien que no estuvo en la sesión puede leer el cierre y marcar cada punto como correcto o corregido"
+          ],
+          "edge_cases": [
+            "Una sola voz en el dictado: la atribución se declara trivial y no se inventan participantes",
+            "Contradicción entre dos voces: se conserva y se marca, no se promedia"
+          ],
+          "tradeoffs": [
+            "Atribuir voces alarga el resumen a cambio de que las decisiones tengan dueño",
+            "Este turno renuncia al control de nivel de limpieza que sí expone la celda individual: con varias voces, comprimir agresivamente borra autoría, así que el nivel queda fijo en conservador"
+          ],
+          "assumptions": [
+            "El dictado proviene de una sesión real y no hay más registro disponible que el pegado"
+          ],
+          "limits": [
+            "Deja el material confirmado y revisable; no clasifica la intención ni redacta el encargo",
+            "No aprueba decisiones ni sustituye a quien debe tomarlas: solo nombra el dueño propuesto"
+          ]
+        },
+        "traceability": [
+          {
+            "claim": "La secuencia limpiar, organizar, confirmar y preguntar de a una del prompt de descarga mental proviene del material de preparación publicado del método.",
+            "source": "https://javimontano.github.io/prompt-amplificado/biblioteca-prompts.html"
+          },
+          {
+            "claim": "La forma del nivel especificación de esta celda de equipo —rol, objetivo, parámetros, flujo, límites y definición de terminado— sigue la guía pública de creación de prompts.",
+            "source": "https://javimontano.github.io/prompt-amplificado/crear-prompts.html"
+          },
+          {
+            "claim": "Atribuir cada idea a su voz, marcar como no atribuido lo que el dictado no sostiene y dejar cada decisión pendiente con dueño y riesgo son políticas internas para material dictado por varias personas.",
+            "source": "method_internal"
+          }
+        ]
+      }
+    },
+    "en": {
+      "persona": {
+        "title": "Dump, clean and confirm",
+        "purpose": "Turns your raw dictation into a clean version: strips repetition without erasing your vocabulary, and confirms the understanding before you decide anything.",
+        "when": "you want to enter the workshop with your case in order and still cannot name what you are asking for.",
+        "example": "I dictated fifteen minutes on why I want to use AI at work and it came out tangled.",
+        "evidence": "clean version with my terms preserved, what was said separated from what was interpreted and what stayed empty, understanding confirmed in five points and up to three strategic questions answered one per turn.",
+        "prompt": "I want to dump and order my dictation before the workshop. I am after [SESSION PURPOSE] and I ask for a [CLEANING LEVEL], conservative or aggressive. I paste my dictation here: {{BRAIN_DUMP}}. Work only with that dictation and with attachments you actually received: do not invent sentences, data or attachments I never dictated. Strip repetition at the requested [CLEANING LEVEL] without erasing intent or nuance; if cleaning threatens a technical term I used, keep my term and tell me. If [SESSION PURPOSE] arrives empty, ask me for it before cleaning; if the dictation is unintelligible, ask me to record it again. Order purpose, context, ideas, questions, constraints, mentioned sources and pending decisions by their distance to [SESSION PURPOSE]. Separate what I said, what you interpreted and what stayed empty. Confirm the understanding in five points at most and declare whatever you could not interpret instead of filling it in. Then ask me at most three strategic questions, one per turn and waiting for my answer: first the one that can change the purpose, then the one that challenges an assumption, then the one that opens value. Close with the clean version and what changed in the understanding. If the dictation already arrives clean, say so and return only the gaps. If I ask you for a solution or a tool, declare it out of this turn.",
+        "level_spec": {
+          "role": "Thought editor faithful to my voice who confirms before solving",
+          "spec_role": "Specialist in preparing cases and learning assignments",
+          "objective": "Dump, clean and confirm the dictation without proposing a solution yet",
+          "parameters": [
+            [
+              "cleaning_level",
+              "conservative or aggressive; when in doubt about a speaker term, the term wins"
+            ],
+            [
+              "confirmation_max",
+              "five points of understanding, each markable as right or corrected"
+            ],
+            [
+              "question_max",
+              "three strategic ones, one per turn, waiting for the answer before the next"
+            ],
+            [
+              "propose_solution",
+              "not in this turn: it is declared out and left for the assignment"
+            ]
+          ],
+          "workflow": [
+            "Record the session purpose and the requested cleaning level",
+            "Strip repetition while preserving intent, nuance and the speaker vocabulary",
+            "Order purpose, context, ideas, questions, constraints, mentioned sources and pending decisions by distance to the purpose",
+            "Separate what was said, what was interpreted and what stayed empty",
+            "Confirm the understanding in five points and declare what could not be interpreted",
+            "Ask up to three strategic questions one at a time and close with the clean version"
+          ],
+          "guardrails": [
+            "Never invent sentences, data or attachments the person did not dictate",
+            "Empty or unintelligible dictation: ask for it again, never complete it",
+            "Never propose a solution or a tool: defining the assignment is B2 and preplanning the Notebook is B3"
+          ],
+          "output": [
+            "Clean version with the speaker vocabulary preserved",
+            "What was said, what was interpreted and what stayed empty, separated",
+            "Understanding confirmed in five points",
+            "Up to three sequential strategic questions",
+            "What changed in the understanding"
+          ],
+          "dod": "The clean version keeps the speaker terms, the five points end up confirmed or corrected, and the three strategic questions are answered or declared pending.",
+          "edge_cases": [
+            "Dictation that already arrives clean: say so and return only the gaps instead of cleaning again",
+            "Aggressive level threatening a technical term of the speaker: keep the term and flag it",
+            "Answers that arrive as fresh rambling: one more cleaning pass and close"
+          ]
+        },
+        "why_it_works": {
+          "acceptance_criteria": [
+            "Every technical term of the dictation appears unchanged in the clean version, with no paraphrase",
+            "The confirmation holds five points or fewer and each one can be marked right or corrected",
+            "Questions arrive one at a time: the next appears only after the previous answer"
+          ],
+          "edge_cases": [
+            "Unintelligible dictation: a new recording is requested instead of filling the gap",
+            "Missing session purpose: it is requested before cleaning, because the ordering depends on it"
+          ],
+          "tradeoffs": [
+            "Fidelity to the voice in exchange for less polished prose",
+            "This turn does not separate authorship because it assumes a single voice; in exchange it exposes the cleaning-level control that the team cell pins to conservative",
+            "The original definition of done promised that the person \"discovers possibilities\": it is replaced by facts of the turn — points confirmed, terms preserved, questions answered — because discovery is neither produced nor verified by the prompt"
+          ],
+          "assumptions": [
+            "The dictation is the only available material: there are no implicit attachments"
+          ],
+          "limits": [
+            "It confirms understanding; it neither classifies the intent nor writes the assignment",
+            "It proposes no material and designs no Notebook, and it does not promise the understanding is right: it only makes it reviewable"
+          ]
+        },
+        "traceability": [
+          {
+            "claim": "The brain dump prompt, its five-point confirmation cap and its three strategic questions one per turn come from the published preparation material of the method.",
+            "source": "https://javimontano.github.io/prompt-amplificado/biblioteca-prompts.html"
+          },
+          {
+            "claim": "The role, objective, parameters and workflow ordering of the specification level in this cell follows the public prompt-creation guide.",
+            "source": "https://javimontano.github.io/prompt-amplificado/crear-prompts.html"
+          },
+          {
+            "claim": "Keeping the speaker term when cleaning threatens it, and asking for a new recording instead of completing the unintelligible, are internal method policy.",
+            "source": "method_internal"
+          }
+        ]
+      },
+      "empresa": {
+        "title": "Dump, clean and confirm a session dictation",
+        "purpose": "Turns a meeting dictation into a clean version: strips repetition, attributes every voice and leaves the understanding confirmed and ready for review.",
+        "when": "the process runs on notes dictated by several people and nobody knows what was actually decided.",
+        "example": "A meeting recording where three people described the same problem in different words.",
+        "evidence": "clean version with every voice attributed, facts, interpretations and gaps separated, understanding confirmed in five points, pending decisions with owner and risk, and up to three strategic questions aimed at whoever can answer them.",
+        "prompt": "We need to order the dictation of a [TEAM] session about [PROCESS] before the workshop. I paste it here: {{BRAIN_DUMP}}. Work only with that dictation and the attachments actually received: do not invent sentences, data or attachments nobody dictated. Strip repetition conservatively, without erasing intent, nuance or the vocabulary specific to [PROCESS]. Attribute every idea to whoever said it; if the dictation does not support that, mark it unattributed instead of guessing. If two voices in [TEAM] contradict each other, keep both and mark the contradiction; do not resolve it. Separate stated facts, your interpretations and gaps. Confirm the understanding in five points at most and declare what you could not interpret. List the pending decisions of the team with a proposed owner and, for each one, the operational risk of moving on without deciding it. Then ask at most three strategic questions, one per turn and waiting for the answer, aimed at whoever can answer them. Close with the clean version and what changed in the understanding, in a format ready for review by someone who was not in the session. If the dictation already arrives clean and attributed, say so and return only the gaps. Do not propose a solution or a tool yet.",
+        "level_spec": {
+          "role": "Thought editor faithful to the several voices of a session, who confirms before solving",
+          "spec_role": "Specialist in preparing cases and learning assignments",
+          "objective": "Turn a multi-voice dictation into confirmed, attributed and reviewable material",
+          "parameters": [
+            [
+              "cleaning_level",
+              "pinned to conservative: compressing further would erase the authorship of each voice"
+            ],
+            [
+              "attribution",
+              "every idea carries who said it or the unattributed mark"
+            ],
+            [
+              "confirmation_max",
+              "five points of understanding, each markable as right or corrected"
+            ],
+            [
+              "question_max",
+              "three strategic ones, one per turn, aimed at whoever can answer them"
+            ]
+          ],
+          "workflow": [
+            "Record the emitting team and the process the session talks about",
+            "Strip repetition conservatively without touching the process vocabulary",
+            "Attribute every idea to its voice or mark it unattributed, leaving contradictions visible",
+            "Separate stated facts, interpretations and gaps",
+            "Confirm the understanding in five points and list pending decisions with owner and operational risk",
+            "Ask up to three strategic questions one at a time and close in reviewable format"
+          ],
+          "guardrails": [
+            "Never invent sentences, data or attachments nobody dictated",
+            "Never guess authorship: without support in the dictation the idea stays unattributed",
+            "Never resolve contradictions between voices or propose a tool: the assignment is B2 and the Notebook preplan is B3"
+          ],
+          "output": [
+            "Clean version with every idea attributed or marked unattributed",
+            "Contradictions between voices flagged and left unresolved",
+            "Understanding confirmed in five points",
+            "Pending decisions with proposed owner and operational risk",
+            "Up to three sequential strategic questions"
+          ],
+          "dod": "Every idea ends up attributed or marked unattributed, the five points end up confirmed or corrected, and each pending decision carries a proposed owner and a declared risk.",
+          "edge_cases": [
+            "Dictation with no speaker marks: everything stays unattributed and it is said, instead of splitting voices",
+            "Two contradictory voices on the same point: both are kept and the contradiction is flagged",
+            "Dictation that already arrives clean and attributed: only the gaps come back"
+          ]
+        },
+        "why_it_works": {
+          "acceptance_criteria": [
+            "Every idea in the summary carries a declared author or the explicit unattributed mark",
+            "Each pending decision lists a proposed owner and the operational risk of leaving it open",
+            "Someone who was not in the session can read the close and mark each point right or corrected"
+          ],
+          "edge_cases": [
+            "A single voice in the dictation: attribution is declared trivial and no participants are invented",
+            "Contradiction between two voices: it is kept and flagged, never averaged"
+          ],
+          "tradeoffs": [
+            "Attributing voices lengthens the summary in exchange for decisions that have an owner",
+            "This turn gives up the cleaning-level control the individual cell exposes: with several voices, aggressive compression erases authorship, so the level stays pinned to conservative"
+          ],
+          "assumptions": [
+            "The dictation comes from a real session and no record beyond the pasted text is available"
+          ],
+          "limits": [
+            "It leaves the material confirmed and reviewable; it neither classifies the intent nor writes the assignment",
+            "It approves no decision and replaces nobody who must take one: it only names the proposed owner"
+          ]
+        },
+        "traceability": [
+          {
+            "claim": "The clean, organize, confirm and ask-one-at-a-time sequence of the brain dump prompt comes from the published preparation material of the method.",
+            "source": "https://javimontano.github.io/prompt-amplificado/biblioteca-prompts.html"
+          },
+          {
+            "claim": "The specification-level shape used in this team cell — role, objective, parameters, workflow, boundaries and definition of done — follows the public prompt-creation guide.",
+            "source": "https://javimontano.github.io/prompt-amplificado/crear-prompts.html"
+          },
+          {
+            "claim": "Attributing every idea to its voice, marking as unattributed whatever the dictation does not support, and leaving each pending decision with owner and risk are internal policy for material dictated by several people.",
+            "source": "method_internal"
+          }
+        ]
+      }
+    },
+    "pt": {
+      "persona": {
+        "title": "Descarregar, limpar e confirmar",
+        "purpose": "Transforma seu ditado cru em uma versão limpa: remove repetições sem apagar seu vocabulário e confirma o entendimento antes de você decidir qualquer coisa.",
+        "when": "você quer entrar na oficina com seu caso organizado e ainda não sabe o que está pedindo.",
+        "example": "Ditei quinze minutos sobre por que quero usar IA no meu trabalho e ficou desorganizado.",
+        "evidence": "versão limpa com meus termos preservados, o dito, o interpretado e o vazio separados, entendimento confirmado em cinco pontos e até três perguntas estratégicas respondidas uma por turno.",
+        "prompt": "Quero descarregar e organizar meu ditado antes da oficina. Busco [PROPÓSITO DA SESSÃO] e peço um [NÍVEL DE LIMPEZA], conservador ou agressivo. Colo meu ditado aqui: {{BRAIN_DUMP}}. Trabalhe somente com esse ditado e com os anexos realmente recebidos: não invente frases, dados nem anexos que eu não tenha ditado. Remova repetições no [NÍVEL DE LIMPEZA] pedido sem apagar intenção nem nuances; se limpar ameaçar um termo técnico que usei, preserve meu termo e me avise. Se [PROPÓSITO DA SESSÃO] chegar vazio, peça antes de limpar; se o ditado estiver ininteligível, peça que eu repita. Organize propósito, contexto, ideias, perguntas, restrições, fontes mencionadas e decisões pendentes pela distância até [PROPÓSITO DA SESSÃO]. Separe o que eu disse, o que você interpretou e o que ficou vazio. Confirme o entendimento em no máximo cinco pontos e declare o que não conseguiu interpretar em vez de preencher. Depois faça no máximo três perguntas estratégicas, uma por turno e esperando resposta: primeiro a que pode mudar o propósito, depois a que questiona uma suposição, depois a que abre valor. Termine com a versão limpa e o que mudou no entendimento. Se o ditado já chegar limpo, diga e devolva apenas as lacunas. Se eu pedir uma solução ou uma ferramenta, declare fora deste turno.",
+        "level_spec": {
+          "role": "Editor de pensamento fiel à minha voz que confirma antes de resolver",
+          "spec_role": "Especialista em preparação de casos e encargos de aprendizagem",
+          "objective": "Descarregar, limpar e confirmar o ditado sem ainda propor solução",
+          "parameters": [
+            [
+              "nivel_limpeza",
+              "conservador ou agressivo; na dúvida sobre um termo do falante, o termo prevalece"
+            ],
+            [
+              "maximo_confirmacoes",
+              "cinco pontos do entendimento, cada um marcável como correto ou corrigido"
+            ],
+            [
+              "maximo_perguntas",
+              "três estratégicas, uma por turno, esperando a resposta antes da seguinte"
+            ],
+            [
+              "propor_solucao",
+              "não neste turno: declara-se fora e fica para o encargo"
+            ]
+          ],
+          "workflow": [
+            "Registrar o propósito da sessão e o nível de limpeza pedido",
+            "Remover repetições preservando intenção, nuances e o vocabulário do falante",
+            "Organizar propósito, contexto, ideias, perguntas, restrições, fontes mencionadas e decisões pendentes pela distância ao propósito",
+            "Separar o dito, o interpretado e o vazio",
+            "Confirmar o entendimento em cinco pontos e declarar o que não foi possível interpretar",
+            "Fazer até três perguntas estratégicas uma de cada vez e fechar com a versão limpa"
+          ],
+          "guardrails": [
+            "Não inventar frases, dados nem anexos que a pessoa não tenha ditado",
+            "Ditado vazio ou ininteligível: pedir que repita, nunca completar",
+            "Não propor solução nem ferramenta: definir o encargo é B2 e pré-planejar o Notebook é B3"
+          ],
+          "output": [
+            "Versão limpa com o vocabulário do falante preservado",
+            "O dito, o interpretado e o vazio separados",
+            "Entendimento confirmado em cinco pontos",
+            "Até três perguntas estratégicas sequenciais",
+            "O que mudou no entendimento"
+          ],
+          "dod": "A versão limpa preserva os termos do falante, os cinco pontos ficam confirmados ou corrigidos e as três perguntas estratégicas ficam respondidas ou declaradas pendentes.",
+          "edge_cases": [
+            "Ditado que já chega limpo: dizer isso e devolver apenas as lacunas, sem limpar de novo",
+            "Nível agressivo que ameaça um termo técnico do falante: preservar o termo e avisar",
+            "Respostas que chegam como nova divagação: mais uma passada de limpeza e fechamento"
+          ]
+        },
+        "why_it_works": {
+          "acceptance_criteria": [
+            "Cada termo técnico do ditado aparece igual na versão limpa, sem paráfrase",
+            "A confirmação tem cinco pontos ou menos e cada um pode ser marcado como correto ou corrigido",
+            "As perguntas chegam uma de cada vez: a seguinte só aparece depois da resposta anterior"
+          ],
+          "edge_cases": [
+            "Ditado ininteligível: pede-se repetir em vez de preencher a lacuna",
+            "Propósito da sessão ausente: pede-se antes de limpar, porque a ordenação depende dele"
+          ],
+          "tradeoffs": [
+            "Fidelidade à voz em troca de uma prosa menos polida",
+            "Este turno não separa autoria porque supõe uma única voz; em troca expõe o controle de nível de limpeza que a célula de equipe fixa em conservador",
+            "A definição de concluído original prometia que a pessoa «descobre possibilidades»: troca-se por fatos do turno — pontos confirmados, termos preservados, perguntas respondidas — porque a descoberta não é produzida nem verificada pelo prompt"
+          ],
+          "assumptions": [
+            "O ditado é o único material disponível: não há anexos implícitos"
+          ],
+          "limits": [
+            "Confirma o entendimento; não classifica a intenção nem redige o encargo",
+            "Não propõe material nem projeta o Notebook, e não promete que o entendimento esteja certo: apenas o deixa revisável"
+          ]
+        },
+        "traceability": [
+          {
+            "claim": "O prompt de descarga mental, seu limite de cinco confirmações e suas três perguntas estratégicas uma por turno vêm do material de preparação publicado do método.",
+            "source": "https://javimontano.github.io/prompt-amplificado/biblioteca-prompts.html"
+          },
+          {
+            "claim": "A ordem papel, objetivo, parâmetros e fluxo do nível especificação desta célula segue o guia público de criação de prompts.",
+            "source": "https://javimontano.github.io/prompt-amplificado/crear-prompts.html"
+          },
+          {
+            "claim": "Preservar o termo do falante quando a limpeza o ameaça e pedir novo ditado em vez de completar o ininteligível são normas internas do método.",
+            "source": "method_internal"
+          }
+        ]
+      },
+      "empresa": {
+        "title": "Descarregar, limpar e confirmar o ditado de uma sessão",
+        "purpose": "Transforma o ditado de uma reunião em versão limpa: remove repetições, atribui cada voz e deixa o entendimento confirmado e pronto para revisão.",
+        "when": "o processo avança com notas ditadas por várias pessoas e ninguém sabe o que ficou decidido.",
+        "example": "Gravação de uma reunião em que três pessoas descreveram o mesmo problema de formas diferentes.",
+        "evidence": "versão limpa com cada voz atribuída, fatos, interpretações e lacunas separados, entendimento confirmado em cinco pontos, decisões pendentes com dono e risco, e até três perguntas estratégicas dirigidas a quem pode respondê-las.",
+        "prompt": "Precisamos organizar o ditado de uma sessão de [EQUIPE] sobre [PROCESSO] antes da oficina. Colo aqui: {{BRAIN_DUMP}}. Trabalhe somente com esse ditado e com os anexos realmente recebidos: não invente frases, dados nem anexos que ninguém tenha ditado. Remova repetições em modo conservador, sem apagar intenção, nuances nem o vocabulário próprio de [PROCESSO]. Atribua cada ideia a quem a disse; se o ditado não sustentar isso, marque como não atribuída em vez de adivinhar. Se duas vozes de [EQUIPE] se contradisserem, mantenha ambas e marque a contradição; não a resolva. Separe fatos declarados, suas interpretações e lacunas. Confirme o entendimento em no máximo cinco pontos e declare o que não conseguiu interpretar. Liste as decisões pendentes da equipe com um dono proposto e, para cada uma, o risco operacional de seguir sem decidi-la. Depois faça no máximo três perguntas estratégicas, uma por turno e esperando resposta, dirigidas a quem possa respondê-las. Termine com a versão limpa e o que mudou no entendimento, em formato pronto para revisão por alguém que não esteve na sessão. Se o ditado já chegar limpo e atribuído, diga e devolva apenas as lacunas. Ainda não proponha solução nem ferramenta.",
+        "level_spec": {
+          "role": "Editor de pensamento fiel às várias vozes da sessão, que confirma antes de resolver",
+          "spec_role": "Especialista em preparação de casos e encargos de aprendizagem",
+          "objective": "Converter um ditado de várias vozes em material confirmado, atribuído e revisável",
+          "parameters": [
+            [
+              "nivel_limpeza",
+              "fixo em conservador: comprimir mais apagaria a autoria de cada voz"
+            ],
+            [
+              "atribuicao",
+              "cada ideia leva quem a disse ou a marca de não atribuída"
+            ],
+            [
+              "maximo_confirmacoes",
+              "cinco pontos do entendimento, cada um marcável como correto ou corrigido"
+            ],
+            [
+              "maximo_perguntas",
+              "três estratégicas, uma por turno, dirigidas a quem pode respondê-las"
+            ]
+          ],
+          "workflow": [
+            "Registrar a equipe emissora e o processo de que a sessão fala",
+            "Remover repetições em modo conservador sem tocar no vocabulário do processo",
+            "Atribuir cada ideia à sua voz ou marcá-la como não atribuída, deixando as contradições visíveis",
+            "Separar fatos declarados, interpretações e lacunas",
+            "Confirmar o entendimento em cinco pontos e listar decisões pendentes com dono e risco operacional",
+            "Fazer até três perguntas estratégicas uma de cada vez e fechar em formato revisável"
+          ],
+          "guardrails": [
+            "Não inventar frases, dados nem anexos que ninguém tenha ditado",
+            "Não adivinhar autoria: sem sustentação no ditado, a ideia fica não atribuída",
+            "Não resolver contradições entre vozes nem propor ferramenta: o encargo é B2 e o pré-plano do Notebook é B3"
+          ],
+          "output": [
+            "Versão limpa com cada ideia atribuída ou marcada como não atribuída",
+            "Contradições entre vozes assinaladas sem resolução",
+            "Entendimento confirmado em cinco pontos",
+            "Decisões pendentes com dono proposto e risco operacional",
+            "Até três perguntas estratégicas sequenciais"
+          ],
+          "dod": "Cada ideia fica atribuída ou marcada como não atribuída, os cinco pontos ficam confirmados ou corrigidos e cada decisão pendente tem dono proposto e risco declarado.",
+          "edge_cases": [
+            "Ditado sem marcas de quem fala: tudo fica não atribuído e isso se declara, em vez de repartir vozes",
+            "Duas vozes contraditórias sobre o mesmo ponto: ambas ficam e a contradição é marcada",
+            "Ditado que já chega limpo e atribuído: voltam apenas as lacunas"
+          ]
+        },
+        "why_it_works": {
+          "acceptance_criteria": [
+            "Toda ideia do resumo tem autor declarado ou a marca explícita de não atribuída",
+            "Cada decisão pendente lista um dono proposto e o risco operacional de deixá-la aberta",
+            "Quem não esteve na sessão consegue ler o fechamento e marcar cada ponto como correto ou corrigido"
+          ],
+          "edge_cases": [
+            "Uma única voz no ditado: a atribuição é declarada trivial e nenhum participante é inventado",
+            "Contradição entre duas vozes: fica registrada e marcada, nunca é feita uma média"
+          ],
+          "tradeoffs": [
+            "Atribuir vozes alonga o resumo em troca de decisões com dono",
+            "Este turno abre mão do controle de nível de limpeza que a célula individual expõe: com várias vozes, comprimir de forma agressiva apaga autoria, então o nível fica fixo em conservador"
+          ],
+          "assumptions": [
+            "O ditado vem de uma sessão real e não há registro além do texto colado"
+          ],
+          "limits": [
+            "Deixa o material confirmado e revisável; não classifica a intenção nem redige o encargo",
+            "Não aprova decisões nem substitui quem deve tomá-las: apenas nomeia o dono proposto"
+          ]
+        },
+        "traceability": [
+          {
+            "claim": "A sequência limpar, organizar, confirmar e perguntar uma de cada vez do prompt de descarga mental vem do material de preparação publicado do método.",
+            "source": "https://javimontano.github.io/prompt-amplificado/biblioteca-prompts.html"
+          },
+          {
+            "claim": "A forma do nível especificação usada nesta célula de equipe — papel, objetivo, parâmetros, fluxo, limites e definição de concluído — segue o guia público de criação de prompts.",
+            "source": "https://javimontano.github.io/prompt-amplificado/crear-prompts.html"
+          },
+          {
+            "claim": "Atribuir cada ideia à sua voz, marcar como não atribuído o que o ditado não sustenta e deixar cada decisão pendente com dono e risco são políticas internas para material ditado por várias pessoas.",
+            "source": "method_internal"
+          }
+        ]
+      }
+    }
+  },
+  "self_hash_model": "sha256(sorted-json-without-self_sha256)",
+  "self_sha256": "630dc11847dd780e308f1fe39a6614a51c675f3d488a32d919e8eb8f32f77969"
+}

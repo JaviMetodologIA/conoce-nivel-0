@@ -1,0 +1,613 @@
+{
+  "schema_version": "prompt-intent-contract-v1",
+  "intent_id": "B2",
+  "surface": "workbook_brain",
+  "phase": "Preparación",
+  "state": "RENDERED_DRAFT",
+  "publication_authorized": false,
+  "boundary": {
+    "distinct_from": [
+      "B1",
+      "B3"
+    ],
+    "decision_rule": "Los tres prompts de preparación se usan antes de entrar al taller. Usa B2 cuando ya existe una comprensión confirmada y falta convertirla en un encargo con propósito, audiencia, plazo, evidencia mínima y fuera de alcance; si el texto sigue crudo y hay que quitar repeticiones y confirmar lo entendido, usa B1; si el encargo ya está acordado y toca preplanificar el Notebook con fuentes, exclusiones y rol, usa B3. B2 no limpia el dictado, no elige herramienta ni fuentes y no ejecuta ningún paso del taller: fija el qué que después se preplanifica."
+  },
+  "locales": {
+    "es": {
+      "persona": {
+        "title": "Definir el encargo de aprendizaje",
+        "purpose": "Convierte tu comprensión ya confirmada en un encargo de una página con evidencia mínima observable, antes de hablar de herramientas.",
+        "when": "ya confirmaste lo entendido y necesitas fijar resultado, plazo y qué contará como avance.",
+        "example": "Sé que quiero aprender NotebookLM, pero no sé para qué decisión ni en cuánto tiempo.",
+        "evidence": "intención principal y secundaria declaradas, frase de propósito, audiencia, plazo, nivel actual, restricciones, evidencia mínima observable, fuera de alcance, decisión que sigue siendo humana y brief de una página con confirmación sección por sección.",
+        "prompt": "Quiero convertir mi comprensión ya confirmada en un encargo antes de hablar de herramientas. Mi resultado buscado es [RESULTADO] y lo usaré para [DECISIÓN O USO]. Pego el material aquí: {{BRAIN_DUMP}}. Clasifica mi intención principal entre estudiar, aprender, crear, decidir, preparar una conversación, configurar un asesor o configurar un coach; si [RESULTADO] y [DECISIÓN O USO] apuntan a dos intenciones, declara principal la que bloquea a la otra y secundaria la restante; si ninguna encaja, dilo y propón la más cercana. Escribe la frase «Quiero comprender o producir [RESULTADO] para poder [DECISIÓN O USO]». Define mi audiencia, plazo, nivel actual y restricciones tomándolos de lo dictado; lo que no esté dicho, pídemelo: no inventes fuentes, plazos ni restricciones. Fija una evidencia mínima observable: algo que yo pueda mostrar y que otra persona declare hecho o no hecho sin conocer mi intención. Declara qué queda fuera y qué decisión sigue siendo mía. Devuelve un brief de una página con esas secciones en ese orden y pídeme confirmación sección por sección, marcando cada una como confirmada o corregida. Si el material llega sin versión limpia, confirma primero lo entendido en cinco puntos. Si te pido saltar a las herramientas, decláralo fuera: el encargo va antes.",
+        "level_spec": {
+          "role": "Diseñador de encargos de aprendizaje que cierra el qué antes del cómo",
+          "spec_role": "Especialista en preparación de casos y encargos de aprendizaje",
+          "objective": "Convertir la comprensión confirmada en un encargo de una página antes de elegir herramientas",
+          "parameters": [
+            [
+              "extension",
+              "una página con secciones fijas y en orden"
+            ],
+            [
+              "proposito",
+              "comprender o producir un resultado para poder decidir o usarlo"
+            ],
+            [
+              "evidencia_minima",
+              "observable: otra persona la declara hecha o no hecha sin conocer la intención"
+            ],
+            [
+              "intencion_mixta",
+              "se declara principal la que bloquea a la otra y secundaria la restante"
+            ],
+            [
+              "disenar_notebook",
+              "no en este turno: se declara fuera y el encargo va antes"
+            ]
+          ],
+          "workflow": [
+            "Clasificar la intención principal entre las siete y resolver la mixta por bloqueo",
+            "Escribir la frase de propósito con resultado y uso",
+            "Definir audiencia, plazo, nivel actual y restricciones desde lo dictado, pidiendo lo que falte",
+            "Fijar la evidencia mínima observable y declarar fuera de alcance y decisión humana",
+            "Devolver el brief de una página y pedir confirmación sección por sección"
+          ],
+          "guardrails": [
+            "No inventar fuentes, plazos ni restricciones que la persona no haya dicho",
+            "No diseñar todavía el Notebook ni confundir la intención con la solución",
+            "No prometer que el encargo reemplaza la decisión humana: la decisión final queda declarada como propia"
+          ],
+          "output": [
+            "Intención principal y secundaria",
+            "Frase de propósito",
+            "Audiencia, plazo, nivel actual y restricciones",
+            "Evidencia mínima observable",
+            "Fuera de alcance y decisión humana",
+            "Brief de una página con confirmación sección por sección"
+          ],
+          "dod": "El brief de una página queda confirmado o corregido sección por sección, con intención principal declarada y una evidencia mínima que otra persona puede declarar hecha o no hecha.",
+          "edge_cases": [
+            "Material que llega sin versión limpia previa: confirmar lo entendido en cinco puntos antes de clasificar",
+            "Ninguna de las siete intenciones encaja: declararlo y proponer la más cercana, no forzar la etiqueta",
+            "Petición de saltar a las herramientas: declararla fuera y terminar el encargo primero"
+          ]
+        },
+        "why_it_works": {
+          "acceptance_criteria": [
+            "El brief trae las nueve secciones en el orden pedido y ninguna queda vacía sin declarar por qué",
+            "La evidencia mínima se puede declarar hecha o no hecha por alguien que no conoce la intención",
+            "Cada sección vuelve marcada como confirmada o corregida, no aprobada en bloque"
+          ],
+          "edge_cases": [
+            "Intención mixta: se declara principal la que bloquea a la otra, con la secundaria en segundo lugar",
+            "Restricción o plazo no dictados: se piden en vez de completarse"
+          ],
+          "tradeoffs": [
+            "Un paso más antes de tocar herramientas a cambio de no construir el Notebook equivocado",
+            "Este turno pide la evidencia a mi medida y no exige comparabilidad entre personas, que es lo que añade la celda de equipo junto con el rol que decide",
+            "La definición de terminado original prometía que el encargo «permite decidir después qué Notebook y qué fuentes hacen falta»: eso ocurre en un turno posterior, así que aquí se comprueba lo que este turno sí produce —secciones confirmadas y evidencia declarable—"
+          ],
+          "assumptions": [
+            "La comprensión llega ya confirmada; si no, el propio prompt corre una confirmación mínima antes de clasificar",
+            "La decisión final es humana en todos los casos"
+          ],
+          "limits": [
+            "Produce el encargo; no elige herramienta ni selecciona fuentes",
+            "No garantiza que el encargo sea el correcto: lo deja explícito para que yo lo confirme o corrija"
+          ]
+        },
+        "traceability": [
+          {
+            "claim": "La clasificación de intención en siete casos, la plantilla de la frase de propósito y el brief de una página provienen del material de preparación publicado del método.",
+            "source": "https://javimontano.github.io/prompt-amplificado/biblioteca-prompts.html"
+          },
+          {
+            "claim": "La estructura de rol, objetivo, parámetros, flujo y definición de terminado que ordena este encargo sigue la guía pública de creación de prompts.",
+            "source": "https://javimontano.github.io/prompt-amplificado/crear-prompts.html"
+          },
+          {
+            "claim": "Definir la evidencia mínima como algo declarable por un tercero sin conocer la intención, y resolver la intención mixta por bloqueo, son normas internas del método.",
+            "source": "method_internal"
+          }
+        ]
+      },
+      "empresa": {
+        "title": "Definir el encargo de aprendizaje del equipo",
+        "purpose": "Convierte lo confirmado en un encargo de una página con evidencia comparable y un rol que decide, listo para revisión antes de hablar de herramientas.",
+        "when": "el proceso exige un encargo acordado antes de invertir horas de varias personas en aprender.",
+        "example": "El área quiere formarse en NotebookLM y nadie escribió para qué decisión ni con qué plazo.",
+        "evidence": "intención principal y secundaria, frase de propósito, audiencia, plazo, nivel actual, restricciones del proceso, evidencia mínima comparable entre miembros, fuera de alcance, rol que decide con el riesgo de dejarla sin dueño, y brief de una página con confirmación sección por sección.",
+        "prompt": "Convierte lo que [EQUIPO] ya confirmó en un encargo antes de hablar de herramientas. El resultado buscado es [RESULTADO] y se aplicará dentro de [PROCESO]. Pego el material aquí: {{BRAIN_DUMP}}. Clasifica la intención principal entre estudiar, aprender, crear, decidir, preparar una conversación, configurar un asesor o configurar un coach; si aparecen dos, declara principal la que bloquea a la otra; si ninguna encaja, dilo y propón la más cercana. Escribe la frase «Queremos comprender o producir [RESULTADO] para poder decidir dentro de [PROCESO]». Define audiencia, plazo, nivel actual del equipo y restricciones tomándolos de lo dictado; lo que no esté dicho, pídelo: no inventes fuentes, plazos ni restricciones. Fija una evidencia mínima observable y comparable entre miembros de [EQUIPO]: algo que un revisor declare hecho o no hecho sin haber estado en la sesión. Nombra el rol que toma la decisión final y el riesgo operativo de dejarla sin dueño. Declara qué queda fuera de alcance. Devuelve un brief de una página con esas secciones, listo para revisión, y pide confirmación sección por sección. Si piden saltar a las herramientas, decláralo fuera: el encargo va antes.",
+        "level_spec": {
+          "role": "Diseñador de encargos de aprendizaje para varias personas, que cierra el qué antes del cómo",
+          "spec_role": "Especialista en preparación de casos y encargos de aprendizaje",
+          "objective": "Convertir lo confirmado en un encargo acordado, comparable y con dueño de la decisión",
+          "parameters": [
+            [
+              "extension",
+              "una página con secciones fijas y en orden, lista para revisión"
+            ],
+            [
+              "proposito",
+              "comprender o producir un resultado para poder decidir dentro del proceso"
+            ],
+            [
+              "evidencia_minima",
+              "observable y comparable: un revisor externo a la sesión la declara hecha o no hecha"
+            ],
+            [
+              "decision_final",
+              "un rol nombrado, con el riesgo operativo de dejarla sin dueño"
+            ],
+            [
+              "disenar_notebook",
+              "no en este turno: se declara fuera y el encargo va antes"
+            ]
+          ],
+          "workflow": [
+            "Clasificar la intención principal entre las siete y resolver la mixta por bloqueo",
+            "Escribir la frase de propósito atada al proceso donde se aplicará",
+            "Definir audiencia, plazo, nivel actual del equipo y restricciones desde lo dictado, pidiendo lo que falte",
+            "Fijar la evidencia mínima comparable entre miembros y nombrar el rol que decide con su riesgo",
+            "Devolver el brief listo para revisión y pedir confirmación sección por sección"
+          ],
+          "guardrails": [
+            "No inventar fuentes, plazos ni restricciones que nadie haya dicho",
+            "No diseñar todavía el Notebook ni confundir la intención con la solución",
+            "No sustituir al rol que decide: el encargo informa la decisión, no la toma"
+          ],
+          "output": [
+            "Intención principal y secundaria",
+            "Frase de propósito atada al proceso",
+            "Audiencia, plazo, nivel actual y restricciones",
+            "Evidencia mínima comparable entre miembros",
+            "Rol que decide y riesgo operativo de dejar la decisión sin dueño",
+            "Brief de una página listo para revisión, confirmado sección por sección"
+          ],
+          "dod": "El brief queda confirmado o corregido sección por sección, con un rol nombrado para la decisión final y una evidencia mínima que un revisor ajeno a la sesión puede declarar hecha o no hecha.",
+          "edge_cases": [
+            "Material sin versión limpia previa: confirmar lo entendido en cinco puntos antes de clasificar",
+            "Nadie asignado a la decisión final: pedir el rol antes de cerrar el brief",
+            "Dos áreas con intenciones distintas: declarar principal la que bloquea y dejar la otra como secundaria"
+          ]
+        },
+        "why_it_works": {
+          "acceptance_criteria": [
+            "El brief trae todas las secciones pedidas y cada una vuelve marcada como confirmada o corregida",
+            "La evidencia mínima la puede declarar hecha o no hecha un revisor que no estuvo en la sesión",
+            "La decisión final aparece con un rol nombrado, no con un colectivo difuso"
+          ],
+          "edge_cases": [
+            "Decisión sin rol asignado: se pide antes de cerrar, porque sin dueño el encargo no es ejecutable",
+            "Restricciones del proceso no dictadas: se piden en vez de completarse"
+          ],
+          "tradeoffs": [
+            "Acordar el encargo consume una ronda de revisión a cambio de no repartir horas de aprendizaje sobre un objetivo ambiguo",
+            "Este turno no expone el control de la evidencia a medida individual que sí ofrece la celda personal: aquí la evidencia debe ser comparable entre miembros, y esa comparabilidad se paga con menos ajuste al nivel de cada persona"
+          ],
+          "assumptions": [
+            "Existe un rol con autoridad para tomar la decisión final y un proceso donde se aplicará el aprendizaje"
+          ],
+          "limits": [
+            "Produce el encargo acordado; no elige herramienta ni selecciona fuentes",
+            "Informa la decisión, no la aprueba ni la reemplaza"
+          ]
+        },
+        "traceability": [
+          {
+            "claim": "El orden clasificar la intención, formular el propósito, definir contexto y entregar un brief de una página proviene del material de preparación publicado del método.",
+            "source": "https://javimontano.github.io/prompt-amplificado/biblioteca-prompts.html"
+          },
+          {
+            "claim": "La forma del nivel especificación de esta celda de equipo, con parámetros y definición de terminado explícitos, sigue la guía pública de creación de prompts.",
+            "source": "https://javimontano.github.io/prompt-amplificado/crear-prompts.html"
+          },
+          {
+            "claim": "Exigir evidencia comparable entre miembros, nombrar el rol que decide y declarar el riesgo de dejar la decisión sin dueño son políticas internas para encargos compartidos.",
+            "source": "method_internal"
+          }
+        ]
+      }
+    },
+    "en": {
+      "persona": {
+        "title": "Define the learning assignment",
+        "purpose": "Turns your confirmed understanding into a one-page assignment with minimum observable evidence, before you talk about tools.",
+        "when": "you already confirmed the understanding and need to fix outcome, deadline and what counts as progress.",
+        "example": "I know I want to learn NotebookLM, but not for which decision or in how much time.",
+        "evidence": "main and secondary intent declared, purpose sentence, audience, deadline, current level, constraints, minimum observable evidence, out of scope, the decision that stays human, and a one-page brief with section-by-section confirmation.",
+        "prompt": "I want to turn my confirmed understanding into an assignment before talking about tools. My target outcome is [OUTCOME] and I will use it for [DECISION OR USE]. I paste the material here: {{BRAIN_DUMP}}. Classify my main intent among study, learn, create, decide, prepare a conversation, configure an advisor or configure a coach; if [OUTCOME] and [DECISION OR USE] point at two intents, declare as main the one that blocks the other and secondary the remaining one; if none fits, say so and propose the closest. Write the sentence \"I want to understand or produce [OUTCOME] so I can [DECISION OR USE]\". Define my audience, deadline, current level and constraints from what I dictated; whatever is unsaid, ask me for it: do not invent sources, deadlines or constraints. Set one minimum observable evidence: something I can show that another person can call done or not done without knowing my intent. State what is out of scope and which decision stays mine. Return a one-page brief with those sections in that order and ask me for confirmation section by section, marking each one as confirmed or corrected. If the material arrives with no clean version, confirm the understanding in five points first. If I ask to jump to tools, declare it out: the assignment comes first.",
+        "level_spec": {
+          "role": "Learning assignment designer who closes the what before the how",
+          "spec_role": "Specialist in preparing cases and learning assignments",
+          "objective": "Turn confirmed understanding into a one-page assignment before choosing tools",
+          "parameters": [
+            [
+              "length",
+              "one page with fixed sections in order"
+            ],
+            [
+              "purpose",
+              "understand or produce an outcome in order to decide or use it"
+            ],
+            [
+              "minimum_evidence",
+              "observable: another person calls it done or not done without knowing the intent"
+            ],
+            [
+              "mixed_intent",
+              "the blocking one is declared main and the remaining one secondary"
+            ],
+            [
+              "design_notebook",
+              "not in this turn: it is declared out and the assignment comes first"
+            ]
+          ],
+          "workflow": [
+            "Classify the main intent among the seven and resolve a mixed one by blocking",
+            "Write the purpose sentence with outcome and use",
+            "Define audience, deadline, current level and constraints from the dictation, asking for what is missing",
+            "Set the minimum observable evidence and state out of scope and the human decision",
+            "Return the one-page brief and ask for confirmation section by section"
+          ],
+          "guardrails": [
+            "Never invent sources, deadlines or constraints the person did not state",
+            "Do not design the Notebook yet and do not confuse the intent with the solution",
+            "Never promise the assignment replaces the human decision: the final call is declared as the person’s own"
+          ],
+          "output": [
+            "Main and secondary intent",
+            "Purpose sentence",
+            "Audience, deadline, current level and constraints",
+            "Minimum observable evidence",
+            "Out of scope and the human decision",
+            "One-page brief with section-by-section confirmation"
+          ],
+          "dod": "The one-page brief comes back confirmed or corrected section by section, with the main intent declared and a minimum evidence another person can call done or not done.",
+          "edge_cases": [
+            "Material arriving with no prior clean version: confirm the understanding in five points before classifying",
+            "None of the seven intents fits: declare it and propose the closest instead of forcing a label",
+            "Request to jump to tools: declare it out and finish the assignment first"
+          ]
+        },
+        "why_it_works": {
+          "acceptance_criteria": [
+            "The brief carries the nine sections in the requested order and no section is left empty without saying why",
+            "The minimum evidence can be called done or not done by someone who does not know the intent",
+            "Every section comes back marked as confirmed or corrected, not approved in bulk"
+          ],
+          "edge_cases": [
+            "Mixed intent: the blocking one is declared main, with the secondary one placed after it",
+            "Constraint or deadline never dictated: it is requested instead of completed"
+          ],
+          "tradeoffs": [
+            "One more step before touching tools in exchange for not building the wrong Notebook",
+            "This turn asks for evidence tailored to me and does not require comparability across people, which is what the team cell adds along with the deciding role",
+            "The original definition of done promised the assignment \"enables a later decision about the needed Notebook and sources\": that happens in a later turn, so what is checked here is what this turn does produce — confirmed sections and declarable evidence"
+          ],
+          "assumptions": [
+            "The understanding arrives already confirmed; if not, the prompt itself runs a minimal confirmation before classifying",
+            "The final decision is human in every case"
+          ],
+          "limits": [
+            "It produces the assignment; it neither picks a tool nor selects material",
+            "It does not guarantee the assignment is the right one: it makes it explicit so I can confirm or correct it"
+          ]
+        },
+        "traceability": [
+          {
+            "claim": "The seven-case intent classification, the purpose sentence template and the one-page brief come from the published preparation material of the method.",
+            "source": "https://javimontano.github.io/prompt-amplificado/biblioteca-prompts.html"
+          },
+          {
+            "claim": "The role, objective, parameters, workflow and definition-of-done structure that orders this assignment follows the public prompt-creation guide.",
+            "source": "https://javimontano.github.io/prompt-amplificado/crear-prompts.html"
+          },
+          {
+            "claim": "Defining minimum evidence as something a third party can call done without knowing the intent, and resolving mixed intent by blocking, are internal method policy.",
+            "source": "method_internal"
+          }
+        ]
+      },
+      "empresa": {
+        "title": "Define the learning assignment for a team",
+        "purpose": "Turns what was confirmed into a one-page assignment with comparable evidence and a deciding role, ready for review before anyone talks about tools.",
+        "when": "the process demands an agreed assignment before several people spend hours learning.",
+        "example": "The area wants to learn NotebookLM and nobody wrote down for which decision or by when.",
+        "evidence": "main and secondary intent, purpose sentence, audience, deadline, current level, process constraints, minimum evidence comparable across members, out of scope, deciding role with the risk of leaving it ownerless, and a one-page brief with section-by-section confirmation.",
+        "prompt": "Turn what [TEAM] already confirmed into an assignment before talking about tools. The target outcome is [OUTCOME] and it will be applied within [PROCESS]. I paste the material here: {{BRAIN_DUMP}}. Classify the main intent among study, learn, create, decide, prepare a conversation, configure an advisor or configure a coach; if two appear, declare as main the one that blocks the other; if none fits, say so and propose the closest. Write the sentence \"We want to understand or produce [OUTCOME] so we can decide within [PROCESS]\". Define audience, deadline, the current level of the team and constraints from what was dictated; whatever is unsaid, ask for it: do not invent sources, deadlines or constraints. Set a minimum evidence that is observable and comparable across members of [TEAM]: something a reviewer can call done or not done without having been in the session. Name the role that takes the final decision and the operational risk of leaving it ownerless. State what is out of scope. Return a one-page brief with those sections, ready for review, and ask for confirmation section by section. If anyone asks to jump to tools, declare it out: the assignment comes first.",
+        "level_spec": {
+          "role": "Learning assignment designer for several people, closing the what before the how",
+          "spec_role": "Specialist in preparing cases and learning assignments",
+          "objective": "Turn what was confirmed into an agreed, comparable assignment with an owner for the decision",
+          "parameters": [
+            [
+              "length",
+              "one page with fixed sections in order, ready for review"
+            ],
+            [
+              "purpose",
+              "understand or produce an outcome in order to decide within the process"
+            ],
+            [
+              "minimum_evidence",
+              "observable and comparable: a reviewer outside the session calls it done or not done"
+            ],
+            [
+              "final_decision",
+              "a named role, with the operational risk of leaving it ownerless"
+            ],
+            [
+              "design_notebook",
+              "not in this turn: it is declared out and the assignment comes first"
+            ]
+          ],
+          "workflow": [
+            "Classify the main intent among the seven and resolve a mixed one by blocking",
+            "Write the purpose sentence tied to the process where it will be applied",
+            "Define audience, deadline, the current level of the team and constraints, asking for what is missing",
+            "Set the minimum evidence comparable across members and name the deciding role with its risk",
+            "Return the brief ready for review and ask for confirmation section by section"
+          ],
+          "guardrails": [
+            "Never invent sources, deadlines or constraints nobody stated",
+            "Do not design the Notebook yet and do not confuse the intent with the solution",
+            "Never stand in for the deciding role: the assignment informs the decision, it does not take it"
+          ],
+          "output": [
+            "Main and secondary intent",
+            "Purpose sentence tied to the process",
+            "Audience, deadline, current level and constraints",
+            "Minimum evidence comparable across members",
+            "Deciding role and the operational risk of an ownerless decision",
+            "One-page brief ready for review, confirmed section by section"
+          ],
+          "dod": "The brief comes back confirmed or corrected section by section, with a named role for the final decision and a minimum evidence a reviewer outside the session can call done or not done.",
+          "edge_cases": [
+            "Material with no prior clean version: confirm the understanding in five points before classifying",
+            "Nobody assigned to the final decision: ask for the role before closing the brief",
+            "Two areas with different intents: declare the blocking one main and leave the other secondary"
+          ]
+        },
+        "why_it_works": {
+          "acceptance_criteria": [
+            "The brief carries every requested section and each one comes back marked as confirmed or corrected",
+            "A reviewer who was not in the session can call the minimum evidence done or not done",
+            "The final decision appears with a named role, not with a vague collective"
+          ],
+          "edge_cases": [
+            "Decision with no assigned role: it is requested before closing, because without an owner the assignment is not executable",
+            "Process constraints never dictated: they are requested instead of completed"
+          ],
+          "tradeoffs": [
+            "Agreeing the assignment costs one review round in exchange for not spending learning hours on an ambiguous target",
+            "This turn drops the tailored individual evidence the personal cell allows: here the evidence must be comparable across members, and that comparability is paid for with less fit to each person’s level"
+          ],
+          "assumptions": [
+            "A role with authority for the final decision exists, and so does a process where the learning will be applied"
+          ],
+          "limits": [
+            "It produces the agreed assignment; it neither picks a tool nor selects material",
+            "It informs the decision, it neither approves nor replaces it"
+          ]
+        },
+        "traceability": [
+          {
+            "claim": "The order classify the intent, state the purpose, define the context and deliver a one-page brief comes from the published preparation material of the method.",
+            "source": "https://javimontano.github.io/prompt-amplificado/biblioteca-prompts.html"
+          },
+          {
+            "claim": "The specification-level shape of this team cell, with explicit parameters and definition of done, follows the public prompt-creation guide.",
+            "source": "https://javimontano.github.io/prompt-amplificado/crear-prompts.html"
+          },
+          {
+            "claim": "Requiring evidence comparable across members, naming the deciding role and declaring the risk of an ownerless decision are internal policy for shared assignments.",
+            "source": "method_internal"
+          }
+        ]
+      }
+    },
+    "pt": {
+      "persona": {
+        "title": "Definir o encargo de aprendizagem",
+        "purpose": "Transforma seu entendimento confirmado em um encargo de uma página com evidência mínima observável, antes de falar de ferramentas.",
+        "when": "você já confirmou o entendimento e precisa fixar resultado, prazo e o que contará como avanço.",
+        "example": "Sei que quero aprender NotebookLM, mas não sei para qual decisão nem em quanto tempo.",
+        "evidence": "intenção principal e secundária declaradas, frase de propósito, público, prazo, nível atual, restrições, evidência mínima observável, fora de escopo, decisão que continua humana e brief de uma página com confirmação seção por seção.",
+        "prompt": "Quero transformar meu entendimento já confirmado em um encargo antes de falar de ferramentas. Meu resultado buscado é [RESULTADO] e vou usá-lo para [DECISÃO OU USO]. Colo o material aqui: {{BRAIN_DUMP}}. Classifique minha intenção principal entre estudar, aprender, criar, decidir, preparar uma conversa, configurar assessor ou configurar coach; se [RESULTADO] e [DECISÃO OU USO] apontarem para duas intenções, declare principal a que bloqueia a outra e secundária a restante; se nenhuma servir, diga e proponha a mais próxima. Escreva a frase «Quero compreender ou produzir [RESULTADO] para poder [DECISÃO OU USO]». Defina meu público, prazo, nível atual e restrições a partir do que ditei; o que não estiver dito, peça: não invente fontes, prazos nem restrições. Fixe uma evidência mínima observável: algo que eu possa mostrar e que outra pessoa declare feito ou não feito sem conhecer minha intenção. Declare o que fica fora e qual decisão continua sendo minha. Devolva um brief de uma página com essas seções nessa ordem e peça confirmação seção por seção, marcando cada uma como confirmada ou corrigida. Se o material chegar sem versão limpa, confirme antes o entendimento em cinco pontos. Se eu pedir para pular às ferramentas, declare fora: o encargo vem antes.",
+        "level_spec": {
+          "role": "Designer de encargos de aprendizagem que fecha o quê antes do como",
+          "spec_role": "Especialista em preparação de casos e encargos de aprendizagem",
+          "objective": "Converter o entendimento confirmado em um encargo de uma página antes de escolher ferramentas",
+          "parameters": [
+            [
+              "extensao",
+              "uma página com seções fixas e em ordem"
+            ],
+            [
+              "proposito",
+              "compreender ou produzir um resultado para poder decidir ou usá-lo"
+            ],
+            [
+              "evidencia_minima",
+              "observável: outra pessoa declara feito ou não feito sem conhecer a intenção"
+            ],
+            [
+              "intencao_mista",
+              "declara-se principal a que bloqueia a outra e secundária a restante"
+            ],
+            [
+              "projetar_notebook",
+              "não neste turno: declara-se fora e o encargo vem antes"
+            ]
+          ],
+          "workflow": [
+            "Classificar a intenção principal entre as sete e resolver a mista por bloqueio",
+            "Escrever a frase de propósito com resultado e uso",
+            "Definir público, prazo, nível atual e restrições a partir do ditado, pedindo o que faltar",
+            "Fixar a evidência mínima observável e declarar fora de escopo e decisão humana",
+            "Devolver o brief de uma página e pedir confirmação seção por seção"
+          ],
+          "guardrails": [
+            "Não inventar fontes, prazos nem restrições que a pessoa não tenha dito",
+            "Não projetar ainda o Notebook nem confundir a intenção com a solução",
+            "Não prometer que o encargo substitui a decisão humana: a decisão final fica declarada como própria"
+          ],
+          "output": [
+            "Intenção principal e secundária",
+            "Frase de propósito",
+            "Público, prazo, nível atual e restrições",
+            "Evidência mínima observável",
+            "Fora de escopo e decisão humana",
+            "Brief de uma página com confirmação seção por seção"
+          ],
+          "dod": "O brief de uma página volta confirmado ou corrigido seção por seção, com intenção principal declarada e uma evidência mínima que outra pessoa pode declarar feita ou não feita.",
+          "edge_cases": [
+            "Material que chega sem versão limpa anterior: confirmar o entendimento em cinco pontos antes de classificar",
+            "Nenhuma das sete intenções serve: declarar e propor a mais próxima, sem forçar o rótulo",
+            "Pedido de pular às ferramentas: declarar fora e terminar o encargo primeiro"
+          ]
+        },
+        "why_it_works": {
+          "acceptance_criteria": [
+            "O brief traz as nove seções na ordem pedida e nenhuma fica vazia sem dizer por quê",
+            "A evidência mínima pode ser declarada feita ou não feita por quem não conhece a intenção",
+            "Cada seção volta marcada como confirmada ou corrigida, não aprovada em bloco"
+          ],
+          "edge_cases": [
+            "Intenção mista: declara-se principal a que bloqueia a outra, com a secundária em segundo lugar",
+            "Restrição ou prazo não ditados: são pedidos em vez de completados"
+          ],
+          "tradeoffs": [
+            "Mais um passo antes de tocar em ferramentas em troca de não construir o Notebook errado",
+            "Este turno pede a evidência sob minha medida e não exige comparabilidade entre pessoas, que é o que a célula de equipe acrescenta junto com o papel que decide",
+            "A definição de concluído original prometia que o encargo «permite decidir depois qual Notebook e quais fontes são necessárias»: isso acontece num turno posterior, então aqui se verifica o que este turno produz — seções confirmadas e evidência declarável"
+          ],
+          "assumptions": [
+            "O entendimento chega já confirmado; se não, o próprio prompt roda uma confirmação mínima antes de classificar",
+            "A decisão final é humana em todos os casos"
+          ],
+          "limits": [
+            "Produz o encargo; não escolhe ferramenta nem seleciona material",
+            "Não garante que o encargo esteja certo: deixa-o explícito para que eu confirme ou corrija"
+          ]
+        },
+        "traceability": [
+          {
+            "claim": "A classificação de intenção em sete casos, o modelo da frase de propósito e o brief de uma página vêm do material de preparação publicado do método.",
+            "source": "https://javimontano.github.io/prompt-amplificado/biblioteca-prompts.html"
+          },
+          {
+            "claim": "A estrutura de papel, objetivo, parâmetros, fluxo e definição de concluído que ordena este encargo segue o guia público de criação de prompts.",
+            "source": "https://javimontano.github.io/prompt-amplificado/crear-prompts.html"
+          },
+          {
+            "claim": "Definir a evidência mínima como algo declarável por terceiro sem conhecer a intenção, e resolver a intenção mista por bloqueio, são normas internas do método.",
+            "source": "method_internal"
+          }
+        ]
+      },
+      "empresa": {
+        "title": "Definir o encargo de aprendizagem da equipe",
+        "purpose": "Transforma o confirmado em um encargo de uma página com evidência comparável e um papel que decide, pronto para revisão antes de falar de ferramentas.",
+        "when": "o processo exige um encargo acordado antes de várias pessoas investirem horas em aprender.",
+        "example": "A área quer se formar em NotebookLM e ninguém escreveu para qual decisão nem com qual prazo.",
+        "evidence": "intenção principal e secundária, frase de propósito, público, prazo, nível atual, restrições do processo, evidência mínima comparável entre membros, fora de escopo, papel que decide com o risco de ficar sem dono, e brief de uma página com confirmação seção por seção.",
+        "prompt": "Converta o que [EQUIPE] já confirmou em um encargo antes de falar de ferramentas. O resultado buscado é [RESULTADO] e será aplicado dentro de [PROCESSO]. Colo o material aqui: {{BRAIN_DUMP}}. Classifique a intenção principal entre estudar, aprender, criar, decidir, preparar uma conversa, configurar assessor ou configurar coach; se aparecerem duas, declare principal a que bloqueia a outra; se nenhuma servir, diga e proponha a mais próxima. Escreva a frase «Queremos compreender ou produzir [RESULTADO] para poder decidir dentro de [PROCESSO]». Defina público, prazo, nível atual da equipe e restrições a partir do que foi ditado; o que não estiver dito, peça: não invente fontes, prazos nem restrições. Fixe uma evidência mínima observável e comparável entre membros de [EQUIPE]: algo que um revisor declare feito ou não feito sem ter estado na sessão. Nomeie o papel que toma a decisão final e o risco operacional de deixá-la sem dono. Declare o que fica fora de escopo. Devolva um brief de uma página com essas seções, pronto para revisão, e peça confirmação seção por seção. Se pedirem pular às ferramentas, declare fora: o encargo vem antes.",
+        "level_spec": {
+          "role": "Designer de encargos de aprendizagem para várias pessoas, fechando o quê antes do como",
+          "spec_role": "Especialista em preparação de casos e encargos de aprendizagem",
+          "objective": "Converter o confirmado em um encargo acordado, comparável e com dono da decisão",
+          "parameters": [
+            [
+              "extensao",
+              "uma página com seções fixas e em ordem, pronta para revisão"
+            ],
+            [
+              "proposito",
+              "compreender ou produzir um resultado para poder decidir dentro do processo"
+            ],
+            [
+              "evidencia_minima",
+              "observável e comparável: um revisor fora da sessão declara feito ou não feito"
+            ],
+            [
+              "decisao_final",
+              "um papel nomeado, com o risco operacional de ficar sem dono"
+            ],
+            [
+              "projetar_notebook",
+              "não neste turno: declara-se fora e o encargo vem antes"
+            ]
+          ],
+          "workflow": [
+            "Classificar a intenção principal entre as sete e resolver a mista por bloqueio",
+            "Escrever a frase de propósito atada ao processo onde será aplicada",
+            "Definir público, prazo, nível atual da equipe e restrições, pedindo o que faltar",
+            "Fixar a evidência mínima comparável entre membros e nomear o papel que decide com seu risco",
+            "Devolver o brief pronto para revisão e pedir confirmação seção por seção"
+          ],
+          "guardrails": [
+            "Não inventar fontes, prazos nem restrições que ninguém tenha dito",
+            "Não projetar ainda o Notebook nem confundir a intenção com a solução",
+            "Não ocupar o lugar do papel que decide: o encargo informa a decisão, não a toma"
+          ],
+          "output": [
+            "Intenção principal e secundária",
+            "Frase de propósito atada ao processo",
+            "Público, prazo, nível atual e restrições",
+            "Evidência mínima comparável entre membros",
+            "Papel que decide e risco operacional de decisão sem dono",
+            "Brief de uma página pronto para revisão, confirmado seção por seção"
+          ],
+          "dod": "O brief volta confirmado ou corrigido seção por seção, com um papel nomeado para a decisão final e uma evidência mínima que um revisor fora da sessão pode declarar feita ou não feita.",
+          "edge_cases": [
+            "Material sem versão limpa anterior: confirmar o entendimento em cinco pontos antes de classificar",
+            "Ninguém designado para a decisão final: pedir o papel antes de fechar o brief",
+            "Duas áreas com intenções diferentes: declarar principal a que bloqueia e deixar a outra como secundária"
+          ]
+        },
+        "why_it_works": {
+          "acceptance_criteria": [
+            "O brief traz todas as seções pedidas e cada uma volta marcada como confirmada ou corrigida",
+            "Um revisor que não esteve na sessão consegue declarar a evidência mínima feita ou não feita",
+            "A decisão final aparece com um papel nomeado, não com um coletivo difuso"
+          ],
+          "edge_cases": [
+            "Decisão sem papel designado: pede-se antes de fechar, porque sem dono o encargo não é executável",
+            "Restrições do processo não ditadas: são pedidas em vez de completadas"
+          ],
+          "tradeoffs": [
+            "Acordar o encargo consome uma rodada de revisão em troca de não gastar horas de aprendizagem sobre um objetivo ambíguo",
+            "Este turno abre mão da evidência sob medida individual que a célula pessoal permite: aqui a evidência precisa ser comparável entre membros, e essa comparabilidade se paga com menos ajuste ao nível de cada pessoa"
+          ],
+          "assumptions": [
+            "Existe um papel com autoridade para a decisão final e um processo onde a aprendizagem será aplicada"
+          ],
+          "limits": [
+            "Produz o encargo acordado; não escolhe ferramenta nem seleciona material",
+            "Informa a decisão, não a aprova nem a substitui"
+          ]
+        },
+        "traceability": [
+          {
+            "claim": "A ordem classificar a intenção, formular o propósito, definir o contexto e entregar um brief de uma página vem do material de preparação publicado do método.",
+            "source": "https://javimontano.github.io/prompt-amplificado/biblioteca-prompts.html"
+          },
+          {
+            "claim": "A forma do nível especificação desta célula de equipe, com parâmetros e definição de concluído explícitos, segue o guia público de criação de prompts.",
+            "source": "https://javimontano.github.io/prompt-amplificado/crear-prompts.html"
+          },
+          {
+            "claim": "Exigir evidência comparável entre membros, nomear o papel que decide e declarar o risco de deixar a decisão sem dono são políticas internas para encargos compartilhados.",
+            "source": "method_internal"
+          }
+        ]
+      }
+    }
+  },
+  "self_hash_model": "sha256(sorted-json-without-self_sha256)",
+  "self_sha256": "fe616cd0791ec0d1128b45463077420f7e452d73af6d284d2707ee2c442e1ab7"
+}
