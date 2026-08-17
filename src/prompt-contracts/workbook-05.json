@@ -8,11 +8,12 @@
   "boundary": {
     "distinct_from": [
       "02",
+      "07",
       "W04",
       "W08",
       "W10"
     ],
-    "decision_rule": "Usa W05 cuando la base ya quedó cerrada en W04 y hace falta activar un rol conversacional ligero —profesor, asesor o coach— sobre ese Notebook; si necesitas el ciclo pedagógico completo con reformulación, contraejemplo y pregunta de recuperación, usa la variante autónoma 02. W05 no califica nivel ni puntúa, eso es W08, y no redacta la instrucción persistente ni los prompts de inicio del Notebook, eso es W10."
+    "decision_rule": "Usa W05 cuando la base ya quedó cerrada en W04 y hace falta activar un rol conversacional ligero —profesor, asesor o coach— sobre ese Notebook; si necesitas el ciclo pedagógico completo con reformulación, contraejemplo y pregunta de recuperación, usa la variante autónoma 02. W05 no califica nivel ni puntúa, eso es W08. Tampoco define cómo debe comportarse el Notebook como asistente: la recomendación de configuración es 07 y la instrucción persistente con sus prompts de inicio es W10; W05 enciende el rol para la conversación en curso y se apaga con ella."
   },
   "locales": {
     "es": {
@@ -569,5 +570,5 @@
     }
   },
   "self_hash_model": "sha256(sorted-json-without-self_sha256)",
-  "self_sha256": "59968b778c10f5282d4ec987840ac2c36244b80383a4dc1221d065a93a22d309"
+  "self_sha256": "3448edacfea2f6813f86e26b3c49351d6a0b130bb8c8b72ebd028e0db6a12d84"
 }

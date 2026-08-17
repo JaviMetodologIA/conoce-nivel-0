@@ -63,7 +63,7 @@
             "Tabla Hallazgo | Tipo | Evidencia | Impacto | Acción",
             "Vacíos priorizados y lista de afirmables con cita por entrada"
           ],
-          "dod": "Diagnóstico comparable: resumen dentro del límite de líneas, cada hallazgo citado, vacíos priorizados y ninguna entrada afirmable sin cita.",
+          "dod": "Resumen dentro del límite de 8 líneas, tabla con cada hallazgo citado, vacíos priorizados y ninguna entrada afirmable sin su cita.",
           "edge_cases": [
             "Base de una sola fuente: la auditoría de sesgo es obligatoria",
             "Fuentes que se contradicen: se tipifica tensión, no se promedia",
@@ -249,7 +249,7 @@
             "Finding | Type | Evidence | Impact | Action table",
             "Prioritized gaps and a claimable list with a citation per line"
           ],
-          "dod": "Comparable diagnosis: summary within the line limit, every finding cited, gaps prioritized and no claimable line without its citation.",
+          "dod": "Summary within the eight-line limit, a table with every finding cited, gaps prioritized and no claimable line without its citation.",
           "edge_cases": [
             "Single-source base: the bias audit is mandatory",
             "Sources that disagree: type a tension, do not average",
@@ -435,7 +435,7 @@
             "Tabela Achado | Tipo | Evidência | Impacto | Ação",
             "Lacunas priorizadas e lista de afirmáveis com citação por linha"
           ],
-          "dod": "Diagnóstico comparável: resumo dentro do limite de linhas, cada achado citado, lacunas priorizadas e nenhuma linha afirmável sem citação.",
+          "dod": "Resumo dentro do limite de oito linhas, tabela com cada achado citado, lacunas priorizadas e nenhuma linha afirmável sem sua citação.",
           "edge_cases": [
             "Base de fonte única: a auditoria de viés é obrigatória",
             "Fontes que se contradizem: tipificar tensão, não fazer média",
@@ -575,5 +575,5 @@
     }
   },
   "self_hash_model": "sha256(sorted-json-without-self_sha256)",
-  "self_sha256": "692a70db87b720cb8cdcf14f71c04b9cbc5a6cf6cf5d92964fa0ecfadb702ad3"
+  "self_sha256": "e94f8b6be95830b512aec8132db481290b40f2a6b0eca7fd3a2340263bf86fc9"
 }
