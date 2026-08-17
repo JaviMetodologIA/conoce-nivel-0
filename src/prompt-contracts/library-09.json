@@ -22,7 +22,7 @@
         "when": "debes defender ante preguntas difíciles algo que ya escribiste o decidiste.",
         "example": "Defender mi piloto de IA y sus controles ante una entrevista técnica exigente.",
         "evidence": "objeción por turno trazada a un riesgo real, evaluación por criterio con el fragmento citado de mi respuesta, y tres respuestas reescritas con citas de la base.",
-        "prompt": "Simula una entrevista o defensa sobre [TEMA]; [FUENTES] es la única base de citas. Pídeme primero mi tesis y mis tres afirmaciones; si no existen, detente: eso es 10. Una pregunta por turno, en tres niveles: aclaración, dato en contra, consecuencia con alternativa. Sube un nivel solo si mi respuesta anterior citó [FUENTES] y respondió la objeción; si no, repítelo; dos fallos bajan uno. Cada objeción nombra un riesgo real de [TEMA]: costo, límite o alternativa. Evalúa claridad, fundamento, criterio y honestidad con el fragmento citado: declarar el límite sin respaldo puntúa acierto; afirmarlo sin respaldo, fallo. Cierra con vacíos críticos y tres respuestas reescritas con citas. No redactes mi entregable: eso es 10. No inventes citas.",
+        "prompt": "Simula una entrevista o defensa sobre [TEMA]; [FUENTES] es la única base de citas. Pídeme mi tesis y mis tres afirmaciones; si no existen, detente: aquí no se construyen. Una pregunta por turno, en tres niveles: aclaración, dato en contra, consecuencia con alternativa. Sube un nivel solo si mi respuesta anterior citó [FUENTES] y respondió la objeción; si no, repítelo; dos fallos bajan uno. Cada objeción nombra un riesgo real de [TEMA]: costo, límite o alternativa. Evalúa claridad, fundamento, criterio y honestidad con el fragmento citado: declarar el límite sin respaldo puntúa acierto; afirmarlo sin respaldo, fallo. Cierra con vacíos críticos y tres respuestas reescritas con citas. No redactes ni reestructures mi entregable. No inventes citas.",
         "level_spec": {
           "role": "Entrevistador adversarial que calibra la presión contra la respuesta anterior",
           "spec_role": "Especialista en aprendizaje e investigación basada en evidencia",
@@ -85,7 +85,8 @@
           ],
           "tradeoffs": [
             "El texto congelado incluía objeciones adversariales sin base de citas: se añade [FUENTES] como base obligatoria y sin ella la simulación no arranca",
-            "Se pierden las variables [AUDIENCIA] y [RESULTADO] del texto congelado: el nivel de dificultad calibrado sustituye al perfil de audiencia",
+            "Se pierden tres variables del texto congelado —[ENTREVISTA, QBR O DEFENSA], [AUDIENCIA] y [RESULTADO]—: el formato queda literal en la primera frase y el nivel de dificultad calibrado sustituye al perfil de audiencia",
+            "El cierre por fortalezas del texto congelado no sobrevive: el presupuesto 2× solo alcanza para vacíos críticos y las tres respuestas reescritas, que son la salida accionable",
             "El registro explícito del descenso de dificultad sale del prompt por presupuesto 2× y queda como criterio de la sesión",
             "Presión creciente a cambio de una sesión incómoda pero diagnóstica"
           ],
@@ -113,12 +114,12 @@
         ]
       },
       "empresa": {
-        "title": "Simulador de defensa ante dirección",
+        "title": "Simulador de entrevista de defensa ante dirección",
         "purpose": "Somete una decisión ya tomada del equipo a objeciones de gobernanza, costo y riesgo que suben de nivel solo cuando la respuesta anterior cita la base.",
         "when": "el equipo debe defender ante dirección una decisión que ya está tomada y documentada.",
         "example": "Defender ante dirección el piloto de IA del área y sus controles de riesgo.",
-        "evidence": "objeción por turno trazada a un riesgo operativo del proceso, evaluación por criterio con el fragmento citado, y tres respuestas reescritas listas para revisión.",
-        "prompt": "Simula una entrevista de defensa ante dirección sobre [TEMA] en [PROCESO]; [FUENTES] es la única base de citas. Pide primero la tesis y las tres afirmaciones documentadas; si faltan, detente: es 10. Una pregunta por turno, en tres niveles: aclaración, dato en contra, consecuencia con alternativa. Sube un nivel solo si la respuesta anterior citó [FUENTES] y respondió; si no, repítelo; dos fallos bajan uno. Cada objeción nombra un riesgo operativo de [PROCESO]: gobernanza, costo o alternativa. Evalúa claridad, fundamento, criterio y honestidad con el fragmento citado: declarar el límite sin respaldo puntúa acierto. Cierra con vacíos críticos y tres respuestas reescritas con citas de [TEMA]. No redactes el entregable: eso es 10. No inventes citas.",
+        "evidence": "objeción por turno trazada a un riesgo operativo del proceso, evaluación por criterio con el fragmento citado, y tres respuestas reescritas con citas de la base.",
+        "prompt": "Simula una defensa o QBR ante dirección sobre [TEMA] en [PROCESO]; solo [FUENTES] es base de citas. Pide la tesis y las tres afirmaciones documentadas; si faltan, detente: aquí no se construyen. Una pregunta por turno en tres niveles: aclaración, dato en contra, consecuencia y alternativa. Sube un nivel solo si la respuesta anterior citó [FUENTES] y respondió; si no, repite; dos fallos bajan uno. Cada objeción nombra un riesgo operativo de [TEMA] en [PROCESO]: gobernanza, costo o alternativa. Evalúa claridad, fundamento, criterio y honestidad con el fragmento citado: declarar el límite sin respaldo es acierto. Cierra con vacíos críticos y tres respuestas reescritas con citas de [FUENTES]. No redactes ni reestructures el entregable ni inventes citas.",
         "level_spec": {
           "role": "Entrevistador adversarial de gobernanza que calibra la presión contra la respuesta anterior",
           "spec_role": "Especialista en aprendizaje e investigación basada en evidencia",
@@ -141,8 +142,8 @@
               "gobernanza, costo y alternativa descartada del proceso afectado"
             ],
             [
-              "revisión",
-              "tres respuestas reescritas listas para revisión del responsable"
+              "verificación",
+              "un revisor distinto de quien defiende comprueba cada cita reescrita"
             ]
           ],
           "workflow": [
@@ -150,7 +151,7 @@
             "Fijar los tres niveles y la regla de subida y bajada",
             "Preguntar de a una, trazando la objeción a un riesgo operativo del proceso",
             "Evaluar por criterio citando el fragmento de la respuesta que lo justifica",
-            "Cerrar con vacíos críticos y respuestas reescritas listas para revisión"
+            "Cerrar con vacíos críticos y respuestas reescritas con citas de la base"
           ],
           "guardrails": [
             "No inventar citas, cifras ni objeciones sin riesgo operativo real detrás",
@@ -161,7 +162,7 @@
           "output": [
             "Objeción por turno con su nivel y el riesgo operativo que la origina",
             "Evaluación por criterio con el fragmento citado que la justifica",
-            "Tres respuestas reescritas con citas, listas para revisión"
+            "Tres respuestas reescritas con citas de la base declarada"
           ],
           "dod": "Ensayo revisable: cada cambio de nivel queda justificado por la respuesta anterior, cada objeción se ata a un riesgo del proceso y cada reescritura cita la base.",
           "edge_cases": [
@@ -182,8 +183,9 @@
           ],
           "tradeoffs": [
             "El texto congelado no declaraba base de citas: se añade [FUENTES] como base obligatoria con derechos de uso interno",
-            "Se pierden las variables [AUDIENCIA] y [RESULTADO] del texto congelado: dirección y el proceso afectado fijan ahora el marco de la defensa",
-            "El registro explícito del descenso de dificultad y el sello listo para revisión salen del prompt por presupuesto 2× y quedan en la evidencia esperada",
+            "Se pierden tres variables del texto congelado —[ENTREVISTA, QBR O DEFENSA], [AUDIENCIA] y [RESULTADO]—: QBR y defensa quedan literales y dirección con el proceso afectado fijan el marco",
+            "El cierre por fortalezas del texto congelado no sobrevive: el presupuesto 2× solo alcanza para vacíos críticos y las tres respuestas reescritas, que son la salida accionable",
+            "El registro explícito del descenso de dificultad sale del prompt por presupuesto 2× y queda como criterio de la sesión",
             "La presión de gobernanza alarga el ensayo a cambio de exponer vacíos antes de la reunión real"
           ],
           "assumptions": [
@@ -221,7 +223,7 @@
         "when": "you must defend something you already wrote or decided under hard questions.",
         "example": "Defend my AI pilot and its controls in a demanding technical interview.",
         "evidence": "one objection per turn traced to a real risk, per-criterion scoring with the quoted fragment of my answer, and three rewritten answers cited from the base.",
-        "prompt": "Simulate an interview or defence on [TOPIC]; [SOURCES] is the only quote base. First ask for my thesis and three claims; if missing, stop: that is 10. One question per turn: clarification, counter-fact, consequence with alternative. Raise a level only if my previous answer quoted [SOURCES] and answered the objection; otherwise repeat; two failures drop a level. Every objection names a real [TOPIC] risk: cost, limit or alternative. Score clarity, grounding, judgment and honesty with the quoted fragment: declaring a limit without backing is a hit; claiming without it, a miss. Close with critical gaps and three rewritten cited answers. Never draft my deliverable: that is 10. Do not invent quotes.",
+        "prompt": "Simulate an interview or defence on [TOPIC]; [SOURCES] is the only quote base. First ask for my thesis and three claims; if missing, stop: nothing is built here. One question per turn: clarification, counter-fact, consequence with alternative. Raise a level only if my previous answer quoted [SOURCES] and answered; otherwise repeat; two failures drop a level. Every objection names a real [TOPIC] risk: cost, limit or alternative. Score clarity, grounding, judgment and honesty with the quoted fragment: declaring a limit without backing is a hit; claiming without it, a miss. Close with critical gaps and three rewritten cited answers. Never draft or restructure my deliverable. Do not invent quotes.",
         "level_spec": {
           "role": "Adversarial interviewer who calibrates pressure against the previous answer",
           "spec_role": "Specialist in evidence-grounded learning and research",
@@ -284,7 +286,8 @@
           ],
           "tradeoffs": [
             "The frozen text ran adversarial objections with no quotable base: [SOURCES] is added as a mandatory base and the simulation does not start without it",
-            "The frozen variables [AUDIENCE] and [OUTCOME] are lost: the calibrated difficulty level replaces the audience profile",
+            "Three frozen variables are lost —[INTERVIEW, QBR OR DEFENCE], [AUDIENCE] and [OUTCOME]—: the format stays literal in the first sentence and the calibrated difficulty level replaces the audience profile",
+            "The strengths section of the frozen closing does not survive: the 2x budget only covers critical gaps and the three rewritten answers, which are the actionable output",
             "The explicit log of the difficulty drop leaves the prompt under the 2x budget and remains a session criterion",
             "Rising pressure in exchange for an uncomfortable but diagnostic session"
           ],
@@ -312,12 +315,12 @@
         ]
       },
       "empresa": {
-        "title": "Leadership defence simulator",
+        "title": "Leadership defence interview simulator",
         "purpose": "Put a decision the team already made under governance, cost and risk objections whose difficulty rises only when the previous answer cited the base.",
         "when": "the team must defend before leadership a decision that is already made and documented.",
         "example": "Defend the area AI pilot and its risk controls before leadership.",
-        "evidence": "one objection per turn traced to an operational risk of the process, per-criterion scoring with the quoted fragment, and three rewritten answers ready for review.",
-        "prompt": "Simulate a leadership defence on [TOPIC] in [PROCESS]; [SOURCES] is the only quote base. First ask for the thesis and three documented claims; if missing, stop: that is 10. One question per turn: clarification, counter-fact, consequence with alternative. Raise a level only if the previous answer quoted [SOURCES] and answered; else repeat; two failures drop a level. Every objection names an operational risk of [PROCESS]: governance, cost or alternative. Score clarity, grounding, judgment and honesty with the quoted fragment: declaring a limit without backing is a hit. Close with critical gaps and three rewritten cited [TOPIC] answers. Never draft the deliverable: that is 10. Do not invent quotes.",
+        "evidence": "one objection per turn traced to an operational risk of the process, per-criterion scoring with the quoted fragment, and three rewritten answers cited from the base.",
+        "prompt": "Simulate a leadership defence or QBR on [TOPIC] in [PROCESS]; quote only [SOURCES]. Ask first for thesis and three documented claims; if missing, stop: nothing is built. One question per turn: clarification, counter-fact, consequence, alternative. Raise a level only if the previous answer quoted [SOURCES] and answered; else repeat; two failures drop one. Every objection names an operational risk of [TOPIC] in [PROCESS]: governance, cost, alternative. Score clarity, grounding, judgment and honesty from the quoted fragment: a limit declared without backing is a hit. Close with critical gaps and three answers rewritten from [SOURCES]. Never draft or restructure the deliverable; never invent quotes.",
         "level_spec": {
           "role": "Adversarial governance interviewer who calibrates pressure against the previous answer",
           "spec_role": "Specialist in evidence-grounded learning and research",
@@ -340,8 +343,8 @@
               "governance, cost and discarded alternative of the affected process"
             ],
             [
-              "review",
-              "three rewritten answers ready for review by the accountable owner"
+              "verification",
+              "a reviewer other than the defender checks every rewritten quote"
             ]
           ],
           "workflow": [
@@ -349,7 +352,7 @@
             "Fix the three levels and the raise and drop rule",
             "Ask one at a time, tracing the objection to an operational risk of the process",
             "Score per criterion quoting the fragment of the answer that justifies it",
-            "Close with critical gaps and rewritten answers ready for review"
+            "Close with critical gaps and rewritten answers cited from the base"
           ],
           "guardrails": [
             "Never invent quotes, figures or objections without a real operational risk behind them",
@@ -360,7 +363,7 @@
           "output": [
             "One objection per turn with its level and the operational risk behind it",
             "Per-criterion scoring with the quoted fragment that justifies it",
-            "Three rewritten cited answers ready for review"
+            "Three rewritten answers cited from the declared base"
           ],
           "dod": "Reviewable rehearsal: every level change is justified by the previous answer, every objection ties to a process risk and every rewrite quotes the base.",
           "edge_cases": [
@@ -381,8 +384,9 @@
           ],
           "tradeoffs": [
             "The frozen text declared no quotable base: [SOURCES] is added as a mandatory base with internal usage rights",
-            "The frozen variables [AUDIENCE] and [OUTCOME] are lost: leadership and the affected process now frame the defence",
-            "The explicit difficulty-drop log and the ready-for-review stamp leave the prompt under the 2x budget and stay in the expected output",
+            "Three frozen variables are lost —[INTERVIEW, QBR OR DEFENCE], [AUDIENCE] and [OUTCOME]—: QBR and defence stay literal and leadership with the affected process frame it",
+            "The strengths section of the frozen closing does not survive: the 2x budget only covers critical gaps and the three rewritten answers, which are the actionable output",
+            "The explicit difficulty-drop log leaves the prompt under the 2x budget and remains a session criterion",
             "Governance pressure lengthens the rehearsal in exchange for exposing gaps before the real meeting"
           ],
           "assumptions": [
@@ -420,7 +424,7 @@
         "when": "você deve defender sob perguntas difíceis algo que já escreveu ou decidiu.",
         "example": "Defender meu piloto de IA e seus controles em uma entrevista técnica exigente.",
         "evidence": "objeção por rodada ligada a um risco real, avaliação por critério com o trecho citado da minha resposta, e três respostas reescritas com citações da base.",
-        "prompt": "Simule uma entrevista ou defesa sobre [TEMA]; [FONTES] é a única base de citações. Peça primeiro minha tese e minhas três afirmações; se não existem, pare: isso é 10. Uma pergunta por rodada: esclarecimento, dado contrário, depois consequência com alternativa. Suba um nível só se minha resposta anterior citou [FONTES] e respondeu a objeção; se não, repita; duas falhas descem um nível. Cada objeção nomeia um risco real de [TEMA]: custo, limite ou alternativa. Avalie clareza, fundamento, critério e honestidade com o trecho citado: declarar o limite sem respaldo pontua acerto; afirmá-lo sem respaldo, falha. Feche com lacunas críticas e três respostas reescritas com citações. Não redija meu entregável: isso é 10. Não invente citações.",
+        "prompt": "Simule uma entrevista ou defesa sobre [TEMA]; [FONTES] é a única base de citações. Peça minha tese e minhas três afirmações; se não existem, pare: aqui nada se constrói. Uma pergunta por rodada, em três níveis de dificuldade: esclarecimento, dado contrário, consequência e alternativa. Suba um nível só se minha resposta anterior citou [FONTES] e respondeu; se não, repita; duas falhas descem um nível. Cada objeção nomeia um risco real de [TEMA]: custo, limite ou alternativa. Avalie clareza, fundamento, critério e honestidade com o trecho citado: declarar o limite sem respaldo é acerto; afirmá-lo sem respaldo, falha. Feche com lacunas críticas e três respostas reescritas com citações. Não redija nem reestruture meu entregável. Não invente citações.",
         "level_spec": {
           "role": "Entrevistador adversarial que calibra a pressão contra a resposta anterior",
           "spec_role": "Especialista em aprendizagem e pesquisa baseada em evidências",
@@ -483,7 +487,8 @@
           ],
           "tradeoffs": [
             "O texto congelado trazia objeções adversariais sem base de citações: acrescenta-se [FONTES] como base obrigatória e sem ela a simulação não começa",
-            "Perdem-se as variáveis [PÚBLICO] e [RESULTADO] do texto congelado: o nível de dificuldade calibrado substitui o perfil de público",
+            "Perdem-se três variáveis do texto congelado —[ENTREVISTA, QBR OU DEFESA], [PÚBLICO] e [RESULTADO]—: o formato fica literal na primeira frase e o nível de dificuldade calibrado substitui o perfil de público",
+            "O fechamento por pontos fortes do texto congelado não sobrevive: o orçamento 2× só cobre lacunas críticas e as três respostas reescritas, que são a saída acionável",
             "O registro explícito da descida de dificuldade sai do prompt pelo orçamento 2× e fica como critério da sessão",
             "Pressão crescente em troca de uma sessão incômoda mas diagnóstica"
           ],
@@ -511,12 +516,12 @@
         ]
       },
       "empresa": {
-        "title": "Simulador de defesa diante da diretoria",
+        "title": "Simulador de entrevista de defesa diante da diretoria",
         "purpose": "Submeta uma decisão já tomada da equipe a objeções de governança, custo e risco cuja dificuldade sobe só quando a resposta anterior cita a base.",
         "when": "a equipe deve defender diante da diretoria uma decisão que já está tomada e documentada.",
         "example": "Defender diante da diretoria o piloto de IA da área e seus controles de risco.",
-        "evidence": "objeção por rodada ligada a um risco operacional do processo, avaliação por critério com o trecho citado, e três respostas reescritas prontas para revisão.",
-        "prompt": "Simule uma entrevista de defesa diante da diretoria sobre [TEMA] em [PROCESSO]; [FONTES] é a única base de citações. Peça a tese e as três afirmações documentadas; se faltarem, pare: é 10. Uma pergunta por rodada: esclarecimento, dado contrário, depois consequência com alternativa. Suba um nível só se a resposta anterior citou [FONTES] e respondeu a objeção; se não, repita; duas falhas descem um nível. Cada objeção nomeia um risco operacional de [PROCESSO]: governança, custo ou alternativa. Avalie clareza, fundamento, critério e honestidade com o trecho citado: declarar o limite sem respaldo pontua acerto. Feche com lacunas críticas e três respostas reescritas de [TEMA], citadas. Não redija o entregável: isso é 10. Não invente citações.",
+        "evidence": "objeção por rodada ligada a um risco operacional do processo, avaliação por critério com o trecho citado, e três respostas reescritas com citações da base.",
+        "prompt": "Simule uma defesa ou QBR diante da diretoria sobre [TEMA] em [PROCESSO]; cite só [FONTES]. Peça a tese e as três afirmações documentadas; se faltarem, pare: aqui nada se constrói. Uma pergunta por rodada em três níveis de dificuldade: esclarecimento, dado contrário, consequência e alternativa. Suba um nível só se a resposta anterior citou [FONTES] e respondeu; se não, repita; duas falhas descem um. Cada objeção nomeia um risco operacional de [TEMA] em [PROCESSO]: governança, custo ou alternativa. Avalie clareza, fundamento, critério e honestidade com o trecho citado: declarar o limite sem respaldo é acerto. Feche com lacunas críticas e três respostas reescritas de [FONTES]. Não redija nem reestruture o entregável nem invente citações.",
         "level_spec": {
           "role": "Entrevistador adversarial de governança que calibra a pressão contra a resposta anterior",
           "spec_role": "Especialista em aprendizagem e pesquisa baseada em evidências",
@@ -539,8 +544,8 @@
               "governança, custo e alternativa descartada do processo afetado"
             ],
             [
-              "revisao",
-              "três respostas reescritas prontas para revisão do responsável"
+              "verificacao",
+              "um revisor diferente de quem defende confere cada citação reescrita"
             ]
           ],
           "workflow": [
@@ -548,7 +553,7 @@
             "Fixar os três níveis e a regra de subida e descida",
             "Perguntar uma por vez, ligando a objeção a um risco operacional do processo",
             "Avaliar por critério citando o trecho da resposta que o justifica",
-            "Fechar com lacunas críticas e respostas reescritas prontas para revisão"
+            "Fechar com lacunas críticas e respostas reescritas com citações da base"
           ],
           "guardrails": [
             "Nunca invente citações, números nem objeções sem risco operacional real por trás",
@@ -559,7 +564,7 @@
           "output": [
             "Objeção por rodada com seu nível e o risco operacional que a origina",
             "Avaliação por critério com o trecho citado que a justifica",
-            "Três respostas reescritas com citações, prontas para revisão"
+            "Três respostas reescritas com citações da base declarada"
           ],
           "dod": "Ensaio revisável: cada mudança de nível fica justificada pela resposta anterior, cada objeção liga-se a um risco do processo e cada reescrita cita a base.",
           "edge_cases": [
@@ -580,8 +585,9 @@
           ],
           "tradeoffs": [
             "O texto congelado não declarava base de citações: acrescenta-se [FONTES] como base obrigatória com direitos de uso interno",
-            "Perdem-se as variáveis [PÚBLICO] e [RESULTADO] do texto congelado: a diretoria e o processo afetado passam a enquadrar a defesa",
-            "O registro da descida de dificuldade e o selo pronto para revisão saem do prompt pelo orçamento 2× e ficam na evidência esperada",
+            "Perdem-se três variáveis do texto congelado —[ENTREVISTA, QBR OU DEFESA], [PÚBLICO] e [RESULTADO]—: QBR e defesa ficam literais e a diretoria com o processo afetado enquadram",
+            "O fechamento por pontos fortes do texto congelado não sobrevive: o orçamento 2× só cobre lacunas críticas e as três respostas reescritas, que são a saída acionável",
+            "O registro da descida de dificuldade sai do prompt pelo orçamento 2× e fica como critério da sessão",
             "A pressão de governança alonga o ensaio em troca de expor lacunas antes da reunião real"
           ],
           "assumptions": [
@@ -614,5 +620,5 @@
     }
   },
   "self_hash_model": "sha256(sorted-json-without-self_sha256)",
-  "self_sha256": "f4bc91372336a8ede53f3bb1b9e8b64a8f4a4cea051962b5b35b6d2b5f3085d6"
+  "self_sha256": "e47bb261ee7e62d3f6441dd07fd1d3a45c1ad523c5afb4e2e3c68511e582123d"
 }
