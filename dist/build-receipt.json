@@ -51,8 +51,8 @@
   "editorial_parity": {
     "fallback_policy": "forbidden",
     "inventory": "editorial-string-inventory.json",
-    "inventory_self_sha256": "de578a8caf1f0a7ebe6a3e63bd53e63de26dc3f5e2d2a3bbeeb6d4837cacad28",
-    "inventory_sha256": "1588f5be71d4bc0b66fd780de7f5905e779252bed85eb83ebb695845b6a82697",
+    "inventory_self_sha256": "3a2153c32751775239cda882c197b6b753b04d08054d6eea5670b980db353d60",
+    "inventory_sha256": "186e178ee4171dbbaff526834b0c76550d9640d80c140396f923a12b2d8ce5ed",
     "matrix": {
       "audiences": [
         "persona",
@@ -112,8 +112,8 @@
     "source": "src/intrapage-navigation-spec-v1.json",
     "source_sha256": "cfae0e0b01c8830805049837fcd87f9388fc6a117af1e20feafef16cd796d342"
   },
-  "manifest_self_sha256": "0387e68471b77756f7bb819545bae1bef34f6ae6f76706cd9ba039b858e661af",
-  "manifest_sha256": "8950b00f46f33004b50bac108c64e81db9a5ab03372f8fcfb268bd36eb13eda2",
+  "manifest_self_sha256": "84c2fc9a64102e7d4787779f1fee94bf9a13114c6416355d97017ab939cd4cd3",
+  "manifest_sha256": "2e2c16785b2b70e19e53e202dd938921ca28052bcdafb1696f7f79a1173ffb3e",
   "method_identity": {
     "assets": {
       "compact": "b07a0713a106f1f78491e54667b248ef6a790ce175b0a07ba2e721137e936393",
@@ -159,6 +159,90 @@
       "source_sha256": "64baf1e2299faaca3ff6a89d11dbf92a07be946224960bfe1b60370a9e70753c",
       "state": "RENDERED_DRAFT"
     },
+    "prompt_contracts": {
+      "contract_count": 27,
+      "fallback_policy": "forbidden",
+      "intent_authority": {
+        "publication_authorized": false,
+        "rights": "MetodologIA governed contract; no long-form third-party copy reproduced",
+        "schema_version": "prompt-intent-authority-v2",
+        "self_sha256": "9e43b4826ef76b63c9fa1cca25ca29a9fd02510f07149680d967e49d9f5b4b86",
+        "source": "src/prompt-intent-authority-v2.json",
+        "source_sha256": "52bdcdd85faf0e211f3672bf1b86a41344bd567f3b0f715484eb165ac154e20a",
+        "state": "RENDERED_DRAFT",
+        "status": "frozen_phase_3"
+      },
+      "publication_authorized": false,
+      "rendered_cells": 162,
+      "schema_version": "prompt-intent-contract-v1",
+      "self_sha256": {
+        "01": "8cc447ca3db0605b3c1ed7441047947d2b136990b53d8cf7c9d66a6854e8561f",
+        "02": "f73408124e6f644b5df67aa1a133d25ea47878e54f7616b30e1b641068306363",
+        "03": "8b9fe1f79ae0f8ab50865d839492d545661f16abdbc93769f82f0d80eb9c07b5",
+        "04": "dbd234e9eec76318f6176acc03aaa2002cc73163992d7b0b84e59f76535ebb84",
+        "05": "c231f0bbbfdd787f07886ff41029379ab06babcb6cd8989143f7e71f5a029f18",
+        "06": "288c3ad3a865662e42c5b82c53e3a3c3106f31dc829ebd2c819b9bfed5d461af",
+        "07": "b11bec539a07e1f679f7bb876cdac1050e7570312cd4af74ca7e4607cfc124ec",
+        "08": "33699a3ac62c32172386f9b4643660fcc9e5eb1fa8148c60730a2000b9e50c45",
+        "09": "e47bb261ee7e62d3f6441dd07fd1d3a45c1ad523c5afb4e2e3c68511e582123d",
+        "10": "85d2f4ed5e47ef88c2e4bc186940cf8505f2f5d760e3cbfde48be3742ceec012",
+        "B1": "acaa5821397bd773544377d29fef4e14db2e25e4185629e45dda8bdc5a8e2939",
+        "B2": "890638b0c9059d38c7da1dd1217b4549e79b5ae42ef64bed5b6adf078187c65d",
+        "B3": "58da67697f6d26097ac68700466b799ce5042f3c37a605b63abce0851653bff0",
+        "M1": "479ae1e298f2dadceb91b6e627f23bfafa3f1eb06c1054ed0772c40aad102c33",
+        "M2": "ec909c7c87957964b94466029629af10e2a6f295358b4be06a4d55b8bfbf2121",
+        "M3": "6409596c29afe4d64eebb16dd16bc9423b40bf48238bbf0ba3f80177b9d781c7",
+        "M4": "597f85515fb1910d3c6ee9cbee4efb4206c1ee1d3b798600143fc3bb157b4c73",
+        "W01": "4036a8ac39920c8395c1e0916b19d18d0aa49eef581294ebcd19db568c282485",
+        "W02": "e94f8b6be95830b512aec8132db481290b40f2a6b0eca7fd3a2340263bf86fc9",
+        "W03": "6166c70612e0ae28f62d3b9aa7637c795efad37042672280badb611e3597e511",
+        "W04": "321c4548766cda821b89bbf946159982a1ba9ca932aa6762a56bb5cb866c2cd9",
+        "W05": "3448edacfea2f6813f86e26b3c49351d6a0b130bb8c8b72ebd028e0db6a12d84",
+        "W06": "fea00c74d3e261dbcc94f8f77cbf88b1ad54b35710d3d47b84e023561a0c321e",
+        "W07": "ffa24bc022572c83d673df328bb91fa7efe08e0c6c09208f06ae5738753c1e81",
+        "W08": "7acc653bfcc4bc7e840fb774efdb92d892fcfffd1d397094a071cf81114aa255",
+        "W09": "5484a7d663d4176790faaf2fe51e888b32ca36a02a99ef75a8852f3fc0b9dd76",
+        "W10": "67baff3c539bd2794652e4cfa49ee4b10364a228de381d9ebae291059db7b6bd"
+      },
+      "source": "src/prompt-contracts",
+      "state": "RENDERED_DRAFT",
+      "surfaces": {
+        "library": [
+          "01",
+          "02",
+          "03",
+          "04",
+          "05",
+          "06",
+          "07",
+          "08",
+          "09",
+          "10",
+          "M1",
+          "M2",
+          "M3",
+          "M4"
+        ],
+        "workbook": [
+          "W01",
+          "W02",
+          "W03",
+          "W04",
+          "W05",
+          "W06",
+          "W07",
+          "W08",
+          "W09",
+          "W10"
+        ],
+        "workbook_brain": [
+          "B1",
+          "B2",
+          "B3"
+        ]
+      },
+      "why_panel": true
+    },
     "prompt_count": 14,
     "publication_authorized": false,
     "reference_sources": [
@@ -168,11 +252,11 @@
     "rendered_variants": 6,
     "schema_version": "prompt-library-spec-v1",
     "source": "src/prompt-library-spec-v1.json",
-    "source_sha256": "ed6d211f29049e99ff97d23e9de5a4824c216118f9e83d0d0d343098a557b836",
+    "source_sha256": "644f7a2dcb94ccf560bf277437735e4b242f4528ff9db3a66013ed96b0672f7b",
     "state": "RENDERED_DRAFT"
   },
   "schema_version": "build-receipt-v1",
   "self_hash_model": "sha256(sorted-json-without-self)",
-  "self_sha256": "6dc137194b586e83d91722a216d7edf7d41228a9ab0a6030544e56e547bf391a",
+  "self_sha256": "51827ab46cc0f9f45e14ac5e7cfe0db646c533660c2596825381354b1829f4a2",
   "state": "RENDERED_DRAFT"
 }

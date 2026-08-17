@@ -3172,6 +3172,45 @@ html[data-theme="dark"] .tension-card > span:not(.tension-num) {
   justify-content: flex-end;
   padding: 0 0.8rem 0.8rem;
 }
+.prompt-why {
+  margin: 0 0.8rem 0.8rem;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  background: var(--surface2);
+}
+.prompt-why > summary {
+  padding: 0.7rem 0.9rem;
+  color: var(--ink);
+  font: 800 0.78rem/1.35 var(--head);
+  cursor: pointer;
+}
+.prompt-why[open] > summary {
+  border-bottom: 1px solid var(--line);
+}
+.prompt-why-body {
+  display: grid;
+  gap: 0.85rem;
+  padding: 0.85rem 0.9rem;
+}
+.prompt-why-body h4 {
+  margin: 0 0 0.3rem;
+  color: var(--gold);
+  font: 900 0.62rem/1 var(--head);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+.prompt-why-body ul {
+  display: grid;
+  gap: 0.3rem;
+  margin: 0;
+  padding-left: 1.1rem;
+}
+.prompt-why-body li {
+  max-width: 70ch;
+  color: var(--muted);
+  font-size: 0.78rem;
+  line-height: 1.5;
+}
 .prompt-format-copy {
   display: inline-flex;
   width: auto;

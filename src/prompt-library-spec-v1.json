@@ -39,11 +39,12 @@
       "minimum_lexical_diversity": 0.7,
       "require_unique_within_locale": true,
       "locale_leak_threshold": 1,
-      "locale_cognate_allowlist": ["metodologia", "notebooklm", "prompt", "system", "qbr", "rag", "coverage_gap", "decidir", "evidencia"],
+      "forbidden_locale_signal_notes": "pt drops \"decidir\" and \"evidencia\": decidir is a native Portuguese verb and evidencia is what NFKD-without-accents makes of the native evid\u00eancia, so both flagged correct Portuguese, never a Spanish leak. They were masked by locale_cognate_allowlist, which suppressed them for every locale and so disabled the es-leak detection they exist for in en; removing them from the pt list and from the allowlist keeps es/en detection live and legalises native Portuguese.",
+      "locale_cognate_allowlist": ["metodologia", "notebooklm", "prompt", "system", "qbr", "rag", "coverage_gap"],
       "forbidden_locale_signals": {
         "es": ["the", "sources", "evidence", "outcome", "scope", "deliverable", "pesquisa", "fontes", "evidências", "escopo", "entregável"],
         "en": ["quiero", "necesitas", "fuentes", "evidencia", "investigación", "comprender", "decidir", "audiencia", "delimita", "incertidumbres", "vacíos", "pesquisa", "fontes", "evidências", "escopo", "entregável"],
-        "pt": ["quiero", "quieres", "necesitas", "fuentes", "evidencia", "investigación", "comprender", "decidir", "audiencia", "delimita", "incertidumbres", "vacíos", "the", "sources", "evidence", "outcome", "scope", "deliverable"]
+        "pt": ["quiero", "quieres", "necesitas", "fuentes", "investigación", "comprender", "audiencia", "delimita", "incertidumbres", "vacíos", "the", "sources", "evidence", "outcome", "scope", "deliverable"]
       },
       "intent_authority": {
         "source": "src/prompt-spec-authority-v1.json",
@@ -71,6 +72,14 @@
       "skill_note": "Derivada de la skill abierta Aprender · Aprehender · (R)Evolucionar. Las respuestas deben permanecer ligadas a fuentes, límites y decisión humana.",
       "back": "Ver playbook",
       "workbook": "Abrir workbook",
+      "why_format": {
+        "summary": "Por qué funciona",
+        "acceptance_criteria": "Criterios de aceptación",
+        "edge_cases": "Casos borde",
+        "tradeoffs": "Compensaciones",
+        "assumptions": "Supuestos",
+        "limits": "Límites"
+      },
       "spec_format": {
         "situation": "Situación",
         "request": "Pedido",
@@ -140,6 +149,14 @@
       "skill_note": "Derived from the open Learn · Embody · (R)Evolve skill. Answers must remain tied to sources, boundaries and human judgment.",
       "back": "View playbook",
       "workbook": "Open workbook",
+      "why_format": {
+        "summary": "Why it works",
+        "acceptance_criteria": "Acceptance criteria",
+        "edge_cases": "Edge cases",
+        "tradeoffs": "Trade-offs",
+        "assumptions": "Assumptions",
+        "limits": "Limits"
+      },
       "spec_format": {
         "situation": "Situation",
         "request": "Request",
@@ -209,6 +226,14 @@
       "skill_note": "Derivada da skill aberta Aprender · Apreender · (R)Evoluir. As respostas devem permanecer ligadas a fontes, limites e decisão humana.",
       "back": "Ver playbook",
       "workbook": "Abrir workbook",
+      "why_format": {
+        "summary": "Por que funciona",
+        "acceptance_criteria": "Critérios de aceitação",
+        "edge_cases": "Casos limite",
+        "tradeoffs": "Compensações",
+        "assumptions": "Pressupostos",
+        "limits": "Limites"
+      },
       "spec_format": {
         "situation": "Situação",
         "request": "Pedido",

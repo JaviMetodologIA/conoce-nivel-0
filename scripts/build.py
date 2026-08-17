@@ -41,6 +41,12 @@ PROMPT_SPEC_AUTHORITY_RAW=hashlib.sha256(PROMPT_SPEC_AUTHORITY_PATH.read_bytes()
 PROMPT_SPEC_AUTHORITY_EXPECTED_SHA256='64baf1e2299faaca3ff6a89d11dbf92a07be946224960bfe1b60370a9e70753c'
 PROMPT_SPEC_AUTHORITY_EXPECTED_SELF_SHA256='08743a264b78853859e4a6cf5e4cb47f8ccc490b2c523d4e6dadd11dc5d14eed'
 PROMPT_SPEC_AUTHORITY=json.loads(PROMPT_SPEC_AUTHORITY_PATH.read_text(encoding='utf-8'))
+PROMPT_INTENT_AUTHORITY_PATH=SRC/'prompt-intent-authority-v2.json'
+PROMPT_INTENT_AUTHORITY_RAW=hashlib.sha256(PROMPT_INTENT_AUTHORITY_PATH.read_bytes()).hexdigest()
+PROMPT_INTENT_AUTHORITY_EXPECTED_SHA256='52bdcdd85faf0e211f3672bf1b86a41344bd567f3b0f715484eb165ac154e20a'
+PROMPT_INTENT_AUTHORITY_EXPECTED_SELF_SHA256='9e43b4826ef76b63c9fa1cca25ca29a9fd02510f07149680d967e49d9f5b4b86'
+PROMPT_INTENT_AUTHORITY=json.loads(PROMPT_INTENT_AUTHORITY_PATH.read_text(encoding='utf-8'))
+PROMPT_CONTRACTS_DIR=SRC/'prompt-contracts'
 AUDIENCE_SPEC=json.loads((SRC/'audience-spec-v1.json').read_text(encoding='utf-8'))
 INTRAPAGE_NAV=json.loads((SRC/'intrapage-navigation-spec-v1.json').read_text(encoding='utf-8'))
 PARITY=json.loads((SRC/'editorial-parity-spec-v1.json').read_text(encoding='utf-8'))
@@ -215,6 +221,52 @@ def prompt_semantic_text(value):
   return ''.join(character for character in unicodedata.normalize('NFKD',value.casefold()) if not unicodedata.combining(character))
 
 PROMPT_LIBRARY_IDS=('01','02','03','04','05','06','07','08','09','10','M1','M2','M3','M4')
+WORKBOOK_PROMPT_IDS=tuple(f'W{index:02d}' for index in range(1,11))
+BRAIN_PROMPT_IDS=('B1','B2','B3')
+PROMPT_INTENT_IDS=PROMPT_LIBRARY_IDS+WORKBOOK_PROMPT_IDS+BRAIN_PROMPT_IDS
+PROMPT_CONTRACT_SURFACES={'library':PROMPT_LIBRARY_IDS,'workbook':WORKBOOK_PROMPT_IDS,'workbook_brain':BRAIN_PROMPT_IDS}
+
+def load_prompt_contracts():
+  """The 27 prompt-intent contracts are the single source of the rendered prompt
+  matrix (fallback_policy: forbidden). Missing keys must raise, never degrade."""
+  contracts={}
+  for path in sorted(PROMPT_CONTRACTS_DIR.glob('*.json')):
+    contract=json.loads(path.read_text(encoding='utf-8'))
+    intent_id=contract['intent_id']
+    if intent_id in contracts:
+      raise SystemExit(f'PROMPT_CONTRACT_DUPLICATE_INTENT:{intent_id}')
+    if intent_id not in PROMPT_CONTRACT_SURFACES.get(contract['surface'],()):
+      raise SystemExit(f'PROMPT_CONTRACT_SURFACE_INVALID:{contract["surface"]}:{intent_id}')
+    if contract['schema_version']!='prompt-intent-contract-v1' or contract['state']!='RENDERED_DRAFT' or contract['publication_authorized'] is not False:
+      raise SystemExit(f'PROMPT_CONTRACT_GOVERNANCE_INVALID:{intent_id}')
+    if contract['self_hash_model']!='sha256(sorted-json-without-self_sha256)' or contract['self_sha256']!=canonical_self(contract,'self_sha256'):
+      raise SystemExit(f'PROMPT_CONTRACT_SELF_DRIFT:{intent_id}')
+    if set(contract['locales'])!=set(LANGS) or any(set(contract['locales'][locale])!=set(AUDIENCES) for locale in LANGS):
+      raise SystemExit(f'PROMPT_CONTRACT_CELL_MATRIX:{intent_id}')
+    contracts[intent_id]=contract
+  if tuple(sorted(contracts))!=tuple(sorted(PROMPT_INTENT_IDS)):
+    raise SystemExit(f'PROMPT_CONTRACT_SET_INCOMPLETE:{len(contracts)}')
+  return {intent_id:contracts[intent_id] for intent_id in PROMPT_INTENT_IDS}
+
+PROMPT_CONTRACTS=load_prompt_contracts()
+
+def assert_distinct_intent_parameters(contracts=None):
+  """Anti-template tripwire: a shared `parameters` block between two intents is
+  the signature of the generic level-2 shell this cutover removed."""
+  contracts=PROMPT_CONTRACTS if contracts is None else contracts
+  for locale in LANGS:
+    for audience in AUDIENCES:
+      seen={}
+      for intent_id,contract in contracts.items():
+        signature=tuple(tuple(pair) for pair in contract['locales'][locale][audience]['level_spec']['parameters'])
+        if signature in seen:
+          raise SystemExit(f'PROMPT_CONTRACT_PARAMETER_TEMPLATE:{locale}:{audience}:{seen[signature]}={intent_id}')
+        seen[signature]=intent_id
+
+assert_distinct_intent_parameters()
+
+def contract_cell(intent_id,lang):
+  return PROMPT_CONTRACTS[intent_id]['locales'][lang][CURRENT_AUDIENCE]
 
 def validate_prompt_spec_authority(document=None,*,schema_version='prompt-spec-authority-v1',prompt_ids=PROMPT_LIBRARY_IDS,expected_self_sha256=PROMPT_SPEC_AUTHORITY_EXPECTED_SELF_SHA256,source_sha256=None,expected_source_sha256=None,allowed_extra_keys=frozenset()):
   authority=PROMPT_SPEC_AUTHORITY if document is None else document
@@ -342,6 +394,17 @@ def compose_prompt_documents(contracts,intent_authority=None):
   return documents
 
 validate_prompt_library()
+# Triple pin of the contract authority: literals here, self hash inside the file,
+# and the manifest binding emitted by build(). The consumer leg (the spec's
+# `intent_authority` block) still points at v1 — see the B6 note in the report.
+validate_prompt_spec_authority(
+  PROMPT_INTENT_AUTHORITY,
+  schema_version='prompt-intent-authority-v2',
+  prompt_ids=PROMPT_INTENT_IDS,
+  expected_self_sha256=PROMPT_INTENT_AUTHORITY_EXPECTED_SELF_SHA256,
+  source_sha256=PROMPT_INTENT_AUTHORITY_RAW,
+  expected_source_sha256=PROMPT_INTENT_AUTHORITY_EXPECTED_SHA256,
+  allowed_extra_keys=frozenset({'status'}))
 
 T={
 'es':{'skip':'Saltar al contenido','route':'Ruta Nivel 0','nav_route':'La ruta','nav_resources':'Recursos','enroll':'Inscribirme','open':'Próxima cohorte · Inscripciones abiertas','eyebrow':'Ruta de entrada · 4 clases · práctica real','hero':'Intro al mundo de la <span class="gold">IA</span>','lead':'Aprende a aprender, producir y trabajar con IA. Pasa de entender qué ocurre a dirigir un primer flujo agéntico sin delegar tu criterio.','see':'Ver las 4 clases','media':'Comprender. Priorizar. Amplificar. Orquestar.','classes':'clases conectadas','available':'recursos disponibles','routes':'rutas de autoentrenamiento','entry':'entrada común','progression':'Una progresión clara','four':'Cuatro clases. Una nueva forma de trabajar.','progress_lead':'Cada clase produce una práctica observable y abre el siguiente paso.','explore':'Explorar recursos','library':'Biblioteca viva','continues':'La clase termina. La práctica continúa.','library_lead':'Entra a lo disponible. Lo que sigue se muestra con honestidad, sin enlaces vacíos.','masterclass':'Masterclass','workbook':'Workbook','playbook':'Playbook','prompts':'Biblioteca de prompts','ready':'Disponible →','soon':'Próximamente','purpose_master':'Comprende el panorama y sigue una práctica guiada.','purpose_work':'Construye una base verificable durante la sesión.','purpose_play':'Repite el método después de la clase.','purpose_prompts':'Adapta instrucciones por objetivo y contexto.','footer':'Método + IA = Soberanía','class1':'IA: qué está pasando y cómo sacarle provecho','class1p':'Aprende a aprender con IA y usa NotebookLM como asistente basado en tus fuentes.','class2':'De ocupado a productivo','class2p':'Convierte la IA en coach para elegir, planificar y sostener lo importante.','class3':'Trabajar amplificado','class3p':'Integra método e IA para acelerar sin delegar tu criterio.','class4':'Trabajo agéntico','class4p':'Diseña un flujo supervisado con roles, memoria, herramientas y límites.','verbs':['Comprender','Priorizar','Amplificar','Orquestar']},
@@ -367,9 +430,6 @@ RESOURCE_NAMES={
   {'masterclass':'Trabalho amplificado','workbook':'Projete seu fluxo de trabalho amplificado','playbook':'Método para amplificar o que você faz','prompts':'Acelere, melhore e sistematize seu trabalho'},
   {'masterclass':'Trabalho agêntico','workbook':'Projete seu primeiro fluxo agêntico','playbook':'Orquestre agentes com supervisão humana','prompts':'Assistentes, agentes, ferramentas e controle'},
 ]}
-
-def prompt_for(lang,n,title,text):
-    return WORKBOOK_PROMPTS['locales'][lang]['prompts'][n-1]
 
 def esc(s): return html.escape(s,quote=True)
 def ui_icon(name):
@@ -586,18 +646,11 @@ FORMAT_COPY={
   'en':{'parameters':'# Parameters','inputs':'# Inputs','task':'# Task','workflow':'# Workflow','guardrails':'# Guardrails','output':'# Expected output','dod':'# Definition of Done','role':'# Role','objective':'# Objective','base':'# Base prompt','adjust':'Complete or adjust values in brackets before running.'},
   'pt':{'parameters':'# Parâmetros','inputs':'# Inputs','task':'# Tarefa','workflow':'# Fluxo','guardrails':'# Guardrails','output':'# Saída esperada','dod':'# Definition of Done','role':'# Papel','objective':'# Objetivo','base':'# Prompt base','adjust':'Complete ou ajuste os valores entre colchetes antes de executar.'}}
 
-def structured_variants(lang,title,natural,spec=None,context=None):
+def structured_variants(lang,title,natural,spec,context):
+  """Levels 2-4 are derived from the intent's own `level_spec`. There is no
+  generic template fallback: `spec` is required and indexed by key so a missing
+  contract field raises instead of silently rendering a shell."""
   c=FORMAT_COPY[lang]
-  if spec is None:
-    spec={
-      'role':('Asistente MetodologIA orientado a evidencia' if lang=='es' else 'Evidence-oriented MetodologIA assistant' if lang=='en' else 'Assistente MetodologIA orientado a evidências'),
-      'spec_role':PROMPT_LIBRARY['locales'][lang]['spec_format']['default_role'],
-      'objective':title,
-      'parameters':[['profundidad','operativa'],['formato','estructurado'],['fuentes','solo fuentes disponibles'],['vacíos','declarar coverage_gap']] if lang=='es' else [['depth','operational'],['format','structured'],['sources','available sources only'],['gaps','declare coverage_gap']] if lang=='en' else [['profundidade','operacional'],['formato','estruturado'],['fontes','somente fontes disponíveis'],['lacunas','declarar coverage_gap']],
-      'workflow':[natural],
-      'guardrails':(['No inventar fuentes, citas o capacidades','Separar evidencia, inferencia y dato faltante','Mantener la decisión final en la persona'] if lang=='es' else ['Do not invent sources, citations or capabilities','Separate evidence, inference and missing data','Keep the final decision with the person'] if lang=='en' else ['Não inventar fontes, citações ou capacidades','Separar evidência, inferência e dado ausente','Manter a decisão final com a pessoa']),
-      'output':([title,'Fuentes o límites utilizados','Siguiente decisión verificable'] if lang=='es' else [title,'Sources or boundaries used','Next verifiable decision'] if lang=='en' else [title,'Fontes ou limites utilizados','Próxima decisão verificável']),
-      'dod':('El entregable responde al propósito, permite revisar evidencia y declara límites.' if lang=='es' else 'The deliverable answers the purpose, supports evidence review and states boundaries.' if lang=='en' else 'A entrega responde ao propósito, permite revisar evidências e declara limites.')}
   params='\n'.join(f'{name} = {default}' for name,default in spec['parameters'])
   workflow='\n'.join(f'{i}. {step}' for i,step in enumerate(spec['workflow'],1))
   guardrails='\n'.join(f'- {item}' for item in spec['guardrails'])
@@ -607,19 +660,13 @@ def structured_variants(lang,title,natural,spec=None,context=None):
   inputs=f'{input_line}\n\n{{{{BRAIN_DUMP}}}}' if uses_dump else c['adjust']
   parameter=f"{c['parameters']}\n{params}\n\n{c['inputs']}\n{inputs}\n\n{c['task']}\n{spec['objective']}\n\n{c['workflow']}\n{workflow}\n\n{c['guardrails']}\n{guardrails}\n\n{c['output']}\n{output}"
   anatomy=PROMPT_LIBRARY['locales'][lang]['spec_format']
-  context=context or {
-    'when':spec['objective'],
-    'example':title,
-    'purpose':spec['objective'],
-    'evidence':'; '.join(spec['output']),
-  }
   execution_steps=[*spec['workflow'],anatomy['step_review'],anatomy['step_finish']]
   execution='\n'.join(f'{index}. {step}' for index,step in enumerate(execution_steps,1))
   edge_cases='\n'.join(f'- {item}' for item in anatomy['edge_case_items'])
   criteria='\n'.join(f'- {item}' for item in anatomy['criterion_items'])
   provenance='\n'.join(f'- {item}' for item in anatomy['provenance_items'])
   metadata='\n'.join(f'- {item}' for item in anatomy['metadata_items'])
-  spec_role=spec['spec_role'] if 'spec_role' in spec else spec['role']
+  spec_role=spec['spec_role']
   spec_text=(
     '# SPEC MetodologIA\nversion: 2.0\nstatus: executable\n\n'
     f"## S — {anatomy['situation']}\n"
@@ -661,6 +708,17 @@ def prompt_visual_lines(value):
     lines.append(f'<span class="prompt-line prompt-line-{kind}">{esc(line)}</span>')
   return ''.join(lines)
 
+WHY_SECTIONS=('acceptance_criteria','edge_cases','tradeoffs','assumptions','limits')
+
+def prompt_why_markup(lang,group_id,why):
+  """Expandable rationale next to the copyable prompt. Native <details>: no JS,
+  and no data-prompt-template/data-prompt-format so the level panel counts hold."""
+  labels=PROMPT_LIBRARY['locales'][lang]['why_format']
+  sections=''.join(
+    f'''<section><h4>{esc(labels[key])}</h4><ul>{''.join(f'<li>{esc(entry)}</li>' for entry in why[key])}</ul></section>'''
+    for key in WHY_SECTIONS)
+  return f'''<details class="prompt-why" data-prompt-why="{group_id}"><summary>{esc(labels['summary'])}</summary><div class="prompt-why-body">{sections}</div></details>'''
+
 def prompt_formats_markup(lang,group_id,variants,convention,brain_input=None):
   tabs=[]; panels=[]
   items={item['key']:item for item in convention['items']}
@@ -684,9 +742,9 @@ def prompt_cards(lang,start,end):
   w=W[lang]; out=[]
   deep_meta={locale:WORKBOOK_PROMPTS['locales'][locale]['deep_meta'] for locale in ('es','en','pt')}
   for n in range(start,end+1):
-    title,text=prompt_for(lang,n,*WORKBOOK_PROMPTS['locales']['es']['prompts'][n-1]); pid=f'p{n}-{lang}'
-    variants=structured_variants(lang,title,text)
-    format_ui=prompt_formats_markup(lang,pid,variants,ADVANCED['locales'][lang]['level_convention'])
+    cell=contract_cell(f'W{n:02d}',lang); title=cell['title']; pid=f'p{n}-{lang}'
+    variants=structured_variants(lang,title,cell['prompt'],cell['level_spec'],cell)
+    format_ui=prompt_formats_markup(lang,pid,variants,ADVANCED['locales'][lang]['level_convention'])+prompt_why_markup(lang,pid,cell['why_it_works'])
     flow=('Entradas: tema, propósito y contexto · Acción: ejecutar y revisar · Salida: respuesta citada · Comprobación: contrastar con la fuente · Siguiente: decidir si avanzar.' if lang=='es' else 'Inputs: topic, purpose and context · Action: run and review · Output: cited response · Check: inspect the source · Next: decide whether to continue.' if lang=='en' else 'Entradas: tema, propósito e contexto · Ação: executar e revisar · Saída: resposta citada · Verificação: conferir a fonte · Próximo: decidir se avança.')
     meta=''
     if n>=6:
@@ -741,10 +799,11 @@ def workbook(lang):
   provider_link_html=''.join(f'<a href="{url}" target="_blank" rel="noopener noreferrer">{esc(label)} ↗</a>' for label,url in provider_links)
   guide=f'''<section class="workbook-guide" id="guia" aria-labelledby="guide-title-{lang}"><div class="section-head"><span class="eyebrow">00 · {esc(advanced['guide_title'])}</span><h2 class="h2" id="guide-title-{lang}">{esc(advanced['guide_title'])}</h2><p class="lead">{esc(advanced['guide_body'])}</p></div><ol class="guide-steps">{guide_steps}</ol><aside class="provider-notice"><span aria-hidden="true">i</span><div><strong>{esc('Condiciones de uso' if lang=='es' else 'Usage conditions' if lang=='en' else 'Condições de uso')}</strong><p>{esc(advanced['provider_notice'])}</p><nav aria-label="{esc('Fuentes oficiales' if lang=='es' else 'Official sources' if lang=='en' else 'Fontes oficiais')}">{provider_link_html}</nav></div></aside></section>'''
   brain_prompt_cards=[]
-  for i,(title,template) in enumerate(advanced['brain_prompts'],1):
+  for i,intent_id in enumerate(BRAIN_PROMPT_IDS,1):
+    cell=contract_cell(intent_id,lang); title=cell['title']
     pid=f'brain-prompt-{lang}-{i}'
-    variants=structured_variants(lang,title,template,advanced['brain_prompt_specs'][i-1])
-    format_ui=prompt_formats_markup(lang,pid,variants,advanced['level_convention'],f'brain-dump-{lang}')
+    variants=structured_variants(lang,title,cell['prompt'],cell['level_spec'],cell)
+    format_ui=prompt_formats_markup(lang,pid,variants,advanced['level_convention'],f'brain-dump-{lang}')+prompt_why_markup(lang,pid,cell['why_it_works'])
     brain_prompt_cards.append(f'''<article class="brain-prompt-card"><header><span>0{i}</span><h3>{esc(title)}</h3></header><div class="prompt"><div class="prompt-head"><span>Prompt 0{i}</span></div>{format_ui}</div></article>''')
   prep_eyebrow=('Preparación · una entrada, tres movimientos' if lang=='es' else 'Preparation · one input, three moves' if lang=='en' else 'Preparação · uma entrada, três movimentos')
   brain=f'''<section class="brain-section" aria-labelledby="brain-title-{lang}"><div class="section-head"><span class="eyebrow">{esc(prep_eyebrow)}</span><h2 class="h2" id="brain-title-{lang}">{esc(advanced['brain_title'])}</h2><p class="lead">{esc(advanced['brain_body'])}</p></div><label class="brain-input"><strong>{esc(advanced['brain_label'])}</strong><textarea id="brain-dump-{lang}" rows="8" placeholder="{esc(advanced['brain_placeholder'])}" data-brain-dump></textarea><small>{esc(advanced['brain_dictation'])}</small><span class="brain-status" data-brain-status aria-live="polite" data-empty-message="{esc(advanced['brain_empty'])}"></span></label><div class="brain-prompt-grid">{''.join(brain_prompt_cards)}</div></section>'''
@@ -815,13 +874,17 @@ def prompt_library_page(lang):
   meta_short=re.sub(r'^\d+\s*','',p['meta_label']).strip()
   level_items=''.join(f'''<li><span>{esc(item['level'])}</span><strong>{esc(item['name'])}</strong><p>{esc(item['description'])}</p></li>''' for item in convention['items'])
   hero_map=f'''<aside class="prompt-library-map" aria-labelledby="prompt-library-map-title"><header><span class="eyebrow">{esc(convention['eyebrow'])}</span><h2 id="prompt-library-map-title">{esc(convention['title'])}</h2></header><nav class="prompt-library-metrics" aria-label="{esc(p['eyebrow'])}"><a href="#directos"><strong>10</strong><span>{esc(direct_short)}</span></a><a href="#metaprompts"><strong>4</strong><span>{esc(meta_short)}</span></a><div><strong>4</strong><span>{esc(convention['tablist'])}</span></div></nav><ol class="prompt-library-level-map">{level_items}</ol><footer>{method_mark(lang,'prompts','compact','prompt-method-mark')}<span>MetodologIA</span></footer></aside>'''
+  # The spec keeps only page chrome; the localized phase eyebrow is its last
+  # per-item field (contracts carry a single untranslated `phase`).
+  phases={item['id']:item['phase'] for item in p['items']}
   direct=[]; meta=[]
-  for item in p['items']:
-    group=f'library-{lang}-{item["id"].lower()}'
-    formats=structured_variants(lang,item['title'],item['prompt'],context=item)
-    controls=prompt_formats_markup(lang,group,formats,ADVANCED['locales'][lang]['level_convention'])
-    card=f'''<article class="library-prompt-card" id="prompt-{item['id'].lower()}" data-library-prompt data-prompt-kind="{'meta' if item['id'].startswith('M') else 'direct'}"><header><span class="library-prompt-number" aria-hidden="true">{esc(item['id'])}</span><div><span class="eyebrow">{esc(item['phase'])}</span><h3>{esc(item['title'])}</h3><p>{esc(item['purpose'])}</p></div></header><dl class="library-prompt-brief"><div><dt>{esc(p['use'])}</dt><dd>{esc(item['when'])}</dd></div><div><dt>{esc(p['example'])}</dt><dd>{esc(item['example'])}</dd></div><div><dt>{esc(p['evidence'])}</dt><dd>{esc(item['evidence'])}</dd></div></dl>{controls}</article>'''
-    (meta if item['id'].startswith('M') else direct).append(card)
+  for intent_id in PROMPT_LIBRARY_IDS:
+    cell=contract_cell(intent_id,lang)
+    group=f'library-{lang}-{intent_id.lower()}'
+    formats=structured_variants(lang,cell['title'],cell['prompt'],cell['level_spec'],cell)
+    controls=prompt_formats_markup(lang,group,formats,ADVANCED['locales'][lang]['level_convention'])+prompt_why_markup(lang,group,cell['why_it_works'])
+    card=f'''<article class="library-prompt-card" id="prompt-{intent_id.lower()}" data-library-prompt data-prompt-kind="{'meta' if intent_id.startswith('M') else 'direct'}"><header><span class="library-prompt-number" aria-hidden="true">{esc(intent_id)}</span><div><span class="eyebrow">{esc(phases[intent_id])}</span><h3>{esc(cell['title'])}</h3><p>{esc(cell['purpose'])}</p></div></header><dl class="library-prompt-brief"><div><dt>{esc(p['use'])}</dt><dd>{esc(cell['when'])}</dd></div><div><dt>{esc(p['example'])}</dt><dd>{esc(cell['example'])}</dd></div><div><dt>{esc(p['evidence'])}</dt><dd>{esc(cell['evidence'])}</dd></div></dl>{controls}</article>'''
+    (meta if intent_id.startswith('M') else direct).append(card)
   skill=RESOURCES['open_skill']
   return head(lang,p['meta_title'],'prompts')+f'''<main id="main" class="prompt-library-page"><section class="prompt-library-hero"><div class="shell">{breadcrumb(lang,'prompts',T[lang]['prompts'])}<div class="prompt-library-hero-grid"><div class="prompt-library-hero-copy"><span class="eyebrow">{esc(p['eyebrow'])}</span><h1>{esc(p['title'])}</h1><p class="lead">{esc(p['lead'])}</p><div class="actions"><a class="btn" href="#directos">{esc(hero_cta)}{ui_icon('arrow')}</a><a class="btn secondary" href="../playbook/index.html">{esc(p['back'])}{ui_icon('arrow')}</a></div></div>{hero_map}</div></div></section><section class="prompt-library-section shell" id="directos"><div class="section-head"><span class="eyebrow">{esc(p['direct_label'])}</span><h2 class="h2">{esc(p['direct_title'])}</h2></div><div class="library-prompt-list">{''.join(direct)}</div></section><section class="prompt-library-section prompt-library-meta" id="metaprompts"><div class="shell"><div class="section-head"><span class="eyebrow">{esc(p['meta_label'])}</span><h2 class="h2">{esc(p['meta_title_section'])}</h2></div><div class="library-prompt-list">{''.join(meta)}</div><aside class="prompt-library-source"><p>{esc(p['skill_note'])}</p><a class="btn secondary" href="{skill['url']}" target="_blank" rel="noopener noreferrer">{esc(skill['locales'][lang]['cta'])}{ui_icon('external')}</a><a class="btn" href="../workbook/index.html">{esc(p['workbook'])}{ui_icon('arrow')}</a></aside></div></section></main>'''+end(lang,'prompts')
 
@@ -1061,7 +1124,8 @@ def build():
   chrome_binding['breadcrumbs']=chrome_spec['breadcrumbs']
   editorial_binding={'schema_version':EDITORIAL['schema_version'],'source':'src/editorial-sitemap-spec-v1.json','source_sha256':source_hashes['editorial-sitemap-spec-v1.json'],'self_sha256':EDITORIAL['self_sha256'],'pages':list(EDITORIAL_PAGES),'rendered_pages':len(EDITORIAL_PAGES)*len(LANGS)*len(AUDIENCES),'canonical_count':len(html_outputs),'state':EDITORIAL['state'],'publication_authorized':False}
   parity_binding={'schema_version':PARITY['schema_version'],'source':'src/editorial-parity-spec-v1.json','source_sha256':source_hashes['editorial-parity-spec-v1.json'],'self_sha256':PARITY['self_sha256'],'matrix':PARITY['matrix'],'fallback_policy':PARITY['fallback_policy'],'shared_allowlist':[item['id'] for item in PARITY['shared_allowlist']],'inventory':str(inventory_path.relative_to(DIST)),'inventory_sha256':hashes[str(inventory_path.relative_to(DIST))],'inventory_self_sha256':inventory['self_sha256'],'state':PARITY['state'],'publication_authorized':False}
-  prompt_binding={'schema_version':PROMPT_LIBRARY['schema_version'],'source':'src/prompt-library-spec-v1.json','source_sha256':source_hashes['prompt-library-spec-v1.json'],'format':prompt_spec_contract['format'],'anatomy':prompt_spec_contract['anatomy'],'prompt_count':PROMPT_LIBRARY['prompt_count']+PROMPT_LIBRARY['meta_prompt_count'],'rendered_variants':len(LANGS)*len(AUDIENCES),'reference_sources':[item['url'] for item in PROMPT_LIBRARY['reference_sources']],'chain_of_thought_policy':prompt_spec_contract['chain_of_thought_policy'],'intent_authority':{'schema_version':PROMPT_SPEC_AUTHORITY['schema_version'],'source':'src/prompt-spec-authority-v1.json','source_sha256':source_hashes['prompt-spec-authority-v1.json'],'self_sha256':PROMPT_SPEC_AUTHORITY['self_sha256'],'rights':PROMPT_SPEC_AUTHORITY['source_provenance']['rights'],'state':PROMPT_SPEC_AUTHORITY['state'],'publication_authorized':False},'state':PROMPT_LIBRARY['state'],'publication_authorized':False}
+  contract_binding={'schema_version':'prompt-intent-contract-v1','source':'src/prompt-contracts','surfaces':{surface:list(ids) for surface,ids in PROMPT_CONTRACT_SURFACES.items()},'contract_count':len(PROMPT_CONTRACTS),'rendered_cells':len(PROMPT_CONTRACTS)*len(LANGS)*len(AUDIENCES),'self_sha256':{intent_id:contract['self_sha256'] for intent_id,contract in PROMPT_CONTRACTS.items()},'fallback_policy':'forbidden','why_panel':True,'intent_authority':{'schema_version':PROMPT_INTENT_AUTHORITY['schema_version'],'source':'src/prompt-intent-authority-v2.json','source_sha256':source_hashes['prompt-intent-authority-v2.json'],'self_sha256':PROMPT_INTENT_AUTHORITY['self_sha256'],'status':PROMPT_INTENT_AUTHORITY['status'],'rights':PROMPT_INTENT_AUTHORITY['source_provenance']['rights'],'state':PROMPT_INTENT_AUTHORITY['state'],'publication_authorized':False},'state':'RENDERED_DRAFT','publication_authorized':False}
+  prompt_binding={'schema_version':PROMPT_LIBRARY['schema_version'],'source':'src/prompt-library-spec-v1.json','source_sha256':source_hashes['prompt-library-spec-v1.json'],'format':prompt_spec_contract['format'],'anatomy':prompt_spec_contract['anatomy'],'prompt_count':PROMPT_LIBRARY['prompt_count']+PROMPT_LIBRARY['meta_prompt_count'],'rendered_variants':len(LANGS)*len(AUDIENCES),'reference_sources':[item['url'] for item in PROMPT_LIBRARY['reference_sources']],'chain_of_thought_policy':prompt_spec_contract['chain_of_thought_policy'],'intent_authority':{'schema_version':PROMPT_SPEC_AUTHORITY['schema_version'],'source':'src/prompt-spec-authority-v1.json','source_sha256':source_hashes['prompt-spec-authority-v1.json'],'self_sha256':PROMPT_SPEC_AUTHORITY['self_sha256'],'rights':PROMPT_SPEC_AUTHORITY['source_provenance']['rights'],'state':PROMPT_SPEC_AUTHORITY['state'],'publication_authorized':False},'state':PROMPT_LIBRARY['state'],'publication_authorized':False,'prompt_contracts':contract_binding}
   manifest={'schema_version':'build-manifest-v2','build_id':'nivel-0-learning-resources-v10','state':'RENDERED_DRAFT','publication_authorized':False,'compiler':{'ref':'scripts/build.py','sha256':hashlib.sha256(Path(__file__).read_bytes()).hexdigest()},'variants':{'locales':list(LANGS),'audiences':list(AUDIENCES),'resources':['landing','workbook','playbook','prompts','deck'],'editorial_pages':list(EDITORIAL_PAGES),'canonical_pages':len(html_outputs)},'digital_brand':{'release_id':brand_manifest['releaseId'],'manifest_sha256':MANIFEST_RAW,'receipt_sha256':RECEIPT_RAW,'usage':['tokens','fonts','organization_mark','asset_rights'],'runtime_mount':False,'network_required':False,'publication_authority':False},'conoce_chrome':chrome_binding,'editorial_sitemap':editorial_binding,'editorial_parity':parity_binding,'prompt_library':prompt_binding,'official_masterclass':{'source':DECK_RESOURCE['source_asset'],'sha256':DECK_RESOURCE['sha256'],'media_type':DECK_RESOURCE['media_type'],'document_language':DECK_RESOURCE['document_language'],'page_count':DECK_RESOURCE['page_count'],'rendered_variants':len(LANGS)*len(AUDIENCES),'primary_surface':True,'publication_authorized':False},'intrapage_navigation':{'schema_version':INTRAPAGE_NAV['schema_version'],'source':'src/intrapage-navigation-spec-v1.json','source_sha256':source_hashes['intrapage-navigation-spec-v1.json'],'desktop_width_px':INTRAPAGE_NAV['desktop_width_px'],'rendered_pages':len(html_outputs),'publication_authorized':False},'method_identity':{'schema_version':METHOD_IDENTITY['schema_version'],'display_label':METHOD_IDENTITY['display_label'],'role':METHOD_IDENTITY['role'],'generator_sha256':hashlib.sha256((ROOT/METHOD_IDENTITY['source']['generator']).read_bytes()).hexdigest(),'assets':{name:item['sha256'] for name,item in METHOD_IDENTITY['assets'].items()},'resources':METHOD_IDENTITY['usage']['resources'],'rendered_pages':relevant_pages},'outputs':hashes,'sources':source_hashes,'self_hash_model':'sha256(sorted-json-without-self_sha256)'}
   manifest['self_sha256']=hashlib.sha256((json.dumps({key:value for key,value in manifest.items() if key!='self_sha256'},ensure_ascii=False,sort_keys=True,separators=(',',':'))+'\n').encode('utf-8')).hexdigest()
   write(DIST/'build-manifest.json',json.dumps(manifest,ensure_ascii=False,sort_keys=True,indent=2)+'\n')
