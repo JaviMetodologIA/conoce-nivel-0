@@ -114,7 +114,7 @@
         "when": "el proceso avanza con notas dictadas por varias personas y nadie sabe qué quedó decidido.",
         "example": "Grabación de una reunión donde tres personas describieron el mismo problema de forma distinta.",
         "evidence": "versión limpia con cada voz atribuida, hechos, interpretaciones y vacíos separados, lo entendido confirmado en cinco puntos, decisiones pendientes con dueño y riesgo, y hasta tres preguntas estratégicas dirigidas a quien puede responderlas.",
-        "prompt": "Necesitamos ordenar el dictado de una sesión de [EQUIPO] sobre [PROCESO] antes del taller. Lo pego aquí: {{BRAIN_DUMP}}. Trabaja solo con ese dictado y con los adjuntos realmente recibidos: no inventes frases, datos ni adjuntos que nadie haya dictado. Quita repeticiones en modo conservador, sin borrar intención, matices ni el vocabulario propio de [PROCESO]. Atribuye cada idea a quien la dijo; si el dictado no lo permite, márcala como no atribuida en vez de adivinar. Si dos voces de [EQUIPO] se contradicen, deja ambas y marca la contradicción; no la resuelvas. Separa hechos dichos, interpretaciones tuyas y vacíos. Confirma lo entendido en máximo cinco puntos y declara lo no interpretable. Lista las decisiones pendientes del equipo con un dueño propuesto y, para cada una, el riesgo operativo de seguir sin decidirla. Después haz máximo tres preguntas estratégicas, una por turno y esperando respuesta, dirigidas a quien pueda responderlas. Cierra con la versión limpia y qué cambió en lo entendido, en un formato listo para revisión por alguien que no estuvo en la sesión. Si el dictado ya llega limpio y atribuido, dilo y devuelve solo los vacíos. No propongas todavía solución ni herramienta.",
+        "prompt": "Necesitamos ordenar el dictado de una sesión de [EQUIPO] sobre [PROCESO] antes del taller. Lo pego aquí: {{BRAIN_DUMP}}. Trabaja solo con ese dictado y con los adjuntos realmente recibidos: no inventes frases, datos ni adjuntos que nadie haya dictado. Quita repeticiones en modo conservador, sin borrar intención, matices ni el vocabulario propio de [PROCESO]. Atribuye cada idea a quien la dijo; si el dictado no lo permite, márcala como no atribuida en vez de adivinar. Si el dictado es inaudible o ininteligible, pide que se repita la grabación en vez de limpiarlo. Si dos voces de [EQUIPO] se contradicen, deja ambas y marca la contradicción; no la resuelvas. Separa hechos dichos, interpretaciones tuyas y vacíos. Confirma lo entendido en máximo cinco puntos y declara lo no interpretable. Lista las decisiones pendientes del equipo con un dueño propuesto y, para cada una, el riesgo operativo de seguir sin decidirla. Después haz máximo tres preguntas estratégicas, una por turno y esperando respuesta, dirigidas a quien pueda responderlas. Cierra con la versión limpia y qué cambió en lo entendido, en un formato listo para revisión por alguien que no estuvo en la sesión. Si el dictado ya llega limpio y atribuido, dilo y devuelve solo los vacíos. No propongas todavía solución ni herramienta.",
         "level_spec": {
           "role": "Editor de pensamiento fiel a las varias voces de la sesión, que confirma antes de resolver",
           "spec_role": "Especialista en preparación de casos y encargos de aprendizaje",
@@ -147,6 +147,7 @@
           ],
           "guardrails": [
             "No inventar frases, datos ni adjuntos que nadie haya dictado",
+            "Dictado vacío o ininteligible: pedir que se repita la grabación, nunca completarla",
             "No adivinar autoría: sin evidencia en el dictado, la idea queda no atribuida",
             "No resolver contradicciones entre voces ni proponer herramienta: el encargo es B2 y el preplan del Notebook es B3"
           ],
@@ -155,7 +156,8 @@
             "Contradicciones entre voces señaladas sin resolver",
             "Confirmación de lo entendido en cinco puntos",
             "Decisiones pendientes con dueño propuesto y riesgo operativo",
-            "Hasta tres preguntas estratégicas secuenciales"
+            "Hasta tres preguntas estratégicas secuenciales",
+            "Qué cambió en lo entendido"
           ],
           "dod": "Cada idea queda atribuida o marcada como no atribuida, los cinco puntos quedan confirmados o corregidos y cada decisión pendiente tiene dueño propuesto y riesgo declarado.",
           "edge_cases": [
@@ -176,7 +178,7 @@
           ],
           "tradeoffs": [
             "Atribuir voces alarga el resumen a cambio de que las decisiones tengan dueño",
-            "Este turno renuncia al control de nivel de limpieza que sí expone la celda individual: con varias voces, comprimir agresivamente borra autoría, así que el nivel queda fijo en conservador"
+            "Este turno renuncia al control de nivel de limpieza que sí expone la celda individual: con varias voces, comprimir agresivamente borra autoría, así que el nivel queda fijo en conservador. La definición de terminado original prometía que la persona reconoce su intención y «descubre posibilidades»: aquí se sustituye por hechos del turno —ideas atribuidas o marcadas, cinco puntos confirmados y decisiones con dueño y riesgo— porque el descubrimiento no lo produce ni lo verifica el prompt"
           ],
           "assumptions": [
             "El dictado proviene de una sesión real y no hay más registro disponible que el pegado"
@@ -303,7 +305,7 @@
         "when": "the process runs on notes dictated by several people and nobody knows what was actually decided.",
         "example": "A meeting recording where three people described the same problem in different words.",
         "evidence": "clean version with every voice attributed, facts, interpretations and gaps separated, understanding confirmed in five points, pending decisions with owner and risk, and up to three strategic questions aimed at whoever can answer them.",
-        "prompt": "We need to order the dictation of a [TEAM] session about [PROCESS] before the workshop. I paste it here: {{BRAIN_DUMP}}. Work only with that dictation and the attachments actually received: do not invent sentences, data or attachments nobody dictated. Strip repetition conservatively, without erasing intent, nuance or the vocabulary specific to [PROCESS]. Attribute every idea to whoever said it; if the dictation does not support that, mark it unattributed instead of guessing. If two voices in [TEAM] contradict each other, keep both and mark the contradiction; do not resolve it. Separate stated facts, your interpretations and gaps. Confirm the understanding in five points at most and declare what you could not interpret. List the pending decisions of the team with a proposed owner and, for each one, the operational risk of moving on without deciding it. Then ask at most three strategic questions, one per turn and waiting for the answer, aimed at whoever can answer them. Close with the clean version and what changed in the understanding, in a format ready for review by someone who was not in the session. If the dictation already arrives clean and attributed, say so and return only the gaps. Do not propose a solution or a tool yet.",
+        "prompt": "We need to order the dictation of a [TEAM] session about [PROCESS] before the workshop. I paste it here: {{BRAIN_DUMP}}. Work only with that dictation and the attachments actually received: do not invent sentences, data or attachments nobody dictated. Strip repetition conservatively, without erasing intent, nuance or the vocabulary specific to [PROCESS]. Attribute every idea to whoever said it; if the dictation does not support that, mark it unattributed instead of guessing. If the dictation is inaudible or unintelligible, ask for the recording again instead of cleaning it. If two voices in [TEAM] contradict each other, keep both and mark the contradiction; do not resolve it. Separate stated facts, your interpretations and gaps. Confirm the understanding in five points at most and declare what you could not interpret. List the pending decisions of the team with a proposed owner and, for each one, the operational risk of moving on without deciding it. Then ask at most three strategic questions, one per turn and waiting for the answer, aimed at whoever can answer them. Close with the clean version and what changed in the understanding, in a format ready for review by someone who was not in the session. If the dictation already arrives clean and attributed, say so and return only the gaps. Do not propose a solution or a tool yet.",
         "level_spec": {
           "role": "Thought editor faithful to the several voices of a session, who confirms before solving",
           "spec_role": "Specialist in preparing cases and learning assignments",
@@ -336,6 +338,7 @@
           ],
           "guardrails": [
             "Never invent sentences, data or attachments nobody dictated",
+            "Empty or unintelligible dictation: ask for the recording again, never complete it",
             "Never guess authorship: without support in the dictation the idea stays unattributed",
             "Never resolve contradictions between voices or propose a tool: the assignment is B2 and the Notebook preplan is B3"
           ],
@@ -344,7 +347,8 @@
             "Contradictions between voices flagged and left unresolved",
             "Understanding confirmed in five points",
             "Pending decisions with proposed owner and operational risk",
-            "Up to three sequential strategic questions"
+            "Up to three sequential strategic questions",
+            "What changed in the understanding"
           ],
           "dod": "Every idea ends up attributed or marked unattributed, the five points end up confirmed or corrected, and each pending decision carries a proposed owner and a declared risk.",
           "edge_cases": [
@@ -365,7 +369,7 @@
           ],
           "tradeoffs": [
             "Attributing voices lengthens the summary in exchange for decisions that have an owner",
-            "This turn gives up the cleaning-level control the individual cell exposes: with several voices, aggressive compression erases authorship, so the level stays pinned to conservative"
+            "This turn gives up the cleaning-level control the individual cell exposes: with several voices, aggressive compression erases authorship, so the level stays pinned to conservative. The original definition of done promised the person recognizes their intent and \"discovers possibilities\": here it is replaced by facts of the turn — ideas attributed or marked, five points confirmed, decisions with owner and risk — because discovery is neither produced nor verified by the prompt"
           ],
           "assumptions": [
             "The dictation comes from a real session and no record beyond the pasted text is available"
@@ -492,7 +496,7 @@
         "when": "o processo avança com notas ditadas por várias pessoas e ninguém sabe o que ficou decidido.",
         "example": "Gravação de uma reunião em que três pessoas descreveram o mesmo problema de formas diferentes.",
         "evidence": "versão limpa com cada voz atribuída, fatos, interpretações e lacunas separados, entendimento confirmado em cinco pontos, decisões pendentes com dono e risco, e até três perguntas estratégicas dirigidas a quem pode respondê-las.",
-        "prompt": "Precisamos organizar o ditado de uma sessão de [EQUIPE] sobre [PROCESSO] antes da oficina. Colo aqui: {{BRAIN_DUMP}}. Trabalhe somente com esse ditado e com os anexos realmente recebidos: não invente frases, dados nem anexos que ninguém tenha ditado. Remova repetições em modo conservador, sem apagar intenção, nuances nem o vocabulário próprio de [PROCESSO]. Atribua cada ideia a quem a disse; se o ditado não sustentar isso, marque como não atribuída em vez de adivinhar. Se duas vozes de [EQUIPE] se contradisserem, mantenha ambas e marque a contradição; não a resolva. Separe fatos declarados, suas interpretações e lacunas. Confirme o entendimento em no máximo cinco pontos e declare o que não conseguiu interpretar. Liste as decisões pendentes da equipe com um dono proposto e, para cada uma, o risco operacional de seguir sem decidi-la. Depois faça no máximo três perguntas estratégicas, uma por turno e esperando resposta, dirigidas a quem possa respondê-las. Termine com a versão limpa e o que mudou no entendimento, em formato pronto para revisão por alguém que não esteve na sessão. Se o ditado já chegar limpo e atribuído, diga e devolva apenas as lacunas. Ainda não proponha solução nem ferramenta.",
+        "prompt": "Precisamos organizar o ditado de uma sessão de [EQUIPE] sobre [PROCESSO] antes da oficina. Colo aqui: {{BRAIN_DUMP}}. Trabalhe somente com esse ditado e com os anexos realmente recebidos: não invente frases, dados nem anexos que ninguém tenha ditado. Remova repetições em modo conservador, sem apagar intenção, nuances nem o vocabulário próprio de [PROCESSO]. Atribua cada ideia a quem a disse; se o ditado não sustentar isso, marque como não atribuída em vez de adivinhar. Se o ditado estiver inaudível ou ininteligível, peça que a gravação seja repetida em vez de limpá-lo. Se duas vozes de [EQUIPE] se contradisserem, mantenha ambas e marque a contradição; não a resolva. Separe fatos declarados, suas interpretações e lacunas. Confirme o entendimento em no máximo cinco pontos e declare o que não conseguiu interpretar. Liste as decisões pendentes da equipe com um dono proposto e, para cada uma, o risco operacional de seguir sem decidi-la. Depois faça no máximo três perguntas estratégicas, uma por turno e esperando resposta, dirigidas a quem possa respondê-las. Termine com a versão limpa e o que mudou no entendimento, em formato pronto para revisão por alguém que não esteve na sessão. Se o ditado já chegar limpo e atribuído, diga e devolva apenas as lacunas. Ainda não proponha solução nem ferramenta.",
         "level_spec": {
           "role": "Editor de pensamento fiel às várias vozes da sessão, que confirma antes de resolver",
           "spec_role": "Especialista em preparação de casos e encargos de aprendizagem",
@@ -525,6 +529,7 @@
           ],
           "guardrails": [
             "Não inventar frases, dados nem anexos que ninguém tenha ditado",
+            "Ditado vazio ou ininteligível: pedir que a gravação seja repetida, nunca completá-la",
             "Não adivinhar autoria: sem sustentação no ditado, a ideia fica não atribuída",
             "Não resolver contradições entre vozes nem propor ferramenta: o encargo é B2 e o pré-plano do Notebook é B3"
           ],
@@ -533,7 +538,8 @@
             "Contradições entre vozes assinaladas sem resolução",
             "Entendimento confirmado em cinco pontos",
             "Decisões pendentes com dono proposto e risco operacional",
-            "Até três perguntas estratégicas sequenciais"
+            "Até três perguntas estratégicas sequenciais",
+            "O que mudou no entendimento"
           ],
           "dod": "Cada ideia fica atribuída ou marcada como não atribuída, os cinco pontos ficam confirmados ou corrigidos e cada decisão pendente tem dono proposto e risco declarado.",
           "edge_cases": [
@@ -554,7 +560,7 @@
           ],
           "tradeoffs": [
             "Atribuir vozes alonga o resumo em troca de decisões com dono",
-            "Este turno abre mão do controle de nível de limpeza que a célula individual expõe: com várias vozes, comprimir de forma agressiva apaga autoria, então o nível fica fixo em conservador"
+            "Este turno abre mão do controle de nível de limpeza que a célula individual expõe: com várias vozes, comprimir de forma agressiva apaga autoria, então o nível fica fixo em conservador. A definição de concluído original prometia que a pessoa reconhece sua intenção e «descobre possibilidades»: aqui troca-se por fatos do turno — ideias atribuídas ou marcadas, cinco pontos confirmados e decisões com dono e risco — porque a descoberta não é produzida nem verificada pelo prompt"
           ],
           "assumptions": [
             "O ditado vem de uma sessão real e não há registro além do texto colado"
@@ -582,5 +588,5 @@
     }
   },
   "self_hash_model": "sha256(sorted-json-without-self_sha256)",
-  "self_sha256": "630dc11847dd780e308f1fe39a6614a51c675f3d488a32d919e8eb8f32f77969"
+  "self_sha256": "acaa5821397bd773544377d29fef4e14db2e25e4185629e45dda8bdc5a8e2939"
 }

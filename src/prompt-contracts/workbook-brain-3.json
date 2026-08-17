@@ -197,7 +197,7 @@
           ],
           "tradeoffs": [
             "Aplicar la exclusión como política frena el arranque a cambio de no cargar material que después haya que retirar",
-            "Este turno renuncia al criterio caso por caso de quien pega el material, que sí conserva la celda individual: aquí la razón debe citar la política del equipo para que la exclusión sea revisable por un tercero"
+            "Este turno renuncia al criterio caso por caso de quien pega el material, que sí conserva la celda individual: aquí la razón debe citar la política del equipo para que la exclusión sea revisable por un tercero. La definición de terminado original prometía que el preplan «permite abrir NotebookLM y comenzar la práctica»: eso ocurre fuera del turno, así que aquí se comprueban las piezas entregadas —listas de material con política citada, rol con límite, cinco pasos, primera evidencia y su revisor—"
           ],
           "assumptions": [
             "Existe una política de privacidad y derechos aplicable, y un rol con autoridad para la decisión final"
@@ -415,7 +415,7 @@
           ],
           "tradeoffs": [
             "Applying exclusion as policy slows the start in exchange for never loading material that has to be pulled back",
-            "This turn gives up the case-by-case judgement of whoever pasted the material, which the individual cell keeps: here the reason must cite team policy so a third party can check the exclusion"
+            "This turn gives up the case-by-case judgement of whoever pasted the material, which the individual cell keeps: here the reason must cite team policy so a third party can check the exclusion. The original definition of done promised the preplan \"lets the person open NotebookLM and begin\": that happens outside the turn, so what is checked here are the delivered pieces — material lists with the policy cited, role with boundary, five steps, first evidence and its reviewer"
           ],
           "assumptions": [
             "An applicable privacy and rights policy exists, and so does a role with authority for the final decision"
@@ -633,7 +633,7 @@
           ],
           "tradeoffs": [
             "Aplicar a exclusão como política freia o começo em troca de nunca carregar material que depois precise ser retirado",
-            "Este turno abre mão do critério caso a caso de quem colou o material, que a célula individual mantém: aqui a razão precisa citar a política da equipe para que a exclusão seja verificável por terceiro"
+            "Este turno abre mão do critério caso a caso de quem colou o material, que a célula individual mantém: aqui a razão precisa citar a política da equipe para que a exclusão seja verificável por terceiro. A definição de concluído original prometia que o pré-plano «permite abrir o NotebookLM e iniciar a prática»: isso acontece fora do turno, então aqui se verificam as peças entregues — listas de material com política citada, papel com limite, cinco passos, primeira evidência e seu revisor"
           ],
           "assumptions": [
             "Existe uma política de privacidade e direitos aplicável e um papel com autoridade para a decisão final"
@@ -669,5 +669,5 @@
     }
   },
   "self_hash_model": "sha256(sorted-json-without-self_sha256)",
-  "self_sha256": "fc29d96f9e78aa24f400dae4387b9092bad6725e2804f1ff085c3bb579bbd0e5"
+  "self_sha256": "58da67697f6d26097ac68700466b799ce5042f3c37a605b63abce0851653bff0"
 }

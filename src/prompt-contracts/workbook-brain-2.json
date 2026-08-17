@@ -185,7 +185,7 @@
           ],
           "tradeoffs": [
             "Acordar el encargo consume una ronda de revisión a cambio de no repartir horas de aprendizaje sobre un objetivo ambiguo",
-            "Este turno no expone el control de la evidencia a medida individual que sí ofrece la celda personal: aquí la evidencia debe ser comparable entre miembros, y esa comparabilidad se paga con menos ajuste al nivel de cada persona"
+            "Este turno no expone el control de la evidencia a medida individual que sí ofrece la celda personal: aquí la evidencia debe ser comparable entre miembros, y esa comparabilidad se paga con menos ajuste al nivel de cada persona. La definición de terminado original prometía que el encargo «permite decidir después qué Notebook y qué fuentes hacen falta»: eso ocurre en un turno posterior, así que aquí se comprueban las secciones confirmadas, el rol nombrado y la evidencia declarable por un revisor"
           ],
           "assumptions": [
             "Existe un rol con autoridad para tomar la decisión final y un proceso donde se aplicará el aprendizaje"
@@ -383,7 +383,7 @@
           ],
           "tradeoffs": [
             "Agreeing the assignment costs one review round in exchange for not spending learning hours on an ambiguous target",
-            "This turn drops the tailored individual evidence the personal cell allows: here the evidence must be comparable across members, and that comparability is paid for with less fit to each person’s level"
+            "This turn drops the tailored individual evidence the personal cell allows: here the evidence must be comparable across members, and that comparability is paid for with less fit to each person’s level. The original definition of done promised the assignment \"enables a later decision about the needed Notebook and sources\": that happens in a later turn, so what is checked here is the confirmed sections, the named role and evidence a reviewer can declare"
           ],
           "assumptions": [
             "A role with authority for the final decision exists, and so does a process where the learning will be applied"
@@ -581,7 +581,7 @@
           ],
           "tradeoffs": [
             "Acordar o encargo consome uma rodada de revisão em troca de não gastar horas de aprendizagem sobre um objetivo ambíguo",
-            "Este turno abre mão da evidência sob medida individual que a célula pessoal permite: aqui a evidência precisa ser comparável entre membros, e essa comparabilidade se paga com menos ajuste ao nível de cada pessoa"
+            "Este turno abre mão da evidência sob medida individual que a célula pessoal permite: aqui a evidência precisa ser comparável entre membros, e essa comparabilidade se paga com menos ajuste ao nível de cada pessoa. A definição de concluído original prometia que o encargo «permite decidir depois qual Notebook e quais fontes são necessárias»: isso acontece num turno posterior, então aqui se verificam as seções confirmadas, o papel nomeado e a evidência declarável por um revisor"
           ],
           "assumptions": [
             "Existe um papel com autoridade para a decisão final e um processo onde a aprendizagem será aplicada"
@@ -609,5 +609,5 @@
     }
   },
   "self_hash_model": "sha256(sorted-json-without-self_sha256)",
-  "self_sha256": "fe616cd0791ec0d1128b45463077420f7e452d73af6d284d2707ee2c442e1ab7"
+  "self_sha256": "890638b0c9059d38c7da1dd1217b4549e79b5ae42ef64bed5b6adf078187c65d"
 }
