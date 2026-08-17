@@ -32,6 +32,7 @@ CURRENT_AUDIENCE='persona'
 LANDING=json.loads((SRC/'landing-spec-v2.json').read_text(encoding='utf-8'))
 RESOURCES=json.loads((SRC/'public-resource-spec-v1.json').read_text(encoding='utf-8'))
 ADVANCED=json.loads((SRC/'workbook-advanced-v1.json').read_text(encoding='utf-8'))
+WORKBOOK_PROMPTS=json.loads((SRC/'workbook-prompts-v1.json').read_text(encoding='utf-8'))
 PLAYBOOK=json.loads((SRC/'playbook-spec-v1.json').read_text(encoding='utf-8'))
 METHOD_IDENTITY=PLAYBOOK.get('method_identity',{})
 PROMPT_LIBRARY=json.loads((SRC/'prompt-library-spec-v1.json').read_text(encoding='utf-8'))
@@ -367,44 +368,8 @@ RESOURCE_NAMES={
   {'masterclass':'Trabalho agêntico','workbook':'Projete seu primeiro fluxo agêntico','playbook':'Orquestre agentes com supervisão humana','prompts':'Assistentes, agentes, ferramentas e controle'},
 ]}
 
-PROMPTS_ES=[
-('Primera base con propósito','Quiero construir una base de conocimiento útil y verificable sobre [TEMA].\n\nLa necesito para [DECISIÓN, PROYECTO O RESULTADO]. Mi contexto es [CONTEXTO] y la audiencia es [AUDIENCIA].\n\nDelimita el alcance; explica conceptos esenciales y cambios recientes; prioriza fuentes primarias; muestra tensiones y límites; separa hechos, interpretaciones e incertidumbre; recomienda fuentes con título, autor, fecha, enlace y razón. Entrega un informe citado. No presentes como certeza lo que las fuentes no permiten afirmar.'),
-('Auditar la base','Audita esta base usando únicamente las fuentes seleccionadas y cita cada hallazgo. Revisa cobertura, tensiones, ambigüedades, calidad, vigencia, sesgos y redundancias. Entrega un resumen de máximo 8 líneas, una tabla Hallazgo | Tipo | Evidencia | Impacto | Acción, vacíos priorizados y una conclusión honesta sobre qué puedo afirmar hoy.'),
-('Investigación a medida','Usa el diagnóstico anterior. Elige el vacío de mayor impacto para [RESULTADO] y conviértelo en un prompt listo para Deep Research. Incluye objetivo, preguntas dentro y fuera, tensiones, fuentes prioritarias, contexto temporal o regional, evidencia mínima, formato citado y criterios de aceptación. Si falta contexto material, haz máximo 3 preguntas.'),
-('Cerrar o repetir','Ya importé nuevas fuentes. Compara la base actual con la auditoría anterior: vacío cerrado, afirmaciones confirmadas o refutadas, tensiones nuevas, valor de fuentes y riesgo residual. Emite [BASE SUFICIENTE] con límites o [REPETIR INVESTIGACIÓN] con el siguiente prompt. No busques perfección: detente cuando la evidencia sea suficiente para el propósito.'),
-('Activar un rol','Actúa como [PROFESOR | ASESOR | COACH] especializado en este Notebook. Basa todo en las fuentes y cítalas; distingue evidencia, inferencia y dato faltante; declara cuando la base no alcance; adapta la profundidad y cierra con el siguiente paso del rol. Confirma el rol y pregunta qué resultado quiero lograr.'),
-('Generar contenido','Crea [TIPO DE CONTENIDO] para [AUDIENCIA] con objetivo [RESULTADO]. Identifica tesis, evidencia, tensión y límite; propone estructura; usa citas; no añadas hechos externos; marca inferencias. Entrega pieza final, fuentes y tres decisiones editoriales.'),
-('Diseñar casos de uso','Diseña 10 casos de uso para [ROL/EQUIPO]. Para cada uno indica problema, usuario, evidencia citada, entrada, resultado, trabajo humano y de IA, riesgo y control, complejidad e impacto, y un experimento de 7 días. Ordena valor frente a esfuerzo y recomienda uno.'),
-('Evaluar comprensión','Evalúame sobre [TEMA] usando solo las fuentes. Haz una pregunta a la vez y avanza por fundamentos, intermedio, avanzado y aplicación. Evalúa cada respuesta, explica y cita. Termina con fortalezas, lagunas, fuentes a revisar y una práctica.'),
-('Simular una conversación','Simula una [ENTREVISTA | QBR | DEFENSA] sobre [TEMA]. Pregunta audiencia, resultado y tiempo. Haz una pregunta a la vez; incluye evidencia, alternativas, riesgos y límites. Evalúa cada respuesta y termina con fortalezas, vacíos y tres mejoras.'),
-('Configurar el Notebook','Diseña la configuración final para [PROPÓSITO], [USUARIO], [RESULTADO] y [RESTRICCIONES]. Entrega: A) instrucción personalizada con rol, tareas, límites, citas y calidad; B) exactamente 10 prompts de inicio; C) guía de prueba en 5 líneas. Separa hechos, inferencias y datos faltantes.')]
-
-PROMPTS_EN=[
-('Build a purposeful source base','I want a useful, verifiable knowledge base about [TOPIC] for [DECISION OR RESULT]. My context is [CONTEXT] and audience is [AUDIENCE]. Define scope and questions; explain essentials and recent changes; prioritize primary sources; include tensions and evidence limits; separate facts, interpretations and uncertainty; recommend sources with title, author, date, link and reason. Deliver a cited report. Do not present more certainty than the sources support.'),
-('Audit the source base','Audit this knowledge base using only selected sources and cite every finding. Review coverage, tensions, ambiguities, quality, freshness, bias and redundancy. Deliver: an eight-line executive summary; a Finding | Type | Evidence | Impact | Action table; prioritized gaps; and an honest conclusion about what can and cannot be claimed today.'),
-('Create targeted research','Use the prior diagnosis. Choose the highest-impact gap for [RESULT] and turn it into a prompt ready for Deep Research. Include objective, in-scope and out-of-scope questions, tensions, preferred source types, time or region, minimum evidence, cited format and acceptance criteria. If material context is missing, ask at most three questions first.'),
-('Stop or repeat','I imported new sources. Compare the current base with the previous audit: gap closed, claims confirmed or refuted, new tensions, source value and residual risk. Issue [BASE SUFFICIENT] with limits or [REPEAT RESEARCH] with the next research prompt. Do not seek perfection; stop when evidence is sufficient for the declared purpose.'),
-('Activate a role','Act as a [TEACHER | ADVISOR | COACH] specialized in this Notebook. Ground every response in selected sources and cite them; distinguish evidence, inference and missing data; state when the base is insufficient; adapt depth; close with the role-appropriate next step. Confirm the role and ask what result I want.'),
-('Create content','Create [CONTENT TYPE] for [AUDIENCE] to achieve [RESULT]. Identify thesis, strongest evidence, a tension and a limit; propose structure; cite verifiable claims; add no external facts; label inferences. Deliver the final piece, sources used and three editorial decisions.'),
-('Design use cases','Design 10 use cases for [ROLE/TEAM]. For each: problem, user, cited support, input, expected output, human and AI work, risk and control, complexity and impact, and a seven-day experiment. Rank value against effort and recommend one place to start.'),
-('Assess understanding','Assess me on [TOPIC] using only these sources. Ask one question at a time across foundations, intermediate, advanced and application. Grade each answer, explain and cite. End with strengths, gaps, sources to revisit and one practice.'),
-('Simulate a conversation','Simulate an [INTERVIEW | QBR | DEFENSE] on [TOPIC]. First ask audience, desired outcome and time. Ask one question at a time about evidence, alternatives, risks and limits. Grade each answer and end with strengths, gaps and three improvements.'),
-('Configure the Notebook','Design the final configuration for [PURPOSE], [USER], [RESULT] and [CONSTRAINTS]. Deliver: A) a personalized instruction defining role, tasks, limits, citations and quality; B) exactly 10 starter prompts; C) a five-line test guide. Separate facts, inferences and missing data.')]
-
-PROMPTS_PT=[
-('Construir uma base com propósito','Quero uma base de conhecimento útil e verificável sobre [TEMA] para [DECISÃO OU RESULTADO]. Meu contexto é [CONTEXTO] e o público é [PÚBLICO]. Delimite escopo e perguntas; explique fundamentos e mudanças recentes; priorize fontes primárias; inclua tensões e limites da evidência; separe fatos, interpretações e incerteza; recomende fontes com título, autor, data, link e motivo. Entregue relatório citado. Não apresente mais certeza do que as fontes permitem.'),
-('Auditar a base','Audite esta base usando apenas as fontes selecionadas e cite cada achado. Revise cobertura, tensões, ambiguidades, qualidade, atualidade, vieses e redundâncias. Entregue: resumo de oito linhas; tabela Achado | Tipo | Evidência | Impacto | Ação; lacunas priorizadas; e conclusão honesta sobre o que pode ou não ser afirmado hoje.'),
-('Criar pesquisa sob medida','Use o diagnóstico anterior. Escolha a lacuna de maior impacto para [RESULTADO] e transforme-a em prompt pronto para Deep Research. Inclua objetivo, perguntas dentro e fora do escopo, tensões, fontes prioritárias, tempo ou região, evidência mínima, formato citado e critérios de aceitação. Se faltar contexto material, faça no máximo três perguntas.'),
-('Encerrar ou repetir','Importei novas fontes. Compare a base atual com a auditoria: lacuna fechada, afirmações confirmadas ou refutadas, novas tensões, valor das fontes e risco residual. Emita [BASE SUFICIENTE] com limites ou [REPETIR PESQUISA] com o próximo prompt. Não busque perfeição; pare quando a evidência for suficiente para o propósito.'),
-('Ativar um papel','Atue como [PROFESSOR | ASSESSOR | COACH] especializado neste Notebook. Baseie tudo nas fontes selecionadas e cite-as; diferencie evidência, inferência e dado ausente; declare quando a base não alcançar; adapte a profundidade; encerre com o próximo passo do papel. Confirme o papel e pergunte qual resultado desejo.'),
-('Criar conteúdo','Crie [TIPO DE CONTEÚDO] para [PÚBLICO] com objetivo [RESULTADO]. Identifique tese, evidência forte, tensão e limite; proponha estrutura; cite afirmações verificáveis; não adicione fatos externos; marque inferências. Entregue peça final, fontes e três decisões editoriais.'),
-('Projetar casos de uso','Projete 10 casos de uso para [PAPEL/EQUIPE]. Para cada um: problema, usuário, suporte citado, entrada, resultado, trabalho humano e da IA, risco e controle, complexidade e impacto, e experimento de sete dias. Ordene valor versus esforço e recomende um.'),
-('Avaliar compreensão','Avalie-me sobre [TEMA] usando apenas as fontes. Faça uma pergunta por vez nos níveis fundamentos, intermediário, avançado e aplicação. Avalie cada resposta, explique e cite. Termine com forças, lacunas, fontes a revisar e uma prática.'),
-('Simular uma conversa','Simule uma [ENTREVISTA | QBR | DEFESA] sobre [TEMA]. Primeiro pergunte público, resultado desejado e tempo. Faça uma pergunta por vez sobre evidência, alternativas, riscos e limites. Avalie cada resposta e termine com forças, lacunas e três melhorias.'),
-('Configurar o Notebook','Projete a configuração final para [PROPÓSITO], [USUÁRIO], [RESULTADO] e [RESTRIÇÕES]. Entregue: A) instrução personalizada com papel, tarefas, limites, citações e qualidade; B) exatamente 10 prompts iniciais; C) guia de teste em cinco linhas. Separe fatos, inferências e dados ausentes.')]
-
 def prompt_for(lang,n,title,text):
-    return (PROMPTS_ES if lang=='es' else PROMPTS_EN if lang=='en' else PROMPTS_PT)[n-1]
+    return WORKBOOK_PROMPTS['locales'][lang]['prompts'][n-1]
 
 def esc(s): return html.escape(s,quote=True)
 def ui_icon(name):
@@ -717,27 +682,9 @@ def level_convention_markup(lang):
 
 def prompt_cards(lang,start,end):
   w=W[lang]; out=[]
-  deep_meta={
-    'es':[
-      ('Cuando necesitas una pieza','tipo, audiencia, resultado','pieza + fuentes + decisiones','no sumar hechos externos','Un memo ejecutivo citado'),
-      ('Cuando buscas oportunidades','rol, equipo, contexto','10 casos priorizados','no inventar ROI','Un piloto de 7 días'),
-      ('Cuando debes comprobar dominio','tema, nivel, fuentes','diagnóstico + práctica','no evaluar fuera de la base','Quiz aplicado de cuatro niveles'),
-      ('Antes de una conversación exigente','audiencia, resultado, tiempo','ensayo + mejoras','no simular certeza','QBR con preguntas hostiles'),
-      ('Cuando la base ya es suficiente','propósito, usuario, límites','configuración + 10 inicios','no inventar capacidades','Coach basado en fuentes')],
-    'en':[
-      ('When you need a content piece','type, audience, outcome','piece + sources + decisions','do not add external facts','A cited executive memo'),
-      ('When exploring opportunities','role, team, context','10 ranked use cases','do not invent ROI','A seven-day pilot'),
-      ('When checking mastery','topic, level, sources','diagnosis + practice','do not assess beyond the base','A four-level applied quiz'),
-      ('Before a demanding conversation','audience, outcome, time','rehearsal + improvements','do not simulate certainty','A QBR with hostile questions'),
-      ('When the base is sufficient','purpose, user, limits','configuration + 10 starters','do not invent capabilities','A source-grounded coach')],
-    'pt':[
-      ('Quando precisa de uma peça','tipo, público, resultado','peça + fontes + decisões','não somar fatos externos','Um memo executivo citado'),
-      ('Quando busca oportunidades','papel, equipe, contexto','10 casos priorizados','não inventar ROI','Um piloto de sete dias'),
-      ('Quando verifica domínio','tema, nível, fontes','diagnóstico + prática','não avaliar além da base','Quiz aplicado de quatro níveis'),
-      ('Antes de conversa exigente','público, resultado, tempo','ensaio + melhorias','não simular certeza','QBR com perguntas hostis'),
-      ('Quando a base é suficiente','propósito, usuário, limites','configuração + 10 inícios','não inventar capacidades','Coach baseado em fontes')]}
+  deep_meta={locale:WORKBOOK_PROMPTS['locales'][locale]['deep_meta'] for locale in ('es','en','pt')}
   for n in range(start,end+1):
-    title,text=prompt_for(lang,n,*PROMPTS_ES[n-1]); pid=f'p{n}-{lang}'
+    title,text=prompt_for(lang,n,*WORKBOOK_PROMPTS['locales']['es']['prompts'][n-1]); pid=f'p{n}-{lang}'
     variants=structured_variants(lang,title,text)
     format_ui=prompt_formats_markup(lang,pid,variants,ADVANCED['locales'][lang]['level_convention'])
     flow=('Entradas: tema, propósito y contexto · Acción: ejecutar y revisar · Salida: respuesta citada · Comprobación: contrastar con la fuente · Siguiente: decidir si avanzar.' if lang=='es' else 'Inputs: topic, purpose and context · Action: run and review · Output: cited response · Check: inspect the source · Next: decide whether to continue.' if lang=='en' else 'Entradas: tema, propósito e contexto · Ação: executar e revisar · Saída: resposta citada · Verificação: conferir a fonte · Próximo: decidir se avança.')
