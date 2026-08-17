@@ -113,7 +113,7 @@
         "purpose": "Pesa lo que cambió en la base compartida y decide si el proceso se detiene con límites comunicables o repite, con suficiente definido de forma operativa.",
         "when": "el equipo importó la respuesta del encargo y el proceso debe parar o repetir.",
         "example": "Cuatro fuentes nuevas sobre adopción, importadas al Notebook del área.",
-        "evidence": "comparación punto por punto contra la auditoría previa, afirmaciones confirmadas o refutadas, tensiones nuevas, valor de cada fuente en escala declarada, riesgo residual con su riesgo operativo y veredicto suficiente con límites listos para revisión del responsable.",
+        "evidence": "comparación punto por punto contra la auditoría previa, afirmaciones confirmadas o refutadas, tensiones nuevas, valor de cada fuente en escala declarada, riesgo residual con su riesgo operativo y veredicto suficiente con límites listos para revisión.",
         "prompt": "Paso 4, cierre: importé al Notebook del equipo las fuentes del encargo para [PROPÓSITO] en [PROCESO]. Compara la base con la auditoría, punto por punto: [VACÍO AUDITADO] cerrado o no, afirmaciones confirmadas o refutadas, tensiones nuevas, valor de cada fuente en escala alta/media/baja y riesgo residual con su riesgo operativo. No verifiques afirmación por afirmación: mides el delta contra la auditoría. Emite [BASE SUFICIENTE] con límites comunicables fuera del taller, o [REPETIR INVESTIGACIÓN] con el siguiente prompt, listo para revisión: suficiente = ningún vacío abierto bloquea el proceso. Fuente que contradiga: no hay suficiente sin resolver la tensión. No inventes cierres ni fuentes.",
         "level_spec": {
           "role": "Juez del paso 4 para equipos: pesa el delta compartido y cierra o repite",
@@ -157,6 +157,7 @@
           "dod": "Veredicto revisable: comparación punto por punto completa, riesgo residual y su riesgo operativo escritos, y límites legibles por quien no estuvo en el taller.",
           "edge_cases": [
             "Fuentes nuevas que contradicen la base: la tensión se resuelve antes de cerrar",
+            "Más de 3 vueltas del ciclo: re-delimitar antes de repetir, con o sin visto bueno del responsable",
             "Veredicto sin responsable que lo revise: pedirlo antes de comunicarlo fuera",
             "Vacío auditado no declarado: pedirlo antes de comparar"
           ]
@@ -173,7 +174,7 @@
           ],
           "tradeoffs": [
             "Detenerse con evidencia suficiente a cambio de cobertura incompleta, declarada en límites comunicables",
-            "El consejo «no busques perfección» del texto base se reemplaza por la condición comprobable «ningún vacío abierto bloquea el proceso»; además, el corte por número de vueltas se sustituye por la revisión del responsable, que es quien decide si el ciclo sigue: se pierde el tope automático de tres vueltas y se gana una autoridad explícita. Ninguna otra instrucción del paso 4 se pierde"
+            "El consejo «no busques perfección» del texto base se reemplaza por la condición comprobable «ningún vacío abierto bloquea el proceso»; el tope de tres vueltas se mueve del prompt a los casos borde, donde sigue acotando el ciclo con o sin visto bueno del responsable, porque el margen del prompt se gastó en los límites comunicables. Ninguna instrucción del paso 4 se pierde"
           ],
           "assumptions": [
             "Existe una auditoría previa del equipo y se importaron fuentes nuevas a la base compartida",
@@ -341,6 +342,7 @@
           "dod": "Reviewable verdict: the point-by-point comparison complete, residual risk and its operational risk written, and limits readable by someone who was not in the workshop.",
           "edge_cases": [
             "New sources that contradict the base: the tension is resolved before closing",
+            "More than 3 rounds of the cycle: re-scope before repeating, with or without the owner sign-off",
             "Verdict with no owner to review it: ask before communicating it outside",
             "Audited gap not declared: ask for it before comparing"
           ]
@@ -357,7 +359,7 @@
           ],
           "tradeoffs": [
             "Stopping on sufficient evidence in exchange for incomplete coverage, declared in communicable limits",
-            "The base text advice \"do not seek perfection\" is replaced by the checkable condition \"no open gap blocks the process\"; the round-count cut is also replaced by the owner review, which decides whether the cycle continues: the automatic three-round cap is lost and an explicit authority is gained. No other step 4 instruction is lost"
+            "The base text advice \"do not seek perfection\" is replaced by the checkable condition \"no open gap blocks the process\"; the three-round cap moves from the prompt to the edge cases, where it still bounds the cycle with or without the owner sign-off, because the prompt budget went to the communicable limits. No step 4 instruction is lost"
           ],
           "assumptions": [
             "A previous team audit exists and new sources were imported into the shared base",
@@ -525,6 +527,7 @@
           "dod": "Veredicto revisável: comparação ponto a ponto completa, risco residual e seu risco operacional escritos, e limites legíveis por quem não esteve na oficina.",
           "edge_cases": [
             "Fontes novas que contradizem a base: a tensão é resolvida antes de fechar",
+            "Mais de 3 rodadas do ciclo: redelimitar antes de repetir, com ou sem o aval do responsável",
             "Veredicto sem responsável que o revise: pedir antes de comunicar fora",
             "Lacuna auditada não declarada: pedir antes de comparar"
           ]
@@ -541,7 +544,7 @@
           ],
           "tradeoffs": [
             "Parar com evidência suficiente em troca de cobertura incompleta, declarada em limites comunicáveis",
-            "O conselho «não busque perfeição» do texto base é substituído pela condição verificável «nenhuma lacuna aberta bloqueia o processo»; além disso, o corte por número de rodadas é substituído pela revisão do responsável, que decide se o ciclo continua: perde-se o teto automático de três rodadas e ganha-se uma autoridade explícita. Nenhuma outra instrução do passo 4 se perde"
+            "O conselho «não busque perfeição» do texto base é substituído pela condição verificável «nenhuma lacuna aberta bloqueia o processo»; o teto de três rodadas passa do prompt para os casos borda, onde segue limitando o ciclo com ou sem o aval do responsável, porque a margem do prompt foi para os limites comunicáveis. Nenhuma instrução do passo 4 se perde"
           ],
           "assumptions": [
             "Existe auditoria anterior da equipe e fontes novas foram importadas na base compartilhada",
@@ -570,5 +573,5 @@
     }
   },
   "self_hash_model": "sha256(sorted-json-without-self_sha256)",
-  "self_sha256": "a0c24716b0263a60a522df723384f96ca1b089017909291725be7e1f58017ca3"
+  "self_sha256": "321c4548766cda821b89bbf946159982a1ba9ca932aa6762a56bb5cb866c2cd9"
 }

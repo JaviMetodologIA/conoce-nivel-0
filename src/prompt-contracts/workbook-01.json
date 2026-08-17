@@ -84,7 +84,8 @@
           ],
           "assumptions": [
             "El informe se importará al Notebook como primera fuente y se auditará en el paso siguiente",
-            "La anatomía de delimitar, separar hechos de interpretaciones y priorizar fuentes primarias con razón se hereda de la variante autónoma 01; aquí termina en informe citado, no en criterio de suficiencia"
+            "La anatomía de delimitar, separar hechos de interpretaciones y priorizar fuentes primarias con razón se hereda de la variante autónoma 01; aquí termina en informe citado, no en criterio de suficiencia",
+            "Si hubo preparación previa, el preplan orienta el alcance; no aporta fuentes cargadas: el Notebook sigue vacío al empezar el paso 1"
           ],
           "limits": [
             "Produce la primera base, no una base suficiente: la suficiencia se decide al cerrar el ciclo",
@@ -176,7 +177,8 @@
           ],
           "assumptions": [
             "Existe un equipo que consumirá la base y un proceso donde se aplicará el resultado",
-            "El esqueleto de alcance, hechos frente a interpretaciones y fuentes primarias con razón se hereda de la variante autónoma 01; aquí termina en informe compartible, no en criterio de suficiencia"
+            "El esqueleto de alcance, hechos frente a interpretaciones y fuentes primarias con razón se hereda de la variante autónoma 01; aquí termina en informe compartible, no en criterio de suficiencia",
+            "Si hubo preparación previa, el preplan orienta el alcance; no aporta fuentes cargadas: el Notebook sigue vacío al empezar el paso 1"
           ],
           "limits": [
             "Produce la primera base compartida, no una base aprobada: informa la revisión, no la sustituye",
@@ -270,7 +272,8 @@
           ],
           "assumptions": [
             "The report will be imported into the Notebook as the first source and audited in the next step",
-            "The anatomy of scoping, splitting facts from interpretations and prioritizing primary sources with a reason is inherited from the standalone variant 01; here it ends in a cited report, not in a sufficiency rule"
+            "The anatomy of scoping, splitting facts from interpretations and prioritizing primary sources with a reason is inherited from the standalone variant 01; here it ends in a cited report, not in a sufficiency rule",
+            "If prior preparation happened, the preplan orients the scope; it brings no loaded sources: the Notebook is still empty when step 1 starts"
           ],
           "limits": [
             "It produces the first base, not a sufficient base: sufficiency is decided when the cycle closes",
@@ -362,7 +365,8 @@
           ],
           "assumptions": [
             "A team will consume the base and a process exists where the result applies",
-            "The skeleton of scope, facts versus interpretations and primary sources with a reason is inherited from the standalone variant 01; here it ends in a shareable report, not in a sufficiency rule"
+            "The skeleton of scope, facts versus interpretations and primary sources with a reason is inherited from the standalone variant 01; here it ends in a shareable report, not in a sufficiency rule",
+            "If prior preparation happened, the preplan orients the scope; it brings no loaded sources: the Notebook is still empty when step 1 starts"
           ],
           "limits": [
             "It produces the first shared base, not an approved base: it informs the review, it does not replace it",
@@ -456,7 +460,8 @@
           ],
           "assumptions": [
             "O relatório será importado ao Notebook como primeira fonte e auditado no passo seguinte",
-            "A anatomia de delimitar, separar fatos de interpretações e priorizar fontes primárias com motivo é herdada da variante autônoma 01; aqui termina em relatório citado, não em critério de suficiência"
+            "A anatomia de delimitar, separar fatos de interpretações e priorizar fontes primárias com motivo é herdada da variante autônoma 01; aqui termina em relatório citado, não em critério de suficiência",
+            "Se houve preparação prévia, o preplano orienta o escopo; não traz fontes carregadas: o Notebook segue vazio ao começar o passo 1"
           ],
           "limits": [
             "Produz a primeira base, não uma base suficiente: a suficiência é decidida ao fechar o ciclo",
@@ -548,7 +553,8 @@
           ],
           "assumptions": [
             "Existe uma equipe que consumirá a base e um processo onde o resultado se aplica",
-            "O esqueleto de escopo, fatos versus interpretações e fontes primárias com motivo é herdado da variante autônoma 01; aqui termina em relatório compartilhável, não em critério de suficiência"
+            "O esqueleto de escopo, fatos versus interpretações e fontes primárias com motivo é herdado da variante autônoma 01; aqui termina em relatório compartilhável, não em critério de suficiência",
+            "Se houve preparação prévia, o preplano orienta o escopo; não traz fontes carregadas: o Notebook segue vazio ao começar o passo 1"
           ],
           "limits": [
             "Produz a primeira base compartilhada, não uma base aprovada: informa a revisão, não a substitui",
@@ -573,5 +579,5 @@
     }
   },
   "self_hash_model": "sha256(sorted-json-without-self_sha256)",
-  "self_sha256": "1040272b3c931452da94e66922f6613574a38b9d7d6d55defff303988810dccc"
+  "self_sha256": "4036a8ac39920c8395c1e0916b19d18d0aa49eef581294ebcd19db568c282485"
 }
