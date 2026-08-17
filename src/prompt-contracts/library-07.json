@@ -211,7 +211,7 @@
         "when": "you want a folder of documents to become an assistant you can actually trust.",
         "example": "Notebook for preparing AI proposals from public evidence.",
         "evidence": "executive diagnosis, finding, evidence, risk and correction matrix, results of three adversarial tests and a recommended configuration offered as input.",
-        "prompt": "Audit this Notebook against my purpose [PURPOSE] for [USER]. Review the container: coverage, authority, freshness, contradictions, privacy, rights, citation limits. Deliver executive diagnosis and matrix finding | evidence | risk | correction. With personal material or doubtful rights, remove by default; redact or isolate a lone fragment, saying which. Three adversarial tests — outside base, invented datum, my privacy — pass only if it states the limit. Propose instruction, limits, starter prompts for what [USER] asks first, and forbidden tasks: input configuration, not final. Undeclared [PURPOSE]: stop and ask me. Do not re-decide relevance per source or issue a sufficiency verdict. Never invent sources or certainty.",
+        "prompt": "Audit this Notebook against my purpose [PURPOSE] for [USER]. Review the container: coverage, authority, freshness, contradictions, privacy, rights, citation limits. Deliver executive diagnosis and matrix finding | evidence | risk | correction. With personal material or doubtful rights, remove by default; redact or isolate a lone fragment, say which. Three adversarial tests — outside base, invented datum, my privacy — pass only if it states the limit. Propose instruction, limits, starter prompts for what [USER] asks first, and forbidden tasks: input configuration, not final. Undeclared [PURPOSE]: stop and ask me. Do not re-decide relevance per source or give a sufficiency verdict. Never invent sources or certainty.",
         "level_spec": {
           "role": "Container auditor who tests the assistant before recommending its configuration",
           "spec_role": "Specialist in evidence-grounded learning and research",
@@ -303,7 +303,7 @@
         "when": "several roles will query the same base and nobody has set what it may and may not answer.",
         "example": "Shared Notebook for preparing AI proposals from public evidence.",
         "evidence": "executive diagnosis, finding, evidence, risk and correction matrix, adversarial tests, forbidden tasks and a recommended configuration with an accountable owner per correction.",
-        "prompt": "Audit this Notebook against [PURPOSE] agreed by [TEAM]. Review the container: coverage, authority, freshness, contradictions, privacy, rights, citation limits, with operational risk per finding. Deliver executive diagnosis and matrix finding | evidence | risk | correction | owner. Doubtful rights or personal material: remove by default; redact or isolate a fragment, saying which. Three adversarial tests — outside base, invented datum, client data — pass only if it states the limit. Propose instruction, limits, starter prompts per [TEAM] role, forbidden tasks: configuration input for review. No agreed [PURPOSE]: stop. Do not re-decide relevance per source or issue a sufficiency verdict. Never invent sources or certainty.",
+        "prompt": "Audit this Notebook against [PURPOSE] for [TEAM]. Review the container: coverage, authority, freshness, contradictions, privacy, rights, citation limits, with operational risk per finding. Deliver executive diagnosis and matrix finding | evidence | risk | correction | accountable owner. Doubtful rights or personal material: remove by default; redact or isolate a fragment, say which. Three adversarial tests — outside base, invented datum, client data — pass only if it states the limit. Propose instruction, limits, starter prompts per [TEAM] role, forbidden tasks: configuration input for review. Unagreed [PURPOSE]: stop. Do not re-decide relevance per source or give a sufficiency verdict. Never invent sources or certainty.",
         "level_spec": {
           "role": "Shared-container auditor who leaves every correction owned",
           "spec_role": "Specialist in evidence-grounded learning and research",
@@ -586,5 +586,5 @@
     }
   },
   "self_hash_model": "sha256(sorted-json-without-self_sha256)",
-  "self_sha256": "8626f456f4658beaffcf9531054fadd0fc980927fb6d869616344fcc3d548168"
+  "self_sha256": "b11bec539a07e1f679f7bb876cdac1050e7570312cd4af74ca7e4607cfc124ec"
 }

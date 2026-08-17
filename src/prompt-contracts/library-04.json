@@ -7,9 +7,10 @@
   "publication_authorized": false,
   "boundary": {
     "distinct_from": [
-      "05"
+      "05",
+      "W04"
     ],
-    "decision_rule": "Usa 04 cuando hay una sola afirmación concreta y fechable que vas a usar como fundamento y necesitas un veredicto; si la pregunta es qué conservar, actualizar o retirar por fuente y si la base es suficiente, audita con 05. 04 no audita la base y no decide el destino de cada fuente."
+    "decision_rule": "Usa 04 cuando hay una sola afirmación concreta y fechable que vas a usar como fundamento y necesitas un veredicto; si la pregunta es qué conservar, actualizar o retirar por fuente y si la base es suficiente, audita con 05. 04 no audita la base y no decide el destino de cada fuente; W04 es la variante de taller que pesa el delta de la base para cerrar o repetir el ciclo."
   },
   "locales": {
     "es": {
@@ -401,7 +402,7 @@
         "when": "você precisa apoiar uma decisão em um dado concreto e a evidência ainda é incerta.",
         "example": "Confirmar que um recurso de IA existe no plano que estou prestes a contratar.",
         "evidence": "veredito CONFIRMADA, REFUTADA ou NÃO DEMONSTRÁVEL com origens contadas, limiar aplicado e a evidência demonstrável que o mudaria.",
-        "prompt": "Quero verificar [AFIRMAÇÃO] antes de usá-la em [USO]. Conte origens, não links: uma cadeia de uma mesma origem é uma fonte. Registre por origem autor, data, link, trecho e limitação. CONFIRMADA: duas origens independentes coincidem. REFUTADA: uma contradiz. Senão, NÃO DEMONSTRÁVEL, ou [AFIRMAÇÃO] não verificável por desenho. Exija três origens quando [USO] arrisca meu dinheiro, meu prazo ou minha reputação, ou se falta. Divida a afirmação mista: um veredito demonstrável por parte. Feche com a evidência que mudaria o veredito e o que não devo afirmar. Não audite a base nem decida o que manter. Não invente fontes nem certeza.",
+        "prompt": "Quero verificar [AFIRMAÇÃO] antes de usá-la em [USO]. Conte origens, não links: cadeia de uma mesma origem é uma fonte. Registre por origem autor, data, link, trecho e limitação. CONFIRMADA: duas origens independentes coincidem. REFUTADA: uma contradiz. Senão, NÃO DEMONSTRÁVEL, ou [AFIRMAÇÃO] não verificável por desenho. Exija três origens quando [USO] arrisca meu dinheiro, meu prazo ou minha reputação, ou se falta. Divida a afirmação mista: um veredito demonstrável por parte. Feche com a evidência que mudaria o veredito e o que não devo afirmar. Não audite a base nem decida o que manter. Não invente fontes nem certeza.",
         "level_spec": {
           "role": "Verificador que conta origens antes de emitir veredito",
           "spec_role": "Especialista em aprendizagem e pesquisa baseada em evidências",
@@ -492,7 +493,7 @@
         "when": "uma proposta ou uma decisão com responsável depende de um dado ainda não verificado.",
         "example": "Confirmar a um cliente que um recurso de IA está incluído no plano contratado.",
         "evidence": "veredito CONFIRMADA, REFUTADA ou NÃO DEMONSTRÁVEL com origens contadas, direitos de citação, rastreabilidade demonstrável e limiar aplicado, pronto para revisão.",
-        "prompt": "Verifique [AFIRMAÇÃO] antes que [EQUIPE] a use em [USO]. Conte origens, não links: uma cadeia de uma mesma origem é uma fonte. Registre por origem autor, data, link, trecho, limitação, direitos de citação. CONFIRMADA: duas origens independentes coincidem. REFUTADA: uma contradiz. Senão, NÃO DEMONSTRÁVEL. Exija três origens se [USO] chega a cliente ou regulador, ou falta; nomeie o risco operacional de afirmar sem respaldo. Divida [AFIRMAÇÃO] mista: veredito demonstrável por parte, refeito por responsável da [EQUIPE] que não verificou. Feche com o que mudaria o veredito e o que a equipe ainda não deve afirmar. Não audite a base nem decida o que manter. Não invente fontes nem certeza.",
+        "prompt": "Verifique [AFIRMAÇÃO] antes que [EQUIPE] a use em [USO]. Conte origens, não links: cadeia de uma mesma origem é uma fonte. Registre por origem autor, data, link, trecho, limitação, direitos de citação. CONFIRMADA: duas origens independentes coincidem. REFUTADA: uma contradiz. Senão, NÃO DEMONSTRÁVEL. Exija três origens se [USO] chega a cliente ou regulador, ou falta; nomeie o risco operacional de afirmar sem respaldo. Divida [AFIRMAÇÃO] mista: veredito demonstrável por parte, refeito por responsável da [EQUIPE] que não verificou. Feche com o que mudaria o veredito e o que a equipe ainda não deve afirmar. Não audite a base nem decida o que manter. Não invente fontes nem certeza.",
         "level_spec": {
           "role": "Verificador que deixa a contagem de origens refazível por um revisor",
           "spec_role": "Especialista em aprendizagem e pesquisa baseada em evidências",
@@ -587,5 +588,5 @@
     }
   },
   "self_hash_model": "sha256(sorted-json-without-self_sha256)",
-  "self_sha256": "ff9f710cff1c0763a30e01cb16b4c99fd138c81d3f7278bc798876229e5c6fde"
+  "self_sha256": "dbd234e9eec76318f6176acc03aaa2002cc73163992d7b0b84e59f76535ebb84"
 }

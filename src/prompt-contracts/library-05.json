@@ -7,12 +7,13 @@
   "publication_authorized": false,
   "boundary": {
     "distinct_from": [
+      "03",
       "04",
       "07",
       "W02",
       "W04"
     ],
-    "decision_rule": "Usa 05 cuando la pregunta es si las fuentes sirven al propósito: qué conservar, actualizar o retirar por fuente y si la base es suficiente; si la base ya fue trabajada y la pregunta es cómo debe comportarse el Notebook como asistente —instrucción y prompts de inicio—, usa 07; si lo que está en duda es una sola afirmación y su veredicto, verifica con 04. 05 no redacta instrucción ni prompts de inicio del asistente y no verifica afirmaciones sueltas; W02 es la variante de taller y W04 cierra o repite con el veredicto ya emitido."
+    "decision_rule": "Usa 05 cuando la pregunta es si las fuentes sirven al propósito: qué conservar, actualizar o retirar por fuente y si la base es suficiente; si el vacío que bloquea ya está diagnosticado y falta investigarlo, usa 03; si la base ya fue trabajada y la pregunta es cómo debe comportarse el Notebook como asistente —instrucción y prompts de inicio—, usa 07; si lo que está en duda es una sola afirmación y su veredicto, verifica con 04. 05 no redacta instrucción ni prompts de inicio del asistente y no verifica afirmaciones sueltas; W02 es la variante de taller y W04 cierra o repite con el veredicto ya emitido."
   },
   "locales": {
     "es": {
@@ -119,7 +120,7 @@
         "when": "la base que usa el proceso creció y nadie sabe si sigue sirviendo al propósito acordado.",
         "example": "Revisar las 20 fuentes del Notebook comercial antes del ciclo de propuestas.",
         "evidence": "matriz conservar, actualizar o retirar con responsable por acción, derechos de uso, vacíos priorizados y veredicto de suficiencia comparable entre revisiones.",
-        "prompt": "Audita [BASE] contra el propósito [PROPÓSITO] de [EQUIPO]. Evalúa: derecho de uso y vigencia bloquean; autoridad y cobertura deciden; redundancia, sesgo y contradicciones ajustan. Exige licencia u origen por fuente; sin ese dato, retira y registra el riesgo operativo de [EQUIPO]. Entrega resumen breve y tabla fuente | conservar, actualizar, retirar | evidencia | impacto | acción | responsable. Prioriza los vacíos y da veredicto BASE SUFICIENTE solo si ninguno bloquea el propósito; si no, REPETIR INVESTIGACIÓN; nombra la dimensión decisiva. Con [BASE] multiárea, audita solo contra [PROPÓSITO]; sin acuerdo, pídelo. No redactes instrucción ni prompts de inicio del asistente, ni verifiques afirmaciones sueltas. No inventes fuentes ni certeza.",
+        "prompt": "Audita [BASE] contra el propósito [PROPÓSITO] de [EQUIPO]. Evalúa: derecho de uso y vigencia bloquean; autoridad y cobertura deciden; redundancia, sesgo y contradicciones ajustan. Exige licencia u origen por fuente; sin ese dato, retira y registra el riesgo operativo de [EQUIPO]. Entrega resumen breve y tabla fuente | conservar, actualizar, retirar | evidencia | impacto | acción | responsable. Prioriza los vacíos; veredicto BASE SUFICIENTE solo si ninguno bloquea; si no, REPETIR INVESTIGACIÓN; nombra la dimensión decisiva. Con [BASE] multiárea, audita solo contra [PROPÓSITO]; sin acuerdo, pídelo. No redactes instrucción ni prompts de inicio del asistente, ni verifiques afirmaciones sueltas. No inventes fuentes ni certeza.",
         "level_spec": {
           "role": "Auditor de relevancia que deja cada acción con responsable y el veredicto comparable",
           "spec_role": "Especialista en aprendizaje e investigación basada en evidencia",
@@ -219,7 +220,7 @@
         "when": "your library has grown and you need to know whether it still serves the purpose you built it for.",
         "example": "Review the 20 sources in my Notebook before preparing a class.",
         "evidence": "retain, update or remove matrix with evidence per source, prioritized gaps and a sufficiency verdict naming the dimension that decided it.",
-        "prompt": "Audit [BASE] against my purpose [PURPOSE]. Assess: usage rights and freshness block; authority and coverage decide; redundancy, bias, contradictions adjust. Ask licence or origin per source; without it, remove. Deliver a short summary and a source | retain, update, remove | evidence | impact | action table. Prioritize the gaps that block my purpose. Verdict BASE SUFFICIENT only if none blocks; else REPEAT RESEARCH; name the deciding dimension. If all is redundant, repeat anyway. With a multi-purpose [BASE], audit only against [PURPOSE]; if blank, ask me. Do not write assistant instruction or starter prompts, and do not verify single claims. Never invent sources or certainty.",
+        "prompt": "Audit [BASE] against my purpose [PURPOSE]. Assess: usage rights and freshness block; authority and coverage decide; redundancy, bias, contradictions adjust. Ask licence or origin per source; without it, remove. Deliver a short summary and a source | retain, update, remove | evidence | impact | action table. Prioritize the gaps that block my purpose. Verdict BASE SUFFICIENT only if none blocks; else REPEAT RESEARCH; name the deciding dimension. If all is redundant, repeat anyway. With a multi-purpose [BASE], audit only against [PURPOSE]; if blank, ask me. Do not write assistant instruction or starter prompts, nor verify single claims. Never invent sources or certainty.",
         "level_spec": {
           "role": "Relevance auditor who decides source by source against a single purpose",
           "spec_role": "Specialist in evidence-grounded learning and research",
@@ -316,7 +317,7 @@
         "when": "the base the process depends on has grown and nobody knows whether it still serves the agreed purpose.",
         "example": "Review the 20 sources of the sales Notebook before the proposal cycle.",
         "evidence": "retain, update or remove matrix with an accountable owner per action, usage rights, prioritized gaps and a sufficiency verdict comparable across reviews.",
-        "prompt": "Audit [BASE] against the purpose [PURPOSE] of [TEAM]. Assess: usage rights and freshness block; authority and coverage decide; redundancy, bias, contradictions adjust. Require licence or origin per source; without it, remove and log [TEAM] operational risk. Deliver a short summary and a source | retain, update, remove | evidence | impact | action | owner table. Prioritize the gaps and issue verdict BASE SUFFICIENT only if none blocks; else REPEAT RESEARCH; name the deciding dimension. With a multi-area [BASE], audit only against [PURPOSE]; if unagreed, ask. Do not write assistant instruction or starter prompts, and do not verify single claims. Never invent sources or certainty.",
+        "prompt": "Audit [BASE] against the purpose [PURPOSE] of [TEAM]. Assess: usage rights and freshness block; authority and coverage decide; redundancy, bias, contradictions adjust. Require licence or origin per source; without it, remove and log [TEAM] operational risk. Deliver a short summary and a source | retain, update, remove | evidence | impact | action | accountable owner table. Prioritize the gaps; verdict BASE SUFFICIENT only if none blocks; else REPEAT RESEARCH; name the deciding dimension. With a multi-area [BASE], audit only against [PURPOSE]; if unagreed, ask. Do not write assistant instruction or starter prompts, nor verify single claims. Never invent sources or certainty.",
         "level_spec": {
           "role": "Relevance auditor who leaves every action owned and the verdict comparable",
           "spec_role": "Specialist in evidence-grounded learning and research",
@@ -608,5 +609,5 @@
     }
   },
   "self_hash_model": "sha256(sorted-json-without-self_sha256)",
-  "self_sha256": "8392656962369a641c324b9e919e2fab514b49cd812e5219dfc9c16f01822cf4"
+  "self_sha256": "c231f0bbbfdd787f07886ff41029379ab06babcb6cd8989143f7e71f5a029f18"
 }
