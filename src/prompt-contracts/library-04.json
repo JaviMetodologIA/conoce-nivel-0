@@ -1,0 +1,598 @@
+{
+  "schema_version": "prompt-intent-contract-v1",
+  "intent_id": "04",
+  "surface": "library",
+  "phase": "Aprender",
+  "state": "RENDERED_DRAFT",
+  "publication_authorized": false,
+  "boundary": {
+    "distinct_from": [
+      "05",
+      "07"
+    ],
+    "decision_rule": "Usa 04 cuando hay una sola afirmación concreta y fechable que vas a usar como fundamento y necesitas un veredicto; si la pregunta es qué conservar o retirar de un conjunto de fuentes, audita con 05; si la base ya fue trabajada y la pregunta es cómo debe comportarse el Notebook y con qué configuración de asistente, usa 07. 04 no audita la base, no decide qué conservar o retirar y no redacta la configuración del asistente."
+  },
+  "locales": {
+    "es": {
+      "persona": {
+        "title": "Verificación cruzada de una afirmación",
+        "purpose": "Comprueba una afirmación antes de que la uses como fundamento, con un umbral de orígenes independientes fijado por el riesgo de tu uso.",
+        "when": "necesitas apoyar una decisión en un dato concreto y su evidencia todavía es incierta.",
+        "example": "Confirmar que una función de IA existe en el plan que estoy por contratar.",
+        "evidence": "veredicto CONFIRMADA, REFUTADA o NO DEMOSTRABLE con orígenes contados, umbral aplicado y la evidencia demostrable que lo cambiaría.",
+        "prompt": "Quiero verificar [AFIRMACIÓN] antes de usarla en [USO]. Cuenta orígenes, no enlaces: una cadena de citas de un mismo origen es una fuente. Registra por origen autor, fecha, enlace, fragmento y limitación. CONFIRMADA exige dos orígenes independientes que coincidan; REFUTADA, uno que la contradiga; NO DEMOSTRABLE por debajo del mínimo o si [AFIRMACIÓN] no es verificable por diseño. Exige tres orígenes cuando [USO] compromete mi dinero, mi plazo o mi reputación, o cuando falta. Divide la afirmación mixta: un veredicto demostrable por parte. Cierra con la evidencia que cambiaría el veredicto y lo que no debo afirmar. No audites la base, no decidas qué conservar o retirar y no redactes la configuración del asistente. No inventes fuentes ni certeza.",
+        "level_spec": {
+          "role": "Verificador que cuenta orígenes antes de emitir veredicto",
+          "spec_role": "Especialista en aprendizaje e investigación basada en evidencia",
+          "objective": "Emitir un veredicto trazable sobre una afirmación atómica antes de que sustente una decisión personal",
+          "parameters": [
+            [
+              "unidad",
+              "una afirmación atómica y fechable por corrida"
+            ],
+            [
+              "independencia",
+              "una cadena de citas con un mismo origen cuenta como una sola fuente"
+            ],
+            [
+              "umbral",
+              "dos orígenes independientes; tres si el uso compromete dinero, plazo o reputación"
+            ],
+            [
+              "ausencia_de_uso",
+              "si el uso no se declara, se aplica el umbral alto"
+            ]
+          ],
+          "workflow": [
+            "Registrar la afirmación y el uso al que va destinada",
+            "Rastrear cada cita hasta su origen y contar orígenes, no enlaces",
+            "Registrar por origen autor, fecha, enlace, fragmento y limitación",
+            "Aplicar el umbral que corresponde al uso declarado o, si falta, el alto",
+            "Emitir CONFIRMADA, REFUTADA o NO DEMOSTRABLE y nombrar la evidencia que lo cambiaría"
+          ],
+          "guardrails": [
+            "No inventar fuentes ni certeza",
+            "Cadena de citas con un solo origen: contarla como una fuente, no como corroboración",
+            "No auditar la base completa ni decidir qué conservar, actualizar o retirar: eso es 05",
+            "No redactar instrucción, límites ni prompts de inicio del asistente: eso es 07"
+          ],
+          "output": [
+            "Ficha por origen con autor, fecha, enlace, fragmento y limitación",
+            "Veredicto único entre CONFIRMADA, REFUTADA y NO DEMOSTRABLE con el umbral aplicado",
+            "Evidencia concreta faltante que cambiaría el veredicto"
+          ],
+          "dod": "Veredicto emitido con el conteo de orígenes visible, el umbral usado declarado y una lista de lo que aún no puede afirmarse.",
+          "edge_cases": [
+            "Afirmación mixta: dividirla y dar un veredicto por parte",
+            "Evento futuro o dato privado: NO DEMOSTRABLE por no verificable por diseño",
+            "Uso sin declarar: se aplica el umbral de tres orígenes"
+          ]
+        },
+        "why_it_works": {
+          "acceptance_criteria": [
+            "El veredicto es exactamente uno de CONFIRMADA, REFUTADA o NO DEMOSTRABLE, y quien lee puede recontar los orígenes citados para reproducirlo",
+            "CONFIRMADA solo aparece cuando el texto muestra dos orígenes con autor y enlace distintos que no remontan a la misma publicación; tres si el uso declarado compromete dinero, plazo o reputación",
+            "\"Qué cambiaría el veredicto\" nombra un documento o dato faltante concreto y localizable, no una mejora genérica de evidencia"
+          ],
+          "edge_cases": [
+            "Cadena de citas con un solo origen: cuenta como una fuente y no habilita CONFIRMADA",
+            "Afirmación mixta: se divide antes de verificar y cada parte recibe su veredicto",
+            "Afirmación no verificable por diseño: NO DEMOSTRABLE con la razón declarada"
+          ],
+          "tradeoffs": [
+            "El umbral de dos orígenes vuelve el veredicto conservador: hay menos CONFIRMADA falsas y más NO DEMOSTRABLE",
+            "El texto congelado pedía \"prioriza la fuente original\" como preferencia; aquí se convierte en conteo de orígenes, que la absorbe y la vuelve comprobable"
+          ],
+          "assumptions": [
+            "La afirmación es atómica y fechable; si llega mezclada, el prompt la divide"
+          ],
+          "limits": [
+            "Verifica una afirmación, no audita una base completa ni emite veredicto de suficiencia: eso es 05",
+            "No configura el comportamiento del asistente ni redacta sus prompts de inicio: eso es 07",
+            "No garantiza exactitud: el conteo de orígenes mide independencia, no verdad"
+          ]
+        },
+        "traceability": [
+          {
+            "claim": "La intención 04 —comprobar una afirmación antes de usarla como fundamento— y su veredicto de tres valores provienen de la biblioteca publicada del método.",
+            "source": "https://javimontano.github.io/prompt-amplificado/biblioteca-prompts.html"
+          },
+          {
+            "claim": "La secuencia rol, objetivo, parámetros y flujo del nivel especificación sigue la guía pública de creación de prompts.",
+            "source": "https://javimontano.github.io/prompt-amplificado/crear-prompts.html"
+          },
+          {
+            "claim": "Contar orígenes en vez de enlaces y subir el umbral según el riesgo del uso personal son reglas internas del método.",
+            "source": "method_internal"
+          }
+        ]
+      },
+      "empresa": {
+        "title": "Verificación cruzada para uso del equipo",
+        "purpose": "Comprueba una afirmación antes de que la use el equipo ante un tercero, con un umbral de orígenes ligado al riesgo del proceso.",
+        "when": "una propuesta o una decisión con responsable depende de un dato que aún no está verificado.",
+        "example": "Confirmar ante un cliente que una función de IA está incluida en el plan contratado.",
+        "evidence": "veredicto CONFIRMADA, REFUTADA o NO DEMOSTRABLE con orígenes contados, derechos de cita, trazabilidad demostrable y umbral aplicado, listo para revisión.",
+        "prompt": "Verifica [AFIRMACIÓN] antes de que [EQUIPO] la use en [USO]. Cuenta orígenes, no enlaces: una cadena de citas de un mismo origen es una fuente. Registra por origen autor, fecha, enlace, fragmento, limitación y derechos de cita. CONFIRMADA exige dos orígenes independientes que coincidan; REFUTADA, uno que la contradiga; NO DEMOSTRABLE por debajo del mínimo. Exige tres orígenes cuando [USO] llega a un cliente o a un regulador, o cuando falta; nombra el riesgo operativo de afirmar sin respaldo. Divide [AFIRMACIÓN] mixta: un veredicto demostrable por parte, recorrible por un responsable de [EQUIPO] distinto de quien verifica. No audites la base, no decidas qué conservar o retirar y no redactes la configuración del asistente. No inventes fuentes ni certeza.",
+        "level_spec": {
+          "role": "Verificador que deja trazable el conteo de orígenes ante un revisor",
+          "spec_role": "Especialista en aprendizaje e investigación basada en evidencia",
+          "objective": "Emitir un veredicto recorrible por un tercero sobre una afirmación que el equipo va a usar fuera",
+          "parameters": [
+            [
+              "unidad",
+              "una afirmación atómica y fechable por corrida"
+            ],
+            [
+              "independencia",
+              "una cadena de citas con un mismo origen cuenta como una sola fuente"
+            ],
+            [
+              "umbral",
+              "dos orígenes; tres cuando el uso llega a un cliente o a un regulador"
+            ],
+            [
+              "revisión",
+              "el conteo y el umbral los recorre un responsable distinto de quien verifica"
+            ]
+          ],
+          "workflow": [
+            "Registrar la afirmación, el equipo que la usará y la exposición externa del uso",
+            "Rastrear cada cita hasta su origen y contar orígenes, no enlaces",
+            "Registrar por origen autor, fecha, enlace, fragmento, limitación y derechos de cita",
+            "Aplicar el umbral según la exposición y nombrar el riesgo operativo de no alcanzarlo",
+            "Emitir el veredicto con trazabilidad recorrible y dejarlo listo para revisión"
+          ],
+          "guardrails": [
+            "No inventar fuentes ni certeza, tampoco bajo presión de una fecha de entrega",
+            "Origen sin derechos de cita: no se reproduce el fragmento y se declara la limitación",
+            "No auditar la base compartida ni decidir qué conservar, actualizar o retirar: eso es 05",
+            "No redactar instrucción, límites ni prompts de inicio del asistente del equipo: eso es 07"
+          ],
+          "output": [
+            "Ficha por origen con autor, fecha, enlace, fragmento, limitación y derechos de cita",
+            "Veredicto único con umbral aplicado y riesgo operativo nombrado",
+            "Paquete de trazabilidad listo para revisión de un responsable"
+          ],
+          "dod": "Un responsable distinto de quien verificó recorre el conteo de orígenes, reproduce el veredicto y encuentra declarados los derechos de cita.",
+          "edge_cases": [
+            "Afirmación mixta en una propuesta: dividirla y dar un veredicto por parte",
+            "Origen único citado por varios medios del sector: cuenta como una fuente",
+            "Uso externo sin declarar: se aplica el umbral de tres orígenes"
+          ]
+        },
+        "why_it_works": {
+          "acceptance_criteria": [
+            "Un revisor distinto de quien verificó reproduce el veredicto siguiendo solo los enlaces y fechas registrados, sin preguntar nada al verificador",
+            "CONFIRMADA solo aparece con dos orígenes que no remontan a la misma publicación, y con tres cuando el uso declarado llega a un cliente o a un regulador",
+            "Cada fragmento reproducido tiene su derecho de cita declarado; si no lo tiene, aparece como limitación y no como respaldo"
+          ],
+          "edge_cases": [
+            "Varios medios del sector citando una misma nota: un solo origen, no corroboración",
+            "Afirmación mixta dentro de una propuesta: se divide y cada parte lleva su veredicto",
+            "Dato privado del cliente: NO DEMOSTRABLE por no verificable por diseño"
+          ],
+          "tradeoffs": [
+            "Exigir derechos de cita y trazabilidad recorrible alarga la verificación a cambio de un respaldo defendible ante el cliente",
+            "El texto congelado decía \"prioriza la fuente original\"; aquí esa preferencia se vuelve conteo de orígenes con umbral, que es comprobable por un tercero",
+            "La salvedad \"no verificable por diseño\" sale del prompt de equipo por presupuesto: sigue en edge_cases y en limits, y el veredicto NO DEMOSTRABLE la absorbe"
+          ],
+          "assumptions": [
+            "Existe un responsable que revisará el veredicto antes de que el equipo lo use fuera"
+          ],
+          "limits": [
+            "Verifica una afirmación, no audita la base compartida ni emite veredicto de suficiencia: eso es 05",
+            "No redacta la configuración del asistente del equipo ni sus prompts de inicio: eso es 07",
+            "Informa la decisión del responsable, no la sustituye ni garantiza exactitud"
+          ]
+        },
+        "traceability": [
+          {
+            "claim": "El veredicto de tres valores de la intención 04 y su evidencia esperada provienen de la biblioteca publicada del método, aquí aplicados a un uso ante terceros.",
+            "source": "https://javimontano.github.io/prompt-amplificado/biblioteca-prompts.html"
+          },
+          {
+            "claim": "La estructura de rol, objetivo, parámetros y flujo usada en el nivel especificación de esta celda proviene de la guía pública de creación de prompts.",
+            "source": "https://javimontano.github.io/prompt-amplificado/crear-prompts.html"
+          },
+          {
+            "claim": "Subir el umbral de orígenes cuando la afirmación llega a un cliente o a un regulador es política interna del método para uso externo.",
+            "source": "method_internal"
+          },
+          {
+            "claim": "Exigir derechos de cita por origen y que un responsable distinto de quien verifica recorra la trazabilidad es política interna para material que sale de la organización.",
+            "source": "method_internal"
+          }
+        ]
+      }
+    },
+    "en": {
+      "persona": {
+        "title": "Claim cross-check",
+        "purpose": "Verify a claim before you use it as a foundation, with an independent-origin threshold set by the risk of your use.",
+        "when": "you need to rest a decision on one concrete fact and its evidence is still uncertain.",
+        "example": "Confirm that an AI feature exists in the plan I am about to buy.",
+        "evidence": "CONFIRMED, REFUTED or NOT DEMONSTRABLE verdict with origins counted, threshold applied and the demonstrable evidence that would change it.",
+        "prompt": "I want to verify [CLAIM] before I use it in [USE]. Count origins, not links: a citation chain from one origin is one source. Record per origin author, date, link, excerpt and limitation. CONFIRMED: two independent origins agree. REFUTED: one contradicts. NOT DEMONSTRABLE: below that, or [CLAIM] unverifiable by design. Require three origins when [USE] risks my money, my deadline or my reputation, or when it is blank. Split a mixed claim: one demonstrable verdict per part. Close with the evidence that would change the verdict and what I must not assert. Do not audit the base, rule on what to retain, or write the assistant configuration. Never invent sources or certainty.",
+        "level_spec": {
+          "role": "Verifier who counts origins before issuing a verdict",
+          "spec_role": "Specialist in evidence-grounded learning and research",
+          "objective": "Issue a traceable verdict on one atomic claim before it supports a personal decision",
+          "parameters": [
+            [
+              "unit",
+              "one atomic, datable claim per run"
+            ],
+            [
+              "independence",
+              "a citation chain leading back to one origin counts as a single source"
+            ],
+            [
+              "threshold",
+              "two independent origins; three when the use puts money, deadline or reputation at stake"
+            ],
+            [
+              "missing_use",
+              "if the use is not stated, the high threshold applies"
+            ]
+          ],
+          "workflow": [
+            "Record the claim and the use it is meant for",
+            "Trace every citation back to its origin and count origins, not links",
+            "Record per origin author, date, link, excerpt and limitation",
+            "Apply the threshold matching the stated use, or the high one if it is missing",
+            "Issue CONFIRMED, REFUTED or NOT DEMONSTRABLE and name the evidence that would change it"
+          ],
+          "guardrails": [
+            "Never invent sources or certainty",
+            "Citation chain with a single origin: count it as one source, not as corroboration",
+            "Do not audit the whole base or decide what to retain, update or remove: that is 05",
+            "Do not write the assistant instruction, limits or starter prompts: that is 07"
+          ],
+          "output": [
+            "Per-origin record with author, date, link, excerpt and limitation",
+            "One verdict among CONFIRMED, REFUTED and NOT DEMONSTRABLE with the threshold applied",
+            "The concrete missing evidence that would change the verdict"
+          ],
+          "dod": "Verdict issued with the origin count visible, the applied threshold stated and a list of what still must not be asserted.",
+          "edge_cases": [
+            "Mixed claim: split it and give one verdict per part",
+            "Future event or private data: NOT DEMONSTRABLE as unverifiable by design",
+            "Use left unstated: the three-origin threshold applies"
+          ]
+        },
+        "why_it_works": {
+          "acceptance_criteria": [
+            "The verdict is exactly one of CONFIRMED, REFUTED or NOT DEMONSTRABLE, and a reader can recount the cited origins and reproduce it",
+            "CONFIRMED appears only when the text shows two origins with different authors and links that do not lead back to the same publication; three when the stated use puts money, deadline or reputation at stake",
+            "\"What would change the verdict\" names one concrete, findable missing document or datum, not a generic call for better evidence"
+          ],
+          "edge_cases": [
+            "Citation chain with one origin: counts as a single source and does not unlock CONFIRMED",
+            "Mixed claim: split before verifying, each part gets its own verdict",
+            "Claim unverifiable by design: NOT DEMONSTRABLE with the reason stated"
+          ],
+          "tradeoffs": [
+            "The two-origin threshold makes the verdict conservative: fewer false CONFIRMED, more NOT DEMONSTRABLE",
+            "The frozen text asked to \"prioritize the original source\" as a preference; here it becomes origin counting, which absorbs it and makes it checkable"
+          ],
+          "assumptions": [
+            "The claim is atomic and datable; if it arrives mixed, the prompt splits it"
+          ],
+          "limits": [
+            "It verifies one claim; it does not audit a whole base or issue a sufficiency verdict: that is 05",
+            "It does not configure assistant behaviour or write its starter prompts: that is 07",
+            "Accuracy is not guaranteed: origin counting measures independence, not truth"
+          ]
+        },
+        "traceability": [
+          {
+            "claim": "Intent 04 — checking a claim before using it as a foundation — and its three-value verdict come from the published prompt library.",
+            "source": "https://javimontano.github.io/prompt-amplificado/biblioteca-prompts.html"
+          },
+          {
+            "claim": "The role, objective, parameters and workflow sequence of the specification level follows the public prompt-creation guide.",
+            "source": "https://javimontano.github.io/prompt-amplificado/crear-prompts.html"
+          },
+          {
+            "claim": "Counting origins instead of links, and raising the threshold with the risk of the personal use, are internal method rules.",
+            "source": "method_internal"
+          }
+        ]
+      },
+      "empresa": {
+        "title": "Team-facing claim cross-check",
+        "purpose": "Verify a claim before the team uses it with a third party, with an origin threshold tied to the exposure of the process.",
+        "when": "a proposal or an accountable decision rests on a fact nobody has verified yet.",
+        "example": "Confirm to a client that an AI feature is included in the contracted plan.",
+        "evidence": "CONFIRMED, REFUTED or NOT DEMONSTRABLE verdict with origins counted, citation rights, demonstrable traceability and threshold applied, ready for review.",
+        "prompt": "Verify [CLAIM] before [TEAM] uses it in [USE]. Count origins, not links: a citation chain from one origin is one source. Record per origin author, date, link, excerpt, limitation and citation rights. CONFIRMED: two independent origins agree. REFUTED: one contradicts. NOT DEMONSTRABLE: below that minimum. Require three origins when [USE] reaches a client or a regulator, or when it is blank; name the operational risk of asserting unbacked. Split a mixed [CLAIM]: one demonstrable verdict per part, retraceable by an accountable reviewer in [TEAM], not the verifier. Do not audit the base, rule on what to retain, or write the assistant configuration. Never invent sources or certainty.",
+        "level_spec": {
+          "role": "Verifier who leaves the origin count retraceable for a reviewer",
+          "spec_role": "Specialist in evidence-grounded learning and research",
+          "objective": "Issue a verdict a third party can retrace on a claim the team will use outside",
+          "parameters": [
+            [
+              "unit",
+              "one atomic, datable claim per run"
+            ],
+            [
+              "independence",
+              "a citation chain leading back to one origin counts as a single source"
+            ],
+            [
+              "threshold",
+              "two origins; three when the use reaches a client or a regulator"
+            ],
+            [
+              "review",
+              "the count and the threshold are retraced by an accountable reviewer other than the verifier"
+            ]
+          ],
+          "workflow": [
+            "Record the claim, the team that will use it and the external exposure of the use",
+            "Trace every citation back to its origin and count origins, not links",
+            "Record per origin author, date, link, excerpt, limitation and citation rights",
+            "Apply the threshold matching the exposure and name the operational risk of falling short",
+            "Issue the verdict with retraceable evidence and leave it ready for review"
+          ],
+          "guardrails": [
+            "Never invent sources or certainty, not even under delivery-date pressure",
+            "Origin without citation rights: the excerpt is not reproduced and the limitation is stated",
+            "Do not audit the shared base or decide what to retain, update or remove: that is 05",
+            "Do not write the team assistant instruction, limits or starter prompts: that is 07"
+          ],
+          "output": [
+            "Per-origin record with author, date, link, excerpt, limitation and citation rights",
+            "One verdict with the threshold applied and the operational risk named",
+            "Traceability package ready for review by an accountable owner"
+          ],
+          "dod": "A reviewer other than the verifier retraces the origin count, reproduces the verdict and finds citation rights stated for every excerpt.",
+          "edge_cases": [
+            "Mixed claim inside a proposal: split it and give one verdict per part",
+            "Single origin quoted by several trade outlets: counts as one source",
+            "External use left unstated: the three-origin threshold applies"
+          ]
+        },
+        "why_it_works": {
+          "acceptance_criteria": [
+            "A reviewer other than the verifier reproduces the verdict from the recorded links and dates alone, without asking the verifier anything",
+            "CONFIRMED appears only with two origins that do not lead back to the same publication, and with three when the stated use reaches a client or a regulator",
+            "Every reproduced excerpt carries its citation rights; where they are absent it is recorded as a limitation, not as backing"
+          ],
+          "edge_cases": [
+            "Several trade outlets quoting one press note: a single origin, not corroboration",
+            "Mixed claim inside a proposal: it is split and each part carries its verdict",
+            "Private client data: NOT DEMONSTRABLE as unverifiable by design"
+          ],
+          "tradeoffs": [
+            "Requiring citation rights and a retraceable trail lengthens verification in exchange for backing that survives client scrutiny",
+            "The frozen text said \"prioritize the original source\"; that preference becomes a counted threshold a third party can check",
+            "The \"unverifiable by design\" carve-out leaves the team prompt for budget: it stays in edge_cases and limits, absorbed by the NOT DEMONSTRABLE verdict"
+          ],
+          "assumptions": [
+            "An accountable owner will review the verdict before the team uses it outside"
+          ],
+          "limits": [
+            "It verifies one claim; it does not audit the shared base or issue a sufficiency verdict: that is 05",
+            "It does not write the team assistant configuration or its starter prompts: that is 07",
+            "It informs the accountable decision, it neither replaces it nor guarantees accuracy"
+          ]
+        },
+        "traceability": [
+          {
+            "claim": "The three-value verdict of intent 04 and its expected output come from the published prompt library, applied here to a use facing third parties.",
+            "source": "https://javimontano.github.io/prompt-amplificado/biblioteca-prompts.html"
+          },
+          {
+            "claim": "The role, objective, parameters and workflow structure used in this specification cell comes from the public prompt-creation guide.",
+            "source": "https://javimontano.github.io/prompt-amplificado/crear-prompts.html"
+          },
+          {
+            "claim": "Raising the origin threshold when the claim reaches a client or a regulator is internal method policy for external use.",
+            "source": "method_internal"
+          },
+          {
+            "claim": "Requiring citation rights per origin and an accountable reviewer other than the verifier is internal policy for material leaving the organization.",
+            "source": "method_internal"
+          }
+        ]
+      }
+    },
+    "pt": {
+      "persona": {
+        "title": "Verificação cruzada de uma afirmação",
+        "purpose": "Verifique uma afirmação antes de usá-la como fundamento, com um limiar de origens independentes definido pelo risco do seu uso.",
+        "when": "você precisa apoiar uma decisão em um dado concreto e a evidência ainda é incerta.",
+        "example": "Confirmar que um recurso de IA existe no plano que estou prestes a contratar.",
+        "evidence": "veredito CONFIRMADA, REFUTADA ou NÃO DEMONSTRÁVEL com origens contadas, limiar aplicado e a evidência demonstrável que o mudaria.",
+        "prompt": "Quero verificar [AFIRMAÇÃO] antes de usá-la em [USO]. Conte origens, não links: citações da mesma origem contam como uma fonte. Registre por origem autor, data, link, trecho e limitação. CONFIRMADA: duas origens independentes coincidem. REFUTADA: uma contradiz. NÃO DEMONSTRÁVEL: abaixo disso, ou [AFIRMAÇÃO] não verificável por desenho. Exija três origens quando [USO] arrisca meu dinheiro, meu prazo ou minha reputação, ou se falta. Divida a afirmação mista: um veredito demonstrável por parte. Feche com a evidência que mudaria o veredito e o que não devo afirmar. Não audite a base, não decida o que manter e não redija a configuração do assistente. Não invente fontes nem certeza.",
+        "level_spec": {
+          "role": "Verificador que conta origens antes de emitir veredito",
+          "spec_role": "Especialista em aprendizagem e pesquisa baseada em evidências",
+          "objective": "Emitir um veredito rastreável sobre uma afirmação atômica antes que sustente uma decisão pessoal",
+          "parameters": [
+            [
+              "unidade",
+              "uma afirmação atômica e datável por rodada"
+            ],
+            [
+              "independência",
+              "uma cadeia de citações com uma mesma origem conta como uma única fonte"
+            ],
+            [
+              "limiar",
+              "duas origens independentes; três se o uso compromete dinheiro, prazo ou reputação"
+            ],
+            [
+              "ausência_de_uso",
+              "se o uso não for declarado, aplica-se o limiar alto"
+            ]
+          ],
+          "workflow": [
+            "Registrar a afirmação e o uso a que se destina",
+            "Rastrear cada citação até a origem e contar origens, não links",
+            "Registrar por origem autor, data, link, trecho e limitação",
+            "Aplicar o limiar do uso declarado ou, na falta dele, o limiar alto",
+            "Emitir CONFIRMADA, REFUTADA ou NÃO DEMONSTRÁVEL e nomear a evidência que o mudaria"
+          ],
+          "guardrails": [
+            "Nunca invente fontes nem certeza",
+            "Cadeia de citações com uma só origem: contar como uma fonte, não como corroboração",
+            "Não auditar a base inteira nem decidir o que manter, atualizar ou retirar: isso é 05",
+            "Não redigir instrução, limites nem prompts de início do assistente: isso é 07"
+          ],
+          "output": [
+            "Ficha por origem com autor, data, link, trecho e limitação",
+            "Veredito único entre CONFIRMADA, REFUTADA e NÃO DEMONSTRÁVEL com o limiar aplicado",
+            "Evidência concreta faltante que mudaria o veredito"
+          ],
+          "dod": "Veredito emitido com a contagem de origens visível, o limiar usado declarado e uma lista do que ainda não pode ser afirmado.",
+          "edge_cases": [
+            "Afirmação mista: dividi-la e dar um veredito por parte",
+            "Evento futuro ou dado privado: NÃO DEMONSTRÁVEL por não verificável por desenho",
+            "Uso não declarado: aplica-se o limiar de três origens"
+          ]
+        },
+        "why_it_works": {
+          "acceptance_criteria": [
+            "O veredito é exatamente um entre CONFIRMADA, REFUTADA e NÃO DEMONSTRÁVEL, e quem lê consegue recontar as origens citadas e reproduzi-lo",
+            "CONFIRMADA só aparece quando o texto mostra duas origens com autores e links distintos que não remontam à mesma publicação; três quando o uso declarado compromete dinheiro, prazo ou reputação",
+            "\"O que mudaria o veredito\" nomeia um documento ou dado faltante concreto e localizável, não um pedido genérico de mais evidência"
+          ],
+          "edge_cases": [
+            "Cadeia de citações com uma só origem: conta como uma fonte e não libera CONFIRMADA",
+            "Afirmação mista: divide-se antes de verificar e cada parte recebe seu veredito",
+            "Afirmação não verificável por desenho: NÃO DEMONSTRÁVEL com a razão declarada"
+          ],
+          "tradeoffs": [
+            "O limiar de duas origens torna o veredito conservador: menos CONFIRMADA falsas e mais NÃO DEMONSTRÁVEL",
+            "O texto congelado pedia \"priorize a fonte original\" como preferência; aqui vira contagem de origens, que a absorve e a torna verificável"
+          ],
+          "assumptions": [
+            "A afirmação é atômica e datável; se chegar misturada, o prompt a divide"
+          ],
+          "limits": [
+            "Verifica uma afirmação, não audita uma base inteira nem emite veredito de suficiência: isso é 05",
+            "Não configura o comportamento do assistente nem redige seus prompts de início: isso é 07",
+            "Não garante exatidão: a contagem de origens mede independência, não verdade"
+          ]
+        },
+        "traceability": [
+          {
+            "claim": "A intenção 04 — verificar uma afirmação antes de usá-la como fundamento — e seu veredito de três valores vêm da biblioteca publicada do método.",
+            "source": "https://javimontano.github.io/prompt-amplificado/biblioteca-prompts.html"
+          },
+          {
+            "claim": "A sequência papel, objetivo, parâmetros e fluxo do nível especificação segue o guia público de criação de prompts.",
+            "source": "https://javimontano.github.io/prompt-amplificado/crear-prompts.html"
+          },
+          {
+            "claim": "Contar origens em vez de links e subir o limiar conforme o risco do uso pessoal são regras internas do método.",
+            "source": "method_internal"
+          }
+        ]
+      },
+      "empresa": {
+        "title": "Verificação cruzada para uso da equipe",
+        "purpose": "Verifique uma afirmação antes que a equipe a use diante de terceiros, com limiar de origens ligado ao risco do processo.",
+        "when": "uma proposta ou uma decisão com responsável depende de um dado ainda não verificado.",
+        "example": "Confirmar a um cliente que um recurso de IA está incluído no plano contratado.",
+        "evidence": "veredito CONFIRMADA, REFUTADA ou NÃO DEMONSTRÁVEL com origens contadas, direitos de citação, rastreabilidade demonstrável e limiar aplicado, pronto para revisão.",
+        "prompt": "Verifique [AFIRMAÇÃO] antes que [EQUIPE] a use em [USO]. Conte origens, não links: citações da mesma origem contam como uma fonte. Registre por origem autor, data, link, trecho, limitação e direitos de citação. CONFIRMADA: duas origens independentes coincidem. REFUTADA: uma contradiz. NÃO DEMONSTRÁVEL: abaixo disso. Exija três origens quando [USO] chega a cliente ou regulador, ou se falta; nomeie o risco operacional de afirmar sem respaldo. Divida [AFIRMAÇÃO] mista: um veredito demonstrável por parte, refeito por um responsável da [EQUIPE] que não verifica. Não audite a base, não decida o que manter e não redija a configuração do assistente. Não invente fontes nem certeza.",
+        "level_spec": {
+          "role": "Verificador que deixa a contagem de origens refazível por um revisor",
+          "spec_role": "Especialista em aprendizagem e pesquisa baseada em evidências",
+          "objective": "Emitir um veredito refazível por terceiro sobre uma afirmação que a equipe usará fora",
+          "parameters": [
+            [
+              "unidade",
+              "uma afirmação atômica e datável por rodada"
+            ],
+            [
+              "independência",
+              "uma cadeia de citações com uma mesma origem conta como uma única fonte"
+            ],
+            [
+              "limiar",
+              "duas origens; três quando o uso chega a um cliente ou a um regulador"
+            ],
+            [
+              "revisão",
+              "a contagem e o limiar são refeitos por um responsável diferente de quem verifica"
+            ]
+          ],
+          "workflow": [
+            "Registrar a afirmação, a equipe que a usará e a exposição externa do uso",
+            "Rastrear cada citação até a origem e contar origens, não links",
+            "Registrar por origem autor, data, link, trecho, limitação e direitos de citação",
+            "Aplicar o limiar conforme a exposição e nomear o risco operacional de não alcançá-lo",
+            "Emitir o veredito com rastreabilidade refazível e deixá-lo pronto para revisão"
+          ],
+          "guardrails": [
+            "Nunca invente fontes nem certeza, nem sob pressão de prazo de entrega",
+            "Origem sem direitos de citação: o trecho não é reproduzido e a limitação é declarada",
+            "Não auditar a base compartilhada nem decidir o que manter, atualizar ou retirar: isso é 05",
+            "Não redigir instrução, limites nem prompts de início do assistente da equipe: isso é 07"
+          ],
+          "output": [
+            "Ficha por origem com autor, data, link, trecho, limitação e direitos de citação",
+            "Veredito único com limiar aplicado e risco operacional nomeado",
+            "Pacote de rastreabilidade pronto para revisão de um responsável"
+          ],
+          "dod": "Um responsável diferente de quem verificou refaz a contagem de origens, reproduz o veredito e encontra os direitos de citação declarados.",
+          "edge_cases": [
+            "Afirmação mista dentro de uma proposta: dividi-la e dar um veredito por parte",
+            "Origem única citada por vários veículos do setor: conta como uma fonte",
+            "Uso externo não declarado: aplica-se o limiar de três origens"
+          ]
+        },
+        "why_it_works": {
+          "acceptance_criteria": [
+            "Um revisor diferente de quem verificou reproduz o veredito apenas com os links e datas registrados, sem perguntar nada a quem verificou",
+            "CONFIRMADA só aparece com duas origens que não remontam à mesma publicação, e com três quando o uso declarado chega a um cliente ou a um regulador",
+            "Cada trecho reproduzido traz seu direito de citação; onde falta, entra como limitação e não como respaldo"
+          ],
+          "edge_cases": [
+            "Vários veículos do setor citando uma mesma nota: uma só origem, não corroboração",
+            "Afirmação mista dentro de uma proposta: divide-se e cada parte leva seu veredito",
+            "Dado privado do cliente: NÃO DEMONSTRÁVEL por não verificável por desenho"
+          ],
+          "tradeoffs": [
+            "Exigir direitos de citação e trilha refazível alonga a verificação em troca de respaldo que sobrevive ao escrutínio do cliente",
+            "O texto congelado dizia \"priorize a fonte original\"; essa preferência vira limiar contado que um terceiro consegue verificar",
+            "A ressalva \"não verificável por desenho\" sai do prompt de equipe por orçamento: continua em edge_cases e limits, absorvida pelo veredito NÃO DEMONSTRÁVEL"
+          ],
+          "assumptions": [
+            "Existe um responsável que revisará o veredito antes de a equipe usá-lo fora"
+          ],
+          "limits": [
+            "Verifica uma afirmação, não audita a base compartilhada nem emite veredito de suficiência: isso é 05",
+            "Não redige a configuração do assistente da equipe nem seus prompts de início: isso é 07",
+            "Informa a decisão do responsável, não a substitui nem garante exatidão"
+          ]
+        },
+        "traceability": [
+          {
+            "claim": "O veredito de três valores da intenção 04 e sua evidência esperada vêm da biblioteca publicada do método, aqui aplicados a um uso diante de terceiros.",
+            "source": "https://javimontano.github.io/prompt-amplificado/biblioteca-prompts.html"
+          },
+          {
+            "claim": "A estrutura de papel, objetivo, parâmetros e fluxo usada no nível especificação desta célula vem do guia público de criação de prompts.",
+            "source": "https://javimontano.github.io/prompt-amplificado/crear-prompts.html"
+          },
+          {
+            "claim": "Subir o limiar de origens quando a afirmação chega a um cliente ou a um regulador é política interna do método para uso externo.",
+            "source": "method_internal"
+          },
+          {
+            "claim": "Exigir direitos de citação por origem e um responsável diferente de quem verifica para refazer a rastreabilidade é política interna para material que sai da organização.",
+            "source": "method_internal"
+          }
+        ]
+      }
+    }
+  },
+  "self_hash_model": "sha256(sorted-json-without-self_sha256)",
+  "self_sha256": "ab7d5f57a75b39493d9ac72f53ba370f84d03c93073cf1132235e85266579a2c"
+}

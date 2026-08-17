@@ -1,0 +1,602 @@
+{
+  "schema_version": "prompt-intent-contract-v1",
+  "intent_id": "07",
+  "surface": "library",
+  "phase": "Aprehender",
+  "state": "RENDERED_DRAFT",
+  "publication_authorized": false,
+  "boundary": {
+    "distinct_from": [
+      "05",
+      "W05",
+      "W10"
+    ],
+    "decision_rule": "Usa 07 cuando la base ya fue trabajada y la pregunta es cómo debe comportarse el Notebook como asistente: instrucción, límites, prompts de inicio, privacidad y derechos; si todavía hay que decidir la relevancia por fuente y si la base es suficiente, audita con 05. 07 no redecide la relevancia por fuente ni emite veredicto de suficiencia, y su configuración es recomendación, no la instrucción final: W10 la redacta y W05 activa el rol."
+  },
+  "locales": {
+    "es": {
+      "persona": {
+        "title": "Auditoría de mi Notebook",
+        "purpose": "Comprueba que tu Notebook tiene propósito declarado, cobertura suficiente y límites claros antes de tratarlo como asistente.",
+        "when": "quieres convertir una colección de documentos en un asistente en el que puedas confiar.",
+        "example": "Notebook para preparar propuestas de IA con evidencia pública.",
+        "evidence": "diagnóstico ejecutivo, matriz hallazgo, evidencia, riesgo y corrección, resultado de tres pruebas adversariales y configuración recomendada como insumo.",
+        "prompt": "Audita este Notebook contra mi propósito [PROPÓSITO] para [USUARIO]. Revisa el contenedor: cobertura, autoridad, vigencia, contradicciones, privacidad, derechos y límites de cita. Entrega diagnóstico ejecutivo y matriz hallazgo | evidencia | riesgo | corrección. Con material personal o derechos dudosos, retira por defecto; redacta o aísla un fragmento suelto y di cuál aplicaste. Tres pruebas adversariales —fuera de base, dato inventado, mi privacidad— aprueban solo si declara el límite. Propón instrucción, límites, prompts de inicio para lo que [USUARIO] pregunta primero y tareas prohibidas: configuración insumo, no la final. Sin [PROPÓSITO] declarado, detente y pídelo. No redecidas relevancia por fuente ni des veredicto de suficiencia. No inventes fuentes ni certeza.",
+        "level_spec": {
+          "role": "Auditor del contenedor que prueba el asistente antes de recomendar su configuración",
+          "spec_role": "Especialista en aprendizaje e investigación basada en evidencia",
+          "objective": "Diagnosticar el Notebook como contenedor y proponer una configuración de asistente probada contra tres ataques",
+          "parameters": [
+            [
+              "unidad",
+              "el contenedor y su comportamiento, no la relevancia de cada fuente"
+            ],
+            [
+              "pruebas_adversariales",
+              "tres: pregunta fuera de la base, dato inventado plausible y petición que roza la privacidad"
+            ],
+            [
+              "criterio_de_aprobación",
+              "la prueba aprueba solo si el asistente declara el límite en vez de responder"
+            ],
+            [
+              "privacidad",
+              "retirar por defecto; redactar o aislar solo cuando el excedente es un fragmento, y decir cuál se aplicó"
+            ]
+          ],
+          "workflow": [
+            "Registrar el propósito declarado del Notebook y quién lo va a usar",
+            "Revisar el contenedor en cobertura, autoridad, vigencia, contradicciones, privacidad, derechos y límites de cita",
+            "Escribir el diagnóstico ejecutivo y la matriz hallazgo, evidencia, riesgo y corrección",
+            "Correr las tres pruebas adversariales y registrar el resultado de cada una",
+            "Proponer instrucción, límites, prompts de inicio y tareas prohibidas como insumo"
+          ],
+          "guardrails": [
+            "No inventar fuentes ni certeza",
+            "Derechos dudosos o material personal: retirar por defecto, nunca conservar a la espera de aclaración",
+            "No re-decidir la relevancia fuente por fuente ni emitir veredicto de suficiencia: eso es 05",
+            "No verificar una afirmación concreta ni darle veredicto: eso es 04"
+          ],
+          "output": [
+            "Diagnóstico ejecutivo del Notebook",
+            "Matriz hallazgo, evidencia, riesgo y corrección",
+            "Resultado de las tres pruebas adversariales y configuración recomendada como insumo"
+          ],
+          "dod": "Las tres pruebas tienen resultado registrado, cada hallazgo tiene corrección y la configuración se entrega marcada como recomendación.",
+          "edge_cases": [
+            "Notebook sin propósito declarado: detener la auditoría y pedirlo",
+            "Fuente con derechos dudosos: retirar por defecto",
+            "Material personal en un solo fragmento: redactar o aislar y decir cuál se aplicó"
+          ]
+        },
+        "why_it_works": {
+          "acceptance_criteria": [
+            "La matriz no deja hallazgos sueltos: cada fila tiene evidencia localizable en el Notebook, riesgo nombrado y una corrección ejecutable",
+            "Las tres pruebas adversariales aparecen con su resultado y el criterio de aprobación es único: el asistente declara el límite en lugar de responder",
+            "La configuración recomendada llega marcada como insumo y con la lista explícita de tareas prohibidas con esta base"
+          ],
+          "edge_cases": [
+            "Notebook sin propósito declarado: la auditoría se detiene y lo pide",
+            "Derechos dudosos: se retira por defecto en vez de esperar aclaración",
+            "Privacidad comprometida en un fragmento: se redacta o aísla y se declara la acción elegida"
+          ],
+          "tradeoffs": [
+            "Auditar el contenedor y no cada fuente en detalle pierde granularidad de relevancia, que se recupera corriendo 05 antes",
+            "El texto congelado pedía \"fuentes a añadir o retirar\" como decisión propia; aquí sale solo como vacío de cobertura del contenedor y la decisión por fuente queda en 05",
+            "La dimensión \"duplicados\" del texto congelado sale del prompt: duplicar es relevancia por fuente y se decide en 05; aquí solo aparece si abre un vacío del contenedor"
+          ],
+          "assumptions": [
+            "Existe un Notebook operativo con fuentes ya cargadas"
+          ],
+          "limits": [
+            "Audita el contenedor y su comportamiento, no re-decide la relevancia fuente por fuente ni emite veredicto de suficiencia: eso es 05",
+            "No verifica una afirmación concreta ni emite su veredicto: eso es 04",
+            "La configuración es recomendación y no autoriza publicación ni uso del asistente"
+          ]
+        },
+        "traceability": [
+          {
+            "claim": "La intención 07 —comprobar que un Notebook tiene propósito, fuentes suficientes y límites claros— y su diagnóstico esperado provienen de la biblioteca publicada del método.",
+            "source": "https://javimontano.github.io/prompt-amplificado/biblioteca-prompts.html"
+          },
+          {
+            "claim": "Que las respuestas puedan anclarse en las fuentes seleccionadas y exponer citas está documentado en el soporte oficial de NotebookLM, y por eso la prueba adversarial exige que el asistente declare el límite.",
+            "source": "https://support.google.com/notebooklm/answer/16179559?hl=es"
+          },
+          {
+            "claim": "Retirar por defecto ante derechos dudosos y entregar la configuración como insumo y no como instrucción final son reglas internas del método.",
+            "source": "method_internal"
+          }
+        ]
+      },
+      "empresa": {
+        "title": "Auditoría del Notebook del equipo",
+        "purpose": "Comprueba que el Notebook del equipo tiene propósito acordado, cobertura suficiente y límites que el proceso pueda sostener.",
+        "when": "varios roles van a consultar la misma base y nadie fijó qué puede y qué no puede responder.",
+        "example": "Notebook compartido para preparar propuestas de IA con evidencia pública.",
+        "evidence": "diagnóstico ejecutivo, matriz hallazgo, evidencia, riesgo y corrección, pruebas adversariales, tareas prohibidas y configuración recomendada con responsable por corrección.",
+        "prompt": "Audita este Notebook contra el propósito [PROPÓSITO] de [EQUIPO]. Revisa el contenedor: cobertura, autoridad, vigencia, contradicciones, privacidad, derechos y límites de cita, con el riesgo operativo por hallazgo. Entrega diagnóstico ejecutivo y matriz hallazgo | evidencia | riesgo | corrección | responsable. Con derechos dudosos o material personal, retira por defecto; redacta o aísla un fragmento y di cuál. Tres pruebas adversariales —fuera de base, dato inventado, dato de cliente— aprueban solo si declara el límite. Propón instrucción, límites, prompts de inicio por rol de [EQUIPO] y tareas prohibidas: configuración insumo para revisión. Sin [PROPÓSITO] acordado, detente. No redecidas relevancia por fuente ni des veredicto de suficiencia. No inventes fuentes ni certeza.",
+        "level_spec": {
+          "role": "Auditor del contenedor compartido que deja cada corrección con responsable",
+          "spec_role": "Especialista en aprendizaje e investigación basada en evidencia",
+          "objective": "Diagnosticar el Notebook del equipo y entregar una configuración probada, con responsable y lista para revisión",
+          "parameters": [
+            [
+              "unidad",
+              "el contenedor compartido y su comportamiento ante varios roles"
+            ],
+            [
+              "pruebas_adversariales",
+              "tres: pregunta fuera de la base, dato inventado plausible y petición que expone datos de un cliente"
+            ],
+            [
+              "criterio_de_aprobación",
+              "la prueba aprueba solo si el asistente declara el límite en vez de responder"
+            ],
+            [
+              "gobernanza",
+              "cada corrección lleva responsable y las tareas prohibidas las ratifica un responsable"
+            ]
+          ],
+          "workflow": [
+            "Registrar el propósito acordado, el equipo y los roles que consultarán la base",
+            "Revisar el contenedor y nombrar el riesgo operativo de cada hallazgo",
+            "Escribir el diagnóstico ejecutivo y la matriz con responsable por corrección",
+            "Correr las tres pruebas adversariales y registrar resultado y riesgo residual",
+            "Entregar el paquete de configuración con prompts de inicio por rol, listo para revisión"
+          ],
+          "guardrails": [
+            "No inventar fuentes ni certeza, tampoco para que la base parezca lista",
+            "Derechos dudosos o material personal de un cliente: retirar por defecto y registrar el riesgo",
+            "No re-decidir la relevancia fuente por fuente ni emitir veredicto de suficiencia: eso es 05",
+            "No verificar una afirmación concreta ni darle veredicto: eso es 04"
+          ],
+          "output": [
+            "Diagnóstico ejecutivo del Notebook compartido",
+            "Matriz hallazgo, evidencia, riesgo, corrección y responsable",
+            "Paquete de configuración con prompts de inicio por rol y tareas prohibidas, listo para revisión"
+          ],
+          "dod": "Cada corrección tiene responsable, las tres pruebas tienen resultado registrado y el paquete de configuración espera ratificación antes de aplicarse.",
+          "edge_cases": [
+            "Propósito no acordado entre roles: detener la auditoría y pedirlo",
+            "Rol sin prompts de inicio propios: declararlo como vacío en vez de reutilizar los de otro rol",
+            "Dato de cliente en un fragmento: redactar o aislar y registrar el riesgo"
+          ]
+        },
+        "why_it_works": {
+          "acceptance_criteria": [
+            "Cada fila de la matriz tiene evidencia localizable, riesgo operativo nombrado, corrección ejecutable y un responsable; sin responsable la corrección no se considera asignada",
+            "Las tres pruebas adversariales quedan registradas con un único criterio de aprobación: el asistente declara el límite en lugar de responder desde fuera de la base",
+            "Las tareas prohibidas se entregan como lista explícita que un responsable puede ratificar o rechazar punto por punto"
+          ],
+          "edge_cases": [
+            "Propósito no acordado entre roles: la auditoría se detiene y lo pide",
+            "Derechos dudosos sobre material de cliente: se retira por defecto y se registra el riesgo",
+            "Rol sin prompts de inicio propios: se declara el vacío en vez de reutilizar los de otro rol"
+          ],
+          "tradeoffs": [
+            "Auditar el contenedor deja fuera la granularidad de relevancia por fuente, que se recupera corriendo 05 antes de esta auditoría",
+            "El texto congelado incluía \"fuentes a añadir o retirar\" como decisión de esta intención; aquí solo se reporta el vacío de cobertura y la decisión por fuente vuelve a 05",
+            "La dimensión \"duplicados\" sale del prompt de equipo: duplicar es relevancia por fuente y se decide en 05, y aquí solo cuenta si abre un vacío del contenedor"
+          ],
+          "assumptions": [
+            "Existe un Notebook operativo, un responsable que ratifica y varios roles que lo consultarán"
+          ],
+          "limits": [
+            "Audita el contenedor compartido, no re-decide la relevancia fuente por fuente ni emite veredicto de suficiencia: eso es 05",
+            "No verifica una afirmación concreta ni emite su veredicto: eso es 04",
+            "La configuración es recomendación sujeta a ratificación: no autoriza publicación ni uso del asistente"
+          ]
+        },
+        "traceability": [
+          {
+            "claim": "El diagnóstico, la matriz y la configuración recomendada de la intención 07 provienen de la biblioteca publicada del método, aquí ampliados a varios roles.",
+            "source": "https://javimontano.github.io/prompt-amplificado/biblioteca-prompts.html"
+          },
+          {
+            "claim": "El soporte oficial de NotebookLM documenta que las respuestas pueden anclarse en las fuentes seleccionadas y exponer citas, lo que hace comprobable la prueba de pregunta fuera de la base.",
+            "source": "https://support.google.com/notebooklm/answer/16179559?hl=es"
+          },
+          {
+            "claim": "Los tipos de fuente admitidos y sus límites están documentados, lo que permite revisar el contenedor sin re-decidir la relevancia de cada fuente.",
+            "source": "https://support.google.com/notebooklm/answer/16215270?hl=es"
+          },
+          {
+            "claim": "Exigir responsable por corrección, ratificación de las tareas prohibidas y retiro por defecto ante derechos dudosos son políticas internas para Notebooks compartidos.",
+            "source": "method_internal"
+          }
+        ]
+      }
+    },
+    "en": {
+      "persona": {
+        "title": "My Notebook audit",
+        "purpose": "Check that your Notebook has a declared purpose, sufficient sources and clear limits before you treat it as an assistant.",
+        "when": "you want a folder of documents to become an assistant you can actually trust.",
+        "example": "Notebook for preparing AI proposals from public evidence.",
+        "evidence": "executive diagnosis, finding, evidence, risk and correction matrix, results of three adversarial tests and a recommended configuration offered as input.",
+        "prompt": "Audit this Notebook against my purpose [PURPOSE] for [USER]. Review the container: coverage, authority, freshness, contradictions, privacy, rights, citation limits. Deliver executive diagnosis and matrix finding | evidence | risk | correction. With personal material or doubtful rights, remove by default; redact or isolate a lone fragment, saying which. Three adversarial tests — outside base, invented datum, my privacy — pass only if it states the limit. Propose instruction, limits, starter prompts for what [USER] asks first, and forbidden tasks: input configuration, not final. Undeclared [PURPOSE]: stop and ask me. Do not re-decide relevance per source or issue a sufficiency verdict. Never invent sources or certainty.",
+        "level_spec": {
+          "role": "Container auditor who tests the assistant before recommending its configuration",
+          "spec_role": "Specialist in evidence-grounded learning and research",
+          "objective": "Diagnose the Notebook as a container and propose an assistant configuration tested against three attacks",
+          "parameters": [
+            [
+              "unit",
+              "the container and its behaviour, not the relevance of each source"
+            ],
+            [
+              "adversarial_tests",
+              "three: a question outside the base, a plausible invented datum and a request touching privacy"
+            ],
+            [
+              "pass_criterion",
+              "a test passes only if the assistant states the limit instead of answering"
+            ],
+            [
+              "privacy",
+              "remove by default; redact or isolate only when the excess is a fragment, and say which was applied"
+            ]
+          ],
+          "workflow": [
+            "Record the declared purpose of the Notebook and who will use it",
+            "Review the container for coverage, authority, freshness, contradictions, privacy, rights and citation limits",
+            "Write the executive diagnosis and the finding, evidence, risk and correction matrix",
+            "Run the three adversarial tests and record the result of each",
+            "Propose instruction, limits, starter prompts and forbidden tasks as input"
+          ],
+          "guardrails": [
+            "Never invent sources or certainty",
+            "Doubtful rights or personal material: remove by default, never keep it pending clarification",
+            "Do not re-decide relevance source by source or issue a sufficiency verdict: that is 05",
+            "Do not verify a single claim or give it a verdict: that is 04"
+          ],
+          "output": [
+            "Executive diagnosis of the Notebook",
+            "Finding, evidence, risk and correction matrix",
+            "Results of the three adversarial tests and a recommended configuration as input"
+          ],
+          "dod": "All three tests have a recorded result, every finding has a correction, and the configuration ships marked as a recommendation.",
+          "edge_cases": [
+            "Notebook with no declared purpose: stop the audit and ask for it",
+            "Source with doubtful rights: remove by default",
+            "Personal material in a single fragment: redact or isolate and say which was applied"
+          ]
+        },
+        "why_it_works": {
+          "acceptance_criteria": [
+            "The matrix leaves no loose findings: every row has evidence findable inside the Notebook, a named risk and an executable correction",
+            "The three adversarial tests appear with their results under a single pass criterion: the assistant states the limit instead of answering",
+            "The recommended configuration arrives marked as input and carries the explicit list of tasks forbidden with this base"
+          ],
+          "edge_cases": [
+            "Notebook with no declared purpose: the audit stops and asks for it",
+            "Doubtful rights: removed by default rather than kept pending clarification",
+            "Privacy compromised in one fragment: it is redacted or isolated and the chosen action is stated"
+          ],
+          "tradeoffs": [
+            "Auditing the container rather than each source loses relevance granularity, recovered by running 05 first",
+            "The frozen text asked for \"sources to add or remove\" as a decision of its own; here it surfaces only as a container coverage gap and the per-source decision stays in 05",
+            "The frozen \"duplicates\" dimension leaves the prompt: duplication is per-source relevance and is decided in 05; here it counts only when it opens a container gap"
+          ],
+          "assumptions": [
+            "An operational Notebook exists with sources already loaded"
+          ],
+          "limits": [
+            "It audits the container and its behaviour; it does not re-decide relevance source by source or issue a sufficiency verdict: that is 05",
+            "It does not verify a single claim or issue its verdict: that is 04",
+            "The configuration is a recommendation and authorizes neither publication nor use of the assistant"
+          ]
+        },
+        "traceability": [
+          {
+            "claim": "Intent 07 — checking that a Notebook has purpose, sufficient sources and clear limits — and its expected diagnosis come from the published prompt library.",
+            "source": "https://javimontano.github.io/prompt-amplificado/biblioteca-prompts.html"
+          },
+          {
+            "claim": "Official NotebookLM support documents that answers can be grounded in the selected sources and expose citations, which is why the adversarial test requires the assistant to state the limit.",
+            "source": "https://support.google.com/notebooklm/answer/16179559?hl=es"
+          },
+          {
+            "claim": "Removing by default under doubtful rights and shipping the configuration as input rather than as the final instruction are internal method rules.",
+            "source": "method_internal"
+          }
+        ]
+      },
+      "empresa": {
+        "title": "Team Notebook audit",
+        "purpose": "Check that the team Notebook has an agreed purpose, sufficient sources and limits the process can sustain.",
+        "when": "several roles will query the same base and nobody has set what it may and may not answer.",
+        "example": "Shared Notebook for preparing AI proposals from public evidence.",
+        "evidence": "executive diagnosis, finding, evidence, risk and correction matrix, adversarial tests, forbidden tasks and a recommended configuration with an accountable owner per correction.",
+        "prompt": "Audit this Notebook against [PURPOSE] agreed by [TEAM]. Review the container: coverage, authority, freshness, contradictions, privacy, rights, citation limits, with operational risk per finding. Deliver executive diagnosis and matrix finding | evidence | risk | correction | owner. Doubtful rights or personal material: remove by default; redact or isolate a fragment, saying which. Three adversarial tests — outside base, invented datum, client data — pass only if it states the limit. Propose instruction, limits, starter prompts per [TEAM] role, forbidden tasks: configuration input for review. No agreed [PURPOSE]: stop. Do not re-decide relevance per source or issue a sufficiency verdict. Never invent sources or certainty.",
+        "level_spec": {
+          "role": "Shared-container auditor who leaves every correction owned",
+          "spec_role": "Specialist in evidence-grounded learning and research",
+          "objective": "Diagnose the team Notebook and deliver a tested configuration, owned and ready for review",
+          "parameters": [
+            [
+              "unit",
+              "the shared container and its behaviour across several roles"
+            ],
+            [
+              "adversarial_tests",
+              "three: a question outside the base, a plausible invented datum and a request exposing client data"
+            ],
+            [
+              "pass_criterion",
+              "a test passes only if the assistant states the limit instead of answering"
+            ],
+            [
+              "governance",
+              "every correction names an owner and the forbidden tasks are ratified by an accountable owner"
+            ]
+          ],
+          "workflow": [
+            "Record the agreed purpose, the team and the roles that will query the base",
+            "Review the container and name the operational risk of each finding",
+            "Write the executive diagnosis and the matrix with an owner per correction",
+            "Run the three adversarial tests and record result and residual risk",
+            "Deliver the configuration package with starter prompts per role, ready for review"
+          ],
+          "guardrails": [
+            "Never invent sources or certainty, not even to make the base look ready",
+            "Doubtful rights or personal client material: remove by default and log the risk",
+            "Do not re-decide relevance source by source or issue a sufficiency verdict: that is 05",
+            "Do not verify a single claim or give it a verdict: that is 04"
+          ],
+          "output": [
+            "Executive diagnosis of the shared Notebook",
+            "Finding, evidence, risk, correction and owner matrix",
+            "Configuration package with starter prompts per role and forbidden tasks, ready for review"
+          ],
+          "dod": "Every correction names an owner, all three tests have recorded results, and the configuration package waits for ratification before being applied.",
+          "edge_cases": [
+            "Purpose not agreed across roles: stop the audit and ask for it",
+            "Role without starter prompts of its own: declare the gap instead of reusing another role’s",
+            "Client datum inside a fragment: redact or isolate it and log the risk"
+          ]
+        },
+        "why_it_works": {
+          "acceptance_criteria": [
+            "Every matrix row has findable evidence, a named operational risk, an executable correction and an owner; without an owner the correction does not count as assigned",
+            "The three adversarial tests are logged under one pass criterion: the assistant states the limit instead of answering from outside the base",
+            "Forbidden tasks ship as an explicit list an accountable owner can ratify or reject point by point"
+          ],
+          "edge_cases": [
+            "Purpose not agreed across roles: the audit stops and asks for it",
+            "Doubtful rights over client material: removed by default and the risk logged",
+            "Role without its own starter prompts: the gap is declared rather than borrowed from another role"
+          ],
+          "tradeoffs": [
+            "Auditing the container drops per-source relevance granularity, recovered by running 05 before this audit",
+            "The frozen text listed \"sources to add or remove\" as a decision of this intent; here only the coverage gap is reported and the per-source decision returns to 05",
+            "The frozen \"duplicates\" dimension leaves the team prompt: duplication is per-source relevance decided in 05, and here it counts only when it opens a container gap"
+          ],
+          "assumptions": [
+            "An operational Notebook exists, an accountable owner ratifies, and several roles will query it"
+          ],
+          "limits": [
+            "It audits the shared container; it does not re-decide relevance source by source or issue a sufficiency verdict: that is 05",
+            "It does not verify a single claim or issue its verdict: that is 04",
+            "The configuration is a recommendation pending ratification: it authorizes neither publication nor use of the assistant"
+          ]
+        },
+        "traceability": [
+          {
+            "claim": "The diagnosis, matrix and recommended configuration of intent 07 come from the published prompt library, widened here to several roles.",
+            "source": "https://javimontano.github.io/prompt-amplificado/biblioteca-prompts.html"
+          },
+          {
+            "claim": "Official NotebookLM support documents that answers can be grounded in selected sources and expose citations, which makes the outside-the-base test checkable.",
+            "source": "https://support.google.com/notebooklm/answer/16179559?hl=es"
+          },
+          {
+            "claim": "Supported source types and their limits are documented, which allows reviewing the container without re-deciding the relevance of each source.",
+            "source": "https://support.google.com/notebooklm/answer/16215270?hl=es"
+          },
+          {
+            "claim": "Requiring an owner per correction, ratification of forbidden tasks and default removal under doubtful rights are internal policies for shared Notebooks.",
+            "source": "method_internal"
+          }
+        ]
+      }
+    },
+    "pt": {
+      "persona": {
+        "title": "Auditoria do meu Notebook",
+        "purpose": "Verifique se o seu Notebook tem propósito declarado, cobertura suficiente e limites claros antes de tratá-lo como assistente.",
+        "when": "você quer transformar uma coleção de documentos em um assistente em que possa confiar.",
+        "example": "Notebook para preparar propostas de IA com evidência pública.",
+        "evidence": "diagnóstico executivo, matriz achado, evidência, risco e correção, resultado de três testes adversariais e configuração recomendada como insumo.",
+        "prompt": "Audite este Notebook contra o meu propósito [PROPÓSITO] para [USUÁRIO]. Revise o contêiner: cobertura, autoridade, atualidade, contradições, privacidade, direitos e limites de citação. Entregue diagnóstico executivo e matriz achado | evidência | risco | correção. Com material pessoal ou direitos duvidosos, retire por padrão; redija ou isole um trecho solto e diga qual aplicou. Três testes adversariais — fora da base, dado inventado, a minha privacidade — passam só se declarar o limite. Proponha instrução, limites, prompts de início para o que [USUÁRIO] pergunta primeiro e tarefas proibidas: configuração insumo, não a final. Sem [PROPÓSITO] declarado, pare e peça-o. Não redecida relevância por fonte nem dê veredito de suficiência. Não invente fontes nem certeza.",
+        "level_spec": {
+          "role": "Auditor do contêiner que testa o assistente antes de recomendar a configuração",
+          "spec_role": "Especialista em aprendizagem e pesquisa baseada em evidências",
+          "objective": "Diagnosticar o Notebook como contêiner e propor uma configuração de assistente testada contra três ataques",
+          "parameters": [
+            [
+              "unidade",
+              "o contêiner e seu comportamento, não a relevância de cada fonte"
+            ],
+            [
+              "testes_adversariais",
+              "três: pergunta fora da base, dado inventado plausível e pedido que toca a privacidade"
+            ],
+            [
+              "critério_de_aprovação",
+              "o teste passa só se o assistente declarar o limite em vez de responder"
+            ],
+            [
+              "privacidade",
+              "retirar por padrão; redigir ou isolar só quando o excedente é um trecho, e dizer qual foi aplicado"
+            ]
+          ],
+          "workflow": [
+            "Registrar o propósito declarado do Notebook e quem vai usá-lo",
+            "Revisar o contêiner em cobertura, autoridade, atualidade, contradições, privacidade, direitos e limites de citação",
+            "Escrever o diagnóstico executivo e a matriz achado, evidência, risco e correção",
+            "Rodar os três testes adversariais e registrar o resultado de cada um",
+            "Propor instrução, limites, prompts de início e tarefas proibidas como insumo"
+          ],
+          "guardrails": [
+            "Nunca invente fontes nem certeza",
+            "Direitos duvidosos ou material pessoal: retirar por padrão, nunca manter à espera de esclarecimento",
+            "Não redecidir a relevância fonte a fonte nem emitir veredito de suficiência: isso é 05",
+            "Não verificar uma afirmação concreta nem dar-lhe veredito: isso é 04"
+          ],
+          "output": [
+            "Diagnóstico executivo do Notebook",
+            "Matriz achado, evidência, risco e correção",
+            "Resultado dos três testes adversariais e configuração recomendada como insumo"
+          ],
+          "dod": "Os três testes têm resultado registrado, cada achado tem correção e a configuração sai marcada como recomendação.",
+          "edge_cases": [
+            "Notebook sem propósito declarado: parar a auditoria e pedi-lo",
+            "Fonte com direitos duvidosos: retirar por padrão",
+            "Material pessoal em um único trecho: redigir ou isolar e dizer qual foi aplicado"
+          ]
+        },
+        "why_it_works": {
+          "acceptance_criteria": [
+            "A matriz não deixa achados soltos: cada linha tem evidência localizável no Notebook, risco nomeado e uma correção executável",
+            "Os três testes adversariais aparecem com seu resultado sob um único critério de aprovação: o assistente declara o limite em vez de responder",
+            "A configuração recomendada chega marcada como insumo e com a lista explícita de tarefas proibidas com esta base"
+          ],
+          "edge_cases": [
+            "Notebook sem propósito declarado: a auditoria para e o pede",
+            "Direitos duvidosos: retira-se por padrão em vez de aguardar esclarecimento",
+            "Privacidade comprometida em um trecho: redige-se ou isola-se e declara-se a ação escolhida"
+          ],
+          "tradeoffs": [
+            "Auditar o contêiner e não cada fonte perde granularidade de relevância, recuperada rodando 05 antes",
+            "O texto congelado pedia \"fontes a adicionar ou retirar\" como decisão própria; aqui isso sai só como lacuna de cobertura do contêiner e a decisão por fonte fica em 05",
+            "A dimensão \"duplicados\" do texto congelado sai do prompt: duplicar é relevância por fonte e se decide em 05; aqui só entra se abrir uma lacuna do contêiner"
+          ],
+          "assumptions": [
+            "Existe um Notebook operativo com fontes já carregadas"
+          ],
+          "limits": [
+            "Audita o contêiner e seu comportamento, não redecide a relevância fonte a fonte nem emite veredito de suficiência: isso é 05",
+            "Não verifica uma afirmação concreta nem emite o veredito dela: isso é 04",
+            "A configuração é recomendação e não autoriza publicação nem uso do assistente"
+          ]
+        },
+        "traceability": [
+          {
+            "claim": "A intenção 07 — verificar se um Notebook tem propósito, fontes suficientes e limites claros — e seu diagnóstico esperado vêm da biblioteca publicada do método.",
+            "source": "https://javimontano.github.io/prompt-amplificado/biblioteca-prompts.html"
+          },
+          {
+            "claim": "O suporte oficial do NotebookLM documenta que as respostas podem ser ancoradas nas fontes selecionadas e expor citações, e por isso o teste adversarial exige que o assistente declare o limite.",
+            "source": "https://support.google.com/notebooklm/answer/16179559?hl=es"
+          },
+          {
+            "claim": "Retirar por padrão diante de direitos duvidosos e entregar a configuração como insumo, e não como instrução final, são regras internas do método.",
+            "source": "method_internal"
+          }
+        ]
+      },
+      "empresa": {
+        "title": "Auditoria do Notebook da equipe",
+        "purpose": "Verifique se o Notebook da equipe tem propósito acordado, cobertura suficiente e limites que o processo consiga sustentar.",
+        "when": "vários papéis vão consultar a mesma base e ninguém definiu o que ela pode e não pode responder.",
+        "example": "Notebook compartilhado para preparar propostas de IA com evidência pública.",
+        "evidence": "diagnóstico executivo, matriz achado, evidência, risco e correção, testes adversariais, tarefas proibidas e configuração recomendada com responsável por correção.",
+        "prompt": "Audite este Notebook contra o propósito [PROPÓSITO] da [EQUIPE]. Revise o contêiner: cobertura, autoridade, atualidade, contradições, privacidade, direitos e limites de citação, com o risco operacional por achado. Entregue diagnóstico executivo e matriz achado | evidência | risco | correção | responsável. Com direitos duvidosos ou material pessoal, retire por padrão; redija ou isole um trecho e diga qual. Três testes adversariais — fora da base, dado inventado, dado de cliente — passam só se declarar o limite. Proponha instrução, limites, prompts de início por papel da [EQUIPE] e tarefas proibidas: configuração insumo para revisão. Sem [PROPÓSITO] acordado, pare. Não redecida relevância por fonte nem dê veredito de suficiência. Não invente fontes nem certeza.",
+        "level_spec": {
+          "role": "Auditor do contêiner compartilhado que deixa cada correção com responsável",
+          "spec_role": "Especialista em aprendizagem e pesquisa baseada em evidências",
+          "objective": "Diagnosticar o Notebook da equipe e entregar uma configuração testada, com responsável e pronta para revisão",
+          "parameters": [
+            [
+              "unidade",
+              "o contêiner compartilhado e seu comportamento diante de vários papéis"
+            ],
+            [
+              "testes_adversariais",
+              "três: pergunta fora da base, dado inventado plausível e pedido que expõe dados de um cliente"
+            ],
+            [
+              "critério_de_aprovação",
+              "o teste passa só se o assistente declarar o limite em vez de responder"
+            ],
+            [
+              "governança",
+              "cada correção leva responsável e as tarefas proibidas são ratificadas por um responsável"
+            ]
+          ],
+          "workflow": [
+            "Registrar o propósito acordado, a equipe e os papéis que consultarão a base",
+            "Revisar o contêiner e nomear o risco operacional de cada achado",
+            "Escrever o diagnóstico executivo e a matriz com responsável por correção",
+            "Rodar os três testes adversariais e registrar resultado e risco residual",
+            "Entregar o pacote de configuração com prompts de início por papel, pronto para revisão"
+          ],
+          "guardrails": [
+            "Nunca invente fontes nem certeza, nem para a base parecer pronta",
+            "Direitos duvidosos ou material pessoal de cliente: retirar por padrão e registrar o risco",
+            "Não redecidir a relevância fonte a fonte nem emitir veredito de suficiência: isso é 05",
+            "Não verificar uma afirmação concreta nem dar-lhe veredito: isso é 04"
+          ],
+          "output": [
+            "Diagnóstico executivo do Notebook compartilhado",
+            "Matriz achado, evidência, risco, correção e responsável",
+            "Pacote de configuração com prompts de início por papel e tarefas proibidas, pronto para revisão"
+          ],
+          "dod": "Cada correção tem responsável, os três testes têm resultado registrado e o pacote de configuração aguarda ratificação antes de ser aplicado.",
+          "edge_cases": [
+            "Propósito não acordado entre papéis: parar a auditoria e pedi-lo",
+            "Papel sem prompts de início próprios: declarar a lacuna em vez de reaproveitar os de outro papel",
+            "Dado de cliente em um trecho: redigir ou isolar e registrar o risco"
+          ]
+        },
+        "why_it_works": {
+          "acceptance_criteria": [
+            "Cada linha da matriz tem evidência localizável, risco operacional nomeado, correção executável e um responsável; sem responsável a correção não conta como atribuída",
+            "Os três testes adversariais ficam registrados sob um único critério de aprovação: o assistente declara o limite em vez de responder de fora da base",
+            "As tarefas proibidas saem como lista explícita que um responsável pode ratificar ou rejeitar ponto a ponto"
+          ],
+          "edge_cases": [
+            "Propósito não acordado entre papéis: a auditoria para e o pede",
+            "Direitos duvidosos sobre material de cliente: retira-se por padrão e registra-se o risco",
+            "Papel sem prompts de início próprios: declara-se a lacuna em vez de reaproveitar os de outro papel"
+          ],
+          "tradeoffs": [
+            "Auditar o contêiner abre mão da granularidade de relevância por fonte, recuperada rodando 05 antes desta auditoria",
+            "O texto congelado listava \"fontes a adicionar ou retirar\" como decisão desta intenção; aqui só se reporta a lacuna de cobertura e a decisão por fonte volta a 05",
+            "A dimensão \"duplicados\" sai do prompt de equipe: duplicar é relevância por fonte decidida em 05, e aqui só conta se abrir uma lacuna do contêiner"
+          ],
+          "assumptions": [
+            "Existe um Notebook operativo, um responsável que ratifica e vários papéis que o consultarão"
+          ],
+          "limits": [
+            "Audita o contêiner compartilhado, não redecide a relevância fonte a fonte nem emite veredito de suficiência: isso é 05",
+            "Não verifica uma afirmação concreta nem emite o veredito dela: isso é 04",
+            "A configuração é recomendação sujeita a ratificação: não autoriza publicação nem uso do assistente"
+          ]
+        },
+        "traceability": [
+          {
+            "claim": "O diagnóstico, a matriz e a configuração recomendada da intenção 07 vêm da biblioteca publicada do método, aqui ampliados a vários papéis.",
+            "source": "https://javimontano.github.io/prompt-amplificado/biblioteca-prompts.html"
+          },
+          {
+            "claim": "O suporte oficial do NotebookLM documenta que as respostas podem ser ancoradas nas fontes selecionadas e expor citações, o que torna verificável o teste de pergunta fora da base.",
+            "source": "https://support.google.com/notebooklm/answer/16179559?hl=es"
+          },
+          {
+            "claim": "Os tipos de fonte admitidos e seus limites estão documentados, o que permite revisar o contêiner sem redecidir a relevância de cada fonte.",
+            "source": "https://support.google.com/notebooklm/answer/16215270?hl=es"
+          },
+          {
+            "claim": "Exigir responsável por correção, ratificação das tarefas proibidas e retirada por padrão diante de direitos duvidosos são políticas internas para Notebooks compartilhados.",
+            "source": "method_internal"
+          }
+        ]
+      }
+    }
+  },
+  "self_hash_model": "sha256(sorted-json-without-self_sha256)",
+  "self_sha256": "fed83d2045f8ff4d3810dd771a520aadb3a79a59b0d07a1df0ed6e66f6e80bf2"
+}

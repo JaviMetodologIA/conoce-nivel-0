@@ -1,0 +1,612 @@
+{
+  "schema_version": "prompt-intent-contract-v1",
+  "intent_id": "05",
+  "surface": "library",
+  "phase": "Aprehender",
+  "state": "RENDERED_DRAFT",
+  "publication_authorized": false,
+  "boundary": {
+    "distinct_from": [
+      "04",
+      "07",
+      "W02",
+      "W04"
+    ],
+    "decision_rule": "Usa 05 cuando la pregunta es si las fuentes sirven al propósito: qué conservar, actualizar o retirar por fuente y si la base es suficiente; si la base ya fue trabajada y la pregunta es cómo debe comportarse el Notebook como asistente —instrucción y prompts de inicio—, usa 07; si lo que está en duda es una sola afirmación y su veredicto, verifica con 04. 05 no redacta instrucción ni prompts de inicio del asistente y no verifica afirmaciones sueltas; W02 es la variante de taller y W04 cierra o repite con el veredicto ya emitido."
+  },
+  "locales": {
+    "es": {
+      "persona": {
+        "title": "Auditoría de relevancia de mi base",
+        "purpose": "Decide qué conservar, actualizar o retirar de tu base de aprendizaje y si todavía alcanza para tu propósito.",
+        "when": "tu biblioteca creció y necesitas saber si todavía sirve al propósito con el que la armaste.",
+        "example": "Revisar las 20 fuentes de mi Notebook antes de preparar una clase.",
+        "evidence": "matriz conservar, actualizar o retirar con evidencia por fuente, vacíos priorizados y veredicto de suficiencia con la dimensión que lo decidió.",
+        "prompt": "Audita [BASE] contra mi propósito [PROPÓSITO]. Evalúa: derecho de uso y vigencia bloquean; autoridad y cobertura deciden; redundancia, sesgo y contradicciones ajustan. Pide licencia u origen por fuente; sin ese dato, retira. Entrega resumen breve y tabla fuente | conservar, actualizar, retirar | evidencia | impacto | acción. Prioriza los vacíos que bloquean mi propósito. Veredicto BASE SUFICIENTE solo si ninguno lo bloquea; si no, REPETIR INVESTIGACIÓN; nombra la dimensión decisiva. Si todo es redundante, repite pese al volumen. Con [BASE] multipropósito, audita solo contra [PROPÓSITO]; si no lo declaro, pídemelo. No redactes instrucción ni prompts de inicio del asistente, ni verifiques afirmaciones sueltas. No inventes fuentes ni certeza.",
+        "level_spec": {
+          "role": "Auditor de relevancia que decide fuente por fuente contra un propósito único",
+          "spec_role": "Especialista en aprendizaje e investigación basada en evidencia",
+          "objective": "Decidir qué conservar, actualizar o retirar y emitir un veredicto de suficiencia atribuible a una dimensión",
+          "parameters": [
+            [
+              "dimensiones",
+              "derecho de uso y vigencia bloquean, autoridad y cobertura deciden, redundancia y sesgo ajustan"
+            ],
+            [
+              "dato_requerido",
+              "licencia u origen por fuente; sin ese dato la fuente se retira"
+            ],
+            [
+              "suficiencia",
+              "BASE SUFICIENTE solo si ningún vacío priorizado bloquea el propósito"
+            ],
+            [
+              "propósito_único",
+              "una base multipropósito se audita contra el propósito declarado y se dice"
+            ]
+          ],
+          "workflow": [
+            "Registrar la base y el propósito único contra el que se audita",
+            "Pedir licencia u origen por fuente antes de juzgar su derecho de uso",
+            "Evaluar las siete dimensiones en el orden de peso declarado",
+            "Decidir conservar, actualizar o retirar por fuente con la evidencia de la decisión",
+            "Priorizar vacíos y emitir el veredicto nombrando la dimensión que lo decidió"
+          ],
+          "guardrails": [
+            "No inventar fuentes ni certeza",
+            "Fuente sin licencia ni origen conocido: retirar por defecto, no conservar por si acaso",
+            "No verificar afirmaciones una por una ni emitir veredicto sobre una afirmación: eso es 04",
+            "No redactar instrucción, límites ni prompts de inicio del asistente: eso es 07"
+          ],
+          "output": [
+            "Resumen breve del estado de la base",
+            "Tabla fuente, decisión, evidencia de la decisión, impacto y acción",
+            "Vacíos priorizados y veredicto de suficiencia con la dimensión que lo decidió"
+          ],
+          "dod": "Cada fuente tiene decisión y evidencia, los vacíos están ordenados por bloqueo del propósito y el veredicto nombra la dimensión decisiva.",
+          "edge_cases": [
+            "Propósito no declarado: pedirlo antes de auditar",
+            "Todas las fuentes redundantes: REPETIR INVESTIGACIÓN aunque el volumen sea alto",
+            "Base multipropósito: auditar contra el propósito declarado y decirlo"
+          ]
+        },
+        "why_it_works": {
+          "acceptance_criteria": [
+            "Ninguna fila queda sin decisión: cada fuente sale como conservar, actualizar o retirar, con la evidencia que llevó a esa decisión citada en la misma fila",
+            "El veredicto nombra la dimensión que lo decidió, y quien lee puede volver a la tabla y encontrar la fila que la sostiene",
+            "BASE SUFICIENTE aparece solo si ningún vacío priorizado bloquea el propósito declarado; \"suficiente\" aquí significa exactamente eso y no un juicio de volumen"
+          ],
+          "edge_cases": [
+            "Propósito ambiguo o ausente: el prompt lo pide antes de auditar en vez de suponerlo",
+            "Base con volumen alto y todo redundante: REPETIR INVESTIGACIÓN",
+            "Fuente sin licencia ni origen: se retira por defecto"
+          ],
+          "tradeoffs": [
+            "Retirar fuentes reduce la cobertura aparente a cambio de señal por fuente conservada",
+            "El texto congelado cerraba con el eslogan \"no premies cantidad\"; se sustituye por el veredicto ligado a vacíos, que sí impide conservarlo todo"
+          ],
+          "assumptions": [
+            "El propósito es único; una base multipropósito se audita una vez por propósito"
+          ],
+          "limits": [
+            "Audita las fuentes, no verifica una afirmación concreta ni emite su veredicto: eso es 04",
+            "No configura el comportamiento del asistente ni redacta instrucción o prompts de inicio: eso es 07",
+            "No garantiza exactitud: decide relevancia contra el propósito, no verdad del contenido"
+          ]
+        },
+        "traceability": [
+          {
+            "claim": "La intención 05 —decidir qué conservar, actualizar o retirar de una base— y su matriz esperada provienen de la biblioteca publicada del método.",
+            "source": "https://javimontano.github.io/prompt-amplificado/biblioteca-prompts.html"
+          },
+          {
+            "claim": "El nivel especificación de esta celda ordena rol, objetivo, parámetros y flujo según la guía pública de creación de prompts.",
+            "source": "https://javimontano.github.io/prompt-amplificado/crear-prompts.html"
+          },
+          {
+            "claim": "Los tipos de fuente admitidos y sus límites están documentados en el soporte oficial de NotebookLM.",
+            "source": "https://support.google.com/notebooklm/answer/16215270?hl=es"
+          },
+          {
+            "claim": "Ordenar las siete dimensiones por peso y retirar por defecto la fuente sin licencia ni origen son reglas internas del método.",
+            "source": "method_internal"
+          }
+        ]
+      },
+      "empresa": {
+        "title": "Auditoría de relevancia de la base del equipo",
+        "purpose": "Decide qué conservar, actualizar o retirar de la base compartida del equipo y si alcanza para el propósito acordado.",
+        "when": "la base que usa el proceso creció y nadie sabe si sigue sirviendo al propósito acordado.",
+        "example": "Revisar las 20 fuentes del Notebook comercial antes del ciclo de propuestas.",
+        "evidence": "matriz conservar, actualizar o retirar con responsable por acción, derechos de uso, vacíos priorizados y veredicto de suficiencia comparable entre revisiones.",
+        "prompt": "Audita [BASE] contra el propósito [PROPÓSITO] de [EQUIPO]. Evalúa: derecho de uso y vigencia bloquean; autoridad y cobertura deciden; redundancia, sesgo y contradicciones ajustan. Exige licencia u origen por fuente; sin ese dato, retira y registra el riesgo operativo de [EQUIPO]. Entrega resumen breve y tabla fuente | conservar, actualizar, retirar | evidencia | impacto | acción | responsable. Prioriza los vacíos y da veredicto BASE SUFICIENTE solo si ninguno bloquea el propósito; si no, REPETIR INVESTIGACIÓN; nombra la dimensión decisiva. Con [BASE] multiárea, audita solo contra [PROPÓSITO]; si falta, pídelo. No redactes instrucción ni prompts de inicio del asistente, ni verifiques afirmaciones sueltas. No inventes fuentes ni certeza.",
+        "level_spec": {
+          "role": "Auditor de relevancia que deja cada acción con responsable y el veredicto comparable",
+          "spec_role": "Especialista en aprendizaje e investigación basada en evidencia",
+          "objective": "Decidir el destino de cada fuente compartida y emitir un veredicto de suficiencia comparable entre revisiones",
+          "parameters": [
+            [
+              "dimensiones",
+              "derecho de uso y vigencia bloquean, autoridad y cobertura deciden, redundancia y sesgo ajustan"
+            ],
+            [
+              "gobernanza",
+              "derechos de uso son bloqueo, no preferencia: sin licencia ni origen la fuente se retira"
+            ],
+            [
+              "responsable",
+              "cada acción de la tabla lleva responsable nombrado"
+            ],
+            [
+              "comparabilidad",
+              "el veredicto y la dimensión decisiva se registran igual en cada revisión"
+            ]
+          ],
+          "workflow": [
+            "Registrar la base compartida, el propósito acordado y el equipo que la consume",
+            "Exigir licencia u origen por fuente y registrar el riesgo operativo de las que se retiran",
+            "Evaluar las siete dimensiones en el orden de peso declarado",
+            "Decidir conservar, actualizar o retirar con evidencia y responsable por acción",
+            "Priorizar vacíos y emitir el veredicto comparable con la dimensión que lo decidió"
+          ],
+          "guardrails": [
+            "No inventar fuentes ni certeza, tampoco para llenar una base que se ve vacía",
+            "Fuente sin licencia ni origen: retirar por defecto y registrar el riesgo, no conservar por costumbre",
+            "No verificar afirmaciones una por una ni emitir veredicto sobre una afirmación: eso es 04",
+            "No redactar instrucción, límites ni prompts de inicio del asistente del equipo: eso es 07"
+          ],
+          "output": [
+            "Resumen breve del estado de la base compartida",
+            "Tabla fuente, decisión, evidencia, impacto, acción y responsable",
+            "Vacíos priorizados y veredicto de suficiencia comparable entre revisiones"
+          ],
+          "dod": "Cada acción tiene responsable nombrado, cada retiro tiene su riesgo registrado y el veredicto se puede comparar con la revisión anterior.",
+          "edge_cases": [
+            "Propósito no acordado entre áreas: pedirlo antes de auditar",
+            "Base compartida por varias áreas: auditar contra el propósito declarado y decirlo",
+            "Todas las fuentes redundantes: REPETIR INVESTIGACIÓN aunque el volumen impresione"
+          ]
+        },
+        "why_it_works": {
+          "acceptance_criteria": [
+            "Cada fila lleva decisión, evidencia y un responsable nombrado; una acción sin responsable no se considera acordada",
+            "El veredicto se registra con la dimensión decisiva y con el mismo formato de la revisión anterior, de modo que dos auditorías del mismo Notebook sean comparables entre sí",
+            "Ninguna fuente sin licencia ni origen aparece como conservar: los derechos de uso bloquean antes de que la relevancia se discuta"
+          ],
+          "edge_cases": [
+            "Propósito no acordado entre áreas: se pide antes de auditar",
+            "Fuente útil pero sin derechos: se retira y el vacío que deja entra en la lista priorizada",
+            "Base compartida por varias áreas: se audita contra el propósito declarado y se dice"
+          ],
+          "tradeoffs": [
+            "Exigir responsable por acción hace más lenta la auditoría a cambio de que las decisiones se ejecuten",
+            "El eslogan congelado \"no premies cantidad\" se retira: lo reemplaza el veredicto ligado a vacíos, que sí bloquea conservarlo todo",
+            "La cláusula \"si todo es redundante, repite\" no cabe en el presupuesto de la celda empresa: vive en edge_cases y en el veredicto ligado a vacíos, no en el prompt"
+          ],
+          "assumptions": [
+            "Existe un propósito acordado y un equipo que consume la base compartida"
+          ],
+          "limits": [
+            "Audita las fuentes, no verifica una afirmación concreta ni emite su veredicto: eso es 04",
+            "No configura el asistente ni redacta su instrucción o sus prompts de inicio: eso es 07",
+            "Informa la decisión del responsable, no la aprueba ni garantiza exactitud"
+          ]
+        },
+        "traceability": [
+          {
+            "claim": "La matriz conservar, actualizar o retirar y el veredicto de suficiencia de la intención 05 provienen de la biblioteca publicada del método, aquí extendidos a una base compartida.",
+            "source": "https://javimontano.github.io/prompt-amplificado/biblioteca-prompts.html"
+          },
+          {
+            "claim": "El orden de rol, objetivo, parámetros y flujo de esta especificación de equipo procede de la guía pública de creación de prompts.",
+            "source": "https://javimontano.github.io/prompt-amplificado/crear-prompts.html"
+          },
+          {
+            "claim": "El soporte oficial de NotebookLM documenta los tipos de fuente admitidos y sus límites, lo que hace exigible el dato de origen por fuente.",
+            "source": "https://support.google.com/notebooklm/answer/16215270?hl=es"
+          },
+          {
+            "claim": "Tratar los derechos de uso como bloqueo de gobernanza, nombrar responsable por acción y mantener el veredicto comparable entre revisiones son políticas internas para bases compartidas.",
+            "source": "method_internal"
+          }
+        ]
+      }
+    },
+    "en": {
+      "persona": {
+        "title": "Relevance audit of my base",
+        "purpose": "Decide what to retain, update or remove from your learning base and whether it still meets your purpose.",
+        "when": "your library has grown and you need to know whether it still serves the purpose you built it for.",
+        "example": "Review the 20 sources in my Notebook before preparing a class.",
+        "evidence": "retain, update or remove matrix with evidence per source, prioritized gaps and a sufficiency verdict naming the dimension that decided it.",
+        "prompt": "Audit [BASE] against my purpose [PURPOSE]. Assess: usage rights and freshness block; authority and coverage decide; redundancy, bias, contradictions adjust. Ask licence or origin per source; without it, remove. Deliver a short summary and a source | retain, update, remove | evidence | impact | action table. Prioritize the gaps that block my purpose. Verdict BASE SUFFICIENT only if none blocks; else REPEAT RESEARCH; name the deciding dimension. If all is redundant, repeat anyway. With a multi-purpose [BASE], audit only against [PURPOSE]; if blank, ask me. Do not write assistant instruction or starter prompts, and do not verify single claims. Never invent sources or certainty.",
+        "level_spec": {
+          "role": "Relevance auditor who decides source by source against a single purpose",
+          "spec_role": "Specialist in evidence-grounded learning and research",
+          "objective": "Decide what to retain, update or remove and issue a sufficiency verdict attributable to one dimension",
+          "parameters": [
+            [
+              "dimensions",
+              "rights and freshness block, authority and coverage decide, redundancy and bias adjust"
+            ],
+            [
+              "required_datum",
+              "licence or origin per source; without it the source is removed"
+            ],
+            [
+              "sufficiency",
+              "BASE SUFFICIENT only if no prioritized gap blocks the purpose"
+            ],
+            [
+              "single_purpose",
+              "a multi-purpose base is audited against the stated purpose and says so"
+            ]
+          ],
+          "workflow": [
+            "Record the base and the single purpose it is audited against",
+            "Ask for licence or origin per source before judging usage rights",
+            "Assess the seven dimensions in the stated order of weight",
+            "Decide retain, update or remove per source with the evidence for the decision",
+            "Prioritize gaps and issue the verdict naming the dimension that decided it"
+          ],
+          "guardrails": [
+            "Never invent sources or certainty",
+            "Source with no licence or known origin: remove by default, do not keep it just in case",
+            "Do not verify claims one by one or issue a verdict on a claim: that is 04",
+            "Do not write the assistant instruction, limits or starter prompts: that is 07"
+          ],
+          "output": [
+            "Short summary of the state of the base",
+            "Table of source, decision, evidence for the decision, impact and action",
+            "Prioritized gaps and a sufficiency verdict with the deciding dimension"
+          ],
+          "dod": "Every source carries a decision and its evidence, gaps are ordered by how far they block the purpose, and the verdict names the deciding dimension.",
+          "edge_cases": [
+            "Purpose not stated: ask for it before auditing",
+            "All sources redundant: REPEAT RESEARCH even when the volume is high",
+            "Multi-purpose base: audit against the stated purpose and say so"
+          ]
+        },
+        "why_it_works": {
+          "acceptance_criteria": [
+            "No row is left undecided: every source comes out as retain, update or remove, with the evidence behind that decision cited in the same row",
+            "The verdict names the dimension that decided it, and a reader can return to the table and find the row holding it up",
+            "BASE SUFFICIENT appears only when no prioritized gap blocks the stated purpose; \"sufficient\" here means exactly that and never a judgement of volume"
+          ],
+          "edge_cases": [
+            "Ambiguous or missing purpose: the prompt asks for it instead of assuming it",
+            "High-volume base where everything is redundant: REPEAT RESEARCH",
+            "Source with no licence or origin: removed by default"
+          ],
+          "tradeoffs": [
+            "Removing sources cuts apparent coverage in exchange for signal per retained source",
+            "The frozen text closed with the slogan \"do not reward volume\"; it is replaced by a verdict tied to gaps, which actually prevents keeping everything"
+          ],
+          "assumptions": [
+            "The purpose is single; a multi-purpose base is audited once per purpose"
+          ],
+          "limits": [
+            "It audits sources; it does not verify one claim or issue its verdict: that is 04",
+            "It does not configure assistant behaviour or write its instruction and starter prompts: that is 07",
+            "Accuracy is not guaranteed: it decides relevance against the purpose, not truth of content"
+          ]
+        },
+        "traceability": [
+          {
+            "claim": "Intent 05 — deciding what to retain, update or remove from a base — and its expected matrix come from the published prompt library.",
+            "source": "https://javimontano.github.io/prompt-amplificado/biblioteca-prompts.html"
+          },
+          {
+            "claim": "The specification level of this cell orders role, objective, parameters and workflow following the public prompt-creation guide.",
+            "source": "https://javimontano.github.io/prompt-amplificado/crear-prompts.html"
+          },
+          {
+            "claim": "Supported source types and their limits are documented in the official NotebookLM support pages.",
+            "source": "https://support.google.com/notebooklm/answer/16215270?hl=es"
+          },
+          {
+            "claim": "Weighting the seven dimensions and removing by default any source without licence or origin are internal method rules.",
+            "source": "method_internal"
+          }
+        ]
+      },
+      "empresa": {
+        "title": "Relevance audit of the team base",
+        "purpose": "Decide what to retain, update or remove from the base the team shares and whether it meets the agreed purpose.",
+        "when": "the base the process depends on has grown and nobody knows whether it still serves the agreed purpose.",
+        "example": "Review the 20 sources of the sales Notebook before the proposal cycle.",
+        "evidence": "retain, update or remove matrix with an accountable owner per action, usage rights, prioritized gaps and a sufficiency verdict comparable across reviews.",
+        "prompt": "Audit [BASE] against the purpose [PURPOSE] of [TEAM]. Assess: usage rights and freshness block; authority and coverage decide; redundancy, bias, contradictions adjust. Require licence or origin per source; without it, remove and log [TEAM] operational risk. Deliver a short summary and a source | retain, update, remove | evidence | impact | action | owner table. Prioritize the gaps and issue verdict BASE SUFFICIENT only if none blocks; else REPEAT RESEARCH; name the deciding dimension. With a multi-area [BASE], audit only against [PURPOSE]; if unagreed, ask. Do not write assistant instruction or starter prompts, and do not verify single claims. Never invent sources or certainty.",
+        "level_spec": {
+          "role": "Relevance auditor who leaves every action owned and the verdict comparable",
+          "spec_role": "Specialist in evidence-grounded learning and research",
+          "objective": "Decide the fate of every shared source and issue a sufficiency verdict comparable across reviews",
+          "parameters": [
+            [
+              "dimensions",
+              "rights and freshness block, authority and coverage decide, redundancy and bias adjust"
+            ],
+            [
+              "governance",
+              "usage rights are a block, not a preference: no licence or origin means removal"
+            ],
+            [
+              "owner",
+              "every action in the table names an accountable owner"
+            ],
+            [
+              "comparability",
+              "verdict and deciding dimension are logged the same way in every review"
+            ]
+          ],
+          "workflow": [
+            "Record the shared base, the agreed purpose and the team consuming it",
+            "Require licence or origin per source and log the operational risk of each removal",
+            "Assess the seven dimensions in the stated order of weight",
+            "Decide retain, update or remove with evidence and an owner per action",
+            "Prioritize gaps and issue the comparable verdict with its deciding dimension"
+          ],
+          "guardrails": [
+            "Never invent sources or certainty, not even to fill a base that looks empty",
+            "Source with no licence or origin: remove by default and log the risk, do not keep it out of habit",
+            "Do not verify claims one by one or issue a verdict on a claim: that is 04",
+            "Do not write the team assistant instruction, limits or starter prompts: that is 07"
+          ],
+          "output": [
+            "Short summary of the state of the shared base",
+            "Table of source, decision, evidence, impact, action and owner",
+            "Prioritized gaps and a sufficiency verdict comparable across reviews"
+          ],
+          "dod": "Every action names an owner, every removal logs its risk, and the verdict can be compared with the previous review.",
+          "edge_cases": [
+            "Purpose not agreed across areas: ask for it before auditing",
+            "Base shared by several areas: audit against the stated purpose and say so",
+            "All sources redundant: REPEAT RESEARCH however impressive the volume"
+          ]
+        },
+        "why_it_works": {
+          "acceptance_criteria": [
+            "Every row carries a decision, its evidence and a named owner; an action without an owner does not count as agreed",
+            "The verdict is logged with its deciding dimension in the same format as the previous review, so two audits of the same Notebook are comparable across time",
+            "No source lacking licence or origin appears as retain: usage rights block before relevance is even discussed"
+          ],
+          "edge_cases": [
+            "Purpose not agreed across areas: it is requested before auditing",
+            "Useful source without rights: removed, and the gap it leaves enters the prioritized list",
+            "Base shared by several areas: audited against the stated purpose, and it says so"
+          ],
+          "tradeoffs": [
+            "Requiring an owner per action slows the audit in exchange for decisions that actually get executed",
+            "The frozen slogan \"do not reward volume\" is dropped: the gap-bound verdict replaces it and genuinely blocks keeping everything",
+            "The \"if all is redundant, repeat\" clause does not fit the team cell budget: it lives in edge_cases and in the gap-bound verdict, not in the prompt"
+          ],
+          "assumptions": [
+            "An agreed purpose exists and a team consumes the shared base"
+          ],
+          "limits": [
+            "It audits sources; it does not verify one claim or issue its verdict: that is 04",
+            "It does not configure the assistant or write its instruction and starter prompts: that is 07",
+            "It informs the accountable decision, it neither approves it nor guarantees accuracy"
+          ]
+        },
+        "traceability": [
+          {
+            "claim": "The retain, update or remove matrix and the sufficiency verdict of intent 05 come from the published prompt library, extended here to a shared base.",
+            "source": "https://javimontano.github.io/prompt-amplificado/biblioteca-prompts.html"
+          },
+          {
+            "claim": "The role, objective, parameters and workflow ordering of this team specification comes from the public prompt-creation guide.",
+            "source": "https://javimontano.github.io/prompt-amplificado/crear-prompts.html"
+          },
+          {
+            "claim": "Official NotebookLM support documents supported source types and their limits, which makes the origin datum requestable per source.",
+            "source": "https://support.google.com/notebooklm/answer/16215270?hl=es"
+          },
+          {
+            "claim": "Treating usage rights as a governance block, naming an owner per action and keeping the verdict comparable across reviews are internal policies for shared bases.",
+            "source": "method_internal"
+          }
+        ]
+      }
+    },
+    "pt": {
+      "persona": {
+        "title": "Auditoria de relevância da minha base",
+        "purpose": "Decida o que manter, atualizar ou retirar da sua base de aprendizagem e se ela ainda atende ao seu propósito.",
+        "when": "você percebe que a biblioteca cresceu e talvez já não sirva ao propósito com que a montou.",
+        "example": "Revisar as 20 fontes do meu Notebook antes de preparar uma aula.",
+        "evidence": "matriz manter, atualizar ou retirar com evidência por fonte, lacunas priorizadas e veredito de suficiência com a dimensão que o decidiu.",
+        "prompt": "Audite [BASE] contra o meu propósito [PROPÓSITO]. Avalie: direitos de uso e atualidade bloqueiam; autoridade e cobertura decidem; redundância, viés, contradições ajustam. Peça licença ou origem por fonte; sem esse dado, retire. Entregue resumo curto e tabela fonte | manter, atualizar, retirar | evidência | impacto | ação. Priorize as lacunas que bloqueiam o meu propósito. Veredito BASE SUFICIENTE só se nenhuma bloquear; senão, REPETIR PESQUISA; nomeie a dimensão decisiva. Se tudo for redundante, repita. Com [BASE] multipropósito, audite só contra [PROPÓSITO]; se faltar, peça. Não redija instrução nem prompts de início do assistente, nem verifique afirmações soltas. Não invente fontes nem certeza.",
+        "level_spec": {
+          "role": "Auditor de relevância que decide fonte a fonte contra um propósito único",
+          "spec_role": "Especialista em aprendizagem e pesquisa baseada em evidências",
+          "objective": "Decidir o que manter, atualizar ou retirar e emitir um veredito de suficiência atribuível a uma dimensão",
+          "parameters": [
+            [
+              "dimensões",
+              "direitos e atualidade bloqueiam, autoridade e cobertura decidem, redundância e viés ajustam"
+            ],
+            [
+              "dado_exigido",
+              "licença ou origem por fonte; sem esse dado a fonte é retirada"
+            ],
+            [
+              "suficiência",
+              "BASE SUFICIENTE só se nenhuma lacuna priorizada bloquear o propósito"
+            ],
+            [
+              "propósito_único",
+              "uma base multipropósito é auditada contra o propósito declarado e isso é dito"
+            ]
+          ],
+          "workflow": [
+            "Registrar a base e o propósito único contra o qual se audita",
+            "Pedir licença ou origem por fonte antes de julgar os direitos de uso",
+            "Avaliar as sete dimensões na ordem de peso declarada",
+            "Decidir manter, atualizar ou retirar por fonte com a evidência da decisão",
+            "Priorizar lacunas e emitir o veredito nomeando a dimensão que o decidiu"
+          ],
+          "guardrails": [
+            "Nunca invente fontes nem certeza",
+            "Fonte sem licença nem origem conhecida: retirar por padrão, não guardar por precaução",
+            "Não verificar afirmações uma a uma nem emitir veredito sobre uma afirmação: isso é 04",
+            "Não redigir instrução, limites nem prompts de início do assistente: isso é 07"
+          ],
+          "output": [
+            "Resumo curto do estado da base",
+            "Tabela de fonte, decisão, evidência da decisão, impacto e ação",
+            "Lacunas priorizadas e veredito de suficiência com a dimensão decisiva"
+          ],
+          "dod": "Cada fonte tem decisão e evidência, as lacunas estão ordenadas pelo bloqueio ao propósito e o veredito nomeia a dimensão decisiva.",
+          "edge_cases": [
+            "Propósito não declarado: pedi-lo antes de auditar",
+            "Todas as fontes redundantes: REPETIR PESQUISA mesmo com volume alto",
+            "Base multipropósito: auditar contra o propósito declarado e dizê-lo"
+          ]
+        },
+        "why_it_works": {
+          "acceptance_criteria": [
+            "Nenhuma linha fica sem decisão: cada fonte sai como manter, atualizar ou retirar, com a evidência dessa decisão citada na mesma linha",
+            "O veredito nomeia a dimensão que o decidiu, e quem lê consegue voltar à tabela e achar a linha que o sustenta",
+            "BASE SUFICIENTE só aparece quando nenhuma lacuna priorizada bloqueia o propósito declarado; \"suficiente\" aqui significa exatamente isso e nunca um juízo de volume"
+          ],
+          "edge_cases": [
+            "Propósito ambíguo ou ausente: o prompt o pede em vez de supô-lo",
+            "Base volumosa em que tudo é redundante: REPETIR PESQUISA",
+            "Fonte sem licença nem origem: retirada por padrão"
+          ],
+          "tradeoffs": [
+            "Retirar fontes reduz a cobertura aparente em troca de sinal por fonte mantida",
+            "O texto congelado fechava com o slogan \"não premie quantidade\"; é substituído pelo veredito ligado a lacunas, que de fato impede guardar tudo"
+          ],
+          "assumptions": [
+            "O propósito é único; uma base multipropósito é auditada uma vez por propósito"
+          ],
+          "limits": [
+            "Audita as fontes, não verifica uma afirmação concreta nem emite o veredito dela: isso é 04",
+            "Não configura o comportamento do assistente nem redige instrução ou prompts de início: isso é 07",
+            "Não garante exatidão: decide relevância contra o propósito, não a verdade do conteúdo"
+          ]
+        },
+        "traceability": [
+          {
+            "claim": "A intenção 05 — decidir o que manter, atualizar ou retirar de uma base — e sua matriz esperada vêm da biblioteca publicada do método.",
+            "source": "https://javimontano.github.io/prompt-amplificado/biblioteca-prompts.html"
+          },
+          {
+            "claim": "O nível especificação desta célula ordena papel, objetivo, parâmetros e fluxo conforme o guia público de criação de prompts.",
+            "source": "https://javimontano.github.io/prompt-amplificado/crear-prompts.html"
+          },
+          {
+            "claim": "Os tipos de fonte admitidos e seus limites estão documentados no suporte oficial do NotebookLM.",
+            "source": "https://support.google.com/notebooklm/answer/16215270?hl=es"
+          },
+          {
+            "claim": "Ordenar as sete dimensões por peso e retirar por padrão a fonte sem licença nem origem são regras internas do método.",
+            "source": "method_internal"
+          }
+        ]
+      },
+      "empresa": {
+        "title": "Auditoria de relevância da base da equipe",
+        "purpose": "Decida o que manter, atualizar ou retirar da base compartilhada da equipe e se ela atende ao propósito acordado.",
+        "when": "a base que o processo usa cresceu e ninguém sabe se ainda serve ao propósito acordado.",
+        "example": "Revisar as 20 fontes do Notebook comercial antes do ciclo de propostas.",
+        "evidence": "matriz manter, atualizar ou retirar com responsável por ação, direitos de uso, lacunas priorizadas e veredito de suficiência comparável entre revisões.",
+        "prompt": "Audite [BASE] contra o propósito [PROPÓSITO] da [EQUIPE]. Avalie: direitos de uso e atualidade bloqueiam; autoridade e cobertura decidem; redundância, viés, contradições ajustam. Exija licença ou origem por fonte; sem esse dado, retire e registre o risco operacional da [EQUIPE]. Entregue resumo curto e tabela fonte | manter, atualizar, retirar | evidência | impacto | ação | responsável. Priorize as lacunas; veredito BASE SUFICIENTE só se nenhuma bloquear; senão, REPETIR PESQUISA; nomeie a dimensão decisiva. Com [BASE] multiárea, audite só contra [PROPÓSITO]; se faltar, peça. Não redija instrução nem prompts de início do assistente, nem verifique afirmações soltas. Não invente fontes nem certeza.",
+        "level_spec": {
+          "role": "Auditor de relevância que deixa cada ação com responsável e o veredito comparável",
+          "spec_role": "Especialista em aprendizagem e pesquisa baseada em evidências",
+          "objective": "Decidir o destino de cada fonte compartilhada e emitir um veredito de suficiência comparável entre revisões",
+          "parameters": [
+            [
+              "dimensões",
+              "direitos e atualidade bloqueiam, autoridade e cobertura decidem, redundância e viés ajustam"
+            ],
+            [
+              "governança",
+              "direitos de uso são bloqueio, não preferência: sem licença nem origem a fonte sai"
+            ],
+            [
+              "responsável",
+              "cada ação da tabela leva responsável nomeado"
+            ],
+            [
+              "comparabilidade",
+              "veredito e dimensão decisiva são registrados igual em cada revisão"
+            ]
+          ],
+          "workflow": [
+            "Registrar a base compartilhada, o propósito acordado e a equipe que a consome",
+            "Exigir licença ou origem por fonte e registrar o risco operacional de cada retirada",
+            "Avaliar as sete dimensões na ordem de peso declarada",
+            "Decidir manter, atualizar ou retirar com evidência e responsável por ação",
+            "Priorizar lacunas e emitir o veredito comparável com sua dimensão decisiva"
+          ],
+          "guardrails": [
+            "Nunca invente fontes nem certeza, nem para preencher uma base que parece vazia",
+            "Fonte sem licença nem origem: retirar por padrão e registrar o risco, não manter por hábito",
+            "Não verificar afirmações uma a uma nem emitir veredito sobre uma afirmação: isso é 04",
+            "Não redigir instrução, limites nem prompts de início do assistente da equipe: isso é 07"
+          ],
+          "output": [
+            "Resumo curto do estado da base compartilhada",
+            "Tabela de fonte, decisão, evidência, impacto, ação e responsável",
+            "Lacunas priorizadas e veredito de suficiência comparável entre revisões"
+          ],
+          "dod": "Cada ação nomeia um responsável, cada retirada registra seu risco e o veredito pode ser comparado com a revisão anterior.",
+          "edge_cases": [
+            "Propósito não acordado entre áreas: pedi-lo antes de auditar",
+            "Base compartilhada por várias áreas: auditar contra o propósito declarado e dizê-lo",
+            "Todas as fontes redundantes: REPETIR PESQUISA por mais volumosa que pareça"
+          ]
+        },
+        "why_it_works": {
+          "acceptance_criteria": [
+            "Cada linha leva decisão, evidência e um responsável nomeado; uma ação sem responsável não conta como acordada",
+            "O veredito é registrado com sua dimensão decisiva no mesmo formato da revisão anterior, de modo que duas auditorias do mesmo Notebook sejam comparáveis no tempo",
+            "Nenhuma fonte sem licença nem origem aparece como manter: os direitos de uso bloqueiam antes de a relevância ser discutida"
+          ],
+          "edge_cases": [
+            "Propósito não acordado entre áreas: é pedido antes de auditar",
+            "Fonte útil mas sem direitos: sai, e a lacuna que deixa entra na lista priorizada",
+            "Base compartilhada por várias áreas: auditada contra o propósito declarado, e isso é dito"
+          ],
+          "tradeoffs": [
+            "Exigir responsável por ação torna a auditoria mais lenta em troca de decisões que de fato são executadas",
+            "O slogan congelado \"não premie quantidade\" sai: o veredito ligado a lacunas o substitui e realmente impede guardar tudo",
+            "A cláusula \"se tudo for redundante, repita\" não cabe no orçamento da célula empresa: vive em edge_cases e no veredito ligado a lacunas, não no prompt"
+          ],
+          "assumptions": [
+            "Existe um propósito acordado e uma equipe que consome a base compartilhada"
+          ],
+          "limits": [
+            "Audita as fontes, não verifica uma afirmação concreta nem emite o veredito dela: isso é 04",
+            "Não configura o assistente nem redige sua instrução e seus prompts de início: isso é 07",
+            "Informa a decisão do responsável, não a aprova nem garante exatidão"
+          ]
+        },
+        "traceability": [
+          {
+            "claim": "A matriz manter, atualizar ou retirar e o veredito de suficiência da intenção 05 vêm da biblioteca publicada do método, aqui estendidos a uma base compartilhada.",
+            "source": "https://javimontano.github.io/prompt-amplificado/biblioteca-prompts.html"
+          },
+          {
+            "claim": "A ordem de papel, objetivo, parâmetros e fluxo desta especificação de equipe procede do guia público de criação de prompts.",
+            "source": "https://javimontano.github.io/prompt-amplificado/crear-prompts.html"
+          },
+          {
+            "claim": "O suporte oficial do NotebookLM documenta os tipos de fonte admitidos e seus limites, o que torna exigível o dado de origem por fonte.",
+            "source": "https://support.google.com/notebooklm/answer/16215270?hl=es"
+          },
+          {
+            "claim": "Tratar os direitos de uso como bloqueio de governança, nomear responsável por ação e manter o veredito comparável entre revisões são políticas internas para bases compartilhadas.",
+            "source": "method_internal"
+          }
+        ]
+      }
+    }
+  },
+  "self_hash_model": "sha256(sorted-json-without-self_sha256)",
+  "self_sha256": "8e990ac21bba910861f5fa788bd4ceeb0f2746b6281bf4c46de3bca89bca7b13"
+}
