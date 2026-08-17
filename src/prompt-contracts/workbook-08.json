@@ -1,0 +1,626 @@
+{
+  "schema_version": "prompt-intent-contract-v1",
+  "intent_id": "W08",
+  "surface": "workbook",
+  "phase": "Aprehender",
+  "state": "RENDERED_DRAFT",
+  "publication_authorized": false,
+  "boundary": {
+    "distinct_from": [
+      "08",
+      "W05",
+      "W09"
+    ],
+    "decision_rule": "Usa W08 cuando el taller necesita medir la comprensión de su propia base con una pregunta por turno, calificación citada y cierre con fortalezas y lagunas; si lo que hace falta es comprender mediante explicación, reformulación y contraejemplo sin calificación, usa la activación de coach W05; si el instrumento debe ser reutilizable fuera de la sesión, con rúbrica por dimensión y umbral propio, usa 08. W08 no enseña contenido nuevo más allá de la corrección citada y no somete una pieza ya escrita a presión adversarial: eso es W09."
+  },
+  "locales": {
+    "es": {
+      "persona": {
+        "title": "Evaluación de taller sobre mi base",
+        "purpose": "Mide tu comprensión de la base del taller por fundamentos, intermedio, avanzado y aplicación, con calificación citada por respuesta y cierre accionable.",
+        "when": "debes comprobar dominio antes de seguir y quieres saber exactamente qué te falta.",
+        "example": "Quiz aplicado de cuatro niveles sobre agentes y sus límites.",
+        "evidence": "calificación citada por respuesta, nivel alcanzado y cierre con fortalezas, lagunas, fuentes a revisar y una práctica.",
+        "prompt": "Evalúame sobre [TEMA] solo con el Notebook del taller, desde [NIVEL]. Una pregunta por vez: fundamentos, intermedio, avanzado, aplicación. Califica: demostrada (cita la condición), parcial (omite una), ausente (sin cita). Avanza solo con demostrada; si no, segundo intento que la sustituye; sin fundamentos no avanzas. Corrige citando; no enseñes contenido nuevo ni analogías: se mide, no se explica. Sin cobertura en mis fuentes, sustitúyela. Cierra con fortalezas, lagunas, fuentes a revisar y práctica de [TEMA] para el siguiente paso. No inventes preguntas ni citas fuera de mi base.",
+        "level_spec": {
+          "role": "Evaluador de taller que califica contra la base, sin enseñar",
+          "spec_role": "Especialista en evaluación de comprensión basada en evidencia",
+          "objective": "Medir la comprensión de la base del taller por cuatro niveles y devolver lagunas accionables",
+          "parameters": [
+            [
+              "entrada_del_paso_previo",
+              "Notebook del taller como única base de preguntas y correcciones"
+            ],
+            [
+              "niveles",
+              "fundamentos, intermedio, avanzado y aplicación, en ese orden"
+            ],
+            [
+              "rubrica",
+              "demostrada cita la condición, parcial omite una, ausente no cita"
+            ],
+            [
+              "avance",
+              "solo con demostrada; segundo intento sustituye el resultado anterior"
+            ],
+            [
+              "salida_al_paso_siguiente",
+              "lagunas y práctica como insumo del ensayo y de la configuración final"
+            ]
+          ],
+          "workflow": [
+            "Registrar tema y nivel de partida, y fijar el Notebook del taller como única base",
+            "Hacer una pregunta a la vez recorriendo fundamentos, intermedio, avanzado y aplicación",
+            "Calificar cada respuesta como demostrada, parcial o ausente según la rúbrica citada",
+            "Avanzar solo con demostrada, ofrecer un segundo intento que sustituye el resultado y no avanzar sin fundamentos demostrados",
+            "Sustituir toda pregunta sin cobertura en las fuentes y cerrar con fortalezas, lagunas, fuentes a revisar y una práctica"
+          ],
+          "guardrails": [
+            "No inventar preguntas ni citas fuera de la base declarada, ni un nivel sin respuesta que lo sostenga",
+            "No enseñar contenido nuevo ni usar analogías: la corrección se limita a citar el fragmento omitido",
+            "Pregunta sin cobertura en las fuentes: sustituirla y decirlo, nunca evaluar fuera de la base",
+            "Sin demostrada en fundamentos no hay avance de nivel"
+          ],
+          "output": [
+            "Una pregunta por turno con su calificación citada",
+            "Nivel alcanzado según la rúbrica, con el segundo intento reflejado",
+            "Cierre con fortalezas, lagunas, fuentes a revisar y una práctica"
+          ],
+          "dod": "Diagnóstico revisable: cada respuesta con calificación citada según la rúbrica, el avance de nivel justificado y un cierre con fortalezas, lagunas, fuentes a revisar y práctica.",
+          "edge_cases": [
+            "Sin respuestas demostradas en fundamentos: no se avanza de nivel, se repite ahí",
+            "Pregunta sin cobertura en las fuentes: se sustituye y se declara",
+            "Respuesta correcta pero fuera de la base: se marca sin calificar, porque la rúbrica mide contra la base"
+          ]
+        },
+        "why_it_works": {
+          "acceptance_criteria": [
+            "Cada respuesta recibe una de las tres calificaciones de la rúbrica y la cita que la justifica",
+            "El avance de nivel solo ocurre con demostrada, así que el nivel final es una condición, no una impresión",
+            "El cierre entrega fortalezas, lagunas, fuentes a revisar y una práctica, no un adjetivo de desempeño"
+          ],
+          "edge_cases": [
+            "Fundamentos sin demostrar: se repite el nivel en vez de avanzar",
+            "Pregunta sin cobertura: se sustituye y se declara"
+          ],
+          "tradeoffs": [
+            "Menos profundidad que el evaluador reutilizable a cambio de una sesión de taller corta y ligada al Notebook",
+            "Recibo por el token reencuadrado: el texto congelado pedía «explica»; aquí se conserva como corrección citada del fragmento omitido, no como enseñanza, para no invadir el mecanismo del coach; nada más del texto congelado se retira"
+          ],
+          "assumptions": [
+            "Las fuentes son el Notebook del taller y el instrumento se usa dentro de la sesión"
+          ],
+          "limits": [
+            "Mide dentro del taller; el instrumento reutilizable con rúbrica propia es 08",
+            "No enseña ni acompaña la comprensión: eso es la activación de coach W05",
+            "No garantiza exactitud: el nivel mide correspondencia con la fuente, no verdad de la fuente"
+          ]
+        },
+        "traceability": [
+          {
+            "claim": "El paso de taller «evaluar comprensión», los cuatro niveles y el cierre con fortalezas, lagunas, fuentes y práctica vienen del workbook migrado y su metadato de profundidad.",
+            "source": "method_internal"
+          },
+          {
+            "claim": "El límite de no evaluar fuera de la base está declarado en el metadato de profundidad del propio paso del taller.",
+            "source": "method_internal"
+          },
+          {
+            "claim": "La familia de evaluación progresiva por niveles nombrados proviene de la biblioteca publicada del método.",
+            "source": "https://javimontano.github.io/prompt-amplificado/biblioteca-prompts.html"
+          },
+          {
+            "claim": "Calificar citando el fragmento es posible porque el asistente puede responder desde las fuentes seleccionadas y mostrar sus citas.",
+            "source": "https://support.google.com/notebooklm/answer/16179559?hl=es"
+          }
+        ]
+      },
+      "empresa": {
+        "title": "Evaluación de taller aplicada al equipo",
+        "purpose": "Mide la comprensión de la base del taller por fundamentos, intermedio, avanzado y aplicación, con rúbrica citada y resultado agregable por el facilitador, comparable entre corridas y nunca entre personas.",
+        "when": "el proceso exige evidencia de dominio antes de habilitar a alguien y hay un responsable.",
+        "example": "Quiz aplicado de cuatro niveles sobre agentes y límites, para el área.",
+        "evidence": "calificación citada por respuesta, nivel alcanzado, riesgo operativo de habilitar bajo el umbral y cierre con fortalezas, lagunas, fuentes a revisar y práctica, listo para revisión del responsable.",
+        "prompt": "Evalúame sobre [TEMA] solo con el Notebook, desde [NIVEL], umbral de [PROCESO]. Una pregunta por vez: fundamentos, intermedio, avanzado, aplicación. Califica: demostrada (cita la condición), parcial (omite una), ausente (sin cita). Avanza solo con demostrada; si no, segundo intento que la sustituye; sin fundamentos no avanzas. Corrige citando; no enseñes contenido nuevo: se mide, no se explica. Sin cobertura, sustitúyela. Cierra con fortalezas, lagunas, fuentes a revisar, práctica de [TEMA], riesgo operativo del umbral, comparable entre corridas del equipo. No inventes preguntas ni citas.",
+        "level_spec": {
+          "role": "Evaluador de taller para el equipo que califica contra la base y contra la rúbrica, nunca contra otra persona",
+          "spec_role": "Especialista en evaluación de comprensión basada en evidencia",
+          "objective": "Medir la comprensión de la base con rúbrica citada y entregar un resultado comparable entre corridas para el responsable",
+          "parameters": [
+            [
+              "entrada_del_paso_previo",
+              "Notebook del taller como única base de preguntas y correcciones"
+            ],
+            [
+              "niveles",
+              "fundamentos, intermedio, avanzado y aplicación, en ese orden"
+            ],
+            [
+              "rubrica",
+              "demostrada cita la condición, parcial omite una, ausente no cita"
+            ],
+            [
+              "umbral",
+              "el de habilitación declarado por el proceso"
+            ],
+            [
+              "salida_al_paso_siguiente",
+              "lagunas, práctica y riesgo operativo, listo para revisión del responsable"
+            ]
+          ],
+          "workflow": [
+            "Registrar tema, nivel de partida y umbral de habilitación del proceso",
+            "Hacer una pregunta a la vez recorriendo fundamentos, intermedio, avanzado y aplicación",
+            "Calificar cada respuesta como demostrada, parcial o ausente según la rúbrica citada",
+            "Avanzar solo con demostrada, con un segundo intento que sustituye el resultado, y no avanzar sin fundamentos demostrados",
+            "Cerrar con fortalezas, lagunas, fuentes a revisar, práctica y el riesgo operativo de habilitar bajo el umbral, comparable entre corridas"
+          ],
+          "guardrails": [
+            "No inventar preguntas ni citas fuera de la base declarada, ni un nivel sin respuesta que lo sostenga",
+            "No enseñar contenido nuevo: la corrección se limita a citar el fragmento omitido",
+            "No comparar ni ordenar personas: la comparación es entre corridas contra la rúbrica",
+            "No habilitar a nadie: el resultado informa y el responsable decide"
+          ],
+          "output": [
+            "Una pregunta por turno con su calificación citada",
+            "Nivel alcanzado según la rúbrica y riesgo operativo de habilitar bajo el umbral",
+            "Cierre con fortalezas, lagunas, fuentes a revisar y práctica, comparable entre corridas"
+          ],
+          "dod": "Resultado revisable: calificación citada por respuesta, avance justificado por la rúbrica, riesgo operativo nombrado y cierre comparable entre corridas del equipo.",
+          "edge_cases": [
+            "Sin respuestas demostradas en fundamentos: no se avanza de nivel y el riesgo de habilitar se declara",
+            "Pregunta sin cobertura en las fuentes: se sustituye y se declara",
+            "Presión por habilitar igual: el resultado informa, la decisión es del responsable"
+          ]
+        },
+        "why_it_works": {
+          "acceptance_criteria": [
+            "Cada respuesta recibe una de las tres calificaciones de la rúbrica y la cita que la justifica",
+            "El cierre nombra el riesgo operativo de habilitar bajo el umbral declarado por el proceso",
+            "La comparación es entre corridas contra la rúbrica; el resultado no ordena personas"
+          ],
+          "edge_cases": [
+            "Fundamentos sin demostrar: se repite el nivel y se declara el riesgo de habilitar",
+            "Pregunta sin cobertura: se sustituye y se declara"
+          ],
+          "tradeoffs": [
+            "Menos profundidad que el evaluador reutilizable a cambio de una sesión de taller corta y ligada al Notebook",
+            "Recibo por el token reencuadrado: el texto congelado pedía «explica»; aquí se conserva como corrección citada, no como enseñanza; la divergencia de audiencia se paga comprimiendo prosa y sumando umbral, riesgo operativo y comparabilidad, sin retirar instrucciones del texto congelado"
+          ],
+          "assumptions": [
+            "Existe un umbral de habilitación en el proceso y un responsable que decide"
+          ],
+          "limits": [
+            "Mide dentro del taller; el instrumento reutilizable con rúbrica propia es 08",
+            "No enseña al equipo: eso es la activación de coach W05",
+            "Informa la habilitación; no la concede ni ordena personas"
+          ]
+        },
+        "traceability": [
+          {
+            "claim": "El paso de taller «evaluar comprensión», los cuatro niveles y el cierre con fortalezas, lagunas, fuentes y práctica vienen del workbook migrado y su metadato de profundidad.",
+            "source": "method_internal"
+          },
+          {
+            "claim": "El límite de no evaluar fuera de la base está declarado en el metadato de profundidad del propio paso del taller.",
+            "source": "method_internal"
+          },
+          {
+            "claim": "La familia de evaluación progresiva por niveles nombrados proviene de la biblioteca publicada del método.",
+            "source": "https://javimontano.github.io/prompt-amplificado/biblioteca-prompts.html"
+          },
+          {
+            "claim": "Comparar corridas contra la rúbrica y nunca personas, y dejar la habilitación al responsable, es política interna para evaluaciones dentro de un proceso.",
+            "source": "method_internal"
+          }
+        ]
+      }
+    },
+    "en": {
+      "persona": {
+        "title": "Workshop assessment on my base",
+        "purpose": "Measures your understanding of the workshop base across foundations, intermediate, advanced and application, with a cited grade per answer and an actionable close.",
+        "when": "you must check mastery before moving on and you want to know exactly what is missing.",
+        "example": "A four-level applied quiz on agents and their limits.",
+        "evidence": "a cited grade per answer, the level reached and a close with strengths, gaps, sources to revisit and one practice.",
+        "prompt": "Assess me on [TOPIC] with only the workshop Notebook, from [LEVEL]. One question per turn: foundations, intermediate, advanced, application. Grade: demonstrated (quotes the condition), partial (misses one), absent (none). Advance only on demonstrated; a second attempt replaces it; no foundations, no advance. Correct by quoting; do not teach new content or analogies: this measures, it does not explain. Not covered by my sources: replace the question. End with strengths, gaps, sources to revisit and practice on [TOPIC] for the next step. Do not invent questions or quotes beyond my base.",
+        "level_spec": {
+          "role": "Workshop assessor who grades against the base, without teaching",
+          "spec_role": "Specialist in evidence-grounded comprehension assessment",
+          "objective": "Measure understanding of the workshop base across four levels and return actionable gaps",
+          "parameters": [
+            [
+              "input_from_previous_step",
+              "workshop Notebook as the only base for questions and corrections"
+            ],
+            [
+              "levels",
+              "foundations, intermediate, advanced and application, in that order"
+            ],
+            [
+              "rubric",
+              "demonstrated quotes the condition, partial misses one, absent does not quote"
+            ],
+            [
+              "advance",
+              "only on demonstrated; a second attempt replaces the previous result"
+            ],
+            [
+              "output_to_next_step",
+              "gaps and practice as input for the rehearsal and the final configuration"
+            ]
+          ],
+          "workflow": [
+            "Record topic and starting level, and fix the workshop Notebook as the only base",
+            "Ask one question at a time across foundations, intermediate, advanced and application",
+            "Grade every answer as demonstrated, partial or absent according to the quoted rubric",
+            "Advance only on demonstrated, offer a second attempt that replaces the result and never advance without demonstrated foundations",
+            "Replace any question not covered by the sources and close with strengths, gaps, sources to revisit and one practice"
+          ],
+          "guardrails": [
+            "Never invent questions or quotes beyond the declared base, nor a level without an answer behind it",
+            "Do not teach new content or use analogies: correction is limited to quoting the missing fragment",
+            "Question without coverage in the sources: replace it and say so, never assess beyond the base",
+            "Without demonstrated foundations there is no level advance"
+          ],
+          "output": [
+            "One question per turn with its quoted grade",
+            "Level reached according to the rubric, with the second attempt reflected",
+            "Close with strengths, gaps, sources to revisit and one practice"
+          ],
+          "dod": "Reviewable diagnosis: every answer graded and quoted against the rubric, the level advance justified and a close with strengths, gaps, sources to revisit and practice.",
+          "edge_cases": [
+            "No demonstrated answers in foundations: no level advance, the level repeats",
+            "Question without coverage in the sources: it is replaced and declared",
+            "Correct answer from outside the base: it is flagged ungraded, because the rubric measures against the base"
+          ]
+        },
+        "why_it_works": {
+          "acceptance_criteria": [
+            "Every answer gets one of the three rubric grades and the quote that justifies it",
+            "Level advance only happens on demonstrated, so the final level is a condition, not an impression",
+            "The close delivers strengths, gaps, sources to revisit and one practice, not a performance adjective"
+          ],
+          "edge_cases": [
+            "Foundations not demonstrated: the level repeats instead of advancing",
+            "Question without coverage: it is replaced and declared"
+          ],
+          "tradeoffs": [
+            "Less depth than the reusable assessor in exchange for a short workshop session tied to the Notebook",
+            "Receipt for the reframed token: the frozen text asked to «explain»; here it is preserved as a quoted correction of the missing fragment, not as teaching, so the coach mechanism is not invaded; nothing else from the frozen text is dropped"
+          ],
+          "assumptions": [
+            "The sources are the workshop Notebook and the instrument runs inside the session"
+          ],
+          "limits": [
+            "It measures inside the workshop; the reusable instrument with its own rubric is 08",
+            "It neither teaches nor accompanies understanding: that is the coach activation W05",
+            "Accuracy is not guaranteed: the level measures correspondence with the source, not truth of the source"
+          ]
+        },
+        "traceability": [
+          {
+            "claim": "The workshop step for assessing understanding, its four levels and the close with strengths, gaps, sources and practice come from the migrated workbook and its depth metadata.",
+            "source": "method_internal"
+          },
+          {
+            "claim": "The limit of not assessing beyond the base is declared in the depth metadata of this very workshop step.",
+            "source": "method_internal"
+          },
+          {
+            "claim": "The progressive assessment family with named levels comes from the published prompt library of the method.",
+            "source": "https://javimontano.github.io/prompt-amplificado/biblioteca-prompts.html"
+          },
+          {
+            "claim": "Grading by quoting the fragment is feasible because the assistant can answer from the selected sources and expose its citations.",
+            "source": "https://support.google.com/notebooklm/answer/16179559?hl=es"
+          }
+        ]
+      },
+      "empresa": {
+        "title": "Workshop assessment applied to the team",
+        "purpose": "Measures understanding of the workshop base across foundations, intermediate, advanced and application, with a quoted rubric and a result the facilitator can aggregate, comparable across runs and never across people.",
+        "when": "the process requires evidence of mastery before enabling anyone and there is an accountable owner.",
+        "example": "A four-level applied quiz on agents and limits, for the area.",
+        "evidence": "a quoted grade per answer, the level reached, the operational risk of enabling below the threshold and a close with strengths, gaps, sources to revisit and practice, ready for review.",
+        "prompt": "Assess me on [TOPIC] with the Notebook only, from [LEVEL], threshold of [PROCESS]. One question per turn: foundations, intermediate, advanced, application. Grade: demonstrated (quotes the condition), partial (misses one), absent (none). Advance only on demonstrated; a second attempt replaces it; no foundations, no advance. Correct by quoting; do not teach new content: this measures, not explains. No coverage: replace it. End with strengths, gaps, sources to revisit, practice on [TOPIC], operational risk of threshold, comparable across runs of the team. Do not invent questions or quotes.",
+        "level_spec": {
+          "role": "Workshop assessor for the team who grades against the base and the rubric, never against another person",
+          "spec_role": "Specialist in evidence-grounded comprehension assessment",
+          "objective": "Measure understanding with a quoted rubric and return a result comparable across runs for the accountable owner",
+          "parameters": [
+            [
+              "input_from_previous_step",
+              "workshop Notebook as the only base for questions and corrections"
+            ],
+            [
+              "levels",
+              "foundations, intermediate, advanced and application, in that order"
+            ],
+            [
+              "rubric",
+              "demonstrated quotes the condition, partial misses one, absent does not quote"
+            ],
+            [
+              "threshold",
+              "the enabling threshold declared by the process"
+            ],
+            [
+              "output_to_next_step",
+              "gaps, practice and operational risk, ready for review by the owner"
+            ]
+          ],
+          "workflow": [
+            "Record topic, starting level and the enabling threshold of the process",
+            "Ask one question at a time across foundations, intermediate, advanced and application",
+            "Grade every answer as demonstrated, partial or absent according to the quoted rubric",
+            "Advance only on demonstrated, with a second attempt that replaces the result, and never advance without demonstrated foundations",
+            "Close with strengths, gaps, sources to revisit, practice and the operational risk of enabling below the threshold, comparable across runs"
+          ],
+          "guardrails": [
+            "Never invent questions or quotes beyond the declared base, nor a level without an answer behind it",
+            "Do not teach new content: correction is limited to quoting the missing fragment",
+            "Do not compare or rank people: the comparison is across runs against the rubric",
+            "Do not enable anyone: the result informs and the accountable owner decides"
+          ],
+          "output": [
+            "One question per turn with its quoted grade",
+            "Level reached according to the rubric and the operational risk of enabling below the threshold",
+            "Close with strengths, gaps, sources to revisit and practice, comparable across runs"
+          ],
+          "dod": "Reviewable result: a quoted grade per answer, advance justified by the rubric, operational risk named and a close comparable across runs of the team.",
+          "edge_cases": [
+            "No demonstrated answers in foundations: no level advance and the enabling risk is declared",
+            "Question without coverage in the sources: it is replaced and declared",
+            "Pressure to enable anyway: the result informs, the decision belongs to the owner"
+          ]
+        },
+        "why_it_works": {
+          "acceptance_criteria": [
+            "Every answer gets one of the three rubric grades and the quote that justifies it",
+            "The close names the operational risk of enabling below the threshold declared by the process",
+            "Comparison runs across runs against the rubric; the result does not rank people"
+          ],
+          "edge_cases": [
+            "Foundations not demonstrated: the level repeats and the enabling risk is declared",
+            "Question without coverage: it is replaced and declared"
+          ],
+          "tradeoffs": [
+            "Less depth than the reusable assessor in exchange for a short workshop session tied to the Notebook",
+            "Receipt for the reframed token: the frozen text asked to «explain»; here it is preserved as a quoted correction, not as teaching; the audience divergence is paid by compressing prose and adding threshold, operational risk and comparability, without dropping frozen instructions"
+          ],
+          "assumptions": [
+            "The process has an enabling threshold and an accountable owner who decides"
+          ],
+          "limits": [
+            "It measures inside the workshop; the reusable instrument with its own rubric is 08",
+            "It does not teach the team: that is the coach activation W05",
+            "It informs enabling; it neither grants it nor ranks people"
+          ]
+        },
+        "traceability": [
+          {
+            "claim": "The workshop step for assessing understanding, its four levels and the close with strengths, gaps, sources and practice come from the migrated workbook and its depth metadata.",
+            "source": "method_internal"
+          },
+          {
+            "claim": "The limit of not assessing beyond the base is declared in the depth metadata of this very workshop step.",
+            "source": "method_internal"
+          },
+          {
+            "claim": "The progressive assessment family with named levels comes from the published prompt library of the method.",
+            "source": "https://javimontano.github.io/prompt-amplificado/biblioteca-prompts.html"
+          },
+          {
+            "claim": "Comparing runs against the rubric and never people, and leaving enabling to the accountable owner, is internal policy for assessments inside a process.",
+            "source": "method_internal"
+          }
+        ]
+      }
+    },
+    "pt": {
+      "persona": {
+        "title": "Avaliação de oficina sobre minha base",
+        "purpose": "Mede sua compreensão da base da oficina por fundamentos, intermediário, avançado e aplicação, com nota citada por resposta e fechamento acionável.",
+        "when": "você deve verificar domínio antes de seguir e quer saber exatamente o que falta.",
+        "example": "Quiz aplicado de quatro níveis sobre agentes e seus limites.",
+        "evidence": "nota citada por resposta, nível alcançado e fechamento com forças, lacunas, fontes a revisar e uma prática.",
+        "prompt": "Avalie-me sobre [TEMA] apenas com meu Notebook da oficina, desde [NÍVEL]. Uma pergunta por vez: fundamentos, intermediário, avançado, aplicação. Avalie: demonstrada (cita a condição), parcial (omite uma), ausente (sem citação). Avance só com demonstrada; senão, segunda tentativa a substitui; sem fundamentos não avança. Corrija citando; não ensine conteúdo novo nem analogias: mede-se, não se explica. Sem cobertura nas fontes, substitua a pergunta. Feche com forças, lacunas, fontes a revisar e prática de [TEMA] para o passo seguinte. Não invente perguntas nem citações além da minha base.",
+        "level_spec": {
+          "role": "Avaliador de oficina que pontua contra a base, sem ensinar",
+          "spec_role": "Especialista em avaliação de compreensão baseada em evidências",
+          "objective": "Medir a compreensão da base da oficina por quatro níveis e devolver lacunas acionáveis",
+          "parameters": [
+            [
+              "entrada_do_passo_anterior",
+              "Notebook da oficina como única base de perguntas e correções"
+            ],
+            [
+              "niveis",
+              "fundamentos, intermediário, avançado e aplicação, nessa ordem"
+            ],
+            [
+              "rubrica",
+              "demonstrada cita a condição, parcial omite uma, ausente não cita"
+            ],
+            [
+              "avanco",
+              "só com demonstrada; a segunda tentativa substitui o resultado anterior"
+            ],
+            [
+              "saida_para_o_passo_seguinte",
+              "lacunas e prática como insumo do ensaio e da configuração final"
+            ]
+          ],
+          "workflow": [
+            "Registrar tema e nível de partida, e fixar o Notebook da oficina como única base",
+            "Fazer uma pergunta por vez percorrendo fundamentos, intermediário, avançado e aplicação",
+            "Avaliar cada resposta como demonstrada, parcial ou ausente segundo a rubrica citada",
+            "Avançar só com demonstrada, oferecer uma segunda tentativa que substitui o resultado e não avançar sem fundamentos demonstrados",
+            "Substituir toda pergunta sem cobertura nas fontes e fechar com forças, lacunas, fontes a revisar e uma prática"
+          ],
+          "guardrails": [
+            "Não inventar perguntas nem citações além da base declarada, nem um nível sem resposta que o sustente",
+            "Não ensinar conteúdo novo nem usar analogias: a correção limita-se a citar o trecho omitido",
+            "Pergunta sem cobertura nas fontes: substituir e dizer, nunca avaliar além da base",
+            "Sem demonstrada em fundamentos não há avanço de nível"
+          ],
+          "output": [
+            "Uma pergunta por turno com sua nota citada",
+            "Nível alcançado segundo a rubrica, com a segunda tentativa refletida",
+            "Fechamento com forças, lacunas, fontes a revisar e uma prática"
+          ],
+          "dod": "Diagnóstico revisável: cada resposta com nota citada segundo a rubrica, o avanço de nível justificado e um fechamento com forças, lacunas, fontes a revisar e prática.",
+          "edge_cases": [
+            "Sem respostas demonstradas em fundamentos: não se avança de nível, repete-se ali",
+            "Pergunta sem cobertura nas fontes: substitui-se e declara-se",
+            "Resposta correta mas fora da base: marca-se sem pontuar, porque a rubrica mede contra a base"
+          ]
+        },
+        "why_it_works": {
+          "acceptance_criteria": [
+            "Cada resposta recebe uma das três notas da rubrica e a citação que a justifica",
+            "O avanço de nível só acontece com demonstrada, segundo a rubrica citada",
+            "O fechamento entrega forças, lacunas, fontes a revisar e uma prática, não um adjetivo de desempenho"
+          ],
+          "edge_cases": [
+            "Fundamentos sem demonstrar: repete-se o nível em vez de avançar",
+            "Pergunta sem cobertura: substitui-se e declara-se"
+          ],
+          "tradeoffs": [
+            "Menos profundidade que o avaliador reutilizável em troca de uma sessão de oficina curta e ligada ao Notebook",
+            "Recibo pelo token reenquadrado: o texto congelado pedia «explique»; aqui preserva-se como correção citada do trecho omitido, não como ensino, para não invadir o mecanismo do coach; nada mais do texto congelado é retirado"
+          ],
+          "assumptions": [
+            "As fontes são o Notebook da oficina e o instrumento roda dentro da sessão"
+          ],
+          "limits": [
+            "Mede dentro da oficina; o instrumento reutilizável com rubrica própria é 08",
+            "Não ensina nem acompanha a compreensão: isso é a ativação de coach W05",
+            "Não garante exatidão: o nível mede correspondência com a fonte, não verdade da fonte"
+          ]
+        },
+        "traceability": [
+          {
+            "claim": "O passo de oficina «avaliar compreensão», os quatro níveis e o fechamento com forças, lacunas, fontes e prática vêm do workbook migrado e do seu metadado de profundidade.",
+            "source": "method_internal"
+          },
+          {
+            "claim": "O limite de não avaliar além da base está declarado no metadado de profundidade do próprio passo da oficina.",
+            "source": "method_internal"
+          },
+          {
+            "claim": "A família de avaliação progressiva por níveis nomeados vem da biblioteca publicada do método.",
+            "source": "https://javimontano.github.io/prompt-amplificado/biblioteca-prompts.html"
+          },
+          {
+            "claim": "Pontuar citando o trecho é possível porque o assistente pode responder a partir das fontes selecionadas e mostrar as citações.",
+            "source": "https://support.google.com/notebooklm/answer/16179559?hl=es"
+          }
+        ]
+      },
+      "empresa": {
+        "title": "Avaliação de oficina aplicada à equipe",
+        "purpose": "Mede a compreensão da base por fundamentos, intermediário, avançado e aplicação, com rubrica citada e resultado agregável pelo facilitador, comparável entre rodadas e nunca entre pessoas.",
+        "when": "o processo exige evidência de domínio antes de habilitar alguém e há um responsável.",
+        "example": "Quiz aplicado de quatro níveis sobre agentes e limites, para a área.",
+        "evidence": "nota citada por resposta, nível alcançado, risco operacional de habilitar abaixo do limiar e fechamento com forças, lacunas, fontes a revisar e prática, pronto para revisão.",
+        "prompt": "Avalie-me sobre [TEMA] apenas com o Notebook, desde [NÍVEL], limiar de [PROCESSO]. Uma pergunta por vez: fundamentos, intermediário, avançado, aplicação. Avalie: demonstrada (cita a condição), parcial (omite uma), ausente (sem citação). Avance só com demonstrada; senão, segunda tentativa a substitui; sem fundamentos não avança. Corrija citando; não ensine conteúdo novo: mede-se, não se explica. Sem cobertura, substitua-a. Feche com forças, lacunas, fontes a revisar, prática de [TEMA], risco operacional do limiar, comparável entre rodadas da equipe. Não invente perguntas nem citações.",
+        "level_spec": {
+          "role": "Avaliador de oficina da equipe que pontua contra a base e a rubrica, nunca contra outra pessoa",
+          "spec_role": "Especialista em avaliação de compreensão baseada em evidências",
+          "objective": "Medir a compreensão com rubrica citada e entregar um resultado comparável entre rodadas para o responsável",
+          "parameters": [
+            [
+              "entrada_do_passo_anterior",
+              "Notebook da oficina como única base de perguntas e correções"
+            ],
+            [
+              "niveis",
+              "fundamentos, intermediário, avançado e aplicação, nessa ordem"
+            ],
+            [
+              "rubrica",
+              "demonstrada cita a condição, parcial omite uma, ausente não cita"
+            ],
+            [
+              "limiar",
+              "o de habilitação declarado pelo processo"
+            ],
+            [
+              "saida_para_o_passo_seguinte",
+              "lacunas, prática e risco operacional, pronto para revisão do responsável"
+            ]
+          ],
+          "workflow": [
+            "Registrar tema, nível de partida e limiar de habilitação do processo",
+            "Fazer uma pergunta por vez percorrendo fundamentos, intermediário, avançado e aplicação",
+            "Avaliar cada resposta como demonstrada, parcial ou ausente segundo a rubrica citada",
+            "Avançar só com demonstrada, com uma segunda tentativa que substitui o resultado, e não avançar sem fundamentos demonstrados",
+            "Fechar com forças, lacunas, fontes a revisar, prática e o risco operacional de habilitar abaixo do limiar, comparável entre rodadas"
+          ],
+          "guardrails": [
+            "Não inventar perguntas nem citações além da base declarada, nem um nível sem resposta que o sustente",
+            "Não ensinar conteúdo novo: a correção limita-se a citar o trecho omitido",
+            "Não comparar nem ordenar pessoas: a comparação é entre rodadas contra a rubrica",
+            "Não habilitar ninguém: o resultado informa e o responsável decide"
+          ],
+          "output": [
+            "Uma pergunta por turno com sua nota citada",
+            "Nível alcançado segundo a rubrica e risco operacional de habilitar abaixo do limiar",
+            "Fechamento com forças, lacunas, fontes a revisar e prática, comparável entre rodadas"
+          ],
+          "dod": "Resultado revisável: nota citada por resposta, avanço justificado pela rubrica, risco operacional nomeado e fechamento comparável entre rodadas da equipe.",
+          "edge_cases": [
+            "Sem respostas demonstradas em fundamentos: não se avança de nível e declara-se o risco de habilitar",
+            "Pergunta sem cobertura nas fontes: substitui-se e declara-se",
+            "Pressão para habilitar mesmo assim: o resultado informa, a decisão é do responsável"
+          ]
+        },
+        "why_it_works": {
+          "acceptance_criteria": [
+            "Cada resposta recebe uma das três notas da rubrica e a citação que a justifica",
+            "O fechamento nomeia o risco operacional de habilitar abaixo do limiar declarado pelo processo",
+            "A comparação é entre rodadas contra a rubrica; o resultado não ordena pessoas"
+          ],
+          "edge_cases": [
+            "Fundamentos sem demonstrar: repete-se o nível e declara-se o risco de habilitar",
+            "Pergunta sem cobertura: substitui-se e declara-se"
+          ],
+          "tradeoffs": [
+            "Menos profundidade que o avaliador reutilizável em troca de uma sessão de oficina curta e ligada ao Notebook",
+            "Recibo pelo token reenquadrado: o texto congelado pedia «explique»; aqui preserva-se como correção citada, não como ensino; a divergência de público paga-se comprimindo prosa e somando limiar, risco operacional e comparabilidade, sem retirar instruções congeladas"
+          ],
+          "assumptions": [
+            "Existe um limiar de habilitação no processo e um responsável que decide"
+          ],
+          "limits": [
+            "Mede dentro da oficina; o instrumento reutilizável com rubrica própria é 08",
+            "Não ensina a equipe: isso é a ativação de coach W05",
+            "Informa a habilitação; não a concede nem ordena pessoas"
+          ]
+        },
+        "traceability": [
+          {
+            "claim": "O passo de oficina «avaliar compreensão», os quatro níveis e o fechamento com forças, lacunas, fontes e prática vêm do workbook migrado e do seu metadado de profundidade.",
+            "source": "method_internal"
+          },
+          {
+            "claim": "O limite de não avaliar além da base está declarado no metadado de profundidade do próprio passo da oficina.",
+            "source": "method_internal"
+          },
+          {
+            "claim": "A família de avaliação progressiva por níveis nomeados vem da biblioteca publicada do método.",
+            "source": "https://javimontano.github.io/prompt-amplificado/biblioteca-prompts.html"
+          },
+          {
+            "claim": "Comparar rodadas contra a rubrica e nunca pessoas, e deixar a habilitação ao responsável, é política interna para avaliações dentro de um processo.",
+            "source": "method_internal"
+          }
+        ]
+      }
+    }
+  },
+  "self_hash_model": "sha256(sorted-json-without-self_sha256)",
+  "self_sha256": "c1bb5a6c2d06b2c3c8b91e7dba3e6577b8f0cb95baa6dcd98e940f9eece54550"
+}

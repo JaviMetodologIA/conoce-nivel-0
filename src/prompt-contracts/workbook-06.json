@@ -1,0 +1,586 @@
+{
+  "schema_version": "prompt-intent-contract-v1",
+  "intent_id": "W06",
+  "surface": "workbook",
+  "phase": "Aprehender",
+  "state": "RENDERED_DRAFT",
+  "publication_authorized": false,
+  "boundary": {
+    "distinct_from": [
+      "W07",
+      "W09"
+    ],
+    "decision_rule": "Usa W06 cuando la base del taller ya está cerrada y el paso siguiente es producir una sola pieza citada, con una tesis y una audiencia; si lo que falta es un mapa de oportunidades priorizadas para aplicar esa base al trabajo, usa W07; si la pieza ya existe y hay que probarla bajo preguntas hostiles, usa W09. W06 no prioriza casos ni ensaya la defensa oral, y lo que entrega es borrador citado: RENDERED_DRAFT no es publicado."
+  },
+  "locales": {
+    "es": {
+      "persona": {
+        "title": "Pieza citada desde mi base",
+        "purpose": "Convierte la base ya cerrada del taller en una pieza con tesis única, cita por afirmación material y decisiones editoriales visibles, cuando necesitas entregar algo defendible.",
+        "when": "necesitas una pieza y la base del taller ya quedó auditada y declarada suficiente.",
+        "example": "Un memo ejecutivo citado sobre lo que aprendí, para mi jefatura.",
+        "evidence": "pieza final con tesis, tensión y límite, fuentes citadas por afirmación material, inferencias marcadas y tres decisiones editoriales tipificadas (omitido, simplificado, destacado) con su razón.",
+        "prompt": "Quiero convertir mi base ya auditada en [TIPO DE CONTENIDO] de [EXTENSIÓN] para [AUDIENCIA], con objetivo [RESULTADO]. Solo mi Notebook: una tesis para [RESULTADO], evidencia más fuerte, tensión y límite; propón estructura; cita cada afirmación material; marca inferencias; sin hechos externos. Si mi base no la sostiene, propón la tesis sostenible y di qué falta. No priorices casos: sale una pieza. Entrega pieza final, fuentes y tres decisiones editoriales (omitido, simplificado, destacado) con razón, como borrador del paso siguiente. No inventes citas ni datos que mi base no tenga.",
+        "level_spec": {
+          "role": "Editor que produce una pieza citada sin salir de la base del taller",
+          "spec_role": "Especialista en producción editorial basada en evidencia",
+          "objective": "Convertir la base cerrada del taller en una pieza final citada, con decisiones editoriales tipificadas y trazables",
+          "parameters": [
+            [
+              "entrada_del_paso_previo",
+              "base ya auditada y declarada suficiente en el taller"
+            ],
+            [
+              "formato",
+              "tipo de contenido y extensión declarados por quien pide"
+            ],
+            [
+              "citas",
+              "una por afirmación material; sin cita, inferencia marcada"
+            ],
+            [
+              "salida_al_paso_siguiente",
+              "borrador citado, insumo del ensayo y de la configuración final"
+            ]
+          ],
+          "workflow": [
+            "Registrar tipo de contenido, extensión, audiencia y resultado buscado",
+            "Fijar una tesis única al servicio del resultado, con la evidencia más fuerte, una tensión y un límite",
+            "Proponer estructura antes de escribir",
+            "Escribir citando cada afirmación material y marcando como inferencia lo que la base no respalde",
+            "Cerrar con pieza final, fuentes y tres decisiones editoriales tipificadas con su razón"
+          ],
+          "guardrails": [
+            "No inventar citas, datos ni hechos que la base no tenga",
+            "No añadir hechos externos a la base del taller",
+            "Base sin respaldo para la tesis pedida: proponer la tesis sostenible, nunca forzar la pedida",
+            "No priorizar un catálogo de casos de uso: eso es W07"
+          ],
+          "output": [
+            "Pieza final con tesis, tensión y límite",
+            "Lista de fuentes citadas por afirmación material, con las inferencias marcadas",
+            "Tres decisiones editoriales tipificadas (omitido, simplificado, destacado) con su razón"
+          ],
+          "dod": "Pieza revisable: una tesis, cada afirmación material con su cita, las inferencias marcadas y tres decisiones editoriales tipificadas con razón; queda como borrador, no publicada.",
+          "edge_cases": [
+            "Base sin evidencia para la tesis pedida: se propone la tesis sostenible y se dice qué falta",
+            "Extensión no declarada: pedirla antes de escribir, porque decide qué se omite",
+            "Pieza que el usuario deberá defender después: el borrador pasa al ensayo de W09, no se ensaya aquí"
+          ]
+        },
+        "why_it_works": {
+          "acceptance_criteria": [
+            "La pieza tiene una sola tesis y cada afirmación material lleva su cita de la base",
+            "Todo lo que no tiene cita aparece marcado como inferencia; quien revisa puede contarlas",
+            "Las tres decisiones editoriales están tipificadas como omitido, simplificado o destacado, con razón: no son adjetivos"
+          ],
+          "edge_cases": [
+            "Base sin evidencia para la tesis pedida: se propone una tesis sostenible en vez de forzarla",
+            "Sin extensión declarada: se pide antes de escribir"
+          ],
+          "tradeoffs": [
+            "Pieza menos vistosa a cambio de trazabilidad: cada afirmación material queda amarrada a la base",
+            "El metadato del taller (cuándo, entradas, salida, límite, ejemplo) se conserva íntegro: cuándo pasa a when, el ejemplo a example, la salida a evidence, el límite de no sumar hechos externos a guardrails y las entradas a las variables"
+          ],
+          "assumptions": [
+            "La base llega auditada y declarada suficiente en pasos previos del taller; W06 no la vuelve a juzgar"
+          ],
+          "limits": [
+            "Crea la pieza; no la publica: RENDERED_DRAFT no es publicado y el canal se decide fuera",
+            "No prioriza un catálogo de casos de uso (W07) ni ensaya su defensa oral (W09)"
+          ]
+        },
+        "traceability": [
+          {
+            "claim": "El paso de taller «generar contenido» y su salida esperada —pieza, fuentes y tres decisiones editoriales— vienen del workbook migrado y su metadato de profundidad.",
+            "source": "method_internal"
+          },
+          {
+            "claim": "El orden rol, objetivo, parámetros y flujo del nivel especificación sigue la guía pública de creación de prompts.",
+            "source": "https://javimontano.github.io/prompt-amplificado/crear-prompts.html"
+          },
+          {
+            "claim": "Exigir cita por afirmación material es posible porque el asistente puede responder desde las fuentes seleccionadas y mostrar sus citas.",
+            "source": "https://support.google.com/notebooklm/answer/16179559?hl=es"
+          }
+        ]
+      },
+      "empresa": {
+        "title": "Pieza del equipo con decisiones editoriales auditables",
+        "purpose": "Convierte la base cerrada del taller en una pieza con tesis única a nombre del equipo, con cita por afirmación material y decisiones editoriales trazables hasta su responsable.",
+        "when": "el proceso exige sacar una pieza a nombre del equipo y alguien responde por lo que afirma.",
+        "example": "Un memo ejecutivo citado para la dirección del área, firmado por el equipo.",
+        "evidence": "pieza final a nombre del equipo, fuentes citadas por afirmación material con derechos revisados, inferencias marcadas y tres decisiones editoriales con razón y responsable, listo para revisión.",
+        "prompt": "Nuestro equipo pasa la base auditada a [TIPO DE CONTENIDO] de [EXTENSIÓN] para [AUDIENCIA], objetivo [RESULTADO] de [EQUIPO]. Solo el Notebook: tesis para [RESULTADO], evidencia fuerte, tensión y límite; estructura; cita por afirmación material; inferencias marcadas; sin hechos externos. Sin respaldo, propón la sostenible y nombra el riesgo operativo. No priorices casos: sale una pieza. Entrega pieza final, fuentes con derechos revisados, tres decisiones editoriales (omitido, simplificado, destacado) con razón y responsable, listo para revisión, no publicado. No inventes citas ni datos.",
+        "level_spec": {
+          "role": "Editor del equipo que produce una pieza citada y revisable sin salir de la base del taller",
+          "spec_role": "Especialista en producción editorial basada en evidencia",
+          "objective": "Convertir la base cerrada del taller en una pieza a nombre del equipo, con decisiones editoriales trazables y derechos de cita revisados",
+          "parameters": [
+            [
+              "entrada_del_paso_previo",
+              "base auditada y declarada suficiente por el equipo"
+            ],
+            [
+              "formato",
+              "tipo de contenido y extensión acordados con quien encarga"
+            ],
+            [
+              "derechos",
+              "cita revisada para uso externo antes de entregar"
+            ],
+            [
+              "salida_al_paso_siguiente",
+              "borrador listo para revisión, insumo del ensayo y de la configuración final"
+            ]
+          ],
+          "workflow": [
+            "Registrar tipo de contenido, extensión, audiencia, equipo y resultado buscado",
+            "Fijar una tesis única al servicio del resultado, con evidencia más fuerte, tensión y límite",
+            "Proponer estructura y escribir citando cada afirmación material, marcando inferencias",
+            "Revisar derechos de cita para uso externo y nombrar el riesgo operativo de las afirmaciones sin respaldo",
+            "Cerrar con pieza final, fuentes y tres decisiones editoriales con razón y responsable"
+          ],
+          "guardrails": [
+            "No inventar citas, datos ni hechos ausentes de la base",
+            "No añadir hechos externos a la base del taller",
+            "Sin respaldo para la tesis pedida: proponer la sostenible y nombrar el riesgo operativo de forzarla",
+            "No priorizar un catálogo de casos de uso: eso es W07",
+            "La pieza no se publica: la revisión editorial y el canal quedan fuera de este paso"
+          ],
+          "output": [
+            "Pieza final a nombre del equipo, con tesis, tensión y límite",
+            "Fuentes citadas por afirmación material, con derechos revisados e inferencias marcadas",
+            "Tres decisiones editoriales tipificadas con razón y responsable, listo para revisión"
+          ],
+          "dod": "Paquete revisable: una tesis, cita por afirmación material, inferencias marcadas, derechos revisados y tres decisiones editoriales con razón y responsable identificable.",
+          "edge_cases": [
+            "Base sin evidencia para la tesis encargada: se propone la sostenible y se nombra el riesgo operativo de forzarla",
+            "Pieza destinada a público externo: los derechos de cita se revisan antes de entregar, no después",
+            "Nadie asume el rol de responsable: se pide antes de cerrar, porque la revisión necesita destinatario"
+          ]
+        },
+        "why_it_works": {
+          "acceptance_criteria": [
+            "Cada afirmación material lleva su cita y las inferencias están marcadas; quien revisa puede contarlas sin abrir la base",
+            "Cada una de las tres decisiones editoriales nombra su tipo, su razón y su responsable",
+            "Los derechos de cita quedan revisados antes de entregar la pieza"
+          ],
+          "edge_cases": [
+            "Tesis encargada sin respaldo: se propone la sostenible y se nombra el riesgo operativo",
+            "Sin responsable asignado: se pide antes de cerrar el paquete"
+          ],
+          "tradeoffs": [
+            "Revisar derechos y nombrar responsable agrega fricción a cambio de una pieza defendible ante terceros",
+            "La divergencia de audiencia se paga comprimiendo prosa: el equipo recibe las mismas instrucciones que la persona más derechos, riesgo operativo y responsable; ninguna instrucción del texto congelado se pierde en esta celda"
+          ],
+          "assumptions": [
+            "Existe alguien que responde por la pieza y una revisión editorial posterior fuera de este paso"
+          ],
+          "limits": [
+            "Crea la pieza; no la publica ni la aprueba: la revisión decide",
+            "No prioriza un catálogo de casos de uso (W07) ni ensaya su defensa ante dirección (W09)"
+          ]
+        },
+        "traceability": [
+          {
+            "claim": "El paso de taller «generar contenido» y su salida esperada —pieza, fuentes y tres decisiones editoriales— vienen del workbook migrado y su metadato de profundidad.",
+            "source": "method_internal"
+          },
+          {
+            "claim": "El orden rol, objetivo, parámetros y flujo del nivel especificación sigue la guía pública de creación de prompts.",
+            "source": "https://javimontano.github.io/prompt-amplificado/crear-prompts.html"
+          },
+          {
+            "claim": "Exigir cita por afirmación material es posible porque el asistente puede responder desde las fuentes seleccionadas y mostrar sus citas.",
+            "source": "https://support.google.com/notebooklm/answer/16179559?hl=es"
+          },
+          {
+            "claim": "Revisar derechos de cita para uso externo y nombrar un responsable por decisión editorial es política interna para piezas firmadas por un equipo.",
+            "source": "method_internal"
+          }
+        ]
+      }
+    },
+    "en": {
+      "persona": {
+        "title": "Cited piece from my base",
+        "purpose": "Turns the closed workshop base into a piece with one thesis, a citation per material claim and visible editorial calls, when you need something you can defend.",
+        "when": "you need a content piece and the workshop base is already audited and declared sufficient.",
+        "example": "A cited executive memo about what I learned, for my manager.",
+        "evidence": "final piece with thesis, tension and limit, sources cited per material claim, labelled inferences and three typed editorial decisions (left out, simplified, highlighted) with their reason.",
+        "prompt": "I want to turn my audited base into [CONTENT TYPE] of [LENGTH] for [AUDIENCE], aiming at [RESULT]. Only my Notebook: one thesis serving [RESULT], strongest evidence, one tension, one limit; propose structure; cite every material claim; label inferences; no external facts. If my base does not hold it, propose the thesis it holds and say what is missing. Do not rank use cases: one piece comes out. Deliver the final piece, its sources and three editorial decisions (left out, simplified, highlighted) with the reason, as a draft for the next step. Do not invent quotes or facts my base lacks.",
+        "level_spec": {
+          "role": "Editor who produces a cited piece without leaving the workshop base",
+          "spec_role": "Specialist in evidence-grounded editorial production",
+          "objective": "Turn the closed workshop base into a cited final piece with typed, traceable editorial decisions",
+          "parameters": [
+            [
+              "input_from_previous_step",
+              "base already audited and declared sufficient in the workshop"
+            ],
+            [
+              "format",
+              "content type and length declared by the requester"
+            ],
+            [
+              "citations",
+              "one per material claim; without a citation, labelled inference"
+            ],
+            [
+              "output_to_next_step",
+              "cited draft, input for the rehearsal and the final configuration"
+            ]
+          ],
+          "workflow": [
+            "Record content type, length, audience and intended result",
+            "Set one thesis serving the result, with the strongest evidence, one tension and one limit",
+            "Propose the structure before writing",
+            "Write citing every material claim and labelling as inference whatever the base does not support",
+            "Close with the final piece, its sources and three typed editorial decisions with their reason"
+          ],
+          "guardrails": [
+            "Never invent quotes, data or facts the base lacks",
+            "Add no external facts to the workshop base",
+            "Base without support for the requested thesis: propose the sustainable thesis, never force the requested one",
+            "Do not rank a catalogue of use cases: that is W07"
+          ],
+          "output": [
+            "Final piece with thesis, tension and limit",
+            "List of sources cited per material claim, with inferences labelled",
+            "Three typed editorial decisions (left out, simplified, highlighted) with their reason"
+          ],
+          "dod": "Reviewable piece: one thesis, every material claim with its citation, inferences labelled and three typed editorial decisions with a reason; it stays a draft, unpublished.",
+          "edge_cases": [
+            "No evidence for the requested thesis: the sustainable thesis is proposed and the gap is named",
+            "Length not declared: ask before writing, because it decides what gets left out",
+            "Piece the user will defend later: the draft moves to the W09 rehearsal, it is not rehearsed here"
+          ]
+        },
+        "why_it_works": {
+          "acceptance_criteria": [
+            "The piece carries one single thesis and every material claim is cited from the base",
+            "Anything not cited is labelled inference, so a reviewer can count them",
+            "The three editorial decisions are typed as left out, simplified or highlighted, with a reason: they are not adjectives"
+          ],
+          "edge_cases": [
+            "Base without evidence for the requested thesis: a sustainable thesis is proposed instead of forcing it",
+            "No declared length: it is requested before writing"
+          ],
+          "tradeoffs": [
+            "A less striking piece in exchange for traceability: every material claim stays tied to the base",
+            "The workshop metadata (when, inputs, output, limit, example) is preserved whole: when becomes the when field, the example becomes example, the output becomes evidence, the no-external-facts limit becomes a guardrail and the inputs become the variables"
+          ],
+          "assumptions": [
+            "The base arrives audited and declared sufficient in earlier workshop steps; W06 does not judge it again"
+          ],
+          "limits": [
+            "It creates the piece; it does not publish it: RENDERED_DRAFT is not published and the channel is decided elsewhere",
+            "It neither ranks a catalogue of use cases (W07) nor rehearses the spoken defence (W09)"
+          ]
+        },
+        "traceability": [
+          {
+            "claim": "The workshop step for generating content and its expected output — piece, sources and three editorial decisions — come from the migrated workbook and its depth metadata.",
+            "source": "method_internal"
+          },
+          {
+            "claim": "The role, objective, parameters and workflow ordering of the specification level follows the public prompt-creation guide.",
+            "source": "https://javimontano.github.io/prompt-amplificado/crear-prompts.html"
+          },
+          {
+            "claim": "Requiring a citation per material claim is feasible because the assistant can answer from the selected sources and expose its citations.",
+            "source": "https://support.google.com/notebooklm/answer/16179559?hl=es"
+          }
+        ]
+      },
+      "empresa": {
+        "title": "Team piece with auditable editorial decisions",
+        "purpose": "Turns the closed workshop base into a piece with one thesis issued by the team, with a citation per material claim and editorial decisions traceable to their owner.",
+        "when": "the process requires a piece issued by the team and someone is accountable for what it claims.",
+        "example": "A cited executive memo for area leadership, signed by the team.",
+        "evidence": "final piece issued by the team, sources cited per material claim with rights reviewed, labelled inferences and three editorial decisions with reason and accountable owner, ready for review.",
+        "prompt": "Our team turns the audited base into [CONTENT TYPE] of [LENGTH] for [AUDIENCE], aiming at [RESULT] of [TEAM]. Only the Notebook: one thesis serving [RESULT], strong evidence, tension, limit; structure; cite every material claim; label inferences; no external facts. Without support, propose the sustainable thesis and name the operational risk. Do not rank use cases: one piece comes out. Deliver the final piece, sources with rights reviewed, three editorial decisions (left out, simplified, highlighted) with reason and owner, ready for review, unpublished. Do not invent quotes or data.",
+        "level_spec": {
+          "role": "Team editor who produces a cited, reviewable piece without leaving the workshop base",
+          "spec_role": "Specialist in evidence-grounded editorial production",
+          "objective": "Turn the closed workshop base into a piece issued by the team, with traceable editorial decisions and reviewed citation rights",
+          "parameters": [
+            [
+              "input_from_previous_step",
+              "base audited and declared sufficient by the team"
+            ],
+            [
+              "format",
+              "content type and length agreed with the requester"
+            ],
+            [
+              "rights",
+              "citation rights reviewed for external use before delivery"
+            ],
+            [
+              "output_to_next_step",
+              "draft ready for review, input for the rehearsal and the final configuration"
+            ]
+          ],
+          "workflow": [
+            "Record content type, length, audience, team and intended result",
+            "Set one thesis serving the result, with strongest evidence, tension and limit",
+            "Propose structure and write citing every material claim, labelling inferences",
+            "Review citation rights for external use and name the operational risk of unsupported claims",
+            "Close with final piece, sources and three editorial decisions with reason and owner"
+          ],
+          "guardrails": [
+            "Never invent quotes, data or facts absent from the base",
+            "Add no external facts to the workshop base",
+            "Requested thesis without support: propose the sustainable one and name the operational risk of forcing it",
+            "Do not rank a catalogue of use cases: that is W07",
+            "The piece is not published: editorial review and channel stay outside this step"
+          ],
+          "output": [
+            "Final piece issued by the team, with thesis, tension and limit",
+            "Sources cited per material claim, with rights reviewed and inferences labelled",
+            "Three typed editorial decisions with reason and owner, ready for review"
+          ],
+          "dod": "Reviewable package: one thesis, a citation per material claim, labelled inferences, reviewed rights and three editorial decisions with reason and an identifiable owner.",
+          "edge_cases": [
+            "Commissioned thesis without evidence: the sustainable one is proposed and the operational risk of forcing it is named",
+            "Piece aimed at an external audience: citation rights are reviewed before delivery, not after",
+            "Nobody takes the owner role: it is requested before closing, because review needs a recipient"
+          ]
+        },
+        "why_it_works": {
+          "acceptance_criteria": [
+            "Every material claim is cited and inferences are labelled, so a reviewer can count them without opening the base",
+            "Each of the three editorial decisions names its type, its reason and its owner",
+            "Rights are reviewed before the piece is delivered"
+          ],
+          "edge_cases": [
+            "Commissioned thesis without support: the sustainable one is proposed and the operational risk is named",
+            "No owner assigned: it is requested before the package closes"
+          ],
+          "tradeoffs": [
+            "Reviewing rights and naming an owner adds friction in exchange for a piece defensible to third parties",
+            "The audience divergence is paid by compressing prose: the team cell keeps every instruction of the personal one and adds rights, operational risk and owner; no frozen instruction is dropped here"
+          ],
+          "assumptions": [
+            "Someone is accountable for the piece and an editorial review happens after this step"
+          ],
+          "limits": [
+            "It creates the piece; it neither publishes nor approves it: the review decides",
+            "It neither ranks a catalogue of use cases (W07) nor rehearses the defence to leadership (W09)"
+          ]
+        },
+        "traceability": [
+          {
+            "claim": "The workshop step for generating content and its expected output — piece, sources and three editorial decisions — come from the migrated workbook and its depth metadata.",
+            "source": "method_internal"
+          },
+          {
+            "claim": "The role, objective, parameters and workflow ordering of the specification level follows the public prompt-creation guide.",
+            "source": "https://javimontano.github.io/prompt-amplificado/crear-prompts.html"
+          },
+          {
+            "claim": "Requiring a citation per material claim is feasible because the assistant can answer from the selected sources and expose its citations.",
+            "source": "https://support.google.com/notebooklm/answer/16179559?hl=es"
+          },
+          {
+            "claim": "Reviewing citation rights for external use and naming an owner per editorial decision is internal policy for pieces signed by a team.",
+            "source": "method_internal"
+          }
+        ]
+      }
+    },
+    "pt": {
+      "persona": {
+        "title": "Peça citada a partir da minha base",
+        "purpose": "Transforma a base já fechada do oficina numa peça com tese única, citação por afirmação material e decisões editoriais visíveis, quando você precisa entregar algo defensável.",
+        "when": "você precisa de uma peça e a base já foi auditada e declarada suficiente.",
+        "example": "Um memo executivo citado sobre o que aprendi, para minha chefia.",
+        "evidence": "peça final com tese, tensão e limite, fontes citadas por afirmação material, inferências marcadas e três decisões editoriais tipificadas (omitido, simplificado, destacado) com a razão.",
+        "prompt": "Quero transformar minha base já auditada em [TIPO DE CONTEÚDO] de [EXTENSÃO] para [PÚBLICO], objetivo [RESULTADO]. Apenas meu Notebook: uma tese a serviço de [RESULTADO], evidência mais forte, tensão e limite; proponha estrutura; cite cada afirmação material; marque inferências; sem fatos externos. Se minha base não sustentar, proponha a tese sustentável e diga o que falta. Não priorize casos: sai uma peça. Entregue peça final, fontes e três decisões editoriais (omitido, simplificado, destacado) com a razão, como rascunho do passo seguinte. Não invente citações nem dados.",
+        "level_spec": {
+          "role": "Editor que produz uma peça citada sem sair da base do oficina",
+          "spec_role": "Especialista em produção editorial baseada em evidências",
+          "objective": "Transformar a base fechada do oficina numa peça final citada, com decisões editoriais tipificadas e rastreáveis",
+          "parameters": [
+            [
+              "entrada_do_passo_anterior",
+              "base já auditada e declarada suficiente"
+            ],
+            [
+              "formato",
+              "tipo de conteúdo e extensão declarados por quem pede"
+            ],
+            [
+              "citacoes",
+              "uma por afirmação material; sem citação, inferência marcada"
+            ],
+            [
+              "saida_para_o_passo_seguinte",
+              "rascunho citado, insumo do ensaio e da configuração final"
+            ]
+          ],
+          "workflow": [
+            "Registrar tipo de conteúdo, extensão, público e resultado pretendido",
+            "Fixar uma tese única a serviço do resultado, com a evidência mais forte, uma tensão e um limite",
+            "Propor a estrutura antes de escrever",
+            "Escrever citando cada afirmação material e marcando como inferência o que a base não sustentar",
+            "Fechar com peça final, fontes e três decisões editoriais tipificadas com a razão"
+          ],
+          "guardrails": [
+            "Não inventar citações, dados nem fatos ausentes da base",
+            "Não acrescentar fatos externos à base do oficina",
+            "Base sem sustentação para a tese pedida: propor a tese sustentável, nunca forçar a pedida",
+            "Não priorizar um catálogo de casos de uso: isso é W07"
+          ],
+          "output": [
+            "Peça final com tese, tensão e limite",
+            "Lista de fontes citadas por afirmação material, com as inferências marcadas",
+            "Três decisões editoriais tipificadas (omitido, simplificado, destacado) com a razão"
+          ],
+          "dod": "Peça revisável: uma tese, cada afirmação material com a citação, inferências marcadas e três decisões editoriais tipificadas com razão; permanece rascunho, não publicada.",
+          "edge_cases": [
+            "Base sem evidência para a tese pedida: propõe-se a tese sustentável e diz-se o que falta",
+            "Extensão não declarada: pedir antes de escrever, porque decide o que se omite",
+            "Peça que será defendida depois: o rascunho passa ao ensaio de W09, não se ensaia aqui"
+          ]
+        },
+        "why_it_works": {
+          "acceptance_criteria": [
+            "A peça tem uma só tese e cada afirmação material traz a citação da base",
+            "Tudo o que não tem citação aparece marcado como inferência; quem revisa consegue contá-las",
+            "As três decisões editoriais estão tipificadas como omitido, simplificado ou destacado, com razão: não são adjetivos"
+          ],
+          "edge_cases": [
+            "Base sem evidência para a tese pedida: propõe-se uma tese sustentável em vez de forçá-la",
+            "Sem extensão declarada: pede-se antes de escrever"
+          ],
+          "tradeoffs": [
+            "Peça menos vistosa em troca de rastreabilidade: cada afirmação material fica amarrada à base",
+            "O metadado do oficina (quando, entradas, saída, limite, exemplo) é preservado inteiro: o quando vira when, o exemplo vira example, a saída vira evidence, o limite de não somar fatos externos vira guardrail e as entradas viram as variáveis"
+          ],
+          "assumptions": [
+            "A base chega auditada e declarada suficiente nos passos anteriores; W06 não a julga de novo"
+          ],
+          "limits": [
+            "Cria a peça; não a publica: RENDERED_DRAFT não é publicado e o canal se decide fora",
+            "Não prioriza um catálogo de casos de uso (W07) nem ensaia a defesa oral (W09)"
+          ]
+        },
+        "traceability": [
+          {
+            "claim": "O passo de oficina «gerar conteúdo» e a saída esperada — peça, fontes e três decisões editoriais — vêm do workbook migrado e do seu metadado de profundidade.",
+            "source": "method_internal"
+          },
+          {
+            "claim": "A ordem papel, objetivo, parâmetros e fluxo do nível especificação segue o guia público de criação de prompts.",
+            "source": "https://javimontano.github.io/prompt-amplificado/crear-prompts.html"
+          },
+          {
+            "claim": "Exigir citação por afirmação material é possível porque o assistente pode responder a partir das fontes selecionadas e mostrar as citações.",
+            "source": "https://support.google.com/notebooklm/answer/16179559?hl=es"
+          }
+        ]
+      },
+      "empresa": {
+        "title": "Peça da equipe com decisões editoriais auditáveis",
+        "purpose": "Transforma a base fechada da oficina numa peça com tese única em nome da equipe, com citação por afirmação material e decisões editoriais rastreáveis até o responsável.",
+        "when": "o processo exige uma peça em nome da equipe e alguém responde pelo que ela afirma.",
+        "example": "Um memo executivo citado para a diretoria da área, assinado pela equipe.",
+        "evidence": "peça final em nome da equipe, fontes citadas por afirmação material com direitos revisados, inferências marcadas e três decisões editoriais com razão e responsável, pronto para revisão.",
+        "prompt": "Nossa equipe passa a base auditada a [TIPO DE CONTEÚDO] de [EXTENSÃO] para [PÚBLICO], objetivo [RESULTADO] de [EQUIPE]. Apenas o Notebook: tese a serviço de [RESULTADO], evidência forte, tensão e limite; estrutura; cite cada afirmação material; inferências marcadas; sem fatos externos. Sem sustentação, proponha a sustentável e nomeie o risco operacional. Não priorize casos: sai uma peça. Entregue peça final, fontes com direitos revisados, três decisões editoriais (omitido, simplificado, destacado) com razão e responsável, pronto para revisão, não publicado. Não invente citações nem dados.",
+        "level_spec": {
+          "role": "Editor da equipe que produz uma peça citada e revisável sem sair da base",
+          "spec_role": "Especialista em produção editorial baseada em evidências",
+          "objective": "Transformar a base fechada numa peça em nome da equipe, com decisões editoriais rastreáveis e direitos de citação revisados",
+          "parameters": [
+            [
+              "entrada_do_passo_anterior",
+              "base auditada e declarada suficiente pela equipe"
+            ],
+            [
+              "formato",
+              "tipo de conteúdo e extensão acordados com quem encomenda"
+            ],
+            [
+              "direitos",
+              "citação revisada para uso externo antes de entregar"
+            ],
+            [
+              "saida_para_o_passo_seguinte",
+              "rascunho pronto para revisão, insumo do ensaio e da configuração final"
+            ]
+          ],
+          "workflow": [
+            "Registrar tipo de conteúdo, extensão, público, equipe e resultado pretendido",
+            "Fixar uma tese única a serviço do resultado, com evidência mais forte, tensão e limite",
+            "Propor estrutura e escrever citando cada afirmação material, marcando inferências",
+            "Revisar direitos de citação para uso externo e nomear o risco operacional das afirmações sem sustentação",
+            "Fechar com peça final, fontes e três decisões editoriais com razão e responsável"
+          ],
+          "guardrails": [
+            "Não inventar citações, dados nem fatos ausentes da base",
+            "Não acrescentar fatos externos à base do oficina",
+            "Tese pedida sem sustentação: propor a sustentável e nomear o risco operacional de forçá-la",
+            "Não priorizar um catálogo de casos de uso: isso é W07",
+            "A peça não é publicada: a revisão editorial e o canal ficam fora deste passo"
+          ],
+          "output": [
+            "Peça final em nome da equipe, com tese, tensão e limite",
+            "Fontes citadas por afirmação material, com direitos revisados e inferências marcadas",
+            "Três decisões editoriais tipificadas com razão e responsável, pronto para revisão"
+          ],
+          "dod": "Pacote revisável: uma tese, citação por afirmação material, inferências marcadas, direitos revisados e três decisões editoriais com razão e responsável identificável.",
+          "edge_cases": [
+            "Tese encomendada sem evidência: propõe-se a sustentável e nomeia-se o risco operacional de forçá-la",
+            "Peça destinada a público externo: os direitos de citação se revisam antes de entregar, não depois",
+            "Ninguém assume o papel de responsável: pede-se antes de fechar, porque a revisão precisa de destinatário"
+          ]
+        },
+        "why_it_works": {
+          "acceptance_criteria": [
+            "Cada afirmação material traz a citação e as inferências estão marcadas; quem revisa consegue contá-las sem abrir a base",
+            "Cada uma das três decisões editoriais nomeia o tipo, a razão e o responsável",
+            "Os direitos de citação ficam revisados antes de entregar a peça"
+          ],
+          "edge_cases": [
+            "Tese encomendada sem sustentação: propõe-se a sustentável e nomeia-se o risco operacional",
+            "Sem responsável designado: pede-se antes de fechar o pacote"
+          ],
+          "tradeoffs": [
+            "Revisar direitos e nomear responsável adiciona atrito em troca de uma peça defensável perante terceiros",
+            "A divergência de público paga-se comprimindo prosa: a célula da equipe mantém todas as instruções da pessoal e acrescenta direitos, risco operacional e responsável; nenhuma instrução congelada se perde aqui"
+          ],
+          "assumptions": [
+            "Existe alguém que responde pela peça e uma revisão editorial posterior fora deste passo"
+          ],
+          "limits": [
+            "Cria a peça; não a publica nem a aprova: a revisão decide",
+            "Não prioriza um catálogo de casos de uso (W07) nem ensaia a defesa perante a diretoria (W09)"
+          ]
+        },
+        "traceability": [
+          {
+            "claim": "O passo de oficina «gerar conteúdo» e a saída esperada — peça, fontes e três decisões editoriais — vêm do workbook migrado e do seu metadado de profundidade.",
+            "source": "method_internal"
+          },
+          {
+            "claim": "A ordem papel, objetivo, parâmetros e fluxo do nível especificação segue o guia público de criação de prompts.",
+            "source": "https://javimontano.github.io/prompt-amplificado/crear-prompts.html"
+          },
+          {
+            "claim": "Exigir citação por afirmação material é possível porque o assistente pode responder a partir das fontes selecionadas e mostrar as citações.",
+            "source": "https://support.google.com/notebooklm/answer/16179559?hl=es"
+          },
+          {
+            "claim": "Revisar direitos de citação para uso externo e nomear um responsável por decisão editorial é política interna para peças assinadas por uma equipe.",
+            "source": "method_internal"
+          }
+        ]
+      }
+    }
+  },
+  "self_hash_model": "sha256(sorted-json-without-self_sha256)",
+  "self_sha256": "fea00c74d3e261dbcc94f8f77cbf88b1ad54b35710d3d47b84e023561a0c321e"
+}
