@@ -1,0 +1,574 @@
+{
+  "schema_version": "prompt-intent-contract-v1",
+  "intent_id": "W04",
+  "surface": "workbook",
+  "phase": "Aprehender",
+  "state": "RENDERED_DRAFT",
+  "publication_authorized": false,
+  "boundary": {
+    "distinct_from": [
+      "04",
+      "05",
+      "W02",
+      "W03",
+      "W05"
+    ],
+    "decision_rule": "Usa W04 cuando ya importaste la respuesta del encargo de W03 y hay que pesar el delta de la base contra la auditoría de W02 para cerrar o repetir el ciclo; si lo que está en duda es una sola afirmación y su veredicto, verifica con la variante autónoma 04; si hace falta re-decidir fuente por fuente qué conservar o retirar, audita con 05. W04 no verifica afirmaciones una a una ni activa un rol conversacional: eso llega en W05."
+  },
+  "locales": {
+    "es": {
+      "persona": {
+        "title": "Cerrar o repetir el ciclo",
+        "purpose": "Pesa lo que cambió en la base después de importar y decide si te detienes con límites o repites, con una definición operativa de suficiente.",
+        "when": "ya importaste la respuesta del encargo y debes decidir si paras o repites.",
+        "example": "Cuatro fuentes nuevas sobre adopción, importadas tras el encargo anterior.",
+        "evidence": "comparación punto por punto contra la auditoría previa, afirmaciones confirmadas o refutadas, tensiones nuevas, valor de cada fuente en escala declarada, riesgo residual y veredicto suficiente con límites o repetir con el siguiente prompt.",
+        "prompt": "Paso 4, cierre del ciclo: importé a mi Notebook las fuentes del encargo para mi propósito [PROPÓSITO]. Compara la base con la auditoría anterior, punto por punto: [VACÍO AUDITADO] cerrado o no, afirmaciones confirmadas o refutadas, tensiones nuevas, valor de cada fuente en escala alta/media/baja y riesgo residual. No verifiques afirmación por afirmación: aquí mides el delta contra la auditoría. Emite [BASE SUFICIENTE] con límites o [REPETIR INVESTIGACIÓN] con el siguiente prompt: suficiente = ningún vacío abierto bloquea [PROPÓSITO]. Con fuente que contradiga la base, no hay suficiente sin resolver la tensión. Tras 3 vueltas, re-delimita. No inventes cierres ni fuentes.",
+        "level_spec": {
+          "role": "Juez del paso 4: pesa el delta y cierra o repite el ciclo",
+          "spec_role": "Facilitador de taller guiado sobre NotebookLM",
+          "objective": "Comparar la base tras la importación contra la auditoría previa y emitir un veredicto de suficiencia con límites",
+          "parameters": [
+            [
+              "posicion_en_la_secuencia",
+              "paso 4: recibe la base ampliada con la respuesta del paso 3 y cierra o reabre el ciclo"
+            ],
+            [
+              "unidad_de_analisis",
+              "el delta de la base, no cada afirmación por separado"
+            ],
+            [
+              "escala_de_valor",
+              "cada fuente nueva se puntúa alta, media o baja"
+            ],
+            [
+              "suficiente",
+              "ningún vacío abierto bloquea el propósito declarado"
+            ]
+          ],
+          "workflow": [
+            "Registrar el propósito y el vacío auditado en la vuelta anterior",
+            "Comparar punto por punto la base actual contra la auditoría previa",
+            "Marcar afirmaciones confirmadas o refutadas y tensiones nuevas",
+            "Puntuar el valor de cada fuente importada en la escala declarada",
+            "Emitir suficiente con límites o repetir con el siguiente prompt, y dejar el riesgo residual escrito"
+          ],
+          "guardrails": [
+            "No inventar cierres, confirmaciones ni fuentes",
+            "No verificar afirmación por afirmación: este paso mide el delta",
+            "Fuente nueva que contradice la base: no hay veredicto suficiente sin resolver la tensión"
+          ],
+          "output": [
+            "Comparación punto por punto contra la auditoría previa",
+            "Valor de cada fuente en la escala declarada y riesgo residual",
+            "Veredicto suficiente con límites o repetir con el siguiente prompt"
+          ],
+          "dod": "Veredicto acompañado: comparación punto por punto completa, riesgo residual escrito y suficiente con límites o repetir con el prompt siguiente.",
+          "edge_cases": [
+            "Fuentes nuevas que contradicen la base: la tensión se resuelve antes de cerrar",
+            "Más de 3 vueltas del ciclo: re-delimitar el tema en vez de seguir iterando",
+            "Vacío auditado no declarado: pedirlo antes de comparar"
+          ]
+        },
+        "why_it_works": {
+          "acceptance_criteria": [
+            "La comparación recorre los cuatro puntos de la auditoría previa: vacío, afirmaciones, tensiones y riesgo residual",
+            "El veredicto nunca viaja solo: suficiente lleva sus límites y repetir lleva el prompt siguiente",
+            "Suficiente tiene definición operativa: ningún vacío abierto bloquea el propósito declarado, y esa condición se puede comprobar contra la lista de vacíos"
+          ],
+          "edge_cases": [
+            "Fuentes nuevas que contradicen la base: el veredicto no puede ser suficiente sin resolver la tensión",
+            "Ciclo de más de tres vueltas: el prompt recomienda re-delimitar en vez de dejar el bucle abierto"
+          ],
+          "tradeoffs": [
+            "Detenerse con evidencia suficiente a cambio de cobertura incompleta, declarada en los límites del veredicto",
+            "El consejo «no busques perfección» del texto base se reemplaza por la condición comprobable «ningún vacío abierto bloquea el propósito»: se pierde el tono y se gana un criterio verificable; ninguna otra instrucción del paso 4 se pierde"
+          ],
+          "assumptions": [
+            "Existe una auditoría previa del paso 2 y se importaron fuentes nuevas al Notebook",
+            "El núcleo «afirmaciones confirmadas o refutadas» se hereda de la verificación cruzada autónoma 04, que pesa una afirmación a la vez, y el veredicto de suficiencia procede de la auditoría autónoma 05; aquí ambos se aplican al delta de la base"
+          ],
+          "limits": [
+            "Decide suficiencia sobre el conjunto, no verifica cada afirmación en profundidad: eso corresponde a 04",
+            "No activa el rol conversacional sobre la base cerrada: eso corresponde a W05"
+          ]
+        },
+        "traceability": [
+          {
+            "claim": "Que las respuestas se anclen en las fuentes cargadas permite comparar la base ampliada contra la auditoría previa sin salir del Notebook.",
+            "source": "https://support.google.com/notebooklm/answer/16179559?hl=es"
+          },
+          {
+            "claim": "El par de veredictos suficiente o repetir y la lectura de afirmaciones confirmadas o refutadas provienen de la biblioteca publicada del método.",
+            "source": "https://javimontano.github.io/prompt-amplificado/biblioteca-prompts.html"
+          },
+          {
+            "claim": "Definir suficiente como «ningún vacío abierto bloquea el propósito» y cortar el ciclo tras tres vueltas son normas internas del taller.",
+            "source": "method_internal"
+          }
+        ]
+      },
+      "empresa": {
+        "title": "Cerrar o repetir con el equipo",
+        "purpose": "Pesa lo que cambió en la base compartida y decide si el proceso se detiene con límites comunicables o repite, con suficiente definido de forma operativa.",
+        "when": "el equipo importó la respuesta del encargo y el proceso debe parar o repetir.",
+        "example": "Cuatro fuentes nuevas sobre adopción, importadas al Notebook del área.",
+        "evidence": "comparación punto por punto contra la auditoría previa, afirmaciones confirmadas o refutadas, tensiones nuevas, valor de cada fuente en escala declarada, riesgo residual con su riesgo operativo y veredicto suficiente con límites listos para revisión del responsable.",
+        "prompt": "Paso 4, cierre: importé al Notebook del equipo las fuentes del encargo para [PROPÓSITO] en [PROCESO]. Compara la base con la auditoría, punto por punto: [VACÍO AUDITADO] cerrado o no, afirmaciones confirmadas o refutadas, tensiones nuevas, valor de cada fuente en escala alta/media/baja y riesgo residual con su riesgo operativo. No verifiques afirmación por afirmación: mides el delta contra la auditoría. Emite [BASE SUFICIENTE] con límites comunicables fuera del taller, o [REPETIR INVESTIGACIÓN] con el siguiente prompt, listo para revisión: suficiente = ningún vacío abierto bloquea el proceso. Fuente que contradiga: no hay suficiente sin resolver la tensión. No inventes cierres ni fuentes.",
+        "level_spec": {
+          "role": "Juez del paso 4 para equipos: pesa el delta compartido y cierra o repite",
+          "spec_role": "Facilitador de taller guiado sobre NotebookLM",
+          "objective": "Comparar la base compartida tras la importación y emitir un veredicto de suficiencia revisable por el responsable",
+          "parameters": [
+            [
+              "posicion_en_la_secuencia",
+              "paso 4: recibe la base ampliada con la respuesta del paso 3 y cierra o reabre el ciclo del equipo"
+            ],
+            [
+              "unidad_de_analisis",
+              "el delta de la base compartida, no cada afirmación por separado"
+            ],
+            [
+              "escala_de_valor",
+              "cada fuente nueva se puntúa alta, media o baja"
+            ],
+            [
+              "suficiente",
+              "ningún vacío abierto bloquea el proceso, con límites comunicables fuera del taller"
+            ]
+          ],
+          "workflow": [
+            "Registrar el propósito del proceso y el vacío auditado en la vuelta anterior",
+            "Comparar punto por punto la base compartida contra la auditoría previa",
+            "Marcar afirmaciones confirmadas o refutadas y tensiones nuevas",
+            "Puntuar el valor de cada fuente importada y nombrar el riesgo operativo del riesgo residual",
+            "Emitir suficiente con límites comunicables o repetir con el siguiente prompt, listo para revisión"
+          ],
+          "guardrails": [
+            "No inventar cierres, confirmaciones ni fuentes",
+            "No verificar afirmación por afirmación: este paso mide el delta",
+            "Fuente nueva que contradice la base: no hay veredicto suficiente sin resolver la tensión"
+          ],
+          "output": [
+            "Comparación punto por punto contra la auditoría previa",
+            "Valor de cada fuente en la escala declarada y riesgo residual con su riesgo operativo",
+            "Veredicto suficiente con límites comunicables o repetir con el siguiente prompt, listo para revisión"
+          ],
+          "dod": "Veredicto revisable: comparación punto por punto completa, riesgo residual y su riesgo operativo escritos, y límites legibles por quien no estuvo en el taller.",
+          "edge_cases": [
+            "Fuentes nuevas que contradicen la base: la tensión se resuelve antes de cerrar",
+            "Veredicto sin responsable que lo revise: pedirlo antes de comunicarlo fuera",
+            "Vacío auditado no declarado: pedirlo antes de comparar"
+          ]
+        },
+        "why_it_works": {
+          "acceptance_criteria": [
+            "La comparación recorre los cuatro puntos de la auditoría previa: vacío, afirmaciones, tensiones y riesgo residual",
+            "El veredicto nunca viaja solo: suficiente lleva límites legibles por quien no estuvo en el taller y repetir lleva el prompt siguiente",
+            "Suficiente tiene definición operativa: ningún vacío abierto bloquea el proceso, comprobable contra la lista de vacíos"
+          ],
+          "edge_cases": [
+            "Fuentes nuevas que contradicen la base compartida: el veredicto no puede ser suficiente sin resolver la tensión",
+            "Veredicto que saldrá del equipo sin revisor: se pide el responsable antes de comunicarlo"
+          ],
+          "tradeoffs": [
+            "Detenerse con evidencia suficiente a cambio de cobertura incompleta, declarada en límites comunicables",
+            "El consejo «no busques perfección» del texto base se reemplaza por la condición comprobable «ningún vacío abierto bloquea el proceso»; además, el corte por número de vueltas se sustituye por la revisión del responsable, que es quien decide si el ciclo sigue: se pierde el tope automático de tres vueltas y se gana una autoridad explícita. Ninguna otra instrucción del paso 4 se pierde"
+          ],
+          "assumptions": [
+            "Existe una auditoría previa del equipo y se importaron fuentes nuevas a la base compartida",
+            "El núcleo «afirmaciones confirmadas o refutadas» se hereda de la verificación cruzada autónoma 04 y el veredicto de suficiencia de la auditoría autónoma 05; aquí ambos se aplican al delta de la base compartida"
+          ],
+          "limits": [
+            "Decide suficiencia sobre el conjunto, no verifica cada afirmación en profundidad: eso corresponde a 04",
+            "Informa la revisión del responsable, no la sustituye, y no activa el rol conversacional: eso corresponde a W05"
+          ]
+        },
+        "traceability": [
+          {
+            "claim": "El anclaje de respuestas en las fuentes cargadas permite al equipo comparar la base ampliada contra su auditoría previa dentro del mismo Notebook.",
+            "source": "https://support.google.com/notebooklm/answer/16179559?hl=es"
+          },
+          {
+            "claim": "El par de veredictos suficiente o repetir que el equipo reutiliza procede de la biblioteca publicada del método.",
+            "source": "https://javimontano.github.io/prompt-amplificado/biblioteca-prompts.html"
+          },
+          {
+            "claim": "Exigir límites comunicables fuera del taller y revisión del responsable antes de dar por cerrada una base compartida es política interna del método.",
+            "source": "method_internal"
+          }
+        ]
+      }
+    },
+    "en": {
+      "persona": {
+        "title": "Stop or repeat the cycle",
+        "purpose": "Weighs what changed in the base after importing and decides whether you stop with limits or repeat, with an operational definition of sufficient.",
+        "when": "you imported the answer to the brief and you must decide: stop or repeat.",
+        "example": "Four new sources on adoption, imported after the previous brief.",
+        "evidence": "point-by-point comparison against the previous audit, claims confirmed or refuted, new tensions, value of each source on the declared scale, residual risk and a sufficient verdict with limits or a repeat with the next prompt.",
+        "prompt": "Step 4, closing the cycle: I imported the sources into my Notebook for my purpose [PURPOSE]. Compare the base with the previous audit, point by point: [AUDITED GAP] closed or not, claims confirmed or refuted, new tensions, value of each source on a high/medium/low scale, and residual risk. Do not verify claim by claim: here you measure the delta against the audit. Issue [BASE SUFFICIENT] with limits or [REPEAT RESEARCH] with the next prompt: sufficient = no open gap blocks [PURPOSE]. With a source that contradicts the base, there is no sufficient without resolving the tension. After 3 rounds, re-scope. Do not invent closures or sources.",
+        "level_spec": {
+          "role": "Step 4 judge: weighs the delta and closes or repeats the cycle",
+          "spec_role": "Guided workshop facilitator for NotebookLM",
+          "objective": "Compare the base after the import against the previous audit and issue a sufficiency verdict with limits",
+          "parameters": [
+            [
+              "sequence_position",
+              "step 4: receives the base widened by the step 3 answer and closes or reopens the cycle"
+            ],
+            [
+              "unit_of_analysis",
+              "the delta of the base, not each claim on its own"
+            ],
+            [
+              "value_scale",
+              "every new source is scored high, medium or low"
+            ],
+            [
+              "sufficient",
+              "no open gap blocks the declared purpose"
+            ]
+          ],
+          "workflow": [
+            "Record the purpose and the gap audited in the previous round",
+            "Compare the current base against the previous audit point by point",
+            "Mark claims confirmed or refuted and any new tensions",
+            "Score the value of every imported source on the declared scale",
+            "Issue sufficient with limits or repeat with the next prompt, and write down the residual risk"
+          ],
+          "guardrails": [
+            "Never invent closures, confirmations or sources",
+            "Do not verify claim by claim: this step measures the delta",
+            "A new source contradicting the base: no sufficient verdict without resolving the tension"
+          ],
+          "output": [
+            "Point-by-point comparison against the previous audit",
+            "Value of each source on the declared scale and the residual risk",
+            "Sufficient verdict with limits, or repeat with the next prompt"
+          ],
+          "dod": "Verdict never alone: the point-by-point comparison complete, the residual risk written, and sufficient with limits or repeat with the next prompt.",
+          "edge_cases": [
+            "New sources that contradict the base: the tension is resolved before closing",
+            "More than 3 rounds of the cycle: re-scope the topic instead of iterating on",
+            "Audited gap not declared: ask for it before comparing"
+          ]
+        },
+        "why_it_works": {
+          "acceptance_criteria": [
+            "The comparison walks the four points of the previous audit: gap, claims, tensions and residual risk",
+            "The verdict never travels alone: sufficient carries its limits and repeat carries the next prompt",
+            "Sufficient has an operational definition — no open gap blocks the declared purpose — checkable against the gap list"
+          ],
+          "edge_cases": [
+            "New sources that contradict the base: the verdict cannot be sufficient without resolving the tension",
+            "A cycle past three rounds: the prompt recommends re-scoping instead of leaving the loop open"
+          ],
+          "tradeoffs": [
+            "Stopping on sufficient evidence in exchange for incomplete coverage, declared in the verdict limits",
+            "The base text advice \"do not seek perfection\" is replaced by the checkable condition \"no open gap blocks the purpose\": the tone is lost and a verifiable test is gained; no other step 4 instruction is lost"
+          ],
+          "assumptions": [
+            "A previous audit from step 2 exists and new sources were imported into the Notebook",
+            "The core \"claims confirmed or refuted\" is inherited from the standalone cross-check 04, which weighs one claim at a time, and the sufficiency verdict from the standalone audit 05; here both apply to the delta of the base"
+          ],
+          "limits": [
+            "It decides sufficiency over the set, it does not verify each claim in depth: that belongs to 04",
+            "It does not activate the conversational role over the closed base: that belongs to W05"
+          ]
+        },
+        "traceability": [
+          {
+            "claim": "Answers grounded in loaded sources make it possible to compare the widened base against the previous audit without leaving the Notebook.",
+            "source": "https://support.google.com/notebooklm/answer/16179559?hl=es"
+          },
+          {
+            "claim": "The sufficient-or-repeat verdict pair and the reading of claims confirmed or refuted come from the published prompt library of the method.",
+            "source": "https://javimontano.github.io/prompt-amplificado/biblioteca-prompts.html"
+          },
+          {
+            "claim": "Defining sufficient as \"no open gap blocks the purpose\" and cutting the cycle after three rounds are internal workshop policy.",
+            "source": "method_internal"
+          }
+        ]
+      },
+      "empresa": {
+        "title": "Stop or repeat with the team",
+        "purpose": "Weighs what changed in the shared base and decides whether the process stops with communicable limits or repeats, with sufficient defined operationally.",
+        "when": "the team imported the brief answer and the process must stop or repeat.",
+        "example": "Four new sources on adoption, imported into the area Notebook.",
+        "evidence": "point-by-point comparison against the previous audit, claims confirmed or refuted, new tensions, value of each source on the declared scale, residual risk with its operational risk, and a sufficient verdict with limits ready for review.",
+        "prompt": "Step 4, closing: I imported the sources into the team Notebook for [PURPOSE] in [PROCESS]. Compare the base with the audit, point by point: [AUDITED GAP] closed or not, claims confirmed or refuted, new tensions, value of each source on a high/medium/low scale, and residual risk with its operational risk. Do not verify claim by claim: measure the delta against the audit. Issue [BASE SUFFICIENT] with limits communicable outside the workshop, or [REPEAT RESEARCH] with the next prompt, ready for review: sufficient = no open gap blocks the process. A source that contradicts: no sufficient without resolving the tension. Do not invent closures or sources.",
+        "level_spec": {
+          "role": "Step 4 judge for teams: weighs the shared delta and closes or repeats",
+          "spec_role": "Guided workshop facilitator for NotebookLM",
+          "objective": "Compare the shared base after the import and issue a sufficiency verdict the accountable owner can review",
+          "parameters": [
+            [
+              "sequence_position",
+              "step 4: receives the base widened by the step 3 answer and closes or reopens the team cycle"
+            ],
+            [
+              "unit_of_analysis",
+              "the delta of the shared base, not each claim on its own"
+            ],
+            [
+              "value_scale",
+              "every new source is scored high, medium or low"
+            ],
+            [
+              "sufficient",
+              "no open gap blocks the process, with limits communicable outside the workshop"
+            ]
+          ],
+          "workflow": [
+            "Record the process purpose and the gap audited in the previous round",
+            "Compare the shared base against the previous audit point by point",
+            "Mark claims confirmed or refuted and any new tensions",
+            "Score the value of every imported source and name the operational risk behind the residual risk",
+            "Issue sufficient with communicable limits or repeat with the next prompt, ready for review"
+          ],
+          "guardrails": [
+            "Never invent closures, confirmations or sources",
+            "Do not verify claim by claim: this step measures the delta",
+            "A new source contradicting the base: no sufficient verdict without resolving the tension"
+          ],
+          "output": [
+            "Point-by-point comparison against the previous audit",
+            "Value of each source on the declared scale and residual risk with its operational risk",
+            "Sufficient verdict with communicable limits, or repeat with the next prompt, ready for review"
+          ],
+          "dod": "Reviewable verdict: the point-by-point comparison complete, residual risk and its operational risk written, and limits readable by someone who was not in the workshop.",
+          "edge_cases": [
+            "New sources that contradict the base: the tension is resolved before closing",
+            "Verdict with no owner to review it: ask before communicating it outside",
+            "Audited gap not declared: ask for it before comparing"
+          ]
+        },
+        "why_it_works": {
+          "acceptance_criteria": [
+            "The comparison walks the four points of the previous audit: gap, claims, tensions and residual risk",
+            "The verdict never travels alone: sufficient carries limits readable by someone who was not in the workshop, and repeat carries the next prompt",
+            "Sufficient has an operational definition — no open gap blocks the process — checkable against the gap list"
+          ],
+          "edge_cases": [
+            "New sources that contradict the shared base: the verdict cannot be sufficient without resolving the tension",
+            "A verdict leaving the team with no reviewer: the accountable owner is requested before it is communicated"
+          ],
+          "tradeoffs": [
+            "Stopping on sufficient evidence in exchange for incomplete coverage, declared in communicable limits",
+            "The base text advice \"do not seek perfection\" is replaced by the checkable condition \"no open gap blocks the process\"; the round-count cut is also replaced by the owner review, which decides whether the cycle continues: the automatic three-round cap is lost and an explicit authority is gained. No other step 4 instruction is lost"
+          ],
+          "assumptions": [
+            "A previous team audit exists and new sources were imported into the shared base",
+            "The core \"claims confirmed or refuted\" is inherited from the standalone cross-check 04 and the sufficiency verdict from the standalone audit 05; here both apply to the delta of the shared base"
+          ],
+          "limits": [
+            "It decides sufficiency over the set, it does not verify each claim in depth: that belongs to 04",
+            "It informs the owner review, it does not replace it, and it does not activate the conversational role: that belongs to W05"
+          ]
+        },
+        "traceability": [
+          {
+            "claim": "Grounding answers in loaded sources lets the team compare the widened base against its previous audit inside the same Notebook.",
+            "source": "https://support.google.com/notebooklm/answer/16179559?hl=es"
+          },
+          {
+            "claim": "The sufficient-or-repeat verdict pair the team reuses comes from the published prompt library of the method.",
+            "source": "https://javimontano.github.io/prompt-amplificado/biblioteca-prompts.html"
+          },
+          {
+            "claim": "Requiring limits communicable outside the workshop and an owner review before a shared base is called closed is internal method policy.",
+            "source": "method_internal"
+          }
+        ]
+      }
+    },
+    "pt": {
+      "persona": {
+        "title": "Encerrar ou repetir o ciclo",
+        "purpose": "Pesa o que mudou na base depois da importação e decide se você para com limites ou repete, com definição operacional de suficiente.",
+        "when": "você importou a resposta do encargo e deve decidir: parar ou repetir.",
+        "example": "Quatro fontes novas sobre adoção, importadas após o encargo anterior.",
+        "evidence": "comparação ponto a ponto contra a auditoria anterior, afirmações confirmadas ou refutadas, tensões novas, valor de cada fonte na escala declarada, risco residual e veredicto suficiente com limites ou repetir com o próximo prompt.",
+        "prompt": "Passo 4, fecho do ciclo: importei as fontes no meu Notebook para o meu propósito [PROPÓSITO]. Compare a base com a auditoria, ponto a ponto: [LACUNA AUDITADA] fechada ou não, afirmações confirmadas ou refutadas, tensões novas, valor de cada fonte em escala alta/média/baixa e risco residual. Não verifique afirmação por afirmação: aqui mede-se o delta contra a auditoria. Emita [BASE SUFICIENTE] com limites ou [REPETIR PESQUISA] com o próximo prompt: suficiente = nenhuma lacuna aberta bloqueia [PROPÓSITO]. Com fonte que contradiga, não há suficiente sem resolver a tensão. Após 3 rodadas, redelimite. Não invente fechamentos nem fontes.",
+        "level_spec": {
+          "role": "Juiz do passo 4: pesa o delta e encerra ou repete o ciclo",
+          "spec_role": "Facilitador de oficina guiada no NotebookLM",
+          "objective": "Comparar a base após a importação contra a auditoria anterior e emitir veredicto de suficiência com limites",
+          "parameters": [
+            [
+              "posicao_na_sequencia",
+              "passo 4: recebe a base ampliada pela resposta do passo 3 e fecha ou reabre o ciclo"
+            ],
+            [
+              "unidade_de_analise",
+              "o delta da base, não cada afirmação isolada"
+            ],
+            [
+              "escala_de_valor",
+              "cada fonte nova é pontuada alta, média ou baixa"
+            ],
+            [
+              "suficiente",
+              "nenhuma lacuna aberta bloqueia o propósito declarado"
+            ]
+          ],
+          "workflow": [
+            "Registrar o propósito e a lacuna auditada na rodada anterior",
+            "Comparar a base atual contra a auditoria anterior ponto a ponto",
+            "Marcar afirmações confirmadas ou refutadas e tensões novas",
+            "Pontuar o valor de cada fonte importada na escala declarada",
+            "Emitir suficiente com limites ou repetir com o próximo prompt, e escrever o risco residual"
+          ],
+          "guardrails": [
+            "Não inventar fechamentos, confirmações nem fontes",
+            "Não verificar afirmação por afirmação: este passo mede o delta",
+            "Fonte nova que contradiz a base: não há veredicto suficiente sem resolver a tensão"
+          ],
+          "output": [
+            "Comparação ponto a ponto contra a auditoria anterior",
+            "Valor de cada fonte na escala declarada e risco residual",
+            "Veredicto suficiente com limites, ou repetir com o próximo prompt"
+          ],
+          "dod": "Veredicto acompanhado: comparação ponto a ponto completa, risco residual escrito e suficiente com limites ou repetir com o próximo prompt.",
+          "edge_cases": [
+            "Fontes novas que contradizem a base: a tensão é resolvida antes de fechar",
+            "Mais de 3 rodadas do ciclo: redelimitar o tema em vez de seguir iterando",
+            "Lacuna auditada não declarada: pedir antes de comparar"
+          ]
+        },
+        "why_it_works": {
+          "acceptance_criteria": [
+            "A comparação percorre os quatro pontos da auditoria anterior: lacuna, afirmações, tensões e risco residual",
+            "O veredicto nunca viaja sozinho: suficiente leva seus limites e repetir leva o próximo prompt",
+            "Suficiente tem definição operacional — nenhuma lacuna aberta bloqueia o propósito declarado — verificável contra a lista de lacunas"
+          ],
+          "edge_cases": [
+            "Fontes novas que contradizem a base: o veredicto não pode ser suficiente sem resolver a tensão",
+            "Ciclo com mais de três rodadas: o prompt recomenda redelimitar em vez de deixar o laço aberto"
+          ],
+          "tradeoffs": [
+            "Parar com evidência suficiente em troca de cobertura incompleta, declarada nos limites do veredicto",
+            "O conselho «não busque perfeição» do texto base é substituído pela condição verificável «nenhuma lacuna aberta bloqueia o propósito»: perde-se o tom e ganha-se um critério verificável; nenhuma outra instrução do passo 4 se perde"
+          ],
+          "assumptions": [
+            "Existe auditoria anterior do passo 2 e fontes novas foram importadas no Notebook",
+            "O núcleo «afirmações confirmadas ou refutadas» é herdado da verificação cruzada autônoma 04, que pesa uma afirmação por vez, e o veredicto de suficiência da auditoria autônoma 05; aqui ambos se aplicam ao delta da base"
+          ],
+          "limits": [
+            "Decide suficiência sobre o conjunto, não verifica cada afirmação em profundidade: isso cabe a 04",
+            "Não ativa o papel conversacional sobre a base fechada: isso cabe a W05"
+          ]
+        },
+        "traceability": [
+          {
+            "claim": "Respostas ancoradas nas fontes carregadas tornam possível comparar a base ampliada contra a auditoria anterior sem sair do Notebook.",
+            "source": "https://support.google.com/notebooklm/answer/16179559?hl=es"
+          },
+          {
+            "claim": "O par de veredictos suficiente ou repetir e a leitura de afirmações confirmadas ou refutadas vêm da biblioteca publicada do método.",
+            "source": "https://javimontano.github.io/prompt-amplificado/biblioteca-prompts.html"
+          },
+          {
+            "claim": "Definir suficiente como «nenhuma lacuna aberta bloqueia o propósito» e cortar o ciclo após três rodadas são normas internas da oficina.",
+            "source": "method_internal"
+          }
+        ]
+      },
+      "empresa": {
+        "title": "Encerrar ou repetir com a equipe",
+        "purpose": "Pesa o que mudou na base compartilhada da equipe e decide se o processo para com limites comunicáveis ou repete, com suficiente definido de forma operacional.",
+        "when": "a equipe importou a resposta do encargo e o processo deve parar ou repetir.",
+        "example": "Quatro fontes novas sobre adoção, importadas no Notebook da área.",
+        "evidence": "comparação ponto a ponto contra a auditoria anterior, afirmações confirmadas ou refutadas, tensões novas, valor de cada fonte na escala declarada, risco residual com seu risco operacional e veredicto suficiente com limites prontos para revisão.",
+        "prompt": "Passo 4, fecho: importei fontes no Notebook da equipe para [PROPÓSITO] em [PROCESSO]. Compare a base com a auditoria, ponto a ponto: [LACUNA AUDITADA] fechada ou não, afirmações confirmadas ou refutadas, tensões novas, valor de cada fonte em escala alta/média/baixa e risco residual com risco operacional. Não verifique afirmação por afirmação: mede-se o delta. Emita [BASE SUFICIENTE] com limites comunicáveis fora, ou [REPETIR PESQUISA] com o próximo prompt, pronto para revisão: suficiente = nenhuma lacuna aberta bloqueia o processo. Fonte que contradiga: sem resolver a tensão não há suficiente. Não invente fechamentos nem fontes.",
+        "level_spec": {
+          "role": "Juiz do passo 4 para equipes: pesa o delta compartilhado e fecha ou repete",
+          "spec_role": "Facilitador de oficina guiada no NotebookLM",
+          "objective": "Comparar a base compartilhada após a importação e emitir veredicto de suficiência revisável pelo responsável",
+          "parameters": [
+            [
+              "posicao_na_sequencia",
+              "passo 4: recebe a base ampliada pela resposta do passo 3 e fecha ou reabre o ciclo da equipe"
+            ],
+            [
+              "unidade_de_analise",
+              "o delta da base compartilhada, não cada afirmação isolada"
+            ],
+            [
+              "escala_de_valor",
+              "cada fonte nova é pontuada alta, média ou baixa"
+            ],
+            [
+              "suficiente",
+              "nenhuma lacuna aberta bloqueia o processo, com limites comunicáveis fora da oficina"
+            ]
+          ],
+          "workflow": [
+            "Registrar o propósito do processo e a lacuna auditada na rodada anterior",
+            "Comparar a base compartilhada contra a auditoria anterior ponto a ponto",
+            "Marcar afirmações confirmadas ou refutadas e tensões novas",
+            "Pontuar o valor de cada fonte importada e nomear o risco operacional por trás do risco residual",
+            "Emitir suficiente com limites comunicáveis ou repetir com o próximo prompt, pronto para revisão"
+          ],
+          "guardrails": [
+            "Não inventar fechamentos, confirmações nem fontes",
+            "Não verificar afirmação por afirmação: este passo mede o delta",
+            "Fonte nova que contradiz a base: não há veredicto suficiente sem resolver a tensão"
+          ],
+          "output": [
+            "Comparação ponto a ponto contra a auditoria anterior",
+            "Valor de cada fonte na escala declarada e risco residual com seu risco operacional",
+            "Veredicto suficiente com limites comunicáveis, ou repetir com o próximo prompt, pronto para revisão"
+          ],
+          "dod": "Veredicto revisável: comparação ponto a ponto completa, risco residual e seu risco operacional escritos, e limites legíveis por quem não esteve na oficina.",
+          "edge_cases": [
+            "Fontes novas que contradizem a base: a tensão é resolvida antes de fechar",
+            "Veredicto sem responsável que o revise: pedir antes de comunicar fora",
+            "Lacuna auditada não declarada: pedir antes de comparar"
+          ]
+        },
+        "why_it_works": {
+          "acceptance_criteria": [
+            "A comparação percorre os quatro pontos da auditoria anterior: lacuna, afirmações, tensões e risco residual",
+            "O veredicto nunca viaja sozinho: suficiente leva limites legíveis por quem não esteve na oficina e repetir leva o próximo prompt",
+            "Suficiente tem definição operacional — nenhuma lacuna aberta bloqueia o processo — verificável contra a lista de lacunas"
+          ],
+          "edge_cases": [
+            "Fontes novas que contradizem a base compartilhada: o veredicto não pode ser suficiente sem resolver a tensão",
+            "Veredicto que sairá da equipe sem revisor: pede-se o responsável antes de comunicá-lo"
+          ],
+          "tradeoffs": [
+            "Parar com evidência suficiente em troca de cobertura incompleta, declarada em limites comunicáveis",
+            "O conselho «não busque perfeição» do texto base é substituído pela condição verificável «nenhuma lacuna aberta bloqueia o processo»; além disso, o corte por número de rodadas é substituído pela revisão do responsável, que decide se o ciclo continua: perde-se o teto automático de três rodadas e ganha-se uma autoridade explícita. Nenhuma outra instrução do passo 4 se perde"
+          ],
+          "assumptions": [
+            "Existe auditoria anterior da equipe e fontes novas foram importadas na base compartilhada",
+            "O núcleo «afirmações confirmadas ou refutadas» é herdado da verificação cruzada autônoma 04 e o veredicto de suficiência da auditoria autônoma 05; aqui ambos se aplicam ao delta da base compartilhada"
+          ],
+          "limits": [
+            "Decide suficiência sobre o conjunto, não verifica cada afirmação em profundidade: isso cabe a 04",
+            "Informa a revisão do responsável, não a substitui, e não ativa o papel conversacional: isso cabe a W05"
+          ]
+        },
+        "traceability": [
+          {
+            "claim": "Ancorar respostas nas fontes carregadas permite à equipe comparar a base ampliada contra sua auditoria anterior dentro do mesmo Notebook.",
+            "source": "https://support.google.com/notebooklm/answer/16179559?hl=es"
+          },
+          {
+            "claim": "O par de veredictos suficiente ou repetir que a equipe reutiliza vem da biblioteca publicada do método.",
+            "source": "https://javimontano.github.io/prompt-amplificado/biblioteca-prompts.html"
+          },
+          {
+            "claim": "Exigir limites comunicáveis fora da oficina e revisão do responsável antes de dar por fechada uma base compartilhada é política interna do método.",
+            "source": "method_internal"
+          }
+        ]
+      }
+    }
+  },
+  "self_hash_model": "sha256(sorted-json-without-self_sha256)",
+  "self_sha256": "a0c24716b0263a60a522df723384f96ca1b089017909291725be7e1f58017ca3"
+}

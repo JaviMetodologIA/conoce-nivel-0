@@ -1,0 +1,577 @@
+{
+  "schema_version": "prompt-intent-contract-v1",
+  "intent_id": "W01",
+  "surface": "workbook",
+  "phase": "Aprender",
+  "state": "RENDERED_DRAFT",
+  "publication_authorized": false,
+  "boundary": {
+    "distinct_from": [
+      "01",
+      "W02"
+    ],
+    "decision_rule": "Usa W01 cuando el taller arranca sin nada cargado y el paso 1 debe producir la primera fuente citada del Notebook; si lo que necesitas es delimitar la investigación y cerrar en un criterio de suficiencia antes de investigar, sin producir informe, usa la variante autónoma 01. W01 no audita lo que entrega ni prioriza vacíos: esa lectura llega en W02."
+  },
+  "locales": {
+    "es": {
+      "persona": {
+        "title": "Primera base con propósito",
+        "purpose": "Convierte un tema sin nada cargado en el informe citado que abre el taller: la primera fuente que necesitas antes de auditar.",
+        "when": "arrancas el taller y todavía no tienes ninguna fuente cargada en el Notebook.",
+        "example": "IA generativa aplicada a mi trabajo comercial, con el Notebook todavía vacío.",
+        "evidence": "informe citado con alcance, conceptos esenciales, cambios desde la fecha de corte, tensiones, incertidumbre marcada inline y fuentes primarias con título, autor, fecha, enlace y razón, importable como primera fuente.",
+        "prompt": "Paso 1 del taller: quiero construir una base de conocimiento útil y verificable sobre [TEMA] y aún no tengo nada cargado. La necesito para [DECISIÓN, PROYECTO O RESULTADO]; mi contexto es [CONTEXTO] y mi audiencia es [AUDIENCIA]. Delimita el alcance y las preguntas; explica los conceptos esenciales y los cambios publicados desde [FECHA DE CORTE]; prioriza fuentes primarias; muestra tensiones y límites; separa hechos, interpretaciones e incertidumbre y marca cada frase incierta con «incierto: falta X»; recomienda cada fuente con título, autor, fecha, enlace y razón. No te detengas en delimitar ni cierres con un criterio de suficiencia: entrega un informe citado que yo pueda importar como primera fuente y auditar en el paso siguiente. Si no hay fuentes primarias accesibles, entrega el informe reducido y lista los vacíos en vez de rellenarlos. No inventes fuentes, citas ni fechas, y no presentes como certeza lo que las fuentes no permiten afirmar.",
+        "level_spec": {
+          "role": "Facilitador del paso 1: produce la primera fuente del taller",
+          "spec_role": "Facilitador de taller guiado sobre NotebookLM",
+          "objective": "Convertir un tema sin base cargada en un informe citado importable que encadene al paso de auditoría",
+          "parameters": [
+            [
+              "posicion_en_la_secuencia",
+              "paso 1: no recibe nada del paso anterior y entrega la primera fuente"
+            ],
+            [
+              "corte_temporal",
+              "los cambios se cuentan desde la fecha de corte declarada, no desde «reciente»"
+            ],
+            [
+              "incertidumbre",
+              "cada frase incierta lleva la marca «incierto: falta X»"
+            ],
+            [
+              "salida",
+              "informe citado importable, no criterio de suficiencia"
+            ]
+          ],
+          "workflow": [
+            "Registrar tema, decisión, contexto, audiencia y fecha de corte",
+            "Delimitar el alcance y formular las preguntas esenciales",
+            "Explicar conceptos esenciales y cambios publicados desde la fecha de corte",
+            "Priorizar fuentes primarias con título, autor, fecha, enlace y razón",
+            "Separar hechos, interpretaciones e incertidumbre y marcar cada frase incierta",
+            "Entregar el informe citado listo para importar y auditar en el paso siguiente"
+          ],
+          "guardrails": [
+            "No inventar fuentes, citas ni fechas",
+            "Sin fuentes primarias accesibles: informe reducido y vacíos listados, nunca rellenados",
+            "No cerrar con criterio de suficiencia: este paso entrega informe, no veredicto"
+          ],
+          "output": [
+            "Informe citado con alcance, conceptos, tensiones y límites",
+            "Fuentes primarias con título, autor, fecha, enlace y razón",
+            "Lista de vacíos abiertos y frases marcadas como inciertas"
+          ],
+          "dod": "Informe importable: alcance, conceptos, tensiones y fuentes presentes, cada fuente con sus cinco datos y cada frase incierta marcada.",
+          "edge_cases": [
+            "Tema sin fuentes primarias accesibles: informe reducido con vacíos listados",
+            "Decisión, proyecto o resultado no declarado: preguntarlo antes de delimitar",
+            "Cambios recientes sin fecha de corte: pedir la fecha en vez de suponerla"
+          ]
+        },
+        "why_it_works": {
+          "acceptance_criteria": [
+            "El informe trae las cuatro secciones fijas: alcance, conceptos, tensiones y fuentes recomendadas",
+            "Cada fuente recomendada lleva título, autor, fecha, enlace y razón; sin los cinco datos, la fuente no entra",
+            "Cada frase incierta lleva la marca «incierto: falta X»; sin marca, la frase se lee como afirmada"
+          ],
+          "edge_cases": [
+            "Sin fuentes primarias accesibles: el informe se entrega reducido y los vacíos quedan listados para el encargo de investigación",
+            "Sin decisión ni resultado declarado: el prompt lo pregunta antes de delimitar"
+          ],
+          "tradeoffs": [
+            "Primer informe imperfecto a cambio de arrancar el ciclo con material propio y auditable",
+            "Fijar una fecha de corte deja fuera lo publicado después, a cambio de que «cambios recientes» sea comprobable"
+          ],
+          "assumptions": [
+            "El informe se importará al Notebook como primera fuente y se auditará en el paso siguiente",
+            "La anatomía de delimitar, separar hechos de interpretaciones y priorizar fuentes primarias con razón se hereda de la variante autónoma 01; aquí termina en informe citado, no en criterio de suficiencia"
+          ],
+          "limits": [
+            "Produce la primera base, no una base suficiente: la suficiencia se decide al cerrar el ciclo",
+            "No audita ni prioriza los vacíos de lo que entrega: eso corresponde a W02"
+          ]
+        },
+        "traceability": [
+          {
+            "claim": "Los tipos de fuente admitidos por NotebookLM y sus límites están documentados; por eso el paso 1 entrega el informe en un formato importable como fuente.",
+            "source": "https://support.google.com/notebooklm/answer/16215270?hl=es"
+          },
+          {
+            "claim": "La anatomía de delimitar, separar hechos de interpretaciones y priorizar fuentes primarias con razón procede de la biblioteca publicada del método.",
+            "source": "https://javimontano.github.io/prompt-amplificado/biblioteca-prompts.html"
+          },
+          {
+            "claim": "Encadenar el paso 1 con la auditoría y marcar la incertidumbre inline en lugar de cerrar con criterio de suficiencia son normas internas del taller.",
+            "source": "method_internal"
+          }
+        ]
+      },
+      "empresa": {
+        "title": "Primera base compartida del equipo",
+        "purpose": "Convierte un tema sin base cargada en el informe citado que abre el taller del equipo, con derechos de uso y responsable declarados por fuente.",
+        "when": "el proceso exige una base común y aún no hay ninguna fuente cargada.",
+        "example": "IA generativa para la operación comercial, antes de comprometer presupuesto del área.",
+        "evidence": "informe citado listo para revisión, con alcance repartible, fuentes primarias con derechos de uso y responsable, incertidumbre marcada inline y vacíos registrados para la auditoría siguiente.",
+        "prompt": "Paso 1 del taller: el equipo necesita una base de conocimiento verificable sobre [TEMA] y aún no hay nada cargado. La consumirá [EQUIPO] dentro de [PROCESO] antes de [DECISIÓN DEL EQUIPO]. Delimita un alcance repartible y las preguntas; explica los conceptos esenciales y los cambios publicados desde [FECHA DE CORTE]; prioriza fuentes primarias con derechos de uso interno; muestra tensiones y límites; separa hechos, interpretaciones e incertidumbre y marca cada frase incierta con «incierto: falta X»; recomienda cada fuente con título, autor, fecha, enlace, razón y responsable de mantenerla. No te detengas en delimitar ni cierres con un criterio de suficiencia: entrega un informe citado listo para revisión, importable como primera fuente compartida y auditable en el paso siguiente. Sin fuentes primarias con derechos claros, entrega el informe reducido, registra el riesgo operativo y lista los vacíos. No inventes fuentes, citas ni derechos de uso.",
+        "level_spec": {
+          "role": "Facilitador del paso 1 para equipos: produce la primera fuente compartida",
+          "spec_role": "Facilitador de taller guiado sobre NotebookLM",
+          "objective": "Convertir un tema sin base cargada en un informe citado compartible que encadene a la auditoría del equipo",
+          "parameters": [
+            [
+              "posicion_en_la_secuencia",
+              "paso 1: no recibe nada del paso anterior y entrega la primera fuente compartida"
+            ],
+            [
+              "derechos",
+              "cada fuente primaria declara derechos de uso interno y responsable de mantenerla"
+            ],
+            [
+              "corte_temporal",
+              "los cambios se cuentan desde la fecha de corte declarada"
+            ],
+            [
+              "salida",
+              "informe citado listo para revisión, no criterio de suficiencia"
+            ]
+          ],
+          "workflow": [
+            "Registrar tema, decisión del equipo, equipo consumidor, proceso y fecha de corte",
+            "Delimitar un alcance repartible y formular las preguntas esenciales",
+            "Explicar conceptos esenciales y cambios publicados desde la fecha de corte",
+            "Priorizar fuentes primarias con derechos de uso interno, razón y responsable",
+            "Separar hechos, interpretaciones e incertidumbre y marcar cada frase incierta",
+            "Entregar el informe citado listo para revisión e importable como fuente compartida"
+          ],
+          "guardrails": [
+            "No inventar fuentes, citas ni derechos de uso",
+            "Sin derechos de uso claros: informe reducido, riesgo operativo registrado y vacíos listados",
+            "No cerrar con criterio de suficiencia ni aprobar la base: este paso entrega informe revisable"
+          ],
+          "output": [
+            "Informe citado con alcance repartible, conceptos, tensiones y límites",
+            "Fuentes primarias con derechos de uso, razón y responsable de mantenerla",
+            "Riesgo operativo y vacíos registrados para la auditoría siguiente"
+          ],
+          "dod": "Informe revisable: alcance repartible, cada fuente con derechos y responsable, cada frase incierta marcada y los vacíos registrados.",
+          "edge_cases": [
+            "Fuentes sin derechos de uso claros: no entran a la base compartida, se registran como vacío",
+            "Decisión del equipo sin responsable: pedirlo antes de delimitar",
+            "Áreas con fechas de corte distintas: pedir una sola fecha antes de contar cambios"
+          ]
+        },
+        "why_it_works": {
+          "acceptance_criteria": [
+            "El alcance queda repartible entre miembros y cada bloque tiene a quién asignarlo",
+            "Cada fuente lleva título, autor, fecha, enlace, razón, derechos de uso interno y responsable; sin derechos, no entra",
+            "Cada frase incierta lleva la marca «incierto: falta X», legible por quien revise sin haber estado en el taller"
+          ],
+          "edge_cases": [
+            "Sin fuentes primarias con derechos claros: informe reducido, riesgo operativo registrado y vacíos listados",
+            "Decisión del equipo sin responsable definido: el prompt lo pide antes de delimitar"
+          ],
+          "tradeoffs": [
+            "Verificar derechos de uso y asignar responsable agrega fricción a cambio de una base compartible sin riesgo legal interno",
+            "Esta celda sustituye el contexto y la audiencia individuales del texto base por equipo consumidor y proceso: se pierde la calibración a un lector único y se gana un informe repartible; ninguna otra instrucción del paso 1 se pierde"
+          ],
+          "assumptions": [
+            "Existe un equipo que consumirá la base y un proceso donde se aplicará el resultado",
+            "El esqueleto de alcance, hechos frente a interpretaciones y fuentes primarias con razón se hereda de la variante autónoma 01; aquí termina en informe compartible, no en criterio de suficiencia"
+          ],
+          "limits": [
+            "Produce la primera base compartida, no una base aprobada: informa la revisión, no la sustituye",
+            "No audita ni prioriza los vacíos de lo que entrega: eso corresponde a W02"
+          ]
+        },
+        "traceability": [
+          {
+            "claim": "Que el informe compartido se entregue en un formato admitido como fuente del Notebook se apoya en la documentación de tipos y límites de fuente.",
+            "source": "https://support.google.com/notebooklm/answer/16215270?hl=es"
+          },
+          {
+            "claim": "El esqueleto de alcance, hechos frente a interpretaciones y fuentes primarias con razón viene de la biblioteca publicada del método.",
+            "source": "https://javimontano.github.io/prompt-amplificado/biblioteca-prompts.html"
+          },
+          {
+            "claim": "Exigir derechos de uso interno, responsable de mantenimiento y registro del riesgo operativo antes de compartir una base es política interna del método.",
+            "source": "method_internal"
+          }
+        ]
+      }
+    },
+    "en": {
+      "persona": {
+        "title": "A first base with a purpose",
+        "purpose": "Turns a topic with nothing loaded into the cited report that opens the workshop: the first source you need before auditing anything.",
+        "when": "you start the workshop and no source is loaded in the Notebook yet.",
+        "example": "Generative AI applied to my sales work, with the Notebook still empty.",
+        "evidence": "cited report with scope, essentials, what changed since the cutoff date, tensions, uncertainty tagged inline and primary sources carrying title, author, date, link and reason, importable as a first source.",
+        "prompt": "Step 1 of the workshop: I want a useful, verifiable knowledge base about [TOPIC] and nothing is loaded yet. I need it for [DECISION OR RESULT]; my context is [CONTEXT] and my audience is [AUDIENCE]. Define scope and questions; explain the essentials and what changed since [CUTOFF DATE]; prioritize primary sources; include tensions and evidence limits; separate facts, interpretations and uncertainty, tagging every uncertain line as \"uncertain: X is missing\"; recommend each source with title, author, date, link and reason. Do not stop at scoping and do not close on a sufficiency rule: deliver a cited report I can import as my first source and audit in the next step. If no primary sources are reachable, deliver the shorter report and list the gaps instead of filling them. Do not invent sources, citations or dates, and do not present more certainty than the sources support.",
+        "level_spec": {
+          "role": "Step 1 facilitator: produces the first source of the workshop",
+          "spec_role": "Guided workshop facilitator for NotebookLM",
+          "objective": "Turn a topic with no loaded base into an importable cited report that chains into the audit step",
+          "parameters": [
+            [
+              "sequence_position",
+              "step 1: receives nothing from a prior step and hands over the first source"
+            ],
+            [
+              "cutoff",
+              "changes are counted from the declared cutoff date, not from \"recent\""
+            ],
+            [
+              "uncertainty",
+              "every uncertain line carries the tag \"uncertain: X is missing\""
+            ],
+            [
+              "output",
+              "an importable cited report, not a sufficiency rule"
+            ]
+          ],
+          "workflow": [
+            "Record topic, decision, context, audience and cutoff date",
+            "Define the scope and frame the essential questions",
+            "Explain the essentials and what changed since the cutoff date",
+            "Prioritize primary sources with title, author, date, link and reason",
+            "Separate facts, interpretations and uncertainty and tag every uncertain line",
+            "Deliver the cited report ready to import and audit in the next step"
+          ],
+          "guardrails": [
+            "Never invent sources, citations or dates",
+            "No reachable primary sources: shorter report with gaps listed, never filled",
+            "Do not close on a sufficiency rule: this step delivers a report, not a verdict"
+          ],
+          "output": [
+            "Cited report with scope, essentials, tensions and limits",
+            "Primary sources with title, author, date, link and reason",
+            "List of open gaps and of the lines tagged as uncertain"
+          ],
+          "dod": "Importable report: scope, essentials, tensions and sources present, every source carrying its five fields and every uncertain line tagged.",
+          "edge_cases": [
+            "Topic with no reachable primary sources: shorter report with gaps listed",
+            "Decision or result not declared: ask for it before scoping",
+            "Recent changes with no cutoff date: ask for the date instead of assuming one"
+          ]
+        },
+        "why_it_works": {
+          "acceptance_criteria": [
+            "The report carries the four fixed sections: scope, essentials, tensions and recommended sources",
+            "Every recommended source carries title, author, date, link and reason; without the five fields it stays out",
+            "Every uncertain line carries the tag \"uncertain: X is missing\"; untagged lines read as asserted"
+          ],
+          "edge_cases": [
+            "No reachable primary sources: the report ships shorter and the gaps stay listed for the research brief",
+            "No decision or result declared: the prompt asks before scoping"
+          ],
+          "tradeoffs": [
+            "An imperfect first report in exchange for opening the cycle with material of my own that can be audited",
+            "A fixed cutoff leaves later publications out, in exchange for making \"recent changes\" checkable"
+          ],
+          "assumptions": [
+            "The report will be imported into the Notebook as the first source and audited in the next step",
+            "The anatomy of scoping, splitting facts from interpretations and prioritizing primary sources with a reason is inherited from the standalone variant 01; here it ends in a cited report, not in a sufficiency rule"
+          ],
+          "limits": [
+            "It produces the first base, not a sufficient base: sufficiency is decided when the cycle closes",
+            "It does not audit or rank the gaps of what it delivers: that belongs to W02"
+          ]
+        },
+        "traceability": [
+          {
+            "claim": "Supported NotebookLM source types and their limits are documented, which is why step 1 ships the report in an importable format.",
+            "source": "https://support.google.com/notebooklm/answer/16215270?hl=es"
+          },
+          {
+            "claim": "Scoping, splitting facts from interpretations and prioritizing primary sources with a reason come from the published prompt library of the method.",
+            "source": "https://javimontano.github.io/prompt-amplificado/biblioteca-prompts.html"
+          },
+          {
+            "claim": "Chaining step 1 into the audit and tagging uncertainty inline instead of closing on a sufficiency rule are internal workshop policy.",
+            "source": "method_internal"
+          }
+        ]
+      },
+      "empresa": {
+        "title": "A first shared base for the team",
+        "purpose": "Turns a topic with no loaded base into the cited report that opens the team workshop, with usage rights and an accountable owner declared per source.",
+        "when": "the process needs a common base and no source is loaded yet.",
+        "example": "Generative AI for the sales operation, before committing the area training budget.",
+        "evidence": "cited report ready for review, with splittable scope, primary sources carrying usage rights and an owner, uncertainty tagged inline and gaps recorded for the audit step.",
+        "prompt": "Step 1 of the workshop: the team needs a verifiable knowledge base about [TOPIC] and nothing is loaded yet. [TEAM] will consume it within [PROCESS] before [TEAM DECISION]. Define a splittable scope and questions; explain the essentials and what changed since [CUTOFF DATE]; prioritize primary sources with internal usage rights; include tensions and evidence limits; separate facts, interpretations and uncertainty, tagging every uncertain line as \"uncertain: X is missing\"; recommend each source with title, author, date, link, reason and an accountable owner. Do not stop at scoping and do not close on a sufficiency rule: deliver a cited report ready for review, importable as the first shared source and auditable in the next step. Without primary sources with clear rights, deliver the shorter report, record the operational risk and list the gaps. Do not invent sources, citations or usage rights.",
+        "level_spec": {
+          "role": "Step 1 facilitator for teams: produces the first shared source",
+          "spec_role": "Guided workshop facilitator for NotebookLM",
+          "objective": "Turn a topic with no loaded base into a shareable cited report that chains into the team audit",
+          "parameters": [
+            [
+              "sequence_position",
+              "step 1: receives nothing from a prior step and hands over the first shared source"
+            ],
+            [
+              "rights",
+              "every primary source declares internal usage rights and an accountable owner"
+            ],
+            [
+              "cutoff",
+              "changes are counted from the declared cutoff date"
+            ],
+            [
+              "output",
+              "a cited report ready for review, not a sufficiency rule"
+            ]
+          ],
+          "workflow": [
+            "Record topic, team decision, consuming team, process and cutoff date",
+            "Define a splittable scope and frame the essential questions",
+            "Explain the essentials and what changed since the cutoff date",
+            "Prioritize primary sources with internal usage rights, reason and owner",
+            "Separate facts, interpretations and uncertainty and tag every uncertain line",
+            "Deliver the cited report ready for review and importable as a shared source"
+          ],
+          "guardrails": [
+            "Never invent sources, citations or usage rights",
+            "No clear usage rights: shorter report, operational risk recorded and gaps listed",
+            "Do not close on a sufficiency rule and do not approve the base: this step delivers a reviewable report"
+          ],
+          "output": [
+            "Cited report with splittable scope, essentials, tensions and limits",
+            "Primary sources with usage rights, reason and an accountable owner",
+            "Operational risk and gaps recorded for the audit step"
+          ],
+          "dod": "Reviewable report: splittable scope, every source with rights and an owner, every uncertain line tagged and the gaps recorded.",
+          "edge_cases": [
+            "Sources without clear usage rights: they stay out of the shared base and are recorded as a gap",
+            "Team decision without an accountable owner: ask for one before scoping",
+            "Areas with different cutoff dates: ask for a single date before counting changes"
+          ]
+        },
+        "why_it_works": {
+          "acceptance_criteria": [
+            "The scope is splittable across members and every block has someone it can be assigned to",
+            "Every source carries title, author, date, link, reason, internal usage rights and an owner; without rights it stays out",
+            "Every uncertain line carries the tag \"uncertain: X is missing\", readable by a reviewer who was not in the workshop"
+          ],
+          "edge_cases": [
+            "No primary sources with clear rights: shorter report, operational risk recorded and gaps listed",
+            "Team decision without a defined owner: the prompt asks before scoping"
+          ],
+          "tradeoffs": [
+            "Checking usage rights and naming an owner adds friction in exchange for a shareable base with no internal legal risk",
+            "This cell replaces the individual context and audience of the base text with a consuming team and a process: it loses the calibration to a single reader and gains a splittable report; no other step 1 instruction is lost"
+          ],
+          "assumptions": [
+            "A team will consume the base and a process exists where the result applies",
+            "The skeleton of scope, facts versus interpretations and primary sources with a reason is inherited from the standalone variant 01; here it ends in a shareable report, not in a sufficiency rule"
+          ],
+          "limits": [
+            "It produces the first shared base, not an approved base: it informs the review, it does not replace it",
+            "It does not audit or rank the gaps of what it delivers: that belongs to W02"
+          ]
+        },
+        "traceability": [
+          {
+            "claim": "Shipping the shared report in a format accepted as a Notebook source rests on the documented source types and limits.",
+            "source": "https://support.google.com/notebooklm/answer/16215270?hl=es"
+          },
+          {
+            "claim": "The skeleton of scope, facts versus interpretations and primary sources with a reason comes from the published prompt library of the method.",
+            "source": "https://javimontano.github.io/prompt-amplificado/biblioteca-prompts.html"
+          },
+          {
+            "claim": "Requiring internal usage rights, a maintenance owner and a recorded operational risk before a base is shared is internal method policy.",
+            "source": "method_internal"
+          }
+        ]
+      }
+    },
+    "pt": {
+      "persona": {
+        "title": "Primeira base com propósito",
+        "purpose": "Transforma um tema sem nada carregado no relatório citado que abre a oficina: a primeira fonte que você precisa antes de auditar.",
+        "when": "você começa a oficina e ainda não há nenhuma fonte carregada no Notebook.",
+        "example": "IA generativa aplicada ao meu trabalho comercial, com o Notebook ainda vazio.",
+        "evidence": "relatório citado com escopo, fundamentos, o que mudou desde a data de corte, tensões, incerteza marcada no texto e fontes primárias com título, autor, data, link e motivo, importável como primeira fonte.",
+        "prompt": "Passo 1 da oficina: quero uma base de conhecimento útil e verificável sobre [TEMA] e ainda não carreguei nada. Preciso dela para [DECISÃO OU RESULTADO]; meu contexto é [CONTEXTO] e meu público é [PÚBLICO]. Delimite escopo e perguntas; explique os fundamentos e o que mudou desde [DATA DE CORTE]; priorize fontes primárias; inclua tensões e limites da evidência; separe fatos, interpretações e incerteza, marcando cada trecho incerto como «incerto: falta X»; recomende cada fonte com título, autor, data, link e motivo. Não pare na delimitação nem feche com critério de suficiência: entregue um relatório citado que eu possa importar como minha primeira fonte e auditar no passo seguinte. Sem fontes primárias acessíveis, entregue o relatório reduzido e liste as lacunas em vez de preenchê-las. Não invente fontes, citações nem datas, e não apresente mais certeza do que as fontes permitem.",
+        "level_spec": {
+          "role": "Facilitador do passo 1: produz a primeira fonte da oficina",
+          "spec_role": "Facilitador de oficina guiada no NotebookLM",
+          "objective": "Transformar um tema sem base carregada em relatório citado importável que encadeia no passo de auditoria",
+          "parameters": [
+            [
+              "posicao_na_sequencia",
+              "passo 1: não recebe nada do passo anterior e entrega a primeira fonte"
+            ],
+            [
+              "data_de_corte",
+              "as mudanças contam a partir da data de corte declarada, não de «recente»"
+            ],
+            [
+              "incerteza",
+              "cada trecho incerto leva a marca «incerto: falta X»"
+            ],
+            [
+              "saida",
+              "relatório citado importável, não critério de suficiência"
+            ]
+          ],
+          "workflow": [
+            "Registrar tema, decisão, contexto, público e data de corte",
+            "Delimitar o escopo e formular as perguntas essenciais",
+            "Explicar os fundamentos e o que mudou desde a data de corte",
+            "Priorizar fontes primárias com título, autor, data, link e motivo",
+            "Separar fatos, interpretações e incerteza e marcar cada trecho incerto",
+            "Entregar o relatório citado pronto para importar e auditar no passo seguinte"
+          ],
+          "guardrails": [
+            "Não inventar fontes, citações nem datas",
+            "Sem fontes primárias acessíveis: relatório reduzido e lacunas listadas, nunca preenchidas",
+            "Não fechar com critério de suficiência: este passo entrega relatório, não veredicto"
+          ],
+          "output": [
+            "Relatório citado com escopo, fundamentos, tensões e limites",
+            "Fontes primárias com título, autor, data, link e motivo",
+            "Lista de lacunas abertas e dos trechos marcados como incertos"
+          ],
+          "dod": "Relatório importável: escopo, fundamentos, tensões e fontes presentes, cada fonte com seus cinco dados e cada trecho incerto marcado.",
+          "edge_cases": [
+            "Tema sem fontes primárias acessíveis: relatório reduzido com lacunas listadas",
+            "Decisão ou resultado não declarado: perguntar antes de delimitar",
+            "Mudanças recentes sem data de corte: pedir a data em vez de supor"
+          ]
+        },
+        "why_it_works": {
+          "acceptance_criteria": [
+            "O relatório traz as quatro seções fixas: escopo, fundamentos, tensões e fontes recomendadas",
+            "Cada fonte recomendada leva título, autor, data, link e motivo; sem os cinco dados, a fonte não entra",
+            "Cada trecho incerto leva a marca «incerto: falta X»; sem marca, o trecho é lido como afirmado"
+          ],
+          "edge_cases": [
+            "Sem fontes primárias acessíveis: o relatório sai reduzido e as lacunas ficam listadas para o encargo de pesquisa",
+            "Sem decisão nem resultado declarado: o prompt pergunta antes de delimitar"
+          ],
+          "tradeoffs": [
+            "Primeiro relatório imperfeito em troca de abrir o ciclo com material próprio e auditável",
+            "Fixar uma data de corte deixa de fora o publicado depois, em troca de tornar «mudanças recentes» verificável"
+          ],
+          "assumptions": [
+            "O relatório será importado ao Notebook como primeira fonte e auditado no passo seguinte",
+            "A anatomia de delimitar, separar fatos de interpretações e priorizar fontes primárias com motivo é herdada da variante autônoma 01; aqui termina em relatório citado, não em critério de suficiência"
+          ],
+          "limits": [
+            "Produz a primeira base, não uma base suficiente: a suficiência é decidida ao fechar o ciclo",
+            "Não audita nem prioriza as lacunas do que entrega: isso cabe a W02"
+          ]
+        },
+        "traceability": [
+          {
+            "claim": "Os tipos de fonte aceitos pelo NotebookLM e seus limites estão documentados; por isso o passo 1 entrega o relatório em formato importável como fonte.",
+            "source": "https://support.google.com/notebooklm/answer/16215270?hl=es"
+          },
+          {
+            "claim": "A anatomia de delimitar, separar fatos de interpretações e priorizar fontes primárias com motivo vem da biblioteca publicada do método.",
+            "source": "https://javimontano.github.io/prompt-amplificado/biblioteca-prompts.html"
+          },
+          {
+            "claim": "Encadear o passo 1 com a auditoria e marcar a incerteza no próprio texto em vez de fechar com critério de suficiência são normas internas da oficina.",
+            "source": "method_internal"
+          }
+        ]
+      },
+      "empresa": {
+        "title": "Primeira base compartilhada da equipe",
+        "purpose": "Transforma um tema sem base carregada no relatório citado que abre a oficina da equipe, com direitos de uso e responsável declarados por fonte.",
+        "when": "o processo exige uma base comum e ainda não há nenhuma fonte carregada.",
+        "example": "IA generativa para a operação comercial, antes de comprometer o orçamento da área.",
+        "evidence": "relatório citado pronto para revisão, com escopo divisível, fontes primárias com direitos de uso e responsável, incerteza marcada no texto e lacunas registradas para a auditoria seguinte.",
+        "prompt": "Passo 1 da oficina: a equipe precisa de uma base de conhecimento verificável sobre [TEMA] e nada foi carregado. Será consumida por [EQUIPE] dentro de [PROCESSO] antes de [DECISÃO DA EQUIPE]. Delimite escopo divisível e perguntas; explique fundamentos e o que mudou desde [DATA DE CORTE]; priorize fontes primárias com direitos de uso interno; inclua tensões e limites da evidência; separe fatos, interpretações e incerteza, marcando cada trecho incerto como «incerto: falta X»; recomende cada fonte com título, autor, data, link, motivo e responsável por mantê-la. Não pare na delimitação nem feche com critério de suficiência: entregue um relatório citado pronto para revisão, importável como primeira fonte compartilhada e auditável no passo seguinte. Sem direitos de uso claros, entregue o relatório reduzido, registre o risco operacional e liste as lacunas. Não invente fontes, citações nem direitos de uso.",
+        "level_spec": {
+          "role": "Facilitador do passo 1 para equipes: produz a primeira fonte compartilhada",
+          "spec_role": "Facilitador de oficina guiada no NotebookLM",
+          "objective": "Transformar um tema sem base carregada em relatório citado compartilhável que encadeia na auditoria da equipe",
+          "parameters": [
+            [
+              "posicao_na_sequencia",
+              "passo 1: não recebe nada do passo anterior e entrega a primeira fonte compartilhada"
+            ],
+            [
+              "direitos",
+              "cada fonte primária declara direitos de uso interno e responsável por mantê-la"
+            ],
+            [
+              "data_de_corte",
+              "as mudanças contam a partir da data de corte declarada"
+            ],
+            [
+              "saida",
+              "relatório citado pronto para revisão, não critério de suficiência"
+            ]
+          ],
+          "workflow": [
+            "Registrar tema, decisão da equipe, equipe consumidora, processo e data de corte",
+            "Delimitar um escopo divisível e formular as perguntas essenciais",
+            "Explicar os fundamentos e o que mudou desde a data de corte",
+            "Priorizar fontes primárias com direitos de uso interno, motivo e responsável",
+            "Separar fatos, interpretações e incerteza e marcar cada trecho incerto",
+            "Entregar o relatório citado pronto para revisão e importável como fonte compartilhada"
+          ],
+          "guardrails": [
+            "Não inventar fontes, citações nem direitos de uso",
+            "Sem direitos de uso claros: relatório reduzido, risco operacional registrado e lacunas listadas",
+            "Não fechar com critério de suficiência nem aprovar a base: este passo entrega relatório revisável"
+          ],
+          "output": [
+            "Relatório citado com escopo divisível, fundamentos, tensões e limites",
+            "Fontes primárias com direitos de uso, motivo e responsável por mantê-la",
+            "Risco operacional e lacunas registradas para a auditoria seguinte"
+          ],
+          "dod": "Relatório revisável: escopo divisível, cada fonte com direitos e responsável, cada trecho incerto marcado e as lacunas registradas.",
+          "edge_cases": [
+            "Fontes sem direitos de uso claros: ficam fora da base compartilhada e são registradas como lacuna",
+            "Decisão da equipe sem responsável: pedir antes de delimitar",
+            "Áreas com datas de corte diferentes: pedir uma única data antes de contar mudanças"
+          ]
+        },
+        "why_it_works": {
+          "acceptance_criteria": [
+            "O escopo fica divisível entre membros e cada bloco tem a quem ser atribuído",
+            "Cada fonte leva título, autor, data, link, motivo, direitos de uso interno e responsável; sem direitos, não entra",
+            "Cada trecho incerto leva a marca «incerto: falta X», legível por quem revisa sem ter estado na oficina"
+          ],
+          "edge_cases": [
+            "Sem fontes primárias com direitos claros: relatório reduzido, risco operacional registrado e lacunas listadas",
+            "Decisão da equipe sem responsável definido: o prompt pede antes de delimitar"
+          ],
+          "tradeoffs": [
+            "Verificar direitos de uso e nomear responsável adiciona atrito em troca de uma base compartilhável sem risco jurídico interno",
+            "Esta célula substitui o contexto e o público individuais do texto base por equipe consumidora e processo: perde-se a calibragem para um leitor único e ganha-se um relatório divisível; nenhuma outra instrução do passo 1 se perde"
+          ],
+          "assumptions": [
+            "Existe uma equipe que consumirá a base e um processo onde o resultado se aplica",
+            "O esqueleto de escopo, fatos versus interpretações e fontes primárias com motivo é herdado da variante autônoma 01; aqui termina em relatório compartilhável, não em critério de suficiência"
+          ],
+          "limits": [
+            "Produz a primeira base compartilhada, não uma base aprovada: informa a revisão, não a substitui",
+            "Não audita nem prioriza as lacunas do que entrega: isso cabe a W02"
+          ]
+        },
+        "traceability": [
+          {
+            "claim": "Entregar o relatório compartilhado em formato aceito como fonte do Notebook apoia-se na documentação de tipos e limites de fonte.",
+            "source": "https://support.google.com/notebooklm/answer/16215270?hl=es"
+          },
+          {
+            "claim": "O esqueleto de escopo, fatos versus interpretações e fontes primárias com motivo vem da biblioteca publicada do método.",
+            "source": "https://javimontano.github.io/prompt-amplificado/biblioteca-prompts.html"
+          },
+          {
+            "claim": "Exigir direitos de uso interno, responsável pela manutenção e registro do risco operacional antes de compartilhar uma base é política interna do método.",
+            "source": "method_internal"
+          }
+        ]
+      }
+    }
+  },
+  "self_hash_model": "sha256(sorted-json-without-self_sha256)",
+  "self_sha256": "1040272b3c931452da94e66922f6613574a38b9d7d6d55defff303988810dccc"
+}

@@ -1,0 +1,579 @@
+{
+  "schema_version": "prompt-intent-contract-v1",
+  "intent_id": "W02",
+  "surface": "workbook",
+  "phase": "Aprehender",
+  "state": "RENDERED_DRAFT",
+  "publication_authorized": false,
+  "boundary": {
+    "distinct_from": [
+      "05",
+      "W01",
+      "W03",
+      "W04"
+    ],
+    "decision_rule": "Usa W02 cuando la base recién construida en W01 debe leerse con formato fijo de taller y su salida alimenta el encargo de investigación de W03; si la base es madura y la lectura debe cerrar con veredicto de suficiencia en un solo movimiento, usa la variante autónoma 05. W02 no redacta instrucción ni prompts de inicio del asistente y no emite veredicto de suficiencia: ese veredicto vive en W04."
+  },
+  "locales": {
+    "es": {
+      "persona": {
+        "title": "Auditar la base recién construida",
+        "purpose": "Lee la base que acabas de construir con formato fijo: qué cubre, qué tensiona y qué puedes afirmar hoy con cita, sin veredicto de suficiencia.",
+        "when": "ya importaste el informe del paso 1 y necesitas saber qué sostiene esa base.",
+        "example": "Mi Notebook de IA generativa comercial, con seis fuentes recién importadas.",
+        "evidence": "resumen de 8 líneas, tabla de hallazgos con tipo, evidencia, impacto y acción, cobertura revisada, vacíos priorizados por bloqueo del propósito y lista de afirmables con cita por entrada.",
+        "prompt": "Paso 2 del taller: necesito auditar mi base recién construida. Audítala contra mi propósito [PROPÓSITO] para [AUDIENCIA], solo con las fuentes seleccionadas, cita cada hallazgo. Revisa cobertura, tensiones, ambigüedades, calidad, vigencia, sesgos y redundancias; con fuente única, audita sesgo; ante contradicción, tipifica tensión, no promedies. Entrega resumen ≤8 líneas; tabla Hallazgo|Tipo|Evidencia|Impacto|Acción; vacíos priorizados por bloqueo de [PROPÓSITO]; y «qué puedo afirmar hoy», cada entrada con cita o fuera. No escribas instrucción ni prompts de inicio del asistente ni declares suficiente la base: eso cierra el taller. No inventes hallazgos ni citas.",
+        "level_spec": {
+          "role": "Auditor del paso 2: lee la base recién construida sin cerrarla",
+          "spec_role": "Facilitador de taller guiado sobre NotebookLM",
+          "objective": "Convertir la base recién importada en un diagnóstico citado con formato fijo que alimente el encargo de investigación",
+          "parameters": [
+            [
+              "posicion_en_la_secuencia",
+              "paso 2: recibe el informe importado en el paso 1 y entrega el diagnóstico al paso 3"
+            ],
+            [
+              "dimensiones",
+              "cobertura, tensiones, ambigüedades, calidad, vigencia, sesgos y redundancias"
+            ],
+            [
+              "afirmable",
+              "una entrada solo entra a la lista si trae su cita"
+            ],
+            [
+              "veredicto",
+              "ninguno: la suficiencia se decide al cerrar el ciclo"
+            ]
+          ],
+          "workflow": [
+            "Registrar propósito y audiencia de la auditoría",
+            "Revisar las siete dimensiones solo contra las fuentes seleccionadas",
+            "Auditar sesgo cuando hay una sola fuente y tipificar tensión ante contradicción",
+            "Redactar el resumen de 8 líneas y la tabla de hallazgos citados",
+            "Priorizar los vacíos por cuánto bloquean el propósito",
+            "Cerrar con la lista de afirmables, cada entrada con su cita"
+          ],
+          "guardrails": [
+            "No inventar hallazgos, citas ni fuentes ausentes de la selección",
+            "No escribir instrucción ni prompts de inicio del asistente",
+            "No declarar la base suficiente: este paso diagnostica, no cierra"
+          ],
+          "output": [
+            "Resumen de 8 líneas como máximo",
+            "Tabla Hallazgo | Tipo | Evidencia | Impacto | Acción",
+            "Vacíos priorizados y lista de afirmables con cita por entrada"
+          ],
+          "dod": "Diagnóstico comparable: resumen dentro del límite de líneas, cada hallazgo citado, vacíos priorizados y ninguna entrada afirmable sin cita.",
+          "edge_cases": [
+            "Base de una sola fuente: la auditoría de sesgo es obligatoria",
+            "Fuentes que se contradicen: se tipifica tensión, no se promedia",
+            "Propósito no declarado: pedirlo antes de auditar"
+          ]
+        },
+        "why_it_works": {
+          "acceptance_criteria": [
+            "El resumen cabe en 8 líneas y la tabla trae las cinco columnas completas",
+            "Cada hallazgo lleva la cita de la fuente seleccionada que lo sostiene",
+            "«Qué puedo afirmar hoy» es una lista donde cada entrada trae su cita: sin cita, la entrada no entra, y esa es la regla que reemplaza al adjetivo «honesta»"
+          ],
+          "edge_cases": [
+            "Base de una sola fuente: el prompt obliga a auditar sesgo antes de cualquier otra dimensión",
+            "Hallazgos contradictorios entre fuentes: se tipifican como tensión en la tabla en vez de promediarse"
+          ],
+          "tradeoffs": [
+            "Formato fijo a cambio de comparabilidad entre iteraciones del taller",
+            "Diferir el veredicto de suficiencia frustra a quien espera una respuesta hoy, a cambio de no cerrar antes de importar lo que falta"
+          ],
+          "assumptions": [
+            "La base fue construida en el paso 1 y ya está importada al Notebook",
+            "Las dimensiones núcleo (cobertura, vigencia, sesgo, redundancia) se heredan de la auditoría autónoma 05; aquí no cierran en veredicto"
+          ],
+          "limits": [
+            "No redacta la instrucción ni los prompts de inicio del asistente",
+            "No decide suficiencia: eso corresponde a W04, y el encargo de investigación a W03"
+          ]
+        },
+        "traceability": [
+          {
+            "claim": "Que las respuestas del Notebook puedan anclarse en las fuentes seleccionadas y exponer citas es lo que permite exigir cita por hallazgo.",
+            "source": "https://support.google.com/notebooklm/answer/16179559?hl=es"
+          },
+          {
+            "claim": "Las dimensiones núcleo de la auditoría —cobertura, vigencia, sesgo y redundancia— provienen de la biblioteca publicada del método.",
+            "source": "https://javimontano.github.io/prompt-amplificado/biblioteca-prompts.html"
+          },
+          {
+            "claim": "Fijar el formato de salida del paso 2 y diferir el veredicto de suficiencia al cierre del ciclo son normas internas del taller.",
+            "source": "method_internal"
+          }
+        ]
+      },
+      "empresa": {
+        "title": "Auditar la base del equipo",
+        "purpose": "Lee la base recién construida del equipo con formato fijo y responsable por acción: qué cubre, qué tensiona y qué puede afirmar el proceso hoy.",
+        "when": "el equipo importó el informe del paso 1 y el proceso necesita saber qué sostiene.",
+        "example": "El Notebook comercial del área, con seis fuentes importadas esta semana.",
+        "evidence": "resumen de 8 líneas, tabla de hallazgos con tipo, evidencia, impacto, acción y responsable, cobertura revisada, vacíos priorizados por riesgo operativo y afirmables con cita, comparable entre iteraciones.",
+        "prompt": "Paso 2 del taller, sobre la base del equipo recién construida. Audítala contra el propósito [PROPÓSITO] del proceso [PROCESO], solo con las fuentes seleccionadas, cita cada hallazgo. Revisa cobertura, tensiones, ambigüedades, calidad, vigencia, sesgo y redundancia; con fuente única, audita sesgo; ante contradicción, tipifica tensión. Entrega resumen ≤8 líneas; tabla Hallazgo|Tipo|Evidencia|Impacto|Acción|responsable; vacíos priorizados por riesgo operativo; y «qué afirma el equipo hoy»: cita por entrada o fuera, comparable entre revisiones. No escribas instrucción ni prompts de inicio del asistente ni declares suficiente la base. No inventes hallazgos ni citas.",
+        "level_spec": {
+          "role": "Auditor del paso 2 para equipos: lee la base compartida sin cerrarla",
+          "spec_role": "Facilitador de taller guiado sobre NotebookLM",
+          "objective": "Convertir la base compartida recién importada en un diagnóstico citado, con responsable por acción y comparable entre revisiones",
+          "parameters": [
+            [
+              "posicion_en_la_secuencia",
+              "paso 2: recibe el informe compartido del paso 1 y entrega el diagnóstico al paso 3"
+            ],
+            [
+              "dimensiones",
+              "cobertura, tensiones, ambigüedades, calidad, vigencia, sesgos y redundancias"
+            ],
+            [
+              "responsable",
+              "cada acción de la tabla nombra a quién queda asignada"
+            ],
+            [
+              "veredicto",
+              "ninguno: la suficiencia se decide al cerrar el ciclo"
+            ]
+          ],
+          "workflow": [
+            "Registrar el propósito acordado y el proceso que consumirá la base",
+            "Revisar las siete dimensiones solo contra las fuentes seleccionadas",
+            "Auditar sesgo cuando hay una sola fuente y tipificar tensión ante contradicción",
+            "Redactar el resumen de 8 líneas y la tabla con responsable por acción",
+            "Priorizar los vacíos por riesgo operativo del proceso",
+            "Cerrar con la lista de afirmables del equipo, cada entrada con su cita"
+          ],
+          "guardrails": [
+            "No inventar hallazgos, citas ni responsables",
+            "No escribir instrucción ni prompts de inicio del asistente",
+            "No declarar la base suficiente ni aprobar su uso externo"
+          ],
+          "output": [
+            "Resumen de 8 líneas como máximo",
+            "Tabla Hallazgo | Tipo | Evidencia | Impacto | Acción | responsable",
+            "Vacíos priorizados por riesgo operativo y afirmables del equipo con cita"
+          ],
+          "dod": "Diagnóstico comparable entre revisiones: resumen dentro del límite, cada hallazgo citado, cada acción con responsable y ninguna entrada afirmable sin cita.",
+          "edge_cases": [
+            "Base de una sola fuente: la auditoría de sesgo es obligatoria",
+            "Fuentes que se contradicen: se tipifica tensión, no se promedia",
+            "Acción sin responsable posible: se registra como vacío de gobierno del proceso"
+          ]
+        },
+        "why_it_works": {
+          "acceptance_criteria": [
+            "El resumen cabe en 8 líneas y la tabla trae las seis columnas, incluida la de responsable",
+            "Cada hallazgo lleva la cita de la fuente seleccionada que lo sostiene",
+            "«Qué puede afirmar el equipo hoy» es una lista donde cada entrada trae su cita: sin cita, la entrada no entra, y esa regla reemplaza al adjetivo «honesta»"
+          ],
+          "edge_cases": [
+            "Base de una sola fuente: el prompt obliga a auditar sesgo antes de cualquier otra dimensión",
+            "Hallazgos contradictorios entre fuentes: se tipifican como tensión en la tabla en vez de promediarse"
+          ],
+          "tradeoffs": [
+            "Formato fijo y responsable por acción a cambio de comparabilidad entre revisiones del proceso",
+            "Esta celda cambia la audiencia individual del texto base por el propósito acordado y el proceso, y prioriza vacíos por riesgo operativo en vez de por bloqueo personal: se pierde la lectura a la medida de un lector y se gana una tabla accionable; ninguna otra instrucción del paso 2 se pierde"
+          ],
+          "assumptions": [
+            "La base compartida fue construida en el paso 1 y hay un propósito acordado por el equipo",
+            "Las dimensiones núcleo se heredan de la auditoría autónoma 05; aquí no cierran en veredicto"
+          ],
+          "limits": [
+            "No redacta la instrucción ni los prompts de inicio del asistente",
+            "No decide suficiencia ni aprueba el uso externo: eso corresponde a W04 y a la revisión del responsable"
+          ]
+        },
+        "traceability": [
+          {
+            "claim": "Anclar cada hallazgo en las fuentes seleccionadas y exponer su cita es posible porque el Notebook expone citas de las fuentes cargadas.",
+            "source": "https://support.google.com/notebooklm/answer/16179559?hl=es"
+          },
+          {
+            "claim": "El repertorio de dimensiones de relevancia auditadas por el equipo procede de la biblioteca publicada del método.",
+            "source": "https://javimontano.github.io/prompt-amplificado/biblioteca-prompts.html"
+          },
+          {
+            "claim": "Exigir responsable por acción de la tabla y priorizar vacíos por riesgo operativo antes de compartir el diagnóstico es política interna del método.",
+            "source": "method_internal"
+          }
+        ]
+      }
+    },
+    "en": {
+      "persona": {
+        "title": "Audit the base you just built",
+        "purpose": "Reads the base you just built in a fixed format: what it covers, what it strains and what you can claim today with a citation, with no sufficiency verdict.",
+        "when": "you imported the step 1 report and you need to know what that base holds.",
+        "example": "My generative AI sales Notebook, with six sources just imported.",
+        "evidence": "eight-line summary, finding table with type, evidence, impact and action, coverage reviewed, gaps prioritized by how much they block the purpose, and a claimable list with a citation per line.",
+        "prompt": "Step 2: I need to audit this base, just built in my step 1, against my purpose [PURPOSE] for [AUDIENCE], using only selected sources; cite each finding. Review coverage, tensions, ambiguities, quality, freshness, bias and redundancy; with a single source, audit bias first; when sources disagree, type a tension, do not average. Deliver an eight-line summary; a Finding|Type|Evidence|Impact|Action table; gaps prioritized by how much they block [PURPOSE]; and \"what I can claim today\", a citation per line or out. Do not write assistant instruction or starter prompts, nor call the base sufficient: that closes the workshop. Do not invent findings or citations.",
+        "level_spec": {
+          "role": "Step 2 auditor: reads the freshly built base without closing it",
+          "spec_role": "Guided workshop facilitator for NotebookLM",
+          "objective": "Turn the freshly imported base into a cited, fixed-format diagnosis that feeds the research brief",
+          "parameters": [
+            [
+              "sequence_position",
+              "step 2: receives the report imported in step 1 and hands the diagnosis to step 3"
+            ],
+            [
+              "dimensions",
+              "coverage, tensions, ambiguities, quality, freshness, bias and redundancy"
+            ],
+            [
+              "claimable",
+              "a line enters the list only if it carries its citation"
+            ],
+            [
+              "verdict",
+              "none: sufficiency is decided when the cycle closes"
+            ]
+          ],
+          "workflow": [
+            "Record the purpose and audience of the audit",
+            "Review the seven dimensions against selected sources only",
+            "Audit bias when there is a single source and type a tension when sources disagree",
+            "Write the eight-line summary and the cited finding table",
+            "Prioritize the gaps by how much they block the purpose",
+            "Close with the claimable list, every line carrying its citation"
+          ],
+          "guardrails": [
+            "Never invent findings, citations or sources outside the selection",
+            "Do not write the assistant instruction or starter prompts",
+            "Do not call the base sufficient: this step diagnoses, it does not close"
+          ],
+          "output": [
+            "Summary of eight lines at most",
+            "Finding | Type | Evidence | Impact | Action table",
+            "Prioritized gaps and a claimable list with a citation per line"
+          ],
+          "dod": "Comparable diagnosis: summary within the line limit, every finding cited, gaps prioritized and no claimable line without its citation.",
+          "edge_cases": [
+            "Single-source base: the bias audit is mandatory",
+            "Sources that disagree: type a tension, do not average",
+            "Purpose not declared: ask for it before auditing"
+          ]
+        },
+        "why_it_works": {
+          "acceptance_criteria": [
+            "The summary fits in eight lines and the table carries all five columns",
+            "Every finding carries the citation of the selected source that holds it",
+            "\"What I can claim today\" is a list where every line carries its citation: without one the line stays out, and that rule replaces the adjective \"honest\""
+          ],
+          "edge_cases": [
+            "Single-source base: the prompt forces a bias audit before any other dimension",
+            "Findings that contradict across sources: they are typed as a tension in the table instead of averaged"
+          ],
+          "tradeoffs": [
+            "A fixed format in exchange for comparability across workshop iterations",
+            "Deferring the sufficiency verdict frustrates whoever wants an answer today, in exchange for not closing before the missing material is imported"
+          ],
+          "assumptions": [
+            "The base was built in step 1 and is already imported into the Notebook",
+            "The core dimensions (coverage, freshness, bias, redundancy) are inherited from the standalone audit 05; here they do not close in a verdict"
+          ],
+          "limits": [
+            "It does not write the assistant instruction or its starter prompts",
+            "It does not decide sufficiency: that belongs to W04, and the research brief to W03"
+          ]
+        },
+        "traceability": [
+          {
+            "claim": "Notebook answers can be grounded in the selected sources and expose citations, which is what makes a citation per finding enforceable.",
+            "source": "https://support.google.com/notebooklm/answer/16179559?hl=es"
+          },
+          {
+            "claim": "The core audit dimensions — coverage, freshness, bias and redundancy — come from the published prompt library of the method.",
+            "source": "https://javimontano.github.io/prompt-amplificado/biblioteca-prompts.html"
+          },
+          {
+            "claim": "Fixing the step 2 output format and deferring the sufficiency verdict to the close of the cycle are internal workshop policy.",
+            "source": "method_internal"
+          }
+        ]
+      },
+      "empresa": {
+        "title": "Audit the team base",
+        "purpose": "Reads the team base just built in a fixed format with an owner per action: what it covers, what it strains and what the process can claim today.",
+        "when": "the team imported the step 1 report and the process needs to know what holds.",
+        "example": "The area sales Notebook, with six sources imported this week.",
+        "evidence": "eight-line summary, finding table with type, evidence, impact, action and owner, coverage reviewed, gaps prioritized by operational risk and claimables with citations, comparable across reviews.",
+        "prompt": "Step 2 of the workshop, on the base the team just built. Audit this base against [PURPOSE], agreed inside [PROCESS], using only selected sources; cite each finding. Review coverage, tensions, ambiguities, quality, freshness, bias and redundancy; with a single source, audit bias first; when sources disagree, type a tension. Deliver an eight-line summary; a Finding|Type|Evidence|Impact|Action|accountable owner table; gaps prioritized by operational risk; and \"what the team can claim today\", a citation per line or out, comparable across reviews. Do not write assistant instruction or starter prompts, nor call the base sufficient. Do not invent findings or citations.",
+        "level_spec": {
+          "role": "Step 2 auditor for teams: reads the shared base without closing it",
+          "spec_role": "Guided workshop facilitator for NotebookLM",
+          "objective": "Turn the freshly imported shared base into a cited diagnosis with an owner per action, comparable across reviews",
+          "parameters": [
+            [
+              "sequence_position",
+              "step 2: receives the shared report from step 1 and hands the diagnosis to step 3"
+            ],
+            [
+              "dimensions",
+              "coverage, tensions, ambiguities, quality, freshness, bias and redundancy"
+            ],
+            [
+              "owner",
+              "every action in the table names who it is assigned to"
+            ],
+            [
+              "verdict",
+              "none: sufficiency is decided when the cycle closes"
+            ]
+          ],
+          "workflow": [
+            "Record the agreed purpose and the process that will consume the base",
+            "Review the seven dimensions against selected sources only",
+            "Audit bias when there is a single source and type a tension when sources disagree",
+            "Write the eight-line summary and the table with an owner per action",
+            "Prioritize the gaps by the operational risk they carry for the process",
+            "Close with the team claimable list, every line carrying its citation"
+          ],
+          "guardrails": [
+            "Never invent findings, citations or owners",
+            "Do not write the assistant instruction or starter prompts",
+            "Do not call the base sufficient and do not approve external use"
+          ],
+          "output": [
+            "Summary of eight lines at most",
+            "Finding | Type | Evidence | Impact | Action | accountable owner table",
+            "Gaps prioritized by operational risk and team claimables with citations"
+          ],
+          "dod": "Diagnosis comparable across reviews: summary within the limit, every finding cited, every action with an owner and no claimable line without its citation.",
+          "edge_cases": [
+            "Single-source base: the bias audit is mandatory",
+            "Sources that disagree: type a tension, do not average",
+            "Action with no possible owner: record it as a process governance gap"
+          ]
+        },
+        "why_it_works": {
+          "acceptance_criteria": [
+            "The summary fits in eight lines and the table carries all six columns, owner included",
+            "Every finding carries the citation of the selected source that holds it",
+            "\"What the team can claim today\" is a list where every line carries its citation: without one the line stays out, and that rule replaces the adjective \"honest\""
+          ],
+          "edge_cases": [
+            "Single-source base: the prompt forces a bias audit before any other dimension",
+            "Findings that contradict across sources: they are typed as a tension in the table instead of averaged"
+          ],
+          "tradeoffs": [
+            "A fixed format and an owner per action in exchange for comparability across process reviews",
+            "This cell swaps the individual audience of the base text for the agreed purpose and the process, and ranks gaps by operational risk instead of personal blocking: it loses the reading tailored to one reader and gains an actionable table; no other step 2 instruction is lost"
+          ],
+          "assumptions": [
+            "The shared base was built in step 1 and the team agreed on a purpose",
+            "The core dimensions are inherited from the standalone audit 05; here they do not close in a verdict"
+          ],
+          "limits": [
+            "It does not write the assistant instruction or its starter prompts",
+            "It does not decide sufficiency or approve external use: that belongs to W04 and to the owner review"
+          ]
+        },
+        "traceability": [
+          {
+            "claim": "Grounding every finding in the selected sources and exposing its citation is possible because the Notebook exposes citations from loaded sources.",
+            "source": "https://support.google.com/notebooklm/answer/16179559?hl=es"
+          },
+          {
+            "claim": "The set of relevance dimensions the team audits comes from the published prompt library of the method.",
+            "source": "https://javimontano.github.io/prompt-amplificado/biblioteca-prompts.html"
+          },
+          {
+            "claim": "Requiring an owner per table action and ranking gaps by operational risk before the diagnosis is shared is internal method policy.",
+            "source": "method_internal"
+          }
+        ]
+      }
+    },
+    "pt": {
+      "persona": {
+        "title": "Auditar a base recém-construída",
+        "purpose": "Lê a base que você acabou de construir em formato fixo: o que cobre, o que tensiona e o que pode afirmar hoje com citação, sem veredicto de suficiência.",
+        "when": "você importou o relatório do passo 1 e precisa saber o que essa base sustenta.",
+        "example": "Meu Notebook de IA generativa comercial, com seis fontes recém-importadas.",
+        "evidence": "resumo de oito linhas, tabela de achados com tipo, evidência, impacto e ação, cobertura revisada, lacunas priorizadas pelo bloqueio ao propósito e lista de afirmáveis com citação por linha.",
+        "prompt": "Passo 2 da oficina: preciso auditar a minha base nova. Audite-a contra o meu propósito [PROPÓSITO] para [PÚBLICO], apenas com as fontes selecionadas, cite cada achado. Revise cobertura, tensões, ambiguidades, qualidade, atualidade, vieses e redundâncias; com fonte única, audite viés; ante contradição, tipifique tensão. Entregue resumo de oito linhas; tabela Achado|Tipo|Evidência|Impacto|Ação; lacunas priorizadas pelo bloqueio a [PROPÓSITO]; e «o que posso afirmar hoje», cada linha com citação ou fora. Não redija instrução nem prompts iniciais do assistente nem declare a base suficiente: isso fecha a oficina. Não invente achados nem citações.",
+        "level_spec": {
+          "role": "Auditor do passo 2: lê a base recém-construída sem fechá-la",
+          "spec_role": "Facilitador de oficina guiada no NotebookLM",
+          "objective": "Transformar a base recém-importada em diagnóstico citado de formato fixo que alimenta o encargo de pesquisa",
+          "parameters": [
+            [
+              "posicao_na_sequencia",
+              "passo 2: recebe o relatório importado no passo 1 e entrega o diagnóstico ao passo 3"
+            ],
+            [
+              "dimensoes",
+              "cobertura, tensões, ambiguidades, qualidade, atualidade, vieses e redundâncias"
+            ],
+            [
+              "afirmavel",
+              "uma linha só entra na lista se trouxer a citação"
+            ],
+            [
+              "veredicto",
+              "nenhum: a suficiência é decidida ao fechar o ciclo"
+            ]
+          ],
+          "workflow": [
+            "Registrar propósito e público da auditoria",
+            "Revisar as sete dimensões apenas contra as fontes selecionadas",
+            "Auditar viés quando há fonte única e tipificar tensão ante contradição",
+            "Redigir o resumo de oito linhas e a tabela de achados citados",
+            "Priorizar as lacunas pelo quanto bloqueiam o propósito",
+            "Fechar com a lista de afirmáveis, cada linha com sua citação"
+          ],
+          "guardrails": [
+            "Não inventar achados, citações nem fontes fora da seleção",
+            "Não redigir instrução nem prompts iniciais do assistente",
+            "Não declarar a base suficiente: este passo diagnostica, não fecha"
+          ],
+          "output": [
+            "Resumo de oito linhas no máximo",
+            "Tabela Achado | Tipo | Evidência | Impacto | Ação",
+            "Lacunas priorizadas e lista de afirmáveis com citação por linha"
+          ],
+          "dod": "Diagnóstico comparável: resumo dentro do limite de linhas, cada achado citado, lacunas priorizadas e nenhuma linha afirmável sem citação.",
+          "edge_cases": [
+            "Base de fonte única: a auditoria de viés é obrigatória",
+            "Fontes que se contradizem: tipificar tensão, não fazer média",
+            "Propósito não declarado: pedir antes de auditar"
+          ]
+        },
+        "why_it_works": {
+          "acceptance_criteria": [
+            "O resumo cabe em oito linhas e a tabela traz as cinco colunas completas",
+            "Cada achado traz a citação da fonte selecionada que o sustenta",
+            "«O que posso afirmar hoje» é uma lista em que cada linha traz sua citação: sem citação a linha não entra, e essa regra substitui o adjetivo «honesta»"
+          ],
+          "edge_cases": [
+            "Base de fonte única: o prompt obriga a auditar viés antes de qualquer outra dimensão",
+            "Achados contraditórios entre fontes: são tipificados como tensão na tabela em vez de virar média"
+          ],
+          "tradeoffs": [
+            "Formato fixo em troca de comparabilidade entre iterações da oficina",
+            "Adiar o veredicto de suficiência frustra quem espera resposta hoje, em troca de não fechar antes de importar o que falta"
+          ],
+          "assumptions": [
+            "A base foi construída no passo 1 e já está importada no Notebook",
+            "As dimensões núcleo (cobertura, atualidade, viés, redundância) são herdadas da auditoria autônoma 05; aqui não fecham em veredicto"
+          ],
+          "limits": [
+            "Não redige a instrução nem os prompts iniciais do assistente",
+            "Não decide suficiência: isso cabe a W04, e o encargo de pesquisa a W03"
+          ]
+        },
+        "traceability": [
+          {
+            "claim": "As respostas do Notebook podem ser ancoradas nas fontes selecionadas e expor citações, o que torna exigível uma citação por achado.",
+            "source": "https://support.google.com/notebooklm/answer/16179559?hl=es"
+          },
+          {
+            "claim": "As dimensões núcleo da auditoria — cobertura, atualidade, viés e redundância — vêm da biblioteca publicada do método.",
+            "source": "https://javimontano.github.io/prompt-amplificado/biblioteca-prompts.html"
+          },
+          {
+            "claim": "Fixar o formato de saída do passo 2 e adiar o veredicto de suficiência para o fecho do ciclo são normas internas da oficina.",
+            "source": "method_internal"
+          }
+        ]
+      },
+      "empresa": {
+        "title": "Auditar a base da equipe",
+        "purpose": "Lê a base recém-construída da equipe em formato fixo e com responsável por ação: o que cobre, o que tensiona e o que o processo pode afirmar hoje.",
+        "when": "a equipe importou o relatório do passo 1 e o processo precisa saber o que sustenta.",
+        "example": "O Notebook comercial da área, com seis fontes importadas nesta semana.",
+        "evidence": "resumo de oito linhas, tabela de achados com tipo, evidência, impacto, ação e responsável, cobertura revisada, lacunas priorizadas por risco operacional e afirmáveis com citação, comparável entre revisões.",
+        "prompt": "Passo 2 da oficina, sobre a base nova da equipe. Audite-a contra o propósito [PROPÓSITO] de [PROCESSO], apenas com as fontes selecionadas, cite cada achado. Revise cobertura, tensões, ambiguidades, qualidade, atualidade, vieses e redundâncias; com fonte única, audite viés; ante contradição, tipifique tensão. Entregue resumo de oito linhas; tabela Achado|Tipo|Evidência|Impacto|Ação|responsável; lacunas priorizadas por risco operacional; e «o que a equipe afirma hoje»: citação por linha ou fora, comparável entre revisões. Não redija instrução nem prompts iniciais do assistente nem declare a base suficiente. Não invente achados nem citações.",
+        "level_spec": {
+          "role": "Auditor do passo 2 para equipes: lê a base compartilhada sem fechá-la",
+          "spec_role": "Facilitador de oficina guiada no NotebookLM",
+          "objective": "Transformar a base compartilhada recém-importada em diagnóstico citado, com responsável por ação e comparável entre revisões",
+          "parameters": [
+            [
+              "posicao_na_sequencia",
+              "passo 2: recebe o relatório compartilhado do passo 1 e entrega o diagnóstico ao passo 3"
+            ],
+            [
+              "dimensoes",
+              "cobertura, tensões, ambiguidades, qualidade, atualidade, vieses e redundâncias"
+            ],
+            [
+              "responsavel",
+              "cada ação da tabela nomeia a quem fica atribuída"
+            ],
+            [
+              "veredicto",
+              "nenhum: a suficiência é decidida ao fechar o ciclo"
+            ]
+          ],
+          "workflow": [
+            "Registrar o propósito acordado e o processo que consumirá a base",
+            "Revisar as sete dimensões apenas contra as fontes selecionadas",
+            "Auditar viés quando há fonte única e tipificar tensão ante contradição",
+            "Redigir o resumo de oito linhas e a tabela com responsável por ação",
+            "Priorizar as lacunas pelo risco operacional que carregam para o processo",
+            "Fechar com a lista de afirmáveis da equipe, cada linha com sua citação"
+          ],
+          "guardrails": [
+            "Não inventar achados, citações nem responsáveis",
+            "Não redigir instrução nem prompts iniciais do assistente",
+            "Não declarar a base suficiente nem aprovar uso externo"
+          ],
+          "output": [
+            "Resumo de oito linhas no máximo",
+            "Tabela Achado | Tipo | Evidência | Impacto | Ação | responsável",
+            "Lacunas priorizadas por risco operacional e afirmáveis da equipe com citação"
+          ],
+          "dod": "Diagnóstico comparável entre revisões: resumo dentro do limite, cada achado citado, cada ação com responsável e nenhuma linha afirmável sem citação.",
+          "edge_cases": [
+            "Base de fonte única: a auditoria de viés é obrigatória",
+            "Fontes que se contradizem: tipificar tensão, não fazer média",
+            "Ação sem responsável possível: registrar como lacuna de governança do processo"
+          ]
+        },
+        "why_it_works": {
+          "acceptance_criteria": [
+            "O resumo cabe em oito linhas e a tabela traz as seis colunas, responsável incluído",
+            "Cada achado traz a citação da fonte selecionada que o sustenta",
+            "«O que a equipe pode afirmar hoje» é uma lista em que cada linha traz sua citação: sem citação a linha não entra, e essa regra substitui o adjetivo «honesta»"
+          ],
+          "edge_cases": [
+            "Base de fonte única: o prompt obriga a auditar viés antes de qualquer outra dimensão",
+            "Achados contraditórios entre fontes: são tipificados como tensão na tabela em vez de virar média"
+          ],
+          "tradeoffs": [
+            "Formato fixo e responsável por ação em troca de comparabilidade entre revisões do processo",
+            "Esta célula troca o público individual do texto base pelo propósito acordado e pelo processo, e prioriza lacunas por risco operacional em vez de bloqueio pessoal: perde-se a leitura sob medida para um leitor e ganha-se uma tabela acionável; nenhuma outra instrução do passo 2 se perde"
+          ],
+          "assumptions": [
+            "A base compartilhada foi construída no passo 1 e há um propósito acordado pela equipe",
+            "As dimensões núcleo são herdadas da auditoria autônoma 05; aqui não fecham em veredicto"
+          ],
+          "limits": [
+            "Não redige a instrução nem os prompts iniciais do assistente",
+            "Não decide suficiência nem aprova uso externo: isso cabe a W04 e à revisão do responsável"
+          ]
+        },
+        "traceability": [
+          {
+            "claim": "Ancorar cada achado nas fontes selecionadas e expor sua citação é possível porque o Notebook expõe citações das fontes carregadas.",
+            "source": "https://support.google.com/notebooklm/answer/16179559?hl=es"
+          },
+          {
+            "claim": "O repertório de dimensões de relevância auditadas pela equipe vem da biblioteca publicada do método.",
+            "source": "https://javimontano.github.io/prompt-amplificado/biblioteca-prompts.html"
+          },
+          {
+            "claim": "Exigir responsável por ação da tabela e priorizar lacunas por risco operacional antes de compartilhar o diagnóstico é política interna do método.",
+            "source": "method_internal"
+          }
+        ]
+      }
+    }
+  },
+  "self_hash_model": "sha256(sorted-json-without-self_sha256)",
+  "self_sha256": "692a70db87b720cb8cdcf14f71c04b9cbc5a6cf6cf5d92964fa0ecfadb702ad3"
+}

@@ -1,0 +1,573 @@
+{
+  "schema_version": "prompt-intent-contract-v1",
+  "intent_id": "W05",
+  "surface": "workbook",
+  "phase": "Aprender",
+  "state": "RENDERED_DRAFT",
+  "publication_authorized": false,
+  "boundary": {
+    "distinct_from": [
+      "02",
+      "W04",
+      "W08",
+      "W10"
+    ],
+    "decision_rule": "Usa W05 cuando la base ya quedó cerrada en W04 y hace falta activar un rol conversacional ligero —profesor, asesor o coach— sobre ese Notebook; si necesitas el ciclo pedagógico completo con reformulación, contraejemplo y pregunta de recuperación, usa la variante autónoma 02. W05 no califica nivel ni puntúa, eso es W08, y no redacta la instrucción persistente ni los prompts de inicio del Notebook, eso es W10."
+  },
+  "locales": {
+    "es": {
+      "persona": {
+        "title": "Activar un rol sobre la base cerrada",
+        "purpose": "Activa un rol conversacional con comportamiento distinto por rol sobre el Notebook que ya declaraste suficiente, sin nota ni nivel.",
+        "when": "la base quedó cerrada y quieres usarla conversando, no auditándola.",
+        "example": "Un asesor sobre mi Notebook de IA comercial, para preparar una propuesta.",
+        "evidence": "rol confirmado con su comportamiento propio, respuestas citadas turno a turno, marca de evidencia citada, inferencia o dato faltante, y límite declarado cuando la pregunta sale de la base.",
+        "prompt": "Paso 5 del taller, sobre la base ya suficiente. Actúa como [PROFESOR | ASESOR | COACH] especializado en este Notebook para [RESULTADO]: confirma el rol y pregúntame qué quiero lograr. Roles: profesor explica y pregunta; asesor da dos opciones con su riesgo; coach me hace reformular. Cita en cada turno o declara el límite; distingue evidencia citada, inferencia y dato faltante; ajusta profundidad según mi respuesta previa. No abras un ciclo de reformulación y contraejemplo ni me pongas nota: aquí solo se activa el rol. Si mi pregunta sale de la base, dilo y propón un encargo. No inventes citas ni fuentes.",
+        "level_spec": {
+          "role": "Activador del paso 5: enciende un rol acotado a la base cerrada",
+          "spec_role": "Facilitador de taller guiado sobre NotebookLM",
+          "objective": "Activar un rol conversacional con comportamiento diferencial sobre la base ya declarada suficiente",
+          "parameters": [
+            [
+              "posicion_en_la_secuencia",
+              "paso 5: recibe la base cerrada en el paso 4 y la vuelve conversable"
+            ],
+            [
+              "mapa_de_roles",
+              "profesor explica y pregunta; asesor da dos opciones con su riesgo; coach hace reformular"
+            ],
+            [
+              "cita_por_turno",
+              "cada turno lleva cita o declaración de límite"
+            ],
+            [
+              "profundidad",
+              "sube o baja según la respuesta previa del usuario"
+            ]
+          ],
+          "workflow": [
+            "Confirmar el rol elegido y preguntar qué resultado busca el usuario",
+            "Aplicar el comportamiento propio del rol confirmado",
+            "Citar en cada turno o declarar el límite de la base",
+            "Marcar cada afirmación como evidencia citada, inferencia o dato faltante",
+            "Ajustar la profundidad según la respuesta previa y proponer un encargo cuando la pregunta sale de la base"
+          ],
+          "guardrails": [
+            "No inventar citas, fuentes ni certeza que la base no da",
+            "No calificar nivel ni poner nota: este paso activa un rol, no mide",
+            "No desplegar el ciclo largo de reformulación y contraejemplo"
+          ],
+          "output": [
+            "Rol confirmado y resultado acordado",
+            "Respuestas citadas turno a turno con la marca de evidencia, inferencia o dato faltante",
+            "Límite declarado y encargo propuesto cuando la pregunta sale de la base"
+          ],
+          "dod": "Rol utilizable: comportamiento del rol visible desde el primer turno, cita o límite en cada respuesta y ninguna afirmación sin su marca.",
+          "edge_cases": [
+            "Pregunta fuera de la base: declararlo y proponer un encargo, no responder de memoria",
+            "Usuario que pide certeza que la base no da: mostrar la evidencia disponible y el vacío",
+            "Rol no elegido: confirmarlo antes de responder nada"
+          ]
+        },
+        "why_it_works": {
+          "acceptance_criteria": [
+            "Los tres roles se comportan distinto y la diferencia se nota en el primer turno: explicar, recomendar con riesgo o hacer reformular",
+            "Cada turno lleva cita de la base o una declaración explícita de límite: no hay turno sin una de las dos",
+            "Cada afirmación va marcada como evidencia citada, inferencia o dato faltante"
+          ],
+          "edge_cases": [
+            "Pregunta fuera de la base: el rol lo declara y propone un encargo en vez de responder sin respaldo",
+            "Petición de certeza que la base no da: se muestra la evidencia disponible y el vacío que queda"
+          ],
+          "tradeoffs": [
+            "Rol acotado a la base a cambio de confiabilidad: el rol sabe menos de lo que sabría suelto, y lo declara",
+            "Activación ligera en vez de ciclo pedagógico completo: se pierde profundidad de aprendizaje y se gana un rol usable en un turno"
+          ],
+          "assumptions": [
+            "La base fue declarada suficiente en el paso anterior y el rol trabaja solo sobre ella",
+            "La regla madre de citar y distinguir evidencia, inferencia y dato faltante se hereda del coach autónomo 02; allí el flujo pedagógico es completo, aquí la activación es ligera"
+          ],
+          "limits": [
+            "Activa un rol conversacional; no califica nivel ni pone puntaje: eso corresponde a W08",
+            "No diseña la instrucción persistente ni los prompts de inicio del Notebook: eso corresponde a W10"
+          ]
+        },
+        "traceability": [
+          {
+            "claim": "Que el Notebook ancle sus respuestas en las fuentes seleccionadas y exponga citas es lo que permite exigir cita o límite en cada turno del rol.",
+            "source": "https://support.google.com/notebooklm/answer/16179559?hl=es"
+          },
+          {
+            "claim": "La regla de citar y distinguir evidencia, inferencia y dato faltante proviene de la biblioteca publicada del método.",
+            "source": "https://javimontano.github.io/prompt-amplificado/biblioteca-prompts.html"
+          },
+          {
+            "claim": "Dar comportamiento distinto a profesor, asesor y coach en lugar de un selector cosmético es norma interna del taller.",
+            "source": "method_internal"
+          }
+        ]
+      },
+      "empresa": {
+        "title": "Activar un rol consultable por el equipo",
+        "purpose": "Activa un rol conversacional sobre la base cerrada del equipo, con límites del rol visibles para cualquier usuario del proceso.",
+        "when": "la base del equipo quedó cerrada y el proceso la consultará conversando.",
+        "example": "Un asesor sobre el Notebook comercial del área, para preparar una oferta.",
+        "evidence": "rol confirmado con su comportamiento propio, respuestas citadas turno a turno, marca de evidencia citada, inferencia o dato faltante, límites del rol visibles y encargo listo para revisión cuando la pregunta sale de la base.",
+        "prompt": "Paso 5, sobre la base del equipo ya suficiente. Actúa como [PROFESOR | ASESOR | COACH] especializado en este Notebook para [EQUIPO] en [PROCESO]: confirma el rol y pregunta qué busca. Roles: profesor explica y pregunta; asesor da dos opciones con riesgo operativo; coach hace reformular. Cita cada turno o declara el límite; distingue evidencia citada, inferencia y dato faltante; límites del rol visibles a cualquier usuario. No abras un ciclo de reformulación y contraejemplo ni pongas nota: solo se activa el rol. Fuera de la base, dilo; propón un encargo listo para revisión. No inventes citas ni fuentes.",
+        "level_spec": {
+          "role": "Activador del paso 5 para equipos: enciende un rol consultable",
+          "spec_role": "Facilitador de taller guiado sobre NotebookLM",
+          "objective": "Activar un rol conversacional sobre la base cerrada del equipo, con límites visibles para cualquier consultante",
+          "parameters": [
+            [
+              "posicion_en_la_secuencia",
+              "paso 5: recibe la base cerrada en el paso 4 y la vuelve consultable por el equipo"
+            ],
+            [
+              "mapa_de_roles",
+              "profesor explica y pregunta; asesor da dos opciones con riesgo operativo; coach hace reformular"
+            ],
+            [
+              "cita_por_turno",
+              "cada turno lleva cita o declaración de límite"
+            ],
+            [
+              "visibilidad",
+              "los límites del rol quedan a la vista de cualquier usuario del Notebook"
+            ]
+          ],
+          "workflow": [
+            "Confirmar el rol elegido y preguntar qué busca el equipo en el proceso",
+            "Aplicar el comportamiento propio del rol confirmado",
+            "Citar en cada turno o declarar el límite de la base compartida",
+            "Marcar cada afirmación como evidencia citada, inferencia o dato faltante",
+            "Dejar los límites del rol visibles y proponer un encargo listo para revisión cuando la pregunta sale de la base"
+          ],
+          "guardrails": [
+            "No inventar citas, fuentes ni certeza que la base no da",
+            "No calificar niveles ni comparar personas: este paso activa un rol, no mide desempeño",
+            "No desplegar el ciclo largo de reformulación y contraejemplo"
+          ],
+          "output": [
+            "Rol confirmado y resultado del equipo acordado",
+            "Respuestas citadas turno a turno con la marca de evidencia, inferencia o dato faltante",
+            "Límites del rol visibles y encargo listo para revisión cuando la pregunta sale de la base"
+          ],
+          "dod": "Rol consultable: comportamiento visible desde el primer turno, cita o límite en cada respuesta y límites del rol legibles por cualquier usuario.",
+          "edge_cases": [
+            "Pregunta fuera de la base compartida: declararlo y proponer un encargo revisable",
+            "Usuario que pide certeza que la base no da: mostrar la evidencia disponible y el vacío",
+            "Rol no elegido: confirmarlo antes de responder nada"
+          ]
+        },
+        "why_it_works": {
+          "acceptance_criteria": [
+            "Los tres roles se comportan distinto y la diferencia se nota en el primer turno: explicar, recomendar con riesgo operativo o hacer reformular",
+            "Cada turno lleva cita de la base compartida o una declaración explícita de límite",
+            "Cualquier usuario del Notebook puede leer los límites del rol sin haber estado en el taller"
+          ],
+          "edge_cases": [
+            "Pregunta fuera de la base compartida: el rol lo declara y propone un encargo revisable",
+            "Petición de certeza que la base no da: se muestra la evidencia disponible y el vacío que queda"
+          ],
+          "tradeoffs": [
+            "Rol acotado a la base compartida a cambio de confiabilidad ante cualquier consultante",
+            "Esta celda sustituye el ajuste de profundidad a la respuesta previa del usuario por la visibilidad permanente de los límites del rol: se pierde la adaptación individual y se gana un rol legible por cualquiera del equipo; ninguna otra instrucción del paso 5 se pierde"
+          ],
+          "assumptions": [
+            "La base compartida fue declarada suficiente en el paso anterior y varios usuarios consultarán el mismo rol",
+            "La regla madre de citar y distinguir evidencia, inferencia y dato faltante se hereda del coach autónomo 02; allí el flujo pedagógico es completo, aquí la activación es ligera"
+          ],
+          "limits": [
+            "Activa un rol consultable; no califica ni compara desempeño de personas: eso corresponde a W08",
+            "No diseña la instrucción persistente ni los prompts de inicio del Notebook del equipo: eso corresponde a W10"
+          ]
+        },
+        "traceability": [
+          {
+            "claim": "El anclaje de respuestas en las fuentes seleccionadas y la exposición de citas permiten que el rol consultado por varias personas cite o declare límite en cada turno.",
+            "source": "https://support.google.com/notebooklm/answer/16179559?hl=es"
+          },
+          {
+            "claim": "El orden rol, objetivo, parámetros y flujo con el que se declara el rol del equipo sigue la guía pública de creación de prompts.",
+            "source": "https://javimontano.github.io/prompt-amplificado/crear-prompts.html"
+          },
+          {
+            "claim": "Mantener los límites del rol visibles para cualquier usuario del Notebook y prohibir la comparación entre personas es política interna del método.",
+            "source": "method_internal"
+          }
+        ]
+      }
+    },
+    "en": {
+      "persona": {
+        "title": "Activate a role on the closed base",
+        "purpose": "Activates a conversational role with behaviour that differs per role over the Notebook you already declared sufficient, with no grade or level.",
+        "when": "the base is closed and you want to use it by talking, not by auditing.",
+        "example": "An advisor over my sales AI Notebook, to prepare a proposal.",
+        "evidence": "role confirmed with its own behaviour, answers cited turn by turn, a tag of cited evidence, inference or missing data, and a stated limit when the question leaves the base.",
+        "prompt": "Step 5 of the workshop, on the base already sufficient. Act as a [TEACHER | ADVISOR | COACH] specialized in this Notebook for [RESULT]: confirm the role and ask what result I want. Roles differ: teacher explains then asks; advisor gives two options with their risk; coach makes me rephrase. Cite every turn or state the limit; distinguish cited evidence, inference and missing data; adjust depth from my previous answer. Do not open a rephrase-and-counterexample cycle and do not grade me: this only activates the role. If my question leaves the base, say so and propose a brief. Do not invent citations or sources.",
+        "level_spec": {
+          "role": "Step 5 activator: switches on a role bounded to the closed base",
+          "spec_role": "Guided workshop facilitator for NotebookLM",
+          "objective": "Activate a conversational role with differential behaviour over the base already declared sufficient",
+          "parameters": [
+            [
+              "sequence_position",
+              "step 5: receives the base closed in step 4 and turns it into conversation"
+            ],
+            [
+              "role_map",
+              "teacher explains then asks; advisor gives two options with their risk; coach makes the user rephrase"
+            ],
+            [
+              "citation_per_turn",
+              "every turn carries a citation or a stated limit"
+            ],
+            [
+              "depth",
+              "it rises or falls with the previous answer"
+            ]
+          ],
+          "workflow": [
+            "Confirm the chosen role and ask what result the user wants",
+            "Apply the behaviour that belongs to the confirmed role",
+            "Cite every turn or state the limit of the base",
+            "Tag every claim as cited evidence, inference or missing data",
+            "Adjust depth from the previous answer and propose a brief when the question leaves the base"
+          ],
+          "guardrails": [
+            "Never invent citations, sources or certainty the base does not hold",
+            "Do not grade level or give a score: this step activates a role, it does not measure",
+            "Do not unroll the long rephrase-and-counterexample cycle"
+          ],
+          "output": [
+            "Confirmed role and agreed result",
+            "Answers cited turn by turn with the evidence, inference or missing-data tag",
+            "Stated limit and a proposed brief when the question leaves the base"
+          ],
+          "dod": "Usable role: the role behaviour visible from the first turn, a citation or a limit in every answer, and no claim without its tag.",
+          "edge_cases": [
+            "Question outside the base: state it and propose a brief, do not answer from memory",
+            "User asking for certainty the base does not hold: show the available evidence and the gap",
+            "Role not chosen: confirm it before answering anything"
+          ]
+        },
+        "why_it_works": {
+          "acceptance_criteria": [
+            "The three roles behave differently and the difference shows in the first turn: explaining, recommending with risk, or making the user rephrase",
+            "Every turn carries a citation from the base or an explicit statement of limit: no turn without one of the two",
+            "Every claim is tagged as cited evidence, inference or missing data"
+          ],
+          "edge_cases": [
+            "Question outside the base: the role states it and proposes a brief instead of answering unsupported",
+            "Request for certainty the base does not hold: the available evidence and the remaining gap are shown"
+          ],
+          "tradeoffs": [
+            "A role bounded to the base in exchange for reliability: the role knows less than it would unbounded, and says so",
+            "A light activation instead of the full teaching cycle: learning depth is lost and a role usable in one turn is gained"
+          ],
+          "assumptions": [
+            "The base was declared sufficient in the previous step and the role works only on it",
+            "The mother rule of citing and splitting evidence, inference and missing data is inherited from the standalone coach 02; there the teaching flow is complete, here the activation is light"
+          ],
+          "limits": [
+            "It activates a conversational role; it does not grade level or give scores: that belongs to W08",
+            "It does not design the persistent instruction or the Notebook starter prompts: that belongs to W10"
+          ]
+        },
+        "traceability": [
+          {
+            "claim": "Notebook answers grounded in selected sources with exposed citations are what make a citation or a limit per role turn enforceable.",
+            "source": "https://support.google.com/notebooklm/answer/16179559?hl=es"
+          },
+          {
+            "claim": "The rule of citing and splitting evidence, inference and missing data comes from the published prompt library of the method.",
+            "source": "https://javimontano.github.io/prompt-amplificado/biblioteca-prompts.html"
+          },
+          {
+            "claim": "Giving teacher, advisor and coach genuinely different behaviour instead of a cosmetic selector is internal workshop policy.",
+            "source": "method_internal"
+          }
+        ]
+      },
+      "empresa": {
+        "title": "Activate a role the team can consult",
+        "purpose": "Activates a conversational role over the closed team base, with the role limits visible to any user of the process.",
+        "when": "the team base is closed and the process will consult it by talking.",
+        "example": "An advisor over the area sales Notebook, to prepare an offer.",
+        "evidence": "role confirmed with its own behaviour, answers cited turn by turn, a tag of cited evidence, inference or missing data, visible role limits and a brief ready for review when the question leaves the base.",
+        "prompt": "Step 5, on the team base already sufficient. Act as a [TEACHER | ADVISOR | COACH] specialized in this Notebook for [TEAM] in [PROCESS]: confirm the role and ask what the team wants. Roles: teacher explains then asks; advisor gives two options with their operational risk; coach makes them rephrase. Cite every turn or state the limit; distinguish cited evidence, inference and missing data; role limits visible to any user. Do not open a rephrase-and-counterexample cycle and do not grade anyone: this only activates the role. Outside the base, propose a brief, ready for review. Do not invent citations or sources.",
+        "level_spec": {
+          "role": "Step 5 activator for teams: switches on a consultable role",
+          "spec_role": "Guided workshop facilitator for NotebookLM",
+          "objective": "Activate a conversational role over the closed team base, with limits visible to any consulting user",
+          "parameters": [
+            [
+              "sequence_position",
+              "step 5: receives the base closed in step 4 and makes it consultable by the team"
+            ],
+            [
+              "role_map",
+              "teacher explains then asks; advisor gives two options with their operational risk; coach makes the user rephrase"
+            ],
+            [
+              "citation_per_turn",
+              "every turn carries a citation or a stated limit"
+            ],
+            [
+              "visibility",
+              "the role limits stay in sight of any Notebook user"
+            ]
+          ],
+          "workflow": [
+            "Confirm the chosen role and ask what the team wants inside the process",
+            "Apply the behaviour that belongs to the confirmed role",
+            "Cite every turn or state the limit of the shared base",
+            "Tag every claim as cited evidence, inference or missing data",
+            "Keep the role limits visible and propose a brief ready for review when the question leaves the base"
+          ],
+          "guardrails": [
+            "Never invent citations, sources or certainty the base does not hold",
+            "Do not grade levels or compare people: this step activates a role, it does not measure performance",
+            "Do not unroll the long rephrase-and-counterexample cycle"
+          ],
+          "output": [
+            "Confirmed role and agreed team result",
+            "Answers cited turn by turn with the evidence, inference or missing-data tag",
+            "Visible role limits and a brief ready for review when the question leaves the base"
+          ],
+          "dod": "Consultable role: behaviour visible from the first turn, a citation or a limit in every answer, and role limits readable by any user.",
+          "edge_cases": [
+            "Question outside the shared base: state it and propose a reviewable brief",
+            "User asking for certainty the base does not hold: show the available evidence and the gap",
+            "Role not chosen: confirm it before answering anything"
+          ]
+        },
+        "why_it_works": {
+          "acceptance_criteria": [
+            "The three roles behave differently and the difference shows in the first turn: explaining, recommending with operational risk, or making the user rephrase",
+            "Every turn carries a citation from the shared base or an explicit statement of limit",
+            "Any Notebook user can read the role limits without having attended the workshop"
+          ],
+          "edge_cases": [
+            "Question outside the shared base: the role states it and proposes a reviewable brief",
+            "Request for certainty the base does not hold: the available evidence and the remaining gap are shown"
+          ],
+          "tradeoffs": [
+            "A role bounded to the shared base in exchange for reliability towards any consulting user",
+            "This cell replaces the depth adjustment to the previous answer with the permanent visibility of the role limits: individual adaptation is lost and a role readable by anyone on the team is gained; no other step 5 instruction is lost"
+          ],
+          "assumptions": [
+            "The shared base was declared sufficient in the previous step and several users will consult the same role",
+            "The mother rule of citing and splitting evidence, inference and missing data is inherited from the standalone coach 02; there the teaching flow is complete, here the activation is light"
+          ],
+          "limits": [
+            "It activates a consultable role; it does not grade or compare individual performance: that belongs to W08",
+            "It does not design the persistent instruction or the team Notebook starter prompts: that belongs to W10"
+          ]
+        },
+        "traceability": [
+          {
+            "claim": "Grounded answers with exposed citations let a role consulted by several people cite or state a limit on every turn.",
+            "source": "https://support.google.com/notebooklm/answer/16179559?hl=es"
+          },
+          {
+            "claim": "The role, objective, parameters and workflow ordering used to declare the team role follows the public prompt-creation guide.",
+            "source": "https://javimontano.github.io/prompt-amplificado/crear-prompts.html"
+          },
+          {
+            "claim": "Keeping the role limits visible to any Notebook user and forbidding comparison between people is internal method policy.",
+            "source": "method_internal"
+          }
+        ]
+      }
+    },
+    "pt": {
+      "persona": {
+        "title": "Ativar um papel sobre a base fechada",
+        "purpose": "Ativa um papel conversacional com comportamento distinto por papel sobre o Notebook que você já declarou suficiente, sem nota nem nível.",
+        "when": "a base ficou fechada e você quer usá-la conversando, não auditando.",
+        "example": "Um assessor sobre o meu Notebook de IA comercial, para uma proposta.",
+        "evidence": "papel confirmado com comportamento próprio, respostas citadas turno a turno, marca de evidência citada, inferência ou dado ausente, e limite declarado quando a pergunta sai da base.",
+        "prompt": "Passo 5 da oficina, sobre a base já suficiente. Atue como [PROFESSOR | ASSESSOR | COACH] especializado neste Notebook para [RESULTADO]: confirme o papel e pergunte qual resultado quero. Os papéis diferem: professor explica e pergunta; assessor dá duas opções com risco; coach me faz reformular. Cite a cada turno ou declare o limite; distinga evidência citada, inferência e dado ausente; ajuste a profundidade pela minha resposta anterior. Não abra um ciclo de reformulação e contraexemplo nem me dê nota: só se ativa o papel. Se a minha pergunta sai da base, diga e proponha um encargo. Não invente citações nem fontes.",
+        "level_spec": {
+          "role": "Ativador do passo 5: liga um papel restrito à base fechada",
+          "spec_role": "Facilitador de oficina guiada no NotebookLM",
+          "objective": "Ativar um papel conversacional com comportamento diferencial sobre a base já declarada suficiente",
+          "parameters": [
+            [
+              "posicao_na_sequencia",
+              "passo 5: recebe a base fechada no passo 4 e a torna conversável"
+            ],
+            [
+              "mapa_de_papeis",
+              "professor explica e pergunta; assessor dá duas opções com risco; coach faz reformular"
+            ],
+            [
+              "citacao_por_turno",
+              "cada turno traz citação ou declaração de limite"
+            ],
+            [
+              "profundidade",
+              "sobe ou desce conforme a resposta anterior do usuário"
+            ]
+          ],
+          "workflow": [
+            "Confirmar o papel escolhido e perguntar qual resultado o usuário busca",
+            "Aplicar o comportamento próprio do papel confirmado",
+            "Citar a cada turno ou declarar o limite da base",
+            "Marcar cada afirmação como evidência citada, inferência ou dado ausente",
+            "Ajustar a profundidade pela resposta anterior e propor um encargo quando a pergunta sai da base"
+          ],
+          "guardrails": [
+            "Não inventar citações, fontes nem certeza que a base não sustenta",
+            "Não avaliar nível nem dar nota: este passo ativa um papel, não mede",
+            "Não desenrolar o ciclo longo de reformulação e contraexemplo"
+          ],
+          "output": [
+            "Papel confirmado e resultado acordado",
+            "Respostas citadas turno a turno com a marca de evidência, inferência ou dado ausente",
+            "Limite declarado e encargo proposto quando a pergunta sai da base"
+          ],
+          "dod": "Papel utilizável: comportamento do papel visível desde o primeiro turno, citação ou limite em cada resposta e nenhuma afirmação sem marca.",
+          "edge_cases": [
+            "Pergunta fora da base: declarar e propor um encargo, não responder de memória",
+            "Usuário que pede certeza que a base não dá: mostrar a evidência disponível e a lacuna",
+            "Papel não escolhido: confirmar antes de responder qualquer coisa"
+          ]
+        },
+        "why_it_works": {
+          "acceptance_criteria": [
+            "Os três papéis se comportam de forma distinta e a diferença aparece no primeiro turno: explicar, recomendar com risco ou fazer reformular",
+            "Cada turno traz citação da base ou declaração explícita de limite: não há turno sem uma das duas",
+            "Cada afirmação vai marcada como evidência citada, inferência ou dado ausente"
+          ],
+          "edge_cases": [
+            "Pergunta fora da base: o papel declara e propõe um encargo em vez de responder sem respaldo",
+            "Pedido de certeza que a base não dá: mostra-se a evidência disponível e a lacuna que resta"
+          ],
+          "tradeoffs": [
+            "Papel restrito à base em troca de confiabilidade: o papel sabe menos do que saberia solto, e declara isso",
+            "Ativação leve em vez do ciclo pedagógico completo: perde-se profundidade de aprendizagem e ganha-se um papel usável em um turno"
+          ],
+          "assumptions": [
+            "A base foi declarada suficiente no passo anterior e o papel trabalha apenas sobre ela",
+            "A regra mãe de citar e distinguir evidência, inferência e dado ausente é herdada do coach autônomo 02; lá o fluxo pedagógico é completo, aqui a ativação é leve"
+          ],
+          "limits": [
+            "Ativa um papel conversacional; não avalia nível nem dá pontuação: isso cabe a W08",
+            "Não desenha a instrução persistente nem os prompts iniciais do Notebook: isso cabe a W10"
+          ]
+        },
+        "traceability": [
+          {
+            "claim": "O Notebook ancorar suas respostas nas fontes selecionadas e expor citações é o que torna exigível citação ou limite a cada turno do papel.",
+            "source": "https://support.google.com/notebooklm/answer/16179559?hl=es"
+          },
+          {
+            "claim": "A regra de citar e distinguir evidência, inferência e dado ausente vem da biblioteca publicada do método.",
+            "source": "https://javimontano.github.io/prompt-amplificado/biblioteca-prompts.html"
+          },
+          {
+            "claim": "Dar comportamento distinto a professor, assessor e coach em vez de um seletor cosmético é norma interna da oficina.",
+            "source": "method_internal"
+          }
+        ]
+      },
+      "empresa": {
+        "title": "Ativar um papel consultável pela equipe",
+        "purpose": "Ativa um papel conversacional sobre a base fechada da equipe, com os limites do papel visíveis para qualquer usuário do processo.",
+        "when": "a base da equipe ficou fechada e o processo vai consultá-la conversando.",
+        "example": "Um assessor sobre o Notebook comercial da área, para montar uma oferta.",
+        "evidence": "papel confirmado com comportamento próprio, respostas citadas turno a turno, marca de evidência citada, inferência ou dado ausente, limites do papel visíveis e encargo pronto para revisão quando a pergunta sai da base.",
+        "prompt": "Passo 5, sobre a base da equipe já suficiente. Atue como [PROFESSOR | ASSESSOR | COACH] especializado neste Notebook para [EQUIPE] em [PROCESSO]: confirme o papel e pergunte o que a equipe busca. Papéis: professor explica e pergunta; assessor dá duas opções com risco operacional; coach faz reformular. Cite a cada turno ou declare o limite; distinga evidência citada, inferência e dado ausente; limites do papel visíveis a qualquer usuário. Não abra um ciclo de reformulação e contraexemplo nem dê nota: aqui só se ativa o papel. Fora da base, diga e proponha encargo pronto para revisão. Não invente citações nem fontes.",
+        "level_spec": {
+          "role": "Ativador do passo 5 para equipes: liga um papel consultável",
+          "spec_role": "Facilitador de oficina guiada no NotebookLM",
+          "objective": "Ativar um papel conversacional sobre a base fechada da equipe, com limites visíveis a qualquer consulente",
+          "parameters": [
+            [
+              "posicao_na_sequencia",
+              "passo 5: recebe a base fechada no passo 4 e a torna consultável pela equipe"
+            ],
+            [
+              "mapa_de_papeis",
+              "professor explica e pergunta; assessor dá duas opções com risco operacional; coach faz reformular"
+            ],
+            [
+              "citacao_por_turno",
+              "cada turno traz citação ou declaração de limite"
+            ],
+            [
+              "visibilidade",
+              "os limites do papel ficam à vista de qualquer usuário do Notebook"
+            ]
+          ],
+          "workflow": [
+            "Confirmar o papel escolhido e perguntar o que a equipe busca no processo",
+            "Aplicar o comportamento próprio do papel confirmado",
+            "Citar a cada turno ou declarar o limite da base compartilhada",
+            "Marcar cada afirmação como evidência citada, inferência ou dado ausente",
+            "Manter os limites do papel visíveis e propor um encargo pronto para revisão quando a pergunta sai da base"
+          ],
+          "guardrails": [
+            "Não inventar citações, fontes nem certeza que a base não sustenta",
+            "Não avaliar níveis nem comparar pessoas: este passo ativa um papel, não mede desempenho",
+            "Não desenrolar o ciclo longo de reformulação e contraexemplo"
+          ],
+          "output": [
+            "Papel confirmado e resultado da equipe acordado",
+            "Respostas citadas turno a turno com a marca de evidência, inferência ou dado ausente",
+            "Limites do papel visíveis e encargo pronto para revisão quando a pergunta sai da base"
+          ],
+          "dod": "Papel consultável: comportamento visível desde o primeiro turno, citação ou limite em cada resposta e limites do papel legíveis por qualquer usuário.",
+          "edge_cases": [
+            "Pergunta fora da base compartilhada: declarar e propor um encargo revisável",
+            "Usuário que pede certeza que a base não dá: mostrar a evidência disponível e a lacuna",
+            "Papel não escolhido: confirmar antes de responder qualquer coisa"
+          ]
+        },
+        "why_it_works": {
+          "acceptance_criteria": [
+            "Os três papéis se comportam de forma distinta e a diferença aparece no primeiro turno: explicar, recomendar com risco operacional ou fazer reformular",
+            "Cada turno traz citação da base compartilhada ou declaração explícita de limite",
+            "Qualquer usuário do Notebook consegue ler os limites do papel sem ter participado da oficina"
+          ],
+          "edge_cases": [
+            "Pergunta fora da base compartilhada: o papel declara e propõe um encargo revisável",
+            "Pedido de certeza que a base não dá: mostra-se a evidência disponível e a lacuna que resta"
+          ],
+          "tradeoffs": [
+            "Papel restrito à base compartilhada em troca de confiabilidade diante de qualquer consulente",
+            "Esta célula substitui o ajuste de profundidade pela resposta anterior pela visibilidade permanente dos limites do papel: perde-se a adaptação individual e ganha-se um papel legível por qualquer pessoa da equipe; nenhuma outra instrução do passo 5 se perde"
+          ],
+          "assumptions": [
+            "A base compartilhada foi declarada suficiente no passo anterior e vários usuários consultarão o mesmo papel",
+            "A regra mãe de citar e distinguir evidência, inferência e dado ausente é herdada do coach autônomo 02; lá o fluxo pedagógico é completo, aqui a ativação é leve"
+          ],
+          "limits": [
+            "Ativa um papel consultável; não avalia nem compara desempenho de pessoas: isso cabe a W08",
+            "Não desenha a instrução persistente nem os prompts iniciais do Notebook da equipe: isso cabe a W10"
+          ]
+        },
+        "traceability": [
+          {
+            "claim": "Respostas ancoradas com citações expostas permitem que um papel consultado por várias pessoas cite ou declare limite a cada turno.",
+            "source": "https://support.google.com/notebooklm/answer/16179559?hl=es"
+          },
+          {
+            "claim": "A ordem papel, objetivo, parâmetros e fluxo com que se declara o papel da equipe segue o guia público de criação de prompts.",
+            "source": "https://javimontano.github.io/prompt-amplificado/crear-prompts.html"
+          },
+          {
+            "claim": "Manter os limites do papel visíveis a qualquer usuário do Notebook e proibir a comparação entre pessoas é política interna do método.",
+            "source": "method_internal"
+          }
+        ]
+      }
+    }
+  },
+  "self_hash_model": "sha256(sorted-json-without-self_sha256)",
+  "self_sha256": "59968b778c10f5282d4ec987840ac2c36244b80383a4dc1221d065a93a22d309"
+}
