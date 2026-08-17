@@ -4,7 +4,7 @@
   "purpose": "Independent canonical intent and evidence anchors for the governed prompt intent contracts (library, workbook and workbook brain surfaces)",
   "state": "RENDERED_DRAFT",
   "publication_authorized": false,
-  "status": "provisional_until_phase_3",
+  "status": "frozen_phase_3",
   "source_provenance": {
     "kind": "governed_local_contract",
     "derived_from": [
@@ -147,7 +147,7 @@
       "10": {
         "intent": [
           "presenta",
-          "eviden"
+          "orador"
         ],
         "evidence": [
           "estructura",
@@ -409,7 +409,7 @@
       "09": {
         "intent": [
           "simulat",
-          "evidence"
+          "difficulty"
         ],
         "evidence": [
           "objection",
@@ -681,7 +681,7 @@
       "09": {
         "intent": [
           "simul",
-          "evidencia"
+          "dificuldade"
         ],
         "evidence": [
           "objec",
@@ -871,5 +871,5 @@
     }
   },
   "self_hash_model": "sha256(sorted-json-without-self_sha256)",
-  "self_sha256": "281448caebbe1a0b729b1eb1633b0c9f55de412f6fea27105e144c8c7fa49982"
+  "self_sha256": "9e43b4826ef76b63c9fa1cca25ca29a9fd02510f07149680d967e49d9f5b4b86"
 }

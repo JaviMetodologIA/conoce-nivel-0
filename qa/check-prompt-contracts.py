@@ -51,7 +51,7 @@ TRACE_ALLOWLIST = (
 )
 
 # Authority v2 integrity: shape essentials, canonical self hash, unique signatures.
-if AUTHORITY.get('schema_version') != 'prompt-intent-authority-v2' or AUTHORITY.get('status') != 'provisional_until_phase_3':
+if AUTHORITY.get('schema_version') != 'prompt-intent-authority-v2' or AUTHORITY.get('status') not in ('provisional_until_phase_3', 'frozen_phase_3'):
     raise SystemExit('PROMPT_CONTRACT_AUTHORITY_SHAPE_INVALID')
 if AUTHORITY.get('self_hash_model') != SELF_HASH_MODEL or AUTHORITY.get('self_sha256') != canonical_self(AUTHORITY, 'self_sha256'):
     raise SystemExit('PROMPT_CONTRACT_AUTHORITY_SELF_DRIFT')
