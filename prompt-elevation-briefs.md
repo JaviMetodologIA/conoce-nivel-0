@@ -936,6 +936,23 @@ NFKD sin acentos + casefold; corchetes literales): [CONFIG]
   en W08 aparece en AMBAS audiencias: el hablante siempre es una persona; la
   audiencia `empresa` marca contexto organizacional, no despersonaliza la
   voz). [CÓDIGO]
+- **Aplicabilidad de E3 (enmienda de fase 4; mismo patrón que la ampliación de
+  P4-pt en §E persona-pt)**: E3 —léxico de gobernanza: gobernanza, aprobación,
+  responsable, trazabilidad / governance, approval, accountable, traceability /
+  governança, aprovação, responsável, rastreabilidade— **no aplica a
+  intenciones sin autoridad de decisión**. Caso nombrado: **02** (coach basado
+  en fuentes). El coach no aprueba, no califica y no asigna responsables: su
+  frontera F3 le prohíbe emitir niveles o veredictos, y su prompt no produce
+  ninguna de esas cosas. Exigirle ese léxico solo se puede satisfacer
+  escribiendo un término de gobernanza que ninguna instrucción produce, que es
+  exactamente la promesa sin productor que R8 prohíbe. En esas intenciones, los
+  ≥2 marcadores se cubren con E2, E4 y E5, que sí describen lo que la celda
+  entrega. La enmienda nace del conflicto R8↔§E detectado en `02/empresa`
+  (es/en/pt), donde `responsable de seguimiento` / `accountable follow-up owner`
+  / `responsável pelo acompanhamento` prometía un rol que la celda nunca
+  generaba; se retiró la promesa en el contrato y se acota aquí la regla.
+  E1 y el umbral de ≥2 no se relajan, y ninguna otra intención cambia de
+  marcadores. [CÓDIGO]
 - Los marcadores usan léxico nativo por locale y no violan
   `forbidden_locale_signals`. [CONFIG]
 
