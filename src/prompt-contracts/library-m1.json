@@ -21,7 +21,7 @@
         "when": "quieres reutilizar tu método en otro tema o audiencia y necesitas el coach como pieza, no una clase suelta.",
         "example": "Coach de ciberseguridad para líderes no técnicos, armado sobre mis apuntes del último curso.",
         "evidence": "system prompt del coach con rol, base, flujo y mensaje inicial, cinco preguntas de diagnóstico, límites declarados y tres pruebas adversariales con su respuesta correcta.",
-        "prompt": "Diseña un coach de aprendizaje sobre [TEMA] para [AUDIENCIA] con [FUENTES] como mi base única: quiero el instrumento, no la sesión. No expliques [TEMA] aquí ni corrijas reformulaciones; impartir la sesión es 02. Entrega un system prompt reutilizable con rol, base, flujo por turnos y el mensaje inicial de mi primera sesión; cinco preguntas de diagnóstico que cambien si [AUDIENCIA] es novata o experta, y si mezcla niveles diseña para la más novata y dilo. En los límites escribe que el coach no emite nivel, puntaje ni veredicto: calificar es M2. Si [FUENTES] no cubren [TEMA], el coach abre declarando coverage_gap en vez de rellenar. Cierra con tres pruebas adversariales: el ataque que intenta inducir invención y la respuesta correcta, que es declarar el límite. No prometas que el coach nunca falla ni inventes fuentes.",
+        "prompt": "Diseña un coach de aprendizaje sobre [TEMA] para [AUDIENCIA] con [FUENTES] como mi base única: quiero el instrumento, no la sesión. No expliques [TEMA] aquí ni corrijas reformulaciones. Entrega un system prompt reutilizable con rol, base, flujo por turnos y el mensaje inicial de mi primera sesión; cinco preguntas de diagnóstico que cambien si [AUDIENCIA] es novata o experta, y si mezcla niveles diseña para la más novata y dilo. En los límites escribe que el coach no emite nivel, puntaje, veredicto ni rúbrica de calificación. Si [FUENTES] no cubren [TEMA], el coach abre declarando coverage_gap en vez de rellenar. Cierra con tres pruebas adversariales: el ataque que intenta inducir invención y la respuesta correcta, que es declarar el límite. No prometas que el coach nunca falla ni inventes fuentes.",
         "level_spec": {
           "role": "Diseñador de instrumentos de aprendizaje: construye el coach, no la clase",
           "spec_role": "Especialista en aprendizaje e investigación basada en evidencia",
@@ -91,7 +91,7 @@
           ],
           "limits": [
             "Genera el instrumento, no imparte la sesión: enseñar sobre el tema es 02",
-            "No emite nivel, puntaje ni veredicto: medir es M2 y 08",
+            "No emite nivel, puntaje ni veredicto: medir es M2",
             "No garantiza que el coach nunca falle: las pruebas documentan respuestas, no demuestran ausencia de invención"
           ]
         },
@@ -116,7 +116,7 @@
         "when": "el proceso exige que varias personas comprendan lo mismo y hace falta un coach reutilizable con responsable.",
         "example": "Coach de ciberseguridad desplegado a líderes no técnicos del área comercial y mantenido por seguridad.",
         "evidence": "system prompt del coach con rol, base y mensaje inicial, responsable del instrumento, regla de mantenimiento, límites ratificados por gobernanza y tres pruebas adversariales con respuesta esperada, listo para revisión.",
-        "prompt": "Diseña un coach de aprendizaje sobre [TEMA] para [EQUIPO] con [FUENTES] de derechos internos: queremos el instrumento, no la sesión; impartirla es 02. Entrega un system prompt reutilizable por el equipo con rol, base, flujo por turnos y mensaje inicial; cinco preguntas de diagnóstico que cambien si [EQUIPO] llega novato o experto, y si mezcla niveles diseña para el más novato y decláralo. En los límites escribe que el coach no emite nivel, puntaje ni veredicto: calificar es M2. Nombra un responsable del equipo para el instrumento y la regla de mantenimiento de la base. Si [FUENTES] no cubren [TEMA] o no tienen derechos claros, el coach abre con coverage_gap y nombra el riesgo operativo de enseñar sin base. Cierra con tres pruebas adversariales: ataque que intenta inducir invención y respuesta correcta. No inventes fuentes.",
+        "prompt": "Diseña un coach de aprendizaje sobre [TEMA] para [EQUIPO] con [FUENTES] de derechos internos: queremos el instrumento, no la sesión. Entrega un system prompt reutilizable por el equipo con rol, base, flujo por turnos y mensaje inicial; cinco preguntas de diagnóstico que cambien si [EQUIPO] llega novato o experto, y si mezcla niveles diseña para el más novato y decláralo. En los límites escribe que el coach no emite nivel, puntaje, veredicto ni rúbrica de calificación. Nombra un responsable del equipo para el instrumento y la regla de mantenimiento de la base. Si [FUENTES] no cubren [TEMA] o no tienen derechos claros, el coach abre con coverage_gap y nombra el riesgo operativo de enseñar sin base. Cierra con tres pruebas adversariales: ataque que intenta inducir invención y respuesta correcta. No inventes fuentes.",
         "level_spec": {
           "role": "Diseñador de instrumentos de aprendizaje para equipos: construye el coach desplegable, no la sesión",
           "spec_role": "Especialista en aprendizaje e investigación basada en evidencia",
@@ -155,7 +155,7 @@
           "output": [
             "System prompt del coach reutilizable por el equipo",
             "Responsable del instrumento y regla de mantenimiento de la base",
-            "Límites ratificados y tres pruebas adversariales con respuesta esperada"
+            "Límites ratificados y tres pruebas adversariales con respuesta esperada, listo para revisión"
           ],
           "dod": "Instrumento listo para revisión: system prompt completo, responsable nombrado, regla de mantenimiento escrita, límites que prohíben calificar y tres pruebas documentadas.",
           "edge_cases": [
@@ -184,7 +184,7 @@
           ],
           "limits": [
             "Genera el instrumento, no imparte la sesión con el equipo: eso es 02",
-            "No habilita a nadie: medir y habilitar es M2 y 08",
+            "No habilita a nadie: medir y habilitar es M2",
             "No garantiza que el coach nunca falle ni sustituye el juicio del responsable"
           ]
         },
@@ -215,7 +215,7 @@
         "when": "you want to reuse your method on another topic or audience and you need the coach as a part, not a class.",
         "example": "Cybersecurity coach for non-technical leaders, built on my notes from last quarter's course.",
         "evidence": "coach system prompt with role, base, flow and opening message, five diagnostic questions, declared limits and three adversarial tests with the correct answer.",
-        "prompt": "Design a learning coach on [TOPIC] for [AUDIENCE] with [SOURCES] as my only source base: I want the instrument, not the session. Do not explain [TOPIC] or correct restatements; running the session is 02. Deliver a reusable system prompt with role, base, turn flow and the opening message of my first session; five diagnostic questions that change if [AUDIENCE] is new or expert, and if it mixes levels, design for the newest. In the limits write that the coach never issues a level, score or verdict: grading is M2. If [SOURCES] do not cover [TOPIC], the coach opens by declaring coverage_gap instead of filling. Close with three adversarial tests: the attack that tries to induce invention and the correct answer, which is to declare the limit. Never promise the coach cannot fail.",
+        "prompt": "Design a learning coach on [TOPIC] for [AUDIENCE] with [SOURCES] as my only source base: I want the instrument, not the session. Do not explain [TOPIC] or correct restatements. Deliver a reusable system prompt with role, base, turn flow and the opening message of my first session; five diagnostic questions that change if [AUDIENCE] is new or expert, and if it mixes levels, design for the newest. In the limits write that the coach never issues a level, score, verdict or grading rubric. If [SOURCES] do not cover [TOPIC], the coach opens by declaring coverage_gap instead of filling. Close with three adversarial tests: the attack that tries to induce invention and the correct answer, which is to declare the limit. Never promise the coach cannot fail.",
         "level_spec": {
           "role": "Learning-instrument designer: builds the coach, not the class",
           "spec_role": "Specialist in evidence-grounded learning and research",
@@ -285,7 +285,7 @@
           ],
           "limits": [
             "It generates the instrument, it does not run the session: teaching the topic is 02",
-            "It issues no level, score or verdict: measuring is M2 and 08",
+            "It issues no level, score or verdict: measuring is M2",
             "It does not guarantee the coach will never fail: tests document answers, they do not prove absence of invention"
           ]
         },
@@ -310,7 +310,7 @@
         "when": "the process needs several people to understand the same thing and a reusable coach with an owner.",
         "example": "Cybersecurity coach deployed to non-technical leaders in the sales area and maintained by the security function.",
         "evidence": "coach system prompt with role, base and opening message, instrument owner, maintenance rule, limits ratified by governance and three adversarial tests with the expected answer, ready for review.",
-        "prompt": "Design a learning coach on [TOPIC] for [TEAM] with [SOURCES] under internal rights: we want the instrument, not the session; running it is 02. Deliver a system prompt reusable by the team, with role, base, turn flow and opening message; five diagnostic questions that change if [TEAM] arrives new or expert, and if it mixes levels design for the newest and declare it. In the limits write that the coach never issues a level, score or verdict: grading is M2. Name an accountable owner of the instrument and the base maintenance rule. If [SOURCES] do not cover [TOPIC] or lack clear rights, the coach opens with coverage_gap and names the operational risk of teaching without a base. Close with three adversarial tests: the attack that tries to induce invention and the correct answer.",
+        "prompt": "Design a learning coach on [TOPIC] for [TEAM] with [SOURCES] under internal rights: we want the instrument, not the session. Deliver a system prompt reusable by the team, with role, base, turn flow and opening message; five diagnostic questions that change if [TEAM] arrives new or expert, and if it mixes levels design for the newest and declare it. In the limits write that the coach never issues a level, score, verdict or grading rubric. Name an accountable owner of the instrument and the base maintenance rule. If [SOURCES] do not cover [TOPIC] or lack clear rights, the coach opens with coverage_gap and names the operational risk of teaching without a base. Close with three adversarial tests: the attack that tries to induce invention and the correct answer.",
         "level_spec": {
           "role": "Learning-instrument designer for teams: builds the deployable coach, not the session",
           "spec_role": "Specialist in evidence-grounded learning and research",
@@ -349,7 +349,7 @@
           "output": [
             "Coach system prompt reusable by the team",
             "Instrument owner and base maintenance rule",
-            "Ratified limits and three adversarial tests with expected answers"
+            "Ratified limits and three adversarial tests with expected answers, ready for review"
           ],
           "dod": "Instrument ready for review: complete system prompt, named owner, written maintenance rule, limits banning grading and three documented tests.",
           "edge_cases": [
@@ -378,7 +378,7 @@
           ],
           "limits": [
             "It generates the instrument, it does not run the session with the team: that is 02",
-            "It clears nobody: measuring and clearing is M2 and 08",
+            "It clears nobody: measuring and clearing is M2",
             "It does not guarantee the coach will never fail, nor replace the owner's judgment"
           ]
         },
@@ -409,7 +409,7 @@
         "when": "você quer reutilizar seu método em outro tema ou público e precisa do coach como peça, não de uma aula.",
         "example": "Coach de cibersegurança para líderes não técnicos, montado sobre minhas anotações do último curso.",
         "evidence": "system prompt do coach com papel, base, fluxo e mensagem inicial, cinco perguntas de diagnóstico, limites declarados e três testes adversariais com a resposta correta.",
-        "prompt": "Projete um coach de aprendizagem sobre [TEMA] para [PÚBLICO] com [FONTES] como minha base única: quero o instrumento, não a sessão. Não explique [TEMA] aqui nem corrija reformulações; conduzir a sessão é 02. Entregue um system prompt reutilizável com papel, base, fluxo por rodadas e a mensagem inicial da minha primeira sessão; cinco perguntas de diagnóstico que mudem se [PÚBLICO] for novato ou experiente, e se misturar níveis projete para o mais novato e diga. Nos limites escreva que o coach não emite nível, pontuação nem veredito: pontuar é M2. Se [FONTES] não cobrirem [TEMA], o coach abre declarando coverage_gap em vez de preencher. Feche com três testes adversariais: o ataque que tenta induzir invenção e a resposta correta, que é declarar o limite. Não prometa que o coach nunca falha nem invente fontes.",
+        "prompt": "Projete um coach de aprendizagem sobre [TEMA] para [PÚBLICO] com [FONTES] como minha base única: quero o instrumento, não a sessão. Não explique [TEMA] aqui nem corrija reformulações. Entregue um system prompt reutilizável com papel, base, fluxo por rodadas e a mensagem inicial da minha primeira sessão; cinco perguntas de diagnóstico que mudem se [PÚBLICO] for novato ou experiente, e se misturar níveis projete para o mais novato e diga. Nos limites escreva que o coach não emite nível, pontuação, veredito nem rubrica de pontuação. Se [FONTES] não cobrirem [TEMA], o coach abre declarando coverage_gap em vez de preencher. Feche com três testes adversariais: o ataque que tenta induzir invenção e a resposta correta, que é declarar o limite. Não prometa que o coach nunca falha nem invente fontes.",
         "level_spec": {
           "role": "Projetista de instrumentos de aprendizagem: constrói o coach, não a aula",
           "spec_role": "Especialista em aprendizagem e pesquisa baseada em evidências",
@@ -479,7 +479,7 @@
           ],
           "limits": [
             "Gera o instrumento, não conduz a sessão: ensinar o tema é 02",
-            "Não emite nível, pontuação nem veredito: medir é M2 e 08",
+            "Não emite nível, pontuação nem veredito: medir é M2",
             "Não garante que o coach nunca falhe: os testes documentam respostas, não provam ausência de invenção"
           ]
         },
@@ -504,7 +504,7 @@
         "when": "o processo exige que várias pessoas compreendam o mesmo e falta um coach reutilizável com responsável.",
         "example": "Coach de cibersegurança implantado para líderes não técnicos da área comercial e mantido pela segurança.",
         "evidence": "system prompt do coach com papel, base e mensagem inicial, responsável pelo instrumento, regra de manutenção, limites ratificados pela governança e três testes adversariais com a resposta esperada, pronto para revisão.",
-        "prompt": "Projete um coach de aprendizagem sobre [TEMA] para [EQUIPE] com [FONTES] de direitos internos: queremos o instrumento, não a sessão; conduzi-la é 02. Entregue um system prompt reutilizável pela equipe, com papel, base, fluxo por rodadas e mensagem inicial; cinco perguntas de diagnóstico que mudem se [EQUIPE] chegar novata ou experiente, e se misturar níveis projete para o mais novato e declare. Nos limites escreva que o coach não emite nível, pontuação nem veredito: pontuar é M2. Nomeie um responsável da equipe pelo instrumento e a regra de manutenção da base. Se [FONTES] não cobrirem [TEMA] ou não tiverem direitos claros, o coach abre com coverage_gap e nomeia o risco operacional de ensinar sem base. Feche com três testes adversariais: ataque que tenta induzir invenção e resposta correta. Não invente fontes.",
+        "prompt": "Projete um coach de aprendizagem sobre [TEMA] para [EQUIPE] com [FONTES] de direitos internos: queremos o instrumento, não a sessão. Entregue um system prompt reutilizável pela equipe, com papel, base, fluxo por rodadas e mensagem inicial; cinco perguntas de diagnóstico que mudem se [EQUIPE] chegar novata ou experiente, e se misturar níveis projete para o mais novato e declare. Nos limites escreva que o coach não emite nível, pontuação, veredito nem rubrica de pontuação. Nomeie um responsável da equipe pelo instrumento e a regra de manutenção da base. Se [FONTES] não cobrirem [TEMA] ou não tiverem direitos claros, o coach abre com coverage_gap e nomeia o risco operacional de ensinar sem base. Feche com três testes adversariais: ataque que tenta induzir invenção e resposta correta. Não invente fontes.",
         "level_spec": {
           "role": "Projetista de instrumentos de aprendizagem para equipes: constrói o coach implantável, não a sessão",
           "spec_role": "Especialista em aprendizagem e pesquisa baseada em evidências",
@@ -543,7 +543,7 @@
           "output": [
             "System prompt do coach reutilizável pela equipe",
             "Responsável pelo instrumento e regra de manutenção da base",
-            "Limites ratificados e três testes adversariais com resposta esperada"
+            "Limites ratificados e três testes adversariais com resposta esperada, pronto para revisão"
           ],
           "dod": "Instrumento pronto para revisão: system prompt completo, responsável nomeado, regra de manutenção escrita, limites que proíbem pontuar e três testes documentados.",
           "edge_cases": [
@@ -572,7 +572,7 @@
           ],
           "limits": [
             "Gera o instrumento, não conduz a sessão com a equipe: isso é 02",
-            "Não habilita ninguém: medir e habilitar é M2 e 08",
+            "Não habilita ninguém: medir e habilitar é M2",
             "Não garante que o coach nunca falhe nem substitui o julgamento do responsável"
           ]
         },
@@ -598,5 +598,5 @@
     }
   },
   "self_hash_model": "sha256(sorted-json-without-self_sha256)",
-  "self_sha256": "c5bf5ede6123d9274e20f684c7944afc0b07eeae8f4044b268bb9deb7fab3caf"
+  "self_sha256": "479ae1e298f2dadceb91b6e627f23bfafa3f1eb06c1054ed0772c40aad102c33"
 }

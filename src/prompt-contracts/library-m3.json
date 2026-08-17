@@ -8,7 +8,8 @@
   "boundary": {
     "distinct_from": [
       "09",
-      "M2"
+      "M2",
+      "M4"
     ],
     "decision_rule": "Usa M3 cuando necesitas el instrumento y no la conversación: M3 diseña un entrevistador —system prompt, mapa de objeciones trazadas, profundidad máxima de ramificación y rúbrica de cuatro criterios— mientras 09 conduce la simulación sobre un tema con sus fuentes; M3 no formula objeciones al usuario ni lo presiona. Solo aplica si el contenido a defender ya existe: si el entregable todavía no existe y hay que construir narrativa, seleccionar evidencia y ensayar por partes, usa el generador de preparador M4 (o el preparador 10). El entrevistador que M3 genera no redacta ni reestructura el entregable. M2 genera un evaluador de dominio contra una base, no una defensa bajo presión creciente."
   },
@@ -20,7 +21,7 @@
         "when": "tu argumento ya existe y quieres un entrevistador reutilizable que lo presione, no una sesión suelta.",
         "example": "Entrevistador para defender mi arquitectura ante un panel de seguridad, con objeciones de costo y alternativa.",
         "evidence": "system prompt del entrevistador, mapa de objeciones trazadas a evidencia o riesgo, profundidad máxima de ramificación, rúbrica de claridad, fundamento, criterio y honestidad, y formato de feedback.",
-        "prompt": "Diseña un entrevistador para [ESCENARIO] ante [AUDIENCIA] con [FUENTES]: quiero el instrumento, no la entrevista; conducirla es 09. Comprueba antes que [FUENTES] sostengan objeciones contra mi tesis; si no, entrega versión reducida y declara el vacío. Entrega su system prompt, un mapa de diez preguntas calibradas a [AUDIENCIA], con ramificación de profundidad máxima dos, y una rúbrica de claridad, fundamento, criterio y honestidad, cada uno con su evidencia observable. Cada objeción se traza a una cita de [FUENTES] o a un riesgo declarado de [ESCENARIO]; sin traza, se descarta. Límites: no redacta ni reestructura mi entregable —eso es M4— y no imita a personas reales identificables, usa un arquetipo. No inventes objeciones.",
+        "prompt": "Diseña un entrevistador para [ESCENARIO] ante [AUDIENCIA] con [FUENTES]: quiero el instrumento, no la entrevista. Comprueba antes que [FUENTES] sostengan objeciones contra mi tesis; si no, entrega versión reducida y declara el vacío. Entrega su system prompt, un mapa de diez preguntas calibradas a [AUDIENCIA], con ramificación de profundidad máxima dos, y una rúbrica de claridad, fundamento, criterio y honestidad, cada uno con su evidencia observable. Cada objeción se traza a una cita de [FUENTES] o a un riesgo declarado de [ESCENARIO]; sin traza, se descarta. Límites: no redacta ni reestructura mi entregable y no imita a personas reales identificables, usa un arquetipo. No inventes objeciones.",
         "level_spec": {
           "role": "Diseñador de simuladores adversariales: construye el entrevistador, no la entrevista",
           "spec_role": "Especialista en aprendizaje e investigación basada en evidencia",
@@ -92,7 +93,7 @@
           ],
           "limits": [
             "Genera el simulador, no conduce la sesión: entrevistar es 09",
-            "No prepara ni redacta el entregable: construir narrativa y ensayar es M4 y 10",
+            "No prepara ni redacta el entregable: construir narrativa y ensayar es M4",
             "La presión simulada no predice la reacción de una audiencia real"
           ]
         },
@@ -117,7 +118,7 @@
         "when": "la decisión del equipo ya está documentada y el proceso exige defenderla ante dirección con un instrumento reutilizable.",
         "example": "Panel simulado de seguridad y dirección para defender la arquitectura de pagos ante el comité.",
         "evidence": "system prompt del entrevistador, mapa de objeciones de gobernanza y costo trazadas al proceso, profundidad máxima, rúbrica de cuatro criterios con feedback agregable por el equipo, listo para revisión.",
-        "prompt": "Diseña un entrevistador que simule un panel para [EQUIPO] sobre [ESCENARIO] con [FUENTES]: queremos el instrumento, no la sesión; conducirla es 09. Comprueba antes que [FUENTES] sostengan las objeciones; si no, redúcelo y declara el vacío. Entrega su system prompt, un mapa de diez preguntas para la audiencia del panel —gobernanza, costo, riesgo operativo— con ramificación de máximo dos niveles, y una rúbrica de claridad, fundamento, criterio y honestidad con su evidencia observable, agregable entre miembros de [EQUIPO]. Cada objeción se traza a una cita de [FUENTES] o a un riesgo de [ESCENARIO]; sin traza, se descarta. Límites: no redacta ni reestructura el entregable (eso es M4) ni imita a personas reales. No inventes objeciones.",
+        "prompt": "Diseña un entrevistador que simule un panel para [EQUIPO] sobre [ESCENARIO] con [FUENTES]: queremos el instrumento, no la sesión. Comprueba antes que [FUENTES] sostengan las objeciones; si no, redúcelo y declara el vacío. Entrega su system prompt, un mapa de diez preguntas para la audiencia del panel —gobernanza, costo, riesgo operativo— con ramificación de máximo dos niveles, y una rúbrica de claridad, fundamento, criterio y honestidad con su evidencia observable, agregable entre miembros de [EQUIPO]. Cada objeción se traza a una cita de [FUENTES] o a un riesgo de [ESCENARIO]; sin traza, se descarta. Límites: no redacta ni reestructura el entregable ni imita a personas reales. No inventes objeciones.",
         "level_spec": {
           "role": "Diseñador de paneles simulados para equipos: construye el instrumento de defensa, no la defensa",
           "spec_role": "Especialista en aprendizaje e investigación basada en evidencia",
@@ -189,7 +190,7 @@
           ],
           "limits": [
             "Genera el instrumento, no conduce la defensa: eso es 09",
-            "No construye el entregable ni lo ensaya por partes: eso es M4 y 10",
+            "No construye el entregable ni lo ensaya por partes: eso es M4",
             "El panel simulado no anticipa el juicio real de dirección"
           ]
         },
@@ -220,7 +221,7 @@
         "when": "your argument already exists and you want a reusable interviewer that presses it, not a one-off session.",
         "example": "Interviewer to defend my architecture before a security panel, with cost and alternative objections.",
         "evidence": "interviewer system prompt, objection map traced to evidence or risk, maximum branch depth, rubric of clarity, grounding, judgment and honesty, and a feedback format.",
-        "prompt": "Design an interviewer for [SCENARIO] before [AUDIENCE] with [SOURCES]: I want the instrument, not the interview; running it is 09. If [SOURCES] cannot sustain objections to my thesis, reduce the map and declare the gap. Deliver its system prompt, a ten-question map tuned to [AUDIENCE], branch depth capped at two, and a rubric of clarity, grounding, judgment and honesty, each with its observable evidence. Every objection traces to a [SOURCES] quote or a declared [SCENARIO] risk; untraced, it is dropped. Limits: it never drafts or restructures my deliverable —that is M4— and never imitates identifiable real people, it uses an archetype. Do not invent objections.",
+        "prompt": "Design an interviewer for [SCENARIO] before [AUDIENCE] with [SOURCES]: I want the instrument, not the interview. If [SOURCES] cannot sustain objections to my thesis, reduce the map and declare the gap. Deliver its system prompt, a ten-question map tuned to [AUDIENCE], branch depth capped at two, and a rubric of clarity, grounding, judgment and honesty, each with its observable evidence. Every objection traces to a [SOURCES] quote or a declared [SCENARIO] risk; untraced, it is dropped. Limits: it never drafts or restructures my deliverable and never imitates identifiable real people, it uses an archetype. Do not invent objections.",
         "level_spec": {
           "role": "Adversarial-simulator designer: builds the interviewer, not the interview",
           "spec_role": "Specialist in evidence-grounded learning and research",
@@ -292,7 +293,7 @@
           ],
           "limits": [
             "It generates the simulator, it does not run the session: interviewing is 09",
-            "It neither prepares nor drafts the deliverable: building narrative and rehearsing is M4 and 10",
+            "It neither prepares nor drafts the deliverable: building narrative and rehearsing is M4",
             "Simulated pressure does not predict how a real audience will react"
           ]
         },
@@ -317,7 +318,7 @@
         "when": "the team decision is already documented and the process requires defending it before leadership with a reusable instrument.",
         "example": "Simulated security and leadership panel to defend the payments architecture before the committee.",
         "evidence": "interviewer system prompt, map of governance and cost objections traced to the process, maximum depth, four-criterion rubric with feedback aggregatable by the team, ready for review.",
-        "prompt": "Design an interviewer simulating a panel for [TEAM] on [SCENARIO] with [SOURCES]: we want the instrument, not the session; running it is 09. If [SOURCES] cannot sustain the objections, reduce the map and declare the gap. Deliver its system prompt, a ten-question map for the panel audience —governance, cost, operational risk— with branch depth capped at two, and a rubric of clarity, grounding, judgment and honesty with its evidence, aggregatable across [TEAM] members. Objections trace to a [SOURCES] quote or a [SCENARIO] risk; untraced, dropped. Limits: it never drafts or restructures the deliverable (that is M4) nor imitates real people. Do not invent objections.",
+        "prompt": "Design an interviewer simulating a panel for [TEAM] on [SCENARIO] with [SOURCES]: we want the instrument, not the session. If [SOURCES] cannot sustain the objections, reduce the map and declare the gap. Deliver its system prompt, a ten-question map for the panel audience —governance, cost, operational risk— with branch depth capped at two, and a rubric of clarity, grounding, judgment and honesty with its evidence, aggregatable across [TEAM] members. Objections trace to a [SOURCES] quote or a [SCENARIO] risk; untraced, dropped. Limits: it never drafts or restructures the deliverable nor imitates real people. Do not invent objections.",
         "level_spec": {
           "role": "Simulated-panel designer for teams: builds the defence instrument, not the defence",
           "spec_role": "Specialist in evidence-grounded learning and research",
@@ -389,7 +390,7 @@
           ],
           "limits": [
             "It generates the instrument, it does not run the defence: that is 09",
-            "It neither builds nor rehearses the deliverable in parts: that is M4 and 10",
+            "It neither builds nor rehearses the deliverable in parts: that is M4",
             "A simulated panel does not anticipate the real judgment of leadership"
           ]
         },
@@ -420,7 +421,7 @@
         "when": "seu argumento já existe e você quer um entrevistador reutilizável que o pressione, não uma sessão avulsa.",
         "example": "Entrevistador para defender minha arquitetura diante de um painel de segurança, com objeções de custo.",
         "evidence": "system prompt do entrevistador, mapa de objeções ligadas a evidência ou risco, profundidade máxima de ramificação, rubrica de clareza, fundamento, critério e honestidade, e formato de feedback.",
-        "prompt": "Projete um entrevistador para [CENÁRIO] diante de [PÚBLICO] com [FONTES]: quero o instrumento, não a entrevista; conduzi-la é 09. Verifique antes se [FONTES] sustentam objeções contra minha tese; se não, entregue versão reduzida e declare a lacuna. Entregue o system prompt dele, um mapa de dez perguntas calibradas a [PÚBLICO], com ramificação de profundidade máxima dois, e uma rubrica de clareza, fundamento, critério e honestidade, cada um com sua evidência observável. Cada objeção liga-se a uma citação de [FONTES] ou a um risco declarado do [CENÁRIO]; sem ligação, descarta-se. Limites: não redige nem reestrutura meu entregável —isso é M4— e não imita pessoas reais identificáveis, usa um arquétipo. Não invente objeções.",
+        "prompt": "Projete um entrevistador para [CENÁRIO] diante de [PÚBLICO] com [FONTES]: quero o instrumento, não a entrevista. Verifique antes se [FONTES] sustentam objeções contra minha tese; se não, entregue versão reduzida e declare a lacuna. Entregue o system prompt dele, um mapa de dez perguntas calibradas a [PÚBLICO], com ramificação de profundidade máxima dois, e uma rubrica de clareza, fundamento, critério e honestidade, cada um com sua evidência observável. Cada objeção liga-se a uma citação de [FONTES] ou a um risco declarado do [CENÁRIO]; sem ligação, descarta-se. Limites: não redige nem reestrutura meu entregável e não imita pessoas reais identificáveis, usa um arquétipo. Não invente objeções.",
         "level_spec": {
           "role": "Projetista de simuladores adversariais: constrói o entrevistador, não a entrevista",
           "spec_role": "Especialista em aprendizagem e pesquisa baseada em evidências",
@@ -492,7 +493,7 @@
           ],
           "limits": [
             "Gera o simulador, não conduz a sessão: entrevistar é 09",
-            "Não prepara nem redige o entregável: construir narrativa e ensaiar é M4 e 10",
+            "Não prepara nem redige o entregável: construir narrativa e ensaiar é M4",
             "A pressão simulada não prevê a reação de um público real"
           ]
         },
@@ -517,7 +518,7 @@
         "when": "a decisão da equipe já está documentada e o processo exige defendê-la diante da diretoria com um instrumento reutilizável.",
         "example": "Painel simulado de segurança e diretoria para defender a arquitetura de pagamentos diante do comitê.",
         "evidence": "system prompt do entrevistador, mapa de objeções de governança e custo ligadas ao processo, profundidade máxima, rubrica de quatro critérios com feedback agregável pela equipe, pronto para revisão.",
-        "prompt": "Projete um entrevistador que simule um painel para [EQUIPE] sobre [CENÁRIO] com [FONTES]: queremos o instrumento, não a sessão; conduzi-la é 09. Verifique antes se [FONTES] sustentam as objeções; se não, reduza o mapa e declare a lacuna. Entregue o system prompt dele, um mapa de dez perguntas para o público do painel —governança, custo, risco operacional— com ramificação de máximo dois níveis, e uma rubrica de clareza, fundamento, critério e honestidade com sua evidência observável, agregável entre membros da [EQUIPE]. Cada objeção liga-se a uma citação de [FONTES] ou a um risco do [CENÁRIO]; sem ligação, descarta-se. Limites: não redige nem reestrutura o entregável (isso é M4) nem imita pessoas reais. Não invente objeções.",
+        "prompt": "Projete um entrevistador que simule um painel para [EQUIPE] sobre [CENÁRIO] com [FONTES]: queremos o instrumento, não a sessão. Verifique antes se [FONTES] sustentam as objeções; se não, reduza o mapa e declare a lacuna. Entregue o system prompt dele, um mapa de dez perguntas para o público do painel —governança, custo, risco operacional— com ramificação de máximo dois níveis, e uma rubrica de clareza, fundamento, critério e honestidade com sua evidência observável, agregável entre membros da [EQUIPE]. Cada objeção liga-se a uma citação de [FONTES] ou a um risco do [CENÁRIO]; sem ligação, descarta-se. Limites: não redige nem reestrutura o entregável nem imita pessoas reais. Não invente objeções.",
         "level_spec": {
           "role": "Projetista de painéis simulados para equipes: constrói o instrumento de defesa, não a defesa",
           "spec_role": "Especialista em aprendizagem e pesquisa baseada em evidências",
@@ -589,7 +590,7 @@
           ],
           "limits": [
             "Gera o instrumento, não conduz a defesa: isso é 09",
-            "Não constrói nem ensaia o entregável por partes: isso é M4 e 10",
+            "Não constrói nem ensaia o entregável por partes: isso é M4",
             "O painel simulado não antecipa o julgamento real da diretoria"
           ]
         },
@@ -615,5 +616,5 @@
     }
   },
   "self_hash_model": "sha256(sorted-json-without-self_sha256)",
-  "self_sha256": "e4019d425b3b623a3e1e3a6376447544ed227b4a6e1c8e7d763305aaefa480d3"
+  "self_sha256": "6409596c29afe4d64eebb16dd16bc9423b40bf48238bbf0ba3f80177b9d781c7"
 }
