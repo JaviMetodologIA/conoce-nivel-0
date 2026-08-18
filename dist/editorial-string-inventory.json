@@ -6623,7 +6623,7 @@
         },
         {
           "count": 1,
-          "text": "Diseña el panel que presionará al equipo: objeciones de gobernanza, costo y riesgo trazadas a evidencia, profundidad máxima declarada y rúbrica agregable, lista para revisión."
+          "text": "Diseña el panel y la audiencia que presionarán al equipo: objeciones de gobernanza, costo y riesgo trazadas a evidencia, profundidad máxima declarada y rúbrica agregable, lista para revisión."
         },
         {
           "count": 1,
@@ -6727,7 +6727,7 @@
         },
         {
           "count": 1,
-          "text": "El alcance incluye: Diseña el panel que presionará al equipo: objeciones de gobernanza, costo y riesgo trazadas a evidencia, profundidad máxima declarada y rúbrica agregable, lista para revisión."
+          "text": "El alcance incluye: Diseña el panel y la audiencia que presionarán al equipo: objeciones de gobernanza, costo y riesgo trazadas a evidencia, profundidad máxima declarada y rúbrica agregable, lista para revisión."
         },
         {
           "count": 1,
@@ -9660,7 +9660,7 @@
         },
         {
           "count": 1,
-          "text": "El alcance incluye: Activa un rol conversacional sobre la base cerrada del equipo, con límites del rol visibles para cualquier usuario del proceso."
+          "text": "El alcance incluye: Activa un rol conversacional especializado sobre la base cerrada del equipo, con límites del rol visibles para cualquier usuario del proceso."
         },
         {
           "count": 1,
@@ -9672,7 +9672,7 @@
         },
         {
           "count": 1,
-          "text": "El alcance incluye: Convierte el vacío que más riesgo deja abierto en el proceso en un encargo ejecutable por otra persona del equipo, sin contexto adicional."
+          "text": "El alcance incluye: Convierte el vacío del diagnóstico que más riesgo deja abierto en el proceso en un encargo ejecutable por otra persona del equipo, sin contexto adicional."
         },
         {
           "count": 1,
@@ -9680,7 +9680,7 @@
         },
         {
           "count": 1,
-          "text": "El alcance incluye: Convierte un tema sin base cargada en el informe citado que abre el taller del equipo, con derechos de uso y responsable declarados por fuente."
+          "text": "El alcance incluye: Convierte un tema sin base cargada en el informe citado y verificable que abre el taller del equipo, con derechos de uso y responsable declarados por fuente."
         },
         {
           "count": 1,
@@ -9688,7 +9688,7 @@
         },
         {
           "count": 1,
-          "text": "El alcance incluye: Pesa lo que cambió en la base compartida y decide si el proceso se detiene con límites comunicables o repite, con suficiente definido de forma operativa."
+          "text": "El alcance incluye: Pesa lo que cambió en la base compartida, con las afirmaciones refutadas marcadas, y decide si el proceso se detiene con límites comunicables o repite, con suficiente definido de forma operativa."
         },
         {
           "count": 8,
@@ -16536,6 +16536,10 @@
         },
         {
           "count": 1,
+          "text": "Assess team understanding with a three-level named rubric and deliver a report comparable across runs, never across people."
+        },
+        {
+          "count": 1,
           "text": "Assess the respondent on [TOPIC] for [PROCESS] with [SOURCES] only, one question per turn: foundations, relations, application, transfer. Levels: absent (no [SOURCES] condition quoted), partial (a required condition dropped), demonstrated (reproduced verbatim). Advance only on demonstrated; else the second attempt replaces. In transfer the case is synthetic: score concepts, not data. Outside the base: flag without scoring. Correct by quoting; never teach new content. Close with level per dimension, its quote, [TOPIC] corrective practice and the operational risk of clearing below the [PROCESS] governance threshold. Compare runs against the rubric, never people. Never invent questions or quotes."
         },
         {
@@ -16860,7 +16864,7 @@
         },
         {
           "count": 1,
-          "text": "Design the panel that will press the team: governance, cost and risk objections traced to evidence, a declared depth cap and an aggregatable rubric, ready for review."
+          "text": "Design the panel and audience that will press the team: governance, cost and risk objections traced to evidence, a declared depth cap and an aggregatable rubric, ready for review."
         },
         {
           "count": 1,
@@ -17236,10 +17240,6 @@
         },
         {
           "count": 1,
-          "text": "Measure team understanding with a three-level named rubric and deliver a report comparable across runs, never across people."
-        },
-        {
-          "count": 1,
           "text": "Measuring-instrument designer for teams: builds the evaluator and its threshold, not the clearance"
         },
         {
@@ -17548,6 +17548,10 @@
         },
         {
           "count": 1,
+          "text": "Scope includes: Assess team understanding with a three-level named rubric and deliver a report comparable across runs, never across people."
+        },
+        {
+          "count": 1,
           "text": "Scope includes: Build the narrative the team does not have yet: thesis, three cited ideas, timed structure and a script another presenter can reuse."
         },
         {
@@ -17568,7 +17572,7 @@
         },
         {
           "count": 1,
-          "text": "Scope includes: Design the panel that will press the team: governance, cost and risk objections traced to evidence, a declared depth cap and an aggregatable rubric, ready for review."
+          "text": "Scope includes: Design the panel and audience that will press the team: governance, cost and risk objections traced to evidence, a declared depth cap and an aggregatable rubric, ready for review."
         },
         {
           "count": 1,
@@ -17581,10 +17585,6 @@
         {
           "count": 1,
           "text": "Scope includes: Explains one idea per turn citing the team's base, corrects against the source with a counterexample and leaves a reviewable session note."
-        },
-        {
-          "count": 1,
-          "text": "Scope includes: Measure team understanding with a three-level named rubric and deliver a report comparable across runs, never across people."
         },
         {
           "count": 1,
@@ -20485,11 +20485,11 @@
         },
         {
           "count": 1,
-          "text": "Scope includes: Activates a conversational role over the closed team base, with the role limits visible to any user of the process."
+          "text": "Scope includes: Activates a specialized conversational role over the closed team base, with the role limits visible to any user of the process."
         },
         {
           "count": 1,
-          "text": "Scope includes: Reads the team base just built in a fixed format with an owner per action: what it covers, what it strains and what the process can claim today."
+          "text": "Scope includes: Reads the team base just built in a fixed format with an owner per action: what it covers, what it strains and which finding the process can claim today."
         },
         {
           "count": 1,
@@ -20497,7 +20497,7 @@
         },
         {
           "count": 1,
-          "text": "Scope includes: Turns a topic with no loaded base into the cited report that opens the team workshop, with usage rights and an accountable owner declared per source."
+          "text": "Scope includes: Turns a topic with no loaded base into the cited, verifiable report that opens the team workshop, with usage rights and an accountable owner declared per source."
         },
         {
           "count": 1,
@@ -20505,7 +20505,7 @@
         },
         {
           "count": 1,
-          "text": "Scope includes: Turns the gap leaving most risk open in the process into a brief another team member can run with no extra context."
+          "text": "Scope includes: Turns the gap the diagnosis leaves most open to risk in the process into a brief another team member can run with no extra context."
         },
         {
           "count": 1,
@@ -20513,7 +20513,7 @@
         },
         {
           "count": 1,
-          "text": "Scope includes: Weighs what changed in the shared base and decides whether the process stops with communicable limits or repeats, with sufficient defined operationally."
+          "text": "Scope includes: Weighs what changed in the shared base, with refuted claims marked, and decides whether the process stops with communicable limits or repeats, with sufficient defined operationally."
         },
         {
           "count": 1,
@@ -25114,6 +25114,10 @@
           "text": "Assess my understanding of agents, tools, memory and supervision."
         },
         {
+          "count": 1,
+          "text": "Assess your understanding dimension by dimension with a three-level named rubric and close with a demonstrated level, its supporting quote and corrective practice."
+        },
+        {
           "count": 14,
           "text": "Assumptions"
         },
@@ -25827,10 +25831,6 @@
         },
         {
           "count": 1,
-          "text": "Measure your understanding dimension by dimension with a three-level named rubric and close with a demonstrated level, its supporting quote and corrective practice."
-        },
-        {
-          "count": 1,
           "text": "Measuring-instrument designer: builds the evaluator, not the verdict"
         },
         {
@@ -26151,6 +26151,10 @@
         },
         {
           "count": 1,
+          "text": "Scope includes: Assess your understanding dimension by dimension with a three-level named rubric and close with a demonstrated level, its supporting quote and corrective practice."
+        },
+        {
+          "count": 1,
           "text": "Scope includes: Build the narrative that does not exist yet: a one-sentence thesis, three cited ideas, a structure in timed blocks and rehearsal after your confirmation."
         },
         {
@@ -26184,10 +26188,6 @@
         {
           "count": 1,
           "text": "Scope includes: Explains one idea per turn citing your base, asks you to restate it and corrects against the source, with a counterexample when the answer is shallow."
-        },
-        {
-          "count": 1,
-          "text": "Scope includes: Measure your understanding dimension by dimension with a three-level named rubric and close with a demonstrated level, its supporting quote and corrective practice."
         },
         {
           "count": 1,
@@ -29048,11 +29048,11 @@
         },
         {
           "count": 1,
-          "text": "Scope includes: Reads the base you just built in a fixed format: what it covers, what it strains and what you can claim today with a citation, with no sufficiency verdict."
+          "text": "Scope includes: Reads the base you just built in a fixed format: what it covers, what it strains and which finding you can claim today with a citation, with no sufficiency verdict."
         },
         {
           "count": 1,
-          "text": "Scope includes: Turns a topic with nothing loaded into the cited report that opens the workshop: the first source you need before auditing anything."
+          "text": "Scope includes: Turns a topic with nothing loaded into the cited report that opens the workshop: the first verifiable source you need before auditing anything."
         },
         {
           "count": 1,
@@ -29072,7 +29072,7 @@
         },
         {
           "count": 1,
-          "text": "Scope includes: Weighs what changed in the base after importing and decides whether you stop with limits or repeat, with an operational definition of sufficient."
+          "text": "Scope includes: Weighs what changed in the base after importing, with refuted claims marked, and decides whether you stop with limits or repeat, with an operational definition of sufficient."
         },
         {
           "count": 1,
@@ -41619,7 +41619,7 @@
         },
         {
           "count": 1,
-          "text": "O escopo inclui: Projete o painel que pressionará a equipe: objeções de governança, custo e risco ligadas a evidência, profundidade máxima declarada e rubrica agregável, pronto para revisão."
+          "text": "O escopo inclui: Projete o painel e o público que pressionarão a equipe: objeções de governança, custo e risco ligadas a evidência, profundidade máxima declarada e rubrica agregável, pronto para revisão."
         },
         {
           "count": 1,
@@ -41895,7 +41895,7 @@
         },
         {
           "count": 1,
-          "text": "Projete o painel que pressionará a equipe: objeções de governança, custo e risco ligadas a evidência, profundidade máxima declarada e rubrica agregável, pronto para revisão."
+          "text": "Projete o painel e o público que pressionarão a equipe: objeções de governança, custo e risco ligadas a evidência, profundidade máxima declarada e rubrica agregável, pronto para revisão."
         },
         {
           "count": 1,
@@ -44823,19 +44823,19 @@
         },
         {
           "count": 1,
-          "text": "O escopo inclui: Ativa um papel conversacional sobre a base fechada da equipe, com os limites do papel visíveis para qualquer usuário do processo."
+          "text": "O escopo inclui: Ativa um papel conversacional especializado sobre a base fechada da equipe, com os limites do papel visíveis para qualquer usuário do processo."
         },
         {
           "count": 1,
-          "text": "O escopo inclui: Lê a base recém-construída da equipe em formato fixo e com responsável por ação: o que cobre, o que tensiona e o que o processo pode afirmar hoje."
+          "text": "O escopo inclui: Lê a base recém-construída da equipe em formato fixo e com responsável por ação: o que cobre, o que tensiona e qual achado o processo pode afirmar hoje."
         },
         {
           "count": 1,
-          "text": "O escopo inclui: Pesa o que mudou na base compartilhada da equipe e decide se o processo para com limites comunicáveis ou repete, com suficiente definido de forma operacional."
+          "text": "O escopo inclui: Pesa o que mudou na base compartilhada da equipe, com as afirmações refutadas marcadas, e decide se o processo para com limites comunicáveis ou repete, com suficiente definido de forma operacional."
         },
         {
           "count": 1,
-          "text": "O escopo inclui: Transforma a lacuna que deixa mais risco aberto no processo em encargo executável por outra pessoa da equipe, sem contexto adicional."
+          "text": "O escopo inclui: Transforma a lacuna que o diagnóstico deixa com mais risco aberto no processo em encargo executável por outra pessoa da equipe, sem contexto adicional."
         },
         {
           "count": 1,
@@ -44851,7 +44851,7 @@
         },
         {
           "count": 1,
-          "text": "O escopo inclui: Transforma um tema sem base carregada no relatório citado que abre a oficina da equipe, com direitos de uso e responsável declarados por fonte."
+          "text": "O escopo inclui: Transforma um tema sem base carregada no relatório citado e verificável que abre a oficina da equipe, com direitos de uso e responsável declarados por fonte."
         },
         {
           "count": 8,
@@ -53099,11 +53099,11 @@
         },
         {
           "count": 1,
-          "text": "O escopo inclui: Lê a base que você acabou de construir em formato fixo: o que cobre, o que tensiona e o que pode afirmar hoje com citação, sem veredicto de suficiência."
+          "text": "O escopo inclui: Lê a base que você acabou de construir em formato fixo: o que cobre, o que tensiona e qual achado pode afirmar hoje com citação, sem veredicto de suficiência."
         },
         {
           "count": 1,
-          "text": "O escopo inclui: Pesa o que mudou na base depois da importação e decide se você para com limites ou repete, com definição operacional de suficiente."
+          "text": "O escopo inclui: Pesa o que mudou na base depois da importação, com as afirmações refutadas marcadas, e decide se você para com limites ou repete, com definição operacional de suficiente."
         },
         {
           "count": 1,
@@ -53123,7 +53123,7 @@
         },
         {
           "count": 1,
-          "text": "O escopo inclui: Transforma um tema sem nada carregado no relatório citado que abre a oficina: a primeira fonte que você precisa antes de auditar."
+          "text": "O escopo inclui: Transforma um tema sem nada carregado no relatório citado que abre a oficina: a primeira fonte verificável que você precisa antes de auditar."
         },
         {
           "count": 8,
@@ -55352,7 +55352,7 @@
         },
         {
           "count": 1,
-          "text": "El alcance incluye: Convierte un tema sin nada cargado en el informe citado que abre el taller: la primera fuente que necesitas antes de auditar."
+          "text": "El alcance incluye: Convierte un tema sin nada cargado en el informe citado que abre el taller: la primera fuente verificable que necesitas antes de auditar."
         },
         {
           "count": 1,
@@ -55360,7 +55360,7 @@
         },
         {
           "count": 1,
-          "text": "El alcance incluye: Pesa lo que cambió en la base después de importar y decide si te detienes con límites o repites, con una definición operativa de suficiente."
+          "text": "El alcance incluye: Pesa lo que cambió en la base después de importar, con las afirmaciones refutadas marcadas, y decide si te detienes con límites o repites, con una definición operativa de suficiente."
         },
         {
           "count": 8,
@@ -56523,7 +56523,7 @@
   ],
   "schema_version": "editorial-string-inventory-v1",
   "self_hash_model": "sha256(sorted-json-without-self_sha256)",
-  "self_sha256": "3a2153c32751775239cda882c197b6b753b04d08054d6eea5670b980db353d60",
+  "self_sha256": "2c1a2777a70759c33a1a978ae4e6fa2e1ac18618c3db7169b421ec7e5b8065eb",
   "source_spec": "src/editorial-parity-spec-v1.json",
   "source_spec_self_sha256": "ad07bf72e931202887c1625600579f9e39c1a84a78ecd2891fc70525b7f49fe6",
   "state": "RENDERED_DRAFT"

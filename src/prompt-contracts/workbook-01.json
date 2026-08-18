@@ -16,7 +16,7 @@
     "es": {
       "persona": {
         "title": "Primera base con propósito",
-        "purpose": "Convierte un tema sin nada cargado en el informe citado que abre el taller: la primera fuente que necesitas antes de auditar.",
+        "purpose": "Convierte un tema sin nada cargado en el informe citado que abre el taller: la primera fuente verificable que necesitas antes de auditar.",
         "when": "arrancas el taller y todavía no tienes ninguna fuente cargada en el Notebook.",
         "example": "IA generativa aplicada a mi trabajo comercial, con el Notebook todavía vacío.",
         "evidence": "informe citado con alcance, conceptos esenciales, cambios desde la fecha de corte, tensiones, incertidumbre marcada inline y fuentes primarias con título, autor, fecha, enlace y razón, importable como primera fuente.",
@@ -109,7 +109,7 @@
       },
       "empresa": {
         "title": "Primera base compartida del equipo",
-        "purpose": "Convierte un tema sin base cargada en el informe citado que abre el taller del equipo, con derechos de uso y responsable declarados por fuente.",
+        "purpose": "Convierte un tema sin base cargada en el informe citado y verificable que abre el taller del equipo, con derechos de uso y responsable declarados por fuente.",
         "when": "el proceso exige una base común y aún no hay ninguna fuente cargada.",
         "example": "IA generativa para la operación comercial, antes de comprometer presupuesto del área.",
         "evidence": "informe citado listo para revisión, con alcance repartible, fuentes primarias con derechos de uso y responsable, incertidumbre marcada inline y vacíos registrados para la auditoría siguiente.",
@@ -204,7 +204,7 @@
     "en": {
       "persona": {
         "title": "A first base with a purpose",
-        "purpose": "Turns a topic with nothing loaded into the cited report that opens the workshop: the first source you need before auditing anything.",
+        "purpose": "Turns a topic with nothing loaded into the cited report that opens the workshop: the first verifiable source you need before auditing anything.",
         "when": "you start the workshop and no source is loaded in the Notebook yet.",
         "example": "Generative AI applied to my sales work, with the Notebook still empty.",
         "evidence": "cited report with scope, essentials, what changed since the cutoff date, tensions, uncertainty tagged inline and primary sources carrying title, author, date, link and reason, importable as a first source.",
@@ -297,7 +297,7 @@
       },
       "empresa": {
         "title": "A first shared base for the team",
-        "purpose": "Turns a topic with no loaded base into the cited report that opens the team workshop, with usage rights and an accountable owner declared per source.",
+        "purpose": "Turns a topic with no loaded base into the cited, verifiable report that opens the team workshop, with usage rights and an accountable owner declared per source.",
         "when": "the process needs a common base and no source is loaded yet.",
         "example": "Generative AI for the sales operation, before committing the area training budget.",
         "evidence": "cited report ready for review, with splittable scope, primary sources carrying usage rights and an owner, uncertainty tagged inline and gaps recorded for the audit step.",
@@ -392,7 +392,7 @@
     "pt": {
       "persona": {
         "title": "Primeira base com propósito",
-        "purpose": "Transforma um tema sem nada carregado no relatório citado que abre a oficina: a primeira fonte que você precisa antes de auditar.",
+        "purpose": "Transforma um tema sem nada carregado no relatório citado que abre a oficina: a primeira fonte verificável que você precisa antes de auditar.",
         "when": "você começa a oficina e ainda não há nenhuma fonte carregada no Notebook.",
         "example": "IA generativa aplicada ao meu trabalho comercial, com o Notebook ainda vazio.",
         "evidence": "relatório citado com escopo, fundamentos, o que mudou desde a data de corte, tensões, incerteza marcada no texto e fontes primárias com título, autor, data, link e motivo, importável como primeira fonte.",
@@ -485,7 +485,7 @@
       },
       "empresa": {
         "title": "Primeira base compartilhada da equipe",
-        "purpose": "Transforma um tema sem base carregada no relatório citado que abre a oficina da equipe, com direitos de uso e responsável declarados por fonte.",
+        "purpose": "Transforma um tema sem base carregada no relatório citado e verificável que abre a oficina da equipe, com direitos de uso e responsável declarados por fonte.",
         "when": "o processo exige uma base comum e ainda não há nenhuma fonte carregada.",
         "example": "IA generativa para a operação comercial, antes de comprometer o orçamento da área.",
         "evidence": "relatório citado pronto para revisão, com escopo divisível, fontes primárias com direitos de uso e responsável, incerteza marcada no texto e lacunas registradas para a auditoria seguinte.",
@@ -579,5 +579,5 @@
     }
   },
   "self_hash_model": "sha256(sorted-json-without-self_sha256)",
-  "self_sha256": "4036a8ac39920c8395c1e0916b19d18d0aa49eef581294ebcd19db568c282485"
+  "self_sha256": "8f22a5673c3d13fb8f6a3b8dbfa6cb949d059db6e84d29cd8dd45fd85b4325b4"
 }

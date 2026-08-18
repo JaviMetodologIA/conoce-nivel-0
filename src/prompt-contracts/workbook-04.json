@@ -19,7 +19,7 @@
     "es": {
       "persona": {
         "title": "Cerrar o repetir el ciclo",
-        "purpose": "Pesa lo que cambió en la base después de importar y decide si te detienes con límites o repites, con una definición operativa de suficiente.",
+        "purpose": "Pesa lo que cambió en la base después de importar, con las afirmaciones refutadas marcadas, y decide si te detienes con límites o repites, con una definición operativa de suficiente.",
         "when": "ya importaste la respuesta del encargo y debes decidir si paras o repites.",
         "example": "Cuatro fuentes nuevas sobre adopción, importadas tras el encargo anterior.",
         "evidence": "comparación punto por punto contra la auditoría previa, afirmaciones confirmadas o refutadas, tensiones nuevas, valor de cada fuente en escala declarada, riesgo residual y veredicto suficiente con límites o repetir con el siguiente prompt.",
@@ -110,7 +110,7 @@
       },
       "empresa": {
         "title": "Cerrar o repetir con el equipo",
-        "purpose": "Pesa lo que cambió en la base compartida y decide si el proceso se detiene con límites comunicables o repite, con suficiente definido de forma operativa.",
+        "purpose": "Pesa lo que cambió en la base compartida, con las afirmaciones refutadas marcadas, y decide si el proceso se detiene con límites comunicables o repite, con suficiente definido de forma operativa.",
         "when": "el equipo importó la respuesta del encargo y el proceso debe parar o repetir.",
         "example": "Cuatro fuentes nuevas sobre adopción, importadas al Notebook del área.",
         "evidence": "comparación punto por punto contra la auditoría previa, afirmaciones confirmadas o refutadas, tensiones nuevas, valor de cada fuente en escala declarada, riesgo residual con su riesgo operativo y veredicto suficiente con límites listos para revisión.",
@@ -204,7 +204,7 @@
     "en": {
       "persona": {
         "title": "Stop or repeat the cycle",
-        "purpose": "Weighs what changed in the base after importing and decides whether you stop with limits or repeat, with an operational definition of sufficient.",
+        "purpose": "Weighs what changed in the base after importing, with refuted claims marked, and decides whether you stop with limits or repeat, with an operational definition of sufficient.",
         "when": "you imported the answer to the brief and you must decide: stop or repeat.",
         "example": "Four new sources on adoption, imported after the previous brief.",
         "evidence": "point-by-point comparison against the previous audit, claims confirmed or refuted, new tensions, value of each source on the declared scale, residual risk and a sufficient verdict with limits or a repeat with the next prompt.",
@@ -295,7 +295,7 @@
       },
       "empresa": {
         "title": "Stop or repeat with the team",
-        "purpose": "Weighs what changed in the shared base and decides whether the process stops with communicable limits or repeats, with sufficient defined operationally.",
+        "purpose": "Weighs what changed in the shared base, with refuted claims marked, and decides whether the process stops with communicable limits or repeats, with sufficient defined operationally.",
         "when": "the team imported the brief answer and the process must stop or repeat.",
         "example": "Four new sources on adoption, imported into the area Notebook.",
         "evidence": "point-by-point comparison against the previous audit, claims confirmed or refuted, new tensions, value of each source on the declared scale, residual risk with its operational risk, and a sufficient verdict with limits ready for review.",
@@ -389,7 +389,7 @@
     "pt": {
       "persona": {
         "title": "Encerrar ou repetir o ciclo",
-        "purpose": "Pesa o que mudou na base depois da importação e decide se você para com limites ou repete, com definição operacional de suficiente.",
+        "purpose": "Pesa o que mudou na base depois da importação, com as afirmações refutadas marcadas, e decide se você para com limites ou repete, com definição operacional de suficiente.",
         "when": "você importou a resposta do encargo e deve decidir: parar ou repetir.",
         "example": "Quatro fontes novas sobre adoção, importadas após o encargo anterior.",
         "evidence": "comparação ponto a ponto contra a auditoria anterior, afirmações confirmadas ou refutadas, tensões novas, valor de cada fonte na escala declarada, risco residual e veredicto suficiente com limites ou repetir com o próximo prompt.",
@@ -480,7 +480,7 @@
       },
       "empresa": {
         "title": "Encerrar ou repetir com a equipe",
-        "purpose": "Pesa o que mudou na base compartilhada da equipe e decide se o processo para com limites comunicáveis ou repete, com suficiente definido de forma operacional.",
+        "purpose": "Pesa o que mudou na base compartilhada da equipe, com as afirmações refutadas marcadas, e decide se o processo para com limites comunicáveis ou repete, com suficiente definido de forma operacional.",
         "when": "a equipe importou a resposta do encargo e o processo deve parar ou repetir.",
         "example": "Quatro fontes novas sobre adoção, importadas no Notebook da área.",
         "evidence": "comparação ponto a ponto contra a auditoria anterior, afirmações confirmadas ou refutadas, tensões novas, valor de cada fonte na escala declarada, risco residual com seu risco operacional e veredicto suficiente com limites prontos para revisão.",
@@ -573,5 +573,5 @@
     }
   },
   "self_hash_model": "sha256(sorted-json-without-self_sha256)",
-  "self_sha256": "321c4548766cda821b89bbf946159982a1ba9ca932aa6762a56bb5cb866c2cd9"
+  "self_sha256": "6da69842adcf34a0fc672fcdc18d5d2fc077b9163be6703769bcc73cc69d806e"
 }

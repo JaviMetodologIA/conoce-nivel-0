@@ -109,7 +109,7 @@
       },
       "empresa": {
         "title": "Encargo de investigación del equipo",
-        "purpose": "Convierte el vacío que más riesgo deja abierto en el proceso en un encargo ejecutable por otra persona del equipo, sin contexto adicional.",
+        "purpose": "Convierte el vacío del diagnóstico que más riesgo deja abierto en el proceso en un encargo ejecutable por otra persona del equipo, sin contexto adicional.",
         "when": "el diagnóstico del equipo ya nombró vacíos y el proceso necesita cerrar uno.",
         "example": "El vacío sobre adopción en pymes, que bloquea el caso de negocio del área.",
         "evidence": "prompt listo para Deep Research con objetivo, dentro y fuera, tensiones, evidencia mínima por afirmación y criterios de aceptación comprobables uno a uno, ejecutable por otra persona del equipo y con el riesgo operativo del vacío nombrado.",
@@ -295,7 +295,7 @@
       },
       "empresa": {
         "title": "A research brief for the team",
-        "purpose": "Turns the gap leaving most risk open in the process into a brief another team member can run with no extra context.",
+        "purpose": "Turns the gap the diagnosis leaves most open to risk in the process into a brief another team member can run with no extra context.",
         "when": "the team diagnosis named gaps and the process needs one of them closed.",
         "example": "The adoption gap in small firms, blocking the area business case.",
         "evidence": "a prompt ready for Deep Research with objective, in and out of scope, tensions, minimum evidence per claim and acceptance criteria checkable one by one, runnable by another team member and with the operational risk of the gap named.",
@@ -481,7 +481,7 @@
       },
       "empresa": {
         "title": "Encargo de pesquisa da equipe",
-        "purpose": "Transforma a lacuna que deixa mais risco aberto no processo em encargo executável por outra pessoa da equipe, sem contexto adicional.",
+        "purpose": "Transforma a lacuna que o diagnóstico deixa com mais risco aberto no processo em encargo executável por outra pessoa da equipe, sem contexto adicional.",
         "when": "o diagnóstico da equipe já nomeou lacunas e o processo precisa fechar uma.",
         "example": "A lacuna de adoção em pequenas empresas, que trava o caso de negócio.",
         "evidence": "prompt pronto para o Deep Research com objetivo, dentro e fora do escopo, tensões, evidência mínima por afirmação e critérios de aceitação verificáveis um a um, executável por outra pessoa da equipe e com o risco operacional da lacuna nomeado.",
@@ -574,5 +574,5 @@
     }
   },
   "self_hash_model": "sha256(sorted-json-without-self_sha256)",
-  "self_sha256": "6166c70612e0ae28f62d3b9aa7637c795efad37042672280badb611e3597e511"
+  "self_sha256": "80ba930bb56414601dac27dee6422741058274496ce569f2025da7780a237bf1"
 }

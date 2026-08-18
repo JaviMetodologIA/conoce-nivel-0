@@ -110,7 +110,7 @@
       },
       "empresa": {
         "title": "Activar un rol consultable por el equipo",
-        "purpose": "Activa un rol conversacional sobre la base cerrada del equipo, con límites del rol visibles para cualquier usuario del proceso.",
+        "purpose": "Activa un rol conversacional especializado sobre la base cerrada del equipo, con límites del rol visibles para cualquier usuario del proceso.",
         "when": "la base del equipo quedó cerrada y el proceso la consultará conversando.",
         "example": "Un asesor sobre el Notebook comercial del área, para preparar una oferta.",
         "evidence": "rol confirmado con su comportamiento propio, respuestas citadas turno a turno, marca de evidencia citada, inferencia o dato faltante, límites del rol visibles y encargo listo para revisión cuando la pregunta sale de la base.",
@@ -294,7 +294,7 @@
       },
       "empresa": {
         "title": "Activate a role the team can consult",
-        "purpose": "Activates a conversational role over the closed team base, with the role limits visible to any user of the process.",
+        "purpose": "Activates a specialized conversational role over the closed team base, with the role limits visible to any user of the process.",
         "when": "the team base is closed and the process will consult it by talking.",
         "example": "An advisor over the area sales Notebook, to prepare an offer.",
         "evidence": "role confirmed with its own behaviour, answers cited turn by turn, a tag of cited evidence, inference or missing data, visible role limits and a brief ready for review when the question leaves the base.",
@@ -478,7 +478,7 @@
       },
       "empresa": {
         "title": "Ativar um papel consultável pela equipe",
-        "purpose": "Ativa um papel conversacional sobre a base fechada da equipe, com os limites do papel visíveis para qualquer usuário do processo.",
+        "purpose": "Ativa um papel conversacional especializado sobre a base fechada da equipe, com os limites do papel visíveis para qualquer usuário do processo.",
         "when": "a base da equipe ficou fechada e o processo vai consultá-la conversando.",
         "example": "Um assessor sobre o Notebook comercial da área, para montar uma oferta.",
         "evidence": "papel confirmado com comportamento próprio, respostas citadas turno a turno, marca de evidência citada, inferência ou dado ausente, limites do papel visíveis e encargo pronto para revisão quando a pergunta sai da base.",
@@ -570,5 +570,5 @@
     }
   },
   "self_hash_model": "sha256(sorted-json-without-self_sha256)",
-  "self_sha256": "3448edacfea2f6813f86e26b3c49351d6a0b130bb8c8b72ebd028e0db6a12d84"
+  "self_sha256": "0d87be0438195edea50133f41f4b4321cc6006ab5511b5942e56a83f06b353e5"
 }

@@ -214,7 +214,7 @@
     "en": {
       "persona": {
         "title": "Progressive evaluator",
-        "purpose": "Measure your understanding dimension by dimension with a three-level named rubric and close with a demonstrated level, its supporting quote and corrective practice.",
+        "purpose": "Assess your understanding dimension by dimension with a three-level named rubric and close with a demonstrated level, its supporting quote and corrective practice.",
         "when": "you need evidence of mastery before choosing what to study next.",
         "example": "Assess my understanding of agents, tools, memory and supervision.",
         "evidence": "level per dimension with the quote that supports it, second-attempt result, declared pass threshold and corrective practice per gap.",
@@ -308,7 +308,7 @@
       },
       "empresa": {
         "title": "Team progressive evaluator",
-        "purpose": "Measure team understanding with a three-level named rubric and deliver a report comparable across runs, never across people.",
+        "purpose": "Assess team understanding with a three-level named rubric and deliver a report comparable across runs, never across people.",
         "when": "the process requires evidence of mastery before clearing someone and an owner exists.",
         "example": "Assess understanding of agents, tools, memory and supervision across the area.",
         "evidence": "level per dimension with the quote that supports it, the governance threshold of the process, corrective practice, the operational risk of clearing below it and a report comparable across runs.",
@@ -605,5 +605,5 @@
     }
   },
   "self_hash_model": "sha256(sorted-json-without-self_sha256)",
-  "self_sha256": "33699a3ac62c32172386f9b4643660fcc9e5eb1fa8148c60730a2000b9e50c45"
+  "self_sha256": "3b8df4aa27f1d3d776ccbda0eb8f394d80e742eb8f5ec371b2c3e98e51ee85c0"
 }

@@ -204,7 +204,7 @@
     "en": {
       "persona": {
         "title": "Audit the base you just built",
-        "purpose": "Reads the base you just built in a fixed format: what it covers, what it strains and what you can claim today with a citation, with no sufficiency verdict.",
+        "purpose": "Reads the base you just built in a fixed format: what it covers, what it strains and which finding you can claim today with a citation, with no sufficiency verdict.",
         "when": "you imported the step 1 report and you need to know what that base holds.",
         "example": "My generative AI sales Notebook, with six sources just imported.",
         "evidence": "eight-line summary, finding table with type, evidence, impact and action, coverage reviewed, gaps prioritized by how much they block the purpose, and a claimable list with a citation per line.",
@@ -296,7 +296,7 @@
       },
       "empresa": {
         "title": "Audit the team base",
-        "purpose": "Reads the team base just built in a fixed format with an owner per action: what it covers, what it strains and what the process can claim today.",
+        "purpose": "Reads the team base just built in a fixed format with an owner per action: what it covers, what it strains and which finding the process can claim today.",
         "when": "the team imported the step 1 report and the process needs to know what holds.",
         "example": "The area sales Notebook, with six sources imported this week.",
         "evidence": "eight-line summary, finding table with type, evidence, impact, action and owner, coverage reviewed, gaps prioritized by operational risk and claimables with citations, comparable across reviews.",
@@ -390,7 +390,7 @@
     "pt": {
       "persona": {
         "title": "Auditar a base recém-construída",
-        "purpose": "Lê a base que você acabou de construir em formato fixo: o que cobre, o que tensiona e o que pode afirmar hoje com citação, sem veredicto de suficiência.",
+        "purpose": "Lê a base que você acabou de construir em formato fixo: o que cobre, o que tensiona e qual achado pode afirmar hoje com citação, sem veredicto de suficiência.",
         "when": "você importou o relatório do passo 1 e precisa saber o que essa base sustenta.",
         "example": "Meu Notebook de IA generativa comercial, com seis fontes recém-importadas.",
         "evidence": "resumo de oito linhas, tabela de achados com tipo, evidência, impacto e ação, cobertura revisada, lacunas priorizadas pelo bloqueio ao propósito e lista de afirmáveis com citação por linha.",
@@ -482,7 +482,7 @@
       },
       "empresa": {
         "title": "Auditar a base da equipe",
-        "purpose": "Lê a base recém-construída da equipe em formato fixo e com responsável por ação: o que cobre, o que tensiona e o que o processo pode afirmar hoje.",
+        "purpose": "Lê a base recém-construída da equipe em formato fixo e com responsável por ação: o que cobre, o que tensiona e qual achado o processo pode afirmar hoje.",
         "when": "a equipe importou o relatório do passo 1 e o processo precisa saber o que sustenta.",
         "example": "O Notebook comercial da área, com seis fontes importadas nesta semana.",
         "evidence": "resumo de oito linhas, tabela de achados com tipo, evidência, impacto, ação e responsável, cobertura revisada, lacunas priorizadas por risco operacional e afirmáveis com citação, comparável entre revisões.",
@@ -575,5 +575,5 @@
     }
   },
   "self_hash_model": "sha256(sorted-json-without-self_sha256)",
-  "self_sha256": "e94f8b6be95830b512aec8132db481290b40f2a6b0eca7fd3a2340263bf86fc9"
+  "self_sha256": "4f1ed9a3c3a883d9944dfb2e51bc1973a35448692f25a9e9a2d0ff8dde6bdeec"
 }

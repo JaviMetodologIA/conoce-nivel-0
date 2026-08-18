@@ -114,7 +114,7 @@
       },
       "empresa": {
         "title": "Generador de panel simulado para el equipo",
-        "purpose": "Diseña el panel que presionará al equipo: objeciones de gobernanza, costo y riesgo trazadas a evidencia, profundidad máxima declarada y rúbrica agregable, lista para revisión.",
+        "purpose": "Diseña el panel y la audiencia que presionarán al equipo: objeciones de gobernanza, costo y riesgo trazadas a evidencia, profundidad máxima declarada y rúbrica agregable, lista para revisión.",
         "when": "la decisión del equipo ya está documentada y el proceso exige defenderla ante dirección con un instrumento reutilizable.",
         "example": "Panel simulado de seguridad y dirección para defender la arquitectura de pagos ante el comité.",
         "evidence": "system prompt del entrevistador, mapa de objeciones de gobernanza y costo trazadas al proceso, profundidad máxima, rúbrica de cuatro criterios con feedback agregable por el equipo, listo para revisión.",
@@ -314,7 +314,7 @@
       },
       "empresa": {
         "title": "Team simulated panel generator",
-        "purpose": "Design the panel that will press the team: governance, cost and risk objections traced to evidence, a declared depth cap and an aggregatable rubric, ready for review.",
+        "purpose": "Design the panel and audience that will press the team: governance, cost and risk objections traced to evidence, a declared depth cap and an aggregatable rubric, ready for review.",
         "when": "the team decision is already documented and the process requires defending it before leadership with a reusable instrument.",
         "example": "Simulated security and leadership panel to defend the payments architecture before the committee.",
         "evidence": "interviewer system prompt, map of governance and cost objections traced to the process, maximum depth, four-criterion rubric with feedback aggregatable by the team, ready for review.",
@@ -514,7 +514,7 @@
       },
       "empresa": {
         "title": "Gerador de painel simulado para a equipe",
-        "purpose": "Projete o painel que pressionará a equipe: objeções de governança, custo e risco ligadas a evidência, profundidade máxima declarada e rubrica agregável, pronto para revisão.",
+        "purpose": "Projete o painel e o público que pressionarão a equipe: objeções de governança, custo e risco ligadas a evidência, profundidade máxima declarada e rubrica agregável, pronto para revisão.",
         "when": "a decisão da equipe já está documentada e o processo exige defendê-la diante da diretoria com um instrumento reutilizável.",
         "example": "Painel simulado de segurança e diretoria para defender a arquitetura de pagamentos diante do comitê.",
         "evidence": "system prompt do entrevistador, mapa de objeções de governança e custo ligadas ao processo, profundidade máxima, rubrica de quatro critérios com feedback agregável pela equipe, pronto para revisão.",
@@ -616,5 +616,5 @@
     }
   },
   "self_hash_model": "sha256(sorted-json-without-self_sha256)",
-  "self_sha256": "6409596c29afe4d64eebb16dd16bc9423b40bf48238bbf0ba3f80177b9d781c7"
+  "self_sha256": "8b1d95d34421d38db5fc2615200e529669daa34995580a371efe69c0ab934d00"
 }

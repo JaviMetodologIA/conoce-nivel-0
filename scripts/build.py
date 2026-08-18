@@ -377,7 +377,7 @@ def validate_prompt_library(document=None,authority_document=None,*,prompt_ids=P
 def compose_prompt_documents(contracts,intent_authority=None):
   """Assemble one synthetic per-audience document (items per locale) from
   prompt-intent-contract-v1 contracts, shaped for validate_prompt_library.
-  Not consumed by the active build; used by qa/check-prompt-contracts.py."""
+  This is how the build submits the 27 contracts to the semantic gate."""
   documents={}
   for audience in AUDIENCES:
     locales={}
@@ -394,17 +394,20 @@ def compose_prompt_documents(contracts,intent_authority=None):
   return documents
 
 validate_prompt_library()
-# Triple pin of the contract authority: literals here, self hash inside the file,
-# and the manifest binding emitted by build(). The consumer leg (the spec's
-# `intent_authority` block) still points at v1 — see the B6 note in the report.
-validate_prompt_spec_authority(
-  PROMPT_INTENT_AUTHORITY,
-  schema_version='prompt-intent-authority-v2',
-  prompt_ids=PROMPT_INTENT_IDS,
-  expected_self_sha256=PROMPT_INTENT_AUTHORITY_EXPECTED_SELF_SHA256,
-  source_sha256=PROMPT_INTENT_AUTHORITY_RAW,
-  expected_source_sha256=PROMPT_INTENT_AUTHORITY_EXPECTED_SHA256,
-  allowed_extra_keys=frozenset({'status'}))
+# Triple pin of the contract authority: the literals above, the self hash inside
+# the file, and the consumer binding carried by the composed 27-contract document
+# (re-emitted to the manifest by build()). All three now name v2.
+PROMPT_INTENT_AUTHORITY_OPTIONS={
+  'schema_version':'prompt-intent-authority-v2',
+  'prompt_ids':PROMPT_INTENT_IDS,
+  'expected_self_sha256':PROMPT_INTENT_AUTHORITY_EXPECTED_SELF_SHA256,
+  'source_sha256':PROMPT_INTENT_AUTHORITY_RAW,
+  'expected_source_sha256':PROMPT_INTENT_AUTHORITY_EXPECTED_SHA256,
+  'allowed_extra_keys':frozenset({'status'})}
+PROMPT_INTENT_AUTHORITY_BINDING={'source':'src/prompt-intent-authority-v2.json','source_sha256':PROMPT_INTENT_AUTHORITY_EXPECTED_SHA256,'self_sha256':PROMPT_INTENT_AUTHORITY_EXPECTED_SELF_SHA256,'consumer_override':False}
+validate_prompt_spec_authority(PROMPT_INTENT_AUTHORITY,**PROMPT_INTENT_AUTHORITY_OPTIONS)
+for _audience_document in compose_prompt_documents(list(PROMPT_CONTRACTS.values()),PROMPT_INTENT_AUTHORITY_BINDING).values():
+  validate_prompt_library(_audience_document,PROMPT_INTENT_AUTHORITY,prompt_ids=PROMPT_INTENT_IDS,intent_authority_binding=PROMPT_INTENT_AUTHORITY_BINDING,authority_options=PROMPT_INTENT_AUTHORITY_OPTIONS)
 
 T={
 'es':{'skip':'Saltar al contenido','route':'Ruta Nivel 0','nav_route':'La ruta','nav_resources':'Recursos','enroll':'Inscribirme','open':'Próxima cohorte · Inscripciones abiertas','eyebrow':'Ruta de entrada · 4 clases · práctica real','hero':'Intro al mundo de la <span class="gold">IA</span>','lead':'Aprende a aprender, producir y trabajar con IA. Pasa de entender qué ocurre a dirigir un primer flujo agéntico sin delegar tu criterio.','see':'Ver las 4 clases','media':'Comprender. Priorizar. Amplificar. Orquestar.','classes':'clases conectadas','available':'recursos disponibles','routes':'rutas de autoentrenamiento','entry':'entrada común','progression':'Una progresión clara','four':'Cuatro clases. Una nueva forma de trabajar.','progress_lead':'Cada clase produce una práctica observable y abre el siguiente paso.','explore':'Explorar recursos','library':'Biblioteca viva','continues':'La clase termina. La práctica continúa.','library_lead':'Entra a lo disponible. Lo que sigue se muestra con honestidad, sin enlaces vacíos.','masterclass':'Masterclass','workbook':'Workbook','playbook':'Playbook','prompts':'Biblioteca de prompts','ready':'Disponible →','soon':'Próximamente','purpose_master':'Comprende el panorama y sigue una práctica guiada.','purpose_work':'Construye una base verificable durante la sesión.','purpose_play':'Repite el método después de la clase.','purpose_prompts':'Adapta instrucciones por objetivo y contexto.','footer':'Método + IA = Soberanía','class1':'IA: qué está pasando y cómo sacarle provecho','class1p':'Aprende a aprender con IA y usa NotebookLM como asistente basado en tus fuentes.','class2':'De ocupado a productivo','class2p':'Convierte la IA en coach para elegir, planificar y sostener lo importante.','class3':'Trabajar amplificado','class3p':'Integra método e IA para acelerar sin delegar tu criterio.','class4':'Trabajo agéntico','class4p':'Diseña un flujo supervisado con roles, memoria, herramientas y límites.','verbs':['Comprender','Priorizar','Amplificar','Orquestar']},

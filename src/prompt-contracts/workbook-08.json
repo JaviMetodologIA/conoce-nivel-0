@@ -118,7 +118,7 @@
       "empresa": {
         "title": "Evaluación de taller aplicada al equipo",
         "purpose": "Mide la comprensión de la base del taller por fundamentos, intermedio, avanzado y aplicación, con rúbrica citada y resultado agregable por el facilitador, comparable entre corridas y nunca entre personas.",
-        "when": "el proceso exige evidencia de dominio antes de habilitar a alguien y hay un responsable.",
+        "when": "la sesión guiada del equipo ya cerró su base y el proceso mide el dominio antes del siguiente paso encadenado.",
         "example": "Quiz aplicado de cuatro niveles sobre agentes y límites, para el área.",
         "evidence": "calificación citada por respuesta, nivel alcanzado, riesgo operativo de habilitar bajo el umbral y cierre con fortalezas, lagunas, fuentes a revisar y práctica, listo para revisión.",
         "prompt": "Evalúame sobre [TEMA] solo con el Notebook, desde [NIVEL], umbral de [PROCESO]. Una pregunta por vez: fundamentos, intermedio, avanzado, aplicación. Califica: demostrada (cita la condición), parcial (omite una), ausente (sin cita). Avanza solo con demostrada; si no, segundo intento que la sustituye; sin fundamentos no avanzas. Corrige citando; no enseñes contenido nuevo: se mide, no se explica. Sin cobertura, sustitúyela. Cierra con fortalezas, lagunas, fuentes a revisar, práctica de [TEMA], riesgo operativo del umbral, comparable entre corridas del equipo. No inventes preguntas ni citas.",
@@ -320,7 +320,7 @@
       "empresa": {
         "title": "Workshop assessment applied to the team",
         "purpose": "Measures understanding of the workshop base across foundations, intermediate, advanced and application, with a quoted rubric and a result the facilitator can aggregate, comparable across runs and never across people.",
-        "when": "the process requires evidence of mastery before enabling anyone and there is an accountable owner.",
+        "when": "the guided team session closed its base and the process measures mastery before the next chained step.",
         "example": "A four-level applied quiz on agents and limits, for the area.",
         "evidence": "a quoted grade per answer, the level reached, the operational risk of enabling below the threshold and a close with strengths, gaps, sources to revisit and practice, ready for review.",
         "prompt": "Assess me on [TOPIC] with the Notebook only, from [LEVEL], threshold of [PROCESS]. One question per turn: foundations, intermediate, advanced, application. Grade: demonstrated (quotes the condition), partial (misses one), absent (none). Advance only on demonstrated; a second attempt replaces it; no foundations, no advance. Correct by quoting; do not teach new content: this measures, not explains. No coverage: replace it. End with strengths, gaps, sources to revisit, practice on [TOPIC], operational risk of threshold, comparable across runs of the team. Do not invent questions or quotes.",
@@ -522,7 +522,7 @@
       "empresa": {
         "title": "Avaliação de oficina aplicada à equipe",
         "purpose": "Mede a compreensão da base por fundamentos, intermediário, avançado e aplicação, com rubrica citada e resultado agregável pelo facilitador, comparável entre rodadas e nunca entre pessoas.",
-        "when": "o processo exige evidência de domínio antes de habilitar alguém e há um responsável.",
+        "when": "a sessão guiada da equipe já fechou sua base e o processo mede o domínio antes do próximo passo encadeado.",
         "example": "Quiz aplicado de quatro níveis sobre agentes e limites, para a área.",
         "evidence": "nota citada por resposta, nível alcançado, risco operacional de habilitar abaixo do limiar e fechamento com forças, lacunas, fontes a revisar e prática, pronto para revisão.",
         "prompt": "Avalie-me sobre [TEMA] apenas com o Notebook, desde [NÍVEL], limiar de [PROCESSO]. Uma pergunta por vez: fundamentos, intermediário, avançado, aplicação. Avalie: demonstrada (cita a condição), parcial (omite uma), ausente (sem citação). Avance só com demonstrada; senão, segunda tentativa a substitui; sem fundamentos não avança. Corrija citando; não ensine conteúdo novo: mede-se, não se explica. Sem cobertura, substitua-a. Feche com forças, lacunas, fontes a revisar, prática de [TEMA], risco operacional do limiar, comparável entre rodadas da equipe. Não invente perguntas nem citações.",
@@ -622,5 +622,5 @@
     }
   },
   "self_hash_model": "sha256(sorted-json-without-self_sha256)",
-  "self_sha256": "7acc653bfcc4bc7e840fb774efdb92d892fcfffd1d397094a071cf81114aa255"
+  "self_sha256": "063eb9a4c107b003c243fc4c86333c1bcf3a0b52e2a9f5944f388440b1f7a350"
 }

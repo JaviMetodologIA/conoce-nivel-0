@@ -51,8 +51,8 @@
   "editorial_parity": {
     "fallback_policy": "forbidden",
     "inventory": "editorial-string-inventory.json",
-    "inventory_self_sha256": "3a2153c32751775239cda882c197b6b753b04d08054d6eea5670b980db353d60",
-    "inventory_sha256": "186e178ee4171dbbaff526834b0c76550d9640d80c140396f923a12b2d8ce5ed",
+    "inventory_self_sha256": "2c1a2777a70759c33a1a978ae4e6fa2e1ac18618c3db7169b421ec7e5b8065eb",
+    "inventory_sha256": "68856a2605132217547687bb465556a586909fefd5712fc1ff5494b89fe8b262",
     "matrix": {
       "audiences": [
         "persona",
@@ -112,8 +112,8 @@
     "source": "src/intrapage-navigation-spec-v1.json",
     "source_sha256": "cfae0e0b01c8830805049837fcd87f9388fc6a117af1e20feafef16cd796d342"
   },
-  "manifest_self_sha256": "84c2fc9a64102e7d4787779f1fee94bf9a13114c6416355d97017ab939cd4cd3",
-  "manifest_sha256": "2e2c16785b2b70e19e53e202dd938921ca28052bcdafb1696f7f79a1173ffb3e",
+  "manifest_self_sha256": "ea378a90ea2e9894ddbf99e9c91ff6784df1d730f1b86ddfd5fff9b6a9266fbd",
+  "manifest_sha256": "f089af063b6b3c6c663a7e732624c116e1040fddf19c8d7e7f35a18fa89a3833",
   "method_identity": {
     "assets": {
       "compact": "b07a0713a106f1f78491e54667b248ef6a790ce175b0a07ba2e721137e936393",
@@ -183,7 +183,7 @@
         "05": "c231f0bbbfdd787f07886ff41029379ab06babcb6cd8989143f7e71f5a029f18",
         "06": "288c3ad3a865662e42c5b82c53e3a3c3106f31dc829ebd2c819b9bfed5d461af",
         "07": "b11bec539a07e1f679f7bb876cdac1050e7570312cd4af74ca7e4607cfc124ec",
-        "08": "33699a3ac62c32172386f9b4643660fcc9e5eb1fa8148c60730a2000b9e50c45",
+        "08": "3b8df4aa27f1d3d776ccbda0eb8f394d80e742eb8f5ec371b2c3e98e51ee85c0",
         "09": "e47bb261ee7e62d3f6441dd07fd1d3a45c1ad523c5afb4e2e3c68511e582123d",
         "10": "85d2f4ed5e47ef88c2e4bc186940cf8505f2f5d760e3cbfde48be3742ceec012",
         "B1": "acaa5821397bd773544377d29fef4e14db2e25e4185629e45dda8bdc5a8e2939",
@@ -191,16 +191,16 @@
         "B3": "58da67697f6d26097ac68700466b799ce5042f3c37a605b63abce0851653bff0",
         "M1": "479ae1e298f2dadceb91b6e627f23bfafa3f1eb06c1054ed0772c40aad102c33",
         "M2": "ec909c7c87957964b94466029629af10e2a6f295358b4be06a4d55b8bfbf2121",
-        "M3": "6409596c29afe4d64eebb16dd16bc9423b40bf48238bbf0ba3f80177b9d781c7",
+        "M3": "8b1d95d34421d38db5fc2615200e529669daa34995580a371efe69c0ab934d00",
         "M4": "597f85515fb1910d3c6ee9cbee4efb4206c1ee1d3b798600143fc3bb157b4c73",
-        "W01": "4036a8ac39920c8395c1e0916b19d18d0aa49eef581294ebcd19db568c282485",
-        "W02": "e94f8b6be95830b512aec8132db481290b40f2a6b0eca7fd3a2340263bf86fc9",
-        "W03": "6166c70612e0ae28f62d3b9aa7637c795efad37042672280badb611e3597e511",
-        "W04": "321c4548766cda821b89bbf946159982a1ba9ca932aa6762a56bb5cb866c2cd9",
-        "W05": "3448edacfea2f6813f86e26b3c49351d6a0b130bb8c8b72ebd028e0db6a12d84",
+        "W01": "8f22a5673c3d13fb8f6a3b8dbfa6cb949d059db6e84d29cd8dd45fd85b4325b4",
+        "W02": "4f1ed9a3c3a883d9944dfb2e51bc1973a35448692f25a9e9a2d0ff8dde6bdeec",
+        "W03": "80ba930bb56414601dac27dee6422741058274496ce569f2025da7780a237bf1",
+        "W04": "6da69842adcf34a0fc672fcdc18d5d2fc077b9163be6703769bcc73cc69d806e",
+        "W05": "0d87be0438195edea50133f41f4b4321cc6006ab5511b5942e56a83f06b353e5",
         "W06": "fea00c74d3e261dbcc94f8f77cbf88b1ad54b35710d3d47b84e023561a0c321e",
         "W07": "ffa24bc022572c83d673df328bb91fa7efe08e0c6c09208f06ae5738753c1e81",
-        "W08": "7acc653bfcc4bc7e840fb774efdb92d892fcfffd1d397094a071cf81114aa255",
+        "W08": "063eb9a4c107b003c243fc4c86333c1bcf3a0b52e2a9f5944f388440b1f7a350",
         "W09": "5484a7d663d4176790faaf2fe51e888b32ca36a02a99ef75a8852f3fc0b9dd76",
         "W10": "67baff3c539bd2794652e4cfa49ee4b10364a228de381d9ebae291059db7b6bd"
       },
@@ -257,6 +257,6 @@
   },
   "schema_version": "build-receipt-v1",
   "self_hash_model": "sha256(sorted-json-without-self)",
-  "self_sha256": "51827ab46cc0f9f45e14ac5e7cfe0db646c533660c2596825381354b1829f4a2",
+  "self_sha256": "e453b6cb823bdcb297f0156e85c2a16d0c0ab60f8d12c65a07b27788459f9dd8",
   "state": "RENDERED_DRAFT"
 }

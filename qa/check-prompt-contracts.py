@@ -373,10 +373,21 @@ def validate_contract(contract: dict) -> list[str]:
             prompt_text = norm(cell['prompt'])
             intro_text = norm(cell['title'] + ' ' + cell['purpose'])
             evidence_text = norm(cell['evidence'])
+            # Harmonized 2026-08 with build.py `validate_prompt_library`, which is
+            # the strict reading and wins the conflict: an anchor must exist
+            # somewhere in prompt+intro, AND at least one anchor must sit in the
+            # prompt *and* in title+purpose at the same time. Otherwise the
+            # intention the reader sees on the card can diverge from the one the
+            # pasted prompt executes.
+            intent_shared = 0
             for anchor in anchors['intent']:
                 normalized = norm(anchor)
-                if len(normalized) < 4 or (normalized not in prompt_text and normalized not in intro_text):
+                in_prompt, in_intro = normalized in prompt_text, normalized in intro_text
+                if len(normalized) < 4 or not (in_prompt or in_intro):
                     raise SystemExit(f'PROMPT_CONTRACT_INTENT_ANCHOR_MISSING:{where}:{anchor}')
+                intent_shared += in_prompt and in_intro
+            if not intent_shared:
+                raise SystemExit(f'PROMPT_CONTRACT_INTENT_DIVERGENCE:{where}')
             for anchor in anchors['evidence']:
                 normalized = norm(anchor)
                 if len(normalized) < 4 or normalized not in prompt_text or normalized not in evidence_text:
@@ -421,11 +432,38 @@ def boundary_symmetry_violations(contracts: list[dict]) -> list[str]:
     return found
 
 
+def cross_intent_clone_violations(contracts: list[dict]) -> list[str]:
+    """Cross-intent twin: build.py's PROMPT_LIBRARY_SEMANTIC_CLONE compares every
+    contract inside a (locale, audience) column, while the per-contract clone gate
+    only compares persona against empresa within one intent. An echo cell that
+    repeats its original verbatim (W08 vs 08) is invisible to the second and fatal
+    to the first."""
+    found = []
+    for locale in LANGS:
+        for audience in AUDIENCES:
+            for field in MATERIAL_FIELDS:
+                seen: dict[str, str] = {}
+                for contract in contracts:
+                    cell = contract.get('locales', {}).get(locale, {}).get(audience)
+                    if not isinstance(cell, dict) or not isinstance(cell.get(field), str):
+                        continue
+                    intent_id = str(contract.get('intent_id'))
+                    twin = seen.setdefault(' '.join(cell[field].split()).casefold(), intent_id)
+                    if twin != intent_id:
+                        found.append(f'PROMPT_CONTRACT_CROSS_INTENT_CLONE:{locale}:{audience}:{field}:{twin}={intent_id}')
+    return found
+
+
+def set_violations(contracts: list[dict]) -> list[str]:
+    """Rules a single contract cannot express."""
+    return boundary_symmetry_violations(contracts) + cross_intent_clone_violations(contracts)
+
+
 def collect_violations(contracts: list[dict]) -> list[str]:
     seen = [contract.get('intent_id') for contract in contracts]
     if len(set(seen)) != len(seen):
         raise SystemExit(f'PROMPT_CONTRACT_DUPLICATE_INTENT:{sorted(pid for pid in set(seen) if seen.count(pid) > 1)}')
-    found = boundary_symmetry_violations(contracts)
+    found = set_violations(contracts)
     for contract in contracts:
         found += validate_contract(contract)
     return found
@@ -434,7 +472,7 @@ def collect_violations(contracts: list[dict]) -> list[str]:
 def validate_set(contracts: list[dict]) -> None:
     # Set-level borders first: they are the only rule a single contract cannot
     # express, and structural checks below raise instead of collecting.
-    for item in boundary_symmetry_violations(contracts):
+    for item in set_violations(contracts):
         raise SystemExit(item)
     blocking = [item for item in collect_violations(contracts) if not item.startswith('WARN:')]
     if blocking:
@@ -549,6 +587,14 @@ def run_mutations(baseline_contract: dict) -> int:
     mutations.append(('anchor_missing', reseal(candidate), 'PROMPT_CONTRACT_EVIDENCE_ANCHOR_MISSING'))
 
     candidate = copy.deepcopy(baseline_contract)
+    cell = candidate['locales']['es']['persona']
+    # Both intent anchors of 01/es stay in the prompt; neither survives in
+    # title+purpose. The lax rule accepted this; the strict one must not.
+    cell['title'] = 'Blueprint de investigación acotada'
+    cell['purpose'] = 'Convierte un asunto amplio en una investigación acotada y verificable con fuentes propias.'
+    mutations.append(('intent_anchor_only_in_prompt', reseal(candidate), 'PROMPT_CONTRACT_INTENT_DIVERGENCE'))
+
+    candidate = copy.deepcopy(baseline_contract)
     candidate['self_sha256'] = '0' * 64
     mutations.append(('false_self_pin', candidate, 'PROMPT_CONTRACT_SELF_DRIFT'))
 
@@ -595,6 +641,12 @@ def run_mutations(baseline_contract: dict) -> int:
     twin['boundary'] = {'distinct_from': ['03'], 'decision_rule': twin['boundary']['decision_rule']}
     mutations.append(('asymmetric_boundary', [copy.deepcopy(baseline_contract), reseal(twin)],
                       'PROMPT_CONTRACT_ASYMMETRIC_BOUNDARY'))
+
+    twin = copy.deepcopy(baseline_contract)
+    twin['intent_id'] = '02'
+    twin['boundary'] = {'distinct_from': ['01'], 'decision_rule': twin['boundary']['decision_rule']}
+    mutations.append(('cross_intent_clone', [copy.deepcopy(baseline_contract), reseal(twin)],
+                      'PROMPT_CONTRACT_CROSS_INTENT_CLONE'))
 
     for name, mutant, expected in mutations:
         try:
