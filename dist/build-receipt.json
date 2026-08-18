@@ -112,8 +112,8 @@
     "source": "src/intrapage-navigation-spec-v1.json",
     "source_sha256": "cfae0e0b01c8830805049837fcd87f9388fc6a117af1e20feafef16cd796d342"
   },
-  "manifest_self_sha256": "ea378a90ea2e9894ddbf99e9c91ff6784df1d730f1b86ddfd5fff9b6a9266fbd",
-  "manifest_sha256": "f089af063b6b3c6c663a7e732624c116e1040fddf19c8d7e7f35a18fa89a3833",
+  "manifest_self_sha256": "7e02f135887a2e6b2e4ed7447032e8be9c148d823a013b1986e18efc63c8dec0",
+  "manifest_sha256": "ea1960efedac4187dfe9da0b3fa64d839c542d8daa84127ab72ae4a57f828b05",
   "method_identity": {
     "assets": {
       "compact": "b07a0713a106f1f78491e54667b248ef6a790ce175b0a07ba2e721137e936393",
@@ -257,6 +257,6 @@
   },
   "schema_version": "build-receipt-v1",
   "self_hash_model": "sha256(sorted-json-without-self)",
-  "self_sha256": "e453b6cb823bdcb297f0156e85c2a16d0c0ab60f8d12c65a07b27788459f9dd8",
+  "self_sha256": "0ca5b56e5eda9f4ed090e4d336e30afb2f39e2e44f2110434f4e301734cef9a2",
   "state": "RENDERED_DRAFT"
 }

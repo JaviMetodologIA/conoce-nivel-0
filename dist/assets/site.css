@@ -3208,6 +3208,8 @@ html[data-theme="dark"] .tension-card > span:not(.tension-num) {
 .prompt-why-body li {
   max-width: 70ch;
   color: var(--muted);
+  overflow-wrap: anywhere;
+  word-break: break-word;
   font-size: 0.78rem;
   line-height: 1.5;
 }
