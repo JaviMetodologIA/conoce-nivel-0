@@ -209,3 +209,45 @@ ni ninguna de esas superficies. No se revalidaron manualmente en este ciclo.
 
 Estado final: `RENDERED_DRAFT`. `RENDERED_DRAFT != HUMAN_APPROVED != READY !=
 PUBLISHED`. Publicación no autorizada.
+
+## Verificación total — fase 7 (2026-08-18)
+
+Ejecutada sobre `09ba097`. Toda cifra proviene de ejecución, no de reporte previo. [CÓDIGO]
+
+### Determinismo
+Doble compilación con `manifest_sha256` idéntico: `ea1960efedac4187dfe9da0b3fa64d839c542d8daa84127ab72ae4a57f828b05`. `git status` deja `dist/` y `src/` limpios tras la segunda corrida.
+
+### Gates Python (7/7 PASS)
+- `PROMPT_SPEC_OK library_panels=84 all_panels=162 why_panels=162 audience_pairs=81 prompts=14 locales=3 audiences=2 mutations=26`
+- `PROMPT_CONTRACTS_OK contracts=27 ids=27 locales=3 audiences=2 mutations=15 warnings=6`
+- `EDITORIAL_PARITY_OK routes=54 fields=378 mutations=214 strings=13755`
+- `PROMPT_SNAPSHOT_OK entries=648 locales=3 capped_levels=natural`
+- `EDITORIAL_SITEMAP_OK canonicals=54 editorial=24 audience_material=24`
+- `BREADCRUMBS_OK pages=54 header_home=54 jsonld=54 mutations=5`
+- `CONOCE_CHROME_MUTATIONS_OK 15/15 source_variants=54`
+
+### Gates visuales (5/5 PASS)
+`PROMPT_SPEC_VISUAL_OK states=120 zoom_200=24 axe=120 mutations=120 why=120 keyboard=12 copy=12 no_js=12` · `check-visual.mjs` rc=0 · `check-method-identity.mjs` rc=0 · `INTRAPAGE_NAVIGATION_OK 54/54` · `check-preference-toggles.mjs` **3/3 PASS**.
+
+Sobre el `Variant state drift` observado en una corrida previa de `check-preference-toggles.mjs`: no se reprodujo en tres corridas consecutivas. Se clasifica como **carrera del checker**, no defecto del paquete. [INFERENCIA]
+
+### Invariante de publicación
+`RENDERED_DRAFT` + `publication_authorized: false` en **27/27 contratos** y en los 14 specs que declaran estado. `dist/build-manifest.json` y `dist/build-receipt.json`: cero ocurrencias de `PUBLISHED` y cero `publication_authorized: true`. 10 aserciones de estado en `scripts/build.py`. **Ningún push, ningún despliegue.** [CÓDIGO]
+
+### Contra el encargo original
+- **Extensión**: baseline 712.452 c → 1.043.565 c = **×1,465**, bajo el techo de ×2. Ninguna celda excede su tope (`max(2 × baseline, 600)` sobre el nivel autoral). Cero textos encogidos.
+- **Divergencia persona/empresa**: 324/324 pares distintos (baseline: 0). Muestreo de tres superficies confirma divergencia de **mecanismo**, no cosmética: `library-05/es` «Pide licencia» → «Exige licencia … y registra el riesgo operativo de [EQUIPO]»; `workbook-07/en` empresa añade `accountable owner` por caso; `workbook-brain-2/pt` reencuadra sujeto y destino (`[DECISÃO OU USO]` → `[PROCESSO]`).
+- **Contenido de valor**: muestreo de `why_it_works` confirma criterios decidibles con procedimiento («Honesta está definida en la sesión: declarar el límite sin respaldo puntúa acierto»), casos borde accionables, tradeoffs con su razón y límites que nombran la frontera. No es relleno.
+- **Trazabilidad**: 576 claims, **100 % dentro del allowlist** de 6 fuentes (237 `method_internal`, 258 biblioteca/crear-prompts del método, 81 documentación de NotebookLM).
+- **Sin claims neurocientíficos**: barrido de 9 raíces sobre los 27 contratos → 3 coincidencias, todas del token de superficie `{{BRAIN_DUMP}}` y de la frase «brain dump prompt». Cero afirmaciones sobre el cerebro. [CÓDIGO]
+
+### Coverage gaps
+- 6 warnings `PROMPT_CONTRACT_PROMISE_NO_PRODUCER` en `library-09` (`dod`): falsos positivos calibrados y documentados en el checker; titulillos de dos términos cuyo contenido define la cláusula siguiente del mismo campo.
+- Retiro pendiente de `src/prompt-spec-authority-v1.json` y de los `items` de `prompt-library-spec-v1.json`: **conservan lectores** (guardan la puerta semántica vía `validate_prompt_library`, ya no el render).
+- Enmienda de E5 (forma con variable `reutilizable por [EQUIPO]`) pendiente de reconciliar en la carta §E congelada; el gate ya la acepta.
+- Playwright, Chrome y axe-core son dependencia externa al repo (`../../frames-n0-kit-01`).
+- Sin cobertura: lectores de pantalla reales y Lighthouse de campo.
+- `src/landing-spec-v2.json` declara `HUMAN_SELECTED_DIRECTION` (preexistente, ajeno a esta elevación); `publication_authorized: false` igualmente.
+
+### Veredicto
+**Listo como `RENDERED_DRAFT`. Cero bloqueantes.** Publicación no autorizada; el estado no fue promovido en ningún punto.
