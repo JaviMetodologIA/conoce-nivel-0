@@ -69,16 +69,28 @@ TRACE_ALLOWLIST = (
 # Evaluated exactly like the rest of the gate: substring over NFKD-without-accents
 # + casefold, literal brackets.
 #
-# Two deliberate readings, both stricter than the prose, both ratified:
-#  1. E3 says "(en prompt o evidence)". This gate scores E2-E5 over the PROMPT ONLY.
-#     The evidence escape hatch is what let four defective cells pass adversarial
-#     review: an organizational word sitting in `evidence` does not make the text
-#     the user pastes organizational.
-#  2. AMENDMENT (pending against the frozen charter, applied here): E5 lists the
-#     literal `reutilizable por el equipo` / `reusable by the team` /
-#     `reutilizavel pela equipe`, but the variable form `reutilizable por [EQUIPO]`
-#     is semantically identical and is what a well-formed empresa prompt actually
-#     writes. Both forms are accepted. The charter itself stays frozen.
+# Three readings, all stricter than or narrower than the bare marker lists:
+#  1. Scope. E3 says "(en prompt o evidence)". This gate scores E2-E5 over the
+#     PROMPT ONLY. The evidence escape hatch is what let four defective cells pass
+#     adversarial review: an organizational word sitting in `evidence` does not
+#     make the text the user pastes organizational.
+#  2. E3 applicability (ratified into the charter, phase 4). E3 -- the governance
+#     lexicon -- does not apply to intents without decision authority; the named
+#     case is 02, the source-grounded coach, whose F3 border forbids issuing
+#     levels or verdicts. Demanding that lexicon there can only be satisfied by
+#     writing a governance term no instruction produces, which is exactly the
+#     promise-without-producer R8 rejects. There is NO special case in this code
+#     and none is needed: the ">=2 markers" threshold is satisfied by E2, E4 and
+#     E5, which do describe what such a cell delivers. E1 and the >=2 threshold
+#     are never relaxed, and no other intent changes markers.
+#  3. E5 variable form (applied here; NOT yet written into the frozen charter).
+#     The charter lists only the literal `reutilizable por el equipo` /
+#     `reusable by the team` / `reutilizavel pela equipe`. The variable form
+#     `reutilizable por [EQUIPO]` / `reusable by [TEAM]` /
+#     `reutilizavel pela [EQUIPE]` is semantically identical and is what a
+#     well-formed empresa prompt actually writes -- 10/en/empresa scores E5 on it
+#     today. Both forms are accepted. The charter text itself stays frozen, so
+#     this one reading is still wider here than in §E.
 PERSONA_TONE = {
     'es': {
         'p1': ['quiero', 'necesito', 'ayudame', 'mi contexto'],
