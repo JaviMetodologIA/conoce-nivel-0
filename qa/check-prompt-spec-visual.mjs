@@ -98,6 +98,7 @@ let noJsChecks = 0;
 let zoomChecks = 0;
 let axeChecks = 0;
 let mutationChecks = 0;
+let whyChecks = 0;
 try {
   for (const locale of ["es", "en", "pt"])
     for (const audience of ["persona", "empresa"])
@@ -168,6 +169,33 @@ try {
         const panels = page.locator('[id$="-spec"][data-prompt-template]:not([hidden])');
         const expectedPanels = resource === "prompts" ? 14 : 13;
         if ((await panels.count()) !== expectedPanels) throw new Error(`PROMPT_SPEC_VISIBLE_COUNT:${locale}:${audience}:${resource}:${view.label}`);
+        // The rationale panel ships open for the rest of this state so the
+        // overflow, axe and long-token mutation checks below all see it.
+        await page.locator("[data-prompt-why]").evaluateAll((panels) => panels.forEach((panel) => { panel.open = true; }));
+        const whyContract = await page.evaluate((expectedPanels) => {
+          const panels = [...document.querySelectorAll("[data-prompt-why]")];
+          return {
+            panels: panels.length,
+            expectedPanels,
+            summaries: panels.filter((panel) => panel.querySelector("summary")?.textContent?.trim()).length,
+            sections: panels.map((panel) => panel.querySelectorAll(".prompt-why-body > section").length),
+            populated: panels.every((panel) => [...panel.querySelectorAll(".prompt-why-body > section")]
+              .every((section) => section.querySelector("h4")?.textContent?.trim() && section.querySelectorAll("li").length)),
+            clipped: panels.some((panel) => {
+              const body = panel.querySelector(".prompt-why-body");
+              return Boolean(body && body.scrollHeight > body.clientHeight + 2 && getComputedStyle(body).overflowY !== "visible");
+            }),
+          };
+        }, expectedPanels);
+        if (
+          whyContract.panels !== expectedPanels ||
+          whyContract.summaries !== expectedPanels ||
+          whyContract.sections.some((count) => count !== 5) ||
+          !whyContract.populated ||
+          whyContract.clipped
+        ) throw new Error(`PROMPT_WHY_CONTRACT:${locale}:${audience}:${resource}:${theme}:${view.label}:${JSON.stringify(whyContract)}`);
+        whyChecks += 1;
+
         const overflow = await overflowState(page);
         if (overflow.pageOverflow > 2 || overflow.offenders.length || errors.length)
           throw new Error(`PROMPT_OVERFLOW:${locale}:${audience}:${resource}:${theme}:${view.label}:${JSON.stringify({ overflow, errors })}`);
@@ -225,7 +253,7 @@ try {
         await page.evaluate(({ resource, longToken }) => {
           const root = document.querySelector(resource === "prompts" ? ".library-prompt-card" : ".brain-prompt-card");
           const brief = resource === "prompts" ? root?.querySelector("dd") : document.querySelector(".step p");
-          const targets = [root?.querySelector("h3"), brief, root?.querySelector(".prompt-format-panel:not([hidden])")];
+          const targets = [root?.querySelector("h3"), brief, root?.querySelector(".prompt-format-panel:not([hidden])"), root?.querySelector("[data-prompt-why] li")];
           targets.forEach((node) => { if (node) node.textContent = longToken; });
         }, { resource, longToken });
         const mutatedOverflow = await overflowState(page);
@@ -299,8 +327,10 @@ try {
       const summaries = page.locator(".prompt-level-fallback > summary");
       const specPanels = page.locator('[id$="-spec"][data-prompt-template]');
       const sources = page.locator("[data-prompt-source]");
+      const whyPanels = page.locator("[data-prompt-why]");
       const expectedPanels = resource === "prompts" ? 14 : 13;
       if (
+        (await whyPanels.count()) !== expectedPanels ||
         (await summaries.count()) !== expectedPanels * 4 ||
         (await specPanels.count()) !== expectedPanels ||
         (await sources.count()) !== expectedPanels * 4 ||
@@ -310,6 +340,9 @@ try {
       await summaries.nth(2).click();
       if (!(await page.locator(".prompt-level-fallback").nth(2).evaluate((node) => node.open)))
         throw new Error(`PROMPT_NO_JS_DISCLOSURE:${locale}:${audience}:${resource}`);
+      await whyPanels.evaluateAll((panels) => panels.forEach((panel) => { panel.open = true; }));
+      if (!(await whyPanels.first().evaluate((node) => node.open && node.querySelectorAll(".prompt-why-body > section li").length > 0)))
+        throw new Error(`PROMPT_NO_JS_WHY:${locale}:${audience}:${resource}`);
       const overflow = await overflowState(page);
       if (overflow.pageOverflow > 2 || overflow.offenders.length)
         throw new Error(`PROMPT_NO_JS_OVERFLOW:${locale}:${audience}:${resource}:${JSON.stringify(overflow)}`);
@@ -321,4 +354,4 @@ try {
   await new Promise((resolve) => server.close(resolve));
 }
 
-console.log(`PROMPT_SPEC_VISUAL_OK states=${states} zoom_200=${zoomChecks} axe=${axeChecks} mutations=${mutationChecks} keyboard=${keyboardChecks} copy=${copyChecks} no_js=${noJsChecks}`);
+console.log(`PROMPT_SPEC_VISUAL_OK states=${states} zoom_200=${zoomChecks} axe=${axeChecks} mutations=${mutationChecks} why=${whyChecks} keyboard=${keyboardChecks} copy=${copyChecks} no_js=${noJsChecks}`);

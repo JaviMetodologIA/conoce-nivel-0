@@ -3,6 +3,7 @@ from __future__ import annotations
 
 import copy
 import hashlib
+import importlib.util
 import json
 import re
 import sys
@@ -19,6 +20,24 @@ import build as compiler
 LANGS = ("es", "en", "pt")
 AUDIENCES = ("persona", "empresa")
 IDS = ("01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "M1", "M2", "M3", "M4")
+
+# After the contract cutover dist is rendered from the 27 prompt-intent
+# contracts, not from the library spec `items`. Every dist assertion below
+# resolves its expectation from the (intent_id, locale, audience) contract cell.
+CONTRACTS = compiler.PROMPT_CONTRACTS
+WHY_SECTIONS = compiler.WHY_SECTIONS
+WHY_PANEL_TOTAL = 162
+AUDIENCE_PAIR_TOTAL = len(compiler.PROMPT_INTENT_IDS) * len(LANGS)
+
+_exporter_spec = importlib.util.spec_from_file_location(
+    "prompt_snapshot_exporter", ROOT / "scripts" / "export-prompt-snapshot.py")
+exporter = importlib.util.module_from_spec(_exporter_spec)
+_exporter_spec.loader.exec_module(exporter)
+classify = exporter.classify  # dist group id -> (surface, intent_id)
+
+
+def cell_of(intent_id, locale, audience):
+    return CONTRACTS[intent_id]["locales"][locale][audience]
 
 
 def sha256(path: Path) -> str:
@@ -87,7 +106,6 @@ for locale, audience in product(LANGS, AUDIENCES):
         "en": "Evidence-oriented MetodologIA assistant",
         "pt": "Assistente MetodologIA orientado a evidências",
     }[locale]
-    items = {item["id"]: item for item in source["locales"][locale]["items"]}
     cards = soup.select("[data-library-prompt]")
     if len(cards) != len(IDS):
         raise SystemExit(f"PROMPT_SPEC_CARD_COUNT:{locale}:{audience}:{len(cards)}")
@@ -105,18 +123,37 @@ for locale, audience in product(LANGS, AUDIENCES):
         positions = [text.find(heading) for heading in headings]
         if any(position < 0 for position in positions) or positions != sorted(positions) or len(set(positions)) != 4:
             raise SystemExit(f"PROMPT_SPEC_ANATOMY:{locale}:{audience}:{prompt_id}:{positions}")
-        item = items[prompt_id]
+        cell = cell_of(prompt_id, locale, audience)
+        level_spec = cell["level_spec"]
         natural = card.select_one('[id$="-natural"][data-prompt-template]')
         parameters = card.select_one('[id$="-parameters"][data-prompt-template]')
         pair = card.select_one('[id$="-pair"][data-prompt-template]')
-        if natural is None or natural.get_text() != item["prompt"]:
+        # Level 1 is the contract cell's own prompt: it diverges by audience.
+        if natural is None or natural.get_text() != cell["prompt"]:
             raise SystemExit(f"PROMPT_NATURAL_DRIFT:{locale}:{audience}:{prompt_id}")
-        if parameters is None or item["prompt"] not in parameters.get_text() or "## S —" in parameters.get_text():
+        # Level 2 derives from `level_spec`, not from the natural prompt.
+        parameters_text = "" if parameters is None else parameters.get_text("\n", strip=True)
+        parameters_fragments = (
+            *(f"{name} = {default}" for name, default in level_spec["parameters"]),
+            level_spec["objective"], *level_spec["workflow"], *level_spec["guardrails"], *level_spec["output"],
+        )
+        if parameters is None or "## S —" in parameters_text or any(
+                fragment not in parameters_text for fragment in parameters_fragments):
             raise SystemExit(f"PROMPT_PARAMETERS_DRIFT:{locale}:{audience}:{prompt_id}")
-        if pair is None or legacy_pair_role not in pair.get_text() or item["prompt"] not in pair.get_text() or "## S —" in pair.get_text():
+        # Level 4 carries `level_spec.role` per intent; the generic role is gone.
+        pair_text = "" if pair is None else pair.get_text("\n", strip=True)
+        pair_fragments = (
+            level_spec["role"], level_spec["dod"], level_spec["objective"],
+            *level_spec["workflow"], *level_spec["guardrails"], *level_spec["output"],
+        )
+        if pair is None or "## S —" in pair_text or legacy_pair_role in pair_text or any(
+                fragment not in pair_text for fragment in pair_fragments):
             raise SystemExit(f"PROMPT_PAIR_DRIFT:{locale}:{audience}:{prompt_id}")
+        # Level 3 SPEC quotes the contract cell (not the spec `items`) plus the
+        # localized anatomy labels.
         required_fragments = (
-            item["when"], item["example"], item["purpose"], item["evidence"], item["prompt"],
+            cell["when"], cell["example"], cell["purpose"], cell["evidence"],
+            level_spec["spec_role"], *level_spec["workflow"], *level_spec["output"],
             labels["expert_role"], labels["deliverable"], labels["scope_in"], labels["scope_out"],
             labels["edge_cases"], labels["observable_criteria"], labels["dod"], labels["provenance"], labels["metadata"],
             labels["reasoning_policy"],
@@ -132,11 +169,81 @@ for locale, audience in product(LANGS, AUDIENCES):
             raise SystemExit(f"PROMPT_SPEC_PRIVATE_REASONING_REQUEST:{locale}:{audience}:{prompt_id}")
         rendered += 1
 
+def why_panel_facts(soup, locale, audience):
+    """[surface, intent, locale, audience, [[heading, [items]], ...]] per rendered
+    `data-prompt-why` panel. Lists (not tuples) so mutations can rewrite them."""
+    facts = []
+    for panel in soup.select("[data-prompt-why]"):
+        surface, intent = classify(panel["data-prompt-why"], locale)
+        sections = [[section.h4.get_text(strip=True),
+                     [entry.get_text(strip=True) for entry in section.select("li")]]
+                    for section in panel.select(".prompt-why-body > section")]
+        facts.append([surface, intent, locale, audience, sections])
+    return facts
+
+
+def assert_why_panels(facts):
+    """Every card carries a why panel whose 5 sections are populated from the
+    matching contract cell, labelled in the route's own language."""
+    if len(facts) != WHY_PANEL_TOTAL:
+        raise SystemExit(f"PROMPT_WHY_PANEL_COUNT:{len(facts)}")
+    for surface, intent, locale, audience, sections in facts:
+        where = f"{locale}:{audience}:{intent}"
+        why = cell_of(intent, locale, audience)["why_it_works"]
+        why_labels = source["locales"][locale]["why_format"]
+        if [heading for heading, _ in sections] != [why_labels[key] for key in WHY_SECTIONS]:
+            raise SystemExit(f"PROMPT_WHY_SECTION_LABELS:{where}")
+        for key, (_, entries) in zip(WHY_SECTIONS, sections):
+            if not entries:
+                raise SystemExit(f"PROMPT_WHY_SECTION_EMPTY:{where}:{key}")
+            if entries != why[key]:
+                raise SystemExit(f"PROMPT_WHY_SECTION_DRIFT:{where}:{key}")
+    return len(facts)
+
+
+def natural_sources(soup, locale, audience):
+    """{(surface, intent, locale, audience): level-1 copyable source}."""
+    sources = {}
+    for block in soup.select("[data-prompt-library]"):
+        surface, intent = classify(block["data-prompt-library"], locale)
+        node = block.select_one('details[data-prompt-level="1"] textarea[data-prompt-source]')
+        if node is None:
+            raise SystemExit(f"PROMPT_AUDIENCE_NATURAL_MISSING:{locale}:{audience}:{intent}")
+        sources[(surface, intent, locale, audience)] = node.get_text()
+    return sources
+
+
+def assert_audience_divergence(sources):
+    """The cutover made level 1 audience-specific. Before it, every persona /
+    empresa pair was byte-identical; a re-clone must now fail."""
+    pairs = 0
+    for (surface, intent, locale, audience), text in sorted(sources.items()):
+        if audience != "persona":
+            continue
+        twin = sources.get((surface, intent, locale, "empresa"))
+        if twin is None:
+            raise SystemExit(f"PROMPT_AUDIENCE_NATURAL_MISSING:{locale}:empresa:{intent}")
+        if twin == text:
+            raise SystemExit(f"PROMPT_AUDIENCE_NATURAL_CLONE:{locale}:{intent}")
+        pairs += 1
+    for (_, intent, locale, audience), text in sorted(sources.items()):
+        if text != cell_of(intent, locale, audience)["prompt"]:
+            raise SystemExit(f"PROMPT_AUDIENCE_NATURAL_DRIFT:{locale}:{audience}:{intent}")
+    if pairs != AUDIENCE_PAIR_TOTAL:
+        raise SystemExit(f"PROMPT_AUDIENCE_PAIR_COUNT:{pairs}")
+    return pairs
+
+
 all_spec_panels = 0
+why_facts = []
+natural_by_cell = {}
 for route in sorted(DIST.rglob("index.html")):
     soup = BeautifulSoup(route.read_text(encoding="utf-8"), "html.parser")
     locale = soup.html.get("lang")
+    audience = soup.html.get("data-audience")
     labels = source["locales"][locale]["spec_format"]
+    why_facts.extend(why_panel_facts(soup, locale, audience))
+    natural_by_cell.update(natural_sources(soup, locale, audience))
     headings = [
         f"## S — {labels['situation']}",
         f"## P — {labels['request']}",
@@ -156,6 +263,8 @@ for route in sorted(DIST.rglob("index.html")):
         all_spec_panels += 1
 if all_spec_panels != 162:
     raise SystemExit(f"PROMPT_SPEC_GLOBAL_COUNT:{all_spec_panels}")
+why_panels = assert_why_panels(why_facts)
+audience_pairs = assert_audience_divergence(natural_by_cell)
 
 manifest = json.loads((DIST / "build-manifest.json").read_text(encoding="utf-8"))
 receipt = json.loads((DIST / "build-receipt.json").read_text(encoding="utf-8"))
@@ -301,4 +410,26 @@ for name, candidate_source, candidate_authority, expected in authority_mutations
         continue
     raise SystemExit(f"PROMPT_SPEC_AUTHORITY_MUTATION_PASSED:{name}")
 
-print(f"PROMPT_SPEC_OK library_panels={rendered} all_panels={all_spec_panels} prompts={len(IDS)} locales=3 audiences=2 mutations={len(mutations)+len(authority_mutations)}")
+# Mutations for the two dist-model gates the cutover introduced. They mutate the
+# facts harvested from dist, which is what these gates read.
+dist_mutations = []
+candidate_facts = copy.deepcopy(why_facts)
+candidate_facts[0][4][0][1] = []
+dist_mutations.append(("why_panel_empty", assert_why_panels, candidate_facts, "PROMPT_WHY_SECTION_EMPTY"))
+candidate_sources = copy.deepcopy(natural_by_cell)
+surface, intent, locale, _ = next(key for key in sorted(candidate_sources) if key[3] == "persona")
+candidate_sources[(surface, intent, locale, "empresa")] = candidate_sources[(surface, intent, locale, "persona")]
+dist_mutations.append(("audience_natural_clone", assert_audience_divergence, candidate_sources, "PROMPT_AUDIENCE_NATURAL_CLONE"))
+for name, check, payload, expected in dist_mutations:
+    try:
+        check(payload)
+    except SystemExit as error:
+        if not str(error).startswith(expected):
+            raise SystemExit(f"PROMPT_DIST_MUTATION_WRONG_REJECTION:{name}:{error}")
+        continue
+    raise SystemExit(f"PROMPT_DIST_MUTATION_PASSED:{name}")
+
+print(
+    f"PROMPT_SPEC_OK library_panels={rendered} all_panels={all_spec_panels} why_panels={why_panels} "
+    f"audience_pairs={audience_pairs} prompts={len(IDS)} locales=3 audiences=2 "
+    f"mutations={len(mutations)+len(authority_mutations)+len(dist_mutations)}")

@@ -254,6 +254,10 @@ for (const route of routes) {
       ).length,
       promptLibraries: document.querySelectorAll("[data-prompt-library]")
         .length,
+      whyPanels: document.querySelectorAll("[data-prompt-why]").length,
+      whySections: document.querySelectorAll(
+        "[data-prompt-why] .prompt-why-body > section",
+      ).length,
       useCases: document.querySelectorAll(".use-cases li").length,
       foreignBrand: /amaris/i.test(document.body.innerText),
     }));
@@ -274,6 +278,8 @@ for (const route of routes) {
       workbookState.brainFormats !== 12 ||
       workbookState.workshopFormats !== 40 ||
       workbookState.promptLibraries !== 13 ||
+      workbookState.whyPanels !== 13 ||
+      workbookState.whySections !== 65 ||
       workbookState.useCases !== 7 ||
       workbookState.foreignBrand
     ) {
@@ -355,6 +361,10 @@ for (const route of routes) {
       panels: document.querySelectorAll(".prompt-format-panel").length,
       copies: document.querySelectorAll(".prompt-format-copy svg").length,
       examples: document.querySelectorAll(".library-prompt-brief").length,
+      whyPanels: document.querySelectorAll("[data-prompt-why]").length,
+      whySections: document.querySelectorAll(
+        "[data-prompt-why] .prompt-why-body > section",
+      ).length,
       duplicateIds: [...document.querySelectorAll("[id]")]
         .map((x) => x.id)
         .filter((id, i, all) => all.indexOf(id) !== i),
@@ -369,6 +379,8 @@ for (const route of routes) {
       promptState.panels !== 56 ||
       promptState.copies !== 14 ||
       promptState.examples !== 14 ||
+      promptState.whyPanels !== 14 ||
+      promptState.whySections !== 70 ||
       promptState.duplicateIds.length ||
       promptState.foreignBrand
     ) {
@@ -1209,6 +1221,13 @@ const noJsWorkbookState = await noJsWorkbook.evaluate(() => ({
   inputsHeadings: [
     ...document.querySelectorAll(".brain-prompt-card pre"),
   ].filter((node) => node.textContent.includes("# Inputs")).length,
+  dumpNaturals: [
+    ...document.querySelectorAll(
+      ".brain-prompt-card .prompt-format-panel-natural",
+    ),
+  ].filter((node) => node.textContent.includes("{{BRAIN_DUMP}}")).length,
+  whyPanels: document.querySelectorAll(".brain-prompt-card [data-prompt-why]")
+    .length,
   brainFormats: document.querySelectorAll(
     ".brain-prompt-card .prompt-format-panel",
   ).length,
@@ -1221,7 +1240,9 @@ const noJsWorkbookState = await noJsWorkbook.evaluate(() => ({
 }));
 if (
   noJsWorkbookState.prompts !== 3 ||
-  noJsWorkbookState.inputsHeadings !== 12 ||
+  noJsWorkbookState.inputsHeadings !== 9 ||
+  noJsWorkbookState.dumpNaturals !== 3 ||
+  noJsWorkbookState.whyPanels !== 3 ||
   noJsWorkbookState.brainFormats !== 12 ||
   noJsWorkbookState.workshopFormats !== 40 ||
   noJsWorkbookState.input !== 1 ||
