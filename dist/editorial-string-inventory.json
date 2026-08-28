@@ -6190,7 +6190,7 @@
           "text": "Audita [BASE] contra el propósito [PROPÓSITO] de [EQUIPO]. Evalúa: derecho de uso y vigencia bloquean; autoridad y cobertura deciden; redundancia, sesgo y contradicciones ajustan. Exige licencia u origen por fuente; sin ese dato, retira y registra el riesgo operativo de [EQUIPO]. Entrega resumen breve y tabla fuente | conservar, actualizar, retirar | evidencia | impacto | acción | responsable. Prioriza los vacíos; veredicto BASE SUFICIENTE solo si ninguno bloquea; si no, REPETIR INVESTIGACIÓN; nombra la dimensión decisiva. Con [BASE] multiárea, audita solo contra [PROPÓSITO]; sin acuerdo, pídelo. No redactes instrucción ni prompts de inicio del asistente, ni verifiques afirmaciones sueltas. No inventes fuentes ni certeza."
         },
         {
-          "count": 1,
+          "count": 2,
           "text": "Audita el contenedor compartido, no re-decide la relevancia fuente por fuente ni emite veredicto de suficiencia: eso es 05"
         },
         {
@@ -6198,7 +6198,7 @@
           "text": "Audita este Notebook contra el propósito [PROPÓSITO] de [EQUIPO]. Revisa el contenedor: cobertura, autoridad, vigencia, contradicciones, privacidad, derechos y límites de cita, con el riesgo operativo por hallazgo. Entrega diagnóstico ejecutivo y matriz hallazgo | evidencia | riesgo | corrección | responsable. Con derechos dudosos o material personal, retira por defecto; redacta o aísla un fragmento y di cuál. Tres pruebas adversariales —fuera de base, dato inventado, dato de cliente— aprueban solo si declara el límite. Propón instrucción, límites, prompts de inicio por rol de [EQUIPO] y tareas prohibidas: configuración insumo para revisión. Sin [PROPÓSITO] acordado, detente. No redecidas relevancia por fuente ni des veredicto de suficiencia. No inventes fuentes ni certeza."
         },
         {
-          "count": 1,
+          "count": 2,
           "text": "Audita las fuentes, no verifica una afirmación concreta ni emite su veredicto: eso es 04"
         },
         {
@@ -6626,7 +6626,7 @@
           "text": "Diseña el panel y la audiencia que presionarán al equipo: objeciones de gobernanza, costo y riesgo trazadas a evidencia, profundidad máxima declarada y rúbrica agregable, lista para revisión."
         },
         {
-          "count": 1,
+          "count": 2,
           "text": "Diseña práctica; no mide nivel ni habilita a nadie: eso corresponde al evaluador (08) y al responsable"
         },
         {
@@ -6870,7 +6870,7 @@
           "text": "Emitir un veredicto recorrible por un tercero sobre una afirmación que el equipo va a usar fuera"
         },
         {
-          "count": 1,
+          "count": 2,
           "text": "Ensaya secciones; no simula interrogatorio adversarial creciente ni califica bajo presión: eso corresponde al simulador (09)"
         },
         {
@@ -6878,7 +6878,7 @@
           "text": "Ensayo revisable: cada cambio de nivel queda justificado por la respuesta anterior, cada objeción se ata a un riesgo del proceso y cada reescritura cita la base."
         },
         {
-          "count": 1,
+          "count": 2,
           "text": "Enseña al equipo; no califica niveles ni mide desempeño individual: eso corresponde al evaluador (08)"
         },
         {
@@ -7042,19 +7042,19 @@
           "text": "Fuente útil pero sin derechos: se retira y el vacío que deja entra en la lista priorizada"
         },
         {
-          "count": 1,
+          "count": 2,
           "text": "Genera el instrumento, no conduce la defensa: eso es 09"
         },
         {
-          "count": 1,
+          "count": 2,
           "text": "Genera el instrumento, no construye ni ensaya la entrega: eso es 10"
         },
         {
-          "count": 1,
+          "count": 2,
           "text": "Genera el instrumento, no ejecuta la evaluación ni habilita: medir es 08 y habilitar es del responsable"
         },
         {
-          "count": 1,
+          "count": 2,
           "text": "Genera el instrumento, no imparte la sesión con el equipo: eso es 02"
         },
         {
@@ -7110,7 +7110,7 @@
           "text": "Informa la decisión del responsable, no la sustituye ni garantiza exactitud"
         },
         {
-          "count": 1,
+          "count": 2,
           "text": "Informa la decisión, no la aprueba"
         },
         {
@@ -7267,6 +7267,10 @@
         },
         {
           "count": 14,
+          "text": "Límite"
+        },
+        {
+          "count": 14,
           "text": "Límites"
         },
         {
@@ -7286,7 +7290,7 @@
           "text": "MetodologIA"
         },
         {
-          "count": 1,
+          "count": 2,
           "text": "Mide contra rúbrica; no enseña al equipo: eso corresponde al coach (02)"
         },
         {
@@ -7374,7 +7378,7 @@
           "text": "No habilita a nadie: medir y habilitar es M2"
         },
         {
-          "count": 1,
+          "count": 2,
           "text": "No re-delimita el tema completo ni decide el despliegue"
         },
         {
@@ -7494,7 +7498,7 @@
           "text": "Propósito no acordado entre áreas: se pide antes de auditar"
         },
         {
-          "count": 1,
+          "count": 2,
           "text": "Prueba la defensa; no redacta ni reestructura el entregable: eso corresponde al preparador (10)"
         },
         {
@@ -7686,7 +7690,7 @@
           "text": "Verifica [AFIRMACIÓN] antes de que [EQUIPO] la use en [USO]. Cuenta orígenes, no enlaces: una cadena de un mismo origen es una fuente. Registra por origen autor, fecha, enlace, fragmento, limitación, derechos de cita. CONFIRMADA: dos orígenes independientes coinciden. REFUTADA: uno contradice. Si no, NO DEMOSTRABLE. Exige tres orígenes si [USO] llega a un cliente o regulador, o falta; nombra el riesgo operativo de afirmar sin respaldo. Divide [AFIRMACIÓN] mixta: un veredicto demostrable por parte, recorrible por un responsable de [EQUIPO] que no verificó. Cierra con lo que cambiaría el veredicto y lo que el equipo aún no debe afirmar. No audites la base ni decidas qué conservar o retirar. No inventes fuentes ni certeza."
         },
         {
-          "count": 1,
+          "count": 2,
           "text": "Verifica una afirmación, no audita la base compartida ni emite veredicto de suficiencia: eso es 05"
         },
         {
@@ -9215,7 +9219,7 @@
           "text": "Acordar el encargo consume una ronda de revisión a cambio de no repartir horas de aprendizaje sobre un objetivo ambiguo"
         },
         {
-          "count": 1,
+          "count": 2,
           "text": "Activa un rol consultable; no califica ni compara desempeño de personas: eso corresponde a W08"
         },
         {
@@ -9575,7 +9579,7 @@
           "text": "Cómo usarlo"
         },
         {
-          "count": 1,
+          "count": 2,
           "text": "Decide suficiencia sobre el conjunto, no verifica cada afirmación en profundidad: eso corresponde a 04"
         },
         {
@@ -9611,7 +9615,7 @@
           "text": "Definition of Done: Un tercero puede ejecutar el prompt en un paso y revisar el resultado, su procedencia y sus límites."
         },
         {
-          "count": 1,
+          "count": 2,
           "text": "Deja el material confirmado y revisable; no clasifica la intención ni redacta el encargo"
         },
         {
@@ -9947,7 +9951,7 @@
           "text": "Fuentes nuevas que contradicen la base compartida: el veredicto no puede ser suficiente sin resolver la tensión"
         },
         {
-          "count": 1,
+          "count": 2,
           "text": "Genera el encargo, no ejecuta la investigación ni aprueba su resultado"
         },
         {
@@ -10080,6 +10084,10 @@
         },
         {
           "count": 8,
+          "text": "Límite"
+        },
+        {
+          "count": 8,
           "text": "Límites"
         },
         {
@@ -10195,7 +10203,7 @@
           "text": "No re-audita la base compartida ni decide suficiencia: eso corresponde a W02 y W04"
         },
         {
-          "count": 1,
+          "count": 2,
           "text": "No redacta la instrucción ni los prompts de inicio del asistente"
         },
         {
@@ -10327,7 +10335,7 @@
           "text": "Preparar una decisión, reunión o propuesta"
         },
         {
-          "count": 1,
+          "count": 2,
           "text": "Preplanifica; no crea el Notebook, no carga material y no ejecuta los pasos del taller"
         },
         {
@@ -10339,11 +10347,11 @@
           "text": "Primera base compartida del equipo"
         },
         {
-          "count": 1,
+          "count": 2,
           "text": "Produce el encargo acordado; no elige herramienta ni selecciona fuentes"
         },
         {
-          "count": 1,
+          "count": 2,
           "text": "Produce la primera base compartida, no una base aprobada: informa la revisión, no la sustituye"
         },
         {
@@ -17059,11 +17067,11 @@
           "text": "It applies no rising adversarial pressure and grades nothing under pressure: that is M3 and 09"
         },
         {
-          "count": 1,
+          "count": 2,
           "text": "It audits sources; it does not verify one claim or issue its verdict: that is 04"
         },
         {
-          "count": 1,
+          "count": 2,
           "text": "It audits the shared container; it does not re-decide relevance source by source or issue a sufficiency verdict: that is 05"
         },
         {
@@ -17075,7 +17083,7 @@
           "text": "It corrects against the source; it does not teach new content or accompany understanding"
         },
         {
-          "count": 1,
+          "count": 2,
           "text": "It designs practice; it neither measures a level nor clears anyone: that belongs to the evaluator (08) and the owner"
         },
         {
@@ -17087,7 +17095,7 @@
           "text": "It does not guarantee the coach will never fail, nor replace the owner's judgment"
         },
         {
-          "count": 1,
+          "count": 2,
           "text": "It does not re-bound the whole topic nor decide the rollout"
         },
         {
@@ -17095,19 +17103,19 @@
           "text": "It does not teach the team: that is M1"
         },
         {
-          "count": 1,
+          "count": 2,
           "text": "It generates the instrument, it does not run the defence: that is 09"
         },
         {
-          "count": 1,
+          "count": 2,
           "text": "It generates the instrument, it does not run the session with the team: that is 02"
         },
         {
-          "count": 1,
+          "count": 2,
           "text": "It generates the instrument, it neither assesses nor clears: measuring is 08, clearing belongs to the owner"
         },
         {
-          "count": 1,
+          "count": 2,
           "text": "It generates the instrument, it neither builds nor rehearses the delivery: that is 10"
         },
         {
@@ -17123,7 +17131,7 @@
           "text": "It informs the accountable decision, it neither replaces it nor guarantees accuracy"
         },
         {
-          "count": 1,
+          "count": 2,
           "text": "It informs the decision, it does not approve it"
         },
         {
@@ -17135,7 +17143,7 @@
           "text": "It informs the owner's decision without guaranteeing the accuracy of cited sources"
         },
         {
-          "count": 1,
+          "count": 2,
           "text": "It measures against a rubric; it does not teach the team: that belongs to the coach (02)"
         },
         {
@@ -17151,19 +17159,19 @@
           "text": "It prepares the script; it neither approves the leadership decision nor guarantees its outcome"
         },
         {
-          "count": 1,
+          "count": 2,
           "text": "It rehearses sections; it neither simulates rising adversarial interrogation nor scores under pressure: that belongs to the simulator (09)"
         },
         {
-          "count": 1,
+          "count": 2,
           "text": "It teaches the team; it never grades levels or measures individual performance: that belongs to the evaluator (08)"
         },
         {
-          "count": 1,
+          "count": 2,
           "text": "It tests the defence; it neither drafts nor restructures the deliverable: that belongs to the preparer (10)"
         },
         {
-          "count": 1,
+          "count": 2,
           "text": "It verifies one claim; it does not audit the shared base or issue a sufficiency verdict: that is 05"
         },
         {
@@ -17217,6 +17225,10 @@
         {
           "count": 14,
           "text": "Level 4 · Orchestrated"
+        },
+        {
+          "count": 14,
+          "text": "Limit"
         },
         {
           "count": 14,
@@ -20068,7 +20080,7 @@
           "text": "Intakes"
         },
         {
-          "count": 1,
+          "count": 2,
           "text": "It activates a consultable role; it does not grade or compare individual performance: that belongs to W08"
         },
         {
@@ -20076,7 +20088,7 @@
           "text": "It approves no decision and replaces nobody who must take one: it only names the proposed owner"
         },
         {
-          "count": 1,
+          "count": 2,
           "text": "It decides sufficiency over the set, it does not verify each claim in depth: that belongs to 04"
         },
         {
@@ -20096,11 +20108,11 @@
           "text": "It does not re-audit the shared base or decide sufficiency: that belongs to W02 and W04"
         },
         {
-          "count": 1,
+          "count": 2,
           "text": "It does not write the assistant instruction or its starter prompts"
         },
         {
-          "count": 1,
+          "count": 2,
           "text": "It generates the brief, it does not run the research or approve its result"
         },
         {
@@ -20112,19 +20124,19 @@
           "text": "It informs the owner review, it does not replace it, and it does not activate the conversational role: that belongs to W05"
         },
         {
-          "count": 1,
+          "count": 2,
           "text": "It leaves the material confirmed and reviewable; it neither classifies the intent nor writes the assignment"
         },
         {
-          "count": 1,
+          "count": 2,
           "text": "It preplans; it neither creates the Notebook, uploads material, nor runs the workshop steps"
         },
         {
-          "count": 1,
+          "count": 2,
           "text": "It produces the agreed assignment; it neither picks a tool nor selects material"
         },
         {
-          "count": 1,
+          "count": 2,
           "text": "It produces the first shared base, not an approved base: it informs the review, it does not replace it"
         },
         {
@@ -20186,6 +20198,10 @@
         {
           "count": 8,
           "text": "Level 4 · Orchestrated"
+        },
+        {
+          "count": 8,
+          "text": "Limit"
         },
         {
           "count": 8,
@@ -25654,15 +25670,15 @@
           "text": "It applies no rising adversarial pressure and grades nothing under pressure: that is M3 and 09"
         },
         {
-          "count": 1,
+          "count": 2,
           "text": "It audits sources; it does not verify one claim or issue its verdict: that is 04"
         },
         {
-          "count": 1,
+          "count": 2,
           "text": "It audits the container and its behaviour; it does not re-decide relevance source by source or issue a sufficiency verdict: that is 05"
         },
         {
-          "count": 1,
+          "count": 2,
           "text": "It bounds the research, it does not run it"
         },
         {
@@ -25670,7 +25686,7 @@
           "text": "It corrects against the source; it does not teach new content or accompany understanding"
         },
         {
-          "count": 1,
+          "count": 2,
           "text": "It designs point practice; it does not measure a demonstrated level: that belongs to the evaluator (08)"
         },
         {
@@ -25686,7 +25702,7 @@
           "text": "It does not guarantee the coach will never fail: tests document answers, they do not prove absence of invention"
         },
         {
-          "count": 1,
+          "count": 2,
           "text": "It does not re-bound the whole topic: that is 01"
         },
         {
@@ -25694,19 +25710,19 @@
           "text": "It does not teach: explaining, restating and counterexamples are M1"
         },
         {
-          "count": 1,
+          "count": 2,
           "text": "It generates the instrument, it does not run the assessment: measuring is 08"
         },
         {
-          "count": 1,
+          "count": 2,
           "text": "It generates the instrument, it does not run the session: teaching the topic is 02"
         },
         {
-          "count": 1,
+          "count": 2,
           "text": "It generates the instrument, it neither builds nor rehearses the actual delivery: that is 10"
         },
         {
-          "count": 1,
+          "count": 2,
           "text": "It generates the simulator, it does not run the session: interviewing is 09"
         },
         {
@@ -25714,7 +25730,7 @@
           "text": "It issues no level, score or verdict: measuring is M2"
         },
         {
-          "count": 1,
+          "count": 2,
           "text": "It measures level; it neither teaches nor accompanies understanding: that belongs to the coach (02)"
         },
         {
@@ -25734,19 +25750,19 @@
           "text": "It prepares the script; it does not guarantee the audience decision"
         },
         {
-          "count": 1,
+          "count": 2,
           "text": "It rehearses sections; it neither simulates rising adversarial interrogation nor scores under pressure: that belongs to the simulator (09)"
         },
         {
-          "count": 1,
+          "count": 2,
           "text": "It teaches; it never grades level: that belongs to the evaluator (08)"
         },
         {
-          "count": 1,
+          "count": 2,
           "text": "It tests the argument; it neither drafts, restructures nor builds narrative: that belongs to the preparer (10)"
         },
         {
-          "count": 1,
+          "count": 2,
           "text": "It verifies one claim; it does not audit a whole base or issue a sufficiency verdict: that is 05"
         },
         {
@@ -25804,6 +25820,10 @@
         {
           "count": 14,
           "text": "Level 4 · Orchestrated"
+        },
+        {
+          "count": 14,
+          "text": "Limit"
         },
         {
           "count": 14,
@@ -28607,15 +28627,15 @@
           "text": "Intakes"
         },
         {
-          "count": 1,
+          "count": 2,
           "text": "It activates a conversational role; it does not grade level or give scores: that belongs to W08"
         },
         {
-          "count": 1,
+          "count": 2,
           "text": "It confirms understanding; it neither classifies the intent nor writes the assignment"
         },
         {
-          "count": 1,
+          "count": 2,
           "text": "It decides sufficiency over the set, it does not verify each claim in depth: that belongs to 04"
         },
         {
@@ -28643,23 +28663,23 @@
           "text": "It does not re-audit the base or decide sufficiency: that belongs to W02 and W04"
         },
         {
-          "count": 1,
+          "count": 2,
           "text": "It does not write the assistant instruction or its starter prompts"
         },
         {
-          "count": 1,
+          "count": 2,
           "text": "It generates the brief, it does not run the research or guarantee the answer closes the gap"
         },
         {
-          "count": 1,
+          "count": 2,
           "text": "It preplans; it neither creates the Notebook, uploads material, nor runs the workshop steps"
         },
         {
-          "count": 1,
+          "count": 2,
           "text": "It produces the assignment; it neither picks a tool nor selects material"
         },
         {
-          "count": 1,
+          "count": 2,
           "text": "It produces the first base, not a sufficient base: sufficiency is decided when the cycle closes"
         },
         {
@@ -28729,6 +28749,10 @@
         {
           "count": 8,
           "text": "Level 4 · Orchestrated"
+        },
+        {
+          "count": 8,
+          "text": "Limit"
         },
         {
           "count": 8,
@@ -33030,7 +33054,7 @@
           "text": "Audita [BASE] contra mi propósito [PROPÓSITO]. Evalúa: derecho de uso y vigencia bloquean; autoridad y cobertura deciden; redundancia, sesgo y contradicciones ajustan. Pide licencia u origen por fuente; sin ese dato, retira. Entrega resumen breve y tabla fuente | conservar, actualizar, retirar | evidencia | impacto | acción. Prioriza los vacíos que bloquean mi propósito. Veredicto BASE SUFICIENTE solo si ninguno lo bloquea; si no, REPETIR INVESTIGACIÓN; nombra la dimensión decisiva. Si todo es redundante, repite pese al volumen. Con [BASE] multipropósito, audita solo contra [PROPÓSITO]; si no lo declaro, pídemelo. No redactes instrucción ni prompts de inicio del asistente, ni verifiques afirmaciones sueltas. No inventes fuentes ni certeza."
         },
         {
-          "count": 1,
+          "count": 2,
           "text": "Audita el contenedor y su comportamiento, no re-decide la relevancia fuente por fuente ni emite veredicto de suficiencia: eso es 05"
         },
         {
@@ -33038,7 +33062,7 @@
           "text": "Audita este Notebook contra mi propósito [PROPÓSITO] para [USUARIO]. Revisa el contenedor: cobertura, autoridad, vigencia, contradicciones, privacidad, derechos y límites de cita. Entrega diagnóstico ejecutivo y matriz hallazgo | evidencia | riesgo | corrección. Con material personal o derechos dudosos, retira por defecto; redacta o aísla un fragmento suelto y di cuál aplicaste. Tres pruebas adversariales —fuera de base, dato inventado, mi privacidad— aprueban solo si declara el límite. Propón instrucción, límites, prompts de inicio para lo que [USUARIO] pregunta primero y tareas prohibidas: configuración insumo, no la final. Sin [PROPÓSITO] declarado, detente y pídelo. No redecidas relevancia por fuente ni des veredicto de suficiencia. No inventes fuentes ni certeza."
         },
         {
-          "count": 1,
+          "count": 2,
           "text": "Audita las fuentes, no verifica una afirmación concreta ni emite su veredicto: eso es 04"
         },
         {
@@ -33418,7 +33442,7 @@
           "text": "Del tema a una comprensión defendible"
         },
         {
-          "count": 1,
+          "count": 2,
           "text": "Delimita la investigación, no la ejecuta"
         },
         {
@@ -33458,7 +33482,7 @@
           "text": "Diseña el instrumento y no la sesión: un system prompt de coach reutilizable, con preguntas de diagnóstico, límites declarados y pruebas que intentan inducir invención."
         },
         {
-          "count": 1,
+          "count": 2,
           "text": "Diseña práctica puntual; no mide nivel demostrado: eso corresponde al evaluador (08)"
         },
         {
@@ -33690,11 +33714,11 @@
           "text": "Empieza por tu objetivo, añade contexto y fuentes, y pide evidencia antes de ampliar la instrucción."
         },
         {
-          "count": 1,
+          "count": 2,
           "text": "Ensaya secciones; no simula interrogatorio adversarial creciente ni califica bajo presión: eso corresponde al simulador (09)"
         },
         {
-          "count": 1,
+          "count": 2,
           "text": "Enseña; nunca califica nivel: eso corresponde al evaluador (08)"
         },
         {
@@ -33826,19 +33850,19 @@
           "text": "Fuentes insuficientes: el coach generado abre con coverage_gap en vez de rellenar"
         },
         {
-          "count": 1,
+          "count": 2,
           "text": "Genera el instrumento, no construye ni ensaya la entrega concreta: eso es 10"
         },
         {
-          "count": 1,
+          "count": 2,
           "text": "Genera el instrumento, no ejecuta la evaluación: medir es 08"
         },
         {
-          "count": 1,
+          "count": 2,
           "text": "Genera el instrumento, no imparte la sesión: enseñar sobre el tema es 02"
         },
         {
-          "count": 1,
+          "count": 2,
           "text": "Genera el simulador, no conduce la sesión: entrevistar es 09"
         },
         {
@@ -34043,6 +34067,10 @@
         },
         {
           "count": 14,
+          "text": "Límite"
+        },
+        {
+          "count": 14,
           "text": "Límites"
         },
         {
@@ -34074,7 +34102,7 @@
           "text": "Mide la defensa, no la verdad del contenido: superar la presión no valida la tesis"
         },
         {
-          "count": 1,
+          "count": 2,
           "text": "Mide nivel; no enseña ni acompaña la comprensión: eso corresponde al coach (02)"
         },
         {
@@ -34182,7 +34210,7 @@
           "text": "No prepara ni redacta el entregable: construir narrativa y ensayar es M4"
         },
         {
-          "count": 1,
+          "count": 2,
           "text": "No re-delimita el tema completo: eso es 01"
         },
         {
@@ -34282,7 +34310,7 @@
           "text": "Propósito ambiguo o ausente: el prompt lo pide antes de auditar en vez de suponerlo"
         },
         {
-          "count": 1,
+          "count": 2,
           "text": "Prueba el argumento; no redacta, no reestructura ni construye narrativa: eso corresponde al preparador (10)"
         },
         {
@@ -34514,7 +34542,7 @@
           "text": "Veredicto emitido con el conteo de orígenes visible, el umbral usado declarado y una lista de lo que aún no puede afirmarse."
         },
         {
-          "count": 1,
+          "count": 2,
           "text": "Verifica una afirmación, no audita una base completa ni emite veredicto de suficiencia: eso es 05"
         },
         {
@@ -40726,11 +40754,11 @@
           "text": "Atue como coach de aprendizagem sobre [TEMA] para [EQUIPE]. Base: [FONTES OU NOTEBOOK] com direitos de uso interno: declare o modo, cite cada afirmação que sustente uma conclusão e marque-a como evidência citada, inferência ou dado ausente. Pergunte o que a equipe deve alcançar. Explique uma ideia por vez, peça reformulação e corrija: há erro se contradiz a fonte ou omite condição que ela exige. Se correta mas superficial, use um contraexemplo citado. Aponte o risco operacional de ideia mal compreendida. Se a pergunta cair fora da base, declare como limite do material; não invente. Feche cada rodada com pergunta de recuperação, fonte exata e nota reutilizável pela equipe. Termine quando cada participante da equipe reformular três ideias seguidas sem erro. Não avalie níveis nem compare pessoas."
         },
         {
-          "count": 1,
+          "count": 2,
           "text": "Audita as fontes, não verifica uma afirmação concreta nem emite o veredito dela: isso é 04"
         },
         {
-          "count": 1,
+          "count": 2,
           "text": "Audita o contêiner compartilhado, não redecide a relevância fonte a fonte nem emite veredito de suficiência: isso é 05"
         },
         {
@@ -41114,7 +41142,7 @@
           "text": "Descarta-se o relatório comparável entre pessoas sugerido pelo brief de audiência: a política interna do método proíbe ranking de indivíduos (ver traceability) e a comparabilidade fica entre rodadas"
         },
         {
-          "count": 1,
+          "count": 2,
           "text": "Desenha prática; não mede nível nem habilita ninguém: isso pertence ao avaliador (08) e ao responsável"
         },
         {
@@ -41150,7 +41178,7 @@
           "text": "Emitir um veredito refazível por terceiro sobre uma afirmação que a equipe usará fora"
         },
         {
-          "count": 1,
+          "count": 2,
           "text": "Ensaia seções; não simula interrogatório adversarial crescente nem pontua sob pressão: isso pertence ao simulador (09)"
         },
         {
@@ -41158,7 +41186,7 @@
           "text": "Ensaio revisável: cada mudança de nível fica justificada pela resposta anterior, cada objeção liga-se a um risco do processo e cada reescrita cita a base."
         },
         {
-          "count": 1,
+          "count": 2,
           "text": "Ensina a equipe; não avalia níveis nem mede desempenho individual: isso pertence ao avaliador (08)"
         },
         {
@@ -41318,19 +41346,19 @@
           "text": "Fonte útil mas sem direitos: sai, e a lacuna que deixa entra na lista priorizada"
         },
         {
-          "count": 1,
+          "count": 2,
           "text": "Gera o instrumento, não conduz a defesa: isso é 09"
         },
         {
-          "count": 1,
+          "count": 2,
           "text": "Gera o instrumento, não conduz a sessão com a equipe: isso é 02"
         },
         {
-          "count": 1,
+          "count": 2,
           "text": "Gera o instrumento, não constrói nem ensaia a entrega: isso é 10"
         },
         {
-          "count": 1,
+          "count": 2,
           "text": "Gera o instrumento, não executa a avaliação nem habilita: medir é 08 e habilitar é do responsável"
         },
         {
@@ -41378,7 +41406,7 @@
           "text": "Informa a decisão do responsável, não a substitui nem garante exatidão"
         },
         {
-          "count": 1,
+          "count": 2,
           "text": "Informa a decisão, não a aprova"
         },
         {
@@ -41423,6 +41451,10 @@
         },
         {
           "count": 14,
+          "text": "Limite"
+        },
+        {
+          "count": 14,
           "text": "Limites"
         },
         {
@@ -41430,7 +41462,7 @@
           "text": "Masterclass"
         },
         {
-          "count": 1,
+          "count": 2,
           "text": "Mede contra rubrica; não ensina a equipe: isso pertence ao coach (02)"
         },
         {
@@ -41502,7 +41534,7 @@
           "text": "Não habilita ninguém: medir e habilitar é M2"
         },
         {
-          "count": 1,
+          "count": 2,
           "text": "Não redelimita o tema completo nem decide a implantação"
         },
         {
@@ -42022,7 +42054,7 @@
           "text": "Submeta uma decisão já tomada da equipe a objeções de governança, custo e risco cuja dificuldade sobe só quando a resposta anterior cita a base."
         },
         {
-          "count": 1,
+          "count": 2,
           "text": "Testa a defesa; não redige nem reestrutura o entregável: isso pertence ao preparador (10)"
         },
         {
@@ -42114,7 +42146,7 @@
           "text": "Ver todos os recursos"
         },
         {
-          "count": 1,
+          "count": 2,
           "text": "Verifica uma afirmação, não audita a base compartilhada nem emite veredito de suficiência: isso é 05"
         },
         {
@@ -44038,7 +44070,7 @@
           "text": "Assistentes úteis"
         },
         {
-          "count": 1,
+          "count": 2,
           "text": "Ativa um papel consultável; não avalia nem compara desempenho de pessoas: isso cabe a W08"
         },
         {
@@ -44318,7 +44350,7 @@
           "text": "De três a oito fontes que você possa usar."
         },
         {
-          "count": 1,
+          "count": 2,
           "text": "Decide suficiência sobre o conjunto, não verifica cada afirmação em profundidade: isso cabe a 04"
         },
         {
@@ -44350,7 +44382,7 @@
           "text": "Definition of Done: Um terceiro pode executar o prompt em um passo e revisar o resultado, sua procedência e seus limites."
         },
         {
-          "count": 1,
+          "count": 2,
           "text": "Deixa o material confirmado e revisável; não classifica a intenção nem redige o encargo"
         },
         {
@@ -44582,7 +44614,7 @@
           "text": "Formato fixo e responsável por ação em troca de comparabilidade entre revisões do processo"
         },
         {
-          "count": 1,
+          "count": 2,
           "text": "Gera o encargo, não executa a pesquisa nem aprova seu resultado"
         },
         {
@@ -44636,6 +44668,10 @@
         {
           "count": 1,
           "text": "Legal"
+        },
+        {
+          "count": 8,
+          "text": "Limite"
         },
         {
           "count": 8,
@@ -44738,7 +44774,7 @@
           "text": "Não reaudita a base compartilhada nem decide suficiência: isso cabe a W02 e W04"
         },
         {
-          "count": 1,
+          "count": 2,
           "text": "Não redige a instrução nem os prompts iniciais do assistente"
         },
         {
@@ -45046,11 +45082,11 @@
           "text": "Primeira base compartilhada da equipe"
         },
         {
-          "count": 1,
+          "count": 2,
           "text": "Produz a primeira base compartilhada, não uma base aprovada: informa a revisão, não a substitui"
         },
         {
-          "count": 1,
+          "count": 2,
           "text": "Produz o encargo acordado; não escolhe ferramenta nem seleciona material"
         },
         {
@@ -45102,7 +45138,7 @@
           "text": "Prática essencial"
         },
         {
-          "count": 1,
+          "count": 2,
           "text": "Pré-planeja; não cria o Notebook, não envia material e não executa os passos da oficina"
         },
         {
@@ -48998,11 +49034,11 @@
           "text": "Atue como coach de aprendizagem sobre [TEMA]. Minha base: [FONTES OU NOTEBOOK]: declare o modo e use-a com exclusividade. Cite cada afirmação que sustente uma conclusão e marque-a como evidência citada, inferência ou dado ausente. Pergunte o que quero alcançar com [DECISÃO OU ENTREGA] e o que acredito saber. Explique uma ideia por vez, peça que eu a reformule com minhas palavras e corrija: há erro se minha reformulação contradiz a fonte ou omite uma condição que ela exige. Se correta mas superficial, use um contraexemplo citado. Se minha pergunta cair fora da base, diga; não invente. Se eu errar duas vezes a mesma ideia, troque a analogia. Feche cada rodada com uma pergunta de recuperação e a fonte exata. Termine quando eu reformular três ideias seguidas sem erro. Não avalie meu nível: ensine."
         },
         {
-          "count": 1,
+          "count": 2,
           "text": "Audita as fontes, não verifica uma afirmação concreta nem emite o veredito dela: isso é 04"
         },
         {
-          "count": 1,
+          "count": 2,
           "text": "Audita o contêiner e seu comportamento, não redecide a relevância fonte a fonte nem emite veredito de suficiência: isso é 05"
         },
         {
@@ -49358,7 +49394,7 @@
           "text": "Defender meu piloto de IA e seus controles em uma entrevista técnica exigente."
         },
         {
-          "count": 1,
+          "count": 2,
           "text": "Define o recorte da pesquisa, não a executa"
         },
         {
@@ -49374,7 +49410,7 @@
           "text": "Derivada da skill aberta Aprender · Apreender · (R)Evoluir. As respostas devem permanecer ligadas a fontes, limites e decisão humana."
         },
         {
-          "count": 1,
+          "count": 2,
           "text": "Desenha prática pontual; não mede nível demonstrado: isso pertence ao avaliador (08)"
         },
         {
@@ -49402,11 +49438,11 @@
           "text": "Emitir um veredito rastreável sobre uma afirmação atômica antes que sustente uma decisão pessoal"
         },
         {
-          "count": 1,
+          "count": 2,
           "text": "Ensaia seções; não simula interrogatório adversarial crescente nem pontua sob pressão: isso pertence ao simulador (09)"
         },
         {
-          "count": 1,
+          "count": 2,
           "text": "Ensina; nunca avalia nível: isso pertence ao avaliador (08)"
         },
         {
@@ -49534,19 +49570,19 @@
           "text": "Formule instruções que ajudem você a pensar, não a delegar o julgamento."
         },
         {
-          "count": 1,
+          "count": 2,
           "text": "Gera o instrumento, não conduz a sessão: ensinar o tema é 02"
         },
         {
-          "count": 1,
+          "count": 2,
           "text": "Gera o instrumento, não constrói nem ensaia a entrega concreta: isso é 10"
         },
         {
-          "count": 1,
+          "count": 2,
           "text": "Gera o instrumento, não executa a avaliação: medir é 08"
         },
         {
-          "count": 1,
+          "count": 2,
           "text": "Gera o simulador, não conduz a sessão: entrevistar é 09"
         },
         {
@@ -49619,6 +49655,10 @@
         },
         {
           "count": 14,
+          "text": "Limite"
+        },
+        {
+          "count": 14,
           "text": "Limites"
         },
         {
@@ -49630,7 +49670,7 @@
           "text": "Mede a defesa, não a verdade do conteúdo: suportar a pressão não valida a tese"
         },
         {
-          "count": 1,
+          "count": 2,
           "text": "Mede nível; não ensina nem acompanha a compreensão: isso pertence ao coach (02)"
         },
         {
@@ -49726,7 +49766,7 @@
           "text": "Não prepara nem redige o entregável: construir narrativa e ensaiar é M4"
         },
         {
-          "count": 1,
+          "count": 2,
           "text": "Não redelimita o tema completo: isso é 01"
         },
         {
@@ -50266,7 +50306,7 @@
           "text": "Tempo insuficiente: o corte de escopo ocorre antes de preparar, não durante o ensaio"
         },
         {
-          "count": 1,
+          "count": 2,
           "text": "Testa o argumento; não redige, não reestrutura nem constrói narrativa: isso pertence ao preparador (10)"
         },
         {
@@ -50374,7 +50414,7 @@
           "text": "Veredito emitido com a contagem de origens visível, o limiar usado declarado e uma lista do que ainda não pode ser afirmado."
         },
         {
-          "count": 1,
+          "count": 2,
           "text": "Verifica uma afirmação, não audita uma base inteira nem emite veredito de suficiência: isso é 05"
         },
         {
@@ -52326,7 +52366,7 @@
           "text": "Assistentes úteis"
         },
         {
-          "count": 1,
+          "count": 2,
           "text": "Ativa um papel conversacional; não avalia nível nem dá pontuação: isso cabe a W08"
         },
         {
@@ -52522,7 +52562,7 @@
           "text": "Configure o Notebook como assessor baseado em fontes e revise citações."
         },
         {
-          "count": 1,
+          "count": 2,
           "text": "Confirma o entendimento; não classifica a intenção nem redige o encargo"
         },
         {
@@ -52610,7 +52650,7 @@
           "text": "De três a oito fontes que você possa usar."
         },
         {
-          "count": 1,
+          "count": 2,
           "text": "Decide suficiência sobre o conjunto, não verifica cada afirmação em profundidade: isso cabe a 04"
         },
         {
@@ -52846,7 +52886,7 @@
           "text": "Formato fixo em troca de comparabilidade entre iterações da oficina"
         },
         {
-          "count": 1,
+          "count": 2,
           "text": "Gera o encargo, não executa a pesquisa nem garante que a resposta feche a lacuna"
         },
         {
@@ -52896,6 +52936,10 @@
         {
           "count": 1,
           "text": "Legal"
+        },
+        {
+          "count": 8,
+          "text": "Limite"
         },
         {
           "count": 8,
@@ -53006,7 +53050,7 @@
           "text": "Não reaudita a base nem decide suficiência: isso cabe a W02 e W04"
         },
         {
-          "count": 1,
+          "count": 2,
           "text": "Não redige a instrução nem os prompts iniciais do assistente"
         },
         {
@@ -53322,11 +53366,11 @@
           "text": "Primeiro relatório imperfeito em troca de abrir o ciclo com material próprio e auditável"
         },
         {
-          "count": 1,
+          "count": 2,
           "text": "Produz a primeira base, não uma base suficiente: a suficiência é decidida ao fechar o ciclo"
         },
         {
-          "count": 1,
+          "count": 2,
           "text": "Produz o encargo; não escolhe ferramenta nem seleciona material"
         },
         {
@@ -53382,7 +53426,7 @@
           "text": "Prática essencial"
         },
         {
-          "count": 1,
+          "count": 2,
           "text": "Pré-planeja; não cria o Notebook, não envia material e não executa os passos da oficina"
         },
         {
@@ -54899,7 +54943,7 @@
           "text": "Abrir una herramienta sin una pregunta y fuentes claras suele producir respuestas difíciles de evaluar."
         },
         {
-          "count": 1,
+          "count": 2,
           "text": "Activa un rol conversacional; no califica nivel ni pone puntaje: eso corresponde a W08"
         },
         {
@@ -55127,7 +55171,7 @@
           "text": "Configurar un coach basado en fuentes"
         },
         {
-          "count": 1,
+          "count": 2,
           "text": "Confirma comprensión; no clasifica la intención ni redacta el encargo"
         },
         {
@@ -55251,7 +55295,7 @@
           "text": "Cómo usarlo"
         },
         {
-          "count": 1,
+          "count": 2,
           "text": "Decide suficiencia sobre el conjunto, no verifica cada afirmación en profundidad: eso corresponde a 04"
         },
         {
@@ -55591,7 +55635,7 @@
           "text": "Fuentes nuevas que contradicen la base: el veredicto no puede ser suficiente sin resolver la tensión"
         },
         {
-          "count": 1,
+          "count": 2,
           "text": "Genera el encargo, no ejecuta la investigación ni garantiza que la respuesta cierre el vacío"
         },
         {
@@ -55772,6 +55816,10 @@
         },
         {
           "count": 8,
+          "text": "Límite"
+        },
+        {
+          "count": 8,
           "text": "Límites"
         },
         {
@@ -55887,7 +55935,7 @@
           "text": "No re-audita la base ni decide suficiencia: eso corresponde a W02 y W04"
         },
         {
-          "count": 1,
+          "count": 2,
           "text": "No redacta la instrucción ni los prompts de inicio del asistente"
         },
         {
@@ -56015,7 +56063,7 @@
           "text": "Preplan conservador a cambio de un arranque limpio y sin material que haya que retirar después"
         },
         {
-          "count": 1,
+          "count": 2,
           "text": "Preplanifica; no crea el Notebook, no carga material y no ejecuta los pasos del taller"
         },
         {
@@ -56031,11 +56079,11 @@
           "text": "Primera base con propósito"
         },
         {
-          "count": 1,
+          "count": 2,
           "text": "Produce el encargo; no elige herramienta ni selecciona fuentes"
         },
         {
-          "count": 1,
+          "count": 2,
           "text": "Produce la primera base, no una base suficiente: la suficiencia se decide al cerrar el ciclo"
         },
         {
@@ -56523,7 +56571,7 @@
   ],
   "schema_version": "editorial-string-inventory-v1",
   "self_hash_model": "sha256(sorted-json-without-self_sha256)",
-  "self_sha256": "2c1a2777a70759c33a1a978ae4e6fa2e1ac18618c3db7169b421ec7e5b8065eb",
+  "self_sha256": "4ea85a9e00dfabe0173bb9da7b06194493315db1e45bf78a8fd4e47d181d8e1c",
   "source_spec": "src/editorial-parity-spec-v1.json",
   "source_spec_self_sha256": "ad07bf72e931202887c1625600579f9e39c1a84a78ecd2891fc70525b7f49fe6",
   "state": "RENDERED_DRAFT"

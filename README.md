@@ -62,6 +62,11 @@ y audiencia. Expone criterios de aceptación, casos borde, compensaciones,
 supuestos y límites de esa celda. Es lectura opcional: el prompt copiable no
 depende de que el lector lo abra.
 
+[PEDAGOGIA] Cada tarjeta anticipa además un único **Límite** compacto, derivado
+del primer límite gobernado del contrato. Sirve para descartar una intención
+equivocada antes de abrir o copiarla; el análisis completo permanece en el
+disclosure y no se duplica en la superficie principal.
+
 [CONFIG] `src/prompt-intent-authority-v2.json` (`status: frozen_phase_3`) fija
 las anclas de intención y de evidencia por locale, y `boundary.decision_rule`
 declara cuándo usar una intención y no su vecina. `qa/check-prompt-contracts.py`

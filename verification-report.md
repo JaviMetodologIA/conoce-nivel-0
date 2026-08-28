@@ -251,3 +251,31 @@ Sobre el `Variant state drift` observado en una corrida previa de `check-prefere
 
 ### Veredicto
 **Listo como `RENDERED_DRAFT`. Cero bloqueantes.** Publicación no autorizada; el estado no fue promovido en ningún punto.
+
+## Cierre de selección — límite compacto (2026-08-28)
+
+[PEDAGOGIA] Las 162 celdas muestran ahora una sola frontera de selección
+localizada (`Límite` / `Limit` / `Limite`) antes del prompt. El texto se deriva
+exactamente de `why_it_works.limits[0]`; la crítica completa permanece en «Por
+qué funciona», de modo que la tarjeta ayuda a elegir sin repetir ni inflar el
+contenido.
+
+[CÓDIGO] `qa/check-prompt-spec.py` exige 162 límites compactos, etiqueta correcta
+y coincidencia exacta con el contrato. La matriz visual muta también ese campo
+con un token de 11.340 caracteres y comprueba contención junto con título,
+brief y panel.
+
+Gates del freeze local:
+
+- `PROMPT_CONTRACTS_OK contracts=27 ... mutations=15 warnings=6`.
+- `PROMPT_SPEC_OK library_panels=84 all_panels=162 why_panels=162 audience_pairs=81`.
+- `PROMPT_SNAPSHOT_OK entries=648 locales=3 capped_levels=natural`.
+- `EDITORIAL_PARITY_OK routes=54 fields=378 mutations=214 strings=13767`.
+- `PROMPT_SPEC_VISUAL_OK states=120 zoom_200=24 axe=120 mutations=120 why=120 keyboard=12 copy=12 no_js=12`.
+- `PREFERENCE_TOGGLES_OK routes=54 protocols=2 scenarios=108 clicks=432`.
+- Dos builds consecutivos byte-idénticos: `DIST 13869916e57c553211b0624ab15c3a52276c2a70523fe13b67253a2334a34728`; manifest raw `3ea68abcb2094855ad85290338e1f9f18d76d8b998f940712abcbfe399a1e9db`, self `619e72d880dabfcba389f430d434a1f8177edda79be5b9c1dd03f7da18137207`; receipt raw `8bff0a9790f50515173a376d8ebac1602e81e2544d4616ea2c1ce124c0231d2c`, self `757a25b4c84026cd93e3c91cd54beb9a627f3282dfb8b59d17baa563dbd658ae`.
+
+[CONFIG] Google Chrome 151 se cerró de forma intermitente durante dos corridas
+headless. El mismo gate pasó completo con Chromium 141 emparejado con Playwright
+1.61.1; se clasifica como gap del navegador del host, no como bypass del gate.
+El estado continúa `RENDERED_DRAFT`; no hubo push ni publicación.

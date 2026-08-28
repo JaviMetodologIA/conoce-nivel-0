@@ -27,6 +27,7 @@ IDS = ("01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "M1", "M2", "
 CONTRACTS = compiler.PROMPT_CONTRACTS
 WHY_SECTIONS = compiler.WHY_SECTIONS
 WHY_PANEL_TOTAL = 162
+COMPACT_LIMIT_TOTAL = 162
 AUDIENCE_PAIR_TOTAL = len(compiler.PROMPT_INTENT_IDS) * len(LANGS)
 
 _exporter_spec = importlib.util.spec_from_file_location(
@@ -201,6 +202,30 @@ def assert_why_panels(facts):
     return len(facts)
 
 
+def compact_limit_facts(soup, locale, audience):
+    """Validate the single selection boundary exposed before each prompt."""
+    facts = []
+    expected_label = compiler.PROMPT_LIMIT_LABELS[locale]
+    for node in soup.select(".prompt-limit-compact"):
+        card = node.find_parent(["article"])
+        block = None if card is None else card.select_one("[data-prompt-library]")
+        if block is None:
+            raise SystemExit(f"PROMPT_COMPACT_LIMIT_ORPHAN:{locale}:{audience}")
+        surface, intent = classify(block["data-prompt-library"], locale)
+        label_node = node.select_one("dt, strong")
+        value_node = node.select_one("dd, span")
+        if label_node is None or label_node.get_text(strip=True) != expected_label:
+            raise SystemExit(f"PROMPT_COMPACT_LIMIT_LABEL:{locale}:{audience}:{intent}")
+        if value_node is None:
+            raise SystemExit(f"PROMPT_COMPACT_LIMIT_EMPTY:{locale}:{audience}:{intent}")
+        value = value_node.get_text(" ", strip=True)
+        expected = cell_of(intent, locale, audience)["why_it_works"]["limits"][0]
+        if value != expected:
+            raise SystemExit(f"PROMPT_COMPACT_LIMIT_DRIFT:{locale}:{audience}:{intent}")
+        facts.append((surface, intent, locale, audience, value))
+    return facts
+
+
 def natural_sources(soup, locale, audience):
     """{(surface, intent, locale, audience): level-1 copyable source}."""
     sources = {}
@@ -236,6 +261,7 @@ def assert_audience_divergence(sources):
 
 all_spec_panels = 0
 why_facts = []
+compact_limit_facts_all = []
 natural_by_cell = {}
 for route in sorted(DIST.rglob("index.html")):
     soup = BeautifulSoup(route.read_text(encoding="utf-8"), "html.parser")
@@ -243,6 +269,7 @@ for route in sorted(DIST.rglob("index.html")):
     audience = soup.html.get("data-audience")
     labels = source["locales"][locale]["spec_format"]
     why_facts.extend(why_panel_facts(soup, locale, audience))
+    compact_limit_facts_all.extend(compact_limit_facts(soup, locale, audience))
     natural_by_cell.update(natural_sources(soup, locale, audience))
     headings = [
         f"## S — {labels['situation']}",
@@ -264,6 +291,8 @@ for route in sorted(DIST.rglob("index.html")):
 if all_spec_panels != 162:
     raise SystemExit(f"PROMPT_SPEC_GLOBAL_COUNT:{all_spec_panels}")
 why_panels = assert_why_panels(why_facts)
+if len(compact_limit_facts_all) != COMPACT_LIMIT_TOTAL:
+    raise SystemExit(f"PROMPT_COMPACT_LIMIT_COUNT:{len(compact_limit_facts_all)}")
 audience_pairs = assert_audience_divergence(natural_by_cell)
 
 manifest = json.loads((DIST / "build-manifest.json").read_text(encoding="utf-8"))

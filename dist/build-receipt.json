@@ -51,8 +51,8 @@
   "editorial_parity": {
     "fallback_policy": "forbidden",
     "inventory": "editorial-string-inventory.json",
-    "inventory_self_sha256": "2c1a2777a70759c33a1a978ae4e6fa2e1ac18618c3db7169b421ec7e5b8065eb",
-    "inventory_sha256": "68856a2605132217547687bb465556a586909fefd5712fc1ff5494b89fe8b262",
+    "inventory_self_sha256": "4ea85a9e00dfabe0173bb9da7b06194493315db1e45bf78a8fd4e47d181d8e1c",
+    "inventory_sha256": "3718408229d505f6919b7de9b3755c8dcc7b4bff29443b2f1a55eb93881e280c",
     "matrix": {
       "audiences": [
         "persona",
@@ -112,8 +112,8 @@
     "source": "src/intrapage-navigation-spec-v1.json",
     "source_sha256": "cfae0e0b01c8830805049837fcd87f9388fc6a117af1e20feafef16cd796d342"
   },
-  "manifest_self_sha256": "7e02f135887a2e6b2e4ed7447032e8be9c148d823a013b1986e18efc63c8dec0",
-  "manifest_sha256": "ea1960efedac4187dfe9da0b3fa64d839c542d8daa84127ab72ae4a57f828b05",
+  "manifest_self_sha256": "619e72d880dabfcba389f430d434a1f8177edda79be5b9c1dd03f7da18137207",
+  "manifest_sha256": "3ea68abcb2094855ad85290338e1f9f18d76d8b998f940712abcbfe399a1e9db",
   "method_identity": {
     "assets": {
       "compact": "b07a0713a106f1f78491e54667b248ef6a790ce175b0a07ba2e721137e936393",
@@ -257,6 +257,6 @@
   },
   "schema_version": "build-receipt-v1",
   "self_hash_model": "sha256(sorted-json-without-self)",
-  "self_sha256": "0ca5b56e5eda9f4ed090e4d336e30afb2f39e2e44f2110434f4e301734cef9a2",
+  "self_sha256": "757a25b4c84026cd93e3c91cd54beb9a627f3282dfb8b59d17baa563dbd658ae",
   "state": "RENDERED_DRAFT"
 }

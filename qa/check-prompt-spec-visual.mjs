@@ -25,8 +25,13 @@ function mutateServerHtml(html, resource) {
   let candidate = html.slice(start);
   candidate = candidate.replace(/(<h3[^>]*>)[\s\S]*?(<\/h3>)/, `$1${longToken}$2`);
   candidate = candidate.replace(/(<pre class="prompt-format-panel"[^>]*>)[\s\S]*?(<\/pre>)/, `$1${longToken}$2`);
-  if (resource === "prompts") candidate = candidate.replace(/(<dd>)[\s\S]*?(<\/dd>)/, `$1${longToken}$2`);
-  else candidate = candidate.replace(/(<p>)[\s\S]*?(<\/p>)/, `$1${longToken}$2`);
+  if (resource === "prompts") {
+    candidate = candidate.replace(/(<dd>)[\s\S]*?(<\/dd>)/, `$1${longToken}$2`);
+    candidate = candidate.replace(/(<div class="prompt-limit-compact"><dt>[\s\S]*?<\/dt><dd>)[\s\S]*?(<\/dd>)/, `$1${longToken}$2`);
+  } else {
+    candidate = candidate.replace(/(<p>)[\s\S]*?(<\/p>)/, `$1${longToken}$2`);
+    candidate = candidate.replace(/(<p class="prompt-limit-compact"><strong>[\s\S]*?<\/strong><span>)[\s\S]*?(<\/span>)/, `$1${longToken}$2`);
+  }
   return before + candidate;
 }
 
@@ -174,9 +179,16 @@ try {
         await page.locator("[data-prompt-why]").evaluateAll((panels) => panels.forEach((panel) => { panel.open = true; }));
         const whyContract = await page.evaluate((expectedPanels) => {
           const panels = [...document.querySelectorAll("[data-prompt-why]")];
+          const compactLimits = [...document.querySelectorAll(".prompt-limit-compact")];
           return {
             panels: panels.length,
             expectedPanels,
+            compactLimits: compactLimits.length,
+            compactLimitsPopulated: compactLimits.every((node) => {
+              const label = node.querySelector("dt, strong");
+              const value = node.querySelector("dd, span");
+              return Boolean(label?.textContent?.trim() && value?.textContent?.trim());
+            }),
             summaries: panels.filter((panel) => panel.querySelector("summary")?.textContent?.trim()).length,
             sections: panels.map((panel) => panel.querySelectorAll(".prompt-why-body > section").length),
             populated: panels.every((panel) => [...panel.querySelectorAll(".prompt-why-body > section")]
@@ -189,6 +201,8 @@ try {
         }, expectedPanels);
         if (
           whyContract.panels !== expectedPanels ||
+          whyContract.compactLimits !== expectedPanels ||
+          !whyContract.compactLimitsPopulated ||
           whyContract.summaries !== expectedPanels ||
           whyContract.sections.some((count) => count !== 5) ||
           !whyContract.populated ||

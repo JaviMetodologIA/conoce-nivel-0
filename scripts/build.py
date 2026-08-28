@@ -713,6 +713,21 @@ def prompt_visual_lines(value):
 
 WHY_SECTIONS=('acceptance_criteria','edge_cases','tradeoffs','assumptions','limits')
 
+PROMPT_LIMIT_LABELS={'es':'Límite','en':'Limit','pt':'Limite'}
+
+def prompt_limit_markup(lang,why,as_definition=False):
+  """Expose one selection boundary without duplicating the full rationale.
+
+  The complete list remains in the native ``prompt-why`` disclosure.  Cards use
+  only the first governed limit so a reader can reject the wrong prompt before
+  opening or copying it.
+  """
+  limit=why['limits'][0]
+  label=PROMPT_LIMIT_LABELS[lang]
+  if as_definition:
+    return f'<div class="prompt-limit-compact"><dt>{esc(label)}</dt><dd>{esc(limit)}</dd></div>'
+  return f'<p class="prompt-limit-compact"><strong>{esc(label)}</strong><span>{esc(limit)}</span></p>'
+
 def prompt_why_markup(lang,group_id,why):
   """Expandable rationale next to the copyable prompt. Native <details>: no JS,
   and no data-prompt-template/data-prompt-format so the level panel counts hold."""
@@ -754,7 +769,7 @@ def prompt_cards(lang,start,end):
       when,inputs,output,limits,example=deep_meta[lang][n-6]
       ml={'es':('Entradas','Salida','Límites','Ejemplo'),'en':('Inputs','Output','Limits','Example'),'pt':('Entradas','Saída','Limites','Exemplo')}[lang]
       meta=f'<p><strong>{esc(when)}</strong><br>{ml[0]}: {esc(inputs)} · {ml[1]}: {esc(output)} · {ml[2]}: {esc(limits)} · {ml[3]}: {esc(example)}</p>'
-    out.append(f'''<article class="card step" id="step-{n}"><span class="step-num">{n}</span><div><h3 class="h3">{esc(title)}</h3><p>{w['expected']}: {esc(('decisión y evidencia citada' if lang=='es' else 'a decision and cited evidence' if lang=='en' else 'uma decisão e evidência citada'))}.</p><p><strong>{esc(flow)}</strong></p>{meta}</div><div class="prompt"><div class="prompt-head"><span>Prompt {n}</span></div>{format_ui}</div></article>''')
+    out.append(f'''<article class="card step" id="step-{n}"><span class="step-num">{n}</span><div><h3 class="h3">{esc(title)}</h3><p>{w['expected']}: {esc(('decisión y evidencia citada' if lang=='es' else 'a decision and cited evidence' if lang=='en' else 'uma decisão e evidência citada'))}.</p><p><strong>{esc(flow)}</strong></p>{meta}{prompt_limit_markup(lang,cell['why_it_works'])}</div><div class="prompt"><div class="prompt-head"><span>Prompt {n}</span></div>{format_ui}</div></article>''')
   return ''.join(out)
 
 def workbook(lang):
@@ -807,7 +822,7 @@ def workbook(lang):
     pid=f'brain-prompt-{lang}-{i}'
     variants=structured_variants(lang,title,cell['prompt'],cell['level_spec'],cell)
     format_ui=prompt_formats_markup(lang,pid,variants,advanced['level_convention'],f'brain-dump-{lang}')+prompt_why_markup(lang,pid,cell['why_it_works'])
-    brain_prompt_cards.append(f'''<article class="brain-prompt-card"><header><span>0{i}</span><h3>{esc(title)}</h3></header><div class="prompt"><div class="prompt-head"><span>Prompt 0{i}</span></div>{format_ui}</div></article>''')
+    brain_prompt_cards.append(f'''<article class="brain-prompt-card"><header><span>0{i}</span><h3>{esc(title)}</h3></header>{prompt_limit_markup(lang,cell['why_it_works'])}<div class="prompt"><div class="prompt-head"><span>Prompt 0{i}</span></div>{format_ui}</div></article>''')
   prep_eyebrow=('Preparación · una entrada, tres movimientos' if lang=='es' else 'Preparation · one input, three moves' if lang=='en' else 'Preparação · uma entrada, três movimentos')
   brain=f'''<section class="brain-section" aria-labelledby="brain-title-{lang}"><div class="section-head"><span class="eyebrow">{esc(prep_eyebrow)}</span><h2 class="h2" id="brain-title-{lang}">{esc(advanced['brain_title'])}</h2><p class="lead">{esc(advanced['brain_body'])}</p></div><label class="brain-input"><strong>{esc(advanced['brain_label'])}</strong><textarea id="brain-dump-{lang}" rows="8" placeholder="{esc(advanced['brain_placeholder'])}" data-brain-dump></textarea><small>{esc(advanced['brain_dictation'])}</small><span class="brain-status" data-brain-status aria-live="polite" data-empty-message="{esc(advanced['brain_empty'])}"></span></label><div class="brain-prompt-grid">{''.join(brain_prompt_cards)}</div></section>'''
   use_cases=''.join(f'<li><span>{i:02d}</span><p>{esc(item)}</p></li>' for i,item in enumerate(advanced['use_cases'],1))
@@ -886,7 +901,7 @@ def prompt_library_page(lang):
     group=f'library-{lang}-{intent_id.lower()}'
     formats=structured_variants(lang,cell['title'],cell['prompt'],cell['level_spec'],cell)
     controls=prompt_formats_markup(lang,group,formats,ADVANCED['locales'][lang]['level_convention'])+prompt_why_markup(lang,group,cell['why_it_works'])
-    card=f'''<article class="library-prompt-card" id="prompt-{intent_id.lower()}" data-library-prompt data-prompt-kind="{'meta' if intent_id.startswith('M') else 'direct'}"><header><span class="library-prompt-number" aria-hidden="true">{esc(intent_id)}</span><div><span class="eyebrow">{esc(phases[intent_id])}</span><h3>{esc(cell['title'])}</h3><p>{esc(cell['purpose'])}</p></div></header><dl class="library-prompt-brief"><div><dt>{esc(p['use'])}</dt><dd>{esc(cell['when'])}</dd></div><div><dt>{esc(p['example'])}</dt><dd>{esc(cell['example'])}</dd></div><div><dt>{esc(p['evidence'])}</dt><dd>{esc(cell['evidence'])}</dd></div></dl>{controls}</article>'''
+    card=f'''<article class="library-prompt-card" id="prompt-{intent_id.lower()}" data-library-prompt data-prompt-kind="{'meta' if intent_id.startswith('M') else 'direct'}"><header><span class="library-prompt-number" aria-hidden="true">{esc(intent_id)}</span><div><span class="eyebrow">{esc(phases[intent_id])}</span><h3>{esc(cell['title'])}</h3><p>{esc(cell['purpose'])}</p></div></header><dl class="library-prompt-brief"><div><dt>{esc(p['use'])}</dt><dd>{esc(cell['when'])}</dd></div><div><dt>{esc(p['example'])}</dt><dd>{esc(cell['example'])}</dd></div><div><dt>{esc(p['evidence'])}</dt><dd>{esc(cell['evidence'])}</dd></div>{prompt_limit_markup(lang,cell['why_it_works'],as_definition=True)}</dl>{controls}</article>'''
     (meta if intent_id.startswith('M') else direct).append(card)
   skill=RESOURCES['open_skill']
   return head(lang,p['meta_title'],'prompts')+f'''<main id="main" class="prompt-library-page"><section class="prompt-library-hero"><div class="shell">{breadcrumb(lang,'prompts',T[lang]['prompts'])}<div class="prompt-library-hero-grid"><div class="prompt-library-hero-copy"><span class="eyebrow">{esc(p['eyebrow'])}</span><h1>{esc(p['title'])}</h1><p class="lead">{esc(p['lead'])}</p><div class="actions"><a class="btn" href="#directos">{esc(hero_cta)}{ui_icon('arrow')}</a><a class="btn secondary" href="../playbook/index.html">{esc(p['back'])}{ui_icon('arrow')}</a></div></div>{hero_map}</div></div></section><section class="prompt-library-section shell" id="directos"><div class="section-head"><span class="eyebrow">{esc(p['direct_label'])}</span><h2 class="h2">{esc(p['direct_title'])}</h2></div><div class="library-prompt-list">{''.join(direct)}</div></section><section class="prompt-library-section prompt-library-meta" id="metaprompts"><div class="shell"><div class="section-head"><span class="eyebrow">{esc(p['meta_label'])}</span><h2 class="h2">{esc(p['meta_title_section'])}</h2></div><div class="library-prompt-list">{''.join(meta)}</div><aside class="prompt-library-source"><p>{esc(p['skill_note'])}</p><a class="btn secondary" href="{skill['url']}" target="_blank" rel="noopener noreferrer">{esc(skill['locales'][lang]['cta'])}{ui_icon('external')}</a><a class="btn" href="../workbook/index.html">{esc(p['workbook'])}{ui_icon('arrow')}</a></aside></div></section></main>'''+end(lang,'prompts')
