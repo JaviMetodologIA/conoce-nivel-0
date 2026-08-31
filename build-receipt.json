@@ -1,5 +1,5 @@
 {
-  "build_id": "nivel-0-learning-resources-v15",
+  "build_id": "nivel-0-learning-resources-v16",
   "conoce_chrome": {
     "brand_release_immutable": true,
     "breadcrumbs": {
@@ -26,7 +26,7 @@
       "last_item": "aria-current-page-not-link",
       "rendered_ssr": true
     },
-    "canonical_origin": "https://conoce.metodologia.info/",
+    "canonical_origin": "https://javimetodologia.github.io/conoce-nivel-0/",
     "display_label": "Conoce · Nivel 0",
     "parent": {
       "href": "https://metodologia.info/",
@@ -36,10 +36,10 @@
     "publication_authorized": false,
     "rendered_pages": 126,
     "schema_version": "conoce-chrome-spec-v1",
-    "self_sha256": "f3b862a736c86e041430b2d4b759504c956335ff3ec782494c91985e7bf8531a",
+    "self_sha256": "7c0f34585f0ab535d8d508c05efc04e3536ea27e5ec879796dae61a1d074c4f0",
     "site_id": "conoce-nivel-0",
     "source": "src/conoce-chrome-spec-v1.json",
-    "source_sha256": "370ca87adbf0c5b89e9e8c2072d6010f7060c1c2045f414ed779aa6096911cad",
+    "source_sha256": "eb26a5713d0c7f18f0741cc5cb6c45311e57cb9789e7990af036302e57255f82",
     "state": "RENDERED_DRAFT",
     "storage_keys": [
       "mdg_theme",
@@ -145,6 +145,45 @@
       "trabajo-agentico": "7d3ca46610d1cd5550882df2fa66ad054e85c42c5eca599e1b0a97388d8be2ec",
       "trabajo-amplificado": "7790d12a301b929c0d64863a6f2d1e66b99057344e80dedf77790916f5dd8fcf"
     },
+    "prompt_parity": {
+      "composer": {
+        "ref": "scripts/module_prompt_parity.py",
+        "sha256": "058a3e1e48a651cff5b4fd5eef2c12bd83e1fd091868c21bae5d967509a946a4"
+      },
+      "fallback_policy": "forbidden",
+      "families": {
+        "direct": 10,
+        "embody": 4,
+        "evolve": 2,
+        "learn": 4,
+        "meta": 4
+      },
+      "golden_self_sha256": "425f9621d0820e6a9076820260ece6bdb09e6d004d82ab2b9feb907619246ce3",
+      "golden_source": "src/module-01-prompt-inventory-v1.json",
+      "golden_source_sha256": "09304c42c387059d5d4e24955c8ffc9fea6268b8b8df07091c7d30b4f9cb5ae2",
+      "imported_prompt_counts": {
+        "ocupado-productivo": 8,
+        "trabajo-agentico": 8,
+        "trabajo-amplificado": 10
+      },
+      "integral_module_parity_status": "separate-future-gate",
+      "publication_authorized": false,
+      "rendered_cards": 252,
+      "rendered_copyable_prompts": 2016,
+      "rendered_levels": 1008,
+      "rendered_prompt_counts": {
+        "ocupado-productivo": 14,
+        "trabajo-agentico": 14,
+        "trabajo-amplificado": 14
+      },
+      "schema_version": "module-01-prompt-inventory-v1",
+      "scope": "visible-prompt-library",
+      "state": "RENDERED_DRAFT",
+      "surfaces": {
+        "chat": 12,
+        "source_search": 2
+      }
+    },
     "provenance_sha256": "c2aefe8568b666d632b8b900ed3dfebfa5eefce7d39bbc68a055a22e912a6013",
     "provenance_source": "src/curriculum-provenance-rights-v2.json",
     "publication_authorized": false,
@@ -159,8 +198,8 @@
   "editorial_parity": {
     "fallback_policy": "forbidden",
     "inventory": "editorial-string-inventory.json",
-    "inventory_self_sha256": "f6336c41c7ae5be175a3bb4518c178be60c5f830778386f30a8e03a4f84e412c",
-    "inventory_sha256": "fe8d517e6b74ee25916c1ff7a657c27bb1e193ba1214f6ffc7e037845f6563a1",
+    "inventory_self_sha256": "06bb0975ec32b1920a9b4c0ef85af41c620fa5f2bf89a85f4ad02e8696a5bb8d",
+    "inventory_sha256": "92c85decab597df4226222bc3be50a05d07453d56a6904389520b46c937f2ee6",
     "matrix": {
       "audiences": [
         "persona",
@@ -207,9 +246,9 @@
     "publication_authorized": false,
     "rendered_pages": 24,
     "schema_version": "editorial-sitemap-spec-v1",
-    "self_sha256": "648566295b41f61601fc64f88fbbdbcaea53fbcdbf4413ba6a92c991b182e718",
+    "self_sha256": "5886e1eb550340becb74a08a2677c385840e0e0f85bb3c337ace0a9bfd23c5fe",
     "source": "src/editorial-sitemap-spec-v1.json",
-    "source_sha256": "27ea26cbde0657274b7381b8efc6e1fb3949a8e56381599ba333e5bca402c90e",
+    "source_sha256": "fcabf960e193cc068afc5c980381a8a3b767c7f330e5ab34c929bc06e8c68480",
     "state": "RENDERED_DRAFT"
   },
   "intrapage_navigation": {
@@ -220,8 +259,8 @@
     "source": "src/intrapage-navigation-spec-v1.json",
     "source_sha256": "e9aa4d32fef5b6c9bad155f32318dd0331babc035fa98e3fb71d149b5d8486f3"
   },
-  "manifest_self_sha256": "9ff4e67cba6fe0881cb0c10429186655dfd011bffaa9c9ca1b0122c0dc37dce3",
-  "manifest_sha256": "d264b4416eb6e8093f17320055ef67509d9e7b56c1532e46bfcf546b453cf4b6",
+  "manifest_self_sha256": "f63a4042f824db6d6d0b631ea93efd2346280634e9871edabd9575b6af1539cd",
+  "manifest_sha256": "74a70b256430a9f8072c79021614386235a57a9f73a6d78a4026228088408f9a",
   "method_identity": {
     "assets": {
       "compact": "b07a0713a106f1f78491e54667b248ef6a790ce175b0a07ba2e721137e936393",
@@ -650,6 +689,6 @@
   "publication_authorized": false,
   "schema_version": "build-receipt-v1",
   "self_hash_model": "sha256(sorted-json-without-self)",
-  "self_sha256": "667a2517bae4add365c1e4f9eba1a4e99fc741d3597588520b0d71ffd1fb7af1",
+  "self_sha256": "cc06b48c322251f18debc1e4bdfaa3b7560e16d4c04bb76269a7aeed0d3a3e24",
   "state": "RENDERED_DRAFT"
 }
