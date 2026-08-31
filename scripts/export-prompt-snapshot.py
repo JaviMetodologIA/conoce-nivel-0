@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
-"""Deterministic baseline exporter for prompt texts rendered in dist/.
+"""Deterministic snapshot exporter for prompt texts rendered in dist/.
 
 Reads the 12 prompts/workbook pages (3 locales x 2 audiences x 2 surfaces),
-extracts the copyable text of every prompt level from the
+extracts the template and demo copy of every prompt level from the
 textarea[data-prompt-source] inside each details[data-prompt-level] block,
 and writes snapshots/baseline/prompt-snapshot-{locale}.json.
 
@@ -17,7 +17,7 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
 DIST = ROOT / 'dist'
-OUT_DIR = ROOT / 'snapshots' / 'baseline'
+OUT_DIR = ROOT / 'snapshots'
 
 LOCALES = ('es', 'en', 'pt')
 AUDIENCES = ('persona', 'empresa')
@@ -68,7 +68,8 @@ class PromptExtractor(HTMLParser):
         self.level = None
         self.in_source = False
         self.chunks = []
-        self.results = []  # (library_id, level, text)
+        self.mode = None
+        self.results = []  # (library_id, level, mode, text)
 
     def handle_starttag(self, tag, attrs):
         a = dict(attrs)
@@ -83,12 +84,15 @@ class PromptExtractor(HTMLParser):
             if self.library_id is None or self.level is None:
                 raise SystemExit('PROMPT_SOURCE_OUTSIDE_CONTEXT')
             self.in_source = True
+            self.mode = a.get('data-prompt-mode')
+            if self.mode not in ('template', 'demo'):
+                raise SystemExit('PROMPT_SOURCE_MODE_MISSING')
             self.chunks = []
 
     def handle_endtag(self, tag):
         if tag == 'textarea' and self.in_source:
             self.in_source = False
-            self.results.append((self.library_id, self.level, ''.join(self.chunks)))
+            self.results.append((self.library_id, self.level, self.mode, ''.join(self.chunks)))
 
     def handle_data(self, data):
         if self.in_source:
@@ -116,10 +120,10 @@ def export():
                     raise SystemExit(f'PAGE_IDENTITY_MISMATCH:{path}:{parser.html_lang}:{parser.html_audience}')
                 expected = set(EXPECTED_LIBRARY) if page == 'prompts' else set(EXPECTED_WORKBOOK + EXPECTED_BRAIN)
                 seen = set()
-                for library_id, level, text in parser.results:
+                for library_id, level, mode, text in parser.results:
                     surface, intent = classify(library_id, locale)
                     level_name = LEVEL_NAMES[level]
-                    key = f'{surface}/{intent}/{locale}/{audience}/{level_name}'
+                    key = f'{surface}/{intent}/{locale}/{audience}/{mode}/{level_name}'
                     if key in snapshots[locale]:
                         raise SystemExit(f'DUPLICATE_SNAPSHOT_KEY:{key}')
                     snapshots[locale][key] = {
@@ -135,7 +139,7 @@ def export():
     total = 0
     for locale in LOCALES:
         entries = snapshots[locale]
-        if len(entries) != 216:
+        if len(entries) != 432:
             raise SystemExit(f'ENTRY_COUNT_MISMATCH:{locale}:{len(entries)}')
         total += len(entries)
         document = dict(sorted(entries.items()))

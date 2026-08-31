@@ -1,5 +1,5 @@
 {
-  "schema_version": "prompt-intent-contract-v1",
+  "schema_version": "prompt-intent-contract-v2",
   "intent_id": "W01",
   "surface": "workbook",
   "phase": "Aprender",
@@ -20,29 +20,11 @@
         "when": "arrancas el taller y todavía no tienes ninguna fuente cargada en el Notebook.",
         "example": "IA generativa aplicada a mi trabajo comercial, con el Notebook todavía vacío.",
         "evidence": "informe citado con alcance, conceptos esenciales, cambios desde la fecha de corte, tensiones, incertidumbre marcada inline y fuentes primarias con título, autor, fecha, enlace y razón, importable como primera fuente.",
-        "prompt": "Paso 1 del taller: quiero construir una base de conocimiento útil y verificable sobre [TEMA] y aún no tengo nada cargado. La necesito para [DECISIÓN, PROYECTO O RESULTADO]; mi contexto es [CONTEXTO] y mi audiencia es [AUDIENCIA]. Delimita el alcance y las preguntas; explica los conceptos esenciales y los cambios publicados desde [FECHA DE CORTE]; prioriza fuentes primarias; muestra tensiones y límites; separa hechos, interpretaciones e incertidumbre y marca cada frase incierta con «incierto: falta X»; recomienda cada fuente con título, autor, fecha, enlace y razón. No te detengas en delimitar ni cierres con un criterio de suficiencia: entrega un informe citado que yo pueda importar como primera fuente y auditar en el paso siguiente. Si no hay fuentes primarias accesibles, entrega el informe reducido y lista los vacíos en vez de rellenarlos. No inventes fuentes, citas ni fechas, y no presentes como certeza lo que las fuentes no permiten afirmar.",
+        "prompt": "Paso 1 del taller: quiero construir una base de conocimiento útil y verificable sobre <TEMA> y aún no tengo nada cargado. Debe ayudarme a resolver <DECISIÓN>; mi contexto es <CONTEXTO> y mi audiencia es <AUDIENCIA>. Delimita el alcance y las preguntas; explica los conceptos esenciales y los cambios publicados desde <FECHA DE CORTE>; prioriza fuentes primarias; muestra tensiones y límites; separa hechos, interpretaciones e incertidumbre y marca cada frase incierta con «incierto: falta X»; recomienda cada fuente con título, autor, fecha, enlace y razón. No te detengas en delimitar ni cierres con un criterio de suficiencia: entrega un informe citado que yo pueda importar como primera fuente y auditar en el paso siguiente. Si no hay fuentes primarias accesibles, entrega el informe reducido y lista los vacíos en vez de rellenarlos. No inventes fuentes, citas ni fechas, y no presentes como certeza lo que las fuentes no permiten afirmar.",
         "level_spec": {
           "role": "Facilitador del paso 1: produce la primera fuente del taller",
           "spec_role": "Facilitador de taller guiado sobre NotebookLM",
           "objective": "Convertir un tema sin base cargada en un informe citado importable que encadene al paso de auditoría",
-          "parameters": [
-            [
-              "posicion_en_la_secuencia",
-              "paso 1: no recibe nada del paso anterior y entrega la primera fuente"
-            ],
-            [
-              "corte_temporal",
-              "los cambios se cuentan desde la fecha de corte declarada, no desde «reciente»"
-            ],
-            [
-              "incertidumbre",
-              "cada frase incierta lleva la marca «incierto: falta X»"
-            ],
-            [
-              "salida",
-              "informe citado importable, no criterio de suficiencia"
-            ]
-          ],
           "workflow": [
             "Registrar tema, decisión, contexto, audiencia y fecha de corte",
             "Delimitar el alcance y formular las preguntas esenciales",
@@ -66,6 +48,29 @@
             "Tema sin fuentes primarias accesibles: informe reducido con vacíos listados",
             "Decisión, proyecto o resultado no declarado: preguntarlo antes de delimitar",
             "Cambios recientes sin fecha de corte: pedir la fecha en vez de suponerla"
+          ],
+          "constraints": [
+            [
+              "posicion_en_la_secuencia",
+              "paso 1: no recibe nada del paso anterior y entrega la primera fuente"
+            ],
+            [
+              "corte_temporal",
+              "los cambios se cuentan desde la fecha de corte declarada, no desde «reciente»"
+            ],
+            [
+              "incertidumbre",
+              "cada frase incierta lleva la marca «incierto: falta X»"
+            ],
+            [
+              "salida",
+              "informe citado importable, no criterio de suficiencia"
+            ]
+          ],
+          "frameworks": [
+            "Jerarquía de fuentes · fuentes primarias primero",
+            "Plan de investigación · pregunta, alcance y criterios",
+            "MECE · sin solapamientos ni vacíos"
           ]
         },
         "why_it_works": {
@@ -75,7 +80,7 @@
             "Cada frase incierta lleva la marca «incierto: falta X»; sin marca, la frase se lee como afirmada"
           ],
           "edge_cases": [
-            "Sin fuentes primarias accesibles: el informe se entrega reducido y los vacíos quedan listados para el encargo de investigación",
+            "Sin fuentes primarias accesibles: el informe se entrega reducido y los vacíos quedan listados para el plan de investigación",
             "Sin decisión ni resultado declarado: el prompt lo pregunta antes de delimitar"
           ],
           "tradeoffs": [
@@ -105,7 +110,98 @@
             "claim": "Encadenar el paso 1 con la auditoría y marcar la incertidumbre inline en lugar de cerrar con criterio de suficiencia son normas internas del taller.",
             "source": "method_internal"
           }
-        ]
+        ],
+        "inputs": [
+          {
+            "key": "topic",
+            "label": "TEMA",
+            "help": "asunto concreto",
+            "example": "verificar respuestas de IA",
+            "required": true,
+            "type": "text",
+            "source": "user",
+            "demo_value": "cómo aprender a aprender con IA mediante una práctica semanal de alto rendimiento"
+          },
+          {
+            "key": "decision",
+            "label": "DECISIÓN",
+            "help": "elección que debe quedar informada",
+            "example": "escalar o ajustar el piloto",
+            "required": true,
+            "type": "text",
+            "source": "user",
+            "demo_value": "qué forma de trabajo probar durante siete días"
+          },
+          {
+            "key": "context",
+            "label": "CONTEXTO",
+            "help": "situación y restricciones relevantes",
+            "example": "45 minutos al día",
+            "required": true,
+            "type": "text",
+            "source": "user",
+            "demo_value": "trabajo individual con 45 minutos disponibles al día"
+          },
+          {
+            "key": "audience",
+            "label": "AUDIENCIA",
+            "help": "quién usará el resultado",
+            "example": "profesionales no técnicos",
+            "required": true,
+            "type": "text",
+            "source": "user",
+            "demo_value": "profesionales no técnicos que empiezan con IA"
+          },
+          {
+            "key": "cutoff_date",
+            "label": "FECHA DE CORTE",
+            "help": "última fecha aceptada",
+            "example": "agosto de 2026",
+            "required": true,
+            "type": "text",
+            "source": "user",
+            "demo_value": "agosto de 2026"
+          }
+        ],
+        "parameters": [
+          {
+            "key": "length",
+            "label": "LONGITUD",
+            "default": "concisa",
+            "choices": [
+              "concisa",
+              "media"
+            ]
+          },
+          {
+            "key": "structure",
+            "label": "ESTRUCTURA",
+            "default": "2 párrafos + bullets clave",
+            "choices": [
+              "2 párrafos + bullets clave",
+              "tabla breve"
+            ]
+          },
+          {
+            "key": "tone",
+            "label": "TONO",
+            "default": "claro y personal",
+            "choices": [
+              "claro y personal",
+              "didáctico"
+            ]
+          },
+          {
+            "key": "depth",
+            "label": "PROFUNDIDAD",
+            "default": "práctica",
+            "choices": [
+              "práctica",
+              "profunda"
+            ]
+          }
+        ],
+        "optional_clauses": []
       },
       "empresa": {
         "title": "Primera base compartida del equipo",
@@ -113,29 +209,11 @@
         "when": "el proceso exige una base común y aún no hay ninguna fuente cargada.",
         "example": "IA generativa para la operación comercial, antes de comprometer presupuesto del área.",
         "evidence": "informe citado listo para revisión, con alcance repartible, fuentes primarias con derechos de uso y responsable, incertidumbre marcada inline y vacíos registrados para la auditoría siguiente.",
-        "prompt": "Paso 1 del taller: el equipo necesita una base de conocimiento verificable sobre [TEMA] y aún no hay nada cargado. La consumirá [EQUIPO] dentro de [PROCESO] antes de [DECISIÓN DEL EQUIPO]. Delimita un alcance repartible y las preguntas; explica los conceptos esenciales y los cambios publicados desde [FECHA DE CORTE]; prioriza fuentes primarias con derechos de uso interno; muestra tensiones y límites; separa hechos, interpretaciones e incertidumbre y marca cada frase incierta con «incierto: falta X»; recomienda cada fuente con título, autor, fecha, enlace, razón y responsable de mantenerla. No te detengas en delimitar ni cierres con un criterio de suficiencia: entrega un informe citado listo para revisión, importable como primera fuente compartida y auditable en el paso siguiente. Sin fuentes primarias con derechos claros, entrega el informe reducido, registra el riesgo operativo y lista los vacíos. No inventes fuentes, citas ni derechos de uso.",
+        "prompt": "Paso 1 del taller: el equipo necesita una base de conocimiento verificable sobre <TEMA> y aún no hay nada cargado. La consumirá <EQUIPO> dentro de <PROCESO> y debe ayudar a resolver <DECISIÓN>. Delimita un alcance repartible y las preguntas; explica los conceptos esenciales y los cambios publicados desde <FECHA DE CORTE>; prioriza fuentes primarias con derechos de uso interno; muestra tensiones y límites; separa hechos, interpretaciones e incertidumbre y marca cada frase incierta con «incierto: falta X»; recomienda cada fuente con título, autor, fecha, enlace, razón y responsable de mantenerla. No te detengas en delimitar ni cierres con un criterio de suficiencia: entrega un informe citado listo para revisión, importable como primera fuente compartida y auditable en el paso siguiente. Sin fuentes primarias con derechos claros, entrega el informe reducido, registra el riesgo operativo y lista los vacíos. No inventes fuentes, citas ni derechos de uso.",
         "level_spec": {
           "role": "Facilitador del paso 1 para equipos: produce la primera fuente compartida",
           "spec_role": "Facilitador de taller guiado sobre NotebookLM",
           "objective": "Convertir un tema sin base cargada en un informe citado compartible que encadene a la auditoría del equipo",
-          "parameters": [
-            [
-              "posicion_en_la_secuencia",
-              "paso 1: no recibe nada del paso anterior y entrega la primera fuente compartida"
-            ],
-            [
-              "derechos",
-              "cada fuente primaria declara derechos de uso interno y responsable de mantenerla"
-            ],
-            [
-              "corte_temporal",
-              "los cambios se cuentan desde la fecha de corte declarada"
-            ],
-            [
-              "salida",
-              "informe citado listo para revisión, no criterio de suficiencia"
-            ]
-          ],
           "workflow": [
             "Registrar tema, decisión del equipo, equipo consumidor, proceso y fecha de corte",
             "Delimitar un alcance repartible y formular las preguntas esenciales",
@@ -159,6 +237,29 @@
             "Fuentes sin derechos de uso claros: no entran a la base compartida, se registran como vacío",
             "Decisión del equipo sin responsable: pedirlo antes de delimitar",
             "Áreas con fechas de corte distintas: pedir una sola fecha antes de contar cambios"
+          ],
+          "constraints": [
+            [
+              "posicion_en_la_secuencia",
+              "paso 1: no recibe nada del paso anterior y entrega la primera fuente compartida"
+            ],
+            [
+              "derechos",
+              "cada fuente primaria declara derechos de uso interno y responsable de mantenerla"
+            ],
+            [
+              "corte_temporal",
+              "los cambios se cuentan desde la fecha de corte declarada"
+            ],
+            [
+              "salida",
+              "informe citado listo para revisión, no criterio de suficiencia"
+            ]
+          ],
+          "frameworks": [
+            "Jerarquía de fuentes · fuentes primarias primero",
+            "Plan de investigación · pregunta, alcance y criterios",
+            "MECE · sin solapamientos ni vacíos"
           ]
         },
         "why_it_works": {
@@ -198,7 +299,98 @@
             "claim": "Exigir derechos de uso interno, responsable de mantenimiento y registro del riesgo operativo antes de compartir una base es política interna del método.",
             "source": "method_internal"
           }
-        ]
+        ],
+        "inputs": [
+          {
+            "key": "topic",
+            "label": "TEMA",
+            "help": "asunto concreto",
+            "example": "verificar respuestas de IA",
+            "required": true,
+            "type": "text",
+            "source": "user",
+            "demo_value": "cómo aprender a aprender con IA mediante formas de trabajo de alto rendimiento"
+          },
+          {
+            "key": "team",
+            "label": "EQUIPO",
+            "help": "grupo que participa",
+            "example": "equipo de operaciones",
+            "required": true,
+            "type": "text",
+            "source": "user",
+            "demo_value": "equipo piloto de operaciones"
+          },
+          {
+            "key": "process",
+            "label": "PROCESO",
+            "help": "flujo que cambiará",
+            "example": "preparación de decisiones",
+            "required": true,
+            "type": "text",
+            "source": "user",
+            "demo_value": "preparación y revisión semanal de decisiones"
+          },
+          {
+            "key": "decision",
+            "label": "DECISIÓN",
+            "help": "elección que debe quedar informada",
+            "example": "escalar o ajustar el piloto",
+            "required": true,
+            "type": "text",
+            "source": "user",
+            "demo_value": "si escalar, ajustar o detener el piloto"
+          },
+          {
+            "key": "cutoff_date",
+            "label": "FECHA DE CORTE",
+            "help": "última fecha aceptada",
+            "example": "agosto de 2026",
+            "required": true,
+            "type": "text",
+            "source": "user",
+            "demo_value": "agosto de 2026"
+          }
+        ],
+        "parameters": [
+          {
+            "key": "length",
+            "label": "LONGITUD",
+            "default": "concisa",
+            "choices": [
+              "concisa",
+              "media"
+            ]
+          },
+          {
+            "key": "structure",
+            "label": "ESTRUCTURA",
+            "default": "2 párrafos + bullets clave",
+            "choices": [
+              "2 párrafos + bullets clave",
+              "tabla breve"
+            ]
+          },
+          {
+            "key": "tone",
+            "label": "TONO",
+            "default": "ejecutivo y operativo",
+            "choices": [
+              "ejecutivo y operativo",
+              "facilitador"
+            ]
+          },
+          {
+            "key": "depth",
+            "label": "PROFUNDIDAD",
+            "default": "práctica",
+            "choices": [
+              "práctica",
+              "profunda"
+            ]
+          }
+        ],
+        "optional_clauses": []
       }
     },
     "en": {
@@ -208,29 +400,11 @@
         "when": "you start the workshop and no source is loaded in the Notebook yet.",
         "example": "Generative AI applied to my sales work, with the Notebook still empty.",
         "evidence": "cited report with scope, essentials, what changed since the cutoff date, tensions, uncertainty tagged inline and primary sources carrying title, author, date, link and reason, importable as a first source.",
-        "prompt": "Step 1 of the workshop: I want a useful, verifiable knowledge base about [TOPIC] and nothing is loaded yet. I need it for [DECISION OR RESULT]; my context is [CONTEXT] and my audience is [AUDIENCE]. Define scope and questions; explain the essentials and what changed since [CUTOFF DATE]; prioritize primary sources; include tensions and evidence limits; separate facts, interpretations and uncertainty, tagging every uncertain line as \"uncertain: X is missing\"; recommend each source with title, author, date, link and reason. Do not stop at scoping and do not close on a sufficiency rule: deliver a cited report I can import as my first source and audit in the next step. If no primary sources are reachable, deliver the shorter report and list the gaps instead of filling them. Do not invent sources, citations or dates, and do not present more certainty than the sources support.",
+        "prompt": "Step 1 of the workshop: I want a useful, verifiable knowledge base about <TOPIC> and nothing is loaded yet. It must help me resolve <DECISION>; my context is <CONTEXT> and my audience is <AUDIENCE>. Define scope and questions; explain the essentials and what changed since <CUTOFF DATE>; prioritize primary sources; include tensions and evidence limits; separate facts, interpretations and uncertainty, tagging every uncertain line as \"uncertain: X is missing\"; recommend each source with title, author, date, link and reason. Do not stop at scoping and do not close on a sufficiency rule: deliver a cited report I can import as my first source and audit in the next step. If no primary sources are reachable, deliver the shorter report and list the gaps instead of filling them. Do not invent sources, citations or dates, and do not present more certainty than the sources support.",
         "level_spec": {
           "role": "Step 1 facilitator: produces the first source of the workshop",
           "spec_role": "Guided workshop facilitator for NotebookLM",
           "objective": "Turn a topic with no loaded base into an importable cited report that chains into the audit step",
-          "parameters": [
-            [
-              "sequence_position",
-              "step 1: receives nothing from a prior step and hands over the first source"
-            ],
-            [
-              "cutoff",
-              "changes are counted from the declared cutoff date, not from \"recent\""
-            ],
-            [
-              "uncertainty",
-              "every uncertain line carries the tag \"uncertain: X is missing\""
-            ],
-            [
-              "output",
-              "an importable cited report, not a sufficiency rule"
-            ]
-          ],
           "workflow": [
             "Record topic, decision, context, audience and cutoff date",
             "Define the scope and frame the essential questions",
@@ -254,6 +428,29 @@
             "Topic with no reachable primary sources: shorter report with gaps listed",
             "Decision or result not declared: ask for it before scoping",
             "Recent changes with no cutoff date: ask for the date instead of assuming one"
+          ],
+          "constraints": [
+            [
+              "sequence_position",
+              "step 1: receives nothing from a prior step and hands over the first source"
+            ],
+            [
+              "cutoff",
+              "changes are counted from the declared cutoff date, not from \"recent\""
+            ],
+            [
+              "uncertainty",
+              "every uncertain line carries the tag \"uncertain: X is missing\""
+            ],
+            [
+              "output",
+              "an importable cited report, not a sufficiency rule"
+            ]
+          ],
+          "frameworks": [
+            "Source hierarchy · primary sources first",
+            "Research plan · question, scope and criteria",
+            "MECE · no overlaps or gaps"
           ]
         },
         "why_it_works": {
@@ -263,7 +460,7 @@
             "Every uncertain line carries the tag \"uncertain: X is missing\"; untagged lines read as asserted"
           ],
           "edge_cases": [
-            "No reachable primary sources: the report ships shorter and the gaps stay listed for the research brief",
+            "No reachable primary sources: the report ships shorter and the gaps stay listed for the research plan",
             "No decision or result declared: the prompt asks before scoping"
           ],
           "tradeoffs": [
@@ -293,7 +490,98 @@
             "claim": "Chaining step 1 into the audit and tagging uncertainty inline instead of closing on a sufficiency rule are internal workshop policy.",
             "source": "method_internal"
           }
-        ]
+        ],
+        "inputs": [
+          {
+            "key": "topic",
+            "label": "TOPIC",
+            "help": "specific subject",
+            "example": "verify AI answers",
+            "required": true,
+            "type": "text",
+            "source": "user",
+            "demo_value": "how to learn with AI through a weekly high-performance practice"
+          },
+          {
+            "key": "decision",
+            "label": "DECISION",
+            "help": "choice the work must inform",
+            "example": "scale or adjust the pilot",
+            "required": true,
+            "type": "text",
+            "source": "user",
+            "demo_value": "which way of working to test for seven days"
+          },
+          {
+            "key": "context",
+            "label": "CONTEXT",
+            "help": "relevant situation and constraints",
+            "example": "45 minutes a day",
+            "required": true,
+            "type": "text",
+            "source": "user",
+            "demo_value": "individual work with 45 minutes available each day"
+          },
+          {
+            "key": "audience",
+            "label": "AUDIENCE",
+            "help": "who will use the result",
+            "example": "non-technical professionals",
+            "required": true,
+            "type": "text",
+            "source": "user",
+            "demo_value": "non-technical professionals starting with AI"
+          },
+          {
+            "key": "cutoff_date",
+            "label": "CUTOFF DATE",
+            "help": "latest accepted date",
+            "example": "August 2026",
+            "required": true,
+            "type": "text",
+            "source": "user",
+            "demo_value": "August 2026"
+          }
+        ],
+        "parameters": [
+          {
+            "key": "length",
+            "label": "LENGTH",
+            "default": "concise",
+            "choices": [
+              "concise",
+              "medium"
+            ]
+          },
+          {
+            "key": "structure",
+            "label": "STRUCTURE",
+            "default": "2 paragraphs + key bullets",
+            "choices": [
+              "2 paragraphs + key bullets",
+              "short table"
+            ]
+          },
+          {
+            "key": "tone",
+            "label": "TONE",
+            "default": "clear and personal",
+            "choices": [
+              "clear and personal",
+              "instructional"
+            ]
+          },
+          {
+            "key": "depth",
+            "label": "DEPTH",
+            "default": "practical",
+            "choices": [
+              "practical",
+              "deep"
+            ]
+          }
+        ],
+        "optional_clauses": []
       },
       "empresa": {
         "title": "A first shared base for the team",
@@ -301,29 +589,11 @@
         "when": "the process needs a common base and no source is loaded yet.",
         "example": "Generative AI for the sales operation, before committing the area training budget.",
         "evidence": "cited report ready for review, with splittable scope, primary sources carrying usage rights and an owner, uncertainty tagged inline and gaps recorded for the audit step.",
-        "prompt": "Step 1 of the workshop: the team needs a verifiable knowledge base about [TOPIC] and nothing is loaded yet. [TEAM] will consume it within [PROCESS] before [TEAM DECISION]. Define a splittable scope and questions; explain the essentials and what changed since [CUTOFF DATE]; prioritize primary sources with internal usage rights; include tensions and evidence limits; separate facts, interpretations and uncertainty, tagging every uncertain line as \"uncertain: X is missing\"; recommend each source with title, author, date, link, reason and an accountable owner. Do not stop at scoping and do not close on a sufficiency rule: deliver a cited report ready for review, importable as the first shared source and auditable in the next step. Without primary sources with clear rights, deliver the shorter report, record the operational risk and list the gaps. Do not invent sources, citations or usage rights.",
+        "prompt": "Step 1 of the workshop: the team needs a verifiable knowledge base about <TOPIC> and nothing is loaded yet. <TEAM> will consume it within <PROCESS> and must help resolve <DECISION>. Define a splittable scope and questions; explain the essentials and what changed since <CUTOFF DATE>; prioritize primary sources with internal usage rights; include tensions and evidence limits; separate facts, interpretations and uncertainty, tagging every uncertain line as \"uncertain: X is missing\"; recommend each source with title, author, date, link, reason and an accountable owner. Do not stop at scoping and do not close on a sufficiency rule: deliver a cited report ready for review, importable as the first shared source and auditable in the next step. Without primary sources with clear rights, deliver the shorter report, record the operational risk and list the gaps. Do not invent sources, citations or usage rights.",
         "level_spec": {
           "role": "Step 1 facilitator for teams: produces the first shared source",
           "spec_role": "Guided workshop facilitator for NotebookLM",
           "objective": "Turn a topic with no loaded base into a shareable cited report that chains into the team audit",
-          "parameters": [
-            [
-              "sequence_position",
-              "step 1: receives nothing from a prior step and hands over the first shared source"
-            ],
-            [
-              "rights",
-              "every primary source declares internal usage rights and an accountable owner"
-            ],
-            [
-              "cutoff",
-              "changes are counted from the declared cutoff date"
-            ],
-            [
-              "output",
-              "a cited report ready for review, not a sufficiency rule"
-            ]
-          ],
           "workflow": [
             "Record topic, team decision, consuming team, process and cutoff date",
             "Define a splittable scope and frame the essential questions",
@@ -347,6 +617,29 @@
             "Sources without clear usage rights: they stay out of the shared base and are recorded as a gap",
             "Team decision without an accountable owner: ask for one before scoping",
             "Areas with different cutoff dates: ask for a single date before counting changes"
+          ],
+          "constraints": [
+            [
+              "sequence_position",
+              "step 1: receives nothing from a prior step and hands over the first shared source"
+            ],
+            [
+              "rights",
+              "every primary source declares internal usage rights and an accountable owner"
+            ],
+            [
+              "cutoff",
+              "changes are counted from the declared cutoff date"
+            ],
+            [
+              "output",
+              "a cited report ready for review, not a sufficiency rule"
+            ]
+          ],
+          "frameworks": [
+            "Source hierarchy · primary sources first",
+            "Research plan · question, scope and criteria",
+            "MECE · no overlaps or gaps"
           ]
         },
         "why_it_works": {
@@ -386,7 +679,98 @@
             "claim": "Requiring internal usage rights, a maintenance owner and a recorded operational risk before a base is shared is internal method policy.",
             "source": "method_internal"
           }
-        ]
+        ],
+        "inputs": [
+          {
+            "key": "topic",
+            "label": "TOPIC",
+            "help": "specific subject",
+            "example": "verify AI answers",
+            "required": true,
+            "type": "text",
+            "source": "user",
+            "demo_value": "how to learn with AI through high-performance ways of working"
+          },
+          {
+            "key": "team",
+            "label": "TEAM",
+            "help": "group taking part",
+            "example": "operations team",
+            "required": true,
+            "type": "text",
+            "source": "user",
+            "demo_value": "operations pilot team"
+          },
+          {
+            "key": "process",
+            "label": "PROCESS",
+            "help": "workflow that will change",
+            "example": "decision preparation",
+            "required": true,
+            "type": "text",
+            "source": "user",
+            "demo_value": "weekly decision preparation and review"
+          },
+          {
+            "key": "decision",
+            "label": "DECISION",
+            "help": "choice the work must inform",
+            "example": "scale or adjust the pilot",
+            "required": true,
+            "type": "text",
+            "source": "user",
+            "demo_value": "whether to scale, adjust or stop the pilot"
+          },
+          {
+            "key": "cutoff_date",
+            "label": "CUTOFF DATE",
+            "help": "latest accepted date",
+            "example": "August 2026",
+            "required": true,
+            "type": "text",
+            "source": "user",
+            "demo_value": "August 2026"
+          }
+        ],
+        "parameters": [
+          {
+            "key": "length",
+            "label": "LENGTH",
+            "default": "concise",
+            "choices": [
+              "concise",
+              "medium"
+            ]
+          },
+          {
+            "key": "structure",
+            "label": "STRUCTURE",
+            "default": "2 paragraphs + key bullets",
+            "choices": [
+              "2 paragraphs + key bullets",
+              "short table"
+            ]
+          },
+          {
+            "key": "tone",
+            "label": "TONE",
+            "default": "executive and operational",
+            "choices": [
+              "executive and operational",
+              "facilitative"
+            ]
+          },
+          {
+            "key": "depth",
+            "label": "DEPTH",
+            "default": "practical",
+            "choices": [
+              "practical",
+              "deep"
+            ]
+          }
+        ],
+        "optional_clauses": []
       }
     },
     "pt": {
@@ -396,29 +780,11 @@
         "when": "você começa a oficina e ainda não há nenhuma fonte carregada no Notebook.",
         "example": "IA generativa aplicada ao meu trabalho comercial, com o Notebook ainda vazio.",
         "evidence": "relatório citado com escopo, fundamentos, o que mudou desde a data de corte, tensões, incerteza marcada no texto e fontes primárias com título, autor, data, link e motivo, importável como primeira fonte.",
-        "prompt": "Passo 1 da oficina: quero uma base de conhecimento útil e verificável sobre [TEMA] e ainda não carreguei nada. Preciso dela para [DECISÃO OU RESULTADO]; meu contexto é [CONTEXTO] e meu público é [PÚBLICO]. Delimite escopo e perguntas; explique os fundamentos e o que mudou desde [DATA DE CORTE]; priorize fontes primárias; inclua tensões e limites da evidência; separe fatos, interpretações e incerteza, marcando cada trecho incerto como «incerto: falta X»; recomende cada fonte com título, autor, data, link e motivo. Não pare na delimitação nem feche com critério de suficiência: entregue um relatório citado que eu possa importar como minha primeira fonte e auditar no passo seguinte. Sem fontes primárias acessíveis, entregue o relatório reduzido e liste as lacunas em vez de preenchê-las. Não invente fontes, citações nem datas, e não apresente mais certeza do que as fontes permitem.",
+        "prompt": "Passo 1 da oficina: quero uma base de conhecimento útil e verificável sobre <TEMA> e ainda não carreguei nada. Ela deve me ajudar a resolver <DECISÃO>; meu contexto é <CONTEXTO> e meu público é <PÚBLICO>. Delimite escopo e perguntas; explique os fundamentos e o que mudou desde <DATA DE CORTE>; priorize fontes primárias; inclua tensões e limites da evidência; separe fatos, interpretações e incerteza, marcando cada trecho incerto como «incerto: falta X»; recomende cada fonte com título, autor, data, link e motivo. Não pare na delimitação nem feche com critério de suficiência: entregue um relatório citado que eu possa importar como minha primeira fonte e auditar no passo seguinte. Sem fontes primárias acessíveis, entregue o relatório reduzido e liste as lacunas em vez de preenchê-las. Não invente fontes, citações nem datas, e não apresente mais certeza do que as fontes permitem.",
         "level_spec": {
           "role": "Facilitador do passo 1: produz a primeira fonte da oficina",
           "spec_role": "Facilitador de oficina guiada no NotebookLM",
           "objective": "Transformar um tema sem base carregada em relatório citado importável que encadeia no passo de auditoria",
-          "parameters": [
-            [
-              "posicao_na_sequencia",
-              "passo 1: não recebe nada do passo anterior e entrega a primeira fonte"
-            ],
-            [
-              "data_de_corte",
-              "as mudanças contam a partir da data de corte declarada, não de «recente»"
-            ],
-            [
-              "incerteza",
-              "cada trecho incerto leva a marca «incerto: falta X»"
-            ],
-            [
-              "saida",
-              "relatório citado importável, não critério de suficiência"
-            ]
-          ],
           "workflow": [
             "Registrar tema, decisão, contexto, público e data de corte",
             "Delimitar o escopo e formular as perguntas essenciais",
@@ -442,6 +808,29 @@
             "Tema sem fontes primárias acessíveis: relatório reduzido com lacunas listadas",
             "Decisão ou resultado não declarado: perguntar antes de delimitar",
             "Mudanças recentes sem data de corte: pedir a data em vez de supor"
+          ],
+          "constraints": [
+            [
+              "posicao_na_sequencia",
+              "passo 1: não recebe nada do passo anterior e entrega a primeira fonte"
+            ],
+            [
+              "data_de_corte",
+              "as mudanças contam a partir da data de corte declarada, não de «recente»"
+            ],
+            [
+              "incerteza",
+              "cada trecho incerto leva a marca «incerto: falta X»"
+            ],
+            [
+              "saida",
+              "relatório citado importável, não critério de suficiência"
+            ]
+          ],
+          "frameworks": [
+            "Hierarquia de fontes · fontes primárias primeiro",
+            "Plano de pesquisa · pergunta, escopo e critérios",
+            "MECE · sem sobreposições nem lacunas"
           ]
         },
         "why_it_works": {
@@ -451,7 +840,7 @@
             "Cada trecho incerto leva a marca «incerto: falta X»; sem marca, o trecho é lido como afirmado"
           ],
           "edge_cases": [
-            "Sem fontes primárias acessíveis: o relatório sai reduzido e as lacunas ficam listadas para o encargo de pesquisa",
+            "Sem fontes primárias acessíveis: o relatório sai reduzido e as lacunas ficam listadas para o plano de pesquisa",
             "Sem decisão nem resultado declarado: o prompt pergunta antes de delimitar"
           ],
           "tradeoffs": [
@@ -481,7 +870,98 @@
             "claim": "Encadear o passo 1 com a auditoria e marcar a incerteza no próprio texto em vez de fechar com critério de suficiência são normas internas da oficina.",
             "source": "method_internal"
           }
-        ]
+        ],
+        "inputs": [
+          {
+            "key": "topic",
+            "label": "TEMA",
+            "help": "assunto concreto",
+            "example": "verificar respostas de IA",
+            "required": true,
+            "type": "text",
+            "source": "user",
+            "demo_value": "como aprender a aprender com IA por meio de uma prática semanal de alto desempenho"
+          },
+          {
+            "key": "decision",
+            "label": "DECISÃO",
+            "help": "escolha que o trabalho deve informar",
+            "example": "escalar ou ajustar o piloto",
+            "required": true,
+            "type": "text",
+            "source": "user",
+            "demo_value": "qual forma de trabalho testar por sete dias"
+          },
+          {
+            "key": "context",
+            "label": "CONTEXTO",
+            "help": "situação e restrições relevantes",
+            "example": "45 minutos por dia",
+            "required": true,
+            "type": "text",
+            "source": "user",
+            "demo_value": "trabalho individual com 45 minutos disponíveis por dia"
+          },
+          {
+            "key": "audience",
+            "label": "PÚBLICO",
+            "help": "quem usará o resultado",
+            "example": "profissionais não técnicos",
+            "required": true,
+            "type": "text",
+            "source": "user",
+            "demo_value": "profissionais não técnicos iniciando com IA"
+          },
+          {
+            "key": "cutoff_date",
+            "label": "DATA DE CORTE",
+            "help": "última data aceita",
+            "example": "agosto de 2026",
+            "required": true,
+            "type": "text",
+            "source": "user",
+            "demo_value": "agosto de 2026"
+          }
+        ],
+        "parameters": [
+          {
+            "key": "length",
+            "label": "EXTENSÃO",
+            "default": "concisa",
+            "choices": [
+              "concisa",
+              "média"
+            ]
+          },
+          {
+            "key": "structure",
+            "label": "ESTRUTURA",
+            "default": "2 parágrafos + bullets-chave",
+            "choices": [
+              "2 parágrafos + bullets-chave",
+              "tabela breve"
+            ]
+          },
+          {
+            "key": "tone",
+            "label": "TOM",
+            "default": "claro e pessoal",
+            "choices": [
+              "claro e pessoal",
+              "didático"
+            ]
+          },
+          {
+            "key": "depth",
+            "label": "PROFUNDIDADE",
+            "default": "prática",
+            "choices": [
+              "prática",
+              "profunda"
+            ]
+          }
+        ],
+        "optional_clauses": []
       },
       "empresa": {
         "title": "Primeira base compartilhada da equipe",
@@ -489,29 +969,11 @@
         "when": "o processo exige uma base comum e ainda não há nenhuma fonte carregada.",
         "example": "IA generativa para a operação comercial, antes de comprometer o orçamento da área.",
         "evidence": "relatório citado pronto para revisão, com escopo divisível, fontes primárias com direitos de uso e responsável, incerteza marcada no texto e lacunas registradas para a auditoria seguinte.",
-        "prompt": "Passo 1 da oficina: a equipe precisa de uma base de conhecimento verificável sobre [TEMA] e nada foi carregado. Será consumida por [EQUIPE] dentro de [PROCESSO] antes de [DECISÃO DA EQUIPE]. Delimite escopo divisível e perguntas; explique fundamentos e o que mudou desde [DATA DE CORTE]; priorize fontes primárias com direitos de uso interno; inclua tensões e limites da evidência; separe fatos, interpretações e incerteza, marcando cada trecho incerto como «incerto: falta X»; recomende cada fonte com título, autor, data, link, motivo e responsável por mantê-la. Não pare na delimitação nem feche com critério de suficiência: entregue um relatório citado pronto para revisão, importável como primeira fonte compartilhada e auditável no passo seguinte. Sem direitos de uso claros, entregue o relatório reduzido, registre o risco operacional e liste as lacunas. Não invente fontes, citações nem direitos de uso.",
+        "prompt": "Passo 1 da oficina: a equipe precisa de uma base de conhecimento verificável sobre <TEMA> e nada foi carregado. Será consumida por <EQUIPE> dentro de <PROCESSO> e deve ajudar a resolver <DECISÃO>. Delimite escopo divisível e perguntas; explique fundamentos e o que mudou desde <DATA DE CORTE>; priorize fontes primárias com direitos de uso interno; inclua tensões e limites da evidência; separe fatos, interpretações e incerteza, marcando cada trecho incerto como «incerto: falta X»; recomende cada fonte com título, autor, data, link, motivo e responsável por mantê-la. Não pare na delimitação nem feche com critério de suficiência: entregue um relatório citado pronto para revisão, importável como primeira fonte compartilhada e auditável no passo seguinte. Sem direitos de uso claros, entregue o relatório reduzido, registre o risco operacional e liste as lacunas. Não invente fontes, citações nem direitos de uso.",
         "level_spec": {
           "role": "Facilitador do passo 1 para equipes: produz a primeira fonte compartilhada",
           "spec_role": "Facilitador de oficina guiada no NotebookLM",
           "objective": "Transformar um tema sem base carregada em relatório citado compartilhável que encadeia na auditoria da equipe",
-          "parameters": [
-            [
-              "posicao_na_sequencia",
-              "passo 1: não recebe nada do passo anterior e entrega a primeira fonte compartilhada"
-            ],
-            [
-              "direitos",
-              "cada fonte primária declara direitos de uso interno e responsável por mantê-la"
-            ],
-            [
-              "data_de_corte",
-              "as mudanças contam a partir da data de corte declarada"
-            ],
-            [
-              "saida",
-              "relatório citado pronto para revisão, não critério de suficiência"
-            ]
-          ],
           "workflow": [
             "Registrar tema, decisão da equipe, equipe consumidora, processo e data de corte",
             "Delimitar um escopo divisível e formular as perguntas essenciais",
@@ -535,6 +997,29 @@
             "Fontes sem direitos de uso claros: ficam fora da base compartilhada e são registradas como lacuna",
             "Decisão da equipe sem responsável: pedir antes de delimitar",
             "Áreas com datas de corte diferentes: pedir uma única data antes de contar mudanças"
+          ],
+          "constraints": [
+            [
+              "posicao_na_sequencia",
+              "passo 1: não recebe nada do passo anterior e entrega a primeira fonte compartilhada"
+            ],
+            [
+              "direitos",
+              "cada fonte primária declara direitos de uso interno e responsável por mantê-la"
+            ],
+            [
+              "data_de_corte",
+              "as mudanças contam a partir da data de corte declarada"
+            ],
+            [
+              "saida",
+              "relatório citado pronto para revisão, não critério de suficiência"
+            ]
+          ],
+          "frameworks": [
+            "Hierarquia de fontes · fontes primárias primeiro",
+            "Plano de pesquisa · pergunta, escopo e critérios",
+            "MECE · sem sobreposições nem lacunas"
           ]
         },
         "why_it_works": {
@@ -574,10 +1059,115 @@
             "claim": "Exigir direitos de uso interno, responsável pela manutenção e registro do risco operacional antes de compartilhar uma base é política interna do método.",
             "source": "method_internal"
           }
-        ]
+        ],
+        "inputs": [
+          {
+            "key": "topic",
+            "label": "TEMA",
+            "help": "assunto concreto",
+            "example": "verificar respostas de IA",
+            "required": true,
+            "type": "text",
+            "source": "user",
+            "demo_value": "como aprender a aprender com IA por meio de formas de trabalho de alto desempenho"
+          },
+          {
+            "key": "team",
+            "label": "EQUIPE",
+            "help": "grupo participante",
+            "example": "equipe de operações",
+            "required": true,
+            "type": "text",
+            "source": "user",
+            "demo_value": "equipe piloto de operações"
+          },
+          {
+            "key": "process",
+            "label": "PROCESSO",
+            "help": "fluxo que mudará",
+            "example": "preparação de decisões",
+            "required": true,
+            "type": "text",
+            "source": "user",
+            "demo_value": "preparação e revisão semanal de decisões"
+          },
+          {
+            "key": "decision",
+            "label": "DECISÃO",
+            "help": "escolha que o trabalho deve informar",
+            "example": "escalar ou ajustar o piloto",
+            "required": true,
+            "type": "text",
+            "source": "user",
+            "demo_value": "se deve escalar, ajustar ou interromper o piloto"
+          },
+          {
+            "key": "cutoff_date",
+            "label": "DATA DE CORTE",
+            "help": "última data aceita",
+            "example": "agosto de 2026",
+            "required": true,
+            "type": "text",
+            "source": "user",
+            "demo_value": "agosto de 2026"
+          }
+        ],
+        "parameters": [
+          {
+            "key": "length",
+            "label": "EXTENSÃO",
+            "default": "concisa",
+            "choices": [
+              "concisa",
+              "média"
+            ]
+          },
+          {
+            "key": "structure",
+            "label": "ESTRUTURA",
+            "default": "2 parágrafos + bullets-chave",
+            "choices": [
+              "2 parágrafos + bullets-chave",
+              "tabela breve"
+            ]
+          },
+          {
+            "key": "tone",
+            "label": "TOM",
+            "default": "executivo e operacional",
+            "choices": [
+              "executivo e operacional",
+              "facilitador"
+            ]
+          },
+          {
+            "key": "depth",
+            "label": "PROFUNDIDADE",
+            "default": "prática",
+            "choices": [
+              "prática",
+              "profunda"
+            ]
+          }
+        ],
+        "optional_clauses": []
       }
     }
   },
   "self_hash_model": "sha256(sorted-json-without-self_sha256)",
-  "self_sha256": "8f22a5673c3d13fb8f6a3b8dbfa6cb949d059db6e84d29cd8dd45fd85b4325b4"
+  "self_sha256": "f15a6ca17270b84209a6edaa1344561678ce3f139492b004d40454a44758ff0f",
+  "flow": {
+    "route": "workbook",
+    "order": 4,
+    "previous": "B3",
+    "next": "W02",
+    "branches": [],
+    "consumes": [
+      "PLAN_DE_NOTEBOOKLM"
+    ],
+    "produces": "BASE_INICIAL",
+    "external_gate": false,
+    "loop_to": null,
+    "standalone": true
+  }
 }

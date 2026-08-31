@@ -1,0 +1,1241 @@
+{
+  "architecture": {
+    "candidate": {
+      "compiler": "scripts/build.py",
+      "entrypoints": [
+        "render_masterclass",
+        "render_workbook",
+        "render_playbook",
+        "render_prompts"
+      ],
+      "main_identity_typed": true,
+      "pipeline": "typed-module-renderer",
+      "renderer": "scripts/module_renderers.py"
+    },
+    "reference": {
+      "compiler": "scripts/build.py",
+      "entrypoints": [
+        "masterclass",
+        "workbook",
+        "playbook",
+        "prompt_library_page"
+      ],
+      "main_identity_typed": false,
+      "pipeline": "legacy-parallel"
+    },
+    "shared": {
+      "brand_shell": "scripts/brand.py",
+      "css": "src/site.css",
+      "runtime": "src/site.js",
+      "ui_primitives": "scripts/ui_primitives.py"
+    }
+  },
+  "architecture_verdict": "ACCEPTED_DEBT_LEGACY_REFERENCE",
+  "candidate_module": "trabajo-agentico",
+  "definition_of_done": {
+    "code_identity_required": false,
+    "ref": "src/module-resource-definition-of-done-v1.json",
+    "required_parity": "semantic-visual-functional",
+    "self_sha256": "1044950780a9ad0044586de3e837137e7d02f0f8ea7f2d8ae9eb99d9c7e74876"
+  },
+  "inputs": {
+    "build_manifest_sha256": "d264b4416eb6e8093f17320055ef67509d9e7b56c1532e46bfcf546b453cf4b6",
+    "build_py_sha256": "e73cf885cd3f3190b983ef5aa2e198b4e84a85f76627b2867059ca59197b86cd",
+    "build_receipt_sha256": "2a4f2de8e7a632ca699b5177548de489d18dce98f2f540507f88ce69412323e6",
+    "css_sha256": "18ff9c52f9eb5af42b037bdd9a3b5240c5cab65eff246636a8e1a20369999046",
+    "renderer_sha256": "8dee15610e3d6e5ae00f6ca1ad7e9a17d95e5e6bca8c67004b86355902882f3c",
+    "runtime_sha256": "da20fc831a7c752df397d2b3d7c7ff6a7de9429e8b8f2c410284582ef95beb89"
+  },
+  "pairs": [
+    {
+      "audience": "persona",
+      "candidate": {
+        "bytes": 48618,
+        "current_resource": 3,
+        "main_identity": {
+          "data-audience": "persona",
+          "data-locale": "es",
+          "data-module-id": "module-04-trabajo-agentico",
+          "data-module-order": "4",
+          "data-module-resource": "masterclass"
+        },
+        "markers": {
+          "deck-controls": 1,
+          "masterclass-player": 2,
+          "official-pdf-card": 1
+        },
+        "path": "dist/modulos/04-trabajo-agentico/masterclass/index.html",
+        "sha256": "ec29e3ede1c1cd770a02d52599433c39932917d216325c67a4a149eef17a8236",
+        "sibling_navigation": 1,
+        "unique_ids": true,
+        "visible_words": 2294
+      },
+      "locale": "es",
+      "reference": {
+        "bytes": 33137,
+        "current_resource": 2,
+        "main_identity": {
+          "data-audience": null,
+          "data-locale": null,
+          "data-module-id": null,
+          "data-module-order": null,
+          "data-module-resource": null
+        },
+        "markers": {
+          "deck-controls": 1,
+          "masterclass-player": 2,
+          "official-pdf-card": 1
+        },
+        "path": "dist/deck/index.html",
+        "sha256": "fa8f82fefd014e7a951503c139126eafaad9e597c75f560e21b23c62778ce899",
+        "sibling_navigation": 0,
+        "unique_ids": true,
+        "visible_words": 1326
+      },
+      "resource": "masterclass",
+      "semantic_markers_present": true,
+      "visible_density_ratio": 1.73
+    },
+    {
+      "audience": "persona",
+      "candidate": {
+        "bytes": 43710,
+        "current_resource": 3,
+        "main_identity": {
+          "data-audience": "persona",
+          "data-locale": "es",
+          "data-module-id": "module-04-trabajo-agentico",
+          "data-module-order": "4",
+          "data-module-resource": "workbook"
+        },
+        "markers": {
+          "data-consolidation-gate": 1,
+          "sheet-tabs": 1,
+          "workbook-hero-grid": 1
+        },
+        "path": "dist/modulos/04-trabajo-agentico/workbook/index.html",
+        "sha256": "4860cba6e0d78237fb55b30b920273c18d04fc38b3840a687e32d0adffc02bb6",
+        "sibling_navigation": 1,
+        "unique_ids": true,
+        "visible_words": 1949
+      },
+      "locale": "es",
+      "reference": {
+        "bytes": 795036,
+        "current_resource": 2,
+        "main_identity": {
+          "data-audience": null,
+          "data-locale": null,
+          "data-module-id": null,
+          "data-module-order": null,
+          "data-module-resource": null
+        },
+        "markers": {
+          "data-consolidation-gate": 1,
+          "sheet-tabs": 1,
+          "workbook-hero-grid": 1
+        },
+        "path": "dist/workbook/index.html",
+        "sha256": "ed1245d57e7ca887c8fd562b2b092d7097205d8103ccbdde1f0d250fb718ec8c",
+        "sibling_navigation": 0,
+        "unique_ids": true,
+        "visible_words": 35168
+      },
+      "resource": "workbook",
+      "semantic_markers_present": true,
+      "visible_density_ratio": 0.0554
+    },
+    {
+      "audience": "persona",
+      "candidate": {
+        "bytes": 37619,
+        "current_resource": 3,
+        "main_identity": {
+          "data-audience": "persona",
+          "data-locale": "es",
+          "data-module-id": "module-04-trabajo-agentico",
+          "data-module-order": "4",
+          "data-module-resource": "playbook"
+        },
+        "markers": {
+          "playbook-content": 1,
+          "playbook-hero-grid": 1,
+          "playbook-toc": 1
+        },
+        "path": "dist/modulos/04-trabajo-agentico/playbook/index.html",
+        "sha256": "f165f40a81b1aa1dc18597a250e55a50e33faf8872a043162cd06483044d177c",
+        "sibling_navigation": 1,
+        "unique_ids": true,
+        "visible_words": 1755
+      },
+      "locale": "es",
+      "reference": {
+        "bytes": 36256,
+        "current_resource": 2,
+        "main_identity": {
+          "data-audience": null,
+          "data-locale": null,
+          "data-module-id": null,
+          "data-module-order": null,
+          "data-module-resource": null
+        },
+        "markers": {
+          "playbook-content": 1,
+          "playbook-hero-grid": 1,
+          "playbook-toc": 1
+        },
+        "path": "dist/playbook/index.html",
+        "sha256": "53b224fa7592b87b51d9c81c3fbd150f3bd51e099f8e6c8f3d5fa657b0a92241",
+        "sibling_navigation": 0,
+        "unique_ids": true,
+        "visible_words": 1213
+      },
+      "resource": "playbook",
+      "semantic_markers_present": true,
+      "visible_density_ratio": 1.4468
+    },
+    {
+      "audience": "persona",
+      "candidate": {
+        "bytes": 403344,
+        "current_resource": 3,
+        "main_identity": {
+          "data-audience": "persona",
+          "data-locale": "es",
+          "data-module-id": "module-04-trabajo-agentico",
+          "data-module-order": "4",
+          "data-module-resource": "prompts"
+        },
+        "markers": {
+          "data-notebook-execution-guide": 1,
+          "data-prompt-format": 32,
+          "library-prompt-card": 16
+        },
+        "path": "dist/modulos/04-trabajo-agentico/prompts/index.html",
+        "sha256": "2ceec1fe5485055e0e1ca7a79abbe0810192c8c5c5f4efe095805ad31a36e3b5",
+        "sibling_navigation": 1,
+        "unique_ids": true,
+        "visible_words": 14208
+      },
+      "locale": "es",
+      "reference": {
+        "bytes": 831635,
+        "current_resource": 2,
+        "main_identity": {
+          "data-audience": null,
+          "data-locale": null,
+          "data-module-id": null,
+          "data-module-order": null,
+          "data-module-resource": null
+        },
+        "markers": {
+          "data-notebook-execution-guide": 1,
+          "data-prompt-format": 56,
+          "library-prompt-card": 28
+        },
+        "path": "dist/prompts/index.html",
+        "sha256": "04c4f68d279f2824e2dd9c61a9518e9d77f7b1dd449ea652cc386af87ab7838a",
+        "sibling_navigation": 0,
+        "unique_ids": true,
+        "visible_words": 35398
+      },
+      "resource": "prompts",
+      "semantic_markers_present": true,
+      "visible_density_ratio": 0.4014
+    },
+    {
+      "audience": "empresa",
+      "candidate": {
+        "bytes": 49041,
+        "current_resource": 3,
+        "main_identity": {
+          "data-audience": "empresa",
+          "data-locale": "es",
+          "data-module-id": "module-04-trabajo-agentico",
+          "data-module-order": "4",
+          "data-module-resource": "masterclass"
+        },
+        "markers": {
+          "deck-controls": 1,
+          "masterclass-player": 2,
+          "official-pdf-card": 1
+        },
+        "path": "dist/empresa/modulos/04-trabajo-agentico/masterclass/index.html",
+        "sha256": "3bec48c3f0c9f2536b164322f515e99881d02a94f463156c605d7b442d5ab151",
+        "sibling_navigation": 1,
+        "unique_ids": true,
+        "visible_words": 2321
+      },
+      "locale": "es",
+      "reference": {
+        "bytes": 33377,
+        "current_resource": 2,
+        "main_identity": {
+          "data-audience": null,
+          "data-locale": null,
+          "data-module-id": null,
+          "data-module-order": null,
+          "data-module-resource": null
+        },
+        "markers": {
+          "deck-controls": 1,
+          "masterclass-player": 2,
+          "official-pdf-card": 1
+        },
+        "path": "dist/empresa/deck/index.html",
+        "sha256": "83c1cbb201895c65ac70d71333ddd8f0958c1c6f3dc082232a0e4c86954544ba",
+        "sibling_navigation": 0,
+        "unique_ids": true,
+        "visible_words": 1332
+      },
+      "resource": "masterclass",
+      "semantic_markers_present": true,
+      "visible_density_ratio": 1.7425
+    },
+    {
+      "audience": "empresa",
+      "candidate": {
+        "bytes": 44720,
+        "current_resource": 3,
+        "main_identity": {
+          "data-audience": "empresa",
+          "data-locale": "es",
+          "data-module-id": "module-04-trabajo-agentico",
+          "data-module-order": "4",
+          "data-module-resource": "workbook"
+        },
+        "markers": {
+          "data-consolidation-gate": 1,
+          "sheet-tabs": 1,
+          "workbook-hero-grid": 1
+        },
+        "path": "dist/empresa/modulos/04-trabajo-agentico/workbook/index.html",
+        "sha256": "7dd1df3e5a00490ce4f26b0fa7e0c21793179d9e066f1c8f9ddc47185c66c1b3",
+        "sibling_navigation": 1,
+        "unique_ids": true,
+        "visible_words": 2028
+      },
+      "locale": "es",
+      "reference": {
+        "bytes": 826505,
+        "current_resource": 2,
+        "main_identity": {
+          "data-audience": null,
+          "data-locale": null,
+          "data-module-id": null,
+          "data-module-order": null,
+          "data-module-resource": null
+        },
+        "markers": {
+          "data-consolidation-gate": 1,
+          "sheet-tabs": 1,
+          "workbook-hero-grid": 1
+        },
+        "path": "dist/empresa/workbook/index.html",
+        "sha256": "85a6a90a925131582ec4c4d8bf5ffa7fae0694f8fc982810e5188f5312720637",
+        "sibling_navigation": 0,
+        "unique_ids": true,
+        "visible_words": 36954
+      },
+      "resource": "workbook",
+      "semantic_markers_present": true,
+      "visible_density_ratio": 0.0549
+    },
+    {
+      "audience": "empresa",
+      "candidate": {
+        "bytes": 38136,
+        "current_resource": 3,
+        "main_identity": {
+          "data-audience": "empresa",
+          "data-locale": "es",
+          "data-module-id": "module-04-trabajo-agentico",
+          "data-module-order": "4",
+          "data-module-resource": "playbook"
+        },
+        "markers": {
+          "playbook-content": 1,
+          "playbook-hero-grid": 1,
+          "playbook-toc": 1
+        },
+        "path": "dist/empresa/modulos/04-trabajo-agentico/playbook/index.html",
+        "sha256": "04d3ee37ebb313b3528bc20e24e3516787c0343ff4e114698d1c01875fd79092",
+        "sibling_navigation": 1,
+        "unique_ids": true,
+        "visible_words": 1766
+      },
+      "locale": "es",
+      "reference": {
+        "bytes": 36497,
+        "current_resource": 2,
+        "main_identity": {
+          "data-audience": null,
+          "data-locale": null,
+          "data-module-id": null,
+          "data-module-order": null,
+          "data-module-resource": null
+        },
+        "markers": {
+          "playbook-content": 1,
+          "playbook-hero-grid": 1,
+          "playbook-toc": 1
+        },
+        "path": "dist/empresa/playbook/index.html",
+        "sha256": "0a11b07be42fb63b0c2c4c333de950076270680983a6bf17f6237f60487845d3",
+        "sibling_navigation": 0,
+        "unique_ids": true,
+        "visible_words": 1205
+      },
+      "resource": "playbook",
+      "semantic_markers_present": true,
+      "visible_density_ratio": 1.4656
+    },
+    {
+      "audience": "empresa",
+      "candidate": {
+        "bytes": 405936,
+        "current_resource": 3,
+        "main_identity": {
+          "data-audience": "empresa",
+          "data-locale": "es",
+          "data-module-id": "module-04-trabajo-agentico",
+          "data-module-order": "4",
+          "data-module-resource": "prompts"
+        },
+        "markers": {
+          "data-notebook-execution-guide": 1,
+          "data-prompt-format": 32,
+          "library-prompt-card": 16
+        },
+        "path": "dist/empresa/modulos/04-trabajo-agentico/prompts/index.html",
+        "sha256": "5d8582c825dc2435e0685042e4cfe51c0d012a58d447572e23950a558b8eaa9d",
+        "sibling_navigation": 1,
+        "unique_ids": true,
+        "visible_words": 14142
+      },
+      "locale": "es",
+      "reference": {
+        "bytes": 852879,
+        "current_resource": 2,
+        "main_identity": {
+          "data-audience": null,
+          "data-locale": null,
+          "data-module-id": null,
+          "data-module-order": null,
+          "data-module-resource": null
+        },
+        "markers": {
+          "data-notebook-execution-guide": 1,
+          "data-prompt-format": 56,
+          "library-prompt-card": 28
+        },
+        "path": "dist/empresa/prompts/index.html",
+        "sha256": "12bf6db7cc2583692c2aa9107c6c9360cd728abe10d5d3b27798cb916b6ef1cd",
+        "sibling_navigation": 0,
+        "unique_ids": true,
+        "visible_words": 36669
+      },
+      "resource": "prompts",
+      "semantic_markers_present": true,
+      "visible_density_ratio": 0.3857
+    },
+    {
+      "audience": "persona",
+      "candidate": {
+        "bytes": 47263,
+        "current_resource": 3,
+        "main_identity": {
+          "data-audience": "persona",
+          "data-locale": "en",
+          "data-module-id": "module-04-trabajo-agentico",
+          "data-module-order": "4",
+          "data-module-resource": "masterclass"
+        },
+        "markers": {
+          "deck-controls": 1,
+          "masterclass-player": 2,
+          "official-pdf-card": 1
+        },
+        "path": "dist/en/modules/04-agentic-work/masterclass/index.html",
+        "sha256": "c1d146cf05e85fba55ffb5db382fb900559491196fa921aef963f10109150100",
+        "sibling_navigation": 1,
+        "unique_ids": true,
+        "visible_words": 2211
+      },
+      "locale": "en",
+      "reference": {
+        "bytes": 32527,
+        "current_resource": 2,
+        "main_identity": {
+          "data-audience": null,
+          "data-locale": null,
+          "data-module-id": null,
+          "data-module-order": null,
+          "data-module-resource": null
+        },
+        "markers": {
+          "deck-controls": 1,
+          "masterclass-player": 2,
+          "official-pdf-card": 1
+        },
+        "path": "dist/en/deck/index.html",
+        "sha256": "255efd9b6bb22869fa8dcd9f5739f6bf9dc5f4bf33f2752e4c86434a3d8094ca",
+        "sibling_navigation": 0,
+        "unique_ids": true,
+        "visible_words": 1268
+      },
+      "resource": "masterclass",
+      "semantic_markers_present": true,
+      "visible_density_ratio": 1.7437
+    },
+    {
+      "audience": "persona",
+      "candidate": {
+        "bytes": 42490,
+        "current_resource": 3,
+        "main_identity": {
+          "data-audience": "persona",
+          "data-locale": "en",
+          "data-module-id": "module-04-trabajo-agentico",
+          "data-module-order": "4",
+          "data-module-resource": "workbook"
+        },
+        "markers": {
+          "data-consolidation-gate": 1,
+          "sheet-tabs": 1,
+          "workbook-hero-grid": 1
+        },
+        "path": "dist/en/modules/04-agentic-work/workbook/index.html",
+        "sha256": "f0029818faed030d73ece41872e8e9a20e4bdea54873379a8f336359cfdd00f7",
+        "sibling_navigation": 1,
+        "unique_ids": true,
+        "visible_words": 1872
+      },
+      "locale": "en",
+      "reference": {
+        "bytes": 769531,
+        "current_resource": 2,
+        "main_identity": {
+          "data-audience": null,
+          "data-locale": null,
+          "data-module-id": null,
+          "data-module-order": null,
+          "data-module-resource": null
+        },
+        "markers": {
+          "data-consolidation-gate": 1,
+          "sheet-tabs": 1,
+          "workbook-hero-grid": 1
+        },
+        "path": "dist/en/workbook/index.html",
+        "sha256": "8d7de31f0fc4c5d3f0be6aaddcd7d2796843092ecd8d50991b719f25c2d88c0c",
+        "sibling_navigation": 0,
+        "unique_ids": true,
+        "visible_words": 34041
+      },
+      "resource": "workbook",
+      "semantic_markers_present": true,
+      "visible_density_ratio": 0.055
+    },
+    {
+      "audience": "persona",
+      "candidate": {
+        "bytes": 36420,
+        "current_resource": 3,
+        "main_identity": {
+          "data-audience": "persona",
+          "data-locale": "en",
+          "data-module-id": "module-04-trabajo-agentico",
+          "data-module-order": "4",
+          "data-module-resource": "playbook"
+        },
+        "markers": {
+          "playbook-content": 1,
+          "playbook-hero-grid": 1,
+          "playbook-toc": 1
+        },
+        "path": "dist/en/modules/04-agentic-work/playbook/index.html",
+        "sha256": "b4cf1f482fdc24df7221fa31fe6d1aea162a2833f7a0e870eee3d1d6b9aa823b",
+        "sibling_navigation": 1,
+        "unique_ids": true,
+        "visible_words": 1691
+      },
+      "locale": "en",
+      "reference": {
+        "bytes": 35415,
+        "current_resource": 2,
+        "main_identity": {
+          "data-audience": null,
+          "data-locale": null,
+          "data-module-id": null,
+          "data-module-order": null,
+          "data-module-resource": null
+        },
+        "markers": {
+          "playbook-content": 1,
+          "playbook-hero-grid": 1,
+          "playbook-toc": 1
+        },
+        "path": "dist/en/playbook/index.html",
+        "sha256": "85247d479adf56c896f34e6491f7a15e04c3af6ed1803d3de71365855d017388",
+        "sibling_navigation": 0,
+        "unique_ids": true,
+        "visible_words": 1151
+      },
+      "resource": "playbook",
+      "semantic_markers_present": true,
+      "visible_density_ratio": 1.4692
+    },
+    {
+      "audience": "persona",
+      "candidate": {
+        "bytes": 387927,
+        "current_resource": 3,
+        "main_identity": {
+          "data-audience": "persona",
+          "data-locale": "en",
+          "data-module-id": "module-04-trabajo-agentico",
+          "data-module-order": "4",
+          "data-module-resource": "prompts"
+        },
+        "markers": {
+          "data-notebook-execution-guide": 1,
+          "data-prompt-format": 32,
+          "library-prompt-card": 16
+        },
+        "path": "dist/en/modules/04-agentic-work/prompts/index.html",
+        "sha256": "84ec943160d7d0d657595864547d0f50315bbc57a2b61a61c8ae98c6984c169f",
+        "sibling_navigation": 1,
+        "unique_ids": true,
+        "visible_words": 13752
+      },
+      "locale": "en",
+      "reference": {
+        "bytes": 801038,
+        "current_resource": 2,
+        "main_identity": {
+          "data-audience": null,
+          "data-locale": null,
+          "data-module-id": null,
+          "data-module-order": null,
+          "data-module-resource": null
+        },
+        "markers": {
+          "data-notebook-execution-guide": 1,
+          "data-prompt-format": 56,
+          "library-prompt-card": 28
+        },
+        "path": "dist/en/prompts/index.html",
+        "sha256": "b509b73c55d253cf414d05e4997c73ab6d797761204e7bad3d208bb3bf652f20",
+        "sibling_navigation": 0,
+        "unique_ids": true,
+        "visible_words": 33899
+      },
+      "resource": "prompts",
+      "semantic_markers_present": true,
+      "visible_density_ratio": 0.4057
+    },
+    {
+      "audience": "empresa",
+      "candidate": {
+        "bytes": 47596,
+        "current_resource": 3,
+        "main_identity": {
+          "data-audience": "empresa",
+          "data-locale": "en",
+          "data-module-id": "module-04-trabajo-agentico",
+          "data-module-order": "4",
+          "data-module-resource": "masterclass"
+        },
+        "markers": {
+          "deck-controls": 1,
+          "masterclass-player": 2,
+          "official-pdf-card": 1
+        },
+        "path": "dist/en/empresa/modules/04-agentic-work/masterclass/index.html",
+        "sha256": "4d85eb1ee22a433e6db98ef08229850a3ee4b3c36b4fa1bda8037c2bfc51d360",
+        "sibling_navigation": 1,
+        "unique_ids": true,
+        "visible_words": 2219
+      },
+      "locale": "en",
+      "reference": {
+        "bytes": 32751,
+        "current_resource": 2,
+        "main_identity": {
+          "data-audience": null,
+          "data-locale": null,
+          "data-module-id": null,
+          "data-module-order": null,
+          "data-module-resource": null
+        },
+        "markers": {
+          "deck-controls": 1,
+          "masterclass-player": 2,
+          "official-pdf-card": 1
+        },
+        "path": "dist/en/empresa/deck/index.html",
+        "sha256": "a5bdda49d7e827c75e74f03ddcbf2b1f03b314b546cb17116d5a5b7c9a578af5",
+        "sibling_navigation": 0,
+        "unique_ids": true,
+        "visible_words": 1259
+      },
+      "resource": "masterclass",
+      "semantic_markers_present": true,
+      "visible_density_ratio": 1.7625
+    },
+    {
+      "audience": "empresa",
+      "candidate": {
+        "bytes": 43461,
+        "current_resource": 3,
+        "main_identity": {
+          "data-audience": "empresa",
+          "data-locale": "en",
+          "data-module-id": "module-04-trabajo-agentico",
+          "data-module-order": "4",
+          "data-module-resource": "workbook"
+        },
+        "markers": {
+          "data-consolidation-gate": 1,
+          "sheet-tabs": 1,
+          "workbook-hero-grid": 1
+        },
+        "path": "dist/en/empresa/modules/04-agentic-work/workbook/index.html",
+        "sha256": "5028526847c6de4d99095026e3017661933ee33dc9a1e0f1c620a61b5431eb87",
+        "sibling_navigation": 1,
+        "unique_ids": true,
+        "visible_words": 1942
+      },
+      "locale": "en",
+      "reference": {
+        "bytes": 797500,
+        "current_resource": 2,
+        "main_identity": {
+          "data-audience": null,
+          "data-locale": null,
+          "data-module-id": null,
+          "data-module-order": null,
+          "data-module-resource": null
+        },
+        "markers": {
+          "data-consolidation-gate": 1,
+          "sheet-tabs": 1,
+          "workbook-hero-grid": 1
+        },
+        "path": "dist/en/empresa/workbook/index.html",
+        "sha256": "0a8159e1688c7026d16b033fc920875afaa162e2acf0bab9e730d64fc775d892",
+        "sibling_navigation": 0,
+        "unique_ids": true,
+        "visible_words": 35808
+      },
+      "resource": "workbook",
+      "semantic_markers_present": true,
+      "visible_density_ratio": 0.0542
+    },
+    {
+      "audience": "empresa",
+      "candidate": {
+        "bytes": 36883,
+        "current_resource": 3,
+        "main_identity": {
+          "data-audience": "empresa",
+          "data-locale": "en",
+          "data-module-id": "module-04-trabajo-agentico",
+          "data-module-order": "4",
+          "data-module-resource": "playbook"
+        },
+        "markers": {
+          "playbook-content": 1,
+          "playbook-hero-grid": 1,
+          "playbook-toc": 1
+        },
+        "path": "dist/en/empresa/modules/04-agentic-work/playbook/index.html",
+        "sha256": "37cdbb0cfe9217123184cee1159c6301bd1376c16529e10ed10fc83c7bff1929",
+        "sibling_navigation": 1,
+        "unique_ids": true,
+        "visible_words": 1717
+      },
+      "locale": "en",
+      "reference": {
+        "bytes": 35629,
+        "current_resource": 2,
+        "main_identity": {
+          "data-audience": null,
+          "data-locale": null,
+          "data-module-id": null,
+          "data-module-order": null,
+          "data-module-resource": null
+        },
+        "markers": {
+          "playbook-content": 1,
+          "playbook-hero-grid": 1,
+          "playbook-toc": 1
+        },
+        "path": "dist/en/empresa/playbook/index.html",
+        "sha256": "e5af9eb93deb4040d077ab33c955d3e5c8b215dfdcf6c6ba4685f14cfbd2b6a3",
+        "sibling_navigation": 0,
+        "unique_ids": true,
+        "visible_words": 1139
+      },
+      "resource": "playbook",
+      "semantic_markers_present": true,
+      "visible_density_ratio": 1.5075
+    },
+    {
+      "audience": "empresa",
+      "candidate": {
+        "bytes": 390484,
+        "current_resource": 3,
+        "main_identity": {
+          "data-audience": "empresa",
+          "data-locale": "en",
+          "data-module-id": "module-04-trabajo-agentico",
+          "data-module-order": "4",
+          "data-module-resource": "prompts"
+        },
+        "markers": {
+          "data-notebook-execution-guide": 1,
+          "data-prompt-format": 32,
+          "library-prompt-card": 16
+        },
+        "path": "dist/en/empresa/modules/04-agentic-work/prompts/index.html",
+        "sha256": "6aebfca71b52477317e1a32cf98bc7b57e0fa2d582e39e1505c3748b22467a4f",
+        "sibling_navigation": 1,
+        "unique_ids": true,
+        "visible_words": 13702
+      },
+      "locale": "en",
+      "reference": {
+        "bytes": 821143,
+        "current_resource": 2,
+        "main_identity": {
+          "data-audience": null,
+          "data-locale": null,
+          "data-module-id": null,
+          "data-module-order": null,
+          "data-module-resource": null
+        },
+        "markers": {
+          "data-notebook-execution-guide": 1,
+          "data-prompt-format": 56,
+          "library-prompt-card": 28
+        },
+        "path": "dist/en/empresa/prompts/index.html",
+        "sha256": "89b2c66f14ebd308adcb7af05ffb325f6da0925619021e8f599ad11a6ad428f9",
+        "sibling_navigation": 0,
+        "unique_ids": true,
+        "visible_words": 35059
+      },
+      "resource": "prompts",
+      "semantic_markers_present": true,
+      "visible_density_ratio": 0.3908
+    },
+    {
+      "audience": "persona",
+      "candidate": {
+        "bytes": 48493,
+        "current_resource": 3,
+        "main_identity": {
+          "data-audience": "persona",
+          "data-locale": "pt",
+          "data-module-id": "module-04-trabajo-agentico",
+          "data-module-order": "4",
+          "data-module-resource": "masterclass"
+        },
+        "markers": {
+          "deck-controls": 1,
+          "masterclass-player": 2,
+          "official-pdf-card": 1
+        },
+        "path": "dist/pt/modulos/04-trabalho-agentico/masterclass/index.html",
+        "sha256": "13d8242415b024998457a877cbaffe3e71e49a041d333ed8516e1d0a05fb54d2",
+        "sibling_navigation": 1,
+        "unique_ids": true,
+        "visible_words": 2223
+      },
+      "locale": "pt",
+      "reference": {
+        "bytes": 33002,
+        "current_resource": 2,
+        "main_identity": {
+          "data-audience": null,
+          "data-locale": null,
+          "data-module-id": null,
+          "data-module-order": null,
+          "data-module-resource": null
+        },
+        "markers": {
+          "deck-controls": 1,
+          "masterclass-player": 2,
+          "official-pdf-card": 1
+        },
+        "path": "dist/pt/deck/index.html",
+        "sha256": "e1b8afdcc0f160e84b6d343ee2ca2efbdb02afc176cc3b8469fe5ff4435b021b",
+        "sibling_navigation": 0,
+        "unique_ids": true,
+        "visible_words": 1298
+      },
+      "resource": "masterclass",
+      "semantic_markers_present": true,
+      "visible_density_ratio": 1.7126
+    },
+    {
+      "audience": "persona",
+      "candidate": {
+        "bytes": 43635,
+        "current_resource": 3,
+        "main_identity": {
+          "data-audience": "persona",
+          "data-locale": "pt",
+          "data-module-id": "module-04-trabajo-agentico",
+          "data-module-order": "4",
+          "data-module-resource": "workbook"
+        },
+        "markers": {
+          "data-consolidation-gate": 1,
+          "sheet-tabs": 1,
+          "workbook-hero-grid": 1
+        },
+        "path": "dist/pt/modulos/04-trabalho-agentico/workbook/index.html",
+        "sha256": "c4f2dbf849f083de5fc676dba43a98d0bc3518d8baabc15c45ef11e7db21259c",
+        "sibling_navigation": 1,
+        "unique_ids": true,
+        "visible_words": 1910
+      },
+      "locale": "pt",
+      "reference": {
+        "bytes": 795448,
+        "current_resource": 2,
+        "main_identity": {
+          "data-audience": null,
+          "data-locale": null,
+          "data-module-id": null,
+          "data-module-order": null,
+          "data-module-resource": null
+        },
+        "markers": {
+          "data-consolidation-gate": 1,
+          "sheet-tabs": 1,
+          "workbook-hero-grid": 1
+        },
+        "path": "dist/pt/workbook/index.html",
+        "sha256": "cf8b1b0619d3dc11756619ff95a0bea52d3a1941217c9bb13cee15ca4a79d981",
+        "sibling_navigation": 0,
+        "unique_ids": true,
+        "visible_words": 34585
+      },
+      "resource": "workbook",
+      "semantic_markers_present": true,
+      "visible_density_ratio": 0.0552
+    },
+    {
+      "audience": "persona",
+      "candidate": {
+        "bytes": 37520,
+        "current_resource": 3,
+        "main_identity": {
+          "data-audience": "persona",
+          "data-locale": "pt",
+          "data-module-id": "module-04-trabajo-agentico",
+          "data-module-order": "4",
+          "data-module-resource": "playbook"
+        },
+        "markers": {
+          "playbook-content": 1,
+          "playbook-hero-grid": 1,
+          "playbook-toc": 1
+        },
+        "path": "dist/pt/modulos/04-trabalho-agentico/playbook/index.html",
+        "sha256": "8fe182536ea82eca3daa654f3b4738999ddab8c543f7286be4f3c53c34aaefb0",
+        "sibling_navigation": 1,
+        "unique_ids": true,
+        "visible_words": 1708
+      },
+      "locale": "pt",
+      "reference": {
+        "bytes": 36156,
+        "current_resource": 2,
+        "main_identity": {
+          "data-audience": null,
+          "data-locale": null,
+          "data-module-id": null,
+          "data-module-order": null,
+          "data-module-resource": null
+        },
+        "markers": {
+          "playbook-content": 1,
+          "playbook-hero-grid": 1,
+          "playbook-toc": 1
+        },
+        "path": "dist/pt/playbook/index.html",
+        "sha256": "e05be4fb771d789afed5876098c1ac1ff24ed4b7319ecf30a3f511c7696bcb30",
+        "sibling_navigation": 0,
+        "unique_ids": true,
+        "visible_words": 1198
+      },
+      "resource": "playbook",
+      "semantic_markers_present": true,
+      "visible_density_ratio": 1.4257
+    },
+    {
+      "audience": "persona",
+      "candidate": {
+        "bytes": 401574,
+        "current_resource": 3,
+        "main_identity": {
+          "data-audience": "persona",
+          "data-locale": "pt",
+          "data-module-id": "module-04-trabajo-agentico",
+          "data-module-order": "4",
+          "data-module-resource": "prompts"
+        },
+        "markers": {
+          "data-notebook-execution-guide": 1,
+          "data-prompt-format": 32,
+          "library-prompt-card": 16
+        },
+        "path": "dist/pt/modulos/04-trabalho-agentico/prompts/index.html",
+        "sha256": "f78988eb9cbc6b30ccd3fb1d8aa247c2d1762d28606ef9b175d834b3952f0c0a",
+        "sibling_navigation": 1,
+        "unique_ids": true,
+        "visible_words": 13946
+      },
+      "locale": "pt",
+      "reference": {
+        "bytes": 833538,
+        "current_resource": 2,
+        "main_identity": {
+          "data-audience": null,
+          "data-locale": null,
+          "data-module-id": null,
+          "data-module-order": null,
+          "data-module-resource": null
+        },
+        "markers": {
+          "data-notebook-execution-guide": 1,
+          "data-prompt-format": 56,
+          "library-prompt-card": 28
+        },
+        "path": "dist/pt/prompts/index.html",
+        "sha256": "89198dab404b3d918206d8eee61bbec83c0558f1b776101bc643dcb4269a6277",
+        "sibling_navigation": 0,
+        "unique_ids": true,
+        "visible_words": 34984
+      },
+      "resource": "prompts",
+      "semantic_markers_present": true,
+      "visible_density_ratio": 0.3986
+    },
+    {
+      "audience": "empresa",
+      "candidate": {
+        "bytes": 48930,
+        "current_resource": 3,
+        "main_identity": {
+          "data-audience": "empresa",
+          "data-locale": "pt",
+          "data-module-id": "module-04-trabajo-agentico",
+          "data-module-order": "4",
+          "data-module-resource": "masterclass"
+        },
+        "markers": {
+          "deck-controls": 1,
+          "masterclass-player": 2,
+          "official-pdf-card": 1
+        },
+        "path": "dist/pt/empresa/modulos/04-trabalho-agentico/masterclass/index.html",
+        "sha256": "1f897507ffa5e2c9df85c011cad48b21896de1cf1c54877211d5773db0955e23",
+        "sibling_navigation": 1,
+        "unique_ids": true,
+        "visible_words": 2247
+      },
+      "locale": "pt",
+      "reference": {
+        "bytes": 33243,
+        "current_resource": 2,
+        "main_identity": {
+          "data-audience": null,
+          "data-locale": null,
+          "data-module-id": null,
+          "data-module-order": null,
+          "data-module-resource": null
+        },
+        "markers": {
+          "deck-controls": 1,
+          "masterclass-player": 2,
+          "official-pdf-card": 1
+        },
+        "path": "dist/pt/empresa/deck/index.html",
+        "sha256": "7aa8a24a3ece9cf971f5a932dd4f23a92a1209305d4e05bc3fc41c08c0c446b1",
+        "sibling_navigation": 0,
+        "unique_ids": true,
+        "visible_words": 1301
+      },
+      "resource": "masterclass",
+      "semantic_markers_present": true,
+      "visible_density_ratio": 1.7271
+    },
+    {
+      "audience": "empresa",
+      "candidate": {
+        "bytes": 44726,
+        "current_resource": 3,
+        "main_identity": {
+          "data-audience": "empresa",
+          "data-locale": "pt",
+          "data-module-id": "module-04-trabajo-agentico",
+          "data-module-order": "4",
+          "data-module-resource": "workbook"
+        },
+        "markers": {
+          "data-consolidation-gate": 1,
+          "sheet-tabs": 1,
+          "workbook-hero-grid": 1
+        },
+        "path": "dist/pt/empresa/modulos/04-trabalho-agentico/workbook/index.html",
+        "sha256": "ec8345ee26cbd2c1c1cf94b6fd5b0ce58682cf695ee85c14c96c8880bd1c0b7b",
+        "sibling_navigation": 1,
+        "unique_ids": true,
+        "visible_words": 1985
+      },
+      "locale": "pt",
+      "reference": {
+        "bytes": 828937,
+        "current_resource": 2,
+        "main_identity": {
+          "data-audience": null,
+          "data-locale": null,
+          "data-module-id": null,
+          "data-module-order": null,
+          "data-module-resource": null
+        },
+        "markers": {
+          "data-consolidation-gate": 1,
+          "sheet-tabs": 1,
+          "workbook-hero-grid": 1
+        },
+        "path": "dist/pt/empresa/workbook/index.html",
+        "sha256": "bce3929c9651a1898e335daa337713e34a5754e0eefeec91507f718d47b4f727",
+        "sibling_navigation": 0,
+        "unique_ids": true,
+        "visible_words": 36259
+      },
+      "resource": "workbook",
+      "semantic_markers_present": true,
+      "visible_density_ratio": 0.0547
+    },
+    {
+      "audience": "empresa",
+      "candidate": {
+        "bytes": 38070,
+        "current_resource": 3,
+        "main_identity": {
+          "data-audience": "empresa",
+          "data-locale": "pt",
+          "data-module-id": "module-04-trabajo-agentico",
+          "data-module-order": "4",
+          "data-module-resource": "playbook"
+        },
+        "markers": {
+          "playbook-content": 1,
+          "playbook-hero-grid": 1,
+          "playbook-toc": 1
+        },
+        "path": "dist/pt/empresa/modulos/04-trabalho-agentico/playbook/index.html",
+        "sha256": "fdf055c8e39fd0dcd09672afb5cf756baa94da6bbb187a07b4159c59a5149ae8",
+        "sibling_navigation": 1,
+        "unique_ids": true,
+        "visible_words": 1710
+      },
+      "locale": "pt",
+      "reference": {
+        "bytes": 36404,
+        "current_resource": 2,
+        "main_identity": {
+          "data-audience": null,
+          "data-locale": null,
+          "data-module-id": null,
+          "data-module-order": null,
+          "data-module-resource": null
+        },
+        "markers": {
+          "playbook-content": 1,
+          "playbook-hero-grid": 1,
+          "playbook-toc": 1
+        },
+        "path": "dist/pt/empresa/playbook/index.html",
+        "sha256": "dd7eda0cbfb833995c4dd773b9952eeaeeef4dd60a14075bbb917998e2f91ead",
+        "sibling_navigation": 0,
+        "unique_ids": true,
+        "visible_words": 1189
+      },
+      "resource": "playbook",
+      "semantic_markers_present": true,
+      "visible_density_ratio": 1.4382
+    },
+    {
+      "audience": "empresa",
+      "candidate": {
+        "bytes": 405454,
+        "current_resource": 3,
+        "main_identity": {
+          "data-audience": "empresa",
+          "data-locale": "pt",
+          "data-module-id": "module-04-trabajo-agentico",
+          "data-module-order": "4",
+          "data-module-resource": "prompts"
+        },
+        "markers": {
+          "data-notebook-execution-guide": 1,
+          "data-prompt-format": 32,
+          "library-prompt-card": 16
+        },
+        "path": "dist/pt/empresa/modulos/04-trabalho-agentico/prompts/index.html",
+        "sha256": "1166780e9c125fe78b7156e4f4764a7ccce0eb79e6a62ee65f25c4d2b1fb8e1a",
+        "sibling_navigation": 1,
+        "unique_ids": true,
+        "visible_words": 13872
+      },
+      "locale": "pt",
+      "reference": {
+        "bytes": 856180,
+        "current_resource": 2,
+        "main_identity": {
+          "data-audience": null,
+          "data-locale": null,
+          "data-module-id": null,
+          "data-module-order": null,
+          "data-module-resource": null
+        },
+        "markers": {
+          "data-notebook-execution-guide": 1,
+          "data-prompt-format": 56,
+          "library-prompt-card": 28
+        },
+        "path": "dist/pt/empresa/prompts/index.html",
+        "sha256": "8ccf4bd0849fe38dd44b82de00c5cfc4e8ed6bb4175ccde8b9cf5f955bd56c30",
+        "sibling_navigation": 0,
+        "unique_ids": true,
+        "visible_words": 36026
+      },
+      "resource": "prompts",
+      "semantic_markers_present": true,
+      "visible_density_ratio": 0.3851
+    }
+  ],
+  "reference_module": "ia-panorama",
+  "schema_version": "module-code-comparison-v1",
+  "self_hash_model": "sha256(sorted-json-without-self_sha256)",
+  "self_sha256": "ad27f8279e465d2e5ed7de856205cc10ba6c7fdf77191526b6cc8aa341b4dbb1",
+  "summary": {
+    "code_identity": "NOT_REQUIRED_AND_NOT_PRESENT",
+    "maximum_visible_density_ratio": 1.7625,
+    "output_parity": "PASS",
+    "pairs": 24,
+    "publication_authorized": false,
+    "semantic_marker_pass": 24,
+    "state": "RENDERED_DRAFT",
+    "unique_candidate_dom": 24
+  }
+}

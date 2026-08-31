@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Standalone validator for src/prompt-contracts/*.json (prompt-intent-contract-v1).
+"""Standalone validator for src/prompt-contracts/*.json (prompt-intent-contract-v2).
 
 An empty or missing contracts directory is a PASS with a note: the schema and
 authority land in phase 1, the contracts themselves are authored in phase 3.
@@ -21,10 +21,26 @@ SURFACE_IDS = {
     'workbook_brain': ('B1', 'B2', 'B3'),
 }
 ALL_IDS = [pid for ids in SURFACE_IDS.values() for pid in ids]
+OUTPUTS = {
+    '01': 'PLAN_INICIAL_DE_INVESTIGACION', '02': 'COACH_CONFIGURADO', '03': 'INFORME_DE_INVESTIGACION',
+    '04': 'VERIFICACION_CRUZADA', '05': 'BASE_AUDITADA', '06': 'PRACTICA_GENERADA',
+    '07': 'MAPA_DE_CASOS', '08': 'EVALUACION_PROGRESIVA', '09': 'BORRADOR_DE_ENTREGA',
+    '10': 'ENSAYO_DE_ENTREGA', 'M1': 'CONFIG_COACH', 'M2': 'CONFIG_EVALUADOR',
+    'M3': 'CONFIG_ENTREVISTADOR', 'M4': 'CONFIG_PREPARADOR', 'B1': 'NOTAS_CONFIRMADAS',
+    'B2': 'PLAN_DE_ESTUDIO', 'B3': 'PLAN_DE_NOTEBOOKLM', 'W01': 'BASE_INICIAL',
+    'W02': 'DIAGNOSTICO_DE_BASE', 'W03': 'PLAN_DE_INVESTIGACION', 'W04': 'VEREDICTO_DE_BASE',
+    'W05': 'ROL_ACTIVADO', 'W06': 'MATERIAL_DE_APRENDIZAJE', 'W07': 'CASOS_PRIORIZADOS',
+    'W08': 'PREGUNTAS_DE_COMPRENSION', 'W09': 'ENSAYO_DE_DEFENSA', 'W10': 'PLAN_DE_TRANSFERENCIA',
+}
+ARTIFACT_KEYS = set(OUTPUTS.values())
 MATERIAL_FIELDS = ('purpose', 'when', 'example', 'evidence', 'prompt')
-CELL_FIELDS = {'title', *MATERIAL_FIELDS, 'level_spec', 'why_it_works', 'traceability'}
-LEVEL_SPEC_FIELDS = {'role', 'spec_role', 'objective', 'parameters', 'workflow', 'guardrails', 'output', 'dod', 'edge_cases'}
+CELL_FIELDS = {'title', *MATERIAL_FIELDS, 'inputs', 'parameters', 'optional_clauses', 'level_spec', 'why_it_works', 'traceability'}
+LEVEL_SPEC_FIELDS = {'role', 'spec_role', 'objective', 'constraints', 'frameworks', 'workflow', 'guardrails', 'output', 'dod', 'edge_cases'}
 WHY_FIELDS = {'acceptance_criteria', 'edge_cases', 'tradeoffs', 'assumptions', 'limits'}
+INPUT_FIELDS = {'key', 'label', 'help', 'example', 'required', 'type', 'source', 'demo_value'}
+PARAMETER_FIELDS = {'key', 'label', 'default', 'choices'}
+OPTIONAL_FIELDS = {'key', 'text', 'default_enabled'}
+FLOW_FIELDS = {'route', 'order', 'previous', 'next', 'branches', 'consumes', 'produces', 'external_gate', 'loop_to', 'standalone'}
 SELF_HASH_MODEL = 'sha256(sorted-json-without-self_sha256)'
 
 
@@ -158,7 +174,9 @@ def anchor_excuses(term: str, anchors: dict) -> bool:
 
 
 def tone_violations(cell: dict, locale: str, audience: str, anchors: dict, where: str) -> list[str]:
-    prompt = norm(cell['prompt'])
+    # The frozen charter names legacy [INPUT] markers. v2 uses <INPUT>; map the
+    # delimiters only for tone scoring, never for contract syntax validation.
+    prompt = norm(cell['prompt']).replace('<', '[').replace('>', ']')
     card = norm(cell['purpose'] + ' ' + cell['when'])
     found = []
     if audience == 'persona':
@@ -330,9 +348,9 @@ def validate_contract(contract: dict) -> list[str]:
     """Structural defects raise (they make the rest unreadable); content defects
     are collected so one run reports every offending cell, not just the first."""
     found: list[str] = []
-    required = {'schema_version', 'intent_id', 'surface', 'phase', 'state', 'publication_authorized', 'boundary', 'locales', 'self_hash_model', 'self_sha256'}
+    required = {'schema_version', 'intent_id', 'surface', 'phase', 'state', 'publication_authorized', 'boundary', 'flow', 'locales', 'self_hash_model', 'self_sha256'}
     intent_id = contract.get('intent_id')
-    if set(contract) != required or contract.get('schema_version') != 'prompt-intent-contract-v1':
+    if set(contract) != required or contract.get('schema_version') != 'prompt-intent-contract-v2':
         raise SystemExit(f'PROMPT_CONTRACT_SHAPE_INVALID:{intent_id}')
     surface = contract['surface']
     if surface not in SURFACE_IDS or intent_id not in SURFACE_IDS[surface]:
@@ -344,6 +362,13 @@ def validate_contract(contract: dict) -> list[str]:
     boundary = contract['boundary']
     if set(boundary) != {'distinct_from', 'decision_rule'} or not isinstance(boundary['distinct_from'], list) or not str(boundary['decision_rule']).strip():
         raise SystemExit(f'PROMPT_CONTRACT_BOUNDARY_INVALID:{intent_id}')
+    flow = contract['flow']
+    if set(flow) != FLOW_FIELDS or flow['route'] not in {'library', 'workbook'} or not isinstance(flow['order'], int) or flow['order'] < 1:
+        raise SystemExit(f'PROMPT_CONTRACT_FLOW_INVALID:{intent_id}')
+    if any(value is not None and value not in ALL_IDS for value in (flow['previous'], flow['next'], flow['loop_to'])):
+        raise SystemExit(f'PROMPT_CONTRACT_FLOW_TARGET_INVALID:{intent_id}')
+    if any(value not in ALL_IDS for value in flow['branches']) or any(value not in ARTIFACT_KEYS for value in flow['consumes']) or flow['produces'] != OUTPUTS[intent_id] or flow['standalone'] is not True:
+        raise SystemExit(f'PROMPT_CONTRACT_FLOW_TARGET_INVALID:{intent_id}')
     if contract['self_hash_model'] != SELF_HASH_MODEL or contract['self_sha256'] != canonical_self(contract, 'self_sha256'):
         raise SystemExit(f'PROMPT_CONTRACT_SELF_DRIFT:{intent_id}')
     if set(contract['locales']) != set(LANGS):
@@ -361,8 +386,32 @@ def validate_contract(contract: dict) -> list[str]:
             level_spec = cell['level_spec']
             if set(level_spec) != LEVEL_SPEC_FIELDS or any(not level_spec[field] for field in LEVEL_SPEC_FIELDS):
                 raise SystemExit(f'PROMPT_CONTRACT_LEVEL_SPEC_INVALID:{where}')
-            if any(not isinstance(pair, list) or len(pair) != 2 or not all(isinstance(part, str) and part.strip() for part in pair) for pair in level_spec['parameters']):
+            if any(not isinstance(pair, list) or len(pair) != 2 or not all(isinstance(part, str) and part.strip() for part in pair) for pair in level_spec['constraints']):
                 raise SystemExit(f'PROMPT_CONTRACT_LEVEL_SPEC_PARAMETERS_INVALID:{where}')
+            if not isinstance(level_spec['frameworks'], list) or not 1 <= len(level_spec['frameworks']) <= 3 or any(
+                    not isinstance(item, str) or ' · ' not in item or len(item) > 90 for item in level_spec['frameworks']):
+                raise SystemExit(f'PROMPT_CONTRACT_FRAMEWORK_INVALID:{where}')
+            if len({norm(item.split(' · ', 1)[0]) for item in level_spec['frameworks']}) != len(level_spec['frameworks']):
+                raise SystemExit(f'PROMPT_CONTRACT_FRAMEWORK_DUPLICATE:{where}')
+            inputs = cell['inputs']
+            if not isinstance(inputs, list) or len(inputs) < MIN_VARIABLES or any(
+                    set(item) != INPUT_FIELDS or not all(str(item[field]).strip() for field in ('key', 'label', 'help', 'example', 'type', 'source', 'demo_value'))
+                    or item['required'] is not True or item['source'] not in {'user', 'previous_output'}
+                    for item in inputs):
+                raise SystemExit(f'PROMPT_CONTRACT_INPUT_INVALID:{where}')
+            if len({item['key'] for item in inputs}) != len(inputs) or len({item['label'] for item in inputs}) != len(inputs):
+                raise SystemExit(f'PROMPT_CONTRACT_INPUT_DUPLICATE:{where}')
+            parameters = cell['parameters']
+            if not isinstance(parameters, list) or not parameters or any(
+                    set(item) != PARAMETER_FIELDS or not all(str(item[field]).strip() for field in ('key', 'label', 'default'))
+                    or not isinstance(item['choices'], list) or item['default'] not in item['choices']
+                    for item in parameters):
+                raise SystemExit(f'PROMPT_CONTRACT_PARAMETER_INVALID:{where}')
+            optional = cell['optional_clauses']
+            if not isinstance(optional, list) or any(
+                    set(item) != OPTIONAL_FIELDS or not str(item['key']).strip() or not str(item['text']).strip()
+                    or not isinstance(item['default_enabled'], bool) for item in optional):
+                raise SystemExit(f'PROMPT_CONTRACT_OPTIONAL_INVALID:{where}')
             why = cell['why_it_works']
             if set(why) != WHY_FIELDS or any(not isinstance(why[field], list) or not why[field] for field in WHY_FIELDS):
                 raise SystemExit(f'PROMPT_CONTRACT_WHY_INVALID:{where}')
@@ -379,9 +428,16 @@ def validate_contract(contract: dict) -> list[str]:
             for field, minimum in MINIMUMS.items():
                 if len(cell[field].strip()) < minimum:
                     raise SystemExit(f'PROMPT_CONTRACT_FIELD_GENERIC:{where}:{field}')
-            variables = {value.strip().casefold() for value in re.findall(r'\[([^]]+)\]', cell['prompt']) if value.strip()}
-            if len(variables) < MIN_VARIABLES:
+            if '{{' in cell['prompt'] or '}}' in cell['prompt']:
+                raise SystemExit(f'PROMPT_CONTRACT_LEGACY_MARKER:{where}')
+            variables = [value.strip() for value in re.findall(r'<([^>]+)>', cell['prompt']) if value.strip()]
+            expected_variables = [item['label'] for item in cell['inputs']]
+            if set(variables) != set(expected_variables) or len(set(variables)) < MIN_VARIABLES:
                 raise SystemExit(f'PROMPT_CONTRACT_VARIABLES:{where}')
+            optional_texts={item['text'] for item in cell['optional_clauses']}
+            square_values={value.strip() for value in re.findall(r'\[([^]]+)\]', cell['prompt']) if value.strip()}
+            if not square_values.issubset(optional_texts):
+                raise SystemExit(f'PROMPT_CONTRACT_OPTIONAL_SYNTAX:{where}')
             prompt_text = norm(cell['prompt'])
             intro_text = norm(cell['title'] + ' ' + cell['purpose'])
             evidence_text = norm(cell['evidence'])
@@ -528,18 +584,31 @@ def synthetic_contract() -> dict:
         for audience in AUDIENCES:
             key = (audience, locale)
             card, evidence = CARD_EXTRA[key], item['evidence'] + EVIDENCE_EXTRA[key]
+            prompt = re.sub(r'\[([^]]+)\]', r'<\1>', item['prompt'] + PROMPT_EXTRA[key])
+            labels = list(dict.fromkeys(value.strip() for value in re.findall(r'<([^>]+)>', prompt)))
             cells[audience] = {
                 'title': item['title'],
                 'purpose': item['purpose'] + card,
                 'when': item['when'] + card,
                 'example': item['example'] + card,
                 'evidence': evidence,
-                'prompt': item['prompt'] + PROMPT_EXTRA[key],
+                'prompt': prompt,
+                'inputs': [
+                    {'key': f'input_{index}', 'label': label, 'help': 'Dato concreto del caso',
+                     'example': 'ejemplo breve', 'required': True, 'type': 'text',
+                     'source': 'user', 'demo_value': 'valor demo'}
+                    for index, label in enumerate(labels, 1)],
+                'parameters': [
+                    {'key': 'length', 'label': 'LONGITUD', 'default': 'concisa', 'choices': ['concisa', 'media']},
+                    {'key': 'structure', 'label': 'ESTRUCTURA', 'default': 'dos párrafos', 'choices': ['dos párrafos', 'tabla']},
+                ],
+                'optional_clauses': [],
                 'level_spec': {
                     'role': 'Asistente MetodologIA orientado a evidencia',
                     'spec_role': LIBRARY['locales'][locale]['spec_format']['default_role'],
                     'objective': item['title'],
-                    'parameters': [['profundidad', 'operativa'], ['formato', 'estructurado']],
+                    'constraints': [['profundidad', 'operativa'], ['formato', 'estructurado']],
+                    'frameworks': ['MECE · sin solapamientos ni vacíos'],
                     'workflow': [item['purpose'], SYNTHETIC_STEP],
                     'guardrails': ['No inventar fuentes, citas o capacidades'],
                     'output': [evidence],
@@ -557,13 +626,15 @@ def synthetic_contract() -> dict:
             }
         locales[locale] = cells
     contract = {
-        'schema_version': 'prompt-intent-contract-v1',
+        'schema_version': 'prompt-intent-contract-v2',
         'intent_id': '01',
         'surface': 'library',
         'phase': 'Aprender',
         'state': 'RENDERED_DRAFT',
         'publication_authorized': False,
         'boundary': {'distinct_from': ['02'], 'decision_rule': 'Usar 01 cuando el objetivo es delimitar una investigación nueva.'},
+        'flow': {'route': 'library', 'order': 1, 'previous': None, 'next': None, 'branches': [], 'consumes': [],
+                 'produces': OUTPUTS['01'], 'external_gate': False, 'loop_to': None, 'standalone': True},
         'locales': locales,
         'self_hash_model': SELF_HASH_MODEL,
     }
@@ -626,13 +697,56 @@ def run_mutations(baseline_contract: dict) -> int:
     candidate['intent_id'] = 'W01'
     mutations.append(('surface_id_mismatch', reseal(candidate), 'PROMPT_CONTRACT_SURFACE_INVALID'))
 
+    candidate = copy.deepcopy(baseline_contract)
+    candidate['locales']['es']['persona']['inputs'][0]['help'] = ''
+    mutations.append(('input_help_missing', reseal(candidate), 'PROMPT_CONTRACT_INPUT_INVALID'))
+
+    candidate = copy.deepcopy(baseline_contract)
+    candidate['locales']['es']['persona']['inputs'][0]['demo_value'] = ''
+    mutations.append(('demo_value_missing', reseal(candidate), 'PROMPT_CONTRACT_INPUT_INVALID'))
+
+    candidate = copy.deepcopy(baseline_contract)
+    candidate['locales']['es']['persona']['parameters'][0]['default'] = 'valor no permitido'
+    mutations.append(('parameter_default_outside_choices', reseal(candidate), 'PROMPT_CONTRACT_PARAMETER_INVALID'))
+
+    candidate = copy.deepcopy(baseline_contract)
+    candidate['locales']['es']['persona']['prompt'] += ' {{LEGACY_INPUT}}'
+    mutations.append(('legacy_curly_marker', reseal(candidate), 'PROMPT_CONTRACT_LEGACY_MARKER'))
+
+    candidate = copy.deepcopy(baseline_contract)
+    candidate['locales']['es']['persona']['prompt'] += ' [BASE SUFICIENTE]'
+    mutations.append(('pseudo_input_square_marker', reseal(candidate), 'PROMPT_CONTRACT_OPTIONAL_SYNTAX'))
+
+    candidate = copy.deepcopy(baseline_contract)
+    candidate['flow']['next'] = 'UNKNOWN'
+    mutations.append(('flow_target_missing', reseal(candidate), 'PROMPT_CONTRACT_FLOW_TARGET_INVALID'))
+
+    candidate = copy.deepcopy(baseline_contract)
+    candidate['flow']['produces'] = OUTPUTS['02']
+    mutations.append(('flow_output_incompatible', reseal(candidate), 'PROMPT_CONTRACT_FLOW_TARGET_INVALID'))
+
+    candidate = copy.deepcopy(baseline_contract)
+    candidate['flow']['consumes'] = ['ARTIFACT_UNKNOWN']
+    mutations.append(('flow_input_orphan', reseal(candidate), 'PROMPT_CONTRACT_FLOW_TARGET_INVALID'))
+
+    candidate = copy.deepcopy(baseline_contract)
+    candidate['locales']['es']['persona']['level_spec']['frameworks'] = []
+    mutations.append(('framework_missing', reseal(candidate), 'PROMPT_CONTRACT_LEVEL_SPEC_INVALID'))
+
+    candidate = copy.deepcopy(baseline_contract)
+    candidate['locales']['es']['persona']['level_spec']['frameworks'] = [
+        'MECE · sin solapamientos ni vacíos',
+        'MECE · todo debe caber en una categoría',
+    ]
+    mutations.append(('framework_duplicate', reseal(candidate), 'PROMPT_CONTRACT_FRAMEWORK_DUPLICATE'))
+
     # --- Mutations for the rules hardened in this pass.
 
     candidate = copy.deepcopy(baseline_contract)
     cell = candidate['locales']['es']['empresa']
     cell['prompt'] = cell['prompt'].replace(
-        PROMPT_EXTRA[('empresa', 'es')],
-        ' Ajusta el resultado a [EQUIPO] con responsable nombrado.')
+        PROMPT_EXTRA[('empresa', 'es')].replace('[', '<').replace(']', '>'),
+        ' Ajusta el resultado a <EQUIPO> con responsable nombrado.')
     mutations.append(('tone_charter_single_marker', reseal(candidate), 'PROMPT_CONTRACT_TONE_MARKER'))
 
     candidate = copy.deepcopy(baseline_contract)
@@ -651,12 +765,14 @@ def run_mutations(baseline_contract: dict) -> int:
     twin = copy.deepcopy(baseline_contract)
     twin['intent_id'] = '02'
     twin['boundary'] = {'distinct_from': ['03'], 'decision_rule': twin['boundary']['decision_rule']}
+    twin['flow']['produces'] = OUTPUTS['02']
     mutations.append(('asymmetric_boundary', [copy.deepcopy(baseline_contract), reseal(twin)],
                       'PROMPT_CONTRACT_ASYMMETRIC_BOUNDARY'))
 
     twin = copy.deepcopy(baseline_contract)
     twin['intent_id'] = '02'
     twin['boundary'] = {'distinct_from': ['01'], 'decision_rule': twin['boundary']['decision_rule']}
+    twin['flow']['produces'] = OUTPUTS['02']
     mutations.append(('cross_intent_clone', [copy.deepcopy(baseline_contract), reseal(twin)],
                       'PROMPT_CONTRACT_CROSS_INTENT_CLONE'))
 

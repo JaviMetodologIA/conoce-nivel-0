@@ -1,5 +1,5 @@
 {
-  "schema_version": "prompt-intent-contract-v1",
+  "schema_version": "prompt-intent-contract-v2",
   "intent_id": "09",
   "surface": "library",
   "phase": "(R)Evolucionar",
@@ -22,33 +22,11 @@
         "when": "debes defender ante preguntas difíciles algo que ya escribiste o decidiste.",
         "example": "Defender mi piloto de IA y sus controles ante una entrevista técnica exigente.",
         "evidence": "objeción por turno trazada a un riesgo real, evaluación por criterio con el fragmento citado de mi respuesta, y tres respuestas reescritas con citas de la base.",
-        "prompt": "Simula una entrevista o defensa sobre [TEMA]; [FUENTES] es la única base de citas. Pídeme mi tesis y mis tres afirmaciones; si no existen, detente: aquí no se construyen. Una pregunta por turno, en tres niveles: aclaración, dato en contra, consecuencia con alternativa. Sube un nivel solo si mi respuesta anterior citó [FUENTES] y respondió la objeción; si no, repítelo; dos fallos bajan uno. Cada objeción nombra un riesgo real de [TEMA]: costo, límite o alternativa. Evalúa claridad, fundamento, criterio y honestidad con el fragmento citado: declarar el límite sin respaldo puntúa acierto; afirmarlo sin respaldo, fallo. Cierra con vacíos críticos y tres respuestas reescritas con citas. No redactes ni reestructures mi entregable. No inventes citas.",
+        "prompt": "Simula una entrevista o defensa sobre <TEMA>; <FUENTES> es la única base de citas. Pídeme mi tesis y mis tres afirmaciones; si no existen, detente: aquí no se construyen. Una pregunta por turno, en tres niveles: aclaración, dato en contra, consecuencia con alternativa. Sube un nivel solo si mi respuesta anterior citó <FUENTES> y respondió la objeción; si no, repítelo; dos fallos bajan uno. Cada objeción nombra un riesgo real de <TEMA>: costo, límite o alternativa. Evalúa claridad, fundamento, criterio y honestidad con el fragmento citado: declarar el límite sin respaldo puntúa acierto; afirmarlo sin respaldo, fallo. Cierra con vacíos críticos y tres respuestas reescritas con citas. No redactes ni reestructures mi entregable. No inventes citas.",
         "level_spec": {
           "role": "Entrevistador adversarial que calibra la presión contra la respuesta anterior",
           "spec_role": "Especialista en aprendizaje e investigación basada en evidencia",
           "objective": "Probar bajo presión creciente un argumento que ya existe, sin reescribir el entregable",
-          "parameters": [
-            [
-              "prerrequisito",
-              "tesis y tres afirmaciones ya existentes; si faltan, se detiene y deriva al preparador 10"
-            ],
-            [
-              "niveles",
-              "aclaración, dato en contra, consecuencia con alternativa"
-            ],
-            [
-              "calibración",
-              "sube un nivel solo si la respuesta anterior citó la base y respondió la objeción; dos fallos bajan un nivel"
-            ],
-            [
-              "honestidad",
-              "declarar el límite sin respaldo puntúa como acierto; afirmar sin respaldo puntúa como fallo"
-            ],
-            [
-              "citas",
-              "toda cita sale de la base declarada"
-            ]
-          ],
           "workflow": [
             "Verificar que el contenido a defender ya existe antes de la primera pregunta",
             "Fijar los tres niveles de dificultad y la regla de subida y bajada",
@@ -71,6 +49,33 @@
             "Colapso en la primera pregunta: bajar un nivel de dificultad",
             "Pregunta cuya respuesta honesta es no sé: la declaración de límite puntúa como acierto",
             "Sin base de citas disponible: declarar coverage_gap y no simular la defensa"
+          ],
+          "constraints": [
+            [
+              "prerrequisito",
+              "tesis y tres afirmaciones ya existentes; si faltan, se detiene y deriva al preparador 10"
+            ],
+            [
+              "niveles",
+              "aclaración, dato en contra, consecuencia con alternativa"
+            ],
+            [
+              "calibración",
+              "sube un nivel solo si la respuesta anterior citó la base y respondió la objeción; dos fallos bajan un nivel"
+            ],
+            [
+              "honestidad",
+              "declarar el límite sin respaldo puntúa como acierto; afirmar sin respaldo puntúa como fallo"
+            ],
+            [
+              "citas",
+              "toda cita sale de la base declarada"
+            ]
+          ],
+          "frameworks": [
+            "Red teaming · busca fallos antes de decidir",
+            "Pre-mortem · anticipa objeciones y fallos",
+            "Rúbrica analítica · criterios y niveles observables"
           ]
         },
         "why_it_works": {
@@ -111,6 +116,73 @@
             "claim": "Calibrar la dificultad contra la respuesta anterior y operativizar la honestidad como declaración de límite son normas internas del método.",
             "source": "method_internal"
           }
+        ],
+        "inputs": [
+          {
+            "key": "topic",
+            "label": "TEMA",
+            "help": "asunto concreto",
+            "example": "verificar respuestas de IA",
+            "required": true,
+            "type": "text",
+            "source": "user",
+            "demo_value": "cómo aprender a aprender con IA mediante una práctica semanal de alto rendimiento"
+          },
+          {
+            "key": "sources",
+            "label": "FUENTES",
+            "help": "material que sí puede citarse",
+            "example": "guía, informe y registro",
+            "required": true,
+            "type": "long_text",
+            "source": "user",
+            "demo_value": "dossier sintético Demo: guía del método, registro de práctica y criterios de revisión"
+          }
+        ],
+        "parameters": [
+          {
+            "key": "length",
+            "label": "LONGITUD",
+            "default": "concisa",
+            "choices": [
+              "concisa",
+              "media"
+            ]
+          },
+          {
+            "key": "structure",
+            "label": "ESTRUCTURA",
+            "default": "2 párrafos + bullets clave",
+            "choices": [
+              "2 párrafos + bullets clave",
+              "tabla breve"
+            ]
+          },
+          {
+            "key": "tone",
+            "label": "TONO",
+            "default": "claro y personal",
+            "choices": [
+              "claro y personal",
+              "didáctico"
+            ]
+          },
+          {
+            "key": "depth",
+            "label": "PROFUNDIDAD",
+            "default": "práctica",
+            "choices": [
+              "práctica",
+              "profunda"
+            ]
+          }
+        ],
+        "optional_clauses": [
+          {
+            "key": "visual_opening",
+            "text": "Si mejora la comprensión, abre con un esquema breve.",
+            "default_enabled": true
+          }
         ]
       },
       "empresa": {
@@ -119,33 +191,11 @@
         "when": "el equipo debe defender ante dirección una decisión que ya está tomada y documentada.",
         "example": "Defender ante dirección el piloto de IA del área y sus controles de riesgo.",
         "evidence": "objeción por turno trazada a un riesgo operativo del proceso, evaluación por criterio con el fragmento citado, y tres respuestas reescritas con citas de la base.",
-        "prompt": "Simula una defensa o QBR ante dirección sobre [TEMA] en [PROCESO]; solo [FUENTES] es base de citas. Pide la tesis y las tres afirmaciones documentadas; si faltan, detente: aquí no se construyen. Una pregunta por turno en tres niveles: aclaración, dato en contra, consecuencia y alternativa. Sube un nivel solo si la respuesta anterior citó [FUENTES] y respondió; si no, repite; dos fallos bajan uno. Cada objeción nombra un riesgo operativo de [TEMA] en [PROCESO]: gobernanza, costo o alternativa. Evalúa claridad, fundamento, criterio y honestidad con el fragmento citado: declarar el límite sin respaldo es acierto. Cierra con vacíos críticos y tres respuestas reescritas con citas de [FUENTES]. No redactes ni reestructures el entregable ni inventes citas.",
+        "prompt": "Simula una defensa o QBR ante dirección sobre <TEMA> en <PROCESO>; solo <FUENTES> es base de citas. Pide la tesis y las tres afirmaciones documentadas; si faltan, detente: aquí no se construyen. Una pregunta por turno en tres niveles: aclaración, dato en contra, consecuencia y alternativa. Sube un nivel solo si la respuesta anterior citó <FUENTES> y respondió; si no, repite; dos fallos bajan uno. Cada objeción nombra un riesgo operativo de <TEMA> en <PROCESO>: gobernanza, costo o alternativa. Evalúa claridad, fundamento, criterio y honestidad con el fragmento citado: declarar el límite sin respaldo es acierto. Cierra con vacíos críticos y tres respuestas reescritas con citas de <FUENTES>. No redactes ni reestructures el entregable ni inventes citas.",
         "level_spec": {
           "role": "Entrevistador adversarial de gobernanza que calibra la presión contra la respuesta anterior",
           "spec_role": "Especialista en aprendizaje e investigación basada en evidencia",
           "objective": "Probar bajo presión una decisión documentada antes de exponerla a dirección",
-          "parameters": [
-            [
-              "prerrequisito",
-              "tesis y tres afirmaciones ya documentadas; si faltan, se detiene y deriva al preparador 10"
-            ],
-            [
-              "niveles",
-              "aclaración, dato en contra, consecuencia con alternativa"
-            ],
-            [
-              "calibración",
-              "sube un nivel solo si la respuesta anterior citó la base y respondió la objeción; dos fallos bajan un nivel"
-            ],
-            [
-              "riesgo",
-              "gobernanza, costo y alternativa descartada del proceso afectado"
-            ],
-            [
-              "verificación",
-              "un revisor distinto de quien defiende comprueba cada cita reescrita"
-            ]
-          ],
           "workflow": [
             "Verificar que la decisión ya está documentada antes de la primera pregunta",
             "Fijar los tres niveles y la regla de subida y bajada",
@@ -169,6 +219,33 @@
             "Colapso en la primera pregunta: bajar un nivel de dificultad",
             "Respuesta honesta es no sé: la declaración de límite puntúa como acierto",
             "Sin base con derechos de uso interno: declarar coverage_gap y no simular"
+          ],
+          "constraints": [
+            [
+              "prerrequisito",
+              "tesis y tres afirmaciones ya documentadas; si faltan, se detiene y deriva al preparador 10"
+            ],
+            [
+              "niveles",
+              "aclaración, dato en contra, consecuencia con alternativa"
+            ],
+            [
+              "calibración",
+              "sube un nivel solo si la respuesta anterior citó la base y respondió la objeción; dos fallos bajan un nivel"
+            ],
+            [
+              "riesgo",
+              "gobernanza, costo y alternativa descartada del proceso afectado"
+            ],
+            [
+              "verificación",
+              "un revisor distinto de quien defiende comprueba cada cita reescrita"
+            ]
+          ],
+          "frameworks": [
+            "Red teaming · busca fallos antes de decidir",
+            "Pre-mortem · anticipa objeciones y fallos",
+            "Rúbrica analítica · criterios y niveles observables"
           ]
         },
         "why_it_works": {
@@ -213,6 +290,83 @@
             "claim": "Exigir decisión documentada antes de simular y dejar las reescrituras listas para revisión del responsable es política interna para defensas ante dirección.",
             "source": "method_internal"
           }
+        ],
+        "inputs": [
+          {
+            "key": "topic",
+            "label": "TEMA",
+            "help": "asunto concreto",
+            "example": "verificar respuestas de IA",
+            "required": true,
+            "type": "text",
+            "source": "user",
+            "demo_value": "cómo aprender a aprender con IA mediante formas de trabajo de alto rendimiento"
+          },
+          {
+            "key": "process",
+            "label": "PROCESO",
+            "help": "flujo que cambiará",
+            "example": "preparación de decisiones",
+            "required": true,
+            "type": "text",
+            "source": "user",
+            "demo_value": "preparación y revisión semanal de decisiones"
+          },
+          {
+            "key": "sources",
+            "label": "FUENTES",
+            "help": "material que sí puede citarse",
+            "example": "guía, informe y registro",
+            "required": true,
+            "type": "long_text",
+            "source": "user",
+            "demo_value": "dossier sintético Demo: guía del método, registro de práctica y criterios de revisión"
+          }
+        ],
+        "parameters": [
+          {
+            "key": "length",
+            "label": "LONGITUD",
+            "default": "concisa",
+            "choices": [
+              "concisa",
+              "media"
+            ]
+          },
+          {
+            "key": "structure",
+            "label": "ESTRUCTURA",
+            "default": "2 párrafos + bullets clave",
+            "choices": [
+              "2 párrafos + bullets clave",
+              "tabla breve"
+            ]
+          },
+          {
+            "key": "tone",
+            "label": "TONO",
+            "default": "ejecutivo y operativo",
+            "choices": [
+              "ejecutivo y operativo",
+              "facilitador"
+            ]
+          },
+          {
+            "key": "depth",
+            "label": "PROFUNDIDAD",
+            "default": "práctica",
+            "choices": [
+              "práctica",
+              "profunda"
+            ]
+          }
+        ],
+        "optional_clauses": [
+          {
+            "key": "visual_opening",
+            "text": "Si mejora la comprensión, abre con un esquema breve.",
+            "default_enabled": true
+          }
         ]
       }
     },
@@ -223,33 +377,11 @@
         "when": "you must defend something you already wrote or decided under hard questions.",
         "example": "Defend my AI pilot and its controls in a demanding technical interview.",
         "evidence": "one objection per turn traced to a real risk, per-criterion scoring with the quoted fragment of my answer, and three rewritten answers cited from the base.",
-        "prompt": "Simulate an interview or defence on [TOPIC]; [SOURCES] is the only quote base. First ask for my thesis and three claims; if missing, stop: nothing is built here. One question per turn: clarification, counter-fact, consequence with alternative. Raise a level only if my previous answer quoted [SOURCES] and answered; otherwise repeat; two failures drop a level. Every objection names a real [TOPIC] risk: cost, limit or alternative. Score clarity, grounding, judgment and honesty with the quoted fragment: declaring a limit without backing is a hit; claiming without it, a miss. Close with critical gaps and three rewritten cited answers. Never draft or restructure my deliverable. Do not invent quotes.",
+        "prompt": "Simulate an interview or defence on <TOPIC>; <SOURCES> is the only quote base. First ask for my thesis and three claims; if missing, stop: nothing is built here. One question per turn: clarification, counter-fact, consequence with alternative. Raise a level only if my previous answer quoted <SOURCES> and answered; otherwise repeat; two failures drop a level. Every objection names a real <TOPIC> risk: cost, limit or alternative. Score clarity, grounding, judgment and honesty with the quoted fragment: declaring a limit without backing is a hit; claiming without it, a miss. Close with critical gaps and three rewritten cited answers. Never draft or restructure my deliverable. Do not invent quotes.",
         "level_spec": {
           "role": "Adversarial interviewer who calibrates pressure against the previous answer",
           "spec_role": "Specialist in evidence-grounded learning and research",
           "objective": "Test an already existing argument under rising pressure without rewriting the deliverable",
-          "parameters": [
-            [
-              "prerequisite",
-              "thesis and three claims already exist; if missing, stop and route to preparer 10"
-            ],
-            [
-              "levels",
-              "clarification, counter-fact, consequence with alternative"
-            ],
-            [
-              "calibration",
-              "raise one level only if the previous answer quoted the base and answered the objection; two failures drop one level"
-            ],
-            [
-              "honesty",
-              "declaring the limit without backing scores a hit; claiming without backing scores a miss"
-            ],
-            [
-              "quotes",
-              "every quote comes from the declared base"
-            ]
-          ],
           "workflow": [
             "Verify the content to defend already exists before the first question",
             "Fix the three difficulty levels and the raise and drop rule",
@@ -272,6 +404,33 @@
             "Collapse on the first question: lower the difficulty one level",
             "Question whose honest answer is I do not know: the limit declaration scores as a hit",
             "No quotable base available: declare coverage_gap and do not simulate the defence"
+          ],
+          "constraints": [
+            [
+              "prerequisite",
+              "thesis and three claims already exist; if missing, stop and route to preparer 10"
+            ],
+            [
+              "levels",
+              "clarification, counter-fact, consequence with alternative"
+            ],
+            [
+              "calibration",
+              "raise one level only if the previous answer quoted the base and answered the objection; two failures drop one level"
+            ],
+            [
+              "honesty",
+              "declaring the limit without backing scores a hit; claiming without backing scores a miss"
+            ],
+            [
+              "quotes",
+              "every quote comes from the declared base"
+            ]
+          ],
+          "frameworks": [
+            "Red teaming · find flaws before deciding",
+            "Pre-mortem · anticipate objections and failure",
+            "Analytic rubric · observable criteria and levels"
           ]
         },
         "why_it_works": {
@@ -312,6 +471,73 @@
             "claim": "Calibrating difficulty against the previous answer and operationalizing honesty as a limit declaration are internal method policy.",
             "source": "method_internal"
           }
+        ],
+        "inputs": [
+          {
+            "key": "topic",
+            "label": "TOPIC",
+            "help": "specific subject",
+            "example": "verify AI answers",
+            "required": true,
+            "type": "text",
+            "source": "user",
+            "demo_value": "how to learn with AI through a weekly high-performance practice"
+          },
+          {
+            "key": "sources",
+            "label": "SOURCES",
+            "help": "material that may be cited",
+            "example": "guide, report and log",
+            "required": true,
+            "type": "long_text",
+            "source": "user",
+            "demo_value": "synthetic Demo dossier: method guide, practice log and review criteria"
+          }
+        ],
+        "parameters": [
+          {
+            "key": "length",
+            "label": "LENGTH",
+            "default": "concise",
+            "choices": [
+              "concise",
+              "medium"
+            ]
+          },
+          {
+            "key": "structure",
+            "label": "STRUCTURE",
+            "default": "2 paragraphs + key bullets",
+            "choices": [
+              "2 paragraphs + key bullets",
+              "short table"
+            ]
+          },
+          {
+            "key": "tone",
+            "label": "TONE",
+            "default": "clear and personal",
+            "choices": [
+              "clear and personal",
+              "instructional"
+            ]
+          },
+          {
+            "key": "depth",
+            "label": "DEPTH",
+            "default": "practical",
+            "choices": [
+              "practical",
+              "deep"
+            ]
+          }
+        ],
+        "optional_clauses": [
+          {
+            "key": "visual_opening",
+            "text": "If it improves understanding, open with a short diagram.",
+            "default_enabled": true
+          }
         ]
       },
       "empresa": {
@@ -320,33 +546,11 @@
         "when": "the team must defend before leadership a decision that is already made and documented.",
         "example": "Defend the area AI pilot and its risk controls before leadership.",
         "evidence": "one objection per turn traced to an operational risk of the process, per-criterion scoring with the quoted fragment, and three rewritten answers cited from the base.",
-        "prompt": "Simulate a leadership defence or QBR on [TOPIC] in [PROCESS]; quote only [SOURCES]. Ask first for thesis and three documented claims; if missing, stop: nothing is built. One question per turn: clarification, counter-fact, consequence, alternative. Raise a level only if the previous answer quoted [SOURCES] and answered; else repeat; two failures drop one. Every objection names an operational risk of [TOPIC] in [PROCESS]: governance, cost, alternative. Score clarity, grounding, judgment and honesty from the quoted fragment: a limit declared without backing is a hit. Close with critical gaps and three answers rewritten from [SOURCES]. Never draft or restructure the deliverable; never invent quotes.",
+        "prompt": "Simulate a leadership defence or QBR on <TOPIC> in <PROCESS>; quote only <SOURCES>. Ask first for thesis and three documented claims; if missing, stop: nothing is built. One question per turn: clarification, counter-fact, consequence, alternative. Raise a level only if the previous answer quoted <SOURCES> and answered; else repeat; two failures drop one. Every objection names an operational risk of <TOPIC> in <PROCESS>: governance, cost, alternative. Score clarity, grounding, judgment and honesty from the quoted fragment: a limit declared without backing is a hit. Close with critical gaps and three answers rewritten from <SOURCES>. Never draft or restructure the deliverable; never invent quotes.",
         "level_spec": {
           "role": "Adversarial governance interviewer who calibrates pressure against the previous answer",
           "spec_role": "Specialist in evidence-grounded learning and research",
           "objective": "Test a documented decision under pressure before it reaches leadership",
-          "parameters": [
-            [
-              "prerequisite",
-              "thesis and three documented claims; if missing, stop and route to preparer 10"
-            ],
-            [
-              "levels",
-              "clarification, counter-fact, consequence with alternative"
-            ],
-            [
-              "calibration",
-              "raise one level only if the previous answer quoted the base and answered the objection; two failures drop one level"
-            ],
-            [
-              "risk",
-              "governance, cost and discarded alternative of the affected process"
-            ],
-            [
-              "verification",
-              "a reviewer other than the defender checks every rewritten quote"
-            ]
-          ],
           "workflow": [
             "Verify the decision is already documented before the first question",
             "Fix the three levels and the raise and drop rule",
@@ -370,6 +574,33 @@
             "Collapse on the first question: lower the difficulty one level",
             "Honest answer is I do not know: the limit declaration scores as a hit",
             "No base with internal usage rights: declare coverage_gap and do not simulate"
+          ],
+          "constraints": [
+            [
+              "prerequisite",
+              "thesis and three documented claims; if missing, stop and route to preparer 10"
+            ],
+            [
+              "levels",
+              "clarification, counter-fact, consequence with alternative"
+            ],
+            [
+              "calibration",
+              "raise one level only if the previous answer quoted the base and answered the objection; two failures drop one level"
+            ],
+            [
+              "risk",
+              "governance, cost and discarded alternative of the affected process"
+            ],
+            [
+              "verification",
+              "a reviewer other than the defender checks every rewritten quote"
+            ]
+          ],
+          "frameworks": [
+            "Red teaming · find flaws before deciding",
+            "Pre-mortem · anticipate objections and failure",
+            "Analytic rubric · observable criteria and levels"
           ]
         },
         "why_it_works": {
@@ -414,6 +645,83 @@
             "claim": "Requiring a documented decision before simulating and leaving rewrites ready for owner review is internal policy for leadership defences.",
             "source": "method_internal"
           }
+        ],
+        "inputs": [
+          {
+            "key": "topic",
+            "label": "TOPIC",
+            "help": "specific subject",
+            "example": "verify AI answers",
+            "required": true,
+            "type": "text",
+            "source": "user",
+            "demo_value": "how to learn with AI through high-performance ways of working"
+          },
+          {
+            "key": "process",
+            "label": "PROCESS",
+            "help": "workflow that will change",
+            "example": "decision preparation",
+            "required": true,
+            "type": "text",
+            "source": "user",
+            "demo_value": "weekly decision preparation and review"
+          },
+          {
+            "key": "sources",
+            "label": "SOURCES",
+            "help": "material that may be cited",
+            "example": "guide, report and log",
+            "required": true,
+            "type": "long_text",
+            "source": "user",
+            "demo_value": "synthetic Demo dossier: method guide, practice log and review criteria"
+          }
+        ],
+        "parameters": [
+          {
+            "key": "length",
+            "label": "LENGTH",
+            "default": "concise",
+            "choices": [
+              "concise",
+              "medium"
+            ]
+          },
+          {
+            "key": "structure",
+            "label": "STRUCTURE",
+            "default": "2 paragraphs + key bullets",
+            "choices": [
+              "2 paragraphs + key bullets",
+              "short table"
+            ]
+          },
+          {
+            "key": "tone",
+            "label": "TONE",
+            "default": "executive and operational",
+            "choices": [
+              "executive and operational",
+              "facilitative"
+            ]
+          },
+          {
+            "key": "depth",
+            "label": "DEPTH",
+            "default": "practical",
+            "choices": [
+              "practical",
+              "deep"
+            ]
+          }
+        ],
+        "optional_clauses": [
+          {
+            "key": "visual_opening",
+            "text": "If it improves understanding, open with a short diagram.",
+            "default_enabled": true
+          }
         ]
       }
     },
@@ -424,33 +732,11 @@
         "when": "você deve defender sob perguntas difíceis algo que já escreveu ou decidiu.",
         "example": "Defender meu piloto de IA e seus controles em uma entrevista técnica exigente.",
         "evidence": "objeção por rodada ligada a um risco real, avaliação por critério com o trecho citado da minha resposta, e três respostas reescritas com citações da base.",
-        "prompt": "Simule uma entrevista ou defesa sobre [TEMA]; [FONTES] é a única base de citações. Peça minha tese e minhas três afirmações; se não existem, pare: aqui nada se constrói. Uma pergunta por rodada, em três níveis de dificuldade: esclarecimento, dado contrário, consequência e alternativa. Suba um nível só se minha resposta anterior citou [FONTES] e respondeu; se não, repita; duas falhas descem um nível. Cada objeção nomeia um risco real de [TEMA]: custo, limite ou alternativa. Avalie clareza, fundamento, critério e honestidade com o trecho citado: declarar o limite sem respaldo é acerto; afirmá-lo sem respaldo, falha. Feche com lacunas críticas e três respostas reescritas com citações. Não redija nem reestruture meu entregável. Não invente citações.",
+        "prompt": "Simule uma entrevista ou defesa sobre <TEMA>; <FONTES> é a única base de citações. Peça minha tese e minhas três afirmações; se não existem, pare: aqui nada se constrói. Uma pergunta por rodada, em três níveis de dificuldade: esclarecimento, dado contrário, consequência e alternativa. Suba um nível só se minha resposta anterior citou <FONTES> e respondeu; se não, repita; duas falhas descem um nível. Cada objeção nomeia um risco real de <TEMA>: custo, limite ou alternativa. Avalie clareza, fundamento, critério e honestidade com o trecho citado: declarar o limite sem respaldo é acerto; afirmá-lo sem respaldo, falha. Feche com lacunas críticas e três respostas reescritas com citações. Não redija nem reestruture meu entregável. Não invente citações.",
         "level_spec": {
           "role": "Entrevistador adversarial que calibra a pressão contra a resposta anterior",
           "spec_role": "Especialista em aprendizagem e pesquisa baseada em evidências",
           "objective": "Testar sob pressão crescente um argumento que já existe, sem reescrever o entregável",
-          "parameters": [
-            [
-              "prerrequisito",
-              "tese e três afirmações já existentes; se faltarem, parar e encaminhar ao preparador 10"
-            ],
-            [
-              "niveis",
-              "esclarecimento, dado contrário, consequência com alternativa"
-            ],
-            [
-              "calibracao",
-              "sobe um nível só se a resposta anterior citou a base e respondeu a objeção; duas falhas descem um nível"
-            ],
-            [
-              "honestidade",
-              "declarar o limite sem respaldo pontua como acerto; afirmar sem respaldo pontua como falha"
-            ],
-            [
-              "citacoes",
-              "toda citação sai da base declarada"
-            ]
-          ],
           "workflow": [
             "Verificar que o conteúdo a defender já existe antes da primeira pergunta",
             "Fixar os três níveis de dificuldade e a regra de subida e descida",
@@ -473,6 +759,33 @@
             "Colapso na primeira pergunta: baixar um nível de dificuldade",
             "Pergunta cuja resposta honesta é não sei: a declaração de limite pontua como acerto",
             "Sem base de citações disponível: declarar coverage_gap e não simular a defesa"
+          ],
+          "constraints": [
+            [
+              "prerrequisito",
+              "tese e três afirmações já existentes; se faltarem, parar e encaminhar ao preparador 10"
+            ],
+            [
+              "niveis",
+              "esclarecimento, dado contrário, consequência com alternativa"
+            ],
+            [
+              "calibracao",
+              "sobe um nível só se a resposta anterior citou a base e respondeu a objeção; duas falhas descem um nível"
+            ],
+            [
+              "honestidade",
+              "declarar o limite sem respaldo pontua como acerto; afirmar sem respaldo pontua como falha"
+            ],
+            [
+              "citacoes",
+              "toda citação sai da base declarada"
+            ]
+          ],
+          "frameworks": [
+            "Red teaming · encontre falhas antes de decidir",
+            "Pre-mortem · antecipe objeções e falhas",
+            "Rubrica analítica · critérios e níveis observáveis"
           ]
         },
         "why_it_works": {
@@ -513,6 +826,73 @@
             "claim": "Calibrar a dificuldade contra a resposta anterior e operacionalizar a honestidade como declaração de limite são normas internas do método.",
             "source": "method_internal"
           }
+        ],
+        "inputs": [
+          {
+            "key": "topic",
+            "label": "TEMA",
+            "help": "assunto concreto",
+            "example": "verificar respostas de IA",
+            "required": true,
+            "type": "text",
+            "source": "user",
+            "demo_value": "como aprender a aprender com IA por meio de uma prática semanal de alto desempenho"
+          },
+          {
+            "key": "sources",
+            "label": "FONTES",
+            "help": "material que pode ser citado",
+            "example": "guia, relatório e registro",
+            "required": true,
+            "type": "long_text",
+            "source": "user",
+            "demo_value": "dossiê sintético Demo: guia do método, registro de prática e critérios de revisão"
+          }
+        ],
+        "parameters": [
+          {
+            "key": "length",
+            "label": "EXTENSÃO",
+            "default": "concisa",
+            "choices": [
+              "concisa",
+              "média"
+            ]
+          },
+          {
+            "key": "structure",
+            "label": "ESTRUTURA",
+            "default": "2 parágrafos + bullets-chave",
+            "choices": [
+              "2 parágrafos + bullets-chave",
+              "tabela breve"
+            ]
+          },
+          {
+            "key": "tone",
+            "label": "TOM",
+            "default": "claro e pessoal",
+            "choices": [
+              "claro e pessoal",
+              "didático"
+            ]
+          },
+          {
+            "key": "depth",
+            "label": "PROFUNDIDADE",
+            "default": "prática",
+            "choices": [
+              "prática",
+              "profunda"
+            ]
+          }
+        ],
+        "optional_clauses": [
+          {
+            "key": "visual_opening",
+            "text": "Se melhorar a compreensão, abra com um esquema breve.",
+            "default_enabled": true
+          }
         ]
       },
       "empresa": {
@@ -521,33 +901,11 @@
         "when": "a equipe deve defender diante da diretoria uma decisão que já está tomada e documentada.",
         "example": "Defender diante da diretoria o piloto de IA da área e seus controles de risco.",
         "evidence": "objeção por rodada ligada a um risco operacional do processo, avaliação por critério com o trecho citado, e três respostas reescritas com citações da base.",
-        "prompt": "Simule uma defesa ou QBR diante da diretoria sobre [TEMA] em [PROCESSO]; cite só [FONTES]. Peça a tese e as três afirmações documentadas; se faltarem, pare: aqui nada se constrói. Uma pergunta por rodada em três níveis de dificuldade: esclarecimento, dado contrário, consequência e alternativa. Suba um nível só se a resposta anterior citou [FONTES] e respondeu; se não, repita; duas falhas descem um. Cada objeção nomeia um risco operacional de [TEMA] em [PROCESSO]: governança, custo ou alternativa. Avalie clareza, fundamento, critério e honestidade com o trecho citado: declarar o limite sem respaldo é acerto. Feche com lacunas críticas e três respostas reescritas de [FONTES]. Não redija nem reestruture o entregável nem invente citações.",
+        "prompt": "Simule uma defesa ou QBR diante da diretoria sobre <TEMA> em <PROCESSO>; cite só <FONTES>. Peça a tese e as três afirmações documentadas; se faltarem, pare: aqui nada se constrói. Uma pergunta por rodada em três níveis de dificuldade: esclarecimento, dado contrário, consequência e alternativa. Suba um nível só se a resposta anterior citou <FONTES> e respondeu; se não, repita; duas falhas descem um. Cada objeção nomeia um risco operacional de <TEMA> em <PROCESSO>: governança, custo ou alternativa. Avalie clareza, fundamento, critério e honestidade com o trecho citado: declarar o limite sem respaldo é acerto. Feche com lacunas críticas e três respostas reescritas de <FONTES>. Não redija nem reestruture o entregável nem invente citações.",
         "level_spec": {
           "role": "Entrevistador adversarial de governança que calibra a pressão contra a resposta anterior",
           "spec_role": "Especialista em aprendizagem e pesquisa baseada em evidências",
           "objective": "Testar sob pressão uma decisão documentada antes de expô-la à diretoria",
-          "parameters": [
-            [
-              "prerrequisito",
-              "tese e três afirmações já documentadas; se faltarem, parar e encaminhar ao preparador 10"
-            ],
-            [
-              "niveis",
-              "esclarecimento, dado contrário, consequência com alternativa"
-            ],
-            [
-              "calibracao",
-              "sobe um nível só se a resposta anterior citou a base e respondeu a objeção; duas falhas descem um nível"
-            ],
-            [
-              "risco",
-              "governança, custo e alternativa descartada do processo afetado"
-            ],
-            [
-              "verificacao",
-              "um revisor diferente de quem defende confere cada citação reescrita"
-            ]
-          ],
           "workflow": [
             "Verificar que a decisão já está documentada antes da primeira pergunta",
             "Fixar os três níveis e a regra de subida e descida",
@@ -571,6 +929,33 @@
             "Colapso na primeira pergunta: baixar um nível de dificuldade",
             "Resposta honesta é não sei: a declaração de limite pontua como acerto",
             "Sem base com direitos de uso interno: declarar coverage_gap e não simular"
+          ],
+          "constraints": [
+            [
+              "prerrequisito",
+              "tese e três afirmações já documentadas; se faltarem, parar e encaminhar ao preparador 10"
+            ],
+            [
+              "niveis",
+              "esclarecimento, dado contrário, consequência com alternativa"
+            ],
+            [
+              "calibracao",
+              "sobe um nível só se a resposta anterior citou a base e respondeu a objeção; duas falhas descem um nível"
+            ],
+            [
+              "risco",
+              "governança, custo e alternativa descartada do processo afetado"
+            ],
+            [
+              "verificacao",
+              "um revisor diferente de quem defende confere cada citação reescrita"
+            ]
+          ],
+          "frameworks": [
+            "Red teaming · encontre falhas antes de decidir",
+            "Pre-mortem · antecipe objeções e falhas",
+            "Rubrica analítica · critérios e níveis observáveis"
           ]
         },
         "why_it_works": {
@@ -615,10 +1000,101 @@
             "claim": "Exigir decisão documentada antes de simular e deixar as reescritas prontas para revisão do responsável é política interna para defesas diante da diretoria.",
             "source": "method_internal"
           }
+        ],
+        "inputs": [
+          {
+            "key": "topic",
+            "label": "TEMA",
+            "help": "assunto concreto",
+            "example": "verificar respostas de IA",
+            "required": true,
+            "type": "text",
+            "source": "user",
+            "demo_value": "como aprender a aprender com IA por meio de formas de trabalho de alto desempenho"
+          },
+          {
+            "key": "process",
+            "label": "PROCESSO",
+            "help": "fluxo que mudará",
+            "example": "preparação de decisões",
+            "required": true,
+            "type": "text",
+            "source": "user",
+            "demo_value": "preparação e revisão semanal de decisões"
+          },
+          {
+            "key": "sources",
+            "label": "FONTES",
+            "help": "material que pode ser citado",
+            "example": "guia, relatório e registro",
+            "required": true,
+            "type": "long_text",
+            "source": "user",
+            "demo_value": "dossiê sintético Demo: guia do método, registro de prática e critérios de revisão"
+          }
+        ],
+        "parameters": [
+          {
+            "key": "length",
+            "label": "EXTENSÃO",
+            "default": "concisa",
+            "choices": [
+              "concisa",
+              "média"
+            ]
+          },
+          {
+            "key": "structure",
+            "label": "ESTRUTURA",
+            "default": "2 parágrafos + bullets-chave",
+            "choices": [
+              "2 parágrafos + bullets-chave",
+              "tabela breve"
+            ]
+          },
+          {
+            "key": "tone",
+            "label": "TOM",
+            "default": "executivo e operacional",
+            "choices": [
+              "executivo e operacional",
+              "facilitador"
+            ]
+          },
+          {
+            "key": "depth",
+            "label": "PROFUNDIDADE",
+            "default": "prática",
+            "choices": [
+              "prática",
+              "profunda"
+            ]
+          }
+        ],
+        "optional_clauses": [
+          {
+            "key": "visual_opening",
+            "text": "Se melhorar a compreensão, abra com um esquema breve.",
+            "default_enabled": true
+          }
         ]
       }
     }
   },
   "self_hash_model": "sha256(sorted-json-without-self_sha256)",
-  "self_sha256": "e47bb261ee7e62d3f6441dd07fd1d3a45c1ad523c5afb4e2e3c68511e582123d"
+  "self_sha256": "d845a1b59469146ee8cdc1641c4af36a6653c12c1778ca56c8b16a5f769a1f2e",
+  "flow": {
+    "route": "library",
+    "order": 10,
+    "previous": "10",
+    "next": null,
+    "branches": [],
+    "consumes": [
+      "ENSAYO_DE_ENTREGA"
+    ],
+    "produces": "BORRADOR_DE_ENTREGA",
+    "external_gate": false,
+    "loop_to": null,
+    "standalone": true
+  }
 }

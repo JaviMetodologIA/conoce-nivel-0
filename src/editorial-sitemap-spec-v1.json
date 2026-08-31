@@ -5,7 +5,7 @@
   "network_required": false,
   "canonical_origin": "https://conoce.metodologia.info/",
   "self_hash_model": "sha256(sorted-json-without-self_sha256)",
-  "self_sha256": "74ba8a170e62765891577cec783cee472984c692ee24eb63802c4f3c0e5711b9",
+  "self_sha256": "648566295b41f61601fc64f88fbbdbcaea53fbcdbf4413ba6a92c991b182e718",
   "locales": ["es", "en", "pt"],
   "audiences": ["persona", "empresa"],
   "page_order": ["level0", "how", "resources_index", "intakes"],
@@ -20,13 +20,13 @@
       "persona": {
         "level0": {"label": "Empieza con algo tuyo", "body": "Trae una pregunta real. El objetivo es que puedas explicar qué hiciste y volver a hacerlo.", "points": ["Una pregunta concreta", "Fuentes que puedas abrir", "Una decisión que dependa de ti"]},
         "how": {"label": "Haz el recorrido a tu ritmo", "body": "Reserva entre 90 y 120 minutos. Lee, practica y deja una evidencia que puedas revisar después.", "points": ["Elige un caso", "Contrasta con fuentes", "Explica el resultado"]},
-        "resources_index": {"label": "Cuatro recursos, un recorrido", "body": "Usa la masterclass para orientarte, el workbook para practicar y el playbook con los prompts para repetir.", "points": ["Orientarte", "Practicar", "Volver a hacerlo"]},
+        "resources_index": {"label": "Dieciséis recursos, cuatro módulos", "body": "Avanza módulo a módulo. En cada uno, usa la masterclass para orientarte, el workbook para practicar y el playbook con los prompts para repetir.", "points": ["Comprender", "Practicar", "Transferir"]},
         "intakes": {"label": "Si quieres seguir", "body": "Registrar interés expresa que quieres continuar. No confirma participación ni crea un compromiso.", "points": ["Explora los recursos", "Define para qué quieres continuar", "Actúa solo sobre información publicada"]}
       },
       "empresa": {
         "level0": {"label": "Un lenguaje común para el equipo", "body": "Empiecen con un caso de trabajo delimitado. Observen fuentes, decisiones y límites antes de hablar de adopción.", "points": ["Caso con responsable", "Fuentes autorizadas", "Criterio de revisión común"]},
         "how": {"label": "Práctica breve, evidencia útil", "body": "Dediquen entre 90 y 120 minutos a un caso real. Documenten qué funcionó, qué falta y qué no debe escalarse.", "points": ["Alinear el caso", "Revisar el proceso", "Decidir el siguiente paso"]},
-        "resources_index": {"label": "Una base para habilitar equipos", "body": "Los cuatro recursos permiten preparar, facilitar y repetir la práctica sin convertir una herramienta en política.", "points": ["Orientación compartida", "Ejecución trazable", "Reuso con límites"]},
+        "resources_index": {"label": "Una ruta completa para habilitar equipos", "body": "Los dieciséis recursos permiten preparar, facilitar y repetir cuatro prácticas progresivas sin convertir una herramienta en política.", "points": ["Orientación compartida", "Ejecución trazable", "Reuso con límites"]},
         "intakes": {"label": "Explorar una participación", "body": "Registrar interés expresa una intención exploratoria. No autoriza comunicar participación ni movilizar al equipo.", "points": ["Propósito compartido", "Caso y fuentes", "Decisión interna explícita"]}
       }
     },
@@ -34,13 +34,13 @@
       "persona": {
         "level0": {"label": "Start with something of your own", "body": "Bring a real question. The goal is to explain what you did and be able to do it again.", "points": ["One concrete question", "Sources you can open", "A decision you own"]},
         "how": {"label": "Take the path at your pace", "body": "Set aside 90 to 120 minutes. Read, practise and leave evidence you can inspect later.", "points": ["Choose a case", "Check it against sources", "Explain the result"]},
-        "resources_index": {"label": "Four resources, one path", "body": "Use the masterclass to orient yourself, the workbook to practise, and the playbook with prompts to repeat.", "points": ["Get oriented", "Practise", "Do it again"]},
+        "resources_index": {"label": "Sixteen resources, four modules", "body": "Move one module at a time. In each, use the masterclass to get oriented, the workbook to practise, and the playbook with prompts to repeat.", "points": ["Understand", "Practise", "Transfer"]},
         "intakes": {"label": "If you want to continue", "body": "Registering interest says you want to continue. It does not confirm participation or create a commitment.", "points": ["Explore the resources", "Define why you want to continue", "Act only on published information"]}
       },
       "empresa": {
         "level0": {"label": "A shared language for the team", "body": "Start with a bounded work case. Observe sources, decisions and limits before discussing adoption.", "points": ["A case with an owner", "Authorised sources", "A shared review criterion"]},
         "how": {"label": "Short practice, useful evidence", "body": "Spend 90 to 120 minutes on a real case. Record what worked, what is missing and what should not scale.", "points": ["Align the case", "Review the process", "Choose the next step"]},
-        "resources_index": {"label": "A foundation for team enablement", "body": "The four resources help teams prepare, facilitate and repeat the practice without turning a tool into policy.", "points": ["Shared orientation", "Traceable execution", "Reuse with boundaries"]},
+        "resources_index": {"label": "A complete path for team enablement", "body": "The sixteen resources help teams prepare, facilitate and repeat four progressive practices without turning a tool into policy.", "points": ["Shared orientation", "Traceable execution", "Reuse with boundaries"]},
         "intakes": {"label": "Explore participation", "body": "Registering interest expresses an exploratory intent. It does not authorise participation claims or team mobilisation.", "points": ["Shared purpose", "Case and sources", "Explicit internal decision"]}
       }
     },
@@ -48,13 +48,13 @@
       "persona": {
         "level0": {"label": "Comece com algo seu", "body": "Traga uma pergunta real. O objetivo é explicar o que você fez e conseguir fazer de novo.", "points": ["Uma pergunta concreta", "Fontes que você possa abrir", "Uma decisão que dependa de você"]},
         "how": {"label": "Faça o percurso no seu ritmo", "body": "Reserve entre 90 e 120 minutos. Leia, pratique e deixe uma evidência que possa revisar depois.", "points": ["Escolha um caso", "Confira com as fontes", "Explique o resultado"]},
-        "resources_index": {"label": "Quatro recursos, um percurso", "body": "Use a masterclass para se orientar, o workbook para praticar e o playbook com prompts para repetir.", "points": ["Orientar-se", "Praticar", "Fazer de novo"]},
+        "resources_index": {"label": "Dezesseis recursos, quatro módulos", "body": "Avance módulo por módulo. Em cada um, use a masterclass para se orientar, o workbook para praticar e o playbook com prompts para repetir.", "points": ["Compreender", "Praticar", "Transferir"]},
         "intakes": {"label": "Se quiser continuar", "body": "Registrar interesse expressa que você quer continuar. Não confirma participação nem cria compromisso.", "points": ["Explore os recursos", "Defina por que quer continuar", "Aja somente com informação publicada"]}
       },
       "empresa": {
         "level0": {"label": "Uma linguagem comum para a equipe", "body": "Comecem com um caso de trabalho delimitado. Observem fontes, decisões e limites antes de falar em adoção.", "points": ["Caso com responsável", "Fontes autorizadas", "Critério comum de revisão"]},
         "how": {"label": "Prática breve, evidência útil", "body": "Dediquem entre 90 e 120 minutos a um caso real. Registrem o que funcionou, o que falta e o que não deve escalar.", "points": ["Alinhar o caso", "Revisar o processo", "Decidir o próximo passo"]},
-        "resources_index": {"label": "Uma base para habilitar equipes", "body": "Os quatro recursos ajudam a preparar, facilitar e repetir a prática sem transformar uma ferramenta em política.", "points": ["Orientação compartilhada", "Execução rastreável", "Reuso com limites"]},
+        "resources_index": {"label": "Um percurso completo para habilitar equipes", "body": "Os dezesseis recursos ajudam a preparar, facilitar e repetir quatro práticas progressivas sem transformar uma ferramenta em política.", "points": ["Orientação compartilhada", "Execução rastreável", "Reuso com limites"]},
         "intakes": {"label": "Explorar uma participação", "body": "Registrar interesse expressa uma intenção exploratória. Não autoriza comunicar participação nem mobilizar a equipe.", "points": ["Propósito compartilhado", "Caso e fontes", "Decisão interna explícita"]}
       }
     }
@@ -73,11 +73,11 @@
         {"id": "after", "title": "Vuelve a hacerlo", "body": "Apóyate en el playbook y la biblioteca de prompts para repetir el método con otra situación, no para repetir una respuesta.", "points": ["Cambia el caso", "Revisa de nuevo", "Ajusta el proceso"]},
         {"id": "evidence", "title": "La prueba es poder explicarlo", "body": "El recorrido sirve si puedes mostrar qué fuentes usaste, qué decidiste y cómo volverías a obtener un resultado revisable.", "points": []}
       ]},
-      "resources_index": {"meta_title": "Recursos de Nivel 0", "meta_description": "Los cuatro recursos reales de Nivel 0: masterclass, workbook, playbook y biblioteca de prompts.", "eyebrow": "Todo lo necesario para empezar", "title": "Recursos", "lead": "No son extras. Estos cuatro recursos forman el recorrido: orientarte, practicar, comprender el método y volver a aplicarlo.", "sections": [
-        {"id": "masterclass-resource", "title": "Masterclass", "body": "Una presentación oficial de 18 páginas, con guía accesible, para entender el punto de partida y el hilo del recorrido.", "points": []},
-        {"id": "workbook-resource", "title": "Cuaderno de práctica", "body": "El workbook reúne hojas para convertir una pregunta en práctica: buscar fuentes, guardar citas y documentar decisiones.", "points": []},
-        {"id": "playbook-resource", "title": "Guía para repetir", "body": "El playbook explica el método para aprender con fuentes, reconocer el espejismo de fluidez y repetir con criterio.", "points": []},
-        {"id": "prompts-resource", "title": "Instrucciones adaptables", "body": "La biblioteca reúne prompts listos para adaptar. Son puntos de partida para pensar mejor, no respuestas para aceptar sin revisar.", "points": []}
+      "resources_index": {"meta_title": "Recursos de Nivel 0", "meta_description": "Los 16 recursos de Nivel 0, organizados en cuatro módulos: masterclass, workbook, playbook y prompts.", "eyebrow": "Una ruta completa para empezar", "title": "Recursos", "lead": "Cuatro módulos, cada uno con cuatro recursos. Avanza en secuencia o entra directamente al material que necesitas.", "sections": [
+        {"id": "masterclass-resource", "title": "Cuatro Masterclasses", "body": "Cada módulo exhibe su PDF oficial sin alterarlo y ofrece una guía HTML accesible para leer, ubicar ideas y continuar el recorrido.", "points": []},
+        {"id": "workbook-resource", "title": "Cuatro cuadernos de práctica", "body": "Cada workbook convierte el tema del módulo en preparación, práctica y transferencia con evidencia que puedes revisar.", "points": []},
+        {"id": "playbook-resource", "title": "Cuatro guías operativas", "body": "Cada playbook organiza decisiones, pasos y estándares para repetir la práctica con criterio en otra situación.", "points": []},
+        {"id": "prompts-resource", "title": "Cuatro bibliotecas de prompts", "body": "Cada biblioteca reúne instrucciones adaptables en cuatro niveles. Úsalas como punto de partida y comprueba siempre el resultado.", "points": []}
       ]},
       "intakes": {"meta_title": "Continuidad de Nivel 0", "meta_description": "Qué significa registrar interés para continuar después de recorrer Nivel 0.", "eyebrow": "Continuar sin promesas vacías", "title": "Continuidad", "lead": "Puedes registrar interés para continuar. El formulario expresa una intención; no confirma participación ni crea un compromiso.", "sections": [
         {"id": "verification", "title": "Qué significa este formulario", "body": "Sirve para expresar interés. Cualquier paso adicional debe comunicarse de forma explícita y por separado.", "points": []},
@@ -99,11 +99,11 @@
         {"id": "after", "title": "Do it again", "body": "Use the playbook and prompt library to repeat the method with another situation, not to repeat an answer.", "points": ["Change the case", "Check again", "Adjust the process"]},
         {"id": "evidence", "title": "The test is whether you can explain it", "body": "The path works if you can show which sources you used, what you decided and how you would produce another reviewable result.", "points": []}
       ]},
-      "resources_index": {"meta_title": "Level 0 resources", "meta_description": "The four real Level 0 resources: masterclass, workbook, playbook and prompt library.", "eyebrow": "Everything you need to start", "title": "Resources", "lead": "These are not extras. The four resources form the path: get oriented, practise, understand the method and apply it again.", "sections": [
-        {"id": "masterclass-resource", "title": "Masterclass", "body": "An official 18-page presentation with an accessible guide to understand the starting point and follow the path.", "points": []},
-        {"id": "workbook-resource", "title": "Practice notebook", "body": "The workbook contains sheets that turn a question into practice: find sources, keep citations and document decisions.", "points": []},
-        {"id": "playbook-resource", "title": "Guide for repeating", "body": "The playbook explains the method for learning from sources, spotting the illusion of fluency and repeating with judgement.", "points": []},
-        {"id": "prompts-resource", "title": "Adaptable instructions", "body": "The library contains prompts ready to adapt. They are starting points for better thinking, not answers to accept without checking.", "points": []}
+      "resources_index": {"meta_title": "Level 0 resources", "meta_description": "The 16 Level 0 resources, organised into four modules: masterclass, workbook, playbook and prompts.", "eyebrow": "A complete path for getting started", "title": "Resources", "lead": "Four modules, each with four resources. Follow the sequence or go directly to the material you need.", "sections": [
+        {"id": "masterclass-resource", "title": "Four Masterclasses", "body": "Each module displays its unchanged official PDF and provides an accessible HTML guide for reading, finding ideas and continuing the path.", "points": []},
+        {"id": "workbook-resource", "title": "Four practice workbooks", "body": "Each workbook turns the module topic into preparation, practice and transfer with evidence you can inspect.", "points": []},
+        {"id": "playbook-resource", "title": "Four operating guides", "body": "Each playbook organises decisions, steps and standards so you can repeat the practice with judgement in another situation.", "points": []},
+        {"id": "prompts-resource", "title": "Four prompt libraries", "body": "Each library provides adaptable instructions at four levels. Use them as a starting point and always check the result.", "points": []}
       ]},
       "intakes": {"meta_title": "Continuing after Level 0", "meta_description": "What registering interest means after exploring Level 0.", "eyebrow": "Continue without empty promises", "title": "Continue", "lead": "You can register interest in continuing. The form expresses intent; it does not confirm participation or create a commitment.", "sections": [
         {"id": "verification", "title": "What this form means", "body": "It lets you express interest. Any additional step must be communicated explicitly and separately.", "points": []},
@@ -125,11 +125,11 @@
         {"id": "after", "title": "Faça de novo", "body": "Use o playbook e a biblioteca de prompts para repetir o método com outra situação, não para repetir uma resposta.", "points": ["Mude o caso", "Revise novamente", "Ajuste o processo"]},
         {"id": "evidence", "title": "A prova é conseguir explicar", "body": "O percurso funciona se você consegue mostrar quais fontes usou, o que decidiu e como produziria outro resultado revisável.", "points": []}
       ]},
-      "resources_index": {"meta_title": "Recursos do Nivel 0", "meta_description": "Os quatro recursos reais do Nivel 0: masterclass, workbook, playbook e biblioteca de prompts.", "eyebrow": "Tudo o que você precisa para começar", "title": "Recursos", "lead": "Não são extras. Os quatro recursos formam o percurso: orientar-se, praticar, compreender o método e aplicá-lo novamente.", "sections": [
-        {"id": "masterclass-resource", "title": "Masterclass", "body": "Uma apresentação oficial de 18 páginas, com guia acessível, para entender o ponto de partida e acompanhar o percurso.", "points": []},
-        {"id": "workbook-resource", "title": "Caderno de prática", "body": "O workbook reúne folhas que transformam uma pergunta em prática: buscar fontes, guardar citações e documentar decisões.", "points": []},
-        {"id": "playbook-resource", "title": "Guia para repetir", "body": "O playbook explica o método para aprender com fontes, reconhecer a ilusão de fluidez e repetir com critério.", "points": []},
-        {"id": "prompts-resource", "title": "Instruções adaptáveis", "body": "A biblioteca reúne prompts prontos para adaptar. São pontos de partida para pensar melhor, não respostas para aceitar sem revisar.", "points": []}
+      "resources_index": {"meta_title": "Recursos do Nivel 0", "meta_description": "Os 16 recursos do Nivel 0, organizados em quatro módulos: masterclass, workbook, playbook e prompts.", "eyebrow": "Um percurso completo para começar", "title": "Recursos", "lead": "Quatro módulos, cada um com quatro recursos. Siga a sequência ou vá diretamente ao material de que precisa.", "sections": [
+        {"id": "masterclass-resource", "title": "Quatro Masterclasses", "body": "Cada módulo exibe seu PDF oficial sem alterações e oferece um guia HTML acessível para ler, localizar ideias e continuar o percurso.", "points": []},
+        {"id": "workbook-resource", "title": "Quatro cadernos de prática", "body": "Cada workbook transforma o tema do módulo em preparação, prática e transferência com evidência que você pode revisar.", "points": []},
+        {"id": "playbook-resource", "title": "Quatro guias operacionais", "body": "Cada playbook organiza decisões, passos e padrões para repetir a prática com critério em outra situação.", "points": []},
+        {"id": "prompts-resource", "title": "Quatro bibliotecas de prompts", "body": "Cada biblioteca reúne instruções adaptáveis em quatro níveis. Use-as como ponto de partida e sempre verifique o resultado.", "points": []}
       ]},
       "intakes": {"meta_title": "Continuidade depois do Nivel 0", "meta_description": "O que significa registrar interesse depois de explorar o Nivel 0.", "eyebrow": "Continuar sem promessas vazias", "title": "Continuidade", "lead": "Você pode registrar interesse em continuar. O formulário expressa intenção; não confirma participação nem cria compromisso.", "sections": [
         {"id": "verification", "title": "O que este formulário significa", "body": "Ele permite expressar interesse. Qualquer passo adicional deve ser comunicado de forma explícita e separada.", "points": []},

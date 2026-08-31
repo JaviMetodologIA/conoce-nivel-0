@@ -1,5 +1,5 @@
 {
-  "schema_version": "prompt-intent-contract-v1",
+  "schema_version": "prompt-intent-contract-v2",
   "intent_id": "10",
   "surface": "library",
   "phase": "(R)Evolucionar",
@@ -20,33 +20,11 @@
         "when": "debes presentar lo aprendido y todavía no tienes guion ni estructura.",
         "example": "Preparar mi presentación de ocho minutos sobre oportunidades y límites de la IA.",
         "evidence": "tesis en una frase, estructura con minutos por bloque, notas de orador, y cinco preguntas probables con respuesta citada tras el ensayo.",
-        "prompt": "Ayúdame a construir una presentación sobre [TEMA] en [TIEMPO] con [FUENTES]. Si el guion ya existe, detente: aquí se construye. Escribe la tesis en una frase y tres ideas, cada una con cita literal de [FUENTES], más límite y llamado. Reparte [TIEMPO] en bloques con minutos que sumen el total; si no caben tres, corta una y dilo. Idea sin cita: degrádala a hipótesis o quítala. Pregunta si mi audiencia llega hostil o neutral y ajusta la tensión. Estructura visual concisa: una idea por bloque, sin texto que yo lea en voz alta, y notas de orador en mi voz. Tras mi confirmación, ensaya sección por sección, cuestiona lo débil y cierra con cinco preguntas probables de [TEMA] citadas. No me interrogues con presión creciente, no me califiques ni inventes citas.",
+        "prompt": "Ayúdame a construir una presentación sobre <TEMA> en <TIEMPO> con <FUENTES>. Si el guion ya existe, detente: aquí se construye. Escribe la tesis en una frase y tres ideas, cada una con cita literal de <FUENTES>, más límite y llamado. Reparte <TIEMPO> en bloques con minutos que sumen el total; si no caben tres, corta una y dilo. Idea sin cita: degrádala a hipótesis o quítala. Pregunta si mi audiencia llega hostil o neutral y ajusta la tensión. Estructura visual concisa: una idea por bloque, sin texto que yo lea en voz alta, y notas de orador en mi voz. Tras mi confirmación, ensaya sección por sección, cuestiona lo débil y cierra con cinco preguntas probables de <TEMA> citadas. No me interrogues con presión creciente, no me califiques ni inventes citas.",
         "level_spec": {
           "role": "Preparador que construye la narrativa antes de ensayarla",
           "spec_role": "Especialista en aprendizaje e investigación basada en evidencia",
           "objective": "Convertir comprensión en un guion citado y ensayable ajustado al tiempo disponible",
-          "parameters": [
-            [
-              "tesis",
-              "una frase"
-            ],
-            [
-              "ideas",
-              "tres, cada una con cita literal de la base"
-            ],
-            [
-              "estructura",
-              "bloques con minutos que suman el tiempo declarado; si no caben tres ideas, se corta una y se declara"
-            ],
-            [
-              "concisión",
-              "una idea por bloque, sin texto para leer en voz alta"
-            ],
-            [
-              "transición",
-              "el ensayo empieza solo con la confirmación explícita del guion"
-            ]
-          ],
           "workflow": [
             "Verificar que el guion aún no existe; si existe, derivar al simulador 09",
             "Escribir la tesis en una frase y tres ideas con cita literal",
@@ -69,6 +47,33 @@
             "Evidencia insuficiente para una idea: degradarla a hipótesis declarada o eliminarla",
             "Audiencia hostil: subir la tensión y endurecer el llamado a la acción",
             "El tiempo no alcanza para tres ideas: cortar una y declarar cuál"
+          ],
+          "constraints": [
+            [
+              "tesis",
+              "una frase"
+            ],
+            [
+              "ideas",
+              "tres, cada una con cita literal de la base"
+            ],
+            [
+              "estructura",
+              "bloques con minutos que suman el tiempo declarado; si no caben tres ideas, se corta una y se declara"
+            ],
+            [
+              "concisión",
+              "una idea por bloque, sin texto para leer en voz alta"
+            ],
+            [
+              "transición",
+              "el ensayo empieza solo con la confirmación explícita del guion"
+            ]
+          ],
+          "frameworks": [
+            "BLUF · conclusión primero",
+            "Principio de la Pirámide · idea, razones y evidencia",
+            "Definition of Done · cierre observable"
           ]
         },
         "why_it_works": {
@@ -108,6 +113,101 @@
             "claim": "Derivar la estructura de los minutos disponibles y exigir confirmación explícita antes de ensayar son normas internas del método.",
             "source": "method_internal"
           }
+        ],
+        "inputs": [
+          {
+            "key": "topic",
+            "label": "TEMA",
+            "help": "asunto concreto",
+            "example": "verificar respuestas de IA",
+            "required": true,
+            "type": "text",
+            "source": "user",
+            "demo_value": "cómo aprender a aprender con IA mediante una práctica semanal de alto rendimiento"
+          },
+          {
+            "key": "time",
+            "label": "TIEMPO",
+            "help": "duración disponible",
+            "example": "15 minutos",
+            "required": true,
+            "type": "text",
+            "source": "user",
+            "demo_value": "15 minutos"
+          },
+          {
+            "key": "sources",
+            "label": "FUENTES",
+            "help": "material que sí puede citarse",
+            "example": "guía, informe y registro",
+            "required": true,
+            "type": "long_text",
+            "source": "user",
+            "demo_value": "dossier sintético Demo: guía del método, registro de práctica y criterios de revisión"
+          }
+        ],
+        "parameters": [
+          {
+            "key": "length",
+            "label": "LONGITUD",
+            "default": "concisa",
+            "choices": [
+              "concisa",
+              "media"
+            ]
+          },
+          {
+            "key": "structure",
+            "label": "ESTRUCTURA",
+            "default": "2 párrafos + bullets clave",
+            "choices": [
+              "2 párrafos + bullets clave",
+              "tabla breve"
+            ]
+          },
+          {
+            "key": "tone",
+            "label": "TONO",
+            "default": "claro y personal",
+            "choices": [
+              "claro y personal",
+              "didáctico"
+            ]
+          },
+          {
+            "key": "depth",
+            "label": "PROFUNDIDAD",
+            "default": "práctica",
+            "choices": [
+              "práctica",
+              "profunda"
+            ]
+          },
+          {
+            "key": "aesthetic",
+            "label": "ESTÉTICA",
+            "default": "minimalista",
+            "choices": [
+              "minimalista",
+              "editorial"
+            ]
+          },
+          {
+            "key": "opening",
+            "label": "APERTURA",
+            "default": "diagrama antes del detalle",
+            "choices": [
+              "diagrama antes del detalle",
+              "idea clave primero"
+            ]
+          }
+        ],
+        "optional_clauses": [
+          {
+            "key": "visual_opening",
+            "text": "Si mejora la comprensión, abre con un esquema breve.",
+            "default_enabled": true
+          }
         ]
       },
       "empresa": {
@@ -116,33 +216,11 @@
         "when": "el proceso exige llevar una decisión a dirección y el guion todavía no existe.",
         "example": "Preparar la presentación del área sobre oportunidades y límites de la IA.",
         "evidence": "tesis en una frase, estructura visual con minutos por bloque, notas de orador reutilizables, riesgo operativo declarado y cinco preguntas probables con respuesta citada.",
-        "prompt": "Ayuda a [EQUIPO] a construir una presentación sobre [TEMA] en [TIEMPO] con [FUENTES], decisión de dirección. Si el guion ya existe, detente: aquí se construye. Escribe la tesis en una frase y tres ideas con cita literal de [FUENTES], más límite, llamado y riesgo operativo. Reparte [TIEMPO] en bloques con minutos que sumen el total; si no caben tres, corta una y dilo. Idea sin cita: degrádala a hipótesis o quítala. Estructura visual concisa: una idea por bloque, sin texto para leer en voz alta, y notas de orador reutilizables por [EQUIPO]. Tras la confirmación del responsable, ensaya sección por sección, cuestiona lo débil y cierra con cinco preguntas probables de [TEMA], citadas. No interrogues con presión creciente, no califiques ni inventes citas.",
+        "prompt": "Ayuda a <EQUIPO> a construir una presentación sobre <TEMA> en <TIEMPO> con <FUENTES>, decisión de dirección. Si el guion ya existe, detente: aquí se construye. Escribe la tesis en una frase y tres ideas con cita literal de <FUENTES>, más límite, llamado y riesgo operativo. Reparte <TIEMPO> en bloques con minutos que sumen el total; si no caben tres, corta una y dilo. Idea sin cita: degrádala a hipótesis o quítala. Estructura visual concisa: una idea por bloque, sin texto para leer en voz alta, y notas de orador reutilizables por <EQUIPO>. Tras la confirmación del responsable, ensaya sección por sección, cuestiona lo débil y cierra con cinco preguntas probables de <TEMA>, citadas. No interrogues con presión creciente, no califiques ni inventes citas.",
         "level_spec": {
           "role": "Preparador que construye un guion reutilizable antes de ensayarlo",
           "spec_role": "Especialista en aprendizaje e investigación basada en evidencia",
           "objective": "Convertir la comprensión del equipo en un guion citado, ensayable y reutilizable por otro presentador",
-          "parameters": [
-            [
-              "tesis",
-              "una frase"
-            ],
-            [
-              "ideas",
-              "tres, cada una con cita literal de la base acordada"
-            ],
-            [
-              "estructura",
-              "bloques con minutos que suman el tiempo declarado; si no caben tres ideas, se corta una y se declara"
-            ],
-            [
-              "reutilización",
-              "notas de orador utilizables por otro presentador del equipo"
-            ],
-            [
-              "transición",
-              "el ensayo empieza solo con la confirmación del responsable"
-            ]
-          ],
           "workflow": [
             "Verificar que el guion aún no existe; si existe, derivar al simulador 09",
             "Escribir tesis y tres ideas con cita literal de la base acordada",
@@ -166,6 +244,33 @@
             "Evidencia insuficiente para una idea: degradarla a hipótesis declarada o eliminarla",
             "Tres ideas que no caben en el tiempo: cortar una y nombrarla",
             "Sin responsable que confirme el guion: pedirlo antes de ensayar"
+          ],
+          "constraints": [
+            [
+              "tesis",
+              "una frase"
+            ],
+            [
+              "ideas",
+              "tres, cada una con cita literal de la base acordada"
+            ],
+            [
+              "estructura",
+              "bloques con minutos que suman el tiempo declarado; si no caben tres ideas, se corta una y se declara"
+            ],
+            [
+              "reutilización",
+              "notas de orador utilizables por otro presentador del equipo"
+            ],
+            [
+              "transición",
+              "el ensayo empieza solo con la confirmación del responsable"
+            ]
+          ],
+          "frameworks": [
+            "BLUF · conclusión primero",
+            "Principio de la Pirámide · idea, razones y evidencia",
+            "Definition of Done · cierre observable"
           ]
         },
         "why_it_works": {
@@ -209,6 +314,111 @@
             "claim": "Exigir notas reutilizables por otro presentador y declarar el riesgo operativo de la decisión es política interna para presentaciones de equipo.",
             "source": "method_internal"
           }
+        ],
+        "inputs": [
+          {
+            "key": "team",
+            "label": "EQUIPO",
+            "help": "grupo que participa",
+            "example": "equipo de operaciones",
+            "required": true,
+            "type": "text",
+            "source": "user",
+            "demo_value": "equipo piloto de operaciones"
+          },
+          {
+            "key": "topic",
+            "label": "TEMA",
+            "help": "asunto concreto",
+            "example": "verificar respuestas de IA",
+            "required": true,
+            "type": "text",
+            "source": "user",
+            "demo_value": "cómo aprender a aprender con IA mediante formas de trabajo de alto rendimiento"
+          },
+          {
+            "key": "time",
+            "label": "TIEMPO",
+            "help": "duración disponible",
+            "example": "15 minutos",
+            "required": true,
+            "type": "text",
+            "source": "user",
+            "demo_value": "15 minutos"
+          },
+          {
+            "key": "sources",
+            "label": "FUENTES",
+            "help": "material que sí puede citarse",
+            "example": "guía, informe y registro",
+            "required": true,
+            "type": "long_text",
+            "source": "user",
+            "demo_value": "dossier sintético Demo: guía del método, registro de práctica y criterios de revisión"
+          }
+        ],
+        "parameters": [
+          {
+            "key": "length",
+            "label": "LONGITUD",
+            "default": "concisa",
+            "choices": [
+              "concisa",
+              "media"
+            ]
+          },
+          {
+            "key": "structure",
+            "label": "ESTRUCTURA",
+            "default": "2 párrafos + bullets clave",
+            "choices": [
+              "2 párrafos + bullets clave",
+              "tabla breve"
+            ]
+          },
+          {
+            "key": "tone",
+            "label": "TONO",
+            "default": "ejecutivo y operativo",
+            "choices": [
+              "ejecutivo y operativo",
+              "facilitador"
+            ]
+          },
+          {
+            "key": "depth",
+            "label": "PROFUNDIDAD",
+            "default": "práctica",
+            "choices": [
+              "práctica",
+              "profunda"
+            ]
+          },
+          {
+            "key": "aesthetic",
+            "label": "ESTÉTICA",
+            "default": "minimalista",
+            "choices": [
+              "minimalista",
+              "editorial"
+            ]
+          },
+          {
+            "key": "opening",
+            "label": "APERTURA",
+            "default": "diagrama antes del detalle",
+            "choices": [
+              "diagrama antes del detalle",
+              "idea clave primero"
+            ]
+          }
+        ],
+        "optional_clauses": [
+          {
+            "key": "visual_opening",
+            "text": "Si mejora la comprensión, abre con un esquema breve.",
+            "default_enabled": true
+          }
         ]
       }
     },
@@ -219,33 +429,11 @@
         "when": "you must present what you learned and you have no script or structure yet.",
         "example": "Prepare my eight-minute talk on AI opportunities and limits.",
         "evidence": "one-sentence thesis, structure with minutes per block, speaker notes, and five likely questions with cited answers after the rehearsal.",
-        "prompt": "Help me build a presentation on [TOPIC] in [TIME] from [SOURCES]. If the script exists, stop: this builds, not tests. One-sentence thesis, then three ideas, each with a literal [SOURCES] quote, plus limit and call. Split [TIME] into timed blocks summing to the total; if three do not fit, cut one, named. No quote for an idea: declare a hypothesis or drop it. Ask if my audience is hostile or neutral; tune tension. Concise visual structure: one idea per block, no text read aloud, plus my speaker notes. After my yes, rehearse by section, challenge weak claims, then five likely [TOPIC] questions, cited. No rising-pressure interrogation, no scoring, no invented quotes.",
+        "prompt": "Help me build a presentation on <TOPIC> in <TIME> from <SOURCES>. If the script exists, stop: this builds, not tests. One-sentence thesis, then three ideas, each with a literal <SOURCES> quote, plus limit and call. Split <TIME> into timed blocks summing to the total; if three do not fit, cut one, named. No quote for an idea: declare a hypothesis or drop it. Ask if my audience is hostile or neutral; tune tension. Concise visual structure: one idea per block, no text read aloud, plus my speaker notes. After my yes, rehearse by section, challenge weak claims, then five likely <TOPIC> questions, cited. No rising-pressure interrogation, no scoring, no invented quotes.",
         "level_spec": {
           "role": "Preparer who builds the narrative before rehearsing it",
           "spec_role": "Specialist in evidence-grounded learning and research",
           "objective": "Turn understanding into a cited, rehearsable script fitted to the available time",
-          "parameters": [
-            [
-              "thesis",
-              "one sentence"
-            ],
-            [
-              "ideas",
-              "three, each with a literal quote from the base"
-            ],
-            [
-              "structure",
-              "blocks with minutes adding to the declared time; if three ideas do not fit, one is cut and declared"
-            ],
-            [
-              "concision",
-              "one idea per block, no text to read aloud"
-            ],
-            [
-              "transition",
-              "rehearsal starts only on explicit confirmation of the script"
-            ]
-          ],
           "workflow": [
             "Verify the script does not exist yet; if it does, route to simulator 09",
             "Write the thesis in one sentence and three ideas with literal quotes",
@@ -268,6 +456,33 @@
             "Insufficient evidence for an idea: downgrade it to a declared hypothesis or drop it",
             "Hostile audience: raise the tension and harden the call to action",
             "Time does not fit three ideas: cut one and declare which"
+          ],
+          "constraints": [
+            [
+              "thesis",
+              "one sentence"
+            ],
+            [
+              "ideas",
+              "three, each with a literal quote from the base"
+            ],
+            [
+              "structure",
+              "blocks with minutes adding to the declared time; if three ideas do not fit, one is cut and declared"
+            ],
+            [
+              "concision",
+              "one idea per block, no text to read aloud"
+            ],
+            [
+              "transition",
+              "rehearsal starts only on explicit confirmation of the script"
+            ]
+          ],
+          "frameworks": [
+            "BLUF · conclusion first",
+            "Pyramid Principle · idea, reasons and evidence",
+            "Definition of Done · observable completion"
           ]
         },
         "why_it_works": {
@@ -307,6 +522,101 @@
             "claim": "Deriving the structure from the available minutes and requiring explicit confirmation before rehearsal are internal method policy.",
             "source": "method_internal"
           }
+        ],
+        "inputs": [
+          {
+            "key": "topic",
+            "label": "TOPIC",
+            "help": "specific subject",
+            "example": "verify AI answers",
+            "required": true,
+            "type": "text",
+            "source": "user",
+            "demo_value": "how to learn with AI through a weekly high-performance practice"
+          },
+          {
+            "key": "time",
+            "label": "TIME",
+            "help": "available duration",
+            "example": "15 minutes",
+            "required": true,
+            "type": "text",
+            "source": "user",
+            "demo_value": "15 minutes"
+          },
+          {
+            "key": "sources",
+            "label": "SOURCES",
+            "help": "material that may be cited",
+            "example": "guide, report and log",
+            "required": true,
+            "type": "long_text",
+            "source": "user",
+            "demo_value": "synthetic Demo dossier: method guide, practice log and review criteria"
+          }
+        ],
+        "parameters": [
+          {
+            "key": "length",
+            "label": "LENGTH",
+            "default": "concise",
+            "choices": [
+              "concise",
+              "medium"
+            ]
+          },
+          {
+            "key": "structure",
+            "label": "STRUCTURE",
+            "default": "2 paragraphs + key bullets",
+            "choices": [
+              "2 paragraphs + key bullets",
+              "short table"
+            ]
+          },
+          {
+            "key": "tone",
+            "label": "TONE",
+            "default": "clear and personal",
+            "choices": [
+              "clear and personal",
+              "instructional"
+            ]
+          },
+          {
+            "key": "depth",
+            "label": "DEPTH",
+            "default": "practical",
+            "choices": [
+              "practical",
+              "deep"
+            ]
+          },
+          {
+            "key": "aesthetic",
+            "label": "AESTHETIC",
+            "default": "minimal",
+            "choices": [
+              "minimal",
+              "editorial"
+            ]
+          },
+          {
+            "key": "opening",
+            "label": "OPENING",
+            "default": "diagram before detail",
+            "choices": [
+              "diagram before detail",
+              "bottom line first"
+            ]
+          }
+        ],
+        "optional_clauses": [
+          {
+            "key": "visual_opening",
+            "text": "If it improves understanding, open with a short diagram.",
+            "default_enabled": true
+          }
         ]
       },
       "empresa": {
@@ -315,33 +625,11 @@
         "when": "the process requires taking a decision to leadership and no script exists yet.",
         "example": "Prepare the area talk on AI opportunities and limits for leadership.",
         "evidence": "one-sentence thesis, visual structure with minutes per block, reusable notes, declared operational risk and five likely questions with cited answers.",
-        "prompt": "Help [TEAM] build a [TOPIC] presentation in [TIME] from [SOURCES] for a leadership decision. If the script exists, stop: this builds, not tests. One-sentence thesis, then three ideas, each with a literal [SOURCES] quote, plus limit, call and operational risk. Split [TIME] into timed blocks summing to the total; if three do not fit, cut one, named. No quote for an idea: declare a hypothesis or drop it. Concise visual structure: one idea per block, no text read aloud, plus notes reusable by [TEAM]. After the owner confirms, rehearse by section, challenge weak claims, then five likely [TOPIC] questions, cited. No rising-pressure interrogation, no scoring, no invented quotes.",
+        "prompt": "Help <TEAM> build a <TOPIC> presentation in <TIME> from <SOURCES> for a leadership decision. If the script exists, stop: this builds, not tests. One-sentence thesis, then three ideas, each with a literal <SOURCES> quote, plus limit, call and operational risk. Split <TIME> into timed blocks summing to the total; if three do not fit, cut one, named. No quote for an idea: declare a hypothesis or drop it. Concise visual structure: one idea per block, no text read aloud, plus notes reusable by <TEAM>. After the owner confirms, rehearse by section, challenge weak claims, then five likely <TOPIC> questions, cited. No rising-pressure interrogation, no scoring, no invented quotes.",
         "level_spec": {
           "role": "Preparer who builds a reusable script before rehearsing it",
           "spec_role": "Specialist in evidence-grounded learning and research",
           "objective": "Turn team understanding into a cited, rehearsable script another presenter can reuse",
-          "parameters": [
-            [
-              "thesis",
-              "one sentence"
-            ],
-            [
-              "ideas",
-              "three, each with a literal quote from the agreed base"
-            ],
-            [
-              "structure",
-              "blocks with minutes adding to the declared time; if three ideas do not fit, one is cut and declared"
-            ],
-            [
-              "reuse",
-              "speaker notes usable by another presenter on the team"
-            ],
-            [
-              "transition",
-              "rehearsal starts only on confirmation by the accountable owner"
-            ]
-          ],
           "workflow": [
             "Verify the script does not exist yet; if it does, route to simulator 09",
             "Write the thesis and three ideas with literal quotes from the agreed base",
@@ -365,6 +653,33 @@
             "Insufficient evidence for an idea: downgrade it to a declared hypothesis or drop it",
             "Three ideas that do not fit the time: cut one and name it",
             "No owner to confirm the script: request one before rehearsing"
+          ],
+          "constraints": [
+            [
+              "thesis",
+              "one sentence"
+            ],
+            [
+              "ideas",
+              "three, each with a literal quote from the agreed base"
+            ],
+            [
+              "structure",
+              "blocks with minutes adding to the declared time; if three ideas do not fit, one is cut and declared"
+            ],
+            [
+              "reuse",
+              "speaker notes usable by another presenter on the team"
+            ],
+            [
+              "transition",
+              "rehearsal starts only on confirmation by the accountable owner"
+            ]
+          ],
+          "frameworks": [
+            "BLUF · conclusion first",
+            "Pyramid Principle · idea, reasons and evidence",
+            "Definition of Done · observable completion"
           ]
         },
         "why_it_works": {
@@ -408,6 +723,111 @@
             "claim": "Requiring notes reusable by another presenter and declaring the operational risk of the decision is internal policy for team presentations.",
             "source": "method_internal"
           }
+        ],
+        "inputs": [
+          {
+            "key": "team",
+            "label": "TEAM",
+            "help": "group taking part",
+            "example": "operations team",
+            "required": true,
+            "type": "text",
+            "source": "user",
+            "demo_value": "operations pilot team"
+          },
+          {
+            "key": "topic",
+            "label": "TOPIC",
+            "help": "specific subject",
+            "example": "verify AI answers",
+            "required": true,
+            "type": "text",
+            "source": "user",
+            "demo_value": "how to learn with AI through high-performance ways of working"
+          },
+          {
+            "key": "time",
+            "label": "TIME",
+            "help": "available duration",
+            "example": "15 minutes",
+            "required": true,
+            "type": "text",
+            "source": "user",
+            "demo_value": "15 minutes"
+          },
+          {
+            "key": "sources",
+            "label": "SOURCES",
+            "help": "material that may be cited",
+            "example": "guide, report and log",
+            "required": true,
+            "type": "long_text",
+            "source": "user",
+            "demo_value": "synthetic Demo dossier: method guide, practice log and review criteria"
+          }
+        ],
+        "parameters": [
+          {
+            "key": "length",
+            "label": "LENGTH",
+            "default": "concise",
+            "choices": [
+              "concise",
+              "medium"
+            ]
+          },
+          {
+            "key": "structure",
+            "label": "STRUCTURE",
+            "default": "2 paragraphs + key bullets",
+            "choices": [
+              "2 paragraphs + key bullets",
+              "short table"
+            ]
+          },
+          {
+            "key": "tone",
+            "label": "TONE",
+            "default": "executive and operational",
+            "choices": [
+              "executive and operational",
+              "facilitative"
+            ]
+          },
+          {
+            "key": "depth",
+            "label": "DEPTH",
+            "default": "practical",
+            "choices": [
+              "practical",
+              "deep"
+            ]
+          },
+          {
+            "key": "aesthetic",
+            "label": "AESTHETIC",
+            "default": "minimal",
+            "choices": [
+              "minimal",
+              "editorial"
+            ]
+          },
+          {
+            "key": "opening",
+            "label": "OPENING",
+            "default": "diagram before detail",
+            "choices": [
+              "diagram before detail",
+              "bottom line first"
+            ]
+          }
+        ],
+        "optional_clauses": [
+          {
+            "key": "visual_opening",
+            "text": "If it improves understanding, open with a short diagram.",
+            "default_enabled": true
+          }
         ]
       }
     },
@@ -418,33 +838,11 @@
         "when": "você deve apresentar o que aprendeu e ainda não tem roteiro nem estrutura.",
         "example": "Preparar minha apresentação de oito minutos sobre oportunidades e limites da IA.",
         "evidence": "tese em uma frase, estrutura com minutos por bloco, notas do orador, e cinco perguntas prováveis com resposta citada depois do ensaio.",
-        "prompt": "Ajude-me a construir uma apresentação sobre [TEMA] em [TEMPO] com [FONTES]. Se o roteiro já existe, pare: aqui se constrói. Tese em uma frase e três ideias com citação literal de [FONTES], mais limite e chamada. Divida [TEMPO] em blocos cujos minutos somem o total; se três não couberem, corte uma, nomeada. Ideia sem citação: rebaixe a hipótese ou tire. Pergunte se o público é hostil ou neutro; ajuste a tensão. Estrutura visual concisa: uma ideia por bloco, sem texto lido em voz alta, e notas na minha voz. Após minha confirmação, ensaie por seção, questione o fraco e feche com cinco perguntas prováveis de [TEMA] citadas. Não me interrogue com pressão crescente, não me pontue nem invente citações.",
+        "prompt": "Ajude-me a construir uma apresentação sobre <TEMA> em <TEMPO> com <FONTES>. Se o roteiro já existe, pare: aqui se constrói. Tese em uma frase e três ideias com citação literal de <FONTES>, mais limite e chamada. Divida <TEMPO> em blocos cujos minutos somem o total; se três não couberem, corte uma, nomeada. Ideia sem citação: rebaixe a hipótese ou tire. Pergunte se o público é hostil ou neutro; ajuste a tensão. Estrutura visual concisa: uma ideia por bloco, sem texto lido em voz alta, e notas na minha voz. Após minha confirmação, ensaie por seção, questione o fraco e feche com cinco perguntas prováveis de <TEMA> citadas. Não me interrogue com pressão crescente, não me pontue nem invente citações.",
         "level_spec": {
           "role": "Preparador que constrói a narrativa antes de ensaiá-la",
           "spec_role": "Especialista em aprendizagem e pesquisa baseada em evidências",
           "objective": "Transformar compreensão em roteiro citado e ensaiável ajustado ao tempo disponível",
-          "parameters": [
-            [
-              "tese",
-              "uma frase"
-            ],
-            [
-              "ideias",
-              "três, cada uma com citação literal da base"
-            ],
-            [
-              "estrutura",
-              "blocos com minutos que somam o tempo declarado; se três ideias não couberem, corta-se uma e declara-se"
-            ],
-            [
-              "concisao",
-              "uma ideia por bloco, sem texto para ler em voz alta"
-            ],
-            [
-              "transicao",
-              "o ensaio começa só com a confirmação explícita do roteiro"
-            ]
-          ],
           "workflow": [
             "Verificar que o roteiro ainda não existe; se existe, encaminhar ao simulador 09",
             "Escrever a tese em uma frase e três ideias com citação literal",
@@ -467,6 +865,33 @@
             "Evidência insuficiente para uma ideia: rebaixar a hipótese declarada ou eliminar",
             "Público hostil: subir a tensão e endurecer a chamada à ação",
             "O tempo não comporta três ideias: cortar uma e declarar qual"
+          ],
+          "constraints": [
+            [
+              "tese",
+              "uma frase"
+            ],
+            [
+              "ideias",
+              "três, cada uma com citação literal da base"
+            ],
+            [
+              "estrutura",
+              "blocos com minutos que somam o tempo declarado; se três ideias não couberem, corta-se uma e declara-se"
+            ],
+            [
+              "concisao",
+              "uma ideia por bloco, sem texto para ler em voz alta"
+            ],
+            [
+              "transicao",
+              "o ensaio começa só com a confirmação explícita do roteiro"
+            ]
+          ],
+          "frameworks": [
+            "BLUF · conclusão primeiro",
+            "Princípio da Pirâmide · ideia, razões e evidência",
+            "Definition of Done · conclusão observável"
           ]
         },
         "why_it_works": {
@@ -506,6 +931,101 @@
             "claim": "Derivar a estrutura dos minutos disponíveis e exigir confirmação explícita antes de ensaiar são normas internas do método.",
             "source": "method_internal"
           }
+        ],
+        "inputs": [
+          {
+            "key": "topic",
+            "label": "TEMA",
+            "help": "assunto concreto",
+            "example": "verificar respostas de IA",
+            "required": true,
+            "type": "text",
+            "source": "user",
+            "demo_value": "como aprender a aprender com IA por meio de uma prática semanal de alto desempenho"
+          },
+          {
+            "key": "time",
+            "label": "TEMPO",
+            "help": "duração disponível",
+            "example": "15 minutos",
+            "required": true,
+            "type": "text",
+            "source": "user",
+            "demo_value": "15 minutos"
+          },
+          {
+            "key": "sources",
+            "label": "FONTES",
+            "help": "material que pode ser citado",
+            "example": "guia, relatório e registro",
+            "required": true,
+            "type": "long_text",
+            "source": "user",
+            "demo_value": "dossiê sintético Demo: guia do método, registro de prática e critérios de revisão"
+          }
+        ],
+        "parameters": [
+          {
+            "key": "length",
+            "label": "EXTENSÃO",
+            "default": "concisa",
+            "choices": [
+              "concisa",
+              "média"
+            ]
+          },
+          {
+            "key": "structure",
+            "label": "ESTRUTURA",
+            "default": "2 parágrafos + bullets-chave",
+            "choices": [
+              "2 parágrafos + bullets-chave",
+              "tabela breve"
+            ]
+          },
+          {
+            "key": "tone",
+            "label": "TOM",
+            "default": "claro e pessoal",
+            "choices": [
+              "claro e pessoal",
+              "didático"
+            ]
+          },
+          {
+            "key": "depth",
+            "label": "PROFUNDIDADE",
+            "default": "prática",
+            "choices": [
+              "prática",
+              "profunda"
+            ]
+          },
+          {
+            "key": "aesthetic",
+            "label": "ESTÉTICA",
+            "default": "minimalista",
+            "choices": [
+              "minimalista",
+              "editorial"
+            ]
+          },
+          {
+            "key": "opening",
+            "label": "ABERTURA",
+            "default": "diagrama antes do detalhe",
+            "choices": [
+              "diagrama antes do detalhe",
+              "ideia-chave primeiro"
+            ]
+          }
+        ],
+        "optional_clauses": [
+          {
+            "key": "visual_opening",
+            "text": "Se melhorar a compreensão, abra com um esquema breve.",
+            "default_enabled": true
+          }
         ]
       },
       "empresa": {
@@ -514,33 +1034,11 @@
         "when": "o processo exige levar uma decisão à diretoria e o roteiro ainda não existe.",
         "example": "Preparar a apresentação da área sobre oportunidades e limites da IA.",
         "evidence": "tese em uma frase, estrutura visual com minutos por bloco, notas reutilizáveis, risco operacional declarado e cinco perguntas prováveis com resposta citada.",
-        "prompt": "Ajude [EQUIPE] a construir apresentação sobre [TEMA] em [TEMPO] com [FONTES] para a diretoria. Se o roteiro já existe, pare: aqui se constrói. Tese em uma frase e três ideias com citação literal de [FONTES], mais limite, chamada e risco operacional. Divida [TEMPO] em blocos cujos minutos somem o total; se três não couberem, corte uma, nomeada. Ideia sem citação: rebaixe a hipótese ou tire. Estrutura visual concisa: uma ideia por bloco, sem texto para ler em voz alta, e notas reutilizáveis por [EQUIPE]. Após a confirmação do responsável, ensaie por seção, questione o fraco e feche com cinco perguntas prováveis de [TEMA], citadas. Não interrogue com pressão crescente, não pontue nem invente citações.",
+        "prompt": "Ajude <EQUIPE> a construir apresentação sobre <TEMA> em <TEMPO> com <FONTES> para a diretoria. Se o roteiro já existe, pare: aqui se constrói. Tese em uma frase e três ideias com citação literal de <FONTES>, mais limite, chamada e risco operacional. Divida <TEMPO> em blocos cujos minutos somem o total; se três não couberem, corte uma, nomeada. Ideia sem citação: rebaixe a hipótese ou tire. Estrutura visual concisa: uma ideia por bloco, sem texto para ler em voz alta, e notas reutilizáveis por <EQUIPE>. Após a confirmação do responsável, ensaie por seção, questione o fraco e feche com cinco perguntas prováveis de <TEMA>, citadas. Não interrogue com pressão crescente, não pontue nem invente citações.",
         "level_spec": {
           "role": "Preparador que constrói um roteiro reutilizável antes de ensaiá-lo",
           "spec_role": "Especialista em aprendizagem e pesquisa baseada em evidências",
           "objective": "Transformar a compreensão da equipe em roteiro citado, ensaiável e reutilizável por outro apresentador",
-          "parameters": [
-            [
-              "tese",
-              "uma frase"
-            ],
-            [
-              "ideias",
-              "três, cada uma com citação literal da base acordada"
-            ],
-            [
-              "estrutura",
-              "blocos com minutos que somam o tempo declarado; se três ideias não couberem, corta-se uma e declara-se"
-            ],
-            [
-              "reutilizacao",
-              "notas do orador utilizáveis por outro apresentador da equipe"
-            ],
-            [
-              "transicao",
-              "o ensaio começa só com a confirmação do responsável"
-            ]
-          ],
           "workflow": [
             "Verificar que o roteiro ainda não existe; se existe, encaminhar ao simulador 09",
             "Escrever tese e três ideias com citação literal da base acordada",
@@ -564,6 +1062,33 @@
             "Evidência insuficiente para uma ideia: rebaixar a hipótese declarada ou eliminar",
             "Três ideias que não cabem no tempo: cortar uma e nomeá-la",
             "Sem responsável que confirme o roteiro: pedir antes de ensaiar"
+          ],
+          "constraints": [
+            [
+              "tese",
+              "uma frase"
+            ],
+            [
+              "ideias",
+              "três, cada uma com citação literal da base acordada"
+            ],
+            [
+              "estrutura",
+              "blocos com minutos que somam o tempo declarado; se três ideias não couberem, corta-se uma e declara-se"
+            ],
+            [
+              "reutilizacao",
+              "notas do orador utilizáveis por outro apresentador da equipe"
+            ],
+            [
+              "transicao",
+              "o ensaio começa só com a confirmação do responsável"
+            ]
+          ],
+          "frameworks": [
+            "BLUF · conclusão primeiro",
+            "Princípio da Pirâmide · ideia, razões e evidência",
+            "Definition of Done · conclusão observável"
           ]
         },
         "why_it_works": {
@@ -607,10 +1132,132 @@
             "claim": "Exigir notas reutilizáveis por outro apresentador e declarar o risco operacional da decisão é política interna para apresentações de equipe.",
             "source": "method_internal"
           }
+        ],
+        "inputs": [
+          {
+            "key": "team",
+            "label": "EQUIPE",
+            "help": "grupo participante",
+            "example": "equipe de operações",
+            "required": true,
+            "type": "text",
+            "source": "user",
+            "demo_value": "equipe piloto de operações"
+          },
+          {
+            "key": "topic",
+            "label": "TEMA",
+            "help": "assunto concreto",
+            "example": "verificar respostas de IA",
+            "required": true,
+            "type": "text",
+            "source": "user",
+            "demo_value": "como aprender a aprender com IA por meio de formas de trabalho de alto desempenho"
+          },
+          {
+            "key": "time",
+            "label": "TEMPO",
+            "help": "duração disponível",
+            "example": "15 minutos",
+            "required": true,
+            "type": "text",
+            "source": "user",
+            "demo_value": "15 minutos"
+          },
+          {
+            "key": "sources",
+            "label": "FONTES",
+            "help": "material que pode ser citado",
+            "example": "guia, relatório e registro",
+            "required": true,
+            "type": "long_text",
+            "source": "user",
+            "demo_value": "dossiê sintético Demo: guia do método, registro de prática e critérios de revisão"
+          }
+        ],
+        "parameters": [
+          {
+            "key": "length",
+            "label": "EXTENSÃO",
+            "default": "concisa",
+            "choices": [
+              "concisa",
+              "média"
+            ]
+          },
+          {
+            "key": "structure",
+            "label": "ESTRUTURA",
+            "default": "2 parágrafos + bullets-chave",
+            "choices": [
+              "2 parágrafos + bullets-chave",
+              "tabela breve"
+            ]
+          },
+          {
+            "key": "tone",
+            "label": "TOM",
+            "default": "executivo e operacional",
+            "choices": [
+              "executivo e operacional",
+              "facilitador"
+            ]
+          },
+          {
+            "key": "depth",
+            "label": "PROFUNDIDADE",
+            "default": "prática",
+            "choices": [
+              "prática",
+              "profunda"
+            ]
+          },
+          {
+            "key": "aesthetic",
+            "label": "ESTÉTICA",
+            "default": "minimalista",
+            "choices": [
+              "minimalista",
+              "editorial"
+            ]
+          },
+          {
+            "key": "opening",
+            "label": "ABERTURA",
+            "default": "diagrama antes do detalhe",
+            "choices": [
+              "diagrama antes do detalhe",
+              "ideia-chave primeiro"
+            ]
+          }
+        ],
+        "optional_clauses": [
+          {
+            "key": "visual_opening",
+            "text": "Se melhorar a compreensão, abra com um esquema breve.",
+            "default_enabled": true
+          }
         ]
       }
     }
   },
   "self_hash_model": "sha256(sorted-json-without-self_sha256)",
-  "self_sha256": "85d2f4ed5e47ef88c2e4bc186940cf8505f2f5d760e3cbfde48be3742ceec012"
+  "self_sha256": "93a2171ef84e4110c5fa52962c87cca2073e3ee9330702cf4c354dcd56abd724",
+  "flow": {
+    "route": "library",
+    "order": 9,
+    "previous": "08",
+    "next": "09",
+    "branches": [
+      "M3"
+    ],
+    "consumes": [
+      "VERIFICACION_CRUZADA",
+      "EVALUACION_PROGRESIVA"
+    ],
+    "produces": "ENSAYO_DE_ENTREGA",
+    "external_gate": false,
+    "loop_to": null,
+    "standalone": true
+  }
 }

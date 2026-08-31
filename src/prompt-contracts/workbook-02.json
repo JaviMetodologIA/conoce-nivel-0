@@ -1,5 +1,5 @@
 {
-  "schema_version": "prompt-intent-contract-v1",
+  "schema_version": "prompt-intent-contract-v2",
   "intent_id": "W02",
   "surface": "workbook",
   "phase": "Aprehender",
@@ -12,7 +12,7 @@
       "W03",
       "W04"
     ],
-    "decision_rule": "Usa W02 cuando la base recién construida en W01 debe leerse con formato fijo de taller y su salida alimenta el encargo de investigación de W03; si la base es madura y la lectura debe cerrar con veredicto de suficiencia en un solo movimiento, usa la variante autónoma 05. W02 no redacta instrucción ni prompts de inicio del asistente y no emite veredicto de suficiencia: ese veredicto vive en W04."
+    "decision_rule": "Usa W02 cuando la base recién construida en W01 debe leerse con formato fijo de taller y su salida alimenta el plan de investigación de W03; si la base es madura y la lectura debe cerrar con veredicto de suficiencia en un solo movimiento, usa la variante autónoma 05. W02 no redacta instrucción ni prompts de inicio del asistente y no emite veredicto de suficiencia: ese veredicto vive en W04."
   },
   "locales": {
     "es": {
@@ -22,29 +22,11 @@
         "when": "ya importaste el informe del paso 1 y necesitas saber qué sostiene esa base.",
         "example": "Mi Notebook de IA generativa comercial, con seis fuentes recién importadas.",
         "evidence": "resumen de 8 líneas, tabla de hallazgos con tipo, evidencia, impacto y acción, cobertura revisada, vacíos priorizados por bloqueo del propósito y lista de afirmables con cita por entrada.",
-        "prompt": "Paso 2 del taller: necesito auditar mi base recién construida. Audítala contra mi propósito [PROPÓSITO] para [AUDIENCIA], solo con las fuentes seleccionadas, cita cada hallazgo. Revisa cobertura, tensiones, ambigüedades, calidad, vigencia, sesgos y redundancias; con fuente única, audita sesgo; ante contradicción, tipifica tensión, no promedies. Entrega resumen ≤8 líneas; tabla Hallazgo|Tipo|Evidencia|Impacto|Acción; vacíos priorizados por bloqueo de [PROPÓSITO]; y «qué puedo afirmar hoy», cada entrada con cita o fuera. No escribas instrucción ni prompts de inicio del asistente ni declares suficiente la base: eso cierra el taller. No inventes hallazgos ni citas.",
+        "prompt": "Paso 2 del taller: necesito auditar mi base recién construida. Audítala contra mi propósito <PROPÓSITO> para <AUDIENCIA>, solo con las fuentes seleccionadas, cita cada hallazgo. Revisa cobertura, tensiones, ambigüedades, calidad, vigencia, sesgos y redundancias; con fuente única, audita sesgo; ante contradicción, tipifica tensión, no promedies. Entrega resumen ≤8 líneas; tabla Hallazgo|Tipo|Evidencia|Impacto|Acción; vacíos priorizados por bloqueo de <PROPÓSITO>; y «qué puedo afirmar hoy», cada entrada con cita o fuera. No escribas instrucción ni prompts de inicio del asistente ni declares suficiente la base: eso cierra el taller. No inventes hallazgos ni citas.",
         "level_spec": {
           "role": "Auditor del paso 2: lee la base recién construida sin cerrarla",
           "spec_role": "Facilitador de taller guiado sobre NotebookLM",
-          "objective": "Convertir la base recién importada en un diagnóstico citado con formato fijo que alimente el encargo de investigación",
-          "parameters": [
-            [
-              "posicion_en_la_secuencia",
-              "paso 2: recibe el informe importado en el paso 1 y entrega el diagnóstico al paso 3"
-            ],
-            [
-              "dimensiones",
-              "cobertura, tensiones, ambigüedades, calidad, vigencia, sesgos y redundancias"
-            ],
-            [
-              "afirmable",
-              "una entrada solo entra a la lista si trae su cita"
-            ],
-            [
-              "veredicto",
-              "ninguno: la suficiencia se decide al cerrar el ciclo"
-            ]
-          ],
+          "objective": "Convertir la base recién importada en un diagnóstico citado con formato fijo que alimente el plan de investigación",
           "workflow": [
             "Registrar propósito y audiencia de la auditoría",
             "Revisar las siete dimensiones solo contra las fuentes seleccionadas",
@@ -68,6 +50,29 @@
             "Base de una sola fuente: la auditoría de sesgo es obligatoria",
             "Fuentes que se contradicen: se tipifica tensión, no se promedia",
             "Propósito no declarado: pedirlo antes de auditar"
+          ],
+          "constraints": [
+            [
+              "posicion_en_la_secuencia",
+              "paso 2: recibe el informe importado en el paso 1 y entrega el diagnóstico al paso 3"
+            ],
+            [
+              "dimensiones",
+              "cobertura, tensiones, ambigüedades, calidad, vigencia, sesgos y redundancias"
+            ],
+            [
+              "afirmable",
+              "una entrada solo entra a la lista si trae su cita"
+            ],
+            [
+              "veredicto",
+              "ninguno: la suficiencia se decide al cerrar el ciclo"
+            ]
+          ],
+          "frameworks": [
+            "Matriz de evidencia · afirmación, fuente y decisión",
+            "Análisis de brechas · prioriza lo que bloquea",
+            "Gate Go/No-Go · decide con criterio explícito"
           ]
         },
         "why_it_works": {
@@ -90,7 +95,7 @@
           ],
           "limits": [
             "No redacta la instrucción ni los prompts de inicio del asistente",
-            "No decide suficiencia: eso corresponde a W04, y el encargo de investigación a W03"
+            "No decide suficiencia: eso corresponde a W04, y el plan de investigación a W03"
           ]
         },
         "traceability": [
@@ -106,7 +111,68 @@
             "claim": "Fijar el formato de salida del paso 2 y diferir el veredicto de suficiencia al cierre del ciclo son normas internas del taller.",
             "source": "method_internal"
           }
-        ]
+        ],
+        "inputs": [
+          {
+            "key": "purpose",
+            "label": "PROPÓSITO",
+            "help": "para qué necesitas el resultado",
+            "example": "repetir una práctica útil",
+            "required": true,
+            "type": "text",
+            "source": "user",
+            "demo_value": "crear una práctica verificable que pueda repetir y explicar"
+          },
+          {
+            "key": "audience",
+            "label": "AUDIENCIA",
+            "help": "quién usará el resultado",
+            "example": "profesionales no técnicos",
+            "required": true,
+            "type": "text",
+            "source": "user",
+            "demo_value": "profesionales no técnicos que empiezan con IA"
+          }
+        ],
+        "parameters": [
+          {
+            "key": "length",
+            "label": "LONGITUD",
+            "default": "concisa",
+            "choices": [
+              "concisa",
+              "media"
+            ]
+          },
+          {
+            "key": "structure",
+            "label": "ESTRUCTURA",
+            "default": "2 párrafos + bullets clave",
+            "choices": [
+              "2 párrafos + bullets clave",
+              "tabla breve"
+            ]
+          },
+          {
+            "key": "tone",
+            "label": "TONO",
+            "default": "claro y personal",
+            "choices": [
+              "claro y personal",
+              "didáctico"
+            ]
+          },
+          {
+            "key": "depth",
+            "label": "PROFUNDIDAD",
+            "default": "práctica",
+            "choices": [
+              "práctica",
+              "profunda"
+            ]
+          }
+        ],
+        "optional_clauses": []
       },
       "empresa": {
         "title": "Auditar la base del equipo",
@@ -114,29 +180,11 @@
         "when": "el equipo importó el informe del paso 1 y el proceso necesita saber qué sostiene.",
         "example": "El Notebook comercial del área, con seis fuentes importadas esta semana.",
         "evidence": "resumen de 8 líneas, tabla de hallazgos con tipo, evidencia, impacto, acción y responsable, cobertura revisada, vacíos priorizados por riesgo operativo y afirmables con cita, comparable entre iteraciones.",
-        "prompt": "Paso 2 del taller, sobre la base del equipo recién construida. Audítala contra el propósito [PROPÓSITO] del proceso [PROCESO], solo con las fuentes seleccionadas, cita cada hallazgo. Revisa cobertura, tensiones, ambigüedades, calidad, vigencia, sesgo y redundancia; con fuente única, audita sesgo; ante contradicción, tipifica tensión. Entrega resumen ≤8 líneas; tabla Hallazgo|Tipo|Evidencia|Impacto|Acción|responsable; vacíos priorizados por riesgo operativo; y «qué afirma el equipo hoy»: cita por entrada o fuera, comparable entre revisiones. No escribas instrucción ni prompts de inicio del asistente ni declares suficiente la base. No inventes hallazgos ni citas.",
+        "prompt": "Paso 2 del taller, sobre la base del equipo recién construida. Audítala contra el propósito <PROPÓSITO> del proceso <PROCESO>, solo con las fuentes seleccionadas, cita cada hallazgo. Revisa cobertura, tensiones, ambigüedades, calidad, vigencia, sesgo y redundancia; con fuente única, audita sesgo; ante contradicción, tipifica tensión. Entrega resumen ≤8 líneas; tabla Hallazgo|Tipo|Evidencia|Impacto|Acción|responsable; vacíos priorizados por riesgo operativo; y «qué afirma el equipo hoy»: cita por entrada o fuera, comparable entre revisiones. No escribas instrucción ni prompts de inicio del asistente ni declares suficiente la base. No inventes hallazgos ni citas.",
         "level_spec": {
           "role": "Auditor del paso 2 para equipos: lee la base compartida sin cerrarla",
           "spec_role": "Facilitador de taller guiado sobre NotebookLM",
           "objective": "Convertir la base compartida recién importada en un diagnóstico citado, con responsable por acción y comparable entre revisiones",
-          "parameters": [
-            [
-              "posicion_en_la_secuencia",
-              "paso 2: recibe el informe compartido del paso 1 y entrega el diagnóstico al paso 3"
-            ],
-            [
-              "dimensiones",
-              "cobertura, tensiones, ambigüedades, calidad, vigencia, sesgos y redundancias"
-            ],
-            [
-              "responsable",
-              "cada acción de la tabla nombra a quién queda asignada"
-            ],
-            [
-              "veredicto",
-              "ninguno: la suficiencia se decide al cerrar el ciclo"
-            ]
-          ],
           "workflow": [
             "Registrar el propósito acordado y el proceso que consumirá la base",
             "Revisar las siete dimensiones solo contra las fuentes seleccionadas",
@@ -160,6 +208,29 @@
             "Base de una sola fuente: la auditoría de sesgo es obligatoria",
             "Fuentes que se contradicen: se tipifica tensión, no se promedia",
             "Acción sin responsable posible: se registra como vacío de gobierno del proceso"
+          ],
+          "constraints": [
+            [
+              "posicion_en_la_secuencia",
+              "paso 2: recibe el informe compartido del paso 1 y entrega el diagnóstico al paso 3"
+            ],
+            [
+              "dimensiones",
+              "cobertura, tensiones, ambigüedades, calidad, vigencia, sesgos y redundancias"
+            ],
+            [
+              "responsable",
+              "cada acción de la tabla nombra a quién queda asignada"
+            ],
+            [
+              "veredicto",
+              "ninguno: la suficiencia se decide al cerrar el ciclo"
+            ]
+          ],
+          "frameworks": [
+            "Matriz de evidencia · afirmación, fuente y decisión",
+            "Análisis de brechas · prioriza lo que bloquea",
+            "Gate Go/No-Go · decide con criterio explícito"
           ]
         },
         "why_it_works": {
@@ -198,7 +269,68 @@
             "claim": "Exigir responsable por acción de la tabla y priorizar vacíos por riesgo operativo antes de compartir el diagnóstico es política interna del método.",
             "source": "method_internal"
           }
-        ]
+        ],
+        "inputs": [
+          {
+            "key": "purpose",
+            "label": "PROPÓSITO",
+            "help": "para qué necesitas el resultado",
+            "example": "repetir una práctica útil",
+            "required": true,
+            "type": "text",
+            "source": "user",
+            "demo_value": "probar una forma de trabajo compartida, verificable y repetible"
+          },
+          {
+            "key": "process",
+            "label": "PROCESO",
+            "help": "flujo que cambiará",
+            "example": "preparación de decisiones",
+            "required": true,
+            "type": "text",
+            "source": "user",
+            "demo_value": "preparación y revisión semanal de decisiones"
+          }
+        ],
+        "parameters": [
+          {
+            "key": "length",
+            "label": "LONGITUD",
+            "default": "concisa",
+            "choices": [
+              "concisa",
+              "media"
+            ]
+          },
+          {
+            "key": "structure",
+            "label": "ESTRUCTURA",
+            "default": "2 párrafos + bullets clave",
+            "choices": [
+              "2 párrafos + bullets clave",
+              "tabla breve"
+            ]
+          },
+          {
+            "key": "tone",
+            "label": "TONO",
+            "default": "ejecutivo y operativo",
+            "choices": [
+              "ejecutivo y operativo",
+              "facilitador"
+            ]
+          },
+          {
+            "key": "depth",
+            "label": "PROFUNDIDAD",
+            "default": "práctica",
+            "choices": [
+              "práctica",
+              "profunda"
+            ]
+          }
+        ],
+        "optional_clauses": []
       }
     },
     "en": {
@@ -208,29 +340,11 @@
         "when": "you imported the step 1 report and you need to know what that base holds.",
         "example": "My generative AI sales Notebook, with six sources just imported.",
         "evidence": "eight-line summary, finding table with type, evidence, impact and action, coverage reviewed, gaps prioritized by how much they block the purpose, and a claimable list with a citation per line.",
-        "prompt": "Step 2: I need to audit this base, just built in my step 1, against my purpose [PURPOSE] for [AUDIENCE], using only selected sources; cite each finding. Review coverage, tensions, ambiguities, quality, freshness, bias and redundancy; with a single source, audit bias first; when sources disagree, type a tension, do not average. Deliver an eight-line summary; a Finding|Type|Evidence|Impact|Action table; gaps prioritized by how much they block [PURPOSE]; and \"what I can claim today\", a citation per line or out. Do not write assistant instruction or starter prompts, nor call the base sufficient: that closes the workshop. Do not invent findings or citations.",
+        "prompt": "Step 2: I need to audit this base, just built in my step 1, against my purpose <PURPOSE> for <AUDIENCE>, using only selected sources; cite each finding. Review coverage, tensions, ambiguities, quality, freshness, bias and redundancy; with a single source, audit bias first; when sources disagree, type a tension, do not average. Deliver an eight-line summary; a Finding|Type|Evidence|Impact|Action table; gaps prioritized by how much they block <PURPOSE>; and \"what I can claim today\", a citation per line or out. Do not write assistant instruction or starter prompts, nor call the base sufficient: that closes the workshop. Do not invent findings or citations.",
         "level_spec": {
           "role": "Step 2 auditor: reads the freshly built base without closing it",
           "spec_role": "Guided workshop facilitator for NotebookLM",
-          "objective": "Turn the freshly imported base into a cited, fixed-format diagnosis that feeds the research brief",
-          "parameters": [
-            [
-              "sequence_position",
-              "step 2: receives the report imported in step 1 and hands the diagnosis to step 3"
-            ],
-            [
-              "dimensions",
-              "coverage, tensions, ambiguities, quality, freshness, bias and redundancy"
-            ],
-            [
-              "claimable",
-              "a line enters the list only if it carries its citation"
-            ],
-            [
-              "verdict",
-              "none: sufficiency is decided when the cycle closes"
-            ]
-          ],
+          "objective": "Turn the freshly imported base into a cited, fixed-format diagnosis that feeds the research plan",
           "workflow": [
             "Record the purpose and audience of the audit",
             "Review the seven dimensions against selected sources only",
@@ -254,6 +368,29 @@
             "Single-source base: the bias audit is mandatory",
             "Sources that disagree: type a tension, do not average",
             "Purpose not declared: ask for it before auditing"
+          ],
+          "constraints": [
+            [
+              "sequence_position",
+              "step 2: receives the report imported in step 1 and hands the diagnosis to step 3"
+            ],
+            [
+              "dimensions",
+              "coverage, tensions, ambiguities, quality, freshness, bias and redundancy"
+            ],
+            [
+              "claimable",
+              "a line enters the list only if it carries its citation"
+            ],
+            [
+              "verdict",
+              "none: sufficiency is decided when the cycle closes"
+            ]
+          ],
+          "frameworks": [
+            "Evidence matrix · claim, source and decision",
+            "Gap analysis · prioritize what blocks progress",
+            "Go/No-Go gate · decide with an explicit criterion"
           ]
         },
         "why_it_works": {
@@ -276,7 +413,7 @@
           ],
           "limits": [
             "It does not write the assistant instruction or its starter prompts",
-            "It does not decide sufficiency: that belongs to W04, and the research brief to W03"
+            "It does not decide sufficiency: that belongs to W04, and the research plan to W03"
           ]
         },
         "traceability": [
@@ -292,7 +429,68 @@
             "claim": "Fixing the step 2 output format and deferring the sufficiency verdict to the close of the cycle are internal workshop policy.",
             "source": "method_internal"
           }
-        ]
+        ],
+        "inputs": [
+          {
+            "key": "purpose",
+            "label": "PURPOSE",
+            "help": "why you need the result",
+            "example": "repeat a useful practice",
+            "required": true,
+            "type": "text",
+            "source": "user",
+            "demo_value": "build a verifiable practice I can repeat and explain"
+          },
+          {
+            "key": "audience",
+            "label": "AUDIENCE",
+            "help": "who will use the result",
+            "example": "non-technical professionals",
+            "required": true,
+            "type": "text",
+            "source": "user",
+            "demo_value": "non-technical professionals starting with AI"
+          }
+        ],
+        "parameters": [
+          {
+            "key": "length",
+            "label": "LENGTH",
+            "default": "concise",
+            "choices": [
+              "concise",
+              "medium"
+            ]
+          },
+          {
+            "key": "structure",
+            "label": "STRUCTURE",
+            "default": "2 paragraphs + key bullets",
+            "choices": [
+              "2 paragraphs + key bullets",
+              "short table"
+            ]
+          },
+          {
+            "key": "tone",
+            "label": "TONE",
+            "default": "clear and personal",
+            "choices": [
+              "clear and personal",
+              "instructional"
+            ]
+          },
+          {
+            "key": "depth",
+            "label": "DEPTH",
+            "default": "practical",
+            "choices": [
+              "practical",
+              "deep"
+            ]
+          }
+        ],
+        "optional_clauses": []
       },
       "empresa": {
         "title": "Audit the team base",
@@ -300,29 +498,11 @@
         "when": "the team imported the step 1 report and the process needs to know what holds.",
         "example": "The area sales Notebook, with six sources imported this week.",
         "evidence": "eight-line summary, finding table with type, evidence, impact, action and owner, coverage reviewed, gaps prioritized by operational risk and claimables with citations, comparable across reviews.",
-        "prompt": "Step 2 of the workshop, on the base the team just built. Audit this base against [PURPOSE], agreed inside [PROCESS], using only selected sources; cite each finding. Review coverage, tensions, ambiguities, quality, freshness, bias and redundancy; with a single source, audit bias first; when sources disagree, type a tension. Deliver an eight-line summary; a Finding|Type|Evidence|Impact|Action|accountable owner table; gaps prioritized by operational risk; and \"what the team can claim today\", a citation per line or out, comparable across reviews. Do not write assistant instruction or starter prompts, nor call the base sufficient. Do not invent findings or citations.",
+        "prompt": "Step 2 of the workshop, on the base the team just built. Audit this base against <PURPOSE>, agreed inside <PROCESS>, using only selected sources; cite each finding. Review coverage, tensions, ambiguities, quality, freshness, bias and redundancy; with a single source, audit bias first; when sources disagree, type a tension. Deliver an eight-line summary; a Finding|Type|Evidence|Impact|Action|accountable owner table; gaps prioritized by operational risk; and \"what the team can claim today\", a citation per line or out, comparable across reviews. Do not write assistant instruction or starter prompts, nor call the base sufficient. Do not invent findings or citations.",
         "level_spec": {
           "role": "Step 2 auditor for teams: reads the shared base without closing it",
           "spec_role": "Guided workshop facilitator for NotebookLM",
           "objective": "Turn the freshly imported shared base into a cited diagnosis with an owner per action, comparable across reviews",
-          "parameters": [
-            [
-              "sequence_position",
-              "step 2: receives the shared report from step 1 and hands the diagnosis to step 3"
-            ],
-            [
-              "dimensions",
-              "coverage, tensions, ambiguities, quality, freshness, bias and redundancy"
-            ],
-            [
-              "owner",
-              "every action in the table names who it is assigned to"
-            ],
-            [
-              "verdict",
-              "none: sufficiency is decided when the cycle closes"
-            ]
-          ],
           "workflow": [
             "Record the agreed purpose and the process that will consume the base",
             "Review the seven dimensions against selected sources only",
@@ -346,6 +526,29 @@
             "Single-source base: the bias audit is mandatory",
             "Sources that disagree: type a tension, do not average",
             "Action with no possible owner: record it as a process governance gap"
+          ],
+          "constraints": [
+            [
+              "sequence_position",
+              "step 2: receives the shared report from step 1 and hands the diagnosis to step 3"
+            ],
+            [
+              "dimensions",
+              "coverage, tensions, ambiguities, quality, freshness, bias and redundancy"
+            ],
+            [
+              "owner",
+              "every action in the table names who it is assigned to"
+            ],
+            [
+              "verdict",
+              "none: sufficiency is decided when the cycle closes"
+            ]
+          ],
+          "frameworks": [
+            "Evidence matrix · claim, source and decision",
+            "Gap analysis · prioritize what blocks progress",
+            "Go/No-Go gate · decide with an explicit criterion"
           ]
         },
         "why_it_works": {
@@ -384,7 +587,68 @@
             "claim": "Requiring an owner per table action and ranking gaps by operational risk before the diagnosis is shared is internal method policy.",
             "source": "method_internal"
           }
-        ]
+        ],
+        "inputs": [
+          {
+            "key": "purpose",
+            "label": "PURPOSE",
+            "help": "why you need the result",
+            "example": "repeat a useful practice",
+            "required": true,
+            "type": "text",
+            "source": "user",
+            "demo_value": "test a shared, verifiable and repeatable way of working"
+          },
+          {
+            "key": "process",
+            "label": "PROCESS",
+            "help": "workflow that will change",
+            "example": "decision preparation",
+            "required": true,
+            "type": "text",
+            "source": "user",
+            "demo_value": "weekly decision preparation and review"
+          }
+        ],
+        "parameters": [
+          {
+            "key": "length",
+            "label": "LENGTH",
+            "default": "concise",
+            "choices": [
+              "concise",
+              "medium"
+            ]
+          },
+          {
+            "key": "structure",
+            "label": "STRUCTURE",
+            "default": "2 paragraphs + key bullets",
+            "choices": [
+              "2 paragraphs + key bullets",
+              "short table"
+            ]
+          },
+          {
+            "key": "tone",
+            "label": "TONE",
+            "default": "executive and operational",
+            "choices": [
+              "executive and operational",
+              "facilitative"
+            ]
+          },
+          {
+            "key": "depth",
+            "label": "DEPTH",
+            "default": "practical",
+            "choices": [
+              "practical",
+              "deep"
+            ]
+          }
+        ],
+        "optional_clauses": []
       }
     },
     "pt": {
@@ -394,29 +658,11 @@
         "when": "você importou o relatório do passo 1 e precisa saber o que essa base sustenta.",
         "example": "Meu Notebook de IA generativa comercial, com seis fontes recém-importadas.",
         "evidence": "resumo de oito linhas, tabela de achados com tipo, evidência, impacto e ação, cobertura revisada, lacunas priorizadas pelo bloqueio ao propósito e lista de afirmáveis com citação por linha.",
-        "prompt": "Passo 2 da oficina: preciso auditar a minha base nova. Audite-a contra o meu propósito [PROPÓSITO] para [PÚBLICO], apenas com as fontes selecionadas, cite cada achado. Revise cobertura, tensões, ambiguidades, qualidade, atualidade, vieses e redundâncias; com fonte única, audite viés; ante contradição, tipifique tensão. Entregue resumo de oito linhas; tabela Achado|Tipo|Evidência|Impacto|Ação; lacunas priorizadas pelo bloqueio a [PROPÓSITO]; e «o que posso afirmar hoje», cada linha com citação ou fora. Não redija instrução nem prompts iniciais do assistente nem declare a base suficiente: isso fecha a oficina. Não invente achados nem citações.",
+        "prompt": "Passo 2 da oficina: preciso auditar a minha base nova. Audite-a contra o meu propósito <PROPÓSITO> para <PÚBLICO>, apenas com as fontes selecionadas, cite cada achado. Revise cobertura, tensões, ambiguidades, qualidade, atualidade, vieses e redundâncias; com fonte única, audite viés; ante contradição, tipifique tensão. Entregue resumo de oito linhas; tabela Achado|Tipo|Evidência|Impacto|Ação; lacunas priorizadas pelo bloqueio a <PROPÓSITO>; e «o que posso afirmar hoje», cada linha com citação ou fora. Não redija instrução nem prompts iniciais do assistente nem declare a base suficiente: isso fecha a oficina. Não invente achados nem citações.",
         "level_spec": {
           "role": "Auditor do passo 2: lê a base recém-construída sem fechá-la",
           "spec_role": "Facilitador de oficina guiada no NotebookLM",
-          "objective": "Transformar a base recém-importada em diagnóstico citado de formato fixo que alimenta o encargo de pesquisa",
-          "parameters": [
-            [
-              "posicao_na_sequencia",
-              "passo 2: recebe o relatório importado no passo 1 e entrega o diagnóstico ao passo 3"
-            ],
-            [
-              "dimensoes",
-              "cobertura, tensões, ambiguidades, qualidade, atualidade, vieses e redundâncias"
-            ],
-            [
-              "afirmavel",
-              "uma linha só entra na lista se trouxer a citação"
-            ],
-            [
-              "veredicto",
-              "nenhum: a suficiência é decidida ao fechar o ciclo"
-            ]
-          ],
+          "objective": "Transformar a base recém-importada em diagnóstico citado de formato fixo que alimenta o plano de pesquisa",
           "workflow": [
             "Registrar propósito e público da auditoria",
             "Revisar as sete dimensões apenas contra as fontes selecionadas",
@@ -440,6 +686,29 @@
             "Base de fonte única: a auditoria de viés é obrigatória",
             "Fontes que se contradizem: tipificar tensão, não fazer média",
             "Propósito não declarado: pedir antes de auditar"
+          ],
+          "constraints": [
+            [
+              "posicao_na_sequencia",
+              "passo 2: recebe o relatório importado no passo 1 e entrega o diagnóstico ao passo 3"
+            ],
+            [
+              "dimensoes",
+              "cobertura, tensões, ambiguidades, qualidade, atualidade, vieses e redundâncias"
+            ],
+            [
+              "afirmavel",
+              "uma linha só entra na lista se trouxer a citação"
+            ],
+            [
+              "veredicto",
+              "nenhum: a suficiência é decidida ao fechar o ciclo"
+            ]
+          ],
+          "frameworks": [
+            "Matriz de evidências · afirmação, fonte e decisão",
+            "Análise de lacunas · priorize o que bloqueia",
+            "Gate Go/No-Go · decida com critério explícito"
           ]
         },
         "why_it_works": {
@@ -462,7 +731,7 @@
           ],
           "limits": [
             "Não redige a instrução nem os prompts iniciais do assistente",
-            "Não decide suficiência: isso cabe a W04, e o encargo de pesquisa a W03"
+            "Não decide suficiência: isso cabe a W04, e o plano de pesquisa a W03"
           ]
         },
         "traceability": [
@@ -478,7 +747,68 @@
             "claim": "Fixar o formato de saída do passo 2 e adiar o veredicto de suficiência para o fecho do ciclo são normas internas da oficina.",
             "source": "method_internal"
           }
-        ]
+        ],
+        "inputs": [
+          {
+            "key": "purpose",
+            "label": "PROPÓSITO",
+            "help": "para que precisa do resultado",
+            "example": "repetir uma prática útil",
+            "required": true,
+            "type": "text",
+            "source": "user",
+            "demo_value": "criar uma prática verificável que eu consiga repetir e explicar"
+          },
+          {
+            "key": "audience",
+            "label": "PÚBLICO",
+            "help": "quem usará o resultado",
+            "example": "profissionais não técnicos",
+            "required": true,
+            "type": "text",
+            "source": "user",
+            "demo_value": "profissionais não técnicos iniciando com IA"
+          }
+        ],
+        "parameters": [
+          {
+            "key": "length",
+            "label": "EXTENSÃO",
+            "default": "concisa",
+            "choices": [
+              "concisa",
+              "média"
+            ]
+          },
+          {
+            "key": "structure",
+            "label": "ESTRUTURA",
+            "default": "2 parágrafos + bullets-chave",
+            "choices": [
+              "2 parágrafos + bullets-chave",
+              "tabela breve"
+            ]
+          },
+          {
+            "key": "tone",
+            "label": "TOM",
+            "default": "claro e pessoal",
+            "choices": [
+              "claro e pessoal",
+              "didático"
+            ]
+          },
+          {
+            "key": "depth",
+            "label": "PROFUNDIDADE",
+            "default": "prática",
+            "choices": [
+              "prática",
+              "profunda"
+            ]
+          }
+        ],
+        "optional_clauses": []
       },
       "empresa": {
         "title": "Auditar a base da equipe",
@@ -486,29 +816,11 @@
         "when": "a equipe importou o relatório do passo 1 e o processo precisa saber o que sustenta.",
         "example": "O Notebook comercial da área, com seis fontes importadas nesta semana.",
         "evidence": "resumo de oito linhas, tabela de achados com tipo, evidência, impacto, ação e responsável, cobertura revisada, lacunas priorizadas por risco operacional e afirmáveis com citação, comparável entre revisões.",
-        "prompt": "Passo 2 da oficina, sobre a base nova da equipe. Audite-a contra o propósito [PROPÓSITO] de [PROCESSO], apenas com as fontes selecionadas, cite cada achado. Revise cobertura, tensões, ambiguidades, qualidade, atualidade, vieses e redundâncias; com fonte única, audite viés; ante contradição, tipifique tensão. Entregue resumo de oito linhas; tabela Achado|Tipo|Evidência|Impacto|Ação|responsável; lacunas priorizadas por risco operacional; e «o que a equipe afirma hoje»: citação por linha ou fora, comparável entre revisões. Não redija instrução nem prompts iniciais do assistente nem declare a base suficiente. Não invente achados nem citações.",
+        "prompt": "Passo 2 da oficina, sobre a base nova da equipe. Audite-a contra o propósito <PROPÓSITO> de <PROCESSO>, apenas com as fontes selecionadas, cite cada achado. Revise cobertura, tensões, ambiguidades, qualidade, atualidade, vieses e redundâncias; com fonte única, audite viés; ante contradição, tipifique tensão. Entregue resumo de oito linhas; tabela Achado|Tipo|Evidência|Impacto|Ação|responsável; lacunas priorizadas por risco operacional; e «o que a equipe afirma hoje»: citação por linha ou fora, comparável entre revisões. Não redija instrução nem prompts iniciais do assistente nem declare a base suficiente. Não invente achados nem citações.",
         "level_spec": {
           "role": "Auditor do passo 2 para equipes: lê a base compartilhada sem fechá-la",
           "spec_role": "Facilitador de oficina guiada no NotebookLM",
           "objective": "Transformar a base compartilhada recém-importada em diagnóstico citado, com responsável por ação e comparável entre revisões",
-          "parameters": [
-            [
-              "posicao_na_sequencia",
-              "passo 2: recebe o relatório compartilhado do passo 1 e entrega o diagnóstico ao passo 3"
-            ],
-            [
-              "dimensoes",
-              "cobertura, tensões, ambiguidades, qualidade, atualidade, vieses e redundâncias"
-            ],
-            [
-              "responsavel",
-              "cada ação da tabela nomeia a quem fica atribuída"
-            ],
-            [
-              "veredicto",
-              "nenhum: a suficiência é decidida ao fechar o ciclo"
-            ]
-          ],
           "workflow": [
             "Registrar o propósito acordado e o processo que consumirá a base",
             "Revisar as sete dimensões apenas contra as fontes selecionadas",
@@ -532,6 +844,29 @@
             "Base de fonte única: a auditoria de viés é obrigatória",
             "Fontes que se contradizem: tipificar tensão, não fazer média",
             "Ação sem responsável possível: registrar como lacuna de governança do processo"
+          ],
+          "constraints": [
+            [
+              "posicao_na_sequencia",
+              "passo 2: recebe o relatório compartilhado do passo 1 e entrega o diagnóstico ao passo 3"
+            ],
+            [
+              "dimensoes",
+              "cobertura, tensões, ambiguidades, qualidade, atualidade, vieses e redundâncias"
+            ],
+            [
+              "responsavel",
+              "cada ação da tabela nomeia a quem fica atribuída"
+            ],
+            [
+              "veredicto",
+              "nenhum: a suficiência é decidida ao fechar o ciclo"
+            ]
+          ],
+          "frameworks": [
+            "Matriz de evidências · afirmação, fonte e decisão",
+            "Análise de lacunas · priorize o que bloqueia",
+            "Gate Go/No-Go · decida com critério explícito"
           ]
         },
         "why_it_works": {
@@ -570,10 +905,85 @@
             "claim": "Exigir responsável por ação da tabela e priorizar lacunas por risco operacional antes de compartilhar o diagnóstico é política interna do método.",
             "source": "method_internal"
           }
-        ]
+        ],
+        "inputs": [
+          {
+            "key": "purpose",
+            "label": "PROPÓSITO",
+            "help": "para que precisa do resultado",
+            "example": "repetir uma prática útil",
+            "required": true,
+            "type": "text",
+            "source": "user",
+            "demo_value": "testar uma forma de trabalho compartilhada, verificável e repetível"
+          },
+          {
+            "key": "process",
+            "label": "PROCESSO",
+            "help": "fluxo que mudará",
+            "example": "preparação de decisões",
+            "required": true,
+            "type": "text",
+            "source": "user",
+            "demo_value": "preparação e revisão semanal de decisões"
+          }
+        ],
+        "parameters": [
+          {
+            "key": "length",
+            "label": "EXTENSÃO",
+            "default": "concisa",
+            "choices": [
+              "concisa",
+              "média"
+            ]
+          },
+          {
+            "key": "structure",
+            "label": "ESTRUTURA",
+            "default": "2 parágrafos + bullets-chave",
+            "choices": [
+              "2 parágrafos + bullets-chave",
+              "tabela breve"
+            ]
+          },
+          {
+            "key": "tone",
+            "label": "TOM",
+            "default": "executivo e operacional",
+            "choices": [
+              "executivo e operacional",
+              "facilitador"
+            ]
+          },
+          {
+            "key": "depth",
+            "label": "PROFUNDIDADE",
+            "default": "prática",
+            "choices": [
+              "prática",
+              "profunda"
+            ]
+          }
+        ],
+        "optional_clauses": []
       }
     }
   },
   "self_hash_model": "sha256(sorted-json-without-self_sha256)",
-  "self_sha256": "4f1ed9a3c3a883d9944dfb2e51bc1973a35448692f25a9e9a2d0ff8dde6bdeec"
+  "self_sha256": "0d14e7b428df7f940774339f99bf3494ec450ab1075020d691fc9f7b24d3c34a",
+  "flow": {
+    "route": "workbook",
+    "order": 5,
+    "previous": "W01",
+    "next": "W03",
+    "branches": [],
+    "consumes": [
+      "BASE_INICIAL"
+    ],
+    "produces": "DIAGNOSTICO_DE_BASE",
+    "external_gate": false,
+    "loop_to": null,
+    "standalone": true
+  }
 }

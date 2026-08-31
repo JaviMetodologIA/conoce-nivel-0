@@ -1,0 +1,273 @@
+{
+  "schema_version": "module-parity-guardian-m04-receipt-v1",
+  "audit_id": "nivel-0-m1-m4-parity-2026-08-30",
+  "audit_date": "2026-08-30",
+  "role": "independent_guardian",
+  "scope": {
+    "reference_module": "ia-panorama",
+    "candidate_module": "module-04-trabajo-agentico",
+    "required_parity": "semantic-visual-functional",
+    "code_identity_required": false,
+    "maximum_state": "RENDERED_DRAFT"
+  },
+  "candidate": {
+    "root": "/Users/deonto/Agentic_Space/worktrees/nivel-0-digital-brand-v1",
+    "git_branch": "codex/nivel-0-prompt-elevation-v1",
+    "git_head": "d77bb0fe32dea6e4f6d5ecab3bf3592602edd043",
+    "dirty_worktree_preserved": true,
+    "candidate_bound_by_file_hashes": true,
+    "state": "RENDERED_DRAFT",
+    "publication_authorized": false
+  },
+  "definition_of_done": {
+    "ref": "src/module-resource-definition-of-done-v1.json",
+    "file_sha256": "925e385536d93dab4d968480f6d6b0a67ed444a2693195d247b1e7e85c32c396",
+    "self_sha256": "dce7756721efb5635966c45c785f356ac9906d0fad72124a9a1293e97b3e9720",
+    "criteria_count": 21,
+    "blocking_severities": [
+      "P0",
+      "P1"
+    ],
+    "next_module_requires": "PASS"
+  },
+  "bindings": {
+    "module_04_base_payload": {
+      "ref": "src/modules/module-04-content-v1.json",
+      "sha256": "7d3ca46610d1cd5550882df2fa66ad054e85c42c5eca599e1b0a97388d8be2ec",
+      "immutable_source_preserved": true
+    },
+    "module_04_depth_overlay": {
+      "ref": "src/modules/module-04-depth-v1.json",
+      "sha256": "0160304d40b6c12f3538829fea377468f8f3946745cefd48075bbcba5e6c0c56"
+    },
+    "module_04_official_pdf": {
+      "ref": "src/assets/04-trabajo-agentico.pdf",
+      "dist_ref": "dist/assets/04-trabajo-agentico.pdf",
+      "sha256": "710cff50558a98bc587809be17520ad833f89de1066e2607a494bd9b6ee81b3f",
+      "page_count": 15,
+      "image_only": true,
+      "tagged": false
+    },
+    "curriculum": {
+      "ref": "src/curriculum-spec-v2.json",
+      "sha256": "9cd2918625cf4a416dd9e59b883920cb9f9f127b373979726d39f3cfe47c175e"
+    },
+    "provenance": {
+      "ref": "src/curriculum-provenance-rights-v2.json",
+      "sha256": "6d9b7fa1b12ba459f2deb103295d5832d5a6eda232d1c06e1bc91886be06ee79"
+    },
+    "build_manifest": {
+      "ref": "dist/build-manifest.json",
+      "file_sha256": "fcd771af8c7560682834681bd80f90fecd72043bbadfd22c74c0b2a02fb646f1",
+      "self_sha256": "f922d4c9d6c5e1528fc0a04ef46b2520473448565533cf610b8a79e2b6e65b3d",
+      "declared_output_count": 150,
+      "declared_source_count": 87,
+      "readback": "150/150 outputs and 87/87 sources"
+    },
+    "build_receipt": {
+      "ref": "dist/build-receipt.json",
+      "file_sha256": "746c87cae6c455f902da9830635e33b902bd94e66f79f29d01b4fbba8e79f21b",
+      "self_sha256": "8602b1f89d2e2fd2cdf5ea36794daf7ce1d806f4bcf83b6ecbc46bb61d6755bd",
+      "manifest_file_hash_bound": true,
+      "manifest_self_hash_bound": true
+    },
+    "m1_global_golden": {
+      "ref": "qa/goldens/module-depth-m1-global-v1.json",
+      "file_sha256": "78f6cd0f6c6c548e0e881c4a786da03aadde9f059eac8d0134142095018d4f17",
+      "captured_from": "module-04-accessible-intrapage-trigger-approved-baseline",
+      "page_count": 54,
+      "readback": "54/54"
+    }
+  },
+  "comparison": {
+    "code": {
+      "json_ref": "qa/reports/module-01-vs-04/code-comparison.json",
+      "json_file_sha256": "55e84843c5386e8920130ca864741b26a8a1dbcdbafed1f196958f54da060c53",
+      "json_self_sha256": "37e723b389da336958ce72391d2038337a36bebf56d23381011abc5e3406c935",
+      "markdown_ref": "qa/reports/module-01-vs-04/code-comparison.md",
+      "markdown_sha256": "5ce3ded5448efc9fde8b447b8b3b1c031e30debe02a1bf16340f7553bdd76ca0",
+      "pair_count": 24,
+      "output_parity": "PASS",
+      "code_identity": "NOT_REQUIRED_AND_NOT_PRESENT"
+    },
+    "visual": {
+      "json_ref": "qa/reports/module-01-vs-04/visual-comparison.json",
+      "json_file_sha256": "5ca943cd85d66cd5d238003ec7d797ae767dd0ec55a5a04fa87a4a50bef9b070",
+      "json_self_sha256": "6f576e1385102d2a14e335c469efa3b4650a2614e23b64a9dd3b396d8da71d9b",
+      "html_ref": "qa/reports/module-01-vs-04/visual-comparison.html",
+      "html_sha256": "bca53a0da3a84d9f4d0d8b7b4d02641fe288832580349c19ab6f25db48916ab5",
+      "pair_count": 8,
+      "image_count": 32,
+      "image_tree_sha256": "47d45ed0654a9793fb04a7eff4e77d1e458f558cf46f4b6348e781e56b679224",
+      "verdict": "PASS",
+      "manual_readback": [
+        "masterclass hero and official PDF surface",
+        "workbook consolidation state",
+        "playbook full state",
+        "prompts mobile demo state"
+      ]
+    }
+  },
+  "checks": [
+    {
+      "command": "python3 qa/check-curriculum-expansion-v2.py",
+      "verdict": "PASS",
+      "evidence": "16 logical resources; 18 variants; 4 PDFs; 18/11/12/15 pages"
+    },
+    {
+      "command": "python3 qa/check-editorial-depth-v1.py",
+      "verdict": "PASS",
+      "evidence": "3 modules; 18 variants; 72 resources; 126 HTML; 54/54 M1 global golden readback"
+    },
+    {
+      "command": "python3 qa/check-workbook-learning-cycle-v1.py",
+      "verdict": "PASS",
+      "evidence": "24 pages; 3 stages; consolidation gate, rubric and transfer"
+    },
+    {
+      "command": "python3 qa/check-module-definition-of-done-v1.py --module 4",
+      "verdict": "PASS",
+      "evidence": "24 pages; 21 criteria"
+    },
+    {
+      "command": "python3 qa/check-module-comparison-reports-v1.py --candidate 4",
+      "verdict": "PASS",
+      "evidence": "24 code pairs; 32 images; SHA-256 readback"
+    },
+    {
+      "command": "python3 qa/check-module-routing-v2.py",
+      "verdict": "PASS",
+      "evidence": "72 nested routes; 108 toggles; 3 locales; 2 audiences"
+    },
+    {
+      "command": "python3 qa/check-module-renderers-v2.py",
+      "verdict": "PASS",
+      "evidence": "4 deterministic interiors; unique IDs; safe URLs"
+    },
+    {
+      "command": "node qa/check-intrapage-navigation.mjs",
+      "verdict": "PASS",
+      "evidence": "126/126 pages; singleton shell; localized accessible trigger"
+    },
+    {
+      "command": "node qa/check-module-definition-of-done-visual.mjs --module=4",
+      "verdict": "PASS",
+      "evidence": "24 routes; 80 scenarios; 8 document axe runs; 24 no-JS routes"
+    },
+    {
+      "command": "guardian HTTP axe probe",
+      "verdict": "PASS",
+      "evidence": "24 M4 routes x 390/1440; 48 document-wide axe A/AA runs; mobile trigger localized, visible and at least 44px"
+    },
+    {
+      "command": "node qa/check-resource-visual-homology.mjs",
+      "verdict": "PASS",
+      "evidence": "128 scenarios; 72 nested routes; 320/390/768/1440; light/dark; no-JS; print"
+    },
+    {
+      "command": "node qa/check-editorial-depth-visual.mjs",
+      "verdict": "PASS",
+      "evidence": "96 scenarios; maximum visible density 1.276x; reduced motion; no-JS; axe 4.12.1"
+    },
+    {
+      "command": "python3 qa/check-editorial-parity.py",
+      "verdict": "PASS",
+      "evidence": "126 routes; 882 fields; 214 mutations; 40445 strings"
+    },
+    {
+      "command": "python3 qa/check-editorial-sitemap.py",
+      "verdict": "PASS",
+      "evidence": "126 canonicals; 96 resources; all internal links"
+    },
+    {
+      "command": "two isolated python3 scripts/build.py runs",
+      "verdict": "PASS",
+      "evidence": "152 files per build; byte-identical to each other and frozen dist"
+    }
+  ],
+  "accessibility": {
+    "target": "WCAG 2.1/2.2 A and AA automated coverage",
+    "automated": {
+      "axe_document_runs": 48,
+      "axe_violations": 0,
+      "mobile_trigger_routes": 24,
+      "mobile_trigger_minimum_target_px": 44,
+      "no_js_routes": 24,
+      "reduced_motion": true,
+      "protocols": [
+        "file",
+        "http"
+      ]
+    },
+    "manual": {
+      "visual_surfaces_reviewed": 4,
+      "keyboard_exhaustive": false,
+      "browser_zoom_200_exhaustive": false,
+      "voiceover": false
+    },
+    "remediation_before_any_future_release_gate": [
+      "Run complete Tab, Shift+Tab, Enter, Space, Escape and focus-return flows manually.",
+      "Run real browser zoom at 200 percent across the representative matrix.",
+      "Run VoiceOver over the localized HTML guide; the official image-only PDF remains explicitly disclosed."
+    ]
+  },
+  "determinism": {
+    "isolated_build_count": 2,
+    "files_per_build": 152,
+    "byte_identical": true,
+    "matches_frozen_dist": true,
+    "tree_hash_model": "sha256(sorted-json-path-to-file-sha256)",
+    "tree_sha256": "f101e87fa938754068fb174d6b30129c2f84f7dbb89caf43836e40ff6dc9975d",
+    "manifest_file_sha256": "fcd771af8c7560682834681bd80f90fecd72043bbadfd22c74c0b2a02fb646f1",
+    "receipt_file_sha256": "746c87cae6c455f902da9830635e33b902bd94e66f79f29d01b4fbba8e79f21b"
+  },
+  "findings": {
+    "p0": [],
+    "p1": [],
+    "p2": [
+      {
+        "id": "M04-GUARDIAN-P2-MANUAL-A11Y",
+        "description": "Complete keyboard, real 200 percent browser zoom and VoiceOver passes remain manual release-gate work; automated semantics, focus states, targets, no-JS and axe pass."
+      },
+      {
+        "id": "M04-GUARDIAN-P2-PDF",
+        "description": "The official 15-page PDF is image-only and untagged. Every variant exposes this limitation and provides a localized structured HTML guide."
+      },
+      {
+        "id": "M04-GUARDIAN-P2-PLAYBOOK-RHYTHM",
+        "description": "The nine playbook chapters use a deliberately repetitive visual rhythm; this is coherent but could be differentiated in a later editorial pass."
+      },
+      {
+        "id": "M04-GUARDIAN-P2-PAIRED-MATRIX",
+        "description": "The paired M1-to-M4 visual report uses light mode at 390 and 1440; the full 320/390/768/1440 light/dark matrix is evidenced by separate gates."
+      },
+      {
+        "id": "M04-GUARDIAN-P2-HEADLESS-ARTIFACTS",
+        "description": "Headless captures can show a dark PDF surface, a focused skip link or sticky controls shifted during long crops; these were classified as capture artifacts, not page defects."
+      },
+      {
+        "id": "M04-GUARDIAN-P2-LEGACY-REFERENCE",
+        "description": "M1 remains on the accepted legacy renderer while M4 uses the modular renderer. The DoD requires semantic, visual and functional parity, not code identity."
+      }
+    ]
+  },
+  "verdict": {
+    "status": "PASS",
+    "p0_count": 0,
+    "p1_count": 0,
+    "p2_count": 6,
+    "module_04": "PASS",
+    "release_state": "RENDERED_DRAFT",
+    "publication_authorized": false
+  },
+  "external_effects": {
+    "commit": false,
+    "push": false,
+    "deployment": false,
+    "publication": false,
+    "network_mutation": false,
+    "temporary_local_builds_only": true
+  },
+  "self_hash_model": "sha256(sorted-json-without-self_sha256)",
+  "self_sha256": "0d2630a771c8e827fcad0d02679b93a5d4b770be449fa0bb19fe24dc7ea44ae4"
+}

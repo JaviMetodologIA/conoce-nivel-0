@@ -1,5 +1,5 @@
 {
-  "build_id": "nivel-0-learning-resources-v10",
+  "build_id": "nivel-0-learning-resources-v15",
   "conoce_chrome": {
     "brand_release_immutable": true,
     "breadcrumbs": {
@@ -34,7 +34,7 @@
       "same_tab": true
     },
     "publication_authorized": false,
-    "rendered_pages": 54,
+    "rendered_pages": 126,
     "schema_version": "conoce-chrome-spec-v1",
     "self_sha256": "f3b862a736c86e041430b2d4b759504c956335ff3ec782494c91985e7bf8531a",
     "site_id": "conoce-nivel-0",
@@ -47,18 +47,126 @@
       "mdg_audience"
     ]
   },
+  "curriculum": {
+    "authority_bindings": {
+      "approved_program_proposal_sha256": "4ef3371f2baab2bc13d305e925d38875e942cb5d80c2207bdf4a011a5eefb68e",
+      "source_bundle_sha256": "22bab6b848dd42f47f0d3c9a9d3e560909a8950eab250169b0231d64927f9488"
+    },
+    "canonical_pages": 126,
+    "depth_overlays": {
+      "ocupado-productivo": "12943314227c206d0c53d172508afb78809920a12f1ef1a641d87dadcb9b123f",
+      "trabajo-agentico": "0160304d40b6c12f3538829fea377468f8f3946745cefd48075bbcba5e6c0c56",
+      "trabajo-amplificado": "37074fddd68089a1f0deaf1b54e69e9e5d787b6d074158bfc3a8b97d9ca2a058"
+    },
+    "depth_profile": {
+      "profile_id": "nivel-0-editorial-depth-v1",
+      "ref": "src/modules/module-depth-profile-v1.json",
+      "sha256": "05070bfe255d19937b6718025f6d722450712b4e8fefd8dc88476e7429fcafcf"
+    },
+    "logical_resources": 16,
+    "modules": [
+      {
+        "id": "ia-panorama",
+        "order": 1
+      },
+      {
+        "id": "ocupado-productivo",
+        "order": 2
+      },
+      {
+        "id": "trabajo-amplificado",
+        "order": 3
+      },
+      {
+        "id": "trabajo-agentico",
+        "order": 4
+      }
+    ],
+    "official_masterclasses": [
+      {
+        "document_language": "es",
+        "image_only": true,
+        "media_type": "application/pdf",
+        "module_id": "ia-panorama",
+        "page_count": 18,
+        "primary_surface": true,
+        "publication_authorized": false,
+        "rendered_variants": 6,
+        "rights": "MetodologIA masterclass supplied by the owner for this local pilot",
+        "sha256": "5df5533a29652184f492b2f797ecfa0f1fa47cdb682bfcefb8f30c96014ce402",
+        "source": "assets/masterclass-ia-nivel-0.pdf",
+        "tagged": false
+      },
+      {
+        "document_language": "es",
+        "image_only": true,
+        "media_type": "application/pdf",
+        "module_id": "ocupado-productivo",
+        "page_count": 11,
+        "primary_surface": true,
+        "publication_authorized": false,
+        "rendered_variants": 6,
+        "rights": "cleared-local-use",
+        "sha256": "d728c9a2c7cfb91e9d669ce24137bc96c0b53aae2de295db44ad5997be232532",
+        "source": "assets/02-ocupado-productivo.pdf",
+        "tagged": false
+      },
+      {
+        "document_language": "es",
+        "image_only": true,
+        "media_type": "application/pdf",
+        "module_id": "trabajo-amplificado",
+        "page_count": 12,
+        "primary_surface": true,
+        "publication_authorized": false,
+        "rendered_variants": 6,
+        "rights": "cleared-local-use",
+        "sha256": "08b057fd1826ca0b5c3d085eb9d8efce7f1195a4b88f66c014208daa39232b2d",
+        "source": "assets/03-trabajo-amplificado.pdf",
+        "tagged": false
+      },
+      {
+        "document_language": "es",
+        "image_only": true,
+        "media_type": "application/pdf",
+        "module_id": "trabajo-agentico",
+        "page_count": 15,
+        "primary_surface": true,
+        "publication_authorized": false,
+        "rendered_variants": 6,
+        "rights": "cleared-local-use",
+        "sha256": "710cff50558a98bc587809be17520ad833f89de1066e2607a494bd9b6ee81b3f",
+        "source": "assets/04-trabajo-agentico.pdf",
+        "tagged": false
+      }
+    ],
+    "payloads": {
+      "ocupado-productivo": "d285a8672ebf93595c2e5d22186361589c1306f65fd35ec4933462c0b825226e",
+      "trabajo-agentico": "7d3ca46610d1cd5550882df2fa66ad054e85c42c5eca599e1b0a97388d8be2ec",
+      "trabajo-amplificado": "7790d12a301b929c0d64863a6f2d1e66b99057344e80dedf77790916f5dd8fcf"
+    },
+    "provenance_sha256": "c2aefe8568b666d632b8b900ed3dfebfa5eefce7d39bbc68a055a22e912a6013",
+    "provenance_source": "src/curriculum-provenance-rights-v2.json",
+    "publication_authorized": false,
+    "rendered_resource_pages": 96,
+    "run_dependency_at_build_time": false,
+    "schema_version": "curriculum-spec-v2",
+    "source": "src/curriculum-spec-v2.json",
+    "source_sha256": "6506fe8ce3495e145f1b140e9668d1d002beb40f5651cfcc0ddf9798804c934a",
+    "state": "RENDERED_DRAFT"
+  },
   "deterministic_inputs": true,
   "editorial_parity": {
     "fallback_policy": "forbidden",
     "inventory": "editorial-string-inventory.json",
-    "inventory_self_sha256": "4ea85a9e00dfabe0173bb9da7b06194493315db1e45bf78a8fd4e47d181d8e1c",
-    "inventory_sha256": "3718408229d505f6919b7de9b3755c8dcc7b4bff29443b2f1a55eb93881e280c",
+    "inventory_self_sha256": "f6336c41c7ae5be175a3bb4518c178be60c5f830778386f30a8e03a4f84e412c",
+    "inventory_sha256": "fe8d517e6b74ee25916c1ff7a657c27bb1e193ba1214f6ffc7e037845f6563a1",
     "matrix": {
       "audiences": [
         "persona",
         "empresa"
       ],
-      "canonical_routes": 54,
+      "canonical_routes": 126,
       "locales": [
         "es",
         "en",
@@ -78,18 +186,18 @@
     },
     "publication_authorized": false,
     "schema_version": "editorial-parity-spec-v1",
-    "self_sha256": "ad07bf72e931202887c1625600579f9e39c1a84a78ecd2891fc70525b7f49fe6",
+    "self_sha256": "266f90ad8db00695aa3aeb086820d0846b4494caba31477ac714f43d65f06608",
     "shared_allowlist": [
       "organization_and_method_marks",
       "localized_chrome",
       "official_spanish_pdf"
     ],
     "source": "src/editorial-parity-spec-v1.json",
-    "source_sha256": "df83b1883003c41c16471809a43fcab11442e9c075284b180d4d8d250c5e638c",
+    "source_sha256": "df496abfa60692da47e243cc178f620a267bda348f9ee98f98829d8e3b1b7753",
     "state": "RENDERED_DRAFT"
   },
   "editorial_sitemap": {
-    "canonical_count": 54,
+    "canonical_count": 126,
     "pages": [
       "level0",
       "how",
@@ -99,21 +207,21 @@
     "publication_authorized": false,
     "rendered_pages": 24,
     "schema_version": "editorial-sitemap-spec-v1",
-    "self_sha256": "74ba8a170e62765891577cec783cee472984c692ee24eb63802c4f3c0e5711b9",
+    "self_sha256": "648566295b41f61601fc64f88fbbdbcaea53fbcdbf4413ba6a92c991b182e718",
     "source": "src/editorial-sitemap-spec-v1.json",
-    "source_sha256": "01889c820e9b03999af6171a83407339b2f4220ddc5b5a838eb2b7c2c4e48b8a",
+    "source_sha256": "27ea26cbde0657274b7381b8efc6e1fb3949a8e56381599ba333e5bca402c90e",
     "state": "RENDERED_DRAFT"
   },
   "intrapage_navigation": {
     "desktop_width_px": 260,
     "publication_authorized": false,
-    "rendered_pages": 54,
+    "rendered_pages": 126,
     "schema_version": "intrapage-navigation-spec-v1",
     "source": "src/intrapage-navigation-spec-v1.json",
-    "source_sha256": "cfae0e0b01c8830805049837fcd87f9388fc6a117af1e20feafef16cd796d342"
+    "source_sha256": "e9aa4d32fef5b6c9bad155f32318dd0331babc035fa98e3fb71d149b5d8486f3"
   },
-  "manifest_self_sha256": "619e72d880dabfcba389f430d434a1f8177edda79be5b9c1dd03f7da18137207",
-  "manifest_sha256": "3ea68abcb2094855ad85290338e1f9f18d76d8b998f940712abcbfe399a1e9db",
+  "manifest_self_sha256": "9ff4e67cba6fe0881cb0c10429186655dfd011bffaa9c9ca1b0122c0dc37dce3",
+  "manifest_sha256": "d264b4416eb6e8093f17320055ef67509d9e7b56c1532e46bfcf546b453cf4b6",
   "method_identity": {
     "assets": {
       "compact": "b07a0713a106f1f78491e54667b248ef6a790ce175b0a07ba2e721137e936393",
@@ -130,17 +238,92 @@
     "role": "method_mark",
     "schema_version": "method-identity-v1"
   },
+  "module_definition_of_done": {
+    "code_identity_required": false,
+    "contract_id": "nivel-0-module-reference-parity-v1",
+    "next_module_requires": "PASS",
+    "publication_authorized": false,
+    "reference_module": "ia-panorama",
+    "required_parity": "semantic-visual-functional",
+    "schema_version": "module-resource-definition-of-done-v1",
+    "self_sha256": "1044950780a9ad0044586de3e837137e7d02f0f8ea7f2d8ae9eb99d9c7e74876",
+    "source": "src/module-resource-definition-of-done-v1.json",
+    "source_sha256": "d43f43935de080e876ee40cac3ced71c2431c78f6ed398f2b50f6af7053f414c",
+    "state": "RENDERED_DRAFT"
+  },
   "official_masterclass": {
     "document_language": "es",
+    "image_only": true,
     "media_type": "application/pdf",
+    "module_id": "ia-panorama",
     "page_count": 18,
     "primary_surface": true,
     "publication_authorized": false,
     "rendered_variants": 6,
+    "rights": "MetodologIA masterclass supplied by the owner for this local pilot",
     "sha256": "5df5533a29652184f492b2f797ecfa0f1fa47cdb682bfcefb8f30c96014ce402",
-    "source": "assets/masterclass-ia-nivel-0.pdf"
+    "source": "assets/masterclass-ia-nivel-0.pdf",
+    "tagged": false
   },
-  "output_count": 75,
+  "official_masterclasses": [
+    {
+      "document_language": "es",
+      "image_only": true,
+      "media_type": "application/pdf",
+      "module_id": "ia-panorama",
+      "page_count": 18,
+      "primary_surface": true,
+      "publication_authorized": false,
+      "rendered_variants": 6,
+      "rights": "MetodologIA masterclass supplied by the owner for this local pilot",
+      "sha256": "5df5533a29652184f492b2f797ecfa0f1fa47cdb682bfcefb8f30c96014ce402",
+      "source": "assets/masterclass-ia-nivel-0.pdf",
+      "tagged": false
+    },
+    {
+      "document_language": "es",
+      "image_only": true,
+      "media_type": "application/pdf",
+      "module_id": "ocupado-productivo",
+      "page_count": 11,
+      "primary_surface": true,
+      "publication_authorized": false,
+      "rendered_variants": 6,
+      "rights": "cleared-local-use",
+      "sha256": "d728c9a2c7cfb91e9d669ce24137bc96c0b53aae2de295db44ad5997be232532",
+      "source": "assets/02-ocupado-productivo.pdf",
+      "tagged": false
+    },
+    {
+      "document_language": "es",
+      "image_only": true,
+      "media_type": "application/pdf",
+      "module_id": "trabajo-amplificado",
+      "page_count": 12,
+      "primary_surface": true,
+      "publication_authorized": false,
+      "rendered_variants": 6,
+      "rights": "cleared-local-use",
+      "sha256": "08b057fd1826ca0b5c3d085eb9d8efce7f1195a4b88f66c014208daa39232b2d",
+      "source": "assets/03-trabajo-amplificado.pdf",
+      "tagged": false
+    },
+    {
+      "document_language": "es",
+      "image_only": true,
+      "media_type": "application/pdf",
+      "module_id": "trabajo-agentico",
+      "page_count": 15,
+      "primary_surface": true,
+      "publication_authorized": false,
+      "rendered_variants": 6,
+      "rights": "cleared-local-use",
+      "sha256": "710cff50558a98bc587809be17520ad833f89de1066e2607a494bd9b6ee81b3f",
+      "source": "assets/04-trabajo-agentico.pdf",
+      "tagged": false
+    }
+  ],
+  "output_count": 150,
   "prompt_library": {
     "anatomy": [
       "situation",
@@ -159,50 +342,254 @@
       "source_sha256": "64baf1e2299faaca3ff6a89d11dbf92a07be946224960bfe1b60370a9e70753c",
       "state": "RENDERED_DRAFT"
     },
+    "notebooklm_execution": {
+      "last_verified": "2026-08-28",
+      "official_sources": {
+        "chat": "https://support.google.com/notebooklm/answer/16179559?hl=es-419",
+        "source_search": "https://support.google.com/notebooklm/answer/16215270?hl=es-419"
+      },
+      "publication_authorized": false,
+      "routes": {
+        "01": {
+          "handoff": "chat",
+          "launch": "source_search",
+          "mode": "deep_research"
+        },
+        "02": {
+          "handoff": null,
+          "launch": "chat",
+          "mode": "selected_sources"
+        },
+        "03": {
+          "handoff": "chat",
+          "launch": "source_search",
+          "mode": "deep_research"
+        },
+        "04": {
+          "handoff": null,
+          "launch": "chat",
+          "mode": "selected_sources"
+        },
+        "05": {
+          "handoff": null,
+          "launch": "chat",
+          "mode": "selected_sources"
+        },
+        "06": {
+          "handoff": null,
+          "launch": "chat",
+          "mode": "selected_sources"
+        },
+        "07": {
+          "handoff": null,
+          "launch": "chat",
+          "mode": "selected_sources"
+        },
+        "08": {
+          "handoff": null,
+          "launch": "chat",
+          "mode": "selected_sources"
+        },
+        "09": {
+          "handoff": null,
+          "launch": "chat",
+          "mode": "selected_sources"
+        },
+        "10": {
+          "handoff": null,
+          "launch": "chat",
+          "mode": "selected_sources"
+        },
+        "B1": {
+          "handoff": null,
+          "launch": "chat",
+          "mode": "selected_sources"
+        },
+        "B2": {
+          "handoff": null,
+          "launch": "chat",
+          "mode": "selected_sources"
+        },
+        "B3": {
+          "handoff": null,
+          "launch": "chat",
+          "mode": "selected_sources"
+        },
+        "M1": {
+          "handoff": null,
+          "launch": "chat",
+          "mode": "selected_sources"
+        },
+        "M2": {
+          "handoff": null,
+          "launch": "chat",
+          "mode": "selected_sources"
+        },
+        "M3": {
+          "handoff": null,
+          "launch": "chat",
+          "mode": "selected_sources"
+        },
+        "M4": {
+          "handoff": null,
+          "launch": "chat",
+          "mode": "selected_sources"
+        },
+        "W01": {
+          "handoff": "chat",
+          "launch": "source_search",
+          "mode": "deep_research"
+        },
+        "W02": {
+          "handoff": null,
+          "launch": "chat",
+          "mode": "selected_sources"
+        },
+        "W03": {
+          "handoff": "source_search",
+          "launch": "chat",
+          "mode": "research_brief"
+        },
+        "W04": {
+          "handoff": null,
+          "launch": "chat",
+          "mode": "selected_sources"
+        },
+        "W05": {
+          "handoff": null,
+          "launch": "chat",
+          "mode": "selected_sources"
+        },
+        "W06": {
+          "handoff": null,
+          "launch": "chat",
+          "mode": "selected_sources"
+        },
+        "W07": {
+          "handoff": null,
+          "launch": "chat",
+          "mode": "selected_sources"
+        },
+        "W08": {
+          "handoff": null,
+          "launch": "chat",
+          "mode": "selected_sources"
+        },
+        "W09": {
+          "handoff": null,
+          "launch": "chat",
+          "mode": "selected_sources"
+        },
+        "W10": {
+          "handoff": null,
+          "launch": "chat",
+          "mode": "selected_sources"
+        }
+      },
+      "schema_version": "notebooklm-execution-spec-v1",
+      "source": "src/notebooklm-execution-spec-v1.json",
+      "source_sha256": "92cc587b975dfceec4726d2a044088b08397a37353c1c2e7d2d7817bbb36fdd9",
+      "state": "RENDERED_DRAFT"
+    },
     "prompt_contracts": {
+      "artifact_labels": {
+        "artifact_count": 27,
+        "fallback_policy": "forbidden",
+        "locales": [
+          "es",
+          "en",
+          "pt"
+        ],
+        "module_artifact_count": 78,
+        "modules": [
+          "ocupado-productivo",
+          "trabajo-amplificado",
+          "trabajo-agentico"
+        ],
+        "publication_authorized": false,
+        "schema_version": "prompt-artifact-labels-v1",
+        "source": "src/prompt-artifact-labels-v1.json",
+        "source_sha256": "039c71f24965298e0763f37b4e7ce2cadec15bc39535efbbd773243b71c626d0",
+        "state": "RENDERED_DRAFT"
+      },
       "contract_count": 27,
       "fallback_policy": "forbidden",
       "intent_authority": {
         "publication_authorized": false,
         "rights": "MetodologIA governed contract; no long-form third-party copy reproduced",
         "schema_version": "prompt-intent-authority-v2",
-        "self_sha256": "9e43b4826ef76b63c9fa1cca25ca29a9fd02510f07149680d967e49d9f5b4b86",
+        "self_sha256": "fd8495b10414afccb8e6f26fff8e713cbe3a819429a16562a77c4093a4e8d0b4",
         "source": "src/prompt-intent-authority-v2.json",
-        "source_sha256": "52bdcdd85faf0e211f3672bf1b86a41344bd567f3b0f715484eb165ac154e20a",
+        "source_sha256": "4c2eae3eaa1e5395411bd543d67cad279b907b7c6c68d23de078b63df1bba5cd",
         "state": "RENDERED_DRAFT",
         "status": "frozen_phase_3"
       },
+      "modes": [
+        "template",
+        "demo"
+      ],
       "publication_authorized": false,
       "rendered_cells": 162,
-      "schema_version": "prompt-intent-contract-v1",
+      "rendered_prompts": 1296,
+      "routes": {
+        "library": [
+          "01",
+          "05",
+          "03",
+          "04",
+          "07",
+          "02",
+          "06",
+          "08",
+          "10",
+          "09"
+        ],
+        "workbook": [
+          "B1",
+          "B2",
+          "B3",
+          "W01",
+          "W02",
+          "W03",
+          "W04",
+          "W05",
+          "W06",
+          "W07",
+          "W08",
+          "W09",
+          "W10"
+        ]
+      },
+      "runtime_sha256": "da20fc831a7c752df397d2b3d7c7ff6a7de9429e8b8f2c410284582ef95beb89",
+      "schema_version": "prompt-intent-contract-v2",
       "self_sha256": {
-        "01": "8cc447ca3db0605b3c1ed7441047947d2b136990b53d8cf7c9d66a6854e8561f",
-        "02": "f73408124e6f644b5df67aa1a133d25ea47878e54f7616b30e1b641068306363",
-        "03": "8b9fe1f79ae0f8ab50865d839492d545661f16abdbc93769f82f0d80eb9c07b5",
-        "04": "dbd234e9eec76318f6176acc03aaa2002cc73163992d7b0b84e59f76535ebb84",
-        "05": "c231f0bbbfdd787f07886ff41029379ab06babcb6cd8989143f7e71f5a029f18",
-        "06": "288c3ad3a865662e42c5b82c53e3a3c3106f31dc829ebd2c819b9bfed5d461af",
-        "07": "b11bec539a07e1f679f7bb876cdac1050e7570312cd4af74ca7e4607cfc124ec",
-        "08": "3b8df4aa27f1d3d776ccbda0eb8f394d80e742eb8f5ec371b2c3e98e51ee85c0",
-        "09": "e47bb261ee7e62d3f6441dd07fd1d3a45c1ad523c5afb4e2e3c68511e582123d",
-        "10": "85d2f4ed5e47ef88c2e4bc186940cf8505f2f5d760e3cbfde48be3742ceec012",
-        "B1": "acaa5821397bd773544377d29fef4e14db2e25e4185629e45dda8bdc5a8e2939",
-        "B2": "890638b0c9059d38c7da1dd1217b4549e79b5ae42ef64bed5b6adf078187c65d",
-        "B3": "58da67697f6d26097ac68700466b799ce5042f3c37a605b63abce0851653bff0",
-        "M1": "479ae1e298f2dadceb91b6e627f23bfafa3f1eb06c1054ed0772c40aad102c33",
-        "M2": "ec909c7c87957964b94466029629af10e2a6f295358b4be06a4d55b8bfbf2121",
-        "M3": "8b1d95d34421d38db5fc2615200e529669daa34995580a371efe69c0ab934d00",
-        "M4": "597f85515fb1910d3c6ee9cbee4efb4206c1ee1d3b798600143fc3bb157b4c73",
-        "W01": "8f22a5673c3d13fb8f6a3b8dbfa6cb949d059db6e84d29cd8dd45fd85b4325b4",
-        "W02": "4f1ed9a3c3a883d9944dfb2e51bc1973a35448692f25a9e9a2d0ff8dde6bdeec",
-        "W03": "80ba930bb56414601dac27dee6422741058274496ce569f2025da7780a237bf1",
-        "W04": "6da69842adcf34a0fc672fcdc18d5d2fc077b9163be6703769bcc73cc69d806e",
-        "W05": "0d87be0438195edea50133f41f4b4321cc6006ab5511b5942e56a83f06b353e5",
-        "W06": "fea00c74d3e261dbcc94f8f77cbf88b1ad54b35710d3d47b84e023561a0c321e",
-        "W07": "ffa24bc022572c83d673df328bb91fa7efe08e0c6c09208f06ae5738753c1e81",
-        "W08": "063eb9a4c107b003c243fc4c86333c1bcf3a0b52e2a9f5944f388440b1f7a350",
-        "W09": "5484a7d663d4176790faaf2fe51e888b32ca36a02a99ef75a8852f3fc0b9dd76",
-        "W10": "67baff3c539bd2794652e4cfa49ee4b10364a228de381d9ebae291059db7b6bd"
+        "01": "9b176eb85561b23e7c90e2f405b8130fe5e4a0631d6c048a3a05c2fa5b5b427c",
+        "02": "371b5b8a700c9dfa75e1dcaf1774136df0579d3aeb03eff21ab2b54731bad74b",
+        "03": "373602755437353946223c83480f0f1e5f1b0170bcc2d7e65cafe74a162169fe",
+        "04": "9eccb14ed4a19b94c15c7fa892408915aa51b9f8ff13b887d2ce96280c1eac0a",
+        "05": "ea629704313b0aee25376f82f8979a47267417ef087329a21987c5284a10d685",
+        "06": "0acc6a54f8589785aa72ce840faf8e26460b5417fe80e44d02121a98e8af03c2",
+        "07": "9bb117c049802c52ea315f7f0971f4feca675ad0bad3eabe8e14ba4200ad0dd4",
+        "08": "b843c632d9b8ce7b670e8f3e71e2dabd9bcc82087581bc9b5ca4bbde8918f3f4",
+        "09": "d845a1b59469146ee8cdc1641c4af36a6653c12c1778ca56c8b16a5f769a1f2e",
+        "10": "93a2171ef84e4110c5fa52962c87cca2073e3ee9330702cf4c354dcd56abd724",
+        "B1": "9c459f4464275948b1b405663afcc842e25ca6fb3e23ad70f4d6d9591378a408",
+        "B2": "3af9464420304df907bca1fdffaae72146aa84c8014bfe5af1e1f43a6e630160",
+        "B3": "6e950c77454aa29d1c7f4c848ea094ee79aade31ccb124402f45f2c2a9de4380",
+        "M1": "9186290e48deea29cf79d4eb4ae3898c6e16b8e2997c7df14cd298de4ff2ad60",
+        "M2": "2f13eb2bf7ba4bd613742a856e7d59f2267cc4ab8a9b8d9555aa4dc9a710ddb9",
+        "M3": "63b66163786d9cbdc0b5603c212a6364b0ad1cb07abf22f346ee2b1c9622169e",
+        "M4": "039d0532820c2c94214b24a83ec5f2a536e26cab1595b9258344055e11b69873",
+        "W01": "f15a6ca17270b84209a6edaa1344561678ce3f139492b004d40454a44758ff0f",
+        "W02": "0d14e7b428df7f940774339f99bf3494ec450ab1075020d691fc9f7b24d3c34a",
+        "W03": "e47a657849babf8b51d7f9e542f5d283fa0f8cb37a62d82e71a715e17fcd49dc",
+        "W04": "6ba40d4fe556ac46db48b3e6952db79a68aa464dd0bd7baf295c8a730c74dbda",
+        "W05": "8e5624013f888954f81cf30e4e1e25c169a724463a71ecb33026ed0796313414",
+        "W06": "4f0a499c57155b31ea72235e9cad0c9d82c7131d14bfa11aea046765656e06a4",
+        "W07": "1c284a2ffc734934199771d3d7469ba28f4b833a2fb7ab60104facd98850b879",
+        "W08": "cfacbae9e659586768256d004a7517a834e714921ea0a3109c3207f6d7e15137",
+        "W09": "c6fc00145e876115a6746bd72db23153cbfb3cab64a4af33ef53add976725f18",
+        "W10": "679dba0e612777f2d8c7edf9f033fb340e55a5953b61cbb10d8f5c7ed7c22b12"
       },
       "source": "src/prompt-contracts",
       "state": "RENDERED_DRAFT",
@@ -241,6 +628,11 @@
           "B3"
         ]
       },
+      "syntax": {
+        "input": "<LABEL · help · example>",
+        "optional": "[editable or removable text]",
+        "parameters": "named block with editable defaults"
+      },
       "why_panel": true
     },
     "prompt_count": 14,
@@ -252,11 +644,12 @@
     "rendered_variants": 6,
     "schema_version": "prompt-library-spec-v1",
     "source": "src/prompt-library-spec-v1.json",
-    "source_sha256": "644f7a2dcb94ccf560bf277437735e4b242f4528ff9db3a66013ed96b0672f7b",
+    "source_sha256": "500fff4b954f155213bfd36bcb5fff71cd797ad02fd201b638ef3ba4b5a7e33d",
     "state": "RENDERED_DRAFT"
   },
+  "publication_authorized": false,
   "schema_version": "build-receipt-v1",
   "self_hash_model": "sha256(sorted-json-without-self)",
-  "self_sha256": "757a25b4c84026cd93e3c91cd54beb9a627f3282dfb8b59d17baa563dbd658ae",
+  "self_sha256": "667a2517bae4add365c1e4f9eba1a4e99fc741d3597588520b0d71ffd1fb7af1",
   "state": "RENDERED_DRAFT"
 }

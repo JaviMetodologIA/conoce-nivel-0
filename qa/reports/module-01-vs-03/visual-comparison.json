@@ -1,0 +1,312 @@
+{
+  "schema_version": "module-visual-comparison-v1",
+  "reference_module": "ia-panorama",
+  "candidate_module": "module-03-trabajar-amplificado",
+  "candidate_module_order": 3,
+  "widths": [
+    390,
+    1440
+  ],
+  "theme": "light",
+  "pairs": [
+    {
+      "width": 390,
+      "theme": "light",
+      "resource": "masterclass",
+      "reference": {
+        "route": "deck/index.html",
+        "images": [
+          {
+            "state": "hero",
+            "file": "reference-m01-masterclass-390-hero.png",
+            "sha256": "f6558c7603d154bbbfb7abf2313f4200375a1b0296826745c50fc07d205c874c"
+          },
+          {
+            "state": "state",
+            "file": "reference-m01-masterclass-390-state.png",
+            "sha256": "69c96ba8b1c039c1bda3290779de95b8a0685dd1542fb57056b3b499b3a42fbe"
+          }
+        ]
+      },
+      "candidate": {
+        "route": "modulos/03-trabajo-amplificado/masterclass/index.html",
+        "images": [
+          {
+            "state": "hero",
+            "file": "candidate-m03-masterclass-390-hero.png",
+            "sha256": "c34a096dc570ef67393f7442cc09bc2192e21c20d05188a2c7ea9c92b4d0c9c7"
+          },
+          {
+            "state": "state",
+            "file": "candidate-m03-masterclass-390-state.png",
+            "sha256": "24a060f66a52eafe0ee237b9be47e25f4e4084acc2af2af51568597869ad8fc1"
+          }
+        ]
+      }
+    },
+    {
+      "width": 390,
+      "theme": "light",
+      "resource": "workbook",
+      "reference": {
+        "route": "workbook/index.html",
+        "images": [
+          {
+            "state": "hero",
+            "file": "reference-m01-workbook-390-hero.png",
+            "sha256": "f7a84a100e20c0f7177a1463e61ec6b280dbdb9fda415cbc5d339cfbc4d7cc11"
+          },
+          {
+            "state": "state",
+            "file": "reference-m01-workbook-390-state.png",
+            "sha256": "0c971ec085d6cce690b207bd0f50aabdbbadc0eaf7d920634823e3e07b5ef2b9"
+          }
+        ]
+      },
+      "candidate": {
+        "route": "modulos/03-trabajo-amplificado/workbook/index.html",
+        "images": [
+          {
+            "state": "hero",
+            "file": "candidate-m03-workbook-390-hero.png",
+            "sha256": "cd0c6a5a9ba792da4de77d29c13afb37b7cd5603b44ccd9d74f76219c5a76f8a"
+          },
+          {
+            "state": "state",
+            "file": "candidate-m03-workbook-390-state.png",
+            "sha256": "4c815533827a44ae01a583c54d86607891836e6a48f8506646b61ac0476783ee"
+          }
+        ]
+      }
+    },
+    {
+      "width": 390,
+      "theme": "light",
+      "resource": "playbook",
+      "reference": {
+        "route": "playbook/index.html",
+        "images": [
+          {
+            "state": "hero",
+            "file": "reference-m01-playbook-390-hero.png",
+            "sha256": "1243e77ed2d306d2fc4124bc721de73a93c9cd80cf145b5702d72b0a372f79b6"
+          },
+          {
+            "state": "state",
+            "file": "reference-m01-playbook-390-state.png",
+            "sha256": "ca494ef504c8f3e5b1b6d057e19695d219940c18b4d701b02afe034cd092feeb"
+          }
+        ]
+      },
+      "candidate": {
+        "route": "modulos/03-trabajo-amplificado/playbook/index.html",
+        "images": [
+          {
+            "state": "hero",
+            "file": "candidate-m03-playbook-390-hero.png",
+            "sha256": "288aa1e8555414fc6743f87579d6203fd4c8dfc07fb2eb4076cbaaf6dcea0920"
+          },
+          {
+            "state": "state",
+            "file": "candidate-m03-playbook-390-state.png",
+            "sha256": "cba5118819b58e0a106b856564b431aef07fe0d063c00824ae99886698fcf989"
+          }
+        ]
+      }
+    },
+    {
+      "width": 390,
+      "theme": "light",
+      "resource": "prompts",
+      "reference": {
+        "route": "prompts/index.html",
+        "images": [
+          {
+            "state": "hero",
+            "file": "reference-m01-prompts-390-hero.png",
+            "sha256": "145692d54f25a5efa9cb17cb3ef7d3239dba6e1106114be03805646520d0587e"
+          },
+          {
+            "state": "state",
+            "file": "reference-m01-prompts-390-state.png",
+            "sha256": "5bf66274a694fa599ac2c0367159830ad563c74667df611d2d55dbabc5893344"
+          }
+        ]
+      },
+      "candidate": {
+        "route": "modulos/03-trabajo-amplificado/prompts/index.html",
+        "images": [
+          {
+            "state": "hero",
+            "file": "candidate-m03-prompts-390-hero.png",
+            "sha256": "c269acfaea0e6f64ccad4a81bb62f3722b5046fdb111a6eb28d0094f30407661"
+          },
+          {
+            "state": "state",
+            "file": "candidate-m03-prompts-390-state.png",
+            "sha256": "ef2e20ad314a81277f8abbb0eb7f99fdcf6baeeb44fb387857d32b6eff5db4f7"
+          }
+        ]
+      }
+    },
+    {
+      "width": 1440,
+      "theme": "light",
+      "resource": "masterclass",
+      "reference": {
+        "route": "deck/index.html",
+        "images": [
+          {
+            "state": "hero",
+            "file": "reference-m01-masterclass-1440-hero.png",
+            "sha256": "9aa6e99134ba72e09fc0c0d834bfea2b034bd6f16e9ecd5ccb4a503a59b7311d"
+          },
+          {
+            "state": "state",
+            "file": "reference-m01-masterclass-1440-state.png",
+            "sha256": "3ed2f908c0bbf25c8ced32cca99848ba0006ea4dc2f1a295a5ad439b4e883052"
+          }
+        ]
+      },
+      "candidate": {
+        "route": "modulos/03-trabajo-amplificado/masterclass/index.html",
+        "images": [
+          {
+            "state": "hero",
+            "file": "candidate-m03-masterclass-1440-hero.png",
+            "sha256": "69e0981f80531168ba5b80b4636c5ac70fdf10629569fd133c70ec9445bb17ad"
+          },
+          {
+            "state": "state",
+            "file": "candidate-m03-masterclass-1440-state.png",
+            "sha256": "6f76a89a65e1f00e6a19232689b46b491989e9bcb815cba71fd7aaf114bff18c"
+          }
+        ]
+      }
+    },
+    {
+      "width": 1440,
+      "theme": "light",
+      "resource": "workbook",
+      "reference": {
+        "route": "workbook/index.html",
+        "images": [
+          {
+            "state": "hero",
+            "file": "reference-m01-workbook-1440-hero.png",
+            "sha256": "b0f1c09a0036d8bc28727370f8004b191285c60bf66f90d2a89962d5eacaaf58"
+          },
+          {
+            "state": "state",
+            "file": "reference-m01-workbook-1440-state.png",
+            "sha256": "d798f7b72a78bbe11c92bbbd626465207117be93253acc8e3601ad2b6d14f4d2"
+          }
+        ]
+      },
+      "candidate": {
+        "route": "modulos/03-trabajo-amplificado/workbook/index.html",
+        "images": [
+          {
+            "state": "hero",
+            "file": "candidate-m03-workbook-1440-hero.png",
+            "sha256": "2dd8063aa7cb44e06701e7fbc12fc6757b75cc479e1c9c603943766a3025da4b"
+          },
+          {
+            "state": "state",
+            "file": "candidate-m03-workbook-1440-state.png",
+            "sha256": "c1f78869d229ee16affe04bb720de90562efe6f5dea090b8d156a68fcfcf1759"
+          }
+        ]
+      }
+    },
+    {
+      "width": 1440,
+      "theme": "light",
+      "resource": "playbook",
+      "reference": {
+        "route": "playbook/index.html",
+        "images": [
+          {
+            "state": "hero",
+            "file": "reference-m01-playbook-1440-hero.png",
+            "sha256": "45ac95b6ba4e2bf7665b50bfd36790747dcc8eeaf889822ef7b2169de52c99f4"
+          },
+          {
+            "state": "state",
+            "file": "reference-m01-playbook-1440-state.png",
+            "sha256": "af01868954cefcdb23368807688b70d7634124736eaff302774b84f5bb1c5270"
+          }
+        ]
+      },
+      "candidate": {
+        "route": "modulos/03-trabajo-amplificado/playbook/index.html",
+        "images": [
+          {
+            "state": "hero",
+            "file": "candidate-m03-playbook-1440-hero.png",
+            "sha256": "2c34be914a69867ce6a642c526a7acfd1fff3c624d0725ba2e02bf770c0bf1cb"
+          },
+          {
+            "state": "state",
+            "file": "candidate-m03-playbook-1440-state.png",
+            "sha256": "cf9b05499720c6885c237f31081f8889e40b9fdeae5852fd5cd4368b9634f90c"
+          }
+        ]
+      }
+    },
+    {
+      "width": 1440,
+      "theme": "light",
+      "resource": "prompts",
+      "reference": {
+        "route": "prompts/index.html",
+        "images": [
+          {
+            "state": "hero",
+            "file": "reference-m01-prompts-1440-hero.png",
+            "sha256": "d2a0fbd11340d23dcaef824cc4b3f25a7a495334878ab740a6ac9dd9141e8ddc"
+          },
+          {
+            "state": "state",
+            "file": "reference-m01-prompts-1440-state.png",
+            "sha256": "6e6e09318890dee23f4868f3bb9d89916a382e10de1ae73d0b3722c573fe99cc"
+          }
+        ]
+      },
+      "candidate": {
+        "route": "modulos/03-trabajo-amplificado/prompts/index.html",
+        "images": [
+          {
+            "state": "hero",
+            "file": "candidate-m03-prompts-1440-hero.png",
+            "sha256": "d49c39cede5ef7efc60236084366f8332478ca378b6619a7e413c12dcefef2f1"
+          },
+          {
+            "state": "state",
+            "file": "candidate-m03-prompts-1440-state.png",
+            "sha256": "6501d37a1195dc8ca24158a0344abeec60f6f7e85f7ca252daa7cadea8bbfb50"
+          }
+        ]
+      }
+    }
+  ],
+  "summary": {
+    "pair_count": 8,
+    "image_count": 32,
+    "evidence_readback": "sha256-bound",
+    "visual_policy": "same-functional-and-brand-grammar-not-pixel-identity",
+    "verdict": "PASS"
+  },
+  "inputs": {
+    "build_manifest_sha256": "d264b4416eb6e8093f17320055ef67509d9e7b56c1532e46bfcf546b453cf4b6",
+    "build_receipt_sha256": "2a4f2de8e7a632ca699b5177548de489d18dce98f2f540507f88ce69412323e6",
+    "definition_of_done_ref": "src/module-resource-definition-of-done-v1.json",
+    "definition_of_done_sha256": "d43f43935de080e876ee40cac3ced71c2431c78f6ed398f2b50f6af7053f414c",
+    "css_sha256": "18ff9c52f9eb5af42b037bdd9a3b5240c5cab65eff246636a8e1a20369999046",
+    "runtime_sha256": "da20fc831a7c752df397d2b3d7c7ff6a7de9429e8b8f2c410284582ef95beb89"
+  },
+  "state": "RENDERED_DRAFT",
+  "publication_authorized": false,
+  "self_hash_model": "sha256(sorted-json-without-self_sha256)",
+  "self_sha256": "547a4d1dabe414af24c21b5e50846402c65369680b4c635c9a1e60f3ff15382b"
+}

@@ -1,5 +1,5 @@
 {
-  "schema_version": "prompt-intent-contract-v1",
+  "schema_version": "prompt-intent-contract-v2",
   "intent_id": "W03",
   "surface": "workbook",
   "phase": "Aprender",
@@ -11,25 +11,48 @@
       "W02",
       "W04"
     ],
-    "decision_rule": "Usa W03 cuando el diagnóstico de W02 ya nombró vacíos y el taller necesita el encargo escrito para pegarlo en Deep Research; si lo que necesitas es que la investigación se ejecute y te devuelva hallazgos citados en el mismo movimiento, usa la variante autónoma 03. W03 no investiga ni entrega hallazgos y no decide suficiencia: la respuesta al encargo vuelve al taller y se pesa en W04."
+    "decision_rule": "Usa W03 cuando el diagnóstico de W02 ya nombró vacíos y el taller necesita el plan de investigación escrito para pegarlo en Deep Research; si lo que necesitas es que la investigación se ejecute y te devuelva hallazgos citados en el mismo movimiento, usa la variante autónoma 03. W03 no investiga ni entrega hallazgos y no decide suficiencia: la informe de investigación vuelve al taller y se pesa en W04."
   },
   "locales": {
     "es": {
       "persona": {
-        "title": "Encargo de investigación a medida",
-        "purpose": "Convierte el vacío más bloqueante del diagnóstico en un encargo listo para pegar, con criterios que puedes comprobar uno a uno.",
+        "title": "Plan de investigación a medida",
+        "purpose": "Convierte el vacío más bloqueante del diagnóstico en un plan de investigación listo para pegar, con criterios que puedes comprobar uno a uno.",
         "when": "ya tienes el diagnóstico del paso 2 y quieres cerrar el vacío que más bloquea.",
         "example": "El vacío sobre adopción real en pymes, que bloquea mi decisión de formación.",
         "evidence": "prompt listo para Deep Research con objetivo, dentro y fuera, tensiones, evidencia mínima por afirmación y criterios de aceptación comprobables uno a uno, más la justificación del vacío elegido por impacto.",
-        "prompt": "Paso 3: usa mi diagnóstico anterior, no partas de cero. Elige el vacío de mayor impacto para [RESULTADO] —el que bloquea más afirmables— y justifícalo. Conviértelo en prompt listo para pegar en Deep Research. Incluye objetivo, preguntas dentro y fuera, tensiones, fuentes prioritarias, contexto temporal o regional de [MI CASO], evidencia mínima por afirmación, formato citado y criterios de aceptación comprobables uno a uno. No investigues ni entregues hallazgos: aquí solo se redacta el encargo; su respuesta volverá como fuente. Sin diagnóstico previo, pide la auditoría; ante empate o falta de contexto material, haz máximo 3 preguntas. No inventes vacíos, hallazgos ni fuentes.",
+        "prompt": "Paso 3: usa mi diagnóstico anterior, no partas de cero. Elige el vacío crítico para mi <RESULTADO> —el que bloquea más afirmables— y justifícalo. Conviértelo en prompt listo para pegar en Deep Research. Incluye objetivo, preguntas dentro y fuera, tensiones, fuentes prioritarias, contexto temporal o regional de <CASO>, evidencia mínima por afirmación, formato citado y criterios de aceptación comprobables uno a uno. No investigues ni entregues hallazgos: aquí solo se redacta el plan de investigación; su respuesta volverá como fuente. Sin diagnóstico previo, pide la auditoría; ante empate o falta de contexto material, haz máximo 3 preguntas. No inventes vacíos, hallazgos ni fuentes.",
         "level_spec": {
-          "role": "Redactor del paso 3: convierte un vacío en encargo pegable",
+          "role": "Redactor del paso 3: convierte un vacío en plan de investigación pegable",
           "spec_role": "Facilitador de taller guiado sobre NotebookLM",
-          "objective": "Convertir el vacío más bloqueante del diagnóstico en un encargo de investigación comprobable, sin ejecutarlo",
-          "parameters": [
+          "objective": "Convertir el vacío más bloqueante del diagnóstico en un plan de investigación comprobable, sin ejecutarlo",
+          "workflow": [
+            "Leer el diagnóstico del paso anterior y listar los vacíos abiertos",
+            "Elegir el vacío que bloquea más afirmables y justificar la elección",
+            "Redactar objetivo, preguntas dentro y fuera y tensiones del plan de investigación",
+            "Fijar fuentes prioritarias, contexto temporal o regional y evidencia mínima por afirmación",
+            "Cerrar con formato citado y criterios de aceptación comprobables uno a uno"
+          ],
+          "guardrails": [
+            "No inventar vacíos, hallazgos ni fuentes: sin diagnóstico previo se pide la auditoría",
+            "No ejecutar la investigación ni entregar hallazgos: este paso redacta el plan de investigación",
+            "Un solo vacío por iteración: no acumular planes de investigación"
+          ],
+          "output": [
+            "Prompt listo para pegar en Deep Research",
+            "Justificación del vacío elegido contra el resultado declarado",
+            "Criterios de aceptación comprobables uno a uno"
+          ],
+          "dod": "Plan de investigación listo para usar: objetivo, dentro y fuera, evidencia mínima y criterios de aceptación presentes, y el vacío elegido justificado por impacto.",
+          "edge_cases": [
+            "Sin diagnóstico previo: pedir la auditoría, no inventar vacíos",
+            "Dos vacíos empatados en impacto: preguntar, no decidir por el usuario",
+            "Contexto material ausente: máximo 3 preguntas antes de redactar"
+          ],
+          "constraints": [
             [
               "posicion_en_la_secuencia",
-              "paso 3: recibe el diagnóstico del paso 2 y devuelve un encargo cuya respuesta entra como fuente nueva"
+              "paso 3: recibe el diagnóstico del paso 2 y devuelve un plan de investigación cuya respuesta entra como fuente nueva"
             ],
             [
               "criterio_de_impacto",
@@ -44,33 +67,15 @@
               "un solo vacío por iteración"
             ]
           ],
-          "workflow": [
-            "Leer el diagnóstico del paso anterior y listar los vacíos abiertos",
-            "Elegir el vacío que bloquea más afirmables y justificar la elección",
-            "Redactar objetivo, preguntas dentro y fuera y tensiones del encargo",
-            "Fijar fuentes prioritarias, contexto temporal o regional y evidencia mínima por afirmación",
-            "Cerrar con formato citado y criterios de aceptación comprobables uno a uno"
-          ],
-          "guardrails": [
-            "No inventar vacíos, hallazgos ni fuentes: sin diagnóstico previo se pide la auditoría",
-            "No ejecutar la investigación ni entregar hallazgos: este paso redacta el encargo",
-            "Un solo vacío por iteración: no acumular encargos"
-          ],
-          "output": [
-            "Prompt listo para pegar en Deep Research",
-            "Justificación del vacío elegido contra el resultado declarado",
-            "Criterios de aceptación comprobables uno a uno"
-          ],
-          "dod": "Encargo pegable: objetivo, dentro y fuera, evidencia mínima y criterios de aceptación presentes, y el vacío elegido justificado por impacto.",
-          "edge_cases": [
-            "Sin diagnóstico previo: pedir la auditoría, no inventar vacíos",
-            "Dos vacíos empatados en impacto: preguntar, no decidir por el usuario",
-            "Contexto material ausente: máximo 3 preguntas antes de redactar"
+          "frameworks": [
+            "Plan de investigación · pregunta, alcance y criterios",
+            "Criterios de aceptación · prueba observable",
+            "Jerarquía de fuentes · fuentes primarias primero"
           ]
         },
         "why_it_works": {
           "acceptance_criteria": [
-            "El encargo contiene objetivo, dentro y fuera, evidencia mínima y criterios de aceptación: se revisa como checklist, no por impresión",
+            "El plan de investigación contiene objetivo, dentro y fuera, evidencia mínima y criterios de aceptación: se revisa como checklist, no por impresión",
             "Cada criterio de aceptación se puede comprobar uno a uno sobre la respuesta recibida",
             "La elección del vacío queda justificada contra el resultado declarado: gana el que bloquea más entradas afirmables"
           ],
@@ -80,48 +85,132 @@
           ],
           "tradeoffs": [
             "Un solo vacío por iteración a cambio de control de alcance en el ciclo",
-            "Redactar el encargo en lugar de responderlo agrega un paso manual a cambio de que la respuesta entre al Notebook como fuente citable"
+            "Redactar el plan de investigación en lugar de responderlo agrega un paso manual a cambio de que la respuesta entre al Notebook como fuente citable"
           ],
           "assumptions": [
             "Existe un diagnóstico del paso anterior con vacíos priorizados",
-            "La anatomía del encargo —dentro y fuera, tensiones, evidencia mínima, aceptación— se hereda de la investigación autónoma 03; allí la investigación se ejecuta, aquí solo se encarga",
+            "La anatomía del plan de investigación —dentro y fuera, tensiones, evidencia mínima, aceptación— se hereda de la investigación autónoma 03; allí la investigación se ejecuta, aquí solo se encarga",
             "Deep Research está disponible para la cuenta: la disponibilidad varía por plan y edad, y el prompt no la promete"
           ],
           "limits": [
-            "Genera el encargo, no ejecuta la investigación ni garantiza que la respuesta cierre el vacío",
+            "Genera el plan de investigación, no ejecuta la investigación ni garantiza que la respuesta cierre el vacío",
             "No re-audita la base ni decide suficiencia: eso corresponde a W02 y W04"
           ]
         },
         "traceability": [
           {
-            "claim": "Deep Research está sujeto a edad mínima y su disponibilidad varía por plan o superficie; por eso el encargo se entrega como texto pegable y no se promete su ejecución.",
+            "claim": "Deep Research está sujeto a edad mínima y su disponibilidad varía por plan o superficie; por eso el plan de investigación se entrega como texto pegable y no se promete su ejecución.",
             "source": "https://support.google.com/notebooklm/answer/16164461?hl=es"
           },
           {
-            "claim": "La anatomía del encargo —dentro y fuera, tensiones, evidencia mínima y criterios de aceptación— procede de la biblioteca publicada del método.",
+            "claim": "La anatomía del plan de investigación —dentro y fuera, tensiones, evidencia mínima y criterios de aceptación— procede de la biblioteca publicada del método.",
             "source": "https://javimontano.github.io/prompt-amplificado/biblioteca-prompts.html"
           },
           {
             "claim": "Elegir un solo vacío por iteración y justificarlo por cuántas entradas afirmables bloquea son normas internas del taller.",
             "source": "method_internal"
           }
-        ]
+        ],
+        "inputs": [
+          {
+            "key": "outcome",
+            "label": "RESULTADO",
+            "help": "cambio observable esperado",
+            "example": "una práctica repetible",
+            "required": true,
+            "type": "text",
+            "source": "user",
+            "demo_value": "una práctica repetible, citada y explicable"
+          },
+          {
+            "key": "case",
+            "label": "CASO",
+            "help": "situación real a trabajar",
+            "example": "piloto de 7 días",
+            "required": true,
+            "type": "text",
+            "source": "user",
+            "demo_value": "piloto de 7 días"
+          }
+        ],
+        "parameters": [
+          {
+            "key": "length",
+            "label": "LONGITUD",
+            "default": "concisa",
+            "choices": [
+              "concisa",
+              "media"
+            ]
+          },
+          {
+            "key": "structure",
+            "label": "ESTRUCTURA",
+            "default": "2 párrafos + bullets clave",
+            "choices": [
+              "2 párrafos + bullets clave",
+              "tabla breve"
+            ]
+          },
+          {
+            "key": "tone",
+            "label": "TONO",
+            "default": "claro y personal",
+            "choices": [
+              "claro y personal",
+              "didáctico"
+            ]
+          },
+          {
+            "key": "depth",
+            "label": "PROFUNDIDAD",
+            "default": "práctica",
+            "choices": [
+              "práctica",
+              "profunda"
+            ]
+          }
+        ],
+        "optional_clauses": []
       },
       "empresa": {
-        "title": "Encargo de investigación del equipo",
-        "purpose": "Convierte el vacío del diagnóstico que más riesgo deja abierto en el proceso en un encargo ejecutable por otra persona del equipo, sin contexto adicional.",
+        "title": "Plan de investigación del equipo",
+        "purpose": "Convierte el vacío del diagnóstico que más riesgo deja abierto en el proceso en un plan de investigación ejecutable por otra persona del equipo, sin contexto adicional.",
         "when": "el diagnóstico del equipo ya nombró vacíos y el proceso necesita cerrar uno.",
         "example": "El vacío sobre adopción en pymes, que bloquea el caso de negocio del área.",
         "evidence": "prompt listo para Deep Research con objetivo, dentro y fuera, tensiones, evidencia mínima por afirmación y criterios de aceptación comprobables uno a uno, ejecutable por otra persona del equipo y con el riesgo operativo del vacío nombrado.",
-        "prompt": "Paso 3: parte del diagnóstico del equipo, no de cero. Elige el vacío de mayor impacto para [RESULTADO] en el proceso [PROCESO] y nombra el riesgo operativo de dejarlo abierto. Conviértelo en prompt para pegar en Deep Research. Incluye objetivo, preguntas dentro y fuera, tensiones, fuentes prioritarias, contexto temporal o regional, evidencia mínima por afirmación, formato citado y criterios de aceptación comprobables uno a uno; ejecutable por otra persona del equipo sin contexto extra. No investigues ni entregues hallazgos: solo se redacta el encargo. Sin diagnóstico, pide la auditoría; ante empate o falta de contexto, pregunta al responsable (máx 3). No inventes vacíos ni fuentes.",
+        "prompt": "Paso 3: parte del diagnóstico del equipo, no de cero. Elige el vacío crítico para <RESULTADO> en el proceso <PROCESO> y nombra el riesgo operativo de dejarlo abierto. Conviértelo en prompt para pegar en Deep Research. Incluye objetivo, preguntas dentro y fuera, tensiones, fuentes prioritarias, contexto temporal o regional, evidencia mínima por afirmación, formato citado y criterios de aceptación comprobables uno a uno; ejecutable por otra persona del equipo sin contexto extra. No investigues ni entregues hallazgos: solo se redacta el plan de investigación. Sin diagnóstico, pide la auditoría; ante empate o falta de contexto, pregunta al responsable (máx 3). No inventes vacíos ni fuentes.",
         "level_spec": {
-          "role": "Redactor del paso 3 para equipos: convierte un vacío en encargo transferible",
+          "role": "Redactor del paso 3 para equipos: convierte un vacío en plan de investigación transferible",
           "spec_role": "Facilitador de taller guiado sobre NotebookLM",
-          "objective": "Convertir el vacío de mayor riesgo del diagnóstico en un encargo ejecutable por otra persona del equipo",
-          "parameters": [
+          "objective": "Convertir el vacío de mayor riesgo del diagnóstico en un plan de investigación ejecutable por otra persona del equipo",
+          "workflow": [
+            "Leer el diagnóstico del equipo y listar los vacíos abiertos",
+            "Elegir el vacío de mayor riesgo operativo para el proceso y nombrarlo",
+            "Redactar objetivo, preguntas dentro y fuera y tensiones del plan de investigación",
+            "Fijar fuentes prioritarias, contexto temporal o regional y evidencia mínima por afirmación",
+            "Cerrar con formato citado, criterios comprobables y prueba de que otra persona podría ejecutarlo"
+          ],
+          "guardrails": [
+            "No inventar vacíos ni fuentes: sin diagnóstico previo se pide la auditoría",
+            "No ejecutar la investigación ni entregar hallazgos",
+            "No sustituir al responsable: el plan de investigación se consulta, no se aprueba solo"
+          ],
+          "output": [
+            "Prompt listo para pegar en Deep Research, ejecutable por otra persona del equipo",
+            "Riesgo operativo del vacío elegido, nombrado",
+            "Criterios de aceptación comprobables uno a uno"
+          ],
+          "dod": "Plan de investigación transferible: objetivo, dentro y fuera, evidencia mínima y criterios presentes, riesgo operativo nombrado y ejecución posible sin contexto adicional.",
+          "edge_cases": [
+            "Sin diagnóstico previo: pedir la auditoría, no inventar vacíos",
+            "Empate de riesgo entre vacíos: preguntar al responsable, no decidir por el proceso",
+            "Contexto ausente: máximo 3 preguntas al responsable antes de redactar"
+          ],
+          "constraints": [
             [
               "posicion_en_la_secuencia",
-              "paso 3: recibe el diagnóstico del paso 2 y devuelve un encargo cuya respuesta entra como fuente compartida"
+              "paso 3: recibe el diagnóstico del paso 2 y devuelve un plan de investigación cuya respuesta entra como fuente compartida"
             ],
             [
               "criterio_de_impacto",
@@ -136,34 +225,16 @@
               "cada criterio se redacta de modo que se pueda comprobar uno a uno"
             ]
           ],
-          "workflow": [
-            "Leer el diagnóstico del equipo y listar los vacíos abiertos",
-            "Elegir el vacío de mayor riesgo operativo para el proceso y nombrarlo",
-            "Redactar objetivo, preguntas dentro y fuera y tensiones del encargo",
-            "Fijar fuentes prioritarias, contexto temporal o regional y evidencia mínima por afirmación",
-            "Cerrar con formato citado, criterios comprobables y prueba de que otra persona podría ejecutarlo"
-          ],
-          "guardrails": [
-            "No inventar vacíos ni fuentes: sin diagnóstico previo se pide la auditoría",
-            "No ejecutar la investigación ni entregar hallazgos",
-            "No sustituir al responsable: el encargo se consulta, no se aprueba solo"
-          ],
-          "output": [
-            "Prompt listo para pegar en Deep Research, ejecutable por otra persona del equipo",
-            "Riesgo operativo del vacío elegido, nombrado",
-            "Criterios de aceptación comprobables uno a uno"
-          ],
-          "dod": "Encargo transferible: objetivo, dentro y fuera, evidencia mínima y criterios presentes, riesgo operativo nombrado y ejecución posible sin contexto adicional.",
-          "edge_cases": [
-            "Sin diagnóstico previo: pedir la auditoría, no inventar vacíos",
-            "Empate de riesgo entre vacíos: preguntar al responsable, no decidir por el proceso",
-            "Contexto ausente: máximo 3 preguntas al responsable antes de redactar"
+          "frameworks": [
+            "Plan de investigación · pregunta, alcance y criterios",
+            "Criterios de aceptación · prueba observable",
+            "Jerarquía de fuentes · fuentes primarias primero"
           ]
         },
         "why_it_works": {
           "acceptance_criteria": [
-            "El encargo contiene objetivo, dentro y fuera, evidencia mínima y criterios de aceptación: se revisa como checklist",
-            "Otra persona del equipo puede ejecutarlo leyendo solo el encargo, sin pedir contexto al autor",
+            "El plan de investigación contiene objetivo, dentro y fuera, evidencia mínima y criterios de aceptación: se revisa como checklist",
+            "Otra persona del equipo puede ejecutarlo leyendo solo el plan de investigación, sin pedir contexto al autor",
             "El vacío elegido lleva nombrado el riesgo operativo que deja abierto en el proceso"
           ],
           "edge_cases": [
@@ -171,51 +242,135 @@
             "Riesgos empatados entre vacíos: se pregunta al responsable en vez de decidir por el proceso"
           ],
           "tradeoffs": [
-            "Escribir un encargo autoexplicativo cuesta más texto a cambio de que no dependa de quien estuvo en el taller",
+            "Escribir un plan de investigación autoexplicativo cuesta más texto a cambio de que no dependa de quien estuvo en el taller",
             "Esta celda cambia el criterio de impacto: donde la celda persona elige el vacío que bloquea más afirmables, aquí elige el de mayor riesgo operativo en el proceso, y el contexto del caso propio se sustituye por el proceso; ninguna otra instrucción del paso 3 se pierde"
           ],
           "assumptions": [
             "Existe un diagnóstico del equipo con vacíos abiertos y un responsable a quien preguntar",
-            "La anatomía del encargo se hereda de la investigación autónoma 03; allí la investigación se ejecuta, aquí solo se encarga",
+            "La anatomía del plan de investigación se hereda de la investigación autónoma 03; allí la investigación se ejecuta, aquí solo se encarga",
             "Deep Research está disponible para las cuentas del equipo: la disponibilidad varía por plan y edad, y el prompt no la promete"
           ],
           "limits": [
-            "Genera el encargo, no ejecuta la investigación ni aprueba su resultado",
+            "Genera el plan de investigación, no ejecuta la investigación ni aprueba su resultado",
             "No re-audita la base compartida ni decide suficiencia: eso corresponde a W02 y W04"
           ]
         },
         "traceability": [
           {
-            "claim": "La edad mínima y la variación de disponibilidad de Deep Research por plan obligan a entregar el encargo como texto transferible en vez de prometer su ejecución al equipo.",
+            "claim": "La edad mínima y la variación de disponibilidad de Deep Research por plan obligan a entregar el plan de investigación como texto transferible en vez de prometer su ejecución al equipo.",
             "source": "https://support.google.com/notebooklm/answer/16164461?hl=es"
           },
           {
-            "claim": "El armazón del encargo de investigación que el equipo reutiliza viene de la biblioteca publicada del método.",
+            "claim": "El armazón del plan de investigación que el equipo reutiliza viene de la biblioteca publicada del método.",
             "source": "https://javimontano.github.io/prompt-amplificado/biblioteca-prompts.html"
           },
           {
-            "claim": "Exigir que el encargo sea ejecutable por otra persona del equipo sin contexto adicional y nombrar el riesgo operativo del vacío es política interna del método.",
+            "claim": "Exigir que el plan de investigación sea ejecutable por otra persona del equipo sin contexto adicional y nombrar el riesgo operativo del vacío es política interna del método.",
             "source": "method_internal"
           }
-        ]
+        ],
+        "inputs": [
+          {
+            "key": "outcome",
+            "label": "RESULTADO",
+            "help": "cambio observable esperado",
+            "example": "una práctica repetible",
+            "required": true,
+            "type": "text",
+            "source": "user",
+            "demo_value": "un flujo compartible con responsable, evidencia y control"
+          },
+          {
+            "key": "process",
+            "label": "PROCESO",
+            "help": "flujo que cambiará",
+            "example": "preparación de decisiones",
+            "required": true,
+            "type": "text",
+            "source": "user",
+            "demo_value": "preparación y revisión semanal de decisiones"
+          }
+        ],
+        "parameters": [
+          {
+            "key": "length",
+            "label": "LONGITUD",
+            "default": "concisa",
+            "choices": [
+              "concisa",
+              "media"
+            ]
+          },
+          {
+            "key": "structure",
+            "label": "ESTRUCTURA",
+            "default": "2 párrafos + bullets clave",
+            "choices": [
+              "2 párrafos + bullets clave",
+              "tabla breve"
+            ]
+          },
+          {
+            "key": "tone",
+            "label": "TONO",
+            "default": "ejecutivo y operativo",
+            "choices": [
+              "ejecutivo y operativo",
+              "facilitador"
+            ]
+          },
+          {
+            "key": "depth",
+            "label": "PROFUNDIDAD",
+            "default": "práctica",
+            "choices": [
+              "práctica",
+              "profunda"
+            ]
+          }
+        ],
+        "optional_clauses": []
       }
     },
     "en": {
       "persona": {
-        "title": "A research brief of your own",
-        "purpose": "Turns the most blocking gap of the diagnosis into a brief ready to paste, with criteria you can check one by one.",
+        "title": "A research plan of your own",
+        "purpose": "Turns the most blocking gap of the diagnosis into a research plan ready to paste, with criteria you can check one by one.",
         "when": "you hold the step 2 diagnosis and you want to close the gap that blocks most.",
         "example": "The gap on real adoption in small firms, blocking my training decision.",
         "evidence": "a prompt ready for Deep Research with objective, in and out of scope, tensions, minimum evidence per claim and acceptance criteria checkable one by one, plus the justification of the gap chosen by impact.",
-        "prompt": "Step 3: use my prior diagnosis, do not start fresh. Choose the highest-impact gap for [RESULT] — the one blocking most claimable lines — and justify it. Turn it into a prompt ready to paste into Deep Research. Include objective, in-scope and out-of-scope questions, tensions, preferred source types, time or region for [MY CASE], minimum evidence per claim, cited format and acceptance criteria checkable one by one. Do not run the research nor hand me findings: this step only writes the brief; its answer returns as a source. Without a prior diagnosis, ask for the audit; if gaps tie or material context is missing, ask at most three questions. Do not invent gaps, findings or sources.",
+        "prompt": "Step 3: use my prior diagnosis, do not start fresh. Choose the critical gap for my <OUTCOME> — the one blocking most claimable lines — and justify it. Turn it into a prompt ready to paste into Deep Research. Include objective, in-scope and out-of-scope questions, tensions, preferred source types, time or region for <CASE>, minimum evidence per claim, cited format and acceptance criteria checkable one by one. Do not run the research nor hand me findings: this step only writes the research plan; its answer returns as a source. Without a prior diagnosis, ask for the audit; if gaps tie or material context is missing, ask at most three questions. Do not invent gaps, findings or sources.",
         "level_spec": {
-          "role": "Step 3 writer: turns a gap into a pasteable brief",
+          "role": "Step 3 writer: turns a gap into a pasteable research plan",
           "spec_role": "Guided workshop facilitator for NotebookLM",
-          "objective": "Turn the most blocking gap of the diagnosis into a checkable research brief, without running it",
-          "parameters": [
+          "objective": "Turn the most blocking gap of the diagnosis into a checkable research plan, without running it",
+          "workflow": [
+            "Read the prior diagnosis and list the open gaps",
+            "Choose the gap blocking most claimable lines and justify the choice",
+            "Write the objective, the in-scope and out-of-scope questions and the tensions",
+            "Set preferred source types, time or region and minimum evidence per claim",
+            "Close with the cited format and acceptance criteria checkable one by one"
+          ],
+          "guardrails": [
+            "Never invent gaps, findings or sources: with no prior diagnosis, ask for the audit",
+            "Do not run the research or hand over findings: this step writes the research plan",
+            "One gap per iteration: do not stack research plans"
+          ],
+          "output": [
+            "Prompt ready to paste into Deep Research",
+            "Justification of the chosen gap against the declared result",
+            "Acceptance criteria checkable one by one"
+          ],
+          "dod": "Pasteable research plan: objective, in and out of scope, minimum evidence and acceptance criteria present, and the chosen gap justified by impact.",
+          "edge_cases": [
+            "No prior diagnosis: ask for the audit, do not invent gaps",
+            "Two gaps tied on impact: ask, do not decide for the user",
+            "Material context missing: at most three questions before writing"
+          ],
+          "constraints": [
             [
               "sequence_position",
-              "step 3: receives the step 2 diagnosis and returns a brief whose answer enters as a new source"
+              "step 3: receives the step 2 diagnosis and returns a research plan whose answer enters as a new source"
             ],
             [
               "impact_test",
@@ -230,33 +385,15 @@
               "one gap per iteration"
             ]
           ],
-          "workflow": [
-            "Read the prior diagnosis and list the open gaps",
-            "Choose the gap blocking most claimable lines and justify the choice",
-            "Write the objective, the in-scope and out-of-scope questions and the tensions",
-            "Set preferred source types, time or region and minimum evidence per claim",
-            "Close with the cited format and acceptance criteria checkable one by one"
-          ],
-          "guardrails": [
-            "Never invent gaps, findings or sources: with no prior diagnosis, ask for the audit",
-            "Do not run the research or hand over findings: this step writes the brief",
-            "One gap per iteration: do not stack briefs"
-          ],
-          "output": [
-            "Prompt ready to paste into Deep Research",
-            "Justification of the chosen gap against the declared result",
-            "Acceptance criteria checkable one by one"
-          ],
-          "dod": "Pasteable brief: objective, in and out of scope, minimum evidence and acceptance criteria present, and the chosen gap justified by impact.",
-          "edge_cases": [
-            "No prior diagnosis: ask for the audit, do not invent gaps",
-            "Two gaps tied on impact: ask, do not decide for the user",
-            "Material context missing: at most three questions before writing"
+          "frameworks": [
+            "Research plan · question, scope and criterion",
+            "Acceptance criteria · observable test",
+            "Source hierarchy · primary sources first"
           ]
         },
         "why_it_works": {
           "acceptance_criteria": [
-            "The brief carries objective, in and out of scope, minimum evidence and acceptance criteria: it is reviewed as a checklist, not by impression",
+            "The research plan carries objective, in and out of scope, minimum evidence and acceptance criteria: it is reviewed as a checklist, not by impression",
             "Every acceptance criterion can be checked one by one against the answer received",
             "The chosen gap is justified against the declared result: the winner is the one blocking most claimable lines"
           ],
@@ -266,48 +403,132 @@
           ],
           "tradeoffs": [
             "One gap per iteration in exchange for scope control across the cycle",
-            "Writing the brief instead of answering it adds a manual step in exchange for the answer entering the Notebook as a citable source"
+            "Writing the research plan instead of answering it adds a manual step in exchange for the answer entering the Notebook as a citable source"
           ],
           "assumptions": [
             "A diagnosis from the prior step exists with prioritized gaps",
-            "The brief anatomy — in and out of scope, tensions, minimum evidence, acceptance — is inherited from the standalone research 03; there the research runs, here it is only commissioned",
+            "The research plan anatomy — in and out of scope, tensions, minimum evidence, acceptance — is inherited from the standalone research 03; there the research runs, here it is only planned",
             "Deep Research is available for the account: availability varies by plan and age, and the prompt does not promise it"
           ],
           "limits": [
-            "It generates the brief, it does not run the research or guarantee the answer closes the gap",
+            "It generates the research plan, it does not run the research or guarantee the answer closes the gap",
             "It does not re-audit the base or decide sufficiency: that belongs to W02 and W04"
           ]
         },
         "traceability": [
           {
-            "claim": "Deep Research carries a minimum age and its availability varies by plan or surface, which is why the brief ships as pasteable text and its run is not promised.",
+            "claim": "Deep Research carries a minimum age and its availability varies by plan or surface, which is why the research plan ships as pasteable text and its run is not promised.",
             "source": "https://support.google.com/notebooklm/answer/16164461?hl=es"
           },
           {
-            "claim": "The brief anatomy — in and out of scope, tensions, minimum evidence and acceptance criteria — comes from the published prompt library of the method.",
+            "claim": "The research plan anatomy — in and out of scope, tensions, minimum evidence and acceptance criteria — comes from the published prompt library of the method.",
             "source": "https://javimontano.github.io/prompt-amplificado/biblioteca-prompts.html"
           },
           {
             "claim": "Choosing one gap per iteration and justifying it by how many claimable lines it blocks are internal workshop policy.",
             "source": "method_internal"
           }
-        ]
+        ],
+        "inputs": [
+          {
+            "key": "outcome",
+            "label": "OUTCOME",
+            "help": "observable change expected",
+            "example": "a repeatable practice",
+            "required": true,
+            "type": "text",
+            "source": "user",
+            "demo_value": "a repeatable, cited and explainable practice"
+          },
+          {
+            "key": "case",
+            "label": "CASE",
+            "help": "real situation to work on",
+            "example": "7-day pilot",
+            "required": true,
+            "type": "text",
+            "source": "user",
+            "demo_value": "7-day pilot"
+          }
+        ],
+        "parameters": [
+          {
+            "key": "length",
+            "label": "LENGTH",
+            "default": "concise",
+            "choices": [
+              "concise",
+              "medium"
+            ]
+          },
+          {
+            "key": "structure",
+            "label": "STRUCTURE",
+            "default": "2 paragraphs + key bullets",
+            "choices": [
+              "2 paragraphs + key bullets",
+              "short table"
+            ]
+          },
+          {
+            "key": "tone",
+            "label": "TONE",
+            "default": "clear and personal",
+            "choices": [
+              "clear and personal",
+              "instructional"
+            ]
+          },
+          {
+            "key": "depth",
+            "label": "DEPTH",
+            "default": "practical",
+            "choices": [
+              "practical",
+              "deep"
+            ]
+          }
+        ],
+        "optional_clauses": []
       },
       "empresa": {
-        "title": "A research brief for the team",
-        "purpose": "Turns the gap the diagnosis leaves most open to risk in the process into a brief another team member can run with no extra context.",
+        "title": "A research plan for the team",
+        "purpose": "Turns the gap the diagnosis leaves most open to risk in the process into a research plan another team member can run with no extra context.",
         "when": "the team diagnosis named gaps and the process needs one of them closed.",
         "example": "The adoption gap in small firms, blocking the area business case.",
         "evidence": "a prompt ready for Deep Research with objective, in and out of scope, tensions, minimum evidence per claim and acceptance criteria checkable one by one, runnable by another team member and with the operational risk of the gap named.",
-        "prompt": "Step 3: start from the team diagnosis, not zero. Choose the highest-impact gap for [RESULT] in [PROCESS] and name the operational risk of leaving it open. Turn it into a prompt ready to paste into Deep Research. Include objective, in-scope and out-of-scope questions, tensions, preferred source types, time or region, minimum evidence per claim, cited format and acceptance criteria checkable one by one; runnable by another team member with no extra context. Do not run the research nor hand over findings: this step only writes the brief. Without a diagnosis, ask for the audit; if gaps tie or context is missing, ask the accountable owner (max three). Do not invent gaps or sources.",
+        "prompt": "Step 3: start from the team diagnosis, not zero. Choose the critical gap for <OUTCOME> in <PROCESS> and name the operational risk of leaving it open. Turn it into a prompt ready to paste into Deep Research. Include objective, in-scope and out-of-scope questions, tensions, preferred source types, time or region, minimum evidence per claim, cited format and acceptance criteria checkable one by one; runnable by another team member with no extra context. Do not run the research nor hand over findings: this step only writes the research plan. Without a diagnosis, ask for the audit; if gaps tie or context is missing, ask the accountable owner (max three). Do not invent gaps or sources.",
         "level_spec": {
-          "role": "Step 3 writer for teams: turns a gap into a transferable brief",
+          "role": "Step 3 writer for teams: turns a gap into a transferable research plan",
           "spec_role": "Guided workshop facilitator for NotebookLM",
-          "objective": "Turn the highest-risk gap of the diagnosis into a brief another team member can run",
-          "parameters": [
+          "objective": "Turn the highest-risk gap of the diagnosis into a research plan another team member can run",
+          "workflow": [
+            "Read the team diagnosis and list the open gaps",
+            "Choose the gap with the highest operational risk for the process and name it",
+            "Write the objective, the in-scope and out-of-scope questions and the tensions",
+            "Set preferred source types, time or region and minimum evidence per claim",
+            "Close with cited format, checkable criteria and evidence that someone else could run it"
+          ],
+          "guardrails": [
+            "Never invent gaps or sources: with no prior diagnosis, ask for the audit",
+            "Do not run the research or hand over findings",
+            "Do not replace the accountable owner: the research plan is consulted, not self-approved"
+          ],
+          "output": [
+            "Prompt ready to paste into Deep Research, runnable by another team member",
+            "Named operational risk of the chosen gap",
+            "Acceptance criteria checkable one by one"
+          ],
+          "dod": "Transferable research plan: objective, in and out of scope, minimum evidence and criteria present, operational risk named and a run possible with no extra context.",
+          "edge_cases": [
+            "No prior diagnosis: ask for the audit, do not invent gaps",
+            "Risk tied across gaps: ask the accountable owner, do not decide for the process",
+            "Context missing: at most three questions to the owner before writing"
+          ],
+          "constraints": [
             [
               "sequence_position",
-              "step 3: receives the step 2 diagnosis and returns a brief whose answer enters as a shared source"
+              "step 3: receives the step 2 diagnosis and returns a research plan whose answer enters as a shared source"
             ],
             [
               "impact_test",
@@ -322,34 +543,16 @@
               "every criterion is written so it can be checked one by one"
             ]
           ],
-          "workflow": [
-            "Read the team diagnosis and list the open gaps",
-            "Choose the gap with the highest operational risk for the process and name it",
-            "Write the objective, the in-scope and out-of-scope questions and the tensions",
-            "Set preferred source types, time or region and minimum evidence per claim",
-            "Close with cited format, checkable criteria and evidence that someone else could run it"
-          ],
-          "guardrails": [
-            "Never invent gaps or sources: with no prior diagnosis, ask for the audit",
-            "Do not run the research or hand over findings",
-            "Do not replace the accountable owner: the brief is consulted, not self-approved"
-          ],
-          "output": [
-            "Prompt ready to paste into Deep Research, runnable by another team member",
-            "Named operational risk of the chosen gap",
-            "Acceptance criteria checkable one by one"
-          ],
-          "dod": "Transferable brief: objective, in and out of scope, minimum evidence and criteria present, operational risk named and a run possible with no extra context.",
-          "edge_cases": [
-            "No prior diagnosis: ask for the audit, do not invent gaps",
-            "Risk tied across gaps: ask the accountable owner, do not decide for the process",
-            "Context missing: at most three questions to the owner before writing"
+          "frameworks": [
+            "Research plan · question, scope and criterion",
+            "Acceptance criteria · observable test",
+            "Source hierarchy · primary sources first"
           ]
         },
         "why_it_works": {
           "acceptance_criteria": [
-            "The brief carries objective, in and out of scope, minimum evidence and acceptance criteria: it is reviewed as a checklist",
-            "Another team member can run it reading the brief alone, without asking the author for context",
+            "The research plan carries objective, in and out of scope, minimum evidence and acceptance criteria: it is reviewed as a checklist",
+            "Another team member can run it reading the research plan alone, without asking the author for context",
             "The chosen gap carries the operational risk it leaves open in the process, named"
           ],
           "edge_cases": [
@@ -357,51 +560,135 @@
             "Risks tied across gaps: it asks the accountable owner instead of deciding for the process"
           ],
           "tradeoffs": [
-            "A self-explaining brief costs more text in exchange for not depending on whoever attended the workshop",
+            "A self-explaining research plan costs more text in exchange for not depending on whoever attended the workshop",
             "This cell changes the impact test: where the persona cell picks the gap blocking most claimable lines, here it picks the one with the highest operational risk in the process, and the personal case context is replaced by the process; no other step 3 instruction is lost"
           ],
           "assumptions": [
             "A team diagnosis exists with open gaps and an accountable owner to ask",
-            "The brief anatomy is inherited from the standalone research 03; there the research runs, here it is only commissioned",
+            "The research plan anatomy is inherited from the standalone research 03; there the research runs, here it is only planned",
             "Deep Research is available for the team accounts: availability varies by plan and age, and the prompt does not promise it"
           ],
           "limits": [
-            "It generates the brief, it does not run the research or approve its result",
+            "It generates the research plan, it does not run the research or approve its result",
             "It does not re-audit the shared base or decide sufficiency: that belongs to W02 and W04"
           ]
         },
         "traceability": [
           {
-            "claim": "The minimum age and plan-dependent availability of Deep Research force the brief to ship as transferable text rather than promise a run to the team.",
+            "claim": "The minimum age and plan-dependent availability of Deep Research force the research plan to ship as transferable text rather than promise a run to the team.",
             "source": "https://support.google.com/notebooklm/answer/16164461?hl=es"
           },
           {
-            "claim": "The research brief frame the team reuses comes from the published prompt library of the method.",
+            "claim": "The research plan frame the team reuses comes from the published prompt library of the method.",
             "source": "https://javimontano.github.io/prompt-amplificado/biblioteca-prompts.html"
           },
           {
-            "claim": "Requiring the brief to be runnable by another team member with no extra context and naming the operational risk of the gap is internal method policy.",
+            "claim": "Requiring the research plan to be runnable by another team member with no extra context and naming the operational risk of the gap is internal method policy.",
             "source": "method_internal"
           }
-        ]
+        ],
+        "inputs": [
+          {
+            "key": "outcome",
+            "label": "OUTCOME",
+            "help": "observable change expected",
+            "example": "a repeatable practice",
+            "required": true,
+            "type": "text",
+            "source": "user",
+            "demo_value": "a shareable workflow with an owner, evidence and control"
+          },
+          {
+            "key": "process",
+            "label": "PROCESS",
+            "help": "workflow that will change",
+            "example": "decision preparation",
+            "required": true,
+            "type": "text",
+            "source": "user",
+            "demo_value": "weekly decision preparation and review"
+          }
+        ],
+        "parameters": [
+          {
+            "key": "length",
+            "label": "LENGTH",
+            "default": "concise",
+            "choices": [
+              "concise",
+              "medium"
+            ]
+          },
+          {
+            "key": "structure",
+            "label": "STRUCTURE",
+            "default": "2 paragraphs + key bullets",
+            "choices": [
+              "2 paragraphs + key bullets",
+              "short table"
+            ]
+          },
+          {
+            "key": "tone",
+            "label": "TONE",
+            "default": "executive and operational",
+            "choices": [
+              "executive and operational",
+              "facilitative"
+            ]
+          },
+          {
+            "key": "depth",
+            "label": "DEPTH",
+            "default": "practical",
+            "choices": [
+              "practical",
+              "deep"
+            ]
+          }
+        ],
+        "optional_clauses": []
       }
     },
     "pt": {
       "persona": {
-        "title": "Encargo de pesquisa sob medida",
-        "purpose": "Transforma a lacuna mais bloqueante do diagnóstico em um encargo pronto para colar, com critérios que você verifica um a um.",
+        "title": "Plano de pesquisa sob medida",
+        "purpose": "Transforma a lacuna mais bloqueante do diagnóstico em um plano de pesquisa pronto para colar, com critérios que você verifica um a um.",
         "when": "você já tem o diagnóstico do passo 2 e quer fechar a lacuna que mais bloqueia.",
         "example": "A lacuna sobre adoção real em pequenas empresas, que trava minha escolha.",
         "evidence": "prompt pronto para o Deep Research com objetivo, dentro e fora do escopo, tensões, evidência mínima por afirmação e critérios de aceitação verificáveis um a um, mais a justificativa da lacuna escolhida por impacto.",
-        "prompt": "Passo 3: use o meu diagnóstico anterior, não do zero. Escolha a lacuna de maior impacto para [RESULTADO] — a que bloqueia mais afirmáveis — e justifique-a. Transforme-a em prompt pronto para colar no Deep Research. Inclua objetivo, perguntas dentro e fora do escopo, tensões, fontes prioritárias, tempo ou região do [MEU CASO], evidência mínima por afirmação, formato citado e critérios de aceitação verificáveis um a um. Não execute a pesquisa nem me entregue achados: este passo só redige o encargo; a resposta volta como fonte. Sem diagnóstico anterior, peça a auditoria; com empate ou falta de contexto material, faça no máximo três perguntas. Não invente lacunas, achados nem fontes.",
+        "prompt": "Passo 3: use o meu diagnóstico anterior, não do zero. Escolha a lacuna de maior impacto para meu <RESULTADO> — a que bloqueia mais afirmáveis — e justifique-a. Transforme-a em prompt pronto para colar no Deep Research. Inclua objetivo, perguntas dentro e fora do escopo, tensões, fontes prioritárias, tempo ou região do <CASO>, evidência mínima por afirmação, formato citado e critérios de aceitação verificáveis um a um. Não execute a pesquisa nem me entregue achados: aqui só redige o plano de pesquisa; a resposta volta como fonte. Sem diagnóstico anterior, peça a auditoria; com empate ou falta de contexto material, faça no máximo três perguntas. Não invente lacunas, achados nem fontes.",
         "level_spec": {
-          "role": "Redator do passo 3: transforma uma lacuna em encargo colável",
+          "role": "Redator do passo 3: transforma uma lacuna em plano de pesquisa colável",
           "spec_role": "Facilitador de oficina guiada no NotebookLM",
-          "objective": "Transformar a lacuna mais bloqueante do diagnóstico em encargo verificável, sem executá-lo",
-          "parameters": [
+          "objective": "Transformar a lacuna mais bloqueante do diagnóstico em plano de pesquisa verificável, sem executá-lo",
+          "workflow": [
+            "Ler o diagnóstico do passo anterior e listar as lacunas abertas",
+            "Escolher a lacuna que bloqueia mais afirmáveis e justificar a escolha",
+            "Redigir objetivo, perguntas dentro e fora do escopo e tensões do plano de pesquisa",
+            "Fixar fontes prioritárias, tempo ou região e evidência mínima por afirmação",
+            "Fechar com formato citado e critérios de aceitação verificáveis um a um"
+          ],
+          "guardrails": [
+            "Não inventar lacunas, achados nem fontes: sem diagnóstico anterior, pedir a auditoria",
+            "Não executar a pesquisa nem entregar achados: este passo redige o plano de pesquisa",
+            "Uma lacuna por iteração: não acumular planos de pesquisa"
+          ],
+          "output": [
+            "Prompt pronto para colar no Deep Research",
+            "Justificativa da lacuna escolhida contra o resultado declarado",
+            "Critérios de aceitação verificáveis um a um"
+          ],
+          "dod": "Plano de pesquisa pronto para usar: objetivo, dentro e fora do escopo, evidência mínima e critérios de aceitação presentes, e a lacuna escolhida justificada por impacto.",
+          "edge_cases": [
+            "Sem diagnóstico anterior: pedir a auditoria, não inventar lacunas",
+            "Duas lacunas empatadas em impacto: perguntar, não decidir pelo usuário",
+            "Contexto material ausente: no máximo três perguntas antes de redigir"
+          ],
+          "constraints": [
             [
               "posicao_na_sequencia",
-              "passo 3: recebe o diagnóstico do passo 2 e devolve encargo cuja resposta entra como fonte nova"
+              "passo 3: recebe o diagnóstico do passo 2 e devolve plano de pesquisa cuja resposta entra como fonte nova"
             ],
             [
               "criterio_de_impacto",
@@ -416,33 +703,15 @@
               "uma lacuna por iteração"
             ]
           ],
-          "workflow": [
-            "Ler o diagnóstico do passo anterior e listar as lacunas abertas",
-            "Escolher a lacuna que bloqueia mais afirmáveis e justificar a escolha",
-            "Redigir objetivo, perguntas dentro e fora do escopo e tensões do encargo",
-            "Fixar fontes prioritárias, tempo ou região e evidência mínima por afirmação",
-            "Fechar com formato citado e critérios de aceitação verificáveis um a um"
-          ],
-          "guardrails": [
-            "Não inventar lacunas, achados nem fontes: sem diagnóstico anterior, pedir a auditoria",
-            "Não executar a pesquisa nem entregar achados: este passo redige o encargo",
-            "Uma lacuna por iteração: não acumular encargos"
-          ],
-          "output": [
-            "Prompt pronto para colar no Deep Research",
-            "Justificativa da lacuna escolhida contra o resultado declarado",
-            "Critérios de aceitação verificáveis um a um"
-          ],
-          "dod": "Encargo colável: objetivo, dentro e fora do escopo, evidência mínima e critérios de aceitação presentes, e a lacuna escolhida justificada por impacto.",
-          "edge_cases": [
-            "Sem diagnóstico anterior: pedir a auditoria, não inventar lacunas",
-            "Duas lacunas empatadas em impacto: perguntar, não decidir pelo usuário",
-            "Contexto material ausente: no máximo três perguntas antes de redigir"
+          "frameworks": [
+            "Plano de pesquisa · pergunta, escopo e critérios",
+            "Critérios de aceitação · teste observável",
+            "Hierarquia de fontes · fontes primárias primeiro"
           ]
         },
         "why_it_works": {
           "acceptance_criteria": [
-            "O encargo traz objetivo, dentro e fora do escopo, evidência mínima e critérios de aceitação: revisa-se como checklist, não por impressão",
+            "O plano de pesquisa traz objetivo, dentro e fora do escopo, evidência mínima e critérios de aceitação: revisa-se como checklist, não por impressão",
             "Cada critério de aceitação pode ser verificado um a um sobre a resposta recebida",
             "A escolha da lacuna fica justificada contra o resultado declarado: vence a que bloqueia mais linhas afirmáveis"
           ],
@@ -452,48 +721,132 @@
           ],
           "tradeoffs": [
             "Uma lacuna por iteração em troca de controle de escopo no ciclo",
-            "Redigir o encargo em vez de respondê-lo acrescenta um passo manual em troca de a resposta entrar no Notebook como fonte citável"
+            "Redigir o plano de pesquisa em vez de respondê-lo acrescenta um passo manual em troca de a resposta entrar no Notebook como fonte citável"
           ],
           "assumptions": [
             "Existe um diagnóstico do passo anterior com lacunas priorizadas",
-            "A anatomia do encargo — dentro e fora do escopo, tensões, evidência mínima, aceitação — é herdada da pesquisa autônoma 03; lá a pesquisa é executada, aqui apenas encomendada",
+            "A anatomia do plano de pesquisa — dentro e fora do escopo, tensões, evidência mínima, aceitação — é herdada da pesquisa autônoma 03; lá a pesquisa é executada, aqui apenas planejada",
             "O Deep Research está disponível para a conta: a disponibilidade varia por plano e idade, e o prompt não a promete"
           ],
           "limits": [
-            "Gera o encargo, não executa a pesquisa nem garante que a resposta feche a lacuna",
+            "Gera o plano de pesquisa, não executa a pesquisa nem garante que a resposta feche a lacuna",
             "Não reaudita a base nem decide suficiência: isso cabe a W02 e W04"
           ]
         },
         "traceability": [
           {
-            "claim": "O Deep Research exige idade mínima e sua disponibilidade varia por plano ou superfície; por isso o encargo sai como texto colável e sua execução não é prometida.",
+            "claim": "O Deep Research exige idade mínima e sua disponibilidade varia por plano ou superfície; por isso o plano de pesquisa sai como texto colável e sua execução não é prometida.",
             "source": "https://support.google.com/notebooklm/answer/16164461?hl=es"
           },
           {
-            "claim": "A anatomia do encargo — dentro e fora do escopo, tensões, evidência mínima e critérios de aceitação — vem da biblioteca publicada do método.",
+            "claim": "A anatomia do plano de pesquisa — dentro e fora do escopo, tensões, evidência mínima e critérios de aceitação — vem da biblioteca publicada do método.",
             "source": "https://javimontano.github.io/prompt-amplificado/biblioteca-prompts.html"
           },
           {
             "claim": "Escolher uma lacuna por iteração e justificá-la por quantas linhas afirmáveis bloqueia são normas internas da oficina.",
             "source": "method_internal"
           }
-        ]
+        ],
+        "inputs": [
+          {
+            "key": "outcome",
+            "label": "RESULTADO",
+            "help": "mudança observável esperada",
+            "example": "aprendizado repetível",
+            "required": true,
+            "type": "text",
+            "source": "user",
+            "demo_value": "aprendizado repetível, citado e explicável"
+          },
+          {
+            "key": "case",
+            "label": "CASO",
+            "help": "situação real a trabalhar",
+            "example": "piloto de 7 dias",
+            "required": true,
+            "type": "text",
+            "source": "user",
+            "demo_value": "piloto de 7 dias"
+          }
+        ],
+        "parameters": [
+          {
+            "key": "length",
+            "label": "EXTENSÃO",
+            "default": "concisa",
+            "choices": [
+              "concisa",
+              "média"
+            ]
+          },
+          {
+            "key": "structure",
+            "label": "ESTRUTURA",
+            "default": "2 parágrafos + bullets-chave",
+            "choices": [
+              "2 parágrafos + bullets-chave",
+              "tabela breve"
+            ]
+          },
+          {
+            "key": "tone",
+            "label": "TOM",
+            "default": "claro e pessoal",
+            "choices": [
+              "claro e pessoal",
+              "didático"
+            ]
+          },
+          {
+            "key": "depth",
+            "label": "PROFUNDIDADE",
+            "default": "prática",
+            "choices": [
+              "prática",
+              "profunda"
+            ]
+          }
+        ],
+        "optional_clauses": []
       },
       "empresa": {
-        "title": "Encargo de pesquisa da equipe",
-        "purpose": "Transforma a lacuna que o diagnóstico deixa com mais risco aberto no processo em encargo executável por outra pessoa da equipe, sem contexto adicional.",
+        "title": "Plano de pesquisa da equipe",
+        "purpose": "Transforma a lacuna que o diagnóstico deixa com mais risco aberto no processo em plano de pesquisa executável por outra pessoa da equipe, sem contexto adicional.",
         "when": "o diagnóstico da equipe já nomeou lacunas e o processo precisa fechar uma.",
         "example": "A lacuna de adoção em pequenas empresas, que trava o caso de negócio.",
         "evidence": "prompt pronto para o Deep Research com objetivo, dentro e fora do escopo, tensões, evidência mínima por afirmação e critérios de aceitação verificáveis um a um, executável por outra pessoa da equipe e com o risco operacional da lacuna nomeado.",
-        "prompt": "Passo 3: parta do diagnóstico da equipe, não do zero. Escolha a lacuna de maior impacto para [RESULTADO] em [PROCESSO] e nomeie o risco operacional de deixá-la aberta. Transforme-a em prompt pronto para colar no Deep Research. Inclua objetivo, perguntas dentro e fora do escopo, tensões, fontes prioritárias, tempo ou região, evidência mínima por afirmação, formato citado e critérios de aceitação verificáveis um a um; executável por outra pessoa da equipe sem contexto adicional. Não execute a pesquisa nem entregue achados: só se redige o encargo. Sem diagnóstico, peça a auditoria; com empate ou falta de contexto, pergunte ao responsável (máx. 3). Não invente lacunas nem fontes.",
+        "prompt": "Passo 3: parta do diagnóstico da equipe, não do zero. Escolha a lacuna de maior impacto para <RESULTADO> em <PROCESSO> e nomeie o risco operacional de deixá-la aberta. Transforme-a em prompt pronto para colar no Deep Research. Inclua objetivo, perguntas dentro e fora do escopo, tensões, fontes prioritárias, tempo ou região, evidência mínima por afirmação, formato citado e critérios de aceitação verificáveis um a um; executável por outra pessoa da equipe sem contexto adicional. Não execute a pesquisa nem entregue achados: só se redige o plano de pesquisa. Sem diagnóstico, peça a auditoria; com empate ou falta de contexto, pergunte ao responsável (máx. 3). Não invente lacunas nem fontes.",
         "level_spec": {
-          "role": "Redator do passo 3 para equipes: transforma uma lacuna em encargo transferível",
+          "role": "Redator do passo 3 para equipes: transforma uma lacuna em plano de pesquisa transferível",
           "spec_role": "Facilitador de oficina guiada no NotebookLM",
-          "objective": "Transformar a lacuna de maior risco do diagnóstico em encargo executável por outra pessoa da equipe",
-          "parameters": [
+          "objective": "Transformar a lacuna de maior risco do diagnóstico em plano de pesquisa executável por outra pessoa da equipe",
+          "workflow": [
+            "Ler o diagnóstico da equipe e listar as lacunas abertas",
+            "Escolher a lacuna de maior risco operacional para o processo e nomeá-la",
+            "Redigir objetivo, perguntas dentro e fora do escopo e tensões do plano de pesquisa",
+            "Fixar fontes prioritárias, tempo ou região e evidência mínima por afirmação",
+            "Fechar com formato citado, critérios verificáveis e prova de que outra pessoa poderia executá-lo"
+          ],
+          "guardrails": [
+            "Não inventar lacunas nem fontes: sem diagnóstico anterior, pedir a auditoria",
+            "Não executar a pesquisa nem entregar achados",
+            "Não substituir o responsável: o plano de pesquisa é consultado, não se aprova sozinho"
+          ],
+          "output": [
+            "Prompt pronto para colar no Deep Research, executável por outra pessoa da equipe",
+            "Risco operacional da lacuna escolhida, nomeado",
+            "Critérios de aceitação verificáveis um a um"
+          ],
+          "dod": "Plano de pesquisa transferível: objetivo, dentro e fora do escopo, evidência mínima e critérios presentes, risco operacional nomeado e execução possível sem contexto adicional.",
+          "edge_cases": [
+            "Sem diagnóstico anterior: pedir a auditoria, não inventar lacunas",
+            "Empate de risco entre lacunas: perguntar ao responsável, não decidir pelo processo",
+            "Contexto ausente: no máximo três perguntas ao responsável antes de redigir"
+          ],
+          "constraints": [
             [
               "posicao_na_sequencia",
-              "passo 3: recebe o diagnóstico do passo 2 e devolve encargo cuja resposta entra como fonte compartilhada"
+              "passo 3: recebe o diagnóstico do passo 2 e devolve plano de pesquisa cuja resposta entra como fonte compartilhada"
             ],
             [
               "criterio_de_impacto",
@@ -508,34 +861,16 @@
               "cada critério é redigido para poder ser verificado um a um"
             ]
           ],
-          "workflow": [
-            "Ler o diagnóstico da equipe e listar as lacunas abertas",
-            "Escolher a lacuna de maior risco operacional para o processo e nomeá-la",
-            "Redigir objetivo, perguntas dentro e fora do escopo e tensões do encargo",
-            "Fixar fontes prioritárias, tempo ou região e evidência mínima por afirmação",
-            "Fechar com formato citado, critérios verificáveis e prova de que outra pessoa poderia executá-lo"
-          ],
-          "guardrails": [
-            "Não inventar lacunas nem fontes: sem diagnóstico anterior, pedir a auditoria",
-            "Não executar a pesquisa nem entregar achados",
-            "Não substituir o responsável: o encargo é consultado, não se aprova sozinho"
-          ],
-          "output": [
-            "Prompt pronto para colar no Deep Research, executável por outra pessoa da equipe",
-            "Risco operacional da lacuna escolhida, nomeado",
-            "Critérios de aceitação verificáveis um a um"
-          ],
-          "dod": "Encargo transferível: objetivo, dentro e fora do escopo, evidência mínima e critérios presentes, risco operacional nomeado e execução possível sem contexto adicional.",
-          "edge_cases": [
-            "Sem diagnóstico anterior: pedir a auditoria, não inventar lacunas",
-            "Empate de risco entre lacunas: perguntar ao responsável, não decidir pelo processo",
-            "Contexto ausente: no máximo três perguntas ao responsável antes de redigir"
+          "frameworks": [
+            "Plano de pesquisa · pergunta, escopo e critérios",
+            "Critérios de aceitação · teste observável",
+            "Hierarquia de fontes · fontes primárias primeiro"
           ]
         },
         "why_it_works": {
           "acceptance_criteria": [
-            "O encargo traz objetivo, dentro e fora do escopo, evidência mínima e critérios de aceitação: revisa-se como checklist",
-            "Outra pessoa da equipe consegue executá-lo lendo só o encargo, sem pedir contexto ao autor",
+            "O plano de pesquisa traz objetivo, dentro e fora do escopo, evidência mínima e critérios de aceitação: revisa-se como checklist",
+            "Outra pessoa da equipe consegue executá-lo lendo só o plano de pesquisa, sem pedir contexto ao autor",
             "A lacuna escolhida traz nomeado o risco operacional que deixa aberto no processo"
           ],
           "edge_cases": [
@@ -543,36 +878,111 @@
             "Riscos empatados entre lacunas: pergunta-se ao responsável em vez de decidir pelo processo"
           ],
           "tradeoffs": [
-            "Um encargo autoexplicativo custa mais texto em troca de não depender de quem esteve na oficina",
+            "Um plano de pesquisa autoexplicativo custa mais texto em troca de não depender de quem esteve na oficina",
             "Esta célula muda o critério de impacto: onde a célula persona escolhe a lacuna que bloqueia mais afirmáveis, aqui escolhe a de maior risco operacional no processo, e o contexto do caso próprio é substituído pelo processo; nenhuma outra instrução do passo 3 se perde"
           ],
           "assumptions": [
             "Existe um diagnóstico da equipe com lacunas abertas e um responsável a quem perguntar",
-            "A anatomia do encargo é herdada da pesquisa autônoma 03; lá a pesquisa é executada, aqui apenas encomendada",
+            "A anatomia do plano de pesquisa é herdada da pesquisa autônoma 03; lá a pesquisa é executada, aqui apenas planejada",
             "O Deep Research está disponível para as contas da equipe: a disponibilidade varia por plano e idade, e o prompt não a promete"
           ],
           "limits": [
-            "Gera o encargo, não executa a pesquisa nem aprova seu resultado",
+            "Gera o plano de pesquisa, não executa a pesquisa nem aprova seu resultado",
             "Não reaudita a base compartilhada nem decide suficiência: isso cabe a W02 e W04"
           ]
         },
         "traceability": [
           {
-            "claim": "A idade mínima e a disponibilidade por plano do Deep Research obrigam a entregar o encargo como texto transferível em vez de prometer execução à equipe.",
+            "claim": "A idade mínima e a disponibilidade por plano do Deep Research obrigam a entregar o plano de pesquisa como texto transferível em vez de prometer execução à equipe.",
             "source": "https://support.google.com/notebooklm/answer/16164461?hl=es"
           },
           {
-            "claim": "O arcabouço do encargo de pesquisa que a equipe reutiliza vem da biblioteca publicada do método.",
+            "claim": "O arcabouço do plano de pesquisa que a equipe reutiliza vem da biblioteca publicada do método.",
             "source": "https://javimontano.github.io/prompt-amplificado/biblioteca-prompts.html"
           },
           {
-            "claim": "Exigir que o encargo seja executável por outra pessoa da equipe sem contexto adicional e nomear o risco operacional da lacuna é política interna do método.",
+            "claim": "Exigir que o plano de pesquisa seja executável por outra pessoa da equipe sem contexto adicional e nomear o risco operacional da lacuna é política interna do método.",
             "source": "method_internal"
           }
-        ]
+        ],
+        "inputs": [
+          {
+            "key": "outcome",
+            "label": "RESULTADO",
+            "help": "mudança observável esperada",
+            "example": "uma prática repetível",
+            "required": true,
+            "type": "text",
+            "source": "user",
+            "demo_value": "um fluxo compartilhável com responsável, evidência e controle"
+          },
+          {
+            "key": "process",
+            "label": "PROCESSO",
+            "help": "fluxo que mudará",
+            "example": "preparação de decisões",
+            "required": true,
+            "type": "text",
+            "source": "user",
+            "demo_value": "preparação e revisão semanal de decisões"
+          }
+        ],
+        "parameters": [
+          {
+            "key": "length",
+            "label": "EXTENSÃO",
+            "default": "concisa",
+            "choices": [
+              "concisa",
+              "média"
+            ]
+          },
+          {
+            "key": "structure",
+            "label": "ESTRUTURA",
+            "default": "2 parágrafos + bullets-chave",
+            "choices": [
+              "2 parágrafos + bullets-chave",
+              "tabela breve"
+            ]
+          },
+          {
+            "key": "tone",
+            "label": "TOM",
+            "default": "executivo e operacional",
+            "choices": [
+              "executivo e operacional",
+              "facilitador"
+            ]
+          },
+          {
+            "key": "depth",
+            "label": "PROFUNDIDADE",
+            "default": "prática",
+            "choices": [
+              "prática",
+              "profunda"
+            ]
+          }
+        ],
+        "optional_clauses": []
       }
     }
   },
   "self_hash_model": "sha256(sorted-json-without-self_sha256)",
-  "self_sha256": "80ba930bb56414601dac27dee6422741058274496ce569f2025da7780a237bf1"
+  "self_sha256": "e47a657849babf8b51d7f9e542f5d283fa0f8cb37a62d82e71a715e17fcd49dc",
+  "flow": {
+    "route": "workbook",
+    "order": 6,
+    "previous": "W02",
+    "next": "W04",
+    "branches": [],
+    "consumes": [
+      "DIAGNOSTICO_DE_BASE"
+    ],
+    "produces": "PLAN_DE_INVESTIGACION",
+    "external_gate": true,
+    "loop_to": null,
+    "standalone": true
+  }
 }

@@ -7,6 +7,14 @@ const spec = JSON.parse(
   readFileSync(join(root, "src/playbook-spec-v1.json"), "utf8"),
 );
 const identity = spec.method_identity;
+const DEFAULT_MODULE_ID = "ia-panorama";
+const MODULE_IDS = new Set([
+  DEFAULT_MODULE_ID,
+  "ocupado-productivo",
+  "trabajo-amplificado",
+  "trabajo-agentico",
+]);
+const EXPECTED_HTML_PAGES = 126;
 const sha = (value) => createHash("sha256").update(value).digest("hex");
 const fail = (code) => {
   throw new Error(code);
@@ -98,26 +106,45 @@ for (const asset of Object.values(identity.assets)) {
 }
 
 const html = files(join(root, "dist")).filter((path) => path.endsWith(".html"));
-if (html.length !== 54) fail(`METHOD_MARK_ROUTE_COUNT:${html.length}`);
+if (html.length !== EXPECTED_HTML_PAGES)
+  fail(`METHOD_MARK_ROUTE_COUNT:${html.length}`);
 const expected = { landing: 2, playbook: 4, prompts: 1, workbook: 0, deck: 0, level0: 0, how: 0, resources_index: 0, intakes: 0 };
 const obsolete = `A${String.fromCharCode(179)}`;
 let relevant = 0;
+let marks = 0;
+let unstampedNestedResources = 0;
 for (const path of html) {
   const content = readFileSync(path, "utf8");
   const page = content.match(/<body data-page="([^"]+)"/)?.[1];
+  const moduleId = content.match(/<body[^>]+data-module-id="([^"]+)"/)?.[1];
   if (!(page in expected)) fail(`METHOD_MARK_PAGE:${relative(root, path)}`);
+  if (!MODULE_IDS.has(moduleId))
+    fail(`METHOD_MARK_MODULE:${relative(root, path)}:${moduleId}`);
   const count = content.match(/data-method-mark=/g)?.length ?? 0;
-  if (count !== expected[page])
+  // [EVIDENCE:M1_METHOD_IDENTITY] Only the original flat M1 surfaces carry A²(R)E.
+  const wanted = moduleId === DEFAULT_MODULE_ID ? expected[page] : 0;
+  if (count !== wanted)
     fail(`METHOD_MARK_COUNT:${relative(root, path)}:${count}`);
   if (content.includes(obsolete))
     fail(`METHOD_MARK_OBSOLETE:${relative(root, path)}`);
-  if (expected[page] > 0) {
+  marks += count;
+  if (wanted > 0) {
     relevant += 1;
     if (!content.includes(identity.display_label))
       fail(`METHOD_MARK_ALT:${relative(root, path)}`);
   }
+  if (moduleId !== DEFAULT_MODULE_ID) {
+    if (!['deck', 'workbook', 'playbook', 'prompts'].includes(page))
+      fail(`METHOD_MARK_NESTED_PAGE:${relative(root, path)}:${page}`);
+    if (content.includes(identity.display_label))
+      fail(`METHOD_MARK_NESTED_STAMP:${relative(root, path)}`);
+    unstampedNestedResources += 1;
+  }
 }
 if (relevant !== 18) fail(`METHOD_MARK_RELEVANT:${relevant}`);
+if (marks !== 42) fail(`METHOD_MARK_TOTAL:${marks}`);
+if (unstampedNestedResources !== 72)
+  fail(`METHOD_MARK_NESTED_COUNT:${unstampedNestedResources}`);
 expectFailure("METHOD_MARK_OBSOLETE", () => {
   if (`<main>${obsolete}</main>`.includes(obsolete))
     fail("METHOD_MARK_OBSOLETE");
@@ -294,5 +321,5 @@ if (receipt.method_identity.display_label !== identity.display_label)
   fail("METHOD_MARK_RECEIPT");
 
 console.log(
-  `METHOD_IDENTITY_PASS pages=${html.length} relevant=${relevant} marks=42 outputs=${Object.keys(manifest.outputs).length} mutations=24`,
+  `[EVIDENCE:METHOD_IDENTITY] METHOD_IDENTITY_PASS pages=${html.length} relevant=${relevant} marks=${marks} nested_unstamped=${unstampedNestedResources} outputs=${Object.keys(manifest.outputs).length} mutations=24`,
 );

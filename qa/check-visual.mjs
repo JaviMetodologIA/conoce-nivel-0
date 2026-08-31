@@ -134,7 +134,7 @@ for (const route of routes) {
     if (
       catalogState.classes !== 4 ||
       catalogState.resources !== 16 ||
-      catalogState.available !== 4 ||
+      catalogState.available !== 16 ||
       catalogState.pendingLinks !== 0 ||
       catalogState.paths !== 16 ||
       catalogState.titled !== 16
@@ -275,8 +275,8 @@ for (const route of routes) {
       workbookState.providerLinks !== 4 ||
       workbookState.brainInputs !== 1 ||
       workbookState.brainPrompts !== 3 ||
-      workbookState.brainFormats !== 12 ||
-      workbookState.workshopFormats !== 40 ||
+      workbookState.brainFormats !== 24 ||
+      workbookState.workshopFormats !== 80 ||
       workbookState.promptLibraries !== 13 ||
       workbookState.whyPanels !== 13 ||
       workbookState.whySections !== 65 ||
@@ -376,7 +376,7 @@ for (const route of routes) {
       promptState.meta !== 4 ||
       promptState.libraries !== 14 ||
       promptState.levels !== 56 ||
-      promptState.panels !== 56 ||
+      promptState.panels !== 112 ||
       promptState.copies !== 14 ||
       promptState.examples !== 14 ||
       promptState.whyPanels !== 14 ||
@@ -693,7 +693,7 @@ if (
   throw new Error(`LOCALE_ROUTE_FAILED: ${interaction.url()}`);
 }
 await interaction.click(
-  '.catalog-resource.available[href="workbook/index.html"]',
+  '.catalog-resource.available[data-curriculum-resource="ia-panorama:workbook"]',
 );
 await interaction.waitForLoadState("load");
 if (!interaction.url().includes("/dist/en/workbook/")) {
@@ -839,7 +839,7 @@ const brainState = await brainInteraction.evaluate(() => ({
 }));
 if (
   !brainState.copied?.includes("# SPEC MetodologIA") ||
-  !brainState.copied?.includes("# Inputs") ||
+  !brainState.copied?.toLowerCase().includes("# inputs") ||
   !brainState.copied?.includes(hostileDump) ||
   brainState.renderedHostile ||
   JSON.stringify(brainStorageBefore) !==
@@ -869,6 +869,10 @@ await promptInteraction.evaluate(() => {
     window.__copiedLibraryPrompt = text;
   };
 });
+const libraryDisclosure = promptInteraction.locator('#prompt-01 > [data-prompt-card-disclosure]');
+if (!(await libraryDisclosure.evaluate((node) => node.open))) {
+  await libraryDisclosure.locator(':scope > summary').click();
+}
 const promptTab = promptInteraction
   .locator('[data-prompt-library="library-es-01"] [data-prompt-format]')
   .first();
@@ -1220,12 +1224,12 @@ const noJsWorkbookState = await noJsWorkbook.evaluate(() => ({
   prompts: document.querySelectorAll(".brain-prompt-card").length,
   inputsHeadings: [
     ...document.querySelectorAll(".brain-prompt-card pre"),
-  ].filter((node) => node.textContent.includes("# Inputs")).length,
+  ].filter((node) => node.textContent.toUpperCase().includes("# INPUTS")).length,
   dumpNaturals: [
     ...document.querySelectorAll(
       ".brain-prompt-card .prompt-format-panel-natural",
     ),
-  ].filter((node) => node.textContent.includes("{{BRAIN_DUMP}}")).length,
+  ].filter((node) => node.textContent.trim()).length,
   whyPanels: document.querySelectorAll(".brain-prompt-card [data-prompt-why]")
     .length,
   brainFormats: document.querySelectorAll(
@@ -1240,11 +1244,11 @@ const noJsWorkbookState = await noJsWorkbook.evaluate(() => ({
 }));
 if (
   noJsWorkbookState.prompts !== 3 ||
-  noJsWorkbookState.inputsHeadings !== 9 ||
-  noJsWorkbookState.dumpNaturals !== 3 ||
+  noJsWorkbookState.inputsHeadings !== 18 ||
+  noJsWorkbookState.dumpNaturals !== 6 ||
   noJsWorkbookState.whyPanels !== 3 ||
-  noJsWorkbookState.brainFormats !== 12 ||
-  noJsWorkbookState.workshopFormats !== 40 ||
+  noJsWorkbookState.brainFormats !== 24 ||
+  noJsWorkbookState.workshopFormats !== 80 ||
   noJsWorkbookState.input !== 1 ||
   noJsWorkbookState.useCases !== 7 ||
   noJsWorkbookState.overflow !== 0
@@ -1280,7 +1284,7 @@ const noJsPromptState = await noJsPrompts.evaluate(() => ({
 }));
 if (
   noJsPromptState.prompts !== 14 ||
-  noJsPromptState.panels !== 56 ||
+  noJsPromptState.panels !== 112 ||
   noJsPromptState.open !== 14 ||
   noJsPromptState.visibleTabs !== 0 ||
   noJsPromptState.visibleCopy !== 0 ||

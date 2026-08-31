@@ -1,0 +1,312 @@
+{
+  "schema_version": "module-visual-comparison-v1",
+  "reference_module": "ia-panorama",
+  "candidate_module": "module-02-de-ocupado-a-productivo",
+  "candidate_module_order": 2,
+  "widths": [
+    390,
+    1440
+  ],
+  "theme": "light",
+  "pairs": [
+    {
+      "width": 390,
+      "theme": "light",
+      "resource": "masterclass",
+      "reference": {
+        "route": "deck/index.html",
+        "images": [
+          {
+            "state": "hero",
+            "file": "reference-m01-masterclass-390-hero.png",
+            "sha256": "f6558c7603d154bbbfb7abf2313f4200375a1b0296826745c50fc07d205c874c"
+          },
+          {
+            "state": "state",
+            "file": "reference-m01-masterclass-390-state.png",
+            "sha256": "69c96ba8b1c039c1bda3290779de95b8a0685dd1542fb57056b3b499b3a42fbe"
+          }
+        ]
+      },
+      "candidate": {
+        "route": "modulos/02-de-ocupado-a-productivo/masterclass/index.html",
+        "images": [
+          {
+            "state": "hero",
+            "file": "candidate-m02-masterclass-390-hero.png",
+            "sha256": "4ed73e37ba51477d184594236704b874b7986fb849b6f4a4de9105132d0d28fe"
+          },
+          {
+            "state": "state",
+            "file": "candidate-m02-masterclass-390-state.png",
+            "sha256": "3fe1bae9aff986ec5d6558c8c5e3eedf37d50f8a5b3a3007336bf9ca69b119ba"
+          }
+        ]
+      }
+    },
+    {
+      "width": 390,
+      "theme": "light",
+      "resource": "workbook",
+      "reference": {
+        "route": "workbook/index.html",
+        "images": [
+          {
+            "state": "hero",
+            "file": "reference-m01-workbook-390-hero.png",
+            "sha256": "f7a84a100e20c0f7177a1463e61ec6b280dbdb9fda415cbc5d339cfbc4d7cc11"
+          },
+          {
+            "state": "state",
+            "file": "reference-m01-workbook-390-state.png",
+            "sha256": "0c971ec085d6cce690b207bd0f50aabdbbadc0eaf7d920634823e3e07b5ef2b9"
+          }
+        ]
+      },
+      "candidate": {
+        "route": "modulos/02-de-ocupado-a-productivo/workbook/index.html",
+        "images": [
+          {
+            "state": "hero",
+            "file": "candidate-m02-workbook-390-hero.png",
+            "sha256": "4ea4099a0d2daa9e2a044d2fa3d40240fc983c3b1b7c5a39d629b25bc3f68521"
+          },
+          {
+            "state": "state",
+            "file": "candidate-m02-workbook-390-state.png",
+            "sha256": "5f34c6332c95bf61c5772a53757ce4f0e39005fbcfdd04e9e0119043458f5d04"
+          }
+        ]
+      }
+    },
+    {
+      "width": 390,
+      "theme": "light",
+      "resource": "playbook",
+      "reference": {
+        "route": "playbook/index.html",
+        "images": [
+          {
+            "state": "hero",
+            "file": "reference-m01-playbook-390-hero.png",
+            "sha256": "1243e77ed2d306d2fc4124bc721de73a93c9cd80cf145b5702d72b0a372f79b6"
+          },
+          {
+            "state": "state",
+            "file": "reference-m01-playbook-390-state.png",
+            "sha256": "ca494ef504c8f3e5b1b6d057e19695d219940c18b4d701b02afe034cd092feeb"
+          }
+        ]
+      },
+      "candidate": {
+        "route": "modulos/02-de-ocupado-a-productivo/playbook/index.html",
+        "images": [
+          {
+            "state": "hero",
+            "file": "candidate-m02-playbook-390-hero.png",
+            "sha256": "2aa49a5b9337e74018f559d0a95de2203addf85908b46989b65b630119e08628"
+          },
+          {
+            "state": "state",
+            "file": "candidate-m02-playbook-390-state.png",
+            "sha256": "ebd3746c46bf18c6f0c2d9d66e1f91c001427eec204bc785b275d078528835e1"
+          }
+        ]
+      }
+    },
+    {
+      "width": 390,
+      "theme": "light",
+      "resource": "prompts",
+      "reference": {
+        "route": "prompts/index.html",
+        "images": [
+          {
+            "state": "hero",
+            "file": "reference-m01-prompts-390-hero.png",
+            "sha256": "145692d54f25a5efa9cb17cb3ef7d3239dba6e1106114be03805646520d0587e"
+          },
+          {
+            "state": "state",
+            "file": "reference-m01-prompts-390-state.png",
+            "sha256": "5bf66274a694fa599ac2c0367159830ad563c74667df611d2d55dbabc5893344"
+          }
+        ]
+      },
+      "candidate": {
+        "route": "modulos/02-de-ocupado-a-productivo/prompts/index.html",
+        "images": [
+          {
+            "state": "hero",
+            "file": "candidate-m02-prompts-390-hero.png",
+            "sha256": "628d6c3a846854f6db99dba88e91e86ed5bdb298f583f44d7bc3309cf27d7d0a"
+          },
+          {
+            "state": "state",
+            "file": "candidate-m02-prompts-390-state.png",
+            "sha256": "5f21d218fd5d20dc15d839974053bc25852f576c03963a442588be2f8484bc2c"
+          }
+        ]
+      }
+    },
+    {
+      "width": 1440,
+      "theme": "light",
+      "resource": "masterclass",
+      "reference": {
+        "route": "deck/index.html",
+        "images": [
+          {
+            "state": "hero",
+            "file": "reference-m01-masterclass-1440-hero.png",
+            "sha256": "9aa6e99134ba72e09fc0c0d834bfea2b034bd6f16e9ecd5ccb4a503a59b7311d"
+          },
+          {
+            "state": "state",
+            "file": "reference-m01-masterclass-1440-state.png",
+            "sha256": "3ed2f908c0bbf25c8ced32cca99848ba0006ea4dc2f1a295a5ad439b4e883052"
+          }
+        ]
+      },
+      "candidate": {
+        "route": "modulos/02-de-ocupado-a-productivo/masterclass/index.html",
+        "images": [
+          {
+            "state": "hero",
+            "file": "candidate-m02-masterclass-1440-hero.png",
+            "sha256": "9d4774b8e8972396800784184e4f4ce6c158077032f680a83b1d5d5518867d70"
+          },
+          {
+            "state": "state",
+            "file": "candidate-m02-masterclass-1440-state.png",
+            "sha256": "80932eae34f7a5a4be28f1df668040f316cceb5b483f9ff133005dc86be27928"
+          }
+        ]
+      }
+    },
+    {
+      "width": 1440,
+      "theme": "light",
+      "resource": "workbook",
+      "reference": {
+        "route": "workbook/index.html",
+        "images": [
+          {
+            "state": "hero",
+            "file": "reference-m01-workbook-1440-hero.png",
+            "sha256": "b0f1c09a0036d8bc28727370f8004b191285c60bf66f90d2a89962d5eacaaf58"
+          },
+          {
+            "state": "state",
+            "file": "reference-m01-workbook-1440-state.png",
+            "sha256": "d798f7b72a78bbe11c92bbbd626465207117be93253acc8e3601ad2b6d14f4d2"
+          }
+        ]
+      },
+      "candidate": {
+        "route": "modulos/02-de-ocupado-a-productivo/workbook/index.html",
+        "images": [
+          {
+            "state": "hero",
+            "file": "candidate-m02-workbook-1440-hero.png",
+            "sha256": "98fbcdf7d71287710b2bfbcbefc0b7f7c3d6ecb68c804e3f6bf5c3d9b4cdc146"
+          },
+          {
+            "state": "state",
+            "file": "candidate-m02-workbook-1440-state.png",
+            "sha256": "6e99aab9c10f5d2dee2008aac2cef13d61fd696492bdcc9dae9d450997da4c83"
+          }
+        ]
+      }
+    },
+    {
+      "width": 1440,
+      "theme": "light",
+      "resource": "playbook",
+      "reference": {
+        "route": "playbook/index.html",
+        "images": [
+          {
+            "state": "hero",
+            "file": "reference-m01-playbook-1440-hero.png",
+            "sha256": "45ac95b6ba4e2bf7665b50bfd36790747dcc8eeaf889822ef7b2169de52c99f4"
+          },
+          {
+            "state": "state",
+            "file": "reference-m01-playbook-1440-state.png",
+            "sha256": "af01868954cefcdb23368807688b70d7634124736eaff302774b84f5bb1c5270"
+          }
+        ]
+      },
+      "candidate": {
+        "route": "modulos/02-de-ocupado-a-productivo/playbook/index.html",
+        "images": [
+          {
+            "state": "hero",
+            "file": "candidate-m02-playbook-1440-hero.png",
+            "sha256": "ab27569bb83bca1f26f7afa4820facac0c3b74f0c6318dd09dcad7454b62a403"
+          },
+          {
+            "state": "state",
+            "file": "candidate-m02-playbook-1440-state.png",
+            "sha256": "5ab703f5066834ff719ab241a81fdc342289201e2fd84c6146d9f055e7dc4fe2"
+          }
+        ]
+      }
+    },
+    {
+      "width": 1440,
+      "theme": "light",
+      "resource": "prompts",
+      "reference": {
+        "route": "prompts/index.html",
+        "images": [
+          {
+            "state": "hero",
+            "file": "reference-m01-prompts-1440-hero.png",
+            "sha256": "d2a0fbd11340d23dcaef824cc4b3f25a7a495334878ab740a6ac9dd9141e8ddc"
+          },
+          {
+            "state": "state",
+            "file": "reference-m01-prompts-1440-state.png",
+            "sha256": "6e6e09318890dee23f4868f3bb9d89916a382e10de1ae73d0b3722c573fe99cc"
+          }
+        ]
+      },
+      "candidate": {
+        "route": "modulos/02-de-ocupado-a-productivo/prompts/index.html",
+        "images": [
+          {
+            "state": "hero",
+            "file": "candidate-m02-prompts-1440-hero.png",
+            "sha256": "1c3123d8986c1fc02687a6b21ffe8ea81f0aae3f81c9f18e758fccb18184ac36"
+          },
+          {
+            "state": "state",
+            "file": "candidate-m02-prompts-1440-state.png",
+            "sha256": "10b5e203164f75b343881b555edd2afbcf906856501ec5cefc9cc18ac2e89928"
+          }
+        ]
+      }
+    }
+  ],
+  "summary": {
+    "pair_count": 8,
+    "image_count": 32,
+    "evidence_readback": "sha256-bound",
+    "visual_policy": "same-functional-and-brand-grammar-not-pixel-identity",
+    "verdict": "PASS"
+  },
+  "inputs": {
+    "build_manifest_sha256": "d264b4416eb6e8093f17320055ef67509d9e7b56c1532e46bfcf546b453cf4b6",
+    "build_receipt_sha256": "2a4f2de8e7a632ca699b5177548de489d18dce98f2f540507f88ce69412323e6",
+    "definition_of_done_ref": "src/module-resource-definition-of-done-v1.json",
+    "definition_of_done_sha256": "d43f43935de080e876ee40cac3ced71c2431c78f6ed398f2b50f6af7053f414c",
+    "css_sha256": "18ff9c52f9eb5af42b037bdd9a3b5240c5cab65eff246636a8e1a20369999046",
+    "runtime_sha256": "da20fc831a7c752df397d2b3d7c7ff6a7de9429e8b8f2c410284582ef95beb89"
+  },
+  "state": "RENDERED_DRAFT",
+  "publication_authorized": false,
+  "self_hash_model": "sha256(sorted-json-without-self_sha256)",
+  "self_sha256": "3e70059da5aaba9ec4919ae835dcd02c1bf46f7794e982d691e7f95081af4eba"
+}

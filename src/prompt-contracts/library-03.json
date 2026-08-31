@@ -1,5 +1,5 @@
 {
-  "schema_version": "prompt-intent-contract-v1",
+  "schema_version": "prompt-intent-contract-v2",
   "intent_id": "03",
   "surface": "library",
   "phase": "Aprender",
@@ -21,33 +21,11 @@
         "when": "una auditoría previa reveló la brecha que bloquea tu resultado.",
         "example": "Comprobar límites legales de usar mis conversaciones como material de estudio.",
         "evidence": "informe citado que responde el vacío, tabla con confianza en escala declarada y riesgo residual con condición de cierre comprobable.",
-        "prompt": "Necesito cerrar el vacío [VACÍO], ya diagnosticado, porque bloquea [DECISIÓN BLOQUEADA]. Mi criterio de aceptación es [CRITERIO DE ACEPTACIÓN]. Investiga solo ese vacío: dentro del alcance, el vacío; fuera, cualquier tema nuevo. Fija primero la pregunta principal, el contexto temporal y regional de mi caso, las fuentes primarias aceptadas, la evidencia mínima por afirmación y la escala de confianza (alta, media o baja, definida). Entrega hallazgos citados; tabla afirmación, evidencia, confianza y límite; contradicciones con ambas fuentes; y el riesgo residual con la condición comprobable que lo cerraría. Si no cierra con fuentes públicas, dilo: no demostrable con el alcance dado. Si el vacío muta, re-declara el alcance. Si falta contexto de mi caso, hazme máximo tres preguntas; si aún falta, declara coverage_gap y no inventes certeza.",
+        "prompt": "Necesito cerrar el vacío <VACÍO>, ya diagnosticado, porque bloquea <DECISIÓN>. Mi criterio de aceptación es <CRITERIO DE ACEPTACIÓN>. Investiga solo ese vacío: dentro del alcance, el vacío; fuera, cualquier tema nuevo. Fija primero la pregunta principal, el contexto temporal y regional de mi caso, las fuentes primarias aceptadas, la evidencia mínima por afirmación y la escala de confianza (alta, media o baja, definida). Entrega hallazgos citados; tabla afirmación, evidencia, confianza y límite; contradicciones con ambas fuentes; y el riesgo residual con la condición comprobable que lo cerraría. Si no cierra con fuentes públicas, dilo: no demostrable con el alcance dado. Si el vacío muta, re-declara el alcance. Si falta contexto de mi caso, hazme máximo tres preguntas; si aún falta, declara coverage_gap y no inventes certeza.",
         "level_spec": {
           "role": "Investigador de profundidad que cierra un vacío a la vez",
           "spec_role": "Especialista en aprendizaje e investigación basada en evidencia",
           "objective": "Cerrar un vacío diagnosticado con hallazgos citados y riesgo residual explícito",
-          "parameters": [
-            [
-              "alcance",
-              "solo el vacío diagnosticado; todo tema nuevo queda fuera"
-            ],
-            [
-              "encuadre",
-              "pregunta principal, contexto temporal y regional, y fuentes primarias aceptadas"
-            ],
-            [
-              "evidencia_minima",
-              "nivel mínimo de respaldo exigido por afirmación"
-            ],
-            [
-              "confianza",
-              "escala alta, media o baja definida antes de investigar"
-            ],
-            [
-              "riesgo_residual",
-              "nombrado con la condición comprobable que lo cerraría"
-            ]
-          ],
           "workflow": [
             "Confirmar el vacío diagnosticado y el criterio de aceptación",
             "Fijar pregunta principal, contexto temporal y regional, fuentes aceptadas y evidencia mínima",
@@ -70,6 +48,33 @@
             "El vacío muta al investigar: re-declarar el alcance antes de seguir",
             "Tras tres preguntas sigue faltando contexto: coverage_gap",
             "Una afirmación no alcanza la evidencia mínima: se reporta como no sostenida"
+          ],
+          "constraints": [
+            [
+              "alcance",
+              "solo el vacío diagnosticado; todo tema nuevo queda fuera"
+            ],
+            [
+              "encuadre",
+              "pregunta principal, contexto temporal y regional, y fuentes primarias aceptadas"
+            ],
+            [
+              "evidencia_minima",
+              "nivel mínimo de respaldo exigido por afirmación"
+            ],
+            [
+              "confianza",
+              "escala alta, media o baja definida antes de investigar"
+            ],
+            [
+              "riesgo_residual",
+              "nombrado con la condición comprobable que lo cerraría"
+            ]
+          ],
+          "frameworks": [
+            "Plan de investigación · pregunta, alcance y criterios",
+            "Criterios de aceptación · prueba observable",
+            "Jerarquía de fuentes · fuentes primarias primero"
           ]
         },
         "why_it_works": {
@@ -106,7 +111,78 @@
             "claim": "Declarar la escala de confianza antes de investigar y nombrar el riesgo residual con su condición de cierre son normas internas del método.",
             "source": "method_internal"
           }
-        ]
+        ],
+        "inputs": [
+          {
+            "key": "gap",
+            "label": "VACÍO",
+            "help": "pregunta aún sin soporte",
+            "example": "qué evidencia demuestra transferencia",
+            "required": true,
+            "type": "text",
+            "source": "previous_output",
+            "demo_value": "artefacto sintético del paso anterior: falta demostrar transferencia a un segundo contexto"
+          },
+          {
+            "key": "decision",
+            "label": "DECISIÓN",
+            "help": "elección que debe quedar informada",
+            "example": "escalar o ajustar el piloto",
+            "required": true,
+            "type": "text",
+            "source": "user",
+            "demo_value": "qué forma de trabajo probar durante siete días"
+          },
+          {
+            "key": "acceptance_criterion",
+            "label": "CRITERIO DE ACEPTACIÓN",
+            "help": "prueba observable de éxito",
+            "example": "otro puede repetir el flujo",
+            "required": true,
+            "type": "text",
+            "source": "user",
+            "demo_value": "otro puede repetir el flujo"
+          }
+        ],
+        "parameters": [
+          {
+            "key": "length",
+            "label": "LONGITUD",
+            "default": "concisa",
+            "choices": [
+              "concisa",
+              "media"
+            ]
+          },
+          {
+            "key": "structure",
+            "label": "ESTRUCTURA",
+            "default": "2 párrafos + bullets clave",
+            "choices": [
+              "2 párrafos + bullets clave",
+              "tabla breve"
+            ]
+          },
+          {
+            "key": "tone",
+            "label": "TONO",
+            "default": "claro y personal",
+            "choices": [
+              "claro y personal",
+              "didáctico"
+            ]
+          },
+          {
+            "key": "depth",
+            "label": "PROFUNDIDAD",
+            "default": "práctica",
+            "choices": [
+              "práctica",
+              "profunda"
+            ]
+          }
+        ],
+        "optional_clauses": []
       },
       "empresa": {
         "title": "Investigación profunda para el proceso",
@@ -114,33 +190,11 @@
         "when": "una auditoría del equipo reveló una brecha que frena una decisión con responsable.",
         "example": "Comprobar límites legales y operativos de un copiloto interno antes de desplegarlo al área.",
         "evidence": "informe citado que responde el vacío, confianza en escala comparable entre corridas y riesgo residual con condición de cierre y responsable.",
-        "prompt": "Investiga el vacío [VACÍO], ya diagnosticado, porque bloquea [PROCESO] y una decisión del equipo con responsable. El criterio de aceptación es [CRITERIO DE ACEPTACIÓN], revisable por un tercero. Alcance cerrado: el vacío; fuera, todo tema nuevo. Fija primero la pregunta principal, el contexto temporal y regional del proceso, las fuentes primarias aceptadas, la evidencia mínima por afirmación y la escala de confianza (alta, media o baja, definida) para comparar entre corridas. Entrega hallazgos citados; tabla afirmación, evidencia, confianza y límite; contradicciones con ambas fuentes; y riesgo residual con condición de cierre e impacto en el proceso. Si no cierra con fuentes públicas, declara: no demostrable con el alcance dado. Si falta contexto, pregunta máximo tres veces al responsable; si aún falta, declara coverage_gap y no inventes exactitud.",
+        "prompt": "Investiga el vacío <VACÍO>, ya diagnosticado, porque bloquea <PROCESO> y una decisión del equipo con responsable. El criterio de aceptación es <CRITERIO DE ACEPTACIÓN>, revisable por un tercero. Alcance cerrado: el vacío; fuera, todo tema nuevo. Fija primero la pregunta principal, el contexto temporal y regional del proceso, las fuentes primarias aceptadas, la evidencia mínima por afirmación y la escala de confianza (alta, media o baja, definida) para comparar entre corridas. Entrega hallazgos citados; tabla afirmación, evidencia, confianza y límite; contradicciones con ambas fuentes; y riesgo residual con condición de cierre e impacto en el proceso. Si no cierra con fuentes públicas, declara: no demostrable con el alcance dado. Si falta contexto, pregunta máximo tres veces al responsable; si aún falta, declara coverage_gap y no inventes exactitud.",
         "level_spec": {
           "role": "Investigador de profundidad al servicio de un proceso con responsable",
           "spec_role": "Especialista en aprendizaje e investigación basada en evidencia",
           "objective": "Cerrar el vacío que bloquea el proceso con un informe citado y revisable por terceros",
-          "parameters": [
-            [
-              "precondición",
-              "diagnóstico previo con vacío nombrado y responsable identificado"
-            ],
-            [
-              "encuadre",
-              "pregunta principal, contexto temporal y regional del proceso, y fuentes aceptadas"
-            ],
-            [
-              "evidencia_minima",
-              "respaldo mínimo por afirmación, igual en cada corrida"
-            ],
-            [
-              "comparabilidad",
-              "escala de confianza fija para comparar entre corridas"
-            ],
-            [
-              "revisión",
-              "criterio de aceptación verificable por un tercero"
-            ]
-          ],
           "workflow": [
             "Confirmar vacío, responsable y criterio de aceptación revisable",
             "Fijar pregunta principal, contexto temporal y regional, fuentes aceptadas y evidencia mínima",
@@ -163,6 +217,33 @@
             "El vacío muta al investigar: re-declarar el alcance con el responsable",
             "Tras tres preguntas al responsable sigue faltando contexto: coverage_gap",
             "Una afirmación no alcanza la evidencia mínima: se reporta como no sostenida ante el revisor"
+          ],
+          "constraints": [
+            [
+              "precondición",
+              "diagnóstico previo con vacío nombrado y responsable identificado"
+            ],
+            [
+              "encuadre",
+              "pregunta principal, contexto temporal y regional del proceso, y fuentes aceptadas"
+            ],
+            [
+              "evidencia_minima",
+              "respaldo mínimo por afirmación, igual en cada corrida"
+            ],
+            [
+              "comparabilidad",
+              "escala de confianza fija para comparar entre corridas"
+            ],
+            [
+              "revisión",
+              "criterio de aceptación verificable por un tercero"
+            ]
+          ],
+          "frameworks": [
+            "Plan de investigación · pregunta, alcance y criterios",
+            "Criterios de aceptación · prueba observable",
+            "Jerarquía de fuentes · fuentes primarias primero"
           ]
         },
         "why_it_works": {
@@ -203,7 +284,78 @@
             "claim": "Fijar una escala comparable entre corridas y un verificador distinto del productor es política interna para informes que sostienen un proceso.",
             "source": "method_internal"
           }
-        ]
+        ],
+        "inputs": [
+          {
+            "key": "gap",
+            "label": "VACÍO",
+            "help": "pregunta aún sin soporte",
+            "example": "qué evidencia demuestra transferencia",
+            "required": true,
+            "type": "text",
+            "source": "previous_output",
+            "demo_value": "artefacto sintético del paso anterior: falta demostrar transferencia a un segundo contexto"
+          },
+          {
+            "key": "process",
+            "label": "PROCESO",
+            "help": "flujo que cambiará",
+            "example": "preparación de decisiones",
+            "required": true,
+            "type": "text",
+            "source": "user",
+            "demo_value": "preparación y revisión semanal de decisiones"
+          },
+          {
+            "key": "acceptance_criterion",
+            "label": "CRITERIO DE ACEPTACIÓN",
+            "help": "prueba observable de éxito",
+            "example": "otro puede repetir el flujo",
+            "required": true,
+            "type": "text",
+            "source": "user",
+            "demo_value": "otro puede repetir el flujo"
+          }
+        ],
+        "parameters": [
+          {
+            "key": "length",
+            "label": "LONGITUD",
+            "default": "concisa",
+            "choices": [
+              "concisa",
+              "media"
+            ]
+          },
+          {
+            "key": "structure",
+            "label": "ESTRUCTURA",
+            "default": "2 párrafos + bullets clave",
+            "choices": [
+              "2 párrafos + bullets clave",
+              "tabla breve"
+            ]
+          },
+          {
+            "key": "tone",
+            "label": "TONO",
+            "default": "ejecutivo y operativo",
+            "choices": [
+              "ejecutivo y operativo",
+              "facilitador"
+            ]
+          },
+          {
+            "key": "depth",
+            "label": "PROFUNDIDAD",
+            "default": "práctica",
+            "choices": [
+              "práctica",
+              "profunda"
+            ]
+          }
+        ],
+        "optional_clauses": []
       }
     },
     "en": {
@@ -213,33 +365,11 @@
         "when": "a previous audit revealed the gap blocking your outcome.",
         "example": "Check the legal limits of using my chat logs as study material.",
         "evidence": "cited report answering the gap, a confidence scale declared up front and residual risk with a testable closing condition.",
-        "prompt": "I need to close the diagnosed gap [GAP], because it blocks [DECISION AT STAKE]. My acceptance criterion is [ACCEPTANCE CRITERION]. Research that gap only: in scope, the gap; out, any new topic. First fix the main question, the time and region of my case, the primary sources you accept, the minimum evidence per claim and the confidence scale (high, medium or low, defined). Deliver cited findings; a claim, evidence, confidence, limit table; contradictions with both sources; and residual risk with the testable condition that would close it. If public sources cannot close it, say: not provable within the given scope. If the gap mutates, restate the scope. If context on my case is missing, ask me up to three questions; if still missing, declare coverage_gap and do not invent certainty.",
+        "prompt": "I need to close the diagnosed gap <GAP>, because it blocks <DECISION>. My acceptance criterion is <ACCEPTANCE CRITERION>. Research that gap only: in scope, the gap; out, any new topic. First fix the main question, the time and region of my case, the primary sources you accept, the minimum evidence per claim and the confidence scale (high, medium or low, defined). Deliver cited findings; a claim, evidence, confidence, limit table; contradictions with both sources; and residual risk with the testable condition that would close it. If public sources cannot close it, say: not provable within the given scope. If the gap mutates, restate the scope. If context on my case is missing, ask me up to three questions; if still missing, declare coverage_gap and do not invent certainty.",
         "level_spec": {
           "role": "Depth researcher who closes one gap at a time",
           "spec_role": "Specialist in evidence-grounded learning and research",
           "objective": "Close a diagnosed gap with cited findings and explicit residual risk",
-          "parameters": [
-            [
-              "scope",
-              "only the diagnosed gap; any new topic stays out"
-            ],
-            [
-              "framing",
-              "main question, time and region bounds, and accepted primary sources"
-            ],
-            [
-              "minimum_evidence",
-              "lowest level of backing accepted per claim"
-            ],
-            [
-              "confidence",
-              "high, medium or low scale defined before researching"
-            ],
-            [
-              "residual_risk",
-              "named with the testable condition that would close it"
-            ]
-          ],
           "workflow": [
             "Confirm the diagnosed gap and the acceptance criterion",
             "Fix the main question, time and region bounds, accepted sources and minimum evidence",
@@ -262,6 +392,33 @@
             "The gap mutates during research: restate the scope before continuing",
             "Context still missing after three questions: coverage_gap",
             "A claim falls below the minimum evidence: report it as unsupported"
+          ],
+          "constraints": [
+            [
+              "scope",
+              "only the diagnosed gap; any new topic stays out"
+            ],
+            [
+              "framing",
+              "main question, time and region bounds, and accepted primary sources"
+            ],
+            [
+              "minimum_evidence",
+              "lowest level of backing accepted per claim"
+            ],
+            [
+              "confidence",
+              "high, medium or low scale defined before researching"
+            ],
+            [
+              "residual_risk",
+              "named with the testable condition that would close it"
+            ]
+          ],
+          "frameworks": [
+            "Research plan · question, scope and criteria",
+            "Acceptance criteria · observable test",
+            "Source hierarchy · primary sources first"
           ]
         },
         "why_it_works": {
@@ -298,7 +455,78 @@
             "claim": "Declaring the confidence scale before researching and naming residual risk with its closing condition are internal method policy.",
             "source": "method_internal"
           }
-        ]
+        ],
+        "inputs": [
+          {
+            "key": "gap",
+            "label": "GAP",
+            "help": "question still unsupported",
+            "example": "what proves transfer",
+            "required": true,
+            "type": "text",
+            "source": "previous_output",
+            "demo_value": "synthetic prior-step artifact: transfer to a second context still needs evidence"
+          },
+          {
+            "key": "decision",
+            "label": "DECISION",
+            "help": "choice the work must inform",
+            "example": "scale or adjust the pilot",
+            "required": true,
+            "type": "text",
+            "source": "user",
+            "demo_value": "which way of working to test for seven days"
+          },
+          {
+            "key": "acceptance_criterion",
+            "label": "ACCEPTANCE CRITERION",
+            "help": "observable success test",
+            "example": "someone else can repeat the flow",
+            "required": true,
+            "type": "text",
+            "source": "user",
+            "demo_value": "someone else can repeat the flow"
+          }
+        ],
+        "parameters": [
+          {
+            "key": "length",
+            "label": "LENGTH",
+            "default": "concise",
+            "choices": [
+              "concise",
+              "medium"
+            ]
+          },
+          {
+            "key": "structure",
+            "label": "STRUCTURE",
+            "default": "2 paragraphs + key bullets",
+            "choices": [
+              "2 paragraphs + key bullets",
+              "short table"
+            ]
+          },
+          {
+            "key": "tone",
+            "label": "TONE",
+            "default": "clear and personal",
+            "choices": [
+              "clear and personal",
+              "instructional"
+            ]
+          },
+          {
+            "key": "depth",
+            "label": "DEPTH",
+            "default": "practical",
+            "choices": [
+              "practical",
+              "deep"
+            ]
+          }
+        ],
+        "optional_clauses": []
       },
       "empresa": {
         "title": "Deep research for the process",
@@ -306,33 +534,11 @@
         "when": "a team audit revealed a gap holding back an accountable decision.",
         "example": "Check legal and operational limits of an internal copilot before area rollout.",
         "evidence": "cited report answering the gap, confidence comparable across runs and residual risk with a closing condition and an owner.",
-        "prompt": "Research the diagnosed gap [GAP] because it blocks [PROCESS] and a decision the team must own. Acceptance criterion: [ACCEPTANCE CRITERION], reviewable by a third party. Scope is closed: the gap; out, any new topic. Fix the main question, the time and region of the process, the primary sources you accept, the minimum evidence per claim and confidence scale (high, medium or low, defined) so runs stay comparable. Deliver cited findings; a claim, evidence, confidence, limit table; contradictions with both sources; residual risk with closing condition and process impact. If public sources cannot close it, state: not provable within the given scope. If context is missing, ask the accountable owner up to three questions; if still missing, declare coverage_gap; do not invent accuracy.",
+        "prompt": "Research the diagnosed gap <GAP> because it blocks <PROCESS> and a decision the team must own. Acceptance criterion: <ACCEPTANCE CRITERION>, reviewable by a third party. Scope is closed: the gap; out, any new topic. Fix the main question, the time and region of the process, the primary sources you accept, the minimum evidence per claim and confidence scale (high, medium or low, defined) so runs stay comparable. Deliver cited findings; a claim, evidence, confidence, limit table; contradictions with both sources; residual risk with closing condition and process impact. If public sources cannot close it, state: not provable within the given scope. If context is missing, ask the accountable owner up to three questions; if still missing, declare coverage_gap; do not invent accuracy.",
         "level_spec": {
           "role": "Depth researcher serving a process with an accountable owner",
           "spec_role": "Specialist in evidence-grounded learning and research",
           "objective": "Close the gap blocking the process with a cited report reviewable by third parties",
-          "parameters": [
-            [
-              "precondition",
-              "prior audit with a named gap and an identified owner"
-            ],
-            [
-              "framing",
-              "main question, time and region bounds of the process, and accepted sources"
-            ],
-            [
-              "minimum_evidence",
-              "lowest backing accepted per claim, identical on every run"
-            ],
-            [
-              "comparability",
-              "fixed confidence scale to compare across runs"
-            ],
-            [
-              "review",
-              "acceptance criterion verifiable by a third party"
-            ]
-          ],
           "workflow": [
             "Confirm the gap, the owner and the reviewable acceptance criterion",
             "Fix the main question, time and region bounds, accepted sources and minimum evidence",
@@ -355,6 +561,33 @@
             "The gap mutates during research: restate the scope with the owner",
             "Context still missing after three questions to the owner: coverage_gap",
             "A claim falls below the minimum evidence: report it as unsupported to the reviewer"
+          ],
+          "constraints": [
+            [
+              "precondition",
+              "prior audit with a named gap and an identified owner"
+            ],
+            [
+              "framing",
+              "main question, time and region bounds of the process, and accepted sources"
+            ],
+            [
+              "minimum_evidence",
+              "lowest backing accepted per claim, identical on every run"
+            ],
+            [
+              "comparability",
+              "fixed confidence scale to compare across runs"
+            ],
+            [
+              "review",
+              "acceptance criterion verifiable by a third party"
+            ]
+          ],
+          "frameworks": [
+            "Research plan · question, scope and criteria",
+            "Acceptance criteria · observable test",
+            "Source hierarchy · primary sources first"
           ]
         },
         "why_it_works": {
@@ -395,7 +628,78 @@
             "claim": "Fixing a scale comparable across runs and a verifier distinct from the producer is internal policy for reports that carry a process.",
             "source": "method_internal"
           }
-        ]
+        ],
+        "inputs": [
+          {
+            "key": "gap",
+            "label": "GAP",
+            "help": "question still unsupported",
+            "example": "what proves transfer",
+            "required": true,
+            "type": "text",
+            "source": "previous_output",
+            "demo_value": "synthetic prior-step artifact: transfer to a second context still needs evidence"
+          },
+          {
+            "key": "process",
+            "label": "PROCESS",
+            "help": "workflow that will change",
+            "example": "decision preparation",
+            "required": true,
+            "type": "text",
+            "source": "user",
+            "demo_value": "weekly decision preparation and review"
+          },
+          {
+            "key": "acceptance_criterion",
+            "label": "ACCEPTANCE CRITERION",
+            "help": "observable success test",
+            "example": "someone else can repeat the flow",
+            "required": true,
+            "type": "text",
+            "source": "user",
+            "demo_value": "someone else can repeat the flow"
+          }
+        ],
+        "parameters": [
+          {
+            "key": "length",
+            "label": "LENGTH",
+            "default": "concise",
+            "choices": [
+              "concise",
+              "medium"
+            ]
+          },
+          {
+            "key": "structure",
+            "label": "STRUCTURE",
+            "default": "2 paragraphs + key bullets",
+            "choices": [
+              "2 paragraphs + key bullets",
+              "short table"
+            ]
+          },
+          {
+            "key": "tone",
+            "label": "TONE",
+            "default": "executive and operational",
+            "choices": [
+              "executive and operational",
+              "facilitative"
+            ]
+          },
+          {
+            "key": "depth",
+            "label": "DEPTH",
+            "default": "practical",
+            "choices": [
+              "practical",
+              "deep"
+            ]
+          }
+        ],
+        "optional_clauses": []
       }
     },
     "pt": {
@@ -405,33 +709,11 @@
         "when": "uma auditoria anterior revelou a lacuna que bloqueia o seu resultado.",
         "example": "Verificar limites legais de usar minhas conversas como material de estudo.",
         "evidence": "relatório citado que responde à lacuna, confiança em escala declarada e risco residual com condição de fechamento verificável.",
-        "prompt": "Preciso fechar a lacuna diagnosticada [LACUNA], porque bloqueia [DECISÃO TRAVADA]. Meu critério de aceitação é [CRITÉRIO DE ACEITAÇÃO]. Pesquise apenas essa lacuna: dentro do escopo, a lacuna; fora, tema novo. Fixe primeiro a pergunta principal, o contexto temporal e regional do meu caso, as fontes primárias aceitas, a evidência mínima por afirmação e a escala de confiança (alta, média ou baixa, definida). Entregue achados citados; tabela afirmação, evidência, confiança, limite; contradições com as duas fontes; e risco residual com a condição verificável que o fecharia. Se não fechar com fontes públicas, diga: não demonstrável com o escopo dado. Se a lacuna mudar, redeclare o escopo. Se faltar contexto do meu caso, faça no máximo três perguntas; se ainda faltar, declare coverage_gap e não invente certeza.",
+        "prompt": "Preciso fechar a lacuna diagnosticada <LACUNA>, porque bloqueia <DECISÃO>. Meu critério de aceitação é <CRITÉRIO DE ACEITAÇÃO>. Pesquise apenas essa lacuna: dentro do escopo, a lacuna; fora, tema novo. Fixe primeiro a pergunta principal, o contexto temporal e regional do meu caso, as fontes primárias aceitas, a evidência mínima por afirmação e a escala de confiança (alta, média ou baixa, definida). Entregue achados citados; tabela afirmação, evidência, confiança, limite; contradições com as duas fontes; e risco residual com a condição verificável que o fecharia. Se não fechar com fontes públicas, diga: não demonstrável com o escopo dado. Se a lacuna mudar, redeclare o escopo. Se faltar contexto do meu caso, faça no máximo três perguntas; se ainda faltar, declare coverage_gap e não invente certeza.",
         "level_spec": {
           "role": "Pesquisador de profundidade que fecha uma lacuna por vez",
           "spec_role": "Especialista em aprendizagem e pesquisa baseada em evidências",
           "objective": "Fechar uma lacuna diagnosticada com achados citados e risco residual explícito",
-          "parameters": [
-            [
-              "escopo",
-              "apenas a lacuna diagnosticada; todo tema novo fica fora"
-            ],
-            [
-              "enquadramento",
-              "pergunta principal, contexto temporal e regional, e fontes primárias aceitas"
-            ],
-            [
-              "evidencia_minima",
-              "nível mínimo de respaldo exigido por afirmação"
-            ],
-            [
-              "confiança",
-              "escala alta, média ou baixa definida antes de pesquisar"
-            ],
-            [
-              "risco_residual",
-              "nomeado com a condição verificável que o fecharia"
-            ]
-          ],
           "workflow": [
             "Confirmar a lacuna diagnosticada e o critério de aceitação",
             "Fixar pergunta principal, contexto temporal e regional, fontes aceitas e evidência mínima",
@@ -454,6 +736,33 @@
             "A lacuna muda durante a pesquisa: redeclarar o escopo antes de seguir",
             "Após três perguntas ainda falta contexto: coverage_gap",
             "Uma afirmação não alcança a evidência mínima: reportar como não sustentada"
+          ],
+          "constraints": [
+            [
+              "escopo",
+              "apenas a lacuna diagnosticada; todo tema novo fica fora"
+            ],
+            [
+              "enquadramento",
+              "pergunta principal, contexto temporal e regional, e fontes primárias aceitas"
+            ],
+            [
+              "evidencia_minima",
+              "nível mínimo de respaldo exigido por afirmação"
+            ],
+            [
+              "confiança",
+              "escala alta, média ou baixa definida antes de pesquisar"
+            ],
+            [
+              "risco_residual",
+              "nomeado com a condição verificável que o fecharia"
+            ]
+          ],
+          "frameworks": [
+            "Plano de pesquisa · pergunta, escopo e critérios",
+            "Critérios de aceitação · teste observável",
+            "Hierarquia de fontes · fontes primárias primeiro"
           ]
         },
         "why_it_works": {
@@ -490,7 +799,78 @@
             "claim": "Declarar a escala de confiança antes de pesquisar e nomear o risco residual com sua condição de fechamento são normas internas do método.",
             "source": "method_internal"
           }
-        ]
+        ],
+        "inputs": [
+          {
+            "key": "gap",
+            "label": "LACUNA",
+            "help": "questão ainda sem suporte",
+            "example": "o que demonstra transferência",
+            "required": true,
+            "type": "text",
+            "source": "previous_output",
+            "demo_value": "artefato sintético da etapa anterior: ainda falta demonstrar transferência para um segundo contexto"
+          },
+          {
+            "key": "decision",
+            "label": "DECISÃO",
+            "help": "escolha que o trabalho deve informar",
+            "example": "escalar ou ajustar o piloto",
+            "required": true,
+            "type": "text",
+            "source": "user",
+            "demo_value": "qual forma de trabalho testar por sete dias"
+          },
+          {
+            "key": "acceptance_criterion",
+            "label": "CRITÉRIO DE ACEITAÇÃO",
+            "help": "teste observável de sucesso",
+            "example": "outra pessoa repete o fluxo",
+            "required": true,
+            "type": "text",
+            "source": "user",
+            "demo_value": "outra pessoa repete o fluxo"
+          }
+        ],
+        "parameters": [
+          {
+            "key": "length",
+            "label": "EXTENSÃO",
+            "default": "concisa",
+            "choices": [
+              "concisa",
+              "média"
+            ]
+          },
+          {
+            "key": "structure",
+            "label": "ESTRUTURA",
+            "default": "2 parágrafos + bullets-chave",
+            "choices": [
+              "2 parágrafos + bullets-chave",
+              "tabela breve"
+            ]
+          },
+          {
+            "key": "tone",
+            "label": "TOM",
+            "default": "claro e pessoal",
+            "choices": [
+              "claro e pessoal",
+              "didático"
+            ]
+          },
+          {
+            "key": "depth",
+            "label": "PROFUNDIDADE",
+            "default": "prática",
+            "choices": [
+              "prática",
+              "profunda"
+            ]
+          }
+        ],
+        "optional_clauses": []
       },
       "empresa": {
         "title": "Pesquisa profunda para o processo",
@@ -498,33 +878,11 @@
         "when": "uma auditoria da equipe revelou uma lacuna que trava uma decisão com responsável.",
         "example": "Verificar limites legais e operacionais de um copiloto interno antes do uso pela área.",
         "evidence": "relatório citado que responde à lacuna, confiança comparável entre execuções e risco residual com condição de fechamento e responsável.",
-        "prompt": "Pesquise a lacuna diagnosticada [LACUNA] porque bloqueia [PROCESSO] e uma decisão da equipe com responsável. Critério de aceitação: [CRITÉRIO DE ACEITAÇÃO], revisável por terceiro. Escopo fechado: a lacuna; fora, tema novo. Fixe a pergunta principal, o contexto temporal e regional do processo, as fontes primárias aceitas, a evidência mínima por afirmação e a escala de confiança (alta, média ou baixa, definida) comparável entre execuções. Entregue achados citados; tabela afirmação, evidência, confiança, limite; contradições com as duas fontes; risco residual com condição de fechamento e impacto no processo. Se não fechar com fontes públicas, declare: não demonstrável com o escopo dado. Se faltar contexto, pergunte no máximo três vezes ao responsável; se ainda faltar, declare coverage_gap; não invente exatidão.",
+        "prompt": "Pesquise a lacuna diagnosticada <LACUNA> porque bloqueia <PROCESSO> e uma decisão da equipe com responsável. Critério de aceitação: <CRITÉRIO DE ACEITAÇÃO>, revisável por terceiro. Escopo fechado: a lacuna; fora, tema novo. Fixe a pergunta principal, o contexto temporal e regional do processo, as fontes primárias aceitas, a evidência mínima por afirmação e a escala de confiança (alta, média ou baixa, definida) comparável entre execuções. Entregue achados citados; tabela afirmação, evidência, confiança, limite; contradições com as duas fontes; risco residual com condição de fechamento e impacto no processo. Se não fechar com fontes públicas, declare: não demonstrável com o escopo dado. Se faltar contexto, pergunte no máximo três vezes ao responsável; se ainda faltar, declare coverage_gap; não invente exatidão.",
         "level_spec": {
           "role": "Pesquisador de profundidade a serviço de um processo com responsável",
           "spec_role": "Especialista em aprendizagem e pesquisa baseada em evidências",
           "objective": "Fechar a lacuna que trava o processo com relatório citado e revisável por terceiros",
-          "parameters": [
-            [
-              "precondição",
-              "diagnóstico anterior com lacuna nomeada e responsável identificado"
-            ],
-            [
-              "enquadramento",
-              "pergunta principal, contexto temporal e regional do processo, e fontes aceitas"
-            ],
-            [
-              "evidencia_minima",
-              "respaldo mínimo por afirmação, igual em cada execução"
-            ],
-            [
-              "comparabilidade",
-              "escala de confiança fixa para comparar entre execuções"
-            ],
-            [
-              "revisão",
-              "critério de aceitação verificável por terceiro"
-            ]
-          ],
           "workflow": [
             "Confirmar lacuna, responsável e critério de aceitação revisável",
             "Fixar pergunta principal, contexto temporal e regional, fontes aceitas e evidência mínima",
@@ -547,6 +905,33 @@
             "A lacuna muda durante a pesquisa: redeclarar o escopo com o responsável",
             "Após três perguntas ao responsável ainda falta contexto: coverage_gap",
             "Uma afirmação não alcança a evidência mínima: reportar como não sustentada ao revisor"
+          ],
+          "constraints": [
+            [
+              "precondição",
+              "diagnóstico anterior com lacuna nomeada e responsável identificado"
+            ],
+            [
+              "enquadramento",
+              "pergunta principal, contexto temporal e regional do processo, e fontes aceitas"
+            ],
+            [
+              "evidencia_minima",
+              "respaldo mínimo por afirmação, igual em cada execução"
+            ],
+            [
+              "comparabilidade",
+              "escala de confiança fixa para comparar entre execuções"
+            ],
+            [
+              "revisão",
+              "critério de aceitação verificável por terceiro"
+            ]
+          ],
+          "frameworks": [
+            "Plano de pesquisa · pergunta, escopo e critérios",
+            "Critérios de aceitação · teste observável",
+            "Hierarquia de fontes · fontes primárias primeiro"
           ]
         },
         "why_it_works": {
@@ -587,10 +972,95 @@
             "claim": "Fixar uma escala comparável entre execuções e um verificador diferente do produtor é política interna para relatórios que sustentam um processo.",
             "source": "method_internal"
           }
-        ]
+        ],
+        "inputs": [
+          {
+            "key": "gap",
+            "label": "LACUNA",
+            "help": "questão ainda sem suporte",
+            "example": "o que demonstra transferência",
+            "required": true,
+            "type": "text",
+            "source": "previous_output",
+            "demo_value": "artefato sintético da etapa anterior: ainda falta demonstrar transferência para um segundo contexto"
+          },
+          {
+            "key": "process",
+            "label": "PROCESSO",
+            "help": "fluxo que mudará",
+            "example": "preparação de decisões",
+            "required": true,
+            "type": "text",
+            "source": "user",
+            "demo_value": "preparação e revisão semanal de decisões"
+          },
+          {
+            "key": "acceptance_criterion",
+            "label": "CRITÉRIO DE ACEITAÇÃO",
+            "help": "teste observável de sucesso",
+            "example": "outra pessoa repete o fluxo",
+            "required": true,
+            "type": "text",
+            "source": "user",
+            "demo_value": "outra pessoa repete o fluxo"
+          }
+        ],
+        "parameters": [
+          {
+            "key": "length",
+            "label": "EXTENSÃO",
+            "default": "concisa",
+            "choices": [
+              "concisa",
+              "média"
+            ]
+          },
+          {
+            "key": "structure",
+            "label": "ESTRUTURA",
+            "default": "2 parágrafos + bullets-chave",
+            "choices": [
+              "2 parágrafos + bullets-chave",
+              "tabela breve"
+            ]
+          },
+          {
+            "key": "tone",
+            "label": "TOM",
+            "default": "executivo e operacional",
+            "choices": [
+              "executivo e operacional",
+              "facilitador"
+            ]
+          },
+          {
+            "key": "depth",
+            "label": "PROFUNDIDADE",
+            "default": "prática",
+            "choices": [
+              "prática",
+              "profunda"
+            ]
+          }
+        ],
+        "optional_clauses": []
       }
     }
   },
   "self_hash_model": "sha256(sorted-json-without-self_sha256)",
-  "self_sha256": "8b9fe1f79ae0f8ab50865d839492d545661f16abdbc93769f82f0d80eb9c07b5"
+  "self_sha256": "373602755437353946223c83480f0f1e5f1b0170bcc2d7e65cafe74a162169fe",
+  "flow": {
+    "route": "library",
+    "order": 3,
+    "previous": "05",
+    "next": "04",
+    "branches": [],
+    "consumes": [
+      "BASE_AUDITADA"
+    ],
+    "produces": "INFORME_DE_INVESTIGACION",
+    "external_gate": true,
+    "loop_to": null,
+    "standalone": true
+  }
 }

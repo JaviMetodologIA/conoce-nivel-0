@@ -1,5 +1,5 @@
 {
-  "schema_version": "prompt-intent-contract-v1",
+  "schema_version": "prompt-intent-contract-v2",
   "intent_id": "06",
   "surface": "library",
   "phase": "Aprehender",
@@ -19,33 +19,11 @@
         "when": "quieres comprobar si puedes usar una idea, no solo si la reconoces al leerla.",
         "example": "Practicar selección de casos de uso de IA con escenarios de mi trabajo comercial.",
         "evidence": "secuencia de práctica en cuatro momentos, respuesta esperada citada por actividad, rúbrica de corrección acierto/error contra la fuente y aviso cuando la base no cubre mi nivel.",
-        "prompt": "Diseña una práctica sobre [TEMA] con solo [FUENTES], al nivel de [MI NIVEL]. Cuatro momentos, uno por turno: recuperación sin ayuda, explicación con mis palabras, aplicación a un caso nuevo y corrección citada. Por actividad da la respuesta esperada con cita exacta de [FUENTES] y una rúbrica de dos salidas: acierto si reproduce la condición citada, error si la contradice u omite. El caso nuevo es una situación de [TEMA] ausente de la base: marca qué sale de ella y qué inventas como escenario, y corrige los conceptos, no sus datos. Lista errores frecuentes solo si la base los documenta. Si [MI NIVEL] supera la base, baja a la base y avísame. Si fallo la recuperación, repite esa actividad. No reveles la solución antes de mi intento. No inventes ejemplos ni me asignes un nivel demostrado.",
+        "prompt": "Diseña una práctica sobre <TEMA> con solo <FUENTES>, al nivel de <NIVEL>. Cuatro momentos, uno por turno: recuperación sin ayuda, explicación con mis palabras, aplicación a un caso nuevo y corrección citada. Por actividad da la respuesta esperada con cita exacta de <FUENTES> y una rúbrica de dos salidas: acierto si reproduce la condición citada, error si la contradice u omite. El caso nuevo es una situación de <TEMA> ausente de la base: marca qué sale de ella y qué inventas como escenario, y corrige los conceptos, no sus datos. Lista errores frecuentes solo si la base los documenta. Si <NIVEL> supera la base, baja a la base y avísame. Si fallo la recuperación, repite esa actividad. No reveles la solución antes de mi intento. No inventes ejemplos ni me asignes un nivel demostrado.",
         "level_spec": {
           "role": "Diseñador de práctica que corrige contra la fuente, no contra su criterio",
           "spec_role": "Especialista en aprendizaje e investigación basada en evidencia",
           "objective": "Convertir una base ya comprendida en práctica corregible con cita, sin emitir nivel",
-          "parameters": [
-            [
-              "momentos",
-              "recuperación, explicación, aplicación y corrección, una actividad a la vez"
-            ],
-            [
-              "respuesta_esperada",
-              "cita exacta de la base por actividad"
-            ],
-            [
-              "rúbrica",
-              "dos salidas por actividad: acierto reproduce la condición citada, error la contradice u omite"
-            ],
-            [
-              "caso_nuevo",
-              "escenario sintético marcado; se corrigen los conceptos, no sus datos"
-            ],
-            [
-              "conflicto_de_nivel",
-              "si el nivel declarado supera la base, manda la base y se avisa"
-            ]
-          ],
           "workflow": [
             "Registrar tema, base y nivel declarado",
             "Emitir una actividad a la vez sin revelar la solución",
@@ -68,6 +46,33 @@
             "La base no trae ejemplos aplicables: solo recuperación y explicación, declarándolo",
             "Fallo en la recuperación: repetir esa actividad, no avanzar",
             "Nivel declarado por encima de la base: se baja al nivel de la base y se avisa"
+          ],
+          "constraints": [
+            [
+              "momentos",
+              "recuperación, explicación, aplicación y corrección, una actividad a la vez"
+            ],
+            [
+              "respuesta_esperada",
+              "cita exacta de la base por actividad"
+            ],
+            [
+              "rúbrica",
+              "dos salidas por actividad: acierto reproduce la condición citada, error la contradice u omite"
+            ],
+            [
+              "caso_nuevo",
+              "escenario sintético marcado; se corrigen los conceptos, no sus datos"
+            ],
+            [
+              "conflicto_de_nivel",
+              "si el nivel declarado supera la base, manda la base y se avisa"
+            ]
+          ],
+          "frameworks": [
+            "Práctica deliberada · reto, feedback y reintento",
+            "Feedback loop · observa, corrige y repite",
+            "Recuperación activa · responde antes de consultar"
           ]
         },
         "why_it_works": {
@@ -105,6 +110,101 @@
             "claim": "Resolver la tensión del caso nuevo marcando el escenario sintético y corregir solo los conceptos citados es norma interna del método.",
             "source": "method_internal"
           }
+        ],
+        "inputs": [
+          {
+            "key": "topic",
+            "label": "TEMA",
+            "help": "asunto concreto",
+            "example": "verificar respuestas de IA",
+            "required": true,
+            "type": "text",
+            "source": "user",
+            "demo_value": "cómo aprender a aprender con IA mediante una práctica semanal de alto rendimiento"
+          },
+          {
+            "key": "sources",
+            "label": "FUENTES",
+            "help": "material que sí puede citarse",
+            "example": "guía, informe y registro",
+            "required": true,
+            "type": "long_text",
+            "source": "user",
+            "demo_value": "dossier sintético Demo: guía del método, registro de práctica y criterios de revisión"
+          },
+          {
+            "key": "level",
+            "label": "NIVEL",
+            "help": "punto de partida observable",
+            "example": "puedo explicar, no transferir",
+            "required": true,
+            "type": "text",
+            "source": "user",
+            "demo_value": "puedo explicar, no transferir"
+          }
+        ],
+        "parameters": [
+          {
+            "key": "length",
+            "label": "LONGITUD",
+            "default": "concisa",
+            "choices": [
+              "concisa",
+              "media"
+            ]
+          },
+          {
+            "key": "structure",
+            "label": "ESTRUCTURA",
+            "default": "2 párrafos + bullets clave",
+            "choices": [
+              "2 párrafos + bullets clave",
+              "tabla breve"
+            ]
+          },
+          {
+            "key": "tone",
+            "label": "TONO",
+            "default": "claro y personal",
+            "choices": [
+              "claro y personal",
+              "didáctico"
+            ]
+          },
+          {
+            "key": "depth",
+            "label": "PROFUNDIDAD",
+            "default": "práctica",
+            "choices": [
+              "práctica",
+              "profunda"
+            ]
+          },
+          {
+            "key": "aesthetic",
+            "label": "ESTÉTICA",
+            "default": "minimalista",
+            "choices": [
+              "minimalista",
+              "editorial"
+            ]
+          },
+          {
+            "key": "opening",
+            "label": "APERTURA",
+            "default": "diagrama antes del detalle",
+            "choices": [
+              "diagrama antes del detalle",
+              "idea clave primero"
+            ]
+          }
+        ],
+        "optional_clauses": [
+          {
+            "key": "visual_opening",
+            "text": "Si mejora la comprensión, abre con un esquema breve.",
+            "default_enabled": true
+          }
         ]
       },
       "empresa": {
@@ -113,33 +213,11 @@
         "when": "el proceso exige que la gente aplique lo aprendido y el responsable necesita ver el resultado.",
         "example": "Practicar selección de casos de uso de IA con escenarios reales del área comercial.",
         "evidence": "secuencia de práctica facilitable, respuesta esperada citada, rúbrica de corrección usable por un tercero y registro de resultados por participante al cierre.",
-        "prompt": "Diseña una práctica sobre [TEMA] con solo [FUENTES], la base del equipo, aplicable en [PROCESO]. Cuatro momentos, uno por turno: recuperación sin ayuda, explicación propia, aplicación a un caso nuevo y corrección citada. Por actividad da la respuesta esperada con cita exacta de [FUENTES] y una rúbrica de dos salidas aplicable por un facilitador ajeno: acierto si reproduce la condición citada, error si la contradice u omite. El caso nuevo ocurre en [PROCESO]: marca qué sale de la base y qué inventas; corrige conceptos, no datos. Lista errores frecuentes solo si la base los documenta. No reveles la solución antes del intento; si falla la recuperación, repítela. Nombra el riesgo operativo de aplicar mal [TEMA]. Cierra con registro por participante. No inventes ejemplos, no compares personas ni asignes nivel demostrado.",
+        "prompt": "Diseña una práctica sobre <TEMA> con solo <FUENTES>, la base del equipo, aplicable en <PROCESO>. Cuatro momentos, uno por turno: recuperación sin ayuda, explicación propia, aplicación a un caso nuevo y corrección citada. Por actividad da la respuesta esperada con cita exacta de <FUENTES> y una rúbrica de dos salidas aplicable por un facilitador ajeno: acierto si reproduce la condición citada, error si la contradice u omite. El caso nuevo ocurre en <PROCESO>: marca qué sale de la base y qué inventas; corrige conceptos, no datos. Lista errores frecuentes solo si la base los documenta. No reveles la solución antes del intento; si falla la recuperación, repítela. Nombra el riesgo operativo de aplicar mal <TEMA>. Cierra con registro por participante. No inventes ejemplos, no compares personas ni asignes nivel demostrado.",
         "level_spec": {
           "role": "Diseñador de práctica facilitable por un tercero con la base del equipo",
           "spec_role": "Especialista en aprendizaje e investigación basada en evidencia",
           "objective": "Producir práctica repartible y registrable que sostenga la aplicación en el proceso",
-          "parameters": [
-            [
-              "facilitación",
-              "rúbrica aplicable por un facilitador ajeno al tema"
-            ],
-            [
-              "respuesta_esperada",
-              "cita exacta de la base acordada por actividad"
-            ],
-            [
-              "caso_nuevo",
-              "escenario situado en el proceso y marcado como sintético"
-            ],
-            [
-              "registro",
-              "resultados por participante registrados al cierre"
-            ],
-            [
-              "riesgo",
-              "riesgo operativo de aplicar el concepto mal comprendido"
-            ]
-          ],
           "workflow": [
             "Registrar tema, base acordada, equipo y punto del proceso",
             "Emitir una actividad a la vez sin revelar la solución",
@@ -162,6 +240,33 @@
             "La base no cubre el proceso declarado: reducir a recuperación y explicación y declararlo",
             "Participantes con niveles dispares: dividir la sesión, nunca comparar personas",
             "Sin responsable de revisión: pedirlo antes de registrar resultados"
+          ],
+          "constraints": [
+            [
+              "facilitación",
+              "rúbrica aplicable por un facilitador ajeno al tema"
+            ],
+            [
+              "respuesta_esperada",
+              "cita exacta de la base acordada por actividad"
+            ],
+            [
+              "caso_nuevo",
+              "escenario situado en el proceso y marcado como sintético"
+            ],
+            [
+              "registro",
+              "resultados por participante registrados al cierre"
+            ],
+            [
+              "riesgo",
+              "riesgo operativo de aplicar el concepto mal comprendido"
+            ]
+          ],
+          "frameworks": [
+            "Práctica deliberada · reto, feedback y reintento",
+            "Feedback loop · observa, corrige y repite",
+            "Recuperación activa · responde antes de consultar"
           ]
         },
         "why_it_works": {
@@ -203,6 +308,101 @@
             "claim": "Exigir rúbrica aplicable por un facilitador ajeno y registro por participante revisable por el responsable es política interna para práctica de equipo.",
             "source": "method_internal"
           }
+        ],
+        "inputs": [
+          {
+            "key": "topic",
+            "label": "TEMA",
+            "help": "asunto concreto",
+            "example": "verificar respuestas de IA",
+            "required": true,
+            "type": "text",
+            "source": "user",
+            "demo_value": "cómo aprender a aprender con IA mediante formas de trabajo de alto rendimiento"
+          },
+          {
+            "key": "sources",
+            "label": "FUENTES",
+            "help": "material que sí puede citarse",
+            "example": "guía, informe y registro",
+            "required": true,
+            "type": "long_text",
+            "source": "user",
+            "demo_value": "dossier sintético Demo: guía del método, registro de práctica y criterios de revisión"
+          },
+          {
+            "key": "process",
+            "label": "PROCESO",
+            "help": "flujo que cambiará",
+            "example": "preparación de decisiones",
+            "required": true,
+            "type": "text",
+            "source": "user",
+            "demo_value": "preparación y revisión semanal de decisiones"
+          }
+        ],
+        "parameters": [
+          {
+            "key": "length",
+            "label": "LONGITUD",
+            "default": "concisa",
+            "choices": [
+              "concisa",
+              "media"
+            ]
+          },
+          {
+            "key": "structure",
+            "label": "ESTRUCTURA",
+            "default": "2 párrafos + bullets clave",
+            "choices": [
+              "2 párrafos + bullets clave",
+              "tabla breve"
+            ]
+          },
+          {
+            "key": "tone",
+            "label": "TONO",
+            "default": "ejecutivo y operativo",
+            "choices": [
+              "ejecutivo y operativo",
+              "facilitador"
+            ]
+          },
+          {
+            "key": "depth",
+            "label": "PROFUNDIDAD",
+            "default": "práctica",
+            "choices": [
+              "práctica",
+              "profunda"
+            ]
+          },
+          {
+            "key": "aesthetic",
+            "label": "ESTÉTICA",
+            "default": "minimalista",
+            "choices": [
+              "minimalista",
+              "editorial"
+            ]
+          },
+          {
+            "key": "opening",
+            "label": "APERTURA",
+            "default": "diagrama antes del detalle",
+            "choices": [
+              "diagrama antes del detalle",
+              "idea clave primero"
+            ]
+          }
+        ],
+        "optional_clauses": [
+          {
+            "key": "visual_opening",
+            "text": "Si mejora la comprensión, abre con un esquema breve.",
+            "default_enabled": true
+          }
         ]
       }
     },
@@ -213,33 +413,11 @@
         "when": "you need to test whether you can use an idea, not just recognize it on the page.",
         "example": "Practise selecting AI use cases with scenarios from my own sales work.",
         "evidence": "four-moment practice sequence, cited expected answer per activity, hit-or-miss correction rubric against the source and a warning when the base does not cover my level.",
-        "prompt": "Design a practice on [TOPIC] from [SOURCES] only, at [MY LEVEL]. Four moments, one per turn: unaided retrieval, explanation in my own words, application to a new case, cited correction. Per activity: expected answer with the exact [SOURCES] quote and a two-outcome rubric — hit if it reproduces the quoted condition, miss if it contradicts or drops it. The new case is a [TOPIC] situation absent from the base: mark what comes from it and what you invent as scenario; correct concepts, not data. List common errors only if the base documents them. If [MY LEVEL] exceeds the base, drop to it and warn me. If I fail retrieval, repeat that activity. Never reveal the solution before my attempt. Never invent examples and never grade a demonstrated level.",
+        "prompt": "Design a practice on <TOPIC> from <SOURCES> only, at <LEVEL>. Four moments, one per turn: unaided retrieval, explanation in my own words, application to a new case, cited correction. Per activity: expected answer with the exact <SOURCES> quote and a two-outcome rubric — hit if it reproduces the quoted condition, miss if it contradicts or drops it. The new case is a <TOPIC> situation absent from the base: mark what comes from it and what you invent as scenario; correct concepts, not data. List common errors only if the base documents them. If <LEVEL> exceeds the base, drop to it and warn me. If I fail retrieval, repeat that activity. Never reveal the solution before my attempt. Never invent examples and never grade a demonstrated level.",
         "level_spec": {
           "role": "Practice designer who corrects against the source, not against personal judgment",
           "spec_role": "Specialist in evidence-grounded learning and research",
           "objective": "Turn an already understood base into citable practice without issuing a level",
-          "parameters": [
-            [
-              "moments",
-              "retrieval, explanation, application and correction, one activity at a time"
-            ],
-            [
-              "expected_answer",
-              "exact quote from the base per activity"
-            ],
-            [
-              "rubric",
-              "two outcomes per activity: hit reproduces the quoted condition, miss contradicts or drops it"
-            ],
-            [
-              "new_case",
-              "synthetic scenario marked; concepts are corrected, its data is not"
-            ],
-            [
-              "level_clash",
-              "if the declared level exceeds the base, the base wins and the user is warned"
-            ]
-          ],
           "workflow": [
             "Record topic, base and declared level",
             "Issue one activity at a time without revealing the solution",
@@ -262,6 +440,33 @@
             "Base without applicable examples: retrieval and explanation only, declared",
             "Failed retrieval: repeat that activity instead of moving on",
             "Declared level above the base: drop to the base level and warn"
+          ],
+          "constraints": [
+            [
+              "moments",
+              "retrieval, explanation, application and correction, one activity at a time"
+            ],
+            [
+              "expected_answer",
+              "exact quote from the base per activity"
+            ],
+            [
+              "rubric",
+              "two outcomes per activity: hit reproduces the quoted condition, miss contradicts or drops it"
+            ],
+            [
+              "new_case",
+              "synthetic scenario marked; concepts are corrected, its data is not"
+            ],
+            [
+              "level_clash",
+              "if the declared level exceeds the base, the base wins and the user is warned"
+            ]
+          ],
+          "frameworks": [
+            "Deliberate practice · challenge, feedback and retry",
+            "Feedback loop · observe, correct and repeat",
+            "Active recall · answer before consulting"
           ]
         },
         "why_it_works": {
@@ -299,6 +504,101 @@
             "claim": "Resolving the new-case tension by marking the synthetic scenario and correcting only the cited concepts is internal method policy.",
             "source": "method_internal"
           }
+        ],
+        "inputs": [
+          {
+            "key": "topic",
+            "label": "TOPIC",
+            "help": "specific subject",
+            "example": "verify AI answers",
+            "required": true,
+            "type": "text",
+            "source": "user",
+            "demo_value": "how to learn with AI through a weekly high-performance practice"
+          },
+          {
+            "key": "sources",
+            "label": "SOURCES",
+            "help": "material that may be cited",
+            "example": "guide, report and log",
+            "required": true,
+            "type": "long_text",
+            "source": "user",
+            "demo_value": "synthetic Demo dossier: method guide, practice log and review criteria"
+          },
+          {
+            "key": "level",
+            "label": "LEVEL",
+            "help": "observable starting point",
+            "example": "can explain, not transfer",
+            "required": true,
+            "type": "text",
+            "source": "user",
+            "demo_value": "can explain, not transfer"
+          }
+        ],
+        "parameters": [
+          {
+            "key": "length",
+            "label": "LENGTH",
+            "default": "concise",
+            "choices": [
+              "concise",
+              "medium"
+            ]
+          },
+          {
+            "key": "structure",
+            "label": "STRUCTURE",
+            "default": "2 paragraphs + key bullets",
+            "choices": [
+              "2 paragraphs + key bullets",
+              "short table"
+            ]
+          },
+          {
+            "key": "tone",
+            "label": "TONE",
+            "default": "clear and personal",
+            "choices": [
+              "clear and personal",
+              "instructional"
+            ]
+          },
+          {
+            "key": "depth",
+            "label": "DEPTH",
+            "default": "practical",
+            "choices": [
+              "practical",
+              "deep"
+            ]
+          },
+          {
+            "key": "aesthetic",
+            "label": "AESTHETIC",
+            "default": "minimal",
+            "choices": [
+              "minimal",
+              "editorial"
+            ]
+          },
+          {
+            "key": "opening",
+            "label": "OPENING",
+            "default": "diagram before detail",
+            "choices": [
+              "diagram before detail",
+              "bottom line first"
+            ]
+          }
+        ],
+        "optional_clauses": [
+          {
+            "key": "visual_opening",
+            "text": "If it improves understanding, open with a short diagram.",
+            "default_enabled": true
+          }
         ]
       },
       "empresa": {
@@ -307,33 +607,11 @@
         "when": "the process requires people to apply what they learned and the accountable owner needs the result.",
         "example": "Practise selecting AI use cases with real scenarios from the sales area.",
         "evidence": "facilitator-ready practice sequence, cited expected answer, correction rubric usable by a third party and a per-participant result log at close.",
-        "prompt": "Design a [TOPIC] practice from [SOURCES] only, the team base, for [PROCESS]. Four moments, one per turn: unaided retrieval, own-words explanation, new-case application, cited correction. Per activity: expected answer with the exact [SOURCES] quote and a two-outcome rubric any outside facilitator applies — hit if it reproduces the quoted condition, miss if it contradicts or drops it. The new case sits inside [PROCESS]: mark what comes from the base and what you invent; correct concepts, not data. List common errors only if the base documents them. Never reveal the solution before the attempt; on failed retrieval, repeat. Name the operational risk of [TOPIC] misapplied. Close with a per-participant log. Never invent examples, rank people or grade a level.",
+        "prompt": "Design a <TOPIC> practice from <SOURCES> only, the team base, for <PROCESS>. Four moments, one per turn: unaided retrieval, own-words explanation, new-case application, cited correction. Per activity: expected answer with the exact <SOURCES> quote and a two-outcome rubric any outside facilitator applies — hit if it reproduces the quoted condition, miss if it contradicts or drops it. The new case sits inside <PROCESS>: mark what comes from the base and what you invent; correct concepts, not data. List common errors only if the base documents them. Never reveal the solution before the attempt; on failed retrieval, repeat. Name the operational risk of <TOPIC> misapplied. Close with a per-participant log. Never invent examples, rank people or grade a level.",
         "level_spec": {
           "role": "Practice designer whose output a third party can facilitate from the team base",
           "spec_role": "Specialist in evidence-grounded learning and research",
           "objective": "Produce splittable, loggable practice that supports application inside the process",
-          "parameters": [
-            [
-              "facilitation",
-              "rubric applicable by a facilitator outside the topic"
-            ],
-            [
-              "expected_answer",
-              "exact quote from the agreed base per activity"
-            ],
-            [
-              "new_case",
-              "scenario placed inside the process and marked as synthetic"
-            ],
-            [
-              "log",
-              "per-participant results recorded at close"
-            ],
-            [
-              "risk",
-              "operational risk of applying a half-understood concept"
-            ]
-          ],
           "workflow": [
             "Record topic, agreed base, team and point in the process",
             "Issue one activity at a time without revealing the solution",
@@ -356,6 +634,33 @@
             "Base does not cover the declared process: shrink to retrieval and explanation and declare it",
             "Participants at very different levels: split the session, never rank people",
             "No accountable reviewer: request one before logging results"
+          ],
+          "constraints": [
+            [
+              "facilitation",
+              "rubric applicable by a facilitator outside the topic"
+            ],
+            [
+              "expected_answer",
+              "exact quote from the agreed base per activity"
+            ],
+            [
+              "new_case",
+              "scenario placed inside the process and marked as synthetic"
+            ],
+            [
+              "log",
+              "per-participant results recorded at close"
+            ],
+            [
+              "risk",
+              "operational risk of applying a half-understood concept"
+            ]
+          ],
+          "frameworks": [
+            "Deliberate practice · challenge, feedback and retry",
+            "Feedback loop · observe, correct and repeat",
+            "Active recall · answer before consulting"
           ]
         },
         "why_it_works": {
@@ -397,6 +702,101 @@
             "claim": "Requiring a rubric any outside facilitator can apply and a per-participant log reviewable by the owner is internal policy for team practice.",
             "source": "method_internal"
           }
+        ],
+        "inputs": [
+          {
+            "key": "topic",
+            "label": "TOPIC",
+            "help": "specific subject",
+            "example": "verify AI answers",
+            "required": true,
+            "type": "text",
+            "source": "user",
+            "demo_value": "how to learn with AI through high-performance ways of working"
+          },
+          {
+            "key": "sources",
+            "label": "SOURCES",
+            "help": "material that may be cited",
+            "example": "guide, report and log",
+            "required": true,
+            "type": "long_text",
+            "source": "user",
+            "demo_value": "synthetic Demo dossier: method guide, practice log and review criteria"
+          },
+          {
+            "key": "process",
+            "label": "PROCESS",
+            "help": "workflow that will change",
+            "example": "decision preparation",
+            "required": true,
+            "type": "text",
+            "source": "user",
+            "demo_value": "weekly decision preparation and review"
+          }
+        ],
+        "parameters": [
+          {
+            "key": "length",
+            "label": "LENGTH",
+            "default": "concise",
+            "choices": [
+              "concise",
+              "medium"
+            ]
+          },
+          {
+            "key": "structure",
+            "label": "STRUCTURE",
+            "default": "2 paragraphs + key bullets",
+            "choices": [
+              "2 paragraphs + key bullets",
+              "short table"
+            ]
+          },
+          {
+            "key": "tone",
+            "label": "TONE",
+            "default": "executive and operational",
+            "choices": [
+              "executive and operational",
+              "facilitative"
+            ]
+          },
+          {
+            "key": "depth",
+            "label": "DEPTH",
+            "default": "practical",
+            "choices": [
+              "practical",
+              "deep"
+            ]
+          },
+          {
+            "key": "aesthetic",
+            "label": "AESTHETIC",
+            "default": "minimal",
+            "choices": [
+              "minimal",
+              "editorial"
+            ]
+          },
+          {
+            "key": "opening",
+            "label": "OPENING",
+            "default": "diagram before detail",
+            "choices": [
+              "diagram before detail",
+              "bottom line first"
+            ]
+          }
+        ],
+        "optional_clauses": [
+          {
+            "key": "visual_opening",
+            "text": "If it improves understanding, open with a short diagram.",
+            "default_enabled": true
+          }
         ]
       }
     },
@@ -407,33 +807,11 @@
         "when": "você quer conferir se consegue usar uma ideia, não apenas reconhecê-la na leitura.",
         "example": "Praticar seleção de casos de uso de IA com cenários do meu trabalho comercial.",
         "evidence": "sequência de prática em quatro momentos, resposta esperada citada por atividade, rubrica de correção acerto/erro contra a fonte e aviso quando a base não cobre meu nível.",
-        "prompt": "Crie uma prática sobre [TEMA] só com [FONTES] no nível de [MEU NÍVEL]. Quatro momentos, um por rodada: recuperação sem ajuda, explicação com minhas palavras, aplicação a caso novo, correção citada. Por atividade dê a resposta esperada com citação exata de [FONTES] e uma rubrica de duas saídas: acerto se reproduz a condição citada, erro se a contradiz ou omite. O caso novo é uma situação de [TEMA] ausente da base: marque o que sai dela e o que você inventa como cenário; corrija conceitos, não dados. Liste erros comuns só se a base os documentar. Se [MEU NÍVEL] superar a base, desça a ela e avise. Se eu falhar a recuperação, repita a atividade. Não revele a solução antes da minha tentativa. Não invente exemplos nem me atribua nível.",
+        "prompt": "Crie minha prática sobre <TEMA> só com <FONTES> no nível de <NÍVEL>. Quatro momentos, um por rodada: recuperação sem ajuda, explicação com minhas palavras, aplicação a caso novo, correção citada. Por atividade dê a resposta esperada com citação exata de <FONTES> e uma rubrica de duas saídas: acerto se reproduz a condição citada, erro se a contradiz ou omite. O caso novo é uma situação de <TEMA> ausente da base: marque o que sai dela e o que você inventa como cenário; corrija conceitos, não dados. Liste erros comuns só se a base os documentar. Se <NÍVEL> superar a base, desça a ela e avise. Se eu falhar a recuperação, repita a atividade. Não revele a solução antes da minha tentativa. Não invente exemplos nem me atribua nível.",
         "level_spec": {
           "role": "Desenhista de prática que corrige contra a fonte, não contra o próprio critério",
           "spec_role": "Especialista em aprendizagem e pesquisa baseada em evidências",
           "objective": "Transformar uma base já compreendida em prática corrigível com citação, sem emitir nível",
-          "parameters": [
-            [
-              "momentos",
-              "recuperação, explicação, aplicação e correção, uma atividade por vez"
-            ],
-            [
-              "resposta_esperada",
-              "citação exata da base por atividade"
-            ],
-            [
-              "rubrica",
-              "duas saídas por atividade: acerto reproduz a condição citada, erro a contradiz ou omite"
-            ],
-            [
-              "caso_novo",
-              "cenário sintético marcado; corrigem-se os conceitos, não os dados"
-            ],
-            [
-              "conflito_de_nivel",
-              "se o nível declarado superar a base, a base prevalece e avisa-se"
-            ]
-          ],
           "workflow": [
             "Registrar tema, base e nível declarado",
             "Emitir uma atividade por vez sem revelar a solução",
@@ -456,6 +834,33 @@
             "A base não traz exemplos aplicáveis: só recuperação e explicação, declarando",
             "Falha na recuperação: repetir a atividade, não avançar",
             "Nível declarado acima da base: descer ao nível da base e avisar"
+          ],
+          "constraints": [
+            [
+              "momentos",
+              "recuperação, explicação, aplicação e correção, uma atividade por vez"
+            ],
+            [
+              "resposta_esperada",
+              "citação exata da base por atividade"
+            ],
+            [
+              "rubrica",
+              "duas saídas por atividade: acerto reproduz a condição citada, erro a contradiz ou omite"
+            ],
+            [
+              "caso_novo",
+              "cenário sintético marcado; corrigem-se os conceitos, não os dados"
+            ],
+            [
+              "conflito_de_nivel",
+              "se o nível declarado superar a base, a base prevalece e avisa-se"
+            ]
+          ],
+          "frameworks": [
+            "Prática deliberada · desafio, feedback e nova tentativa",
+            "Feedback loop · observe, corrija e repita",
+            "Recuperação ativa · responda antes de consultar"
           ]
         },
         "why_it_works": {
@@ -493,6 +898,101 @@
             "claim": "Resolver a tensão do caso novo marcando o cenário sintético e corrigir apenas os conceitos citados é norma interna do método.",
             "source": "method_internal"
           }
+        ],
+        "inputs": [
+          {
+            "key": "topic",
+            "label": "TEMA",
+            "help": "assunto concreto",
+            "example": "verificar respostas de IA",
+            "required": true,
+            "type": "text",
+            "source": "user",
+            "demo_value": "como aprender a aprender com IA por meio de uma prática semanal de alto desempenho"
+          },
+          {
+            "key": "sources",
+            "label": "FONTES",
+            "help": "material que pode ser citado",
+            "example": "guia, relatório e registro",
+            "required": true,
+            "type": "long_text",
+            "source": "user",
+            "demo_value": "dossiê sintético Demo: guia do método, registro de prática e critérios de revisão"
+          },
+          {
+            "key": "level",
+            "label": "NÍVEL",
+            "help": "ponto de partida observável",
+            "example": "consigo explicar, não transferir",
+            "required": true,
+            "type": "text",
+            "source": "user",
+            "demo_value": "consigo explicar, não transferir"
+          }
+        ],
+        "parameters": [
+          {
+            "key": "length",
+            "label": "EXTENSÃO",
+            "default": "concisa",
+            "choices": [
+              "concisa",
+              "média"
+            ]
+          },
+          {
+            "key": "structure",
+            "label": "ESTRUTURA",
+            "default": "2 parágrafos + bullets-chave",
+            "choices": [
+              "2 parágrafos + bullets-chave",
+              "tabela breve"
+            ]
+          },
+          {
+            "key": "tone",
+            "label": "TOM",
+            "default": "claro e pessoal",
+            "choices": [
+              "claro e pessoal",
+              "didático"
+            ]
+          },
+          {
+            "key": "depth",
+            "label": "PROFUNDIDADE",
+            "default": "prática",
+            "choices": [
+              "prática",
+              "profunda"
+            ]
+          },
+          {
+            "key": "aesthetic",
+            "label": "ESTÉTICA",
+            "default": "minimalista",
+            "choices": [
+              "minimalista",
+              "editorial"
+            ]
+          },
+          {
+            "key": "opening",
+            "label": "ABERTURA",
+            "default": "diagrama antes do detalhe",
+            "choices": [
+              "diagrama antes do detalhe",
+              "ideia-chave primeiro"
+            ]
+          }
+        ],
+        "optional_clauses": [
+          {
+            "key": "visual_opening",
+            "text": "Se melhorar a compreensão, abra com um esquema breve.",
+            "default_enabled": true
+          }
         ]
       },
       "empresa": {
@@ -501,33 +1001,11 @@
         "when": "o processo exige que as pessoas apliquem o aprendido e o responsável precisa ver o resultado.",
         "example": "Praticar seleção de casos de uso de IA com cenários reais da área comercial.",
         "evidence": "sequência de prática facilitável, resposta esperada citada, rubrica de correção usável por terceiro e registro de resultados por participante ao fechar.",
-        "prompt": "Crie uma prática sobre [TEMA] só com [FONTES], base da equipe, aplicável em [PROCESSO]. Quatro momentos, um por vez: recuperação sem ajuda, explicação própria, aplicação a caso novo, correção citada. Por atividade dê a resposta esperada com citação exata de [FONTES] e rubrica de duas saídas para facilitador alheio: acerto se reproduz a condição citada, erro se a contradiz ou omite. O caso novo ocorre em [PROCESSO]: marque o que sai da base e o que inventa; corrija conceitos, não dados. Liste erros comuns só se a base documentar. Não revele a solução antes da tentativa; se a recuperação falhar, repita. Nomeie o risco operacional de aplicar mal [TEMA]. Feche com registro por participante. Não invente exemplos, não compare pessoas nem dê nível.",
+        "prompt": "Crie uma prática sobre <TEMA> só com <FONTES>, base da equipe, aplicável em <PROCESSO>. Quatro momentos, um por vez: recuperação sem ajuda, explicação própria, aplicação a caso novo, correção citada. Por atividade dê a resposta esperada com citação exata de <FONTES> e rubrica de duas saídas para facilitador alheio: acerto se reproduz a condição citada, erro se a contradiz ou omite. O caso novo ocorre em <PROCESSO>: marque o que sai da base e o que inventa; corrija conceitos, não dados. Liste erros comuns só se a base documentar. Não revele a solução antes da tentativa; se a recuperação falhar, repita. Nomeie o risco operacional de aplicar mal <TEMA>. Feche com registro por participante. Não invente exemplos, não compare pessoas nem dê nível.",
         "level_spec": {
           "role": "Desenhista de prática facilitável por terceiro com a base da equipe",
           "spec_role": "Especialista em aprendizagem e pesquisa baseada em evidências",
           "objective": "Produzir prática divisível e registrável que sustente a aplicação no processo",
-          "parameters": [
-            [
-              "facilitacao",
-              "rubrica aplicável por facilitador alheio ao tema"
-            ],
-            [
-              "resposta_esperada",
-              "citação exata da base acordada por atividade"
-            ],
-            [
-              "caso_novo",
-              "cenário situado no processo e marcado como sintético"
-            ],
-            [
-              "registro",
-              "resultados por participante registrados ao fechar"
-            ],
-            [
-              "risco",
-              "risco operacional de aplicar um conceito mal compreendido"
-            ]
-          ],
           "workflow": [
             "Registrar tema, base acordada, equipe e ponto do processo",
             "Emitir uma atividade por vez sem revelar a solução",
@@ -550,6 +1028,33 @@
             "A base não cobre o processo declarado: reduzir a recuperação e explicação e declarar",
             "Participantes com níveis díspares: dividir a sessão, nunca comparar pessoas",
             "Sem responsável de revisão: pedir antes de registrar resultados"
+          ],
+          "constraints": [
+            [
+              "facilitacao",
+              "rubrica aplicável por facilitador alheio ao tema"
+            ],
+            [
+              "resposta_esperada",
+              "citação exata da base acordada por atividade"
+            ],
+            [
+              "caso_novo",
+              "cenário situado no processo e marcado como sintético"
+            ],
+            [
+              "registro",
+              "resultados por participante registrados ao fechar"
+            ],
+            [
+              "risco",
+              "risco operacional de aplicar um conceito mal compreendido"
+            ]
+          ],
+          "frameworks": [
+            "Prática deliberada · desafio, feedback e nova tentativa",
+            "Feedback loop · observe, corrija e repita",
+            "Recuperação ativa · responda antes de consultar"
           ]
         },
         "why_it_works": {
@@ -591,10 +1096,121 @@
             "claim": "Exigir rubrica aplicável por facilitador alheio e registro por participante revisável pelo responsável é política interna para prática de equipe.",
             "source": "method_internal"
           }
+        ],
+        "inputs": [
+          {
+            "key": "topic",
+            "label": "TEMA",
+            "help": "assunto concreto",
+            "example": "verificar respostas de IA",
+            "required": true,
+            "type": "text",
+            "source": "user",
+            "demo_value": "como aprender a aprender com IA por meio de formas de trabalho de alto desempenho"
+          },
+          {
+            "key": "sources",
+            "label": "FONTES",
+            "help": "material que pode ser citado",
+            "example": "guia, relatório e registro",
+            "required": true,
+            "type": "long_text",
+            "source": "user",
+            "demo_value": "dossiê sintético Demo: guia do método, registro de prática e critérios de revisão"
+          },
+          {
+            "key": "process",
+            "label": "PROCESSO",
+            "help": "fluxo que mudará",
+            "example": "preparação de decisões",
+            "required": true,
+            "type": "text",
+            "source": "user",
+            "demo_value": "preparação e revisão semanal de decisões"
+          }
+        ],
+        "parameters": [
+          {
+            "key": "length",
+            "label": "EXTENSÃO",
+            "default": "concisa",
+            "choices": [
+              "concisa",
+              "média"
+            ]
+          },
+          {
+            "key": "structure",
+            "label": "ESTRUTURA",
+            "default": "2 parágrafos + bullets-chave",
+            "choices": [
+              "2 parágrafos + bullets-chave",
+              "tabela breve"
+            ]
+          },
+          {
+            "key": "tone",
+            "label": "TOM",
+            "default": "executivo e operacional",
+            "choices": [
+              "executivo e operacional",
+              "facilitador"
+            ]
+          },
+          {
+            "key": "depth",
+            "label": "PROFUNDIDADE",
+            "default": "prática",
+            "choices": [
+              "prática",
+              "profunda"
+            ]
+          },
+          {
+            "key": "aesthetic",
+            "label": "ESTÉTICA",
+            "default": "minimalista",
+            "choices": [
+              "minimalista",
+              "editorial"
+            ]
+          },
+          {
+            "key": "opening",
+            "label": "ABERTURA",
+            "default": "diagrama antes do detalhe",
+            "choices": [
+              "diagrama antes do detalhe",
+              "ideia-chave primeiro"
+            ]
+          }
+        ],
+        "optional_clauses": [
+          {
+            "key": "visual_opening",
+            "text": "Se melhorar a compreensão, abra com um esquema breve.",
+            "default_enabled": true
+          }
         ]
       }
     }
   },
   "self_hash_model": "sha256(sorted-json-without-self_sha256)",
-  "self_sha256": "288c3ad3a865662e42c5b82c53e3a3c3106f31dc829ebd2c819b9bfed5d461af"
+  "self_sha256": "0acc6a54f8589785aa72ce840faf8e26460b5417fe80e44d02121a98e8af03c2",
+  "flow": {
+    "route": "library",
+    "order": 7,
+    "previous": "02",
+    "next": "08",
+    "branches": [
+      "M2"
+    ],
+    "consumes": [
+      "COACH_CONFIGURADO"
+    ],
+    "produces": "PRACTICA_GENERADA",
+    "external_gate": false,
+    "loop_to": null,
+    "standalone": true
+  }
 }

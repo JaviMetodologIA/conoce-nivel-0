@@ -50,6 +50,24 @@
       "sha256": "5df5533a29652184f492b2f797ecfa0f1fa47cdb682bfcefb8f30c96014ce402"
     },
     {
+      "path": "assets/02-ocupado-productivo.pdf",
+      "source": "owner_authorized_local_import",
+      "rights": "Cleared for local use in this RENDERED_DRAFT; publication remains unauthorized",
+      "sha256": "d728c9a2c7cfb91e9d669ce24137bc96c0b53aae2de295db44ad5997be232532"
+    },
+    {
+      "path": "assets/03-trabajo-amplificado.pdf",
+      "source": "owner_authorized_local_import",
+      "rights": "Cleared for local use in this RENDERED_DRAFT; publication remains unauthorized",
+      "sha256": "08b057fd1826ca0b5c3d085eb9d8efce7f1195a4b88f66c014208daa39232b2d"
+    },
+    {
+      "path": "assets/04-trabajo-agentico.pdf",
+      "source": "owner_authorized_local_import",
+      "rights": "Cleared for local use in this RENDERED_DRAFT; publication remains unauthorized",
+      "sha256": "710cff50558a98bc587809be17520ad833f89de1066e2607a494bd9b6ee81b3f"
+    },
+    {
       "path": "assets/team-javier-montano.webp",
       "source": "https://javimontano.github.io/trabajar-amplificado/assets/aprender-aprehender-revolucionar/team_javier-montano.webp",
       "rights": "Public founder portrait from the CC BY-NC-SA 4.0 historical playbook supplied by its author",

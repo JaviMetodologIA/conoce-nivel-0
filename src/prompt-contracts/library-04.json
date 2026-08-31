@@ -1,5 +1,5 @@
 {
-  "schema_version": "prompt-intent-contract-v1",
+  "schema_version": "prompt-intent-contract-v2",
   "intent_id": "04",
   "surface": "library",
   "phase": "Aprender",
@@ -20,29 +20,11 @@
         "when": "necesitas apoyar una decisión en un dato concreto y su evidencia todavía es incierta.",
         "example": "Confirmar que una función de IA existe en el plan que estoy por contratar.",
         "evidence": "veredicto CONFIRMADA, REFUTADA o NO DEMOSTRABLE con orígenes contados, umbral aplicado y la evidencia demostrable que lo cambiaría.",
-        "prompt": "Quiero verificar [AFIRMACIÓN] antes de usarla en [USO]. Cuenta orígenes, no enlaces: una cadena de un mismo origen es una fuente. Registra por origen autor, fecha, enlace, fragmento y limitación. CONFIRMADA: dos orígenes independientes coinciden. REFUTADA: uno contradice. Si no, NO DEMOSTRABLE, o si [AFIRMACIÓN] no es verificable por diseño. Exige tres orígenes cuando [USO] compromete mi dinero, mi plazo o mi reputación, o cuando falta. Divide la afirmación mixta: un veredicto demostrable por parte. Cierra con la evidencia que cambiaría el veredicto y lo que no debo afirmar. No audites la base ni decidas qué conservar o retirar. No inventes fuentes ni certeza.",
+        "prompt": "Quiero verificar <AFIRMACIÓN> antes de usarla en <USO>. Cuenta orígenes, no enlaces: una cadena de un mismo origen es una fuente. Registra por origen autor, fecha, enlace, fragmento y limitación. CONFIRMADA: dos orígenes independientes coinciden. REFUTADA: uno contradice. Si no, NO DEMOSTRABLE, o si <AFIRMACIÓN> no es verificable por diseño. Exige tres orígenes cuando <USO> compromete mi dinero, mi plazo o mi reputación, o cuando falta. Divide la afirmación mixta: un veredicto demostrable por parte. Cierra con la evidencia que cambiaría el veredicto y lo que no debo afirmar. No audites la base ni decidas qué conservar o retirar. No inventes fuentes ni certeza.",
         "level_spec": {
           "role": "Verificador que cuenta orígenes antes de emitir veredicto",
           "spec_role": "Especialista en aprendizaje e investigación basada en evidencia",
           "objective": "Emitir un veredicto trazable sobre una afirmación atómica antes de que sustente una decisión personal",
-          "parameters": [
-            [
-              "unidad",
-              "una afirmación atómica y fechable por corrida"
-            ],
-            [
-              "independencia",
-              "una cadena de citas con un mismo origen cuenta como una sola fuente"
-            ],
-            [
-              "umbral",
-              "dos orígenes independientes; tres si el uso compromete dinero, plazo o reputación"
-            ],
-            [
-              "ausencia_de_uso",
-              "si el uso no se declara, se aplica el umbral alto"
-            ]
-          ],
           "workflow": [
             "Registrar la afirmación y el uso al que va destinada",
             "Rastrear cada cita hasta su origen y contar orígenes, no enlaces",
@@ -65,6 +47,29 @@
             "Afirmación mixta: dividirla y dar un veredicto por parte",
             "Evento futuro o dato privado: NO DEMOSTRABLE por no verificable por diseño",
             "Uso sin declarar: se aplica el umbral de tres orígenes"
+          ],
+          "constraints": [
+            [
+              "unidad",
+              "una afirmación atómica y fechable por corrida"
+            ],
+            [
+              "independencia",
+              "una cadena de citas con un mismo origen cuenta como una sola fuente"
+            ],
+            [
+              "umbral",
+              "dos orígenes independientes; tres si el uso compromete dinero, plazo o reputación"
+            ],
+            [
+              "ausencia_de_uso",
+              "si el uso no se declara, se aplica el umbral alto"
+            ]
+          ],
+          "frameworks": [
+            "Triangulación · orígenes independientes",
+            "Red teaming · busca fallos antes de decidir",
+            "Claim–Evidence–Reasoning · conecta afirmación y soporte"
           ]
         },
         "why_it_works": {
@@ -103,7 +108,68 @@
             "claim": "Contar orígenes en vez de enlaces y subir el umbral según el riesgo del uso personal son reglas internas del método.",
             "source": "method_internal"
           }
-        ]
+        ],
+        "inputs": [
+          {
+            "key": "claim",
+            "label": "AFIRMACIÓN",
+            "help": "frase concreta que debe verificarse",
+            "example": "la práctica reduce retrabajo",
+            "required": true,
+            "type": "text",
+            "source": "previous_output",
+            "demo_value": "artefacto sintético del paso anterior: falta demostrar transferencia a un segundo contexto"
+          },
+          {
+            "key": "use",
+            "label": "USO",
+            "help": "situación donde se aplicará",
+            "example": "revisión semanal",
+            "required": true,
+            "type": "text",
+            "source": "user",
+            "demo_value": "revisión semanal"
+          }
+        ],
+        "parameters": [
+          {
+            "key": "length",
+            "label": "LONGITUD",
+            "default": "concisa",
+            "choices": [
+              "concisa",
+              "media"
+            ]
+          },
+          {
+            "key": "structure",
+            "label": "ESTRUCTURA",
+            "default": "2 párrafos + bullets clave",
+            "choices": [
+              "2 párrafos + bullets clave",
+              "tabla breve"
+            ]
+          },
+          {
+            "key": "tone",
+            "label": "TONO",
+            "default": "claro y personal",
+            "choices": [
+              "claro y personal",
+              "didáctico"
+            ]
+          },
+          {
+            "key": "depth",
+            "label": "PROFUNDIDAD",
+            "default": "práctica",
+            "choices": [
+              "práctica",
+              "profunda"
+            ]
+          }
+        ],
+        "optional_clauses": []
       },
       "empresa": {
         "title": "Verificación cruzada para uso del equipo",
@@ -111,29 +177,11 @@
         "when": "una propuesta o una decisión con responsable depende de un dato que aún no está verificado.",
         "example": "Confirmar ante un cliente que una función de IA está incluida en el plan contratado.",
         "evidence": "veredicto CONFIRMADA, REFUTADA o NO DEMOSTRABLE con orígenes contados, derechos de cita, trazabilidad demostrable y umbral aplicado, listo para revisión.",
-        "prompt": "Verifica [AFIRMACIÓN] antes de que [EQUIPO] la use en [USO]. Cuenta orígenes, no enlaces: una cadena de un mismo origen es una fuente. Registra por origen autor, fecha, enlace, fragmento, limitación, derechos de cita. CONFIRMADA: dos orígenes independientes coinciden. REFUTADA: uno contradice. Si no, NO DEMOSTRABLE. Exige tres orígenes si [USO] llega a un cliente o regulador, o falta; nombra el riesgo operativo de afirmar sin respaldo. Divide [AFIRMACIÓN] mixta: un veredicto demostrable por parte, recorrible por un responsable de [EQUIPO] que no verificó. Cierra con lo que cambiaría el veredicto y lo que el equipo aún no debe afirmar. No audites la base ni decidas qué conservar o retirar. No inventes fuentes ni certeza.",
+        "prompt": "Verifica <AFIRMACIÓN> antes de que <EQUIPO> la use en <USO>. Cuenta orígenes, no enlaces: una cadena de un mismo origen es una fuente. Registra por origen autor, fecha, enlace, fragmento, limitación, derechos de cita. CONFIRMADA: dos orígenes independientes coinciden. REFUTADA: uno contradice. Si no, NO DEMOSTRABLE. Exige tres orígenes si <USO> llega a un cliente o regulador, o falta; nombra el riesgo operativo de afirmar sin respaldo. Divide <AFIRMACIÓN> mixta: un veredicto demostrable por parte, recorrible por un responsable de <EQUIPO> que no verificó. Cierra con lo que cambiaría el veredicto y lo que el equipo aún no debe afirmar. No audites la base ni decidas qué conservar o retirar. No inventes fuentes ni certeza.",
         "level_spec": {
           "role": "Verificador que deja trazable el conteo de orígenes ante un revisor",
           "spec_role": "Especialista en aprendizaje e investigación basada en evidencia",
           "objective": "Emitir un veredicto recorrible por un tercero sobre una afirmación que el equipo va a usar fuera",
-          "parameters": [
-            [
-              "unidad",
-              "una afirmación atómica y fechable por corrida"
-            ],
-            [
-              "independencia",
-              "una cadena de citas con un mismo origen cuenta como una sola fuente"
-            ],
-            [
-              "umbral",
-              "dos orígenes; tres cuando el uso llega a un cliente o a un regulador"
-            ],
-            [
-              "revisión",
-              "el conteo y el umbral los recorre un responsable distinto de quien verifica"
-            ]
-          ],
           "workflow": [
             "Registrar la afirmación, el equipo que la usará y la exposición externa del uso",
             "Rastrear cada cita hasta su origen y contar orígenes, no enlaces",
@@ -157,6 +205,29 @@
             "Afirmación mixta en una propuesta: dividirla y dar un veredicto por parte",
             "Origen único citado por varios medios del sector: cuenta como una fuente",
             "Uso externo sin declarar: se aplica el umbral de tres orígenes"
+          ],
+          "constraints": [
+            [
+              "unidad",
+              "una afirmación atómica y fechable por corrida"
+            ],
+            [
+              "independencia",
+              "una cadena de citas con un mismo origen cuenta como una sola fuente"
+            ],
+            [
+              "umbral",
+              "dos orígenes; tres cuando el uso llega a un cliente o a un regulador"
+            ],
+            [
+              "revisión",
+              "el conteo y el umbral los recorre un responsable distinto de quien verifica"
+            ]
+          ],
+          "frameworks": [
+            "Triangulación · orígenes independientes",
+            "Red teaming · busca fallos antes de decidir",
+            "Claim–Evidence–Reasoning · conecta afirmación y soporte"
           ]
         },
         "why_it_works": {
@@ -201,7 +272,78 @@
             "claim": "Exigir derechos de cita por origen y que un responsable distinto de quien verifica recorra la trazabilidad es política interna para material que sale de la organización.",
             "source": "method_internal"
           }
-        ]
+        ],
+        "inputs": [
+          {
+            "key": "claim",
+            "label": "AFIRMACIÓN",
+            "help": "frase concreta que debe verificarse",
+            "example": "la práctica reduce retrabajo",
+            "required": true,
+            "type": "text",
+            "source": "previous_output",
+            "demo_value": "artefacto sintético del paso anterior: falta demostrar transferencia a un segundo contexto"
+          },
+          {
+            "key": "team",
+            "label": "EQUIPO",
+            "help": "grupo que participa",
+            "example": "equipo de operaciones",
+            "required": true,
+            "type": "text",
+            "source": "user",
+            "demo_value": "equipo piloto de operaciones"
+          },
+          {
+            "key": "use",
+            "label": "USO",
+            "help": "situación donde se aplicará",
+            "example": "revisión semanal",
+            "required": true,
+            "type": "text",
+            "source": "user",
+            "demo_value": "revisión semanal"
+          }
+        ],
+        "parameters": [
+          {
+            "key": "length",
+            "label": "LONGITUD",
+            "default": "concisa",
+            "choices": [
+              "concisa",
+              "media"
+            ]
+          },
+          {
+            "key": "structure",
+            "label": "ESTRUCTURA",
+            "default": "2 párrafos + bullets clave",
+            "choices": [
+              "2 párrafos + bullets clave",
+              "tabla breve"
+            ]
+          },
+          {
+            "key": "tone",
+            "label": "TONO",
+            "default": "ejecutivo y operativo",
+            "choices": [
+              "ejecutivo y operativo",
+              "facilitador"
+            ]
+          },
+          {
+            "key": "depth",
+            "label": "PROFUNDIDAD",
+            "default": "práctica",
+            "choices": [
+              "práctica",
+              "profunda"
+            ]
+          }
+        ],
+        "optional_clauses": []
       }
     },
     "en": {
@@ -211,29 +353,11 @@
         "when": "you need to rest a decision on one concrete fact and its evidence is still uncertain.",
         "example": "Confirm that an AI feature exists in the plan I am about to buy.",
         "evidence": "CONFIRMED, REFUTED or NOT DEMONSTRABLE verdict with origins counted, threshold applied and the demonstrable evidence that would change it.",
-        "prompt": "I want to verify [CLAIM] before I use it in [USE]. Count origins, not links: a chain from one origin is one source. Record per origin author, date, link, excerpt and limitation. CONFIRMED: two independent origins agree. REFUTED: one contradicts. Otherwise NOT DEMONSTRABLE, or [CLAIM] unverifiable by design. Require three origins when [USE] risks my money, my deadline or my reputation, or when it is blank. Split a mixed claim: one demonstrable verdict per part. Close with the evidence that would change the verdict and what I must not assert. Do not audit the base or rule on retention. Never invent sources or certainty.",
+        "prompt": "I want to verify <CLAIM> before I use it in <USE>. Count origins, not links: a chain from one origin is one source. Record per origin author, date, link, excerpt and limitation. CONFIRMED: two independent origins agree. REFUTED: one contradicts. Otherwise NOT DEMONSTRABLE, or <CLAIM> unverifiable by design. Require three origins when <USE> risks my money, my deadline or my reputation, or when it is blank. Split a mixed claim: one demonstrable verdict per part. Close with the evidence that would change the verdict and what I must not assert. Do not audit the base or rule on retention. Never invent sources or certainty.",
         "level_spec": {
           "role": "Verifier who counts origins before issuing a verdict",
           "spec_role": "Specialist in evidence-grounded learning and research",
           "objective": "Issue a traceable verdict on one atomic claim before it supports a personal decision",
-          "parameters": [
-            [
-              "unit",
-              "one atomic, datable claim per run"
-            ],
-            [
-              "independence",
-              "a citation chain leading back to one origin counts as a single source"
-            ],
-            [
-              "threshold",
-              "two independent origins; three when the use puts money, deadline or reputation at stake"
-            ],
-            [
-              "missing_use",
-              "if the use is not stated, the high threshold applies"
-            ]
-          ],
           "workflow": [
             "Record the claim and the use it is meant for",
             "Trace every citation back to its origin and count origins, not links",
@@ -256,6 +380,29 @@
             "Mixed claim: split it and give one verdict per part",
             "Future event or private data: NOT DEMONSTRABLE as unverifiable by design",
             "Use left unstated: the three-origin threshold applies"
+          ],
+          "constraints": [
+            [
+              "unit",
+              "one atomic, datable claim per run"
+            ],
+            [
+              "independence",
+              "a citation chain leading back to one origin counts as a single source"
+            ],
+            [
+              "threshold",
+              "two independent origins; three when the use puts money, deadline or reputation at stake"
+            ],
+            [
+              "missing_use",
+              "if the use is not stated, the high threshold applies"
+            ]
+          ],
+          "frameworks": [
+            "Triangulation · independent origins",
+            "Red teaming · find flaws before deciding",
+            "Claim–Evidence–Reasoning · connect claim and support"
           ]
         },
         "why_it_works": {
@@ -294,7 +441,68 @@
             "claim": "Counting origins instead of links, and raising the threshold with the risk of the personal use, are internal method rules.",
             "source": "method_internal"
           }
-        ]
+        ],
+        "inputs": [
+          {
+            "key": "claim",
+            "label": "CLAIM",
+            "help": "specific statement to verify",
+            "example": "the practice reduces rework",
+            "required": true,
+            "type": "text",
+            "source": "previous_output",
+            "demo_value": "synthetic prior-step artifact: transfer to a second context still needs evidence"
+          },
+          {
+            "key": "use",
+            "label": "USE",
+            "help": "situation where it will be applied",
+            "example": "weekly review",
+            "required": true,
+            "type": "text",
+            "source": "user",
+            "demo_value": "weekly review"
+          }
+        ],
+        "parameters": [
+          {
+            "key": "length",
+            "label": "LENGTH",
+            "default": "concise",
+            "choices": [
+              "concise",
+              "medium"
+            ]
+          },
+          {
+            "key": "structure",
+            "label": "STRUCTURE",
+            "default": "2 paragraphs + key bullets",
+            "choices": [
+              "2 paragraphs + key bullets",
+              "short table"
+            ]
+          },
+          {
+            "key": "tone",
+            "label": "TONE",
+            "default": "clear and personal",
+            "choices": [
+              "clear and personal",
+              "instructional"
+            ]
+          },
+          {
+            "key": "depth",
+            "label": "DEPTH",
+            "default": "practical",
+            "choices": [
+              "practical",
+              "deep"
+            ]
+          }
+        ],
+        "optional_clauses": []
       },
       "empresa": {
         "title": "Team-facing claim cross-check",
@@ -302,29 +510,11 @@
         "when": "a proposal or an accountable decision rests on a fact nobody has verified yet.",
         "example": "Confirm to a client that an AI feature is included in the contracted plan.",
         "evidence": "CONFIRMED, REFUTED or NOT DEMONSTRABLE verdict with origins counted, citation rights, demonstrable traceability and threshold applied, ready for review.",
-        "prompt": "Verify [CLAIM] before [TEAM] uses it in [USE]. Count origins, not links: a chain from one origin is one source. Record per origin author, date, link, excerpt, limitation, citation rights. CONFIRMED: two independent origins agree. REFUTED: one contradicts. Otherwise NOT DEMONSTRABLE. Require three origins if [USE] reaches a client or regulator, or is blank; name the operational risk of asserting unbacked. Split a mixed [CLAIM]: one demonstrable verdict per part, retraceable by an accountable [TEAM] reviewer, not its verifier. Close with what would change the verdict and what the team must not yet assert. Do not audit the base or rule on retention. Never invent sources or certainty.",
+        "prompt": "Verify <CLAIM> before <TEAM> uses it in <USE>. Count origins, not links: a chain from one origin is one source. Record per origin author, date, link, excerpt, limitation, citation rights. CONFIRMED: two independent origins agree. REFUTED: one contradicts. Otherwise NOT DEMONSTRABLE. Require three origins if <USE> reaches a client or regulator, or is blank; name the operational risk of asserting unbacked. Split a mixed <CLAIM>: one demonstrable verdict per part, retraceable by an accountable <TEAM> reviewer, not its verifier. Close with what would change the verdict and what the team must not yet assert. Do not audit the base or rule on retention. Never invent sources or certainty.",
         "level_spec": {
           "role": "Verifier who leaves the origin count retraceable for a reviewer",
           "spec_role": "Specialist in evidence-grounded learning and research",
           "objective": "Issue a verdict a third party can retrace on a claim the team will use outside",
-          "parameters": [
-            [
-              "unit",
-              "one atomic, datable claim per run"
-            ],
-            [
-              "independence",
-              "a citation chain leading back to one origin counts as a single source"
-            ],
-            [
-              "threshold",
-              "two origins; three when the use reaches a client or a regulator"
-            ],
-            [
-              "review",
-              "the count and the threshold are retraced by an accountable reviewer other than the verifier"
-            ]
-          ],
           "workflow": [
             "Record the claim, the team that will use it and the external exposure of the use",
             "Trace every citation back to its origin and count origins, not links",
@@ -348,6 +538,29 @@
             "Mixed claim inside a proposal: split it and give one verdict per part",
             "Single origin quoted by several trade outlets: counts as one source",
             "External use left unstated: the three-origin threshold applies"
+          ],
+          "constraints": [
+            [
+              "unit",
+              "one atomic, datable claim per run"
+            ],
+            [
+              "independence",
+              "a citation chain leading back to one origin counts as a single source"
+            ],
+            [
+              "threshold",
+              "two origins; three when the use reaches a client or a regulator"
+            ],
+            [
+              "review",
+              "the count and the threshold are retraced by an accountable reviewer other than the verifier"
+            ]
+          ],
+          "frameworks": [
+            "Triangulation · independent origins",
+            "Red teaming · find flaws before deciding",
+            "Claim–Evidence–Reasoning · connect claim and support"
           ]
         },
         "why_it_works": {
@@ -392,7 +605,78 @@
             "claim": "Requiring citation rights per origin and an accountable reviewer other than the verifier is internal policy for material leaving the organization.",
             "source": "method_internal"
           }
-        ]
+        ],
+        "inputs": [
+          {
+            "key": "claim",
+            "label": "CLAIM",
+            "help": "specific statement to verify",
+            "example": "the practice reduces rework",
+            "required": true,
+            "type": "text",
+            "source": "previous_output",
+            "demo_value": "synthetic prior-step artifact: transfer to a second context still needs evidence"
+          },
+          {
+            "key": "team",
+            "label": "TEAM",
+            "help": "group taking part",
+            "example": "operations team",
+            "required": true,
+            "type": "text",
+            "source": "user",
+            "demo_value": "operations pilot team"
+          },
+          {
+            "key": "use",
+            "label": "USE",
+            "help": "situation where it will be applied",
+            "example": "weekly review",
+            "required": true,
+            "type": "text",
+            "source": "user",
+            "demo_value": "weekly review"
+          }
+        ],
+        "parameters": [
+          {
+            "key": "length",
+            "label": "LENGTH",
+            "default": "concise",
+            "choices": [
+              "concise",
+              "medium"
+            ]
+          },
+          {
+            "key": "structure",
+            "label": "STRUCTURE",
+            "default": "2 paragraphs + key bullets",
+            "choices": [
+              "2 paragraphs + key bullets",
+              "short table"
+            ]
+          },
+          {
+            "key": "tone",
+            "label": "TONE",
+            "default": "executive and operational",
+            "choices": [
+              "executive and operational",
+              "facilitative"
+            ]
+          },
+          {
+            "key": "depth",
+            "label": "DEPTH",
+            "default": "practical",
+            "choices": [
+              "practical",
+              "deep"
+            ]
+          }
+        ],
+        "optional_clauses": []
       }
     },
     "pt": {
@@ -402,29 +686,11 @@
         "when": "você precisa apoiar uma decisão em um dado concreto e a evidência ainda é incerta.",
         "example": "Confirmar que um recurso de IA existe no plano que estou prestes a contratar.",
         "evidence": "veredito CONFIRMADA, REFUTADA ou NÃO DEMONSTRÁVEL com origens contadas, limiar aplicado e a evidência demonstrável que o mudaria.",
-        "prompt": "Quero verificar [AFIRMAÇÃO] antes de usá-la em [USO]. Conte origens, não links: cadeia de uma mesma origem é uma fonte. Registre por origem autor, data, link, trecho e limitação. CONFIRMADA: duas origens independentes coincidem. REFUTADA: uma contradiz. Senão, NÃO DEMONSTRÁVEL, ou [AFIRMAÇÃO] não verificável por desenho. Exija três origens quando [USO] arrisca meu dinheiro, meu prazo ou minha reputação, ou se falta. Divida a afirmação mista: um veredito demonstrável por parte. Feche com a evidência que mudaria o veredito e o que não devo afirmar. Não audite a base nem decida o que manter. Não invente fontes nem certeza.",
+        "prompt": "Quero verificar <AFIRMAÇÃO> antes de usá-la em <USO>. Conte origens, não links: cadeia de uma mesma origem é uma fonte. Registre por origem autor, data, link, trecho e limitação. CONFIRMADA: duas origens independentes coincidem. REFUTADA: uma contradiz. Senão, NÃO DEMONSTRÁVEL, ou <AFIRMAÇÃO> não verificável por desenho. Exija três origens quando <USO> arrisca meu dinheiro, meu prazo ou minha reputação, ou se falta. Divida a afirmação mista: um veredito demonstrável por parte. Feche com a evidência que mudaria o veredito e o que não devo afirmar. Não audite a base nem decida o que manter. Não invente fontes nem certeza.",
         "level_spec": {
           "role": "Verificador que conta origens antes de emitir veredito",
           "spec_role": "Especialista em aprendizagem e pesquisa baseada em evidências",
           "objective": "Emitir um veredito rastreável sobre uma afirmação atômica antes que sustente uma decisão pessoal",
-          "parameters": [
-            [
-              "unidade",
-              "uma afirmação atômica e datável por rodada"
-            ],
-            [
-              "independência",
-              "uma cadeia de citações com uma mesma origem conta como uma única fonte"
-            ],
-            [
-              "limiar",
-              "duas origens independentes; três se o uso compromete dinheiro, prazo ou reputação"
-            ],
-            [
-              "ausência_de_uso",
-              "se o uso não for declarado, aplica-se o limiar alto"
-            ]
-          ],
           "workflow": [
             "Registrar a afirmação e o uso a que se destina",
             "Rastrear cada citação até a origem e contar origens, não links",
@@ -447,6 +713,29 @@
             "Afirmação mista: dividi-la e dar um veredito por parte",
             "Evento futuro ou dado privado: NÃO DEMONSTRÁVEL por não verificável por desenho",
             "Uso não declarado: aplica-se o limiar de três origens"
+          ],
+          "constraints": [
+            [
+              "unidade",
+              "uma afirmação atômica e datável por rodada"
+            ],
+            [
+              "independência",
+              "uma cadeia de citações com uma mesma origem conta como uma única fonte"
+            ],
+            [
+              "limiar",
+              "duas origens independentes; três se o uso compromete dinheiro, prazo ou reputação"
+            ],
+            [
+              "ausência_de_uso",
+              "se o uso não for declarado, aplica-se o limiar alto"
+            ]
+          ],
+          "frameworks": [
+            "Triangulação · origens independentes",
+            "Red teaming · encontre falhas antes de decidir",
+            "Claim–Evidence–Reasoning · conecte afirmação e suporte"
           ]
         },
         "why_it_works": {
@@ -485,7 +774,68 @@
             "claim": "Contar origens em vez de links e subir o limiar conforme o risco do uso pessoal são regras internas do método.",
             "source": "method_internal"
           }
-        ]
+        ],
+        "inputs": [
+          {
+            "key": "claim",
+            "label": "AFIRMAÇÃO",
+            "help": "frase concreta a verificar",
+            "example": "a prática reduz retrabalho",
+            "required": true,
+            "type": "text",
+            "source": "previous_output",
+            "demo_value": "artefato sintético da etapa anterior: ainda falta demonstrar transferência para um segundo contexto"
+          },
+          {
+            "key": "use",
+            "label": "USO",
+            "help": "situação em que será aplicado",
+            "example": "revisão semanal",
+            "required": true,
+            "type": "text",
+            "source": "user",
+            "demo_value": "revisão semanal"
+          }
+        ],
+        "parameters": [
+          {
+            "key": "length",
+            "label": "EXTENSÃO",
+            "default": "concisa",
+            "choices": [
+              "concisa",
+              "média"
+            ]
+          },
+          {
+            "key": "structure",
+            "label": "ESTRUTURA",
+            "default": "2 parágrafos + bullets-chave",
+            "choices": [
+              "2 parágrafos + bullets-chave",
+              "tabela breve"
+            ]
+          },
+          {
+            "key": "tone",
+            "label": "TOM",
+            "default": "claro e pessoal",
+            "choices": [
+              "claro e pessoal",
+              "didático"
+            ]
+          },
+          {
+            "key": "depth",
+            "label": "PROFUNDIDADE",
+            "default": "prática",
+            "choices": [
+              "prática",
+              "profunda"
+            ]
+          }
+        ],
+        "optional_clauses": []
       },
       "empresa": {
         "title": "Verificação cruzada para uso da equipe",
@@ -493,29 +843,11 @@
         "when": "uma proposta ou uma decisão com responsável depende de um dado ainda não verificado.",
         "example": "Confirmar a um cliente que um recurso de IA está incluído no plano contratado.",
         "evidence": "veredito CONFIRMADA, REFUTADA ou NÃO DEMONSTRÁVEL com origens contadas, direitos de citação, rastreabilidade demonstrável e limiar aplicado, pronto para revisão.",
-        "prompt": "Verifique [AFIRMAÇÃO] antes que [EQUIPE] a use em [USO]. Conte origens, não links: cadeia de uma mesma origem é uma fonte. Registre por origem autor, data, link, trecho, limitação, direitos de citação. CONFIRMADA: duas origens independentes coincidem. REFUTADA: uma contradiz. Senão, NÃO DEMONSTRÁVEL. Exija três origens se [USO] chega a cliente ou regulador, ou falta; nomeie o risco operacional de afirmar sem respaldo. Divida [AFIRMAÇÃO] mista: veredito demonstrável por parte, refeito por responsável da [EQUIPE] que não verificou. Feche com o que mudaria o veredito e o que a equipe ainda não deve afirmar. Não audite a base nem decida o que manter. Não invente fontes nem certeza.",
+        "prompt": "Verifique <AFIRMAÇÃO> antes que <EQUIPE> a use em <USO>. Conte origens, não links: cadeia de uma mesma origem é uma fonte. Registre por origem autor, data, link, trecho, limitação, direitos de citação. CONFIRMADA: duas origens independentes coincidem. REFUTADA: uma contradiz. Senão, NÃO DEMONSTRÁVEL. Exija três origens se <USO> chega a cliente ou regulador, ou falta; nomeie o risco operacional de afirmar sem respaldo. Divida <AFIRMAÇÃO> mista: veredito demonstrável por parte, refeito por responsável da <EQUIPE> que não verificou. Feche com o que mudaria o veredito e o que a equipe ainda não deve afirmar. Não audite a base nem decida o que manter. Não invente fontes nem certeza.",
         "level_spec": {
           "role": "Verificador que deixa a contagem de origens refazível por um revisor",
           "spec_role": "Especialista em aprendizagem e pesquisa baseada em evidências",
           "objective": "Emitir um veredito refazível por terceiro sobre uma afirmação que a equipe usará fora",
-          "parameters": [
-            [
-              "unidade",
-              "uma afirmação atômica e datável por rodada"
-            ],
-            [
-              "independência",
-              "uma cadeia de citações com uma mesma origem conta como uma única fonte"
-            ],
-            [
-              "limiar",
-              "duas origens; três quando o uso chega a um cliente ou a um regulador"
-            ],
-            [
-              "revisão",
-              "a contagem e o limiar são refeitos por um responsável diferente de quem verifica"
-            ]
-          ],
           "workflow": [
             "Registrar a afirmação, a equipe que a usará e a exposição externa do uso",
             "Rastrear cada citação até a origem e contar origens, não links",
@@ -539,6 +871,29 @@
             "Afirmação mista dentro de uma proposta: dividi-la e dar um veredito por parte",
             "Origem única citada por vários veículos do setor: conta como uma fonte",
             "Uso externo não declarado: aplica-se o limiar de três origens"
+          ],
+          "constraints": [
+            [
+              "unidade",
+              "uma afirmação atômica e datável por rodada"
+            ],
+            [
+              "independência",
+              "uma cadeia de citações com uma mesma origem conta como uma única fonte"
+            ],
+            [
+              "limiar",
+              "duas origens; três quando o uso chega a um cliente ou a um regulador"
+            ],
+            [
+              "revisão",
+              "a contagem e o limiar são refeitos por um responsável diferente de quem verifica"
+            ]
+          ],
+          "frameworks": [
+            "Triangulação · origens independentes",
+            "Red teaming · encontre falhas antes de decidir",
+            "Claim–Evidence–Reasoning · conecte afirmação e suporte"
           ]
         },
         "why_it_works": {
@@ -583,10 +938,95 @@
             "claim": "Exigir direitos de citação por origem e um responsável diferente de quem verifica para refazer a rastreabilidade é política interna para material que sai da organização.",
             "source": "method_internal"
           }
-        ]
+        ],
+        "inputs": [
+          {
+            "key": "claim",
+            "label": "AFIRMAÇÃO",
+            "help": "frase concreta a verificar",
+            "example": "a prática reduz retrabalho",
+            "required": true,
+            "type": "text",
+            "source": "previous_output",
+            "demo_value": "artefato sintético da etapa anterior: ainda falta demonstrar transferência para um segundo contexto"
+          },
+          {
+            "key": "team",
+            "label": "EQUIPE",
+            "help": "grupo participante",
+            "example": "equipe de operações",
+            "required": true,
+            "type": "text",
+            "source": "user",
+            "demo_value": "equipe piloto de operações"
+          },
+          {
+            "key": "use",
+            "label": "USO",
+            "help": "situação em que será aplicado",
+            "example": "revisão semanal",
+            "required": true,
+            "type": "text",
+            "source": "user",
+            "demo_value": "revisão semanal"
+          }
+        ],
+        "parameters": [
+          {
+            "key": "length",
+            "label": "EXTENSÃO",
+            "default": "concisa",
+            "choices": [
+              "concisa",
+              "média"
+            ]
+          },
+          {
+            "key": "structure",
+            "label": "ESTRUTURA",
+            "default": "2 parágrafos + bullets-chave",
+            "choices": [
+              "2 parágrafos + bullets-chave",
+              "tabela breve"
+            ]
+          },
+          {
+            "key": "tone",
+            "label": "TOM",
+            "default": "executivo e operacional",
+            "choices": [
+              "executivo e operacional",
+              "facilitador"
+            ]
+          },
+          {
+            "key": "depth",
+            "label": "PROFUNDIDADE",
+            "default": "prática",
+            "choices": [
+              "prática",
+              "profunda"
+            ]
+          }
+        ],
+        "optional_clauses": []
       }
     }
   },
   "self_hash_model": "sha256(sorted-json-without-self_sha256)",
-  "self_sha256": "dbd234e9eec76318f6176acc03aaa2002cc73163992d7b0b84e59f76535ebb84"
+  "self_sha256": "9eccb14ed4a19b94c15c7fa892408915aa51b9f8ff13b887d2ce96280c1eac0a",
+  "flow": {
+    "route": "library",
+    "order": 4,
+    "previous": "03",
+    "next": "07",
+    "branches": [],
+    "consumes": [
+      "INFORME_DE_INVESTIGACION"
+    ],
+    "produces": "VERIFICACION_CRUZADA",
+    "external_gate": false,
+    "loop_to": null,
+    "standalone": true
+  }
 }

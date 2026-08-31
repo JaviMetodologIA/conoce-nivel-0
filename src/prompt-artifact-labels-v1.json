@@ -1,0 +1,142 @@
+{
+  "schema_version": "prompt-artifact-labels-v1",
+  "state": "RENDERED_DRAFT",
+  "publication_authorized": false,
+  "policy": {
+    "principle": "Name the concrete document, plan, guide, report or record produced; never expose internal artifact keys as reader-facing copy.",
+    "fallback": "forbidden"
+  },
+  "artifacts": {
+    "BASE_AUDITADA": {"es": "base de fuentes auditada", "en": "audited source base", "pt": "base de fontes auditada"},
+    "BASE_INICIAL": {"es": "base inicial de fuentes", "en": "initial source base", "pt": "base inicial de fontes"},
+    "PLAN_INICIAL_DE_INVESTIGACION": {"es": "plan inicial de investigación", "en": "initial research plan", "pt": "plano inicial de pesquisa"},
+    "BORRADOR_DE_ENTREGA": {"es": "borrador del documento final", "en": "draft final document", "pt": "rascunho do documento final"},
+    "PLAN_DE_ESTUDIO": {"es": "plan de estudio", "en": "study plan", "pt": "plano de estudo"},
+    "CASOS_PRIORIZADOS": {"es": "lista priorizada de casos de uso", "en": "ranked use-case list", "pt": "lista priorizada de casos de uso"},
+    "COACH_CONFIGURADO": {"es": "guía de conversación basada en fuentes", "en": "source-grounded conversation guide", "pt": "guia de conversa baseada em fontes"},
+    "CONFIG_COACH": {"es": "instrucciones para el coach", "en": "coach instructions", "pt": "instruções para o coach"},
+    "CONFIG_ENTREVISTADOR": {"es": "guion de entrevista adversarial", "en": "adversarial interview script", "pt": "roteiro de entrevista adversarial"},
+    "CONFIG_EVALUADOR": {"es": "plan de evaluación progresiva", "en": "progressive assessment plan", "pt": "plano de avaliação progressiva"},
+    "CONFIG_PREPARADOR": {"es": "guía para preparar la entrega", "en": "delivery preparation guide", "pt": "guia para preparar a entrega"},
+    "NOTAS_CONFIRMADAS": {"es": "notas iniciales confirmadas", "en": "confirmed starting notes", "pt": "notas iniciais confirmadas"},
+    "DIAGNOSTICO_DE_BASE": {"es": "diagnóstico de la base de fuentes", "en": "source-base diagnosis", "pt": "diagnóstico da base de fontes"},
+    "INFORME_DE_INVESTIGACION": {"es": "informe de investigación", "en": "research report", "pt": "relatório de pesquisa"},
+    "PLAN_DE_INVESTIGACION": {"es": "plan de investigación", "en": "research plan", "pt": "plano de pesquisa"},
+    "ENSAYO_DE_DEFENSA": {"es": "registro del ensayo de defensa", "en": "defence rehearsal record", "pt": "registro do ensaio de defesa"},
+    "ENSAYO_DE_ENTREGA": {"es": "registro del ensayo de presentación", "en": "presentation rehearsal record", "pt": "registro do ensaio de apresentação"},
+    "EVALUACION_PROGRESIVA": {"es": "informe de evaluación progresiva", "en": "progressive assessment report", "pt": "relatório de avaliação progressiva"},
+    "MAPA_DE_CASOS": {"es": "mapa de casos de uso", "en": "use-case map", "pt": "mapa de casos de uso"},
+    "MATERIAL_DE_APRENDIZAJE": {"es": "documento de aprendizaje citado", "en": "cited learning document", "pt": "documento de aprendizagem citado"},
+    "PLAN_DE_TRANSFERENCIA": {"es": "plan de aplicación y seguimiento", "en": "application and follow-up plan", "pt": "plano de aplicação e acompanhamento"},
+    "PRACTICA_GENERADA": {"es": "ejercicio práctico", "en": "practice exercise", "pt": "exercício prático"},
+    "PREGUNTAS_DE_COMPRENSION": {"es": "guía de preguntas de comprensión", "en": "understanding-question guide", "pt": "guia de perguntas de compreensão"},
+    "PLAN_DE_NOTEBOOKLM": {"es": "plan de NotebookLM", "en": "NotebookLM plan", "pt": "plano do NotebookLM"},
+    "ROL_ACTIVADO": {"es": "guía de conversación con rol definido", "en": "role-based conversation guide", "pt": "guia de conversa com papel definido"},
+    "VEREDICTO_DE_BASE": {"es": "informe de suficiencia de fuentes", "en": "source-sufficiency report", "pt": "relatório de suficiência das fontes"},
+    "VERIFICACION_CRUZADA": {"es": "ficha de verificación cruzada", "en": "cross-check record", "pt": "ficha de verificação cruzada"}
+  },
+  "module_artifacts": {
+    "ocupado-productivo": {
+      "es": {
+        "wb-preparar-01": "bitácora de la semana",
+        "wb-preparar-02": "clasificación de actividades",
+        "wb-practicar-01": "resultados de la semana",
+        "wb-practicar-02": "prioridades evaluadas",
+        "wb-practicar-03": "agenda protegida",
+        "pb-protocolo-de-interrupciones-01": "protocolo de interrupciones",
+        "wb-transferir-01": "registro de ejecución",
+        "pb-matriz-de-prioridades-01": "matriz de prioridades"
+      },
+      "en": {
+        "wb-prepare-01": "weekly activity log",
+        "wb-prepare-02": "activity classification",
+        "wb-practice-01": "weekly outcomes",
+        "wb-practice-02": "evaluated priorities",
+        "wb-practice-03": "protected schedule",
+        "pb-interruption-protocol-01": "interruption protocol",
+        "wb-transfer-01": "execution record",
+        "pb-priority-matrix-01": "priority matrix"
+      },
+      "pt": {
+        "wb-preparar-01": "diário da semana",
+        "wb-preparar-02": "classificação de atividades",
+        "wb-praticar-01": "resultados da semana",
+        "wb-praticar-02": "prioridades avaliadas",
+        "wb-praticar-03": "agenda protegida",
+        "pb-protocolo-de-interrupcoes-01": "protocolo de interrupções",
+        "wb-transferir-01": "registro de execução",
+        "pb-matriz-de-prioridades-01": "matriz de prioridades"
+      }
+    },
+    "trabajo-amplificado": {
+      "es": {
+        "CONTEXTO_DEL_FLUJO": "contexto del flujo",
+        "FICHA_DEL_FLUJO": "ficha del flujo",
+        "MAPA_DE_FRICCION": "mapa de fricción",
+        "DOSSIER_DE_PRACTICAS": "dossier de prácticas",
+        "MAPA_DEL_PROCESO": "mapa del proceso",
+        "CRITERIOS_DE_TERMINADO": "criterios de terminado",
+        "MINI_SOP_V01": "Mini-SOP v0.1",
+        "REGISTRO_DE_RIESGOS": "registro de riesgos",
+        "PLAN_DE_PRUEBA": "plan de prueba",
+        "INFORME_DE_PRUEBA": "informe de prueba"
+      },
+      "en": {
+        "WORKFLOW_CONTEXT": "workflow context",
+        "WORKFLOW_BRIEF": "workflow brief",
+        "FRICTION_MAP": "friction map",
+        "PRACTICE_DOSSIER": "practice dossier",
+        "PROCESS_MAP": "process map",
+        "DEFINITION_OF_DONE": "definition of done",
+        "MINI_SOP_V01": "Mini-SOP v0.1",
+        "RISK_REGISTER": "risk register",
+        "TEST_PLAN": "test plan",
+        "TEST_REPORT": "test report"
+      },
+      "pt": {
+        "CONTEXTO_DO_FLUXO": "contexto do fluxo",
+        "FICHA_DO_FLUXO": "ficha do fluxo",
+        "MAPA_DE_FRICCAO": "mapa de fricção",
+        "DOSSIE_DE_PRATICAS": "dossiê de práticas",
+        "MAPA_DO_PROCESSO": "mapa do processo",
+        "CRITERIOS_DE_CONCLUSAO": "critérios de conclusão",
+        "MINI_SOP_V01": "Mini-SOP v0.1",
+        "REGISTRO_DE_RISCOS": "registro de riscos",
+        "PLANO_DE_TESTE": "plano de teste",
+        "RELATORIO_DE_TESTE": "relatório de teste"
+      }
+    },
+    "trabajo-agentico": {
+      "es": {
+        "wb-preparar-01": "lista de procesos candidatos",
+        "wb-pilotar-01": "ficha de misión",
+        "pb-preparar-contexto-y-fuentes-01": "paquete de contexto y fuentes",
+        "wb-preparar-03": "matriz de permisos y restricciones",
+        "pb-fijar-restricciones-y-escalamiento-01": "política de restricciones y escalamiento",
+        "wb-pilotar-02": "plan de ejecución revisado",
+        "wb-pilotar-03": "registro de ejecución",
+        "wb-transferir-02": "decisión de continuidad"
+      },
+      "en": {
+        "wb-prepare-01": "candidate process list",
+        "wb-pilot-01": "mission brief",
+        "pb-prepare-context-and-sources-01": "context and source package",
+        "wb-prepare-03": "permissions and restrictions matrix",
+        "pb-set-restrictions-and-escalation-01": "restriction and escalation policy",
+        "wb-pilot-02": "reviewed execution plan",
+        "wb-pilot-03": "execution record",
+        "wb-transfer-02": "continuation decision"
+      },
+      "pt": {
+        "wb-preparar-01": "lista de processos candidatos",
+        "wb-pilotar-01": "ficha de missão",
+        "pb-preparar-contexto-e-fontes-01": "pacote de contexto e fontes",
+        "wb-preparar-03": "matriz de permissões e restrições",
+        "pb-fixar-restricoes-e-escalonamento-01": "política de restrições e escalonamento",
+        "wb-pilotar-02": "plano de execução revisado",
+        "wb-pilotar-03": "registro de execução",
+        "wb-transferir-02": "decisão de continuidade"
+      }
+    }
+  }
+}

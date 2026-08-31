@@ -1,5 +1,5 @@
 {
-  "schema_version": "prompt-intent-contract-v1",
+  "schema_version": "prompt-intent-contract-v2",
   "intent_id": "08",
   "surface": "library",
   "phase": "Aprehender",
@@ -22,33 +22,11 @@
         "when": "necesitas evidencia de dominio antes de decidir qué estudiar después.",
         "example": "Evaluar mi comprensión de agentes, herramientas, memoria y supervisión.",
         "evidence": "nivel por dimensión con la cita que lo sostiene, resultado del segundo intento, umbral de aprobación declarado y práctica correctiva por laguna.",
-        "prompt": "Necesito medir mi dominio. Evalúame sobre [TEMA] con solo [FUENTES], una pregunta a la vez, por fundamentos, relaciones, aplicación y transferencia. Niveles: ausente (no cita condición de [FUENTES]), parcial (omite una condición exigida), demostrado (la reproduce con cita literal). Avanza solo con demostrado; si no, un segundo intento sustituye el resultado. En transferencia el caso es sintético: califica conceptos, no datos. Si respondo fuera de la base, márcalo sin calificar. Corrige citando; no expliques contenido nuevo ni uses analogías. Cierra con nivel por dimensión, su cita y práctica correctiva de [TEMA]. Apruebo con demostrado en fundamentos y relaciones. No inventes preguntas ni citas.",
+        "prompt": "Necesito medir mi dominio. Evalúame sobre <TEMA> con solo <FUENTES>, una pregunta a la vez, por fundamentos, relaciones, aplicación y transferencia. Niveles: ausente (no cita condición de <FUENTES>), parcial (omite una condición exigida), demostrado (la reproduce con cita literal). Avanza solo con demostrado; si no, un segundo intento sustituye el resultado. En transferencia el caso es sintético: califica conceptos, no datos. Si respondo fuera de la base, márcalo sin calificar. Corrige citando; no expliques contenido nuevo ni uses analogías. Cierra con nivel por dimensión, su cita y práctica correctiva de <TEMA>. Apruebo con demostrado en fundamentos y relaciones. No inventes preguntas ni citas.",
         "level_spec": {
           "role": "Evaluador que califica contra rúbrica citada y no enseña",
           "spec_role": "Especialista en aprendizaje e investigación basada en evidencia",
           "objective": "Medir comprensión por dimensiones y emitir nivel demostrado sostenido por evidencia citada",
-          "parameters": [
-            [
-              "dimensiones",
-              "fundamentos, relaciones, aplicación y transferencia, una pregunta a la vez"
-            ],
-            [
-              "rúbrica",
-              "ausente sin cita, parcial omite una condición exigida, demostrado reproduce la condición con cita literal"
-            ],
-            [
-              "avance",
-              "solo con demostrado; parcial o ausente abren un segundo intento cuyo resultado sustituye al primero"
-            ],
-            [
-              "transferencia",
-              "caso inventado: se califican los conceptos, no los datos del caso"
-            ],
-            [
-              "umbral",
-              "aprobación con demostrado en fundamentos y relaciones"
-            ]
-          ],
           "workflow": [
             "Declarar rúbrica y umbral de aprobación antes de la primera pregunta",
             "Preguntar de a una por dimensión en orden",
@@ -71,6 +49,33 @@
             "Respuesta parcialmente correcta: calificar por dimensión, nunca binario",
             "Respuesta apoyada en conocimiento externo: marcarla sin penalizar y sin evaluarla",
             "La base no cubre una dimensión: declararla no evaluable en vez de improvisar la pregunta"
+          ],
+          "constraints": [
+            [
+              "dimensiones",
+              "fundamentos, relaciones, aplicación y transferencia, una pregunta a la vez"
+            ],
+            [
+              "rúbrica",
+              "ausente sin cita, parcial omite una condición exigida, demostrado reproduce la condición con cita literal"
+            ],
+            [
+              "avance",
+              "solo con demostrado; parcial o ausente abren un segundo intento cuyo resultado sustituye al primero"
+            ],
+            [
+              "transferencia",
+              "caso inventado: se califican los conceptos, no los datos del caso"
+            ],
+            [
+              "umbral",
+              "aprobación con demostrado en fundamentos y relaciones"
+            ]
+          ],
+          "frameworks": [
+            "Taxonomía de Bloom · de comprender a aplicar",
+            "Rúbrica analítica · criterios y niveles observables",
+            "Criterios de aceptación · prueba observable"
           ]
         },
         "why_it_works": {
@@ -108,7 +113,68 @@
             "claim": "Nombrar los tres niveles con su evidencia, declarar el umbral de aprobación y dar efecto explícito al segundo intento son normas internas del método.",
             "source": "method_internal"
           }
-        ]
+        ],
+        "inputs": [
+          {
+            "key": "topic",
+            "label": "TEMA",
+            "help": "asunto concreto",
+            "example": "verificar respuestas de IA",
+            "required": true,
+            "type": "text",
+            "source": "user",
+            "demo_value": "cómo aprender a aprender con IA mediante una práctica semanal de alto rendimiento"
+          },
+          {
+            "key": "sources",
+            "label": "FUENTES",
+            "help": "material que sí puede citarse",
+            "example": "guía, informe y registro",
+            "required": true,
+            "type": "long_text",
+            "source": "user",
+            "demo_value": "dossier sintético Demo: guía del método, registro de práctica y criterios de revisión"
+          }
+        ],
+        "parameters": [
+          {
+            "key": "length",
+            "label": "LONGITUD",
+            "default": "concisa",
+            "choices": [
+              "concisa",
+              "media"
+            ]
+          },
+          {
+            "key": "structure",
+            "label": "ESTRUCTURA",
+            "default": "2 párrafos + bullets clave",
+            "choices": [
+              "2 párrafos + bullets clave",
+              "tabla breve"
+            ]
+          },
+          {
+            "key": "tone",
+            "label": "TONO",
+            "default": "claro y personal",
+            "choices": [
+              "claro y personal",
+              "didáctico"
+            ]
+          },
+          {
+            "key": "depth",
+            "label": "PROFUNDIDAD",
+            "default": "práctica",
+            "choices": [
+              "práctica",
+              "profunda"
+            ]
+          }
+        ],
+        "optional_clauses": []
       },
       "empresa": {
         "title": "Evaluador progresivo para el equipo",
@@ -116,33 +182,11 @@
         "when": "el proceso exige evidencia de dominio antes de habilitar a alguien y hay un responsable.",
         "example": "Evaluar la comprensión de agentes, herramientas, memoria y supervisión en el área.",
         "evidence": "nivel por dimensión con la cita que lo sostiene, umbral de gobernanza del proceso, práctica correctiva, riesgo operativo de habilitar bajo umbral y reporte comparable entre corridas.",
-        "prompt": "Evalúa a quien responde sobre [TEMA] con solo [FUENTES], una pregunta a la vez, por fundamentos, relaciones, aplicación y transferencia, con el umbral de gobernanza de [PROCESO]. Niveles: ausente (no cita condición de [FUENTES]), parcial (omite una condición exigida), demostrado (la reproduce con cita literal). Avanza solo con demostrado; si no, el segundo intento sustituye. En transferencia el caso es sintético: califica conceptos, no datos. Fuera de la base: márcala sin calificar. Corrige citando; no enseñes contenido nuevo. Cierra con nivel por dimensión, su cita, práctica correctiva de [TEMA] y riesgo operativo de habilitar en [PROCESO] bajo ese umbral. Compara corridas contra la rúbrica, nunca personas. No inventes preguntas ni citas.",
+        "prompt": "Evalúa a quien responde sobre <TEMA> con solo <FUENTES>, una pregunta a la vez, por fundamentos, relaciones, aplicación y transferencia, con el umbral de gobernanza de <PROCESO>. Niveles: ausente (no cita condición de <FUENTES>), parcial (omite una condición exigida), demostrado (la reproduce con cita literal). Avanza solo con demostrado; si no, el segundo intento sustituye. En transferencia el caso es sintético: califica conceptos, no datos. Fuera de la base: márcala sin calificar. Corrige citando; no enseñes contenido nuevo. Cierra con nivel por dimensión, su cita, práctica correctiva de <TEMA> y riesgo operativo de habilitar en <PROCESO> bajo ese umbral. Compara corridas contra la rúbrica, nunca personas. No inventes preguntas ni citas.",
         "level_spec": {
           "role": "Evaluador de equipo que califica contra rúbrica citada, sin ordenar personas",
           "spec_role": "Especialista en aprendizaje e investigación basada en evidencia",
           "objective": "Producir evidencia de dominio revisable que informe la habilitación en el proceso",
-          "parameters": [
-            [
-              "dimensiones",
-              "fundamentos, relaciones, aplicación y transferencia, una pregunta a la vez"
-            ],
-            [
-              "rúbrica",
-              "ausente sin cita, parcial omite una condición exigida, demostrado reproduce la condición con cita literal"
-            ],
-            [
-              "umbral",
-              "el nivel mínimo lo fija el proceso y se declara antes de evaluar"
-            ],
-            [
-              "comparabilidad",
-              "misma rúbrica entre corridas; prohibido ordenar o comparar personas"
-            ],
-            [
-              "decisión",
-              "el responsable decide la habilitación con el reporte; el evaluador no habilita"
-            ]
-          ],
           "workflow": [
             "Declarar rúbrica, umbral del proceso y alcance antes de la primera pregunta",
             "Preguntar de a una por dimensión en orden",
@@ -167,6 +211,33 @@
             "Respuesta parcialmente correcta: calificar por dimensión, nunca binario",
             "Respuesta apoyada en conocimiento externo: marcarla sin penalizar y sin evaluarla",
             "El proceso no fija umbral: pedirlo al responsable antes de evaluar"
+          ],
+          "constraints": [
+            [
+              "dimensiones",
+              "fundamentos, relaciones, aplicación y transferencia, una pregunta a la vez"
+            ],
+            [
+              "rúbrica",
+              "ausente sin cita, parcial omite una condición exigida, demostrado reproduce la condición con cita literal"
+            ],
+            [
+              "umbral",
+              "el nivel mínimo lo fija el proceso y se declara antes de evaluar"
+            ],
+            [
+              "comparabilidad",
+              "misma rúbrica entre corridas; prohibido ordenar o comparar personas"
+            ],
+            [
+              "decisión",
+              "el responsable decide la habilitación con el reporte; el evaluador no habilita"
+            ]
+          ],
+          "frameworks": [
+            "Taxonomía de Bloom · de comprender a aplicar",
+            "Rúbrica analítica · criterios y niveles observables",
+            "Criterios de aceptación · prueba observable"
           ]
         },
         "why_it_works": {
@@ -208,7 +279,78 @@
             "claim": "Prohibir el ranking entre personas y mantener la comparabilidad solo entre corridas de la misma rúbrica es política interna para evaluación de equipo.",
             "source": "method_internal"
           }
-        ]
+        ],
+        "inputs": [
+          {
+            "key": "topic",
+            "label": "TEMA",
+            "help": "asunto concreto",
+            "example": "verificar respuestas de IA",
+            "required": true,
+            "type": "text",
+            "source": "user",
+            "demo_value": "cómo aprender a aprender con IA mediante formas de trabajo de alto rendimiento"
+          },
+          {
+            "key": "sources",
+            "label": "FUENTES",
+            "help": "material que sí puede citarse",
+            "example": "guía, informe y registro",
+            "required": true,
+            "type": "long_text",
+            "source": "user",
+            "demo_value": "dossier sintético Demo: guía del método, registro de práctica y criterios de revisión"
+          },
+          {
+            "key": "process",
+            "label": "PROCESO",
+            "help": "flujo que cambiará",
+            "example": "preparación de decisiones",
+            "required": true,
+            "type": "text",
+            "source": "user",
+            "demo_value": "preparación y revisión semanal de decisiones"
+          }
+        ],
+        "parameters": [
+          {
+            "key": "length",
+            "label": "LONGITUD",
+            "default": "concisa",
+            "choices": [
+              "concisa",
+              "media"
+            ]
+          },
+          {
+            "key": "structure",
+            "label": "ESTRUCTURA",
+            "default": "2 párrafos + bullets clave",
+            "choices": [
+              "2 párrafos + bullets clave",
+              "tabla breve"
+            ]
+          },
+          {
+            "key": "tone",
+            "label": "TONO",
+            "default": "ejecutivo y operativo",
+            "choices": [
+              "ejecutivo y operativo",
+              "facilitador"
+            ]
+          },
+          {
+            "key": "depth",
+            "label": "PROFUNDIDAD",
+            "default": "práctica",
+            "choices": [
+              "práctica",
+              "profunda"
+            ]
+          }
+        ],
+        "optional_clauses": []
       }
     },
     "en": {
@@ -218,33 +360,11 @@
         "when": "you need evidence of mastery before choosing what to study next.",
         "example": "Assess my understanding of agents, tools, memory and supervision.",
         "evidence": "level per dimension with the quote that supports it, second-attempt result, declared pass threshold and corrective practice per gap.",
-        "prompt": "I need to measure my mastery. Assess me on [TOPIC] from [SOURCES] only, one question at a time, through foundations, relationships, application and transfer. Levels: absent (no [SOURCES] condition quoted), partial (a required condition dropped), demonstrated (reproduced with a literal quote). Advance only on demonstrated; else a second attempt replaces the result. In transfer the case is synthetic: score concepts, not data. Outside the base: flag without scoring. Correct by quoting; never explain new content or use analogies. Close with level per dimension, its quote and corrective practice on [TOPIC]. I pass with demonstrated in foundations and relationships. Do not invent questions or quotes.",
+        "prompt": "I need to measure my mastery. Assess me on <TOPIC> from <SOURCES> only, one question at a time, through foundations, relationships, application and transfer. Levels: absent (no <SOURCES> condition quoted), partial (a required condition dropped), demonstrated (reproduced with a literal quote). Advance only on demonstrated; else a second attempt replaces the result. In transfer the case is synthetic: score concepts, not data. Outside the base: flag without scoring. Correct by quoting; never explain new content or use analogies. Close with level per dimension, its quote and corrective practice on <TOPIC>. I pass with demonstrated in foundations and relationships. Do not invent questions or quotes.",
         "level_spec": {
           "role": "Evaluator who scores against a quoted rubric and does not teach",
           "spec_role": "Specialist in evidence-grounded learning and research",
           "objective": "Measure understanding per dimension and issue a demonstrated level backed by cited evidence",
-          "parameters": [
-            [
-              "dimensions",
-              "foundations, relationships, application and transfer, one question at a time"
-            ],
-            [
-              "rubric",
-              "absent without a quote, partial drops a required condition, demonstrated reproduces the condition with a literal quote"
-            ],
-            [
-              "progression",
-              "only on demonstrated; partial or absent open a second attempt whose result replaces the first"
-            ],
-            [
-              "transfer",
-              "invented case: the concepts are scored, the case data is not"
-            ],
-            [
-              "threshold",
-              "pass requires demonstrated in foundations and relationships"
-            ]
-          ],
           "workflow": [
             "Declare rubric and pass threshold before the first question",
             "Ask one question per dimension in order",
@@ -267,6 +387,33 @@
             "Partially correct answer: score per dimension, never binary",
             "Answer grounded in outside knowledge: flag it without penalty and without scoring it",
             "The base does not cover a dimension: declare it unassessable instead of improvising the question"
+          ],
+          "constraints": [
+            [
+              "dimensions",
+              "foundations, relationships, application and transfer, one question at a time"
+            ],
+            [
+              "rubric",
+              "absent without a quote, partial drops a required condition, demonstrated reproduces the condition with a literal quote"
+            ],
+            [
+              "progression",
+              "only on demonstrated; partial or absent open a second attempt whose result replaces the first"
+            ],
+            [
+              "transfer",
+              "invented case: the concepts are scored, the case data is not"
+            ],
+            [
+              "threshold",
+              "pass requires demonstrated in foundations and relationships"
+            ]
+          ],
+          "frameworks": [
+            "Bloom's taxonomy · from understanding to application",
+            "Analytic rubric · observable criteria and levels",
+            "Acceptance criteria · observable test"
           ]
         },
         "why_it_works": {
@@ -304,7 +451,68 @@
             "claim": "Naming the three levels with their evidence, declaring the pass threshold and giving the second attempt an explicit effect are internal method policy.",
             "source": "method_internal"
           }
-        ]
+        ],
+        "inputs": [
+          {
+            "key": "topic",
+            "label": "TOPIC",
+            "help": "specific subject",
+            "example": "verify AI answers",
+            "required": true,
+            "type": "text",
+            "source": "user",
+            "demo_value": "how to learn with AI through a weekly high-performance practice"
+          },
+          {
+            "key": "sources",
+            "label": "SOURCES",
+            "help": "material that may be cited",
+            "example": "guide, report and log",
+            "required": true,
+            "type": "long_text",
+            "source": "user",
+            "demo_value": "synthetic Demo dossier: method guide, practice log and review criteria"
+          }
+        ],
+        "parameters": [
+          {
+            "key": "length",
+            "label": "LENGTH",
+            "default": "concise",
+            "choices": [
+              "concise",
+              "medium"
+            ]
+          },
+          {
+            "key": "structure",
+            "label": "STRUCTURE",
+            "default": "2 paragraphs + key bullets",
+            "choices": [
+              "2 paragraphs + key bullets",
+              "short table"
+            ]
+          },
+          {
+            "key": "tone",
+            "label": "TONE",
+            "default": "clear and personal",
+            "choices": [
+              "clear and personal",
+              "instructional"
+            ]
+          },
+          {
+            "key": "depth",
+            "label": "DEPTH",
+            "default": "practical",
+            "choices": [
+              "practical",
+              "deep"
+            ]
+          }
+        ],
+        "optional_clauses": []
       },
       "empresa": {
         "title": "Team progressive evaluator",
@@ -312,33 +520,11 @@
         "when": "the process requires evidence of mastery before clearing someone and an owner exists.",
         "example": "Assess understanding of agents, tools, memory and supervision across the area.",
         "evidence": "level per dimension with the quote that supports it, the governance threshold of the process, corrective practice, the operational risk of clearing below it and a report comparable across runs.",
-        "prompt": "Assess the respondent on [TOPIC] for [PROCESS] with [SOURCES] only, one question per turn: foundations, relations, application, transfer. Levels: absent (no [SOURCES] condition quoted), partial (a required condition dropped), demonstrated (reproduced verbatim). Advance only on demonstrated; else the second attempt replaces. In transfer the case is synthetic: score concepts, not data. Outside the base: flag without scoring. Correct by quoting; never teach new content. Close with level per dimension, its quote, [TOPIC] corrective practice and the operational risk of clearing below the [PROCESS] governance threshold. Compare runs against the rubric, never people. Never invent questions or quotes.",
+        "prompt": "Assess the respondent on <TOPIC> for <PROCESS> with <SOURCES> only, one question per turn: foundations, relations, application, transfer. Levels: absent (no <SOURCES> condition quoted), partial (a required condition dropped), demonstrated (reproduced verbatim). Advance only on demonstrated; else the second attempt replaces. In transfer the case is synthetic: score concepts, not data. Outside the base: flag without scoring. Correct by quoting; never teach new content. Close with level per dimension, its quote, <TOPIC> corrective practice and the operational risk of clearing below the <PROCESS> governance threshold. Compare runs against the rubric, never people. Never invent questions or quotes.",
         "level_spec": {
           "role": "Team evaluator who scores against a quoted rubric without ranking people",
           "spec_role": "Specialist in evidence-grounded learning and research",
           "objective": "Produce reviewable evidence of mastery that informs clearance inside the process",
-          "parameters": [
-            [
-              "dimensions",
-              "foundations, relationships, application and transfer, one question at a time"
-            ],
-            [
-              "rubric",
-              "absent without a quote, partial drops a required condition, demonstrated reproduces the condition with a literal quote"
-            ],
-            [
-              "threshold",
-              "the minimum level is set by the process and declared before assessing"
-            ],
-            [
-              "comparability",
-              "same rubric across runs; ranking or comparing people is forbidden"
-            ],
-            [
-              "decision",
-              "the accountable owner clears with the report; the evaluator never clears"
-            ]
-          ],
           "workflow": [
             "Declare rubric, process threshold and scope before the first question",
             "Ask one question per dimension in order",
@@ -363,6 +549,33 @@
             "Partially correct answer: score per dimension, never binary",
             "Answer grounded in outside knowledge: flag it without penalty and without scoring it",
             "The process sets no threshold: request it from the accountable owner before assessing"
+          ],
+          "constraints": [
+            [
+              "dimensions",
+              "foundations, relationships, application and transfer, one question at a time"
+            ],
+            [
+              "rubric",
+              "absent without a quote, partial drops a required condition, demonstrated reproduces the condition with a literal quote"
+            ],
+            [
+              "threshold",
+              "the minimum level is set by the process and declared before assessing"
+            ],
+            [
+              "comparability",
+              "same rubric across runs; ranking or comparing people is forbidden"
+            ],
+            [
+              "decision",
+              "the accountable owner clears with the report; the evaluator never clears"
+            ]
+          ],
+          "frameworks": [
+            "Bloom's taxonomy · from understanding to application",
+            "Analytic rubric · observable criteria and levels",
+            "Acceptance criteria · observable test"
           ]
         },
         "why_it_works": {
@@ -404,7 +617,78 @@
             "claim": "Forbidding rankings between people and keeping comparability only across runs of the same rubric is internal policy for team assessment.",
             "source": "method_internal"
           }
-        ]
+        ],
+        "inputs": [
+          {
+            "key": "topic",
+            "label": "TOPIC",
+            "help": "specific subject",
+            "example": "verify AI answers",
+            "required": true,
+            "type": "text",
+            "source": "user",
+            "demo_value": "how to learn with AI through high-performance ways of working"
+          },
+          {
+            "key": "process",
+            "label": "PROCESS",
+            "help": "workflow that will change",
+            "example": "decision preparation",
+            "required": true,
+            "type": "text",
+            "source": "user",
+            "demo_value": "weekly decision preparation and review"
+          },
+          {
+            "key": "sources",
+            "label": "SOURCES",
+            "help": "material that may be cited",
+            "example": "guide, report and log",
+            "required": true,
+            "type": "long_text",
+            "source": "user",
+            "demo_value": "synthetic Demo dossier: method guide, practice log and review criteria"
+          }
+        ],
+        "parameters": [
+          {
+            "key": "length",
+            "label": "LENGTH",
+            "default": "concise",
+            "choices": [
+              "concise",
+              "medium"
+            ]
+          },
+          {
+            "key": "structure",
+            "label": "STRUCTURE",
+            "default": "2 paragraphs + key bullets",
+            "choices": [
+              "2 paragraphs + key bullets",
+              "short table"
+            ]
+          },
+          {
+            "key": "tone",
+            "label": "TONE",
+            "default": "executive and operational",
+            "choices": [
+              "executive and operational",
+              "facilitative"
+            ]
+          },
+          {
+            "key": "depth",
+            "label": "DEPTH",
+            "default": "practical",
+            "choices": [
+              "practical",
+              "deep"
+            ]
+          }
+        ],
+        "optional_clauses": []
       }
     },
     "pt": {
@@ -414,33 +698,11 @@
         "when": "você precisa de evidência de domínio antes de escolher o que estudar depois.",
         "example": "Avaliar minha compreensão de agentes, ferramentas, memória e supervisão.",
         "evidence": "nível por dimensão com a citação que o sustenta, resultado da segunda tentativa, limiar de aprovação declarado e prática corretiva por lacuna.",
-        "prompt": "Preciso medir meu domínio. Avalie-me sobre [TEMA] só com [FONTES], uma pergunta por vez, por fundamentos, relações, aplicação e transferência. Níveis: ausente (não cita condição de [FONTES]), parcial (omite uma condição exigida), demonstrado (reproduz com citação literal). Avance só com demonstrado; se não, uma segunda tentativa substitui o resultado. Na transferência o caso é sintético: pontue conceitos, não dados. Fora da base: marque sem pontuar. Corrija citando; nunca explique conteúdo novo nem use analogias. Feche com nível por dimensão, a citação e prática corretiva de [TEMA]. Aprovo com demonstrado em fundamentos e relações. Não invente perguntas nem citações.",
+        "prompt": "Preciso medir meu domínio. Avalie-me sobre <TEMA> só com <FONTES>, uma pergunta por vez, por fundamentos, relações, aplicação e transferência. Níveis: ausente (não cita condição de <FONTES>), parcial (omite uma condição exigida), demonstrado (reproduz com citação literal). Avance só com demonstrado; se não, uma segunda tentativa substitui o resultado. Na transferência o caso é sintético: pontue conceitos, não dados. Fora da base: marque sem pontuar. Corrija citando; nunca explique conteúdo novo nem use analogias. Feche com nível por dimensão, a citação e prática corretiva de <TEMA>. Aprovo com demonstrado em fundamentos e relações. Não invente perguntas nem citações.",
         "level_spec": {
           "role": "Avaliador que pontua contra rubrica citada e não ensina",
           "spec_role": "Especialista em aprendizagem e pesquisa baseada em evidências",
           "objective": "Medir compreensão por dimensões e emitir nível demonstrado sustentado por evidência citada",
-          "parameters": [
-            [
-              "dimensoes",
-              "fundamentos, relações, aplicação e transferência, uma pergunta por vez"
-            ],
-            [
-              "rubrica",
-              "ausente sem citação, parcial omite uma condição exigida, demonstrado reproduz a condição com citação literal"
-            ],
-            [
-              "avanco",
-              "só com demonstrado; parcial ou ausente abrem segunda tentativa cujo resultado substitui o primeiro"
-            ],
-            [
-              "transferencia",
-              "caso inventado: pontuam-se os conceitos, não os dados do caso"
-            ],
-            [
-              "limiar",
-              "aprovação com demonstrado em fundamentos e relações"
-            ]
-          ],
           "workflow": [
             "Declarar rubrica e limiar de aprovação antes da primeira pergunta",
             "Perguntar uma por dimensão em ordem",
@@ -463,6 +725,33 @@
             "Resposta parcialmente correta: pontuar por dimensão, nunca binário",
             "Resposta apoiada em conhecimento externo: marcar sem penalizar e sem avaliar",
             "A base não cobre uma dimensão: declará-la não avaliável em vez de improvisar a pergunta"
+          ],
+          "constraints": [
+            [
+              "dimensoes",
+              "fundamentos, relações, aplicação e transferência, uma pergunta por vez"
+            ],
+            [
+              "rubrica",
+              "ausente sem citação, parcial omite uma condição exigida, demonstrado reproduz a condição com citação literal"
+            ],
+            [
+              "avanco",
+              "só com demonstrado; parcial ou ausente abrem segunda tentativa cujo resultado substitui o primeiro"
+            ],
+            [
+              "transferencia",
+              "caso inventado: pontuam-se os conceitos, não os dados do caso"
+            ],
+            [
+              "limiar",
+              "aprovação com demonstrado em fundamentos e relações"
+            ]
+          ],
+          "frameworks": [
+            "Taxonomia de Bloom · de compreender a aplicar",
+            "Rubrica analítica · critérios e níveis observáveis",
+            "Critérios de aceitação · teste observável"
           ]
         },
         "why_it_works": {
@@ -500,7 +789,68 @@
             "claim": "Nomear os três níveis com sua evidência, declarar o limiar de aprovação e dar efeito explícito à segunda tentativa são normas internas do método.",
             "source": "method_internal"
           }
-        ]
+        ],
+        "inputs": [
+          {
+            "key": "topic",
+            "label": "TEMA",
+            "help": "assunto concreto",
+            "example": "verificar respostas de IA",
+            "required": true,
+            "type": "text",
+            "source": "user",
+            "demo_value": "como aprender a aprender com IA por meio de uma prática semanal de alto desempenho"
+          },
+          {
+            "key": "sources",
+            "label": "FONTES",
+            "help": "material que pode ser citado",
+            "example": "guia, relatório e registro",
+            "required": true,
+            "type": "long_text",
+            "source": "user",
+            "demo_value": "dossiê sintético Demo: guia do método, registro de prática e critérios de revisão"
+          }
+        ],
+        "parameters": [
+          {
+            "key": "length",
+            "label": "EXTENSÃO",
+            "default": "concisa",
+            "choices": [
+              "concisa",
+              "média"
+            ]
+          },
+          {
+            "key": "structure",
+            "label": "ESTRUTURA",
+            "default": "2 parágrafos + bullets-chave",
+            "choices": [
+              "2 parágrafos + bullets-chave",
+              "tabela breve"
+            ]
+          },
+          {
+            "key": "tone",
+            "label": "TOM",
+            "default": "claro e pessoal",
+            "choices": [
+              "claro e pessoal",
+              "didático"
+            ]
+          },
+          {
+            "key": "depth",
+            "label": "PROFUNDIDADE",
+            "default": "prática",
+            "choices": [
+              "prática",
+              "profunda"
+            ]
+          }
+        ],
+        "optional_clauses": []
       },
       "empresa": {
         "title": "Avaliador progressivo para a equipe",
@@ -508,33 +858,11 @@
         "when": "o processo exige evidência de domínio antes de habilitar alguém e existe um responsável.",
         "example": "Avaliar a compreensão de agentes, ferramentas, memória e supervisão na área.",
         "evidence": "nível por dimensão com a citação que o sustenta, limiar de governança do processo, prática corretiva, risco operacional de habilitar abaixo dele e relatório comparável entre rodadas.",
-        "prompt": "Avalie quem responde sobre [TEMA] só com [FONTES], uma pergunta por vez, por fundamentos, relações, aplicação e transferência, com o limiar de governança de [PROCESSO]. Níveis: ausente (não cita condição de [FONTES]), parcial (omite condição exigida), demonstrado (reproduz com citação literal). Avance só com demonstrado; se não, a segunda tentativa substitui. Na transferência o caso é sintético: pontue conceitos, não dados. Fora da base: marque sem pontuar. Corrija citando; nunca ensine conteúdo novo. Feche com nível por dimensão, a citação, prática corretiva e risco operacional de habilitar abaixo do limiar de [PROCESSO] em [TEMA]. Compare rodadas contra a rubrica, nunca pessoas. Não invente perguntas nem citações.",
+        "prompt": "Avalie quem responde sobre <TEMA> só com <FONTES>, uma pergunta por vez, por fundamentos, relações, aplicação e transferência, com o limiar de governança de <PROCESSO>. Níveis: ausente (não cita condição de <FONTES>), parcial (omite condição exigida), demonstrado (reproduz com citação literal). Avance só com demonstrado; se não, a segunda tentativa substitui. Na transferência o caso é sintético: pontue conceitos, não dados. Fora da base: marque sem pontuar. Corrija citando; nunca ensine conteúdo novo. Feche com nível por dimensão, a citação, prática corretiva e risco operacional de habilitar abaixo do limiar de <PROCESSO> em <TEMA>. Compare rodadas contra a rubrica, nunca pessoas. Não invente perguntas nem citações.",
         "level_spec": {
           "role": "Avaliador de equipe que pontua contra rubrica citada, sem ordenar pessoas",
           "spec_role": "Especialista em aprendizagem e pesquisa baseada em evidências",
           "objective": "Produzir evidência de domínio revisável que informe a habilitação no processo",
-          "parameters": [
-            [
-              "dimensoes",
-              "fundamentos, relações, aplicação e transferência, uma pergunta por vez"
-            ],
-            [
-              "rubrica",
-              "ausente sem citação, parcial omite uma condição exigida, demonstrado reproduz a condição com citação literal"
-            ],
-            [
-              "limiar",
-              "o nível mínimo é fixado pelo processo e declarado antes de avaliar"
-            ],
-            [
-              "comparabilidade",
-              "mesma rubrica entre rodadas; proibido ordenar ou comparar pessoas"
-            ],
-            [
-              "decisao",
-              "o responsável habilita com o relatório; o avaliador não habilita"
-            ]
-          ],
           "workflow": [
             "Declarar rubrica, limiar do processo e escopo antes da primeira pergunta",
             "Perguntar uma por dimensão em ordem",
@@ -559,6 +887,33 @@
             "Resposta parcialmente correta: pontuar por dimensão, nunca binário",
             "Resposta apoiada em conhecimento externo: marcar sem penalizar e sem avaliar",
             "O processo não fixa limiar: pedir ao responsável antes de avaliar"
+          ],
+          "constraints": [
+            [
+              "dimensoes",
+              "fundamentos, relações, aplicação e transferência, uma pergunta por vez"
+            ],
+            [
+              "rubrica",
+              "ausente sem citação, parcial omite uma condição exigida, demonstrado reproduz a condição com citação literal"
+            ],
+            [
+              "limiar",
+              "o nível mínimo é fixado pelo processo e declarado antes de avaliar"
+            ],
+            [
+              "comparabilidade",
+              "mesma rubrica entre rodadas; proibido ordenar ou comparar pessoas"
+            ],
+            [
+              "decisao",
+              "o responsável habilita com o relatório; o avaliador não habilita"
+            ]
+          ],
+          "frameworks": [
+            "Taxonomia de Bloom · de compreender a aplicar",
+            "Rubrica analítica · critérios e níveis observáveis",
+            "Critérios de aceitação · teste observável"
           ]
         },
         "why_it_works": {
@@ -600,10 +955,97 @@
             "claim": "Proibir ranking entre pessoas e manter a comparabilidade só entre rodadas da mesma rubrica é política interna para avaliação de equipe.",
             "source": "method_internal"
           }
-        ]
+        ],
+        "inputs": [
+          {
+            "key": "topic",
+            "label": "TEMA",
+            "help": "assunto concreto",
+            "example": "verificar respostas de IA",
+            "required": true,
+            "type": "text",
+            "source": "user",
+            "demo_value": "como aprender a aprender com IA por meio de formas de trabalho de alto desempenho"
+          },
+          {
+            "key": "sources",
+            "label": "FONTES",
+            "help": "material que pode ser citado",
+            "example": "guia, relatório e registro",
+            "required": true,
+            "type": "long_text",
+            "source": "user",
+            "demo_value": "dossiê sintético Demo: guia do método, registro de prática e critérios de revisão"
+          },
+          {
+            "key": "process",
+            "label": "PROCESSO",
+            "help": "fluxo que mudará",
+            "example": "preparação de decisões",
+            "required": true,
+            "type": "text",
+            "source": "user",
+            "demo_value": "preparação e revisão semanal de decisões"
+          }
+        ],
+        "parameters": [
+          {
+            "key": "length",
+            "label": "EXTENSÃO",
+            "default": "concisa",
+            "choices": [
+              "concisa",
+              "média"
+            ]
+          },
+          {
+            "key": "structure",
+            "label": "ESTRUTURA",
+            "default": "2 parágrafos + bullets-chave",
+            "choices": [
+              "2 parágrafos + bullets-chave",
+              "tabela breve"
+            ]
+          },
+          {
+            "key": "tone",
+            "label": "TOM",
+            "default": "executivo e operacional",
+            "choices": [
+              "executivo e operacional",
+              "facilitador"
+            ]
+          },
+          {
+            "key": "depth",
+            "label": "PROFUNDIDADE",
+            "default": "prática",
+            "choices": [
+              "prática",
+              "profunda"
+            ]
+          }
+        ],
+        "optional_clauses": []
       }
     }
   },
   "self_hash_model": "sha256(sorted-json-without-self_sha256)",
-  "self_sha256": "3b8df4aa27f1d3d776ccbda0eb8f394d80e742eb8f5ec371b2c3e98e51ee85c0"
+  "self_sha256": "b843c632d9b8ce7b670e8f3e71e2dabd9bcc82087581bc9b5ca4bbde8918f3f4",
+  "flow": {
+    "route": "library",
+    "order": 8,
+    "previous": "06",
+    "next": "10",
+    "branches": [
+      "M4"
+    ],
+    "consumes": [
+      "PRACTICA_GENERADA"
+    ],
+    "produces": "EVALUACION_PROGRESIVA",
+    "external_gate": false,
+    "loop_to": null,
+    "standalone": true
+  }
 }

@@ -1,4 +1,10 @@
-# Verificación · 2026-08-17 · post-elevación a contratos de intención
+# Verificación histórica · 2026-08-17 · baseline anterior a la expansión modular
+
+> Este documento conserva evidencia del baseline de 54 rutas y 75 outputs. No
+> representa el candidato actual de 126 HTML. La evidencia vigente de paridad
+> modular está en `qa/reports/module-01-vs-02/`,
+> `qa/reports/module-01-vs-03/` y el receipt Guardian asociado. Se conserva para
+> trazabilidad; no debe usarse como gate de la expansión M2–M3.
 
 Estado: `RENDERED_DRAFT` · publicación no autorizada.
 Rama `codex/nivel-0-prompt-elevation-v1`, HEAD `731a7bf`.
@@ -279,3 +285,40 @@ Gates del freeze local:
 headless. El mismo gate pasó completo con Chromium 141 emparejado con Playwright
 1.61.1; se clasifica como gap del navegador del host, no como bypass del gate.
 El estado continúa `RENDERED_DRAFT`; no hubo push ni publicación.
+
+## Paridad N1–N4 de módulos 2–4 — release candidate (2026-08-31)
+
+[METODOLOGIA] Las bibliotecas de prompts de M2, M3 y M4 usan ahora el mismo
+contrato semántico de M1: N1 es una orden ejecutiva directa; N2 explicita
+inputs, parámetros, marcos, flujo, límites y salida; N3 usa SPEC MetodologIA
+2.0 con Situación, Propósito, Estándares y Criterios verificables; N4 separa
+reglas invariantes en `system` y datos del caso en `user`.
+
+[PEDAGOGIA] Cada tarjeta conserva `Plantilla | Demo`. La Plantilla explica qué
+reemplazar; la Demo queda resuelta. En M2 se añadieron 48 artefactos sintéticos
+concretos y localizados —ocho por variante— para que cada prompt pueda
+ejecutarse aisladamente sin inventar el insumo que declara recibir.
+
+Gates del candidato:
+
+- `MODULE_PROMPT_PARITY_OK pages=18 cards=156 levels=624 textareas=1248 locales=3 audiences=2 audience_pairs=9 chat=132 source_search=24`.
+- `EDITORIAL_DEPTH_V1_OK modules=3 variants=18 resources=72 html=126 preserved_m1_global=54`.
+- `CURRICULUM_EXPANSION_V2_OK logical_resources=16 variants=18 pdfs=4 pages=18/11/12/15`.
+- `MODULE_DOD_PASS module=all pages=72 criteria=25`.
+- `MODULE_ROUTING_V2_OK routes=72 toggles=108 locales=3 audiences=2`.
+- `INTRAPAGE_NAVIGATION_OK 126/126`.
+- `MODULE_COMPARISON_REPORTS_PASS candidates=2,3,4 code_pairs=72 images=96`.
+- `RESOURCE_VISUAL_HOMOLOGY_OK scenarios=128 nested=72 matrix=320/390/768/1440xlight/dark no_js=4 print=4`.
+- `MODULE_DOD_VISUAL_PASS routes=72 scenarios=240 axe=24 matrix=320/390/768/1440xlight/dark no_js=72`.
+- Dos builds consecutivos byte-idénticos: `dist 0afe2166116161c3baf4916004b0a248affe34c6c0f6c2abc4c2e22399ef7e99`, manifest `d264b4416eb6e8093f17320055ef67509d9e7b56c1532e46bfcf546b453cf4b6` y receipt `2a4f2de8e7a632ca699b5177548de489d18dce98f2f540507f88ce69412323e6`.
+
+[NEUROCIENCIA] Los artefactos demo describen registros operativos sintéticos;
+no incluyen porcentajes de mejora, promesas 10x ni explicaciones cognitivas.
+`check-editorial-depth-v1.py` permanece fail-closed para esas expresiones.
+
+[INFERENCIA] La homología exigida es de arquitectura visual, interacción y
+profundidad contractual; no obliga a que módulos con propósitos distintos
+repitan literalmente el contenido de M1.
+
+[SUPUESTO] La autorización de publicación recibida aplica a `main`, `gh-pages`
+y al fork, sin promover el contenido por encima de `RENDERED_DRAFT`.

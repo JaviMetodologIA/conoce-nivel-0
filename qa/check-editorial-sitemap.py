@@ -16,10 +16,12 @@ sys.path.insert(0, str(ROOT / "scripts"))
 
 from brand import (  # noqa: E402
     AUDIENCES,
+    DEFAULT_MODULE_ID,
     EDITORIAL_PAGES,
     EDITORIAL_SPEC,
     LOCALES,
-    PAGES,
+    MODULE_IDS,
+    RESOURCE_SEGMENTS,
     canonical_self,
     page_dir,
     validate_editorial_document,
@@ -84,9 +86,12 @@ fluency_markers = {
     "pt": ("fluente", "falsa", "não técnico"),
 }
 functional_terms = {
+    "masterclass-resource": "masterclass",
     "workbook-resource": "workbook",
     "playbook-resource": "playbook",
+    "prompts-resource": "prompt",
 }
+four_labels = {"es": "cuatro", "en": "four", "pt": "quatro"}
 locale_corpora = {}
 for locale in LOCALES:
     pages = source["copy"][locale]
@@ -109,7 +114,9 @@ for locale in LOCALES:
     resources = {item["id"]: item for item in pages["resources_index"]["sections"]}
     for section_id, term in functional_terms.items():
         item = resources[section_id]
-        if term in item["title"].casefold() or term not in item["body"].casefold():
+        title = item["title"].casefold()
+        body = item["body"].casefold()
+        if not title.startswith(four_labels[locale]) or term not in f"{title} {body}":
             raise AssertionError(f"EDITORIAL_COPY_TERM_ORDER_INVALID:{locale}:{section_id}")
     if "metaprompt" in locale_corpora[locale]:
         raise AssertionError(f"EDITORIAL_COPY_UNDEFINED_METAPROMPT:{locale}")
@@ -133,35 +140,59 @@ reject("EDITORIAL_SITEMAP_ANCHORS_INVALID:es:level0", lambda item: item["pages"]
 reject("EDITORIAL_SITEMAP_AUDIENCE_INVALID:es:persona:level0", lambda item: item["audience_copy"]["es"]["persona"]["level0"].update(points=[]))
 reject("EDITORIAL_SITEMAP_TEMPORAL_CLAIM_INVALID", lambda item: item["copy"]["es"]["intakes"].update(lead="Inscripciones abiertas 2026-09"))
 
+def route_variants():
+    for locale in LOCALES:
+        for audience in AUDIENCES:
+            for page in ("landing", *EDITORIAL_PAGES):
+                yield locale, audience, page, DEFAULT_MODULE_ID
+            for module_id in MODULE_IDS:
+                for page in RESOURCE_SEGMENTS:
+                    yield locale, audience, page, module_id
+
+
+# [EVIDENCE:CANONICAL_ROUTE_MATRIX] 30 global/editorial + 96 resources.
+variants = list(route_variants())
 expected_paths = []
-for locale in LOCALES:
-    for audience in AUDIENCES:
-        for page in PAGES:
-            route = page_dir(locale, audience, page)
-            expected_paths.append((DIST if route == "." else DIST / route) / "index.html")
-if len(expected_paths) != 54 or len(set(expected_paths)) != 54:
+for locale, audience, page, module_id in variants:
+    route = page_dir(locale, audience, page, module_id)
+    expected_paths.append((DIST if route == "." else DIST / route) / "index.html")
+if len(expected_paths) != 126 or len(set(expected_paths)) != 126:
     raise AssertionError("EDITORIAL_ROUTE_MATRIX_INVALID")
 actual_paths = sorted(DIST.rglob("index.html"))
 if set(actual_paths) != set(expected_paths):
     raise AssertionError("EDITORIAL_ROUTE_TREE_DRIFT")
 
 unsafe = re.compile(r"inscripciones abiertas|enrollment open|inscrições abertas|join cohort|inscribirme|inscrever-me", re.I)
+target_ids_cache: dict[Path, set[str]] = {}
 for path in actual_paths:
     html = path.read_text(encoding="utf-8")
     page = re.search(r'<body data-page="([^"]+)"', html).group(1)
+    module_id = re.search(r'<body[^>]+data-module-id="([^"]+)"', html).group(1)
     locale = re.search(r'<html lang="([^"]+)"', html).group(1)
     audience = re.search(r'<html[^>]+data-audience="([^"]+)"', html).group(1)
-    route = page_dir(locale, audience, page)
+    route = page_dir(locale, audience, page, module_id)
     canonical = PUBLIC + ("" if route == "." else route + "/")
     if f'<link rel="canonical" href="{canonical}">' not in html:
         raise AssertionError(f"EDITORIAL_CANONICAL_DRIFT:{path.relative_to(DIST)}")
     alternates = dict(re.findall(r'<link rel="alternate" hreflang="([^"]+)" href="([^"]+)">', html))
-    expected_alternates = {code: PUBLIC + ("" if page_dir(code, audience, page) == "." else page_dir(code, audience, page) + "/") for code in LOCALES}
+    expected_alternates = {
+        code: PUBLIC + (
+            "" if page_dir(code, audience, page, module_id) == "."
+            else page_dir(code, audience, page, module_id) + "/"
+        )
+        for code in LOCALES
+    }
     expected_alternates["x-default"] = expected_alternates["es"]
     if alternates != expected_alternates:
         raise AssertionError(f"EDITORIAL_HREFLANG_DRIFT:{path.relative_to(DIST)}")
     nav = re.search(r'<nav class="mdg-nav conoce-nav"[\s\S]*?</nav>', html).group(0)
-    if "#" in "".join(re.findall(r'href="([^"]+)"', nav)):
+    nav_soup = BeautifulSoup(nav, "html.parser")
+    fragment_links = [node for node in nav_soup.select("a[href*='#']")]
+    fragment_ids = sorted(node.get("href", "").split("#", 1)[1] for node in fragment_links)
+    if (
+        any(not node.has_attr("data-conoce-module-link") for node in fragment_links)
+        or fragment_ids != ["module-01", "module-02", "module-03", "module-04"]
+    ):
         raise AssertionError(f"EDITORIAL_HEADER_FRAGMENT:{path.relative_to(DIST)}")
     if unsafe.search(html):
         raise AssertionError(f"EDITORIAL_UNVERIFIED_INTAKE_CLAIM:{path.relative_to(DIST)}")
@@ -175,14 +206,31 @@ for path in actual_paths:
             if html.count(f'id="{anchor}"') != 1 or html.count(f'href="#{anchor}"') < 1:
                 raise AssertionError(f"EDITORIAL_ANCHOR_DRIFT:{path.relative_to(DIST)}:{anchor}")
     for href in re.findall(r'href="([^"]+)"', html):
-        local = href.split("#", 1)[0].split("?", 1)[0]
+        path_part, _, fragment = href.partition("#")
+        local = path_part.split("?", 1)[0]
         if not local or local.startswith(("http:", "https:", "mailto:", "tel:", "data:", "javascript:")):
-            continue
-        target = (path.parent / local).resolve()
+            if not local and fragment:
+                target = path.resolve()
+            else:
+                continue
+        else:
+            target = (path.parent / local).resolve()
         if target.is_dir() or local.endswith("/"):
             target /= "index.html"
+        try:
+            target.relative_to(DIST.resolve())
+        except ValueError as error:
+            raise AssertionError(f"EDITORIAL_INTERNAL_LINK_ESCAPE:{path.relative_to(DIST)}:{href}") from error
         if not target.exists():
             raise AssertionError(f"EDITORIAL_INTERNAL_LINK_MISSING:{path.relative_to(DIST)}:{href}")
+        if fragment and target.suffix == ".html":
+            if target not in target_ids_cache:
+                target_soup = BeautifulSoup(target.read_text(encoding="utf-8"), "html.parser")
+                target_ids_cache[target] = {
+                    str(node.get("id")) for node in target_soup.select("[id]")
+                }
+            if fragment not in target_ids_cache[target]:
+                raise AssertionError(f"EDITORIAL_INTERNAL_FRAGMENT_MISSING:{path.relative_to(DIST)}:{href}")
 
 for locale in LOCALES:
     for page in EDITORIAL_PAGES:
@@ -207,17 +255,30 @@ for locale in LOCALES:
 
 sitemap_root = ET.parse(DIST / "sitemap.xml").getroot()
 locs = [node.text for node in sitemap_root.findall("{http://www.sitemaps.org/schemas/sitemap/0.9}url/{http://www.sitemaps.org/schemas/sitemap/0.9}loc")]
-expected_locs = [PUBLIC + ("" if page_dir(locale, audience, page) == "." else page_dir(locale, audience, page) + "/") for audience in AUDIENCES for locale in LOCALES for page in PAGES]
-if len(locs) != 54 or len(set(locs)) != 54 or set(locs) != set(expected_locs):
+expected_locs = [
+    PUBLIC + (
+        "" if page_dir(locale, audience, page, module_id) == "."
+        else page_dir(locale, audience, page, module_id) + "/"
+    )
+    for locale, audience, page, module_id in variants
+]
+if len(locs) != 126 or len(set(locs)) != 126 or set(locs) != set(expected_locs):
     raise AssertionError("EDITORIAL_SITEMAP_OUTPUT_DRIFT")
 
 manifest_payload = (DIST / "build-manifest.json").read_bytes()
 manifest = json.loads(manifest_payload)
 receipt = json.loads((DIST / "build-receipt.json").read_text(encoding="utf-8"))
 binding = manifest.get("editorial_sitemap", {})
-if binding.get("source_sha256") != hashlib.sha256(EDITORIAL_SPEC.read_bytes()).hexdigest() or binding.get("rendered_pages") != 24 or binding.get("canonical_count") != 54:
+if binding.get("source_sha256") != hashlib.sha256(EDITORIAL_SPEC.read_bytes()).hexdigest() or binding.get("rendered_pages") != 24 or binding.get("canonical_count") != 126:
     raise AssertionError("EDITORIAL_MANIFEST_BINDING_DRIFT")
 if receipt.get("editorial_sitemap") != binding or receipt.get("manifest_sha256") != hashlib.sha256(manifest_payload).hexdigest():
     raise AssertionError("EDITORIAL_RECEIPT_BINDING_DRIFT")
+if (
+    manifest.get("state") != "RENDERED_DRAFT"
+    or receipt.get("state") != "RENDERED_DRAFT"
+    or manifest.get("publication_authorized") is not False
+    or receipt.get("publication_authorized") is not False
+):
+    raise AssertionError("EDITORIAL_GOVERNANCE_STATE_DRIFT")
 
-print("EDITORIAL_SITEMAP_OK canonicals=54 editorial=24 header_fragments=0 audience_material=24")
+print("[EVIDENCE:EDITORIAL_SITEMAP] EDITORIAL_SITEMAP_OK canonicals=126 global_editorial=30 resources=96 editorial=24 internal_links=all audience_material=24 state=RENDERED_DRAFT publication=false")

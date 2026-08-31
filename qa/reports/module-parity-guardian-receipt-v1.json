@@ -1,0 +1,290 @@
+{
+  "schema_version": "module-parity-guardian-receipt-v1",
+  "audit_id": "nivel-0-m1-m2-m3-parity-2026-08-30",
+  "audit_date": "2026-08-30",
+  "role": "independent_guardian",
+  "scope": {
+    "reference_module": "ia-panorama",
+    "candidate_modules": [
+      "module-02-de-ocupado-a-productivo",
+      "module-03-trabajar-amplificado"
+    ],
+    "out_of_scope": [
+      "module-04-trabajo-agentico"
+    ],
+    "required_parity": "semantic-visual-functional",
+    "code_identity_required": false,
+    "maximum_state": "RENDERED_DRAFT"
+  },
+  "candidate": {
+    "root": "/Users/deonto/Agentic_Space/worktrees/nivel-0-digital-brand-v1",
+    "git_branch": "codex/nivel-0-prompt-elevation-v1",
+    "git_head": "d77bb0fe32dea6e4f6d5ecab3bf3592602edd043",
+    "dirty_worktree_preserved": true,
+    "candidate_bound_by_file_hashes": true,
+    "state": "RENDERED_DRAFT",
+    "publication_authorized": false
+  },
+  "definition_of_done": {
+    "ref": "src/module-resource-definition-of-done-v1.json",
+    "file_sha256": "925e385536d93dab4d968480f6d6b0a67ed444a2693195d247b1e7e85c32c396",
+    "self_sha256": "dce7756721efb5635966c45c785f356ac9906d0fad72124a9a1293e97b3e9720",
+    "criteria_count": 21,
+    "blocking_severities": [
+      "P0",
+      "P1"
+    ],
+    "next_module_requires": "PASS"
+  },
+  "inputs": {
+    "build_manifest": {
+      "ref": "dist/build-manifest.json",
+      "file_sha256": "edf4b25d22ea7b1a2db9b25762a92c29f3603e8a71d217dde0b7ddf2bb6be6c3",
+      "self_sha256": "c0758d203a73021e449b35a51110eef2ef62350359e0f1e15f5c9ea48d52d0ae",
+      "declared_output_count": 150,
+      "declared_source_count": 87
+    },
+    "build_receipt": {
+      "ref": "dist/build-receipt.json",
+      "file_sha256": "c47b4e37633e71424e2da2e001b5617c341c9e3c80c4e65903d3bb5a16284858",
+      "self_sha256": "898399a38ac699f377c362c282001f934da099835d4f917b7424513043c41634"
+    },
+    "dist": {
+      "file_count": 152,
+      "html_count": 126,
+      "pdf_count": 4,
+      "tree_sha256": "5ce11f9214b8a53bbd1018a56bb9ba7100b7d815bf69ccb6a841810cd3742eee"
+    },
+    "official_pdfs": [
+      {
+        "module": "ia-panorama",
+        "ref": "dist/assets/masterclass-ia-nivel-0.pdf",
+        "pages": 18,
+        "sha256": "5df5533a29652184f492b2f797ecfa0f1fa47cdb682bfcefb8f30c96014ce402"
+      },
+      {
+        "module": "ocupado-productivo",
+        "ref": "dist/assets/02-ocupado-productivo.pdf",
+        "pages": 11,
+        "sha256": "d728c9a2c7cfb91e9d669ce24137bc96c0b53aae2de295db44ad5997be232532"
+      },
+      {
+        "module": "trabajo-amplificado",
+        "ref": "dist/assets/03-trabajo-amplificado.pdf",
+        "pages": 12,
+        "sha256": "08b057fd1826ca0b5c3d085eb9d8efce7f1195a4b88f66c014208daa39232b2d"
+      },
+      {
+        "module": "trabajo-agentico",
+        "ref": "dist/assets/04-trabajo-agentico.pdf",
+        "pages": 15,
+        "sha256": "710cff50558a98bc587809be17520ad833f89de1066e2607a494bd9b6ee81b3f"
+      }
+    ],
+    "comparisons": {
+      "module_02": {
+        "code_json": {
+          "ref": "qa/reports/module-01-vs-02/code-comparison.json",
+          "file_sha256": "feb8080bfd60a7b41a60adaf88f339a739a57739bba546da32e5e61186379334",
+          "self_sha256": "b6c6ac8af568056181616192c4183a71a779c63be94ff6237c1c5deceba3c620"
+        },
+        "code_markdown": {
+          "ref": "qa/reports/module-01-vs-02/code-comparison.md",
+          "file_sha256": "111d734d0e0584ad9aae9d803d0be3ec4cb8f0e643656e8efc33a9a647c65806"
+        },
+        "visual_json": {
+          "ref": "qa/reports/module-01-vs-02/visual-comparison.json",
+          "file_sha256": "30e1f192750685063b1356785a240893f672c2c202848837f63414f2a7e0f069",
+          "self_sha256": "96db3e82b97aa57f0b015a0b1e664eeb7d8efe27a338a49efe758d18a4369d6c"
+        },
+        "visual_html": {
+          "ref": "qa/reports/module-01-vs-02/visual-comparison.html",
+          "file_sha256": "96cdeef444b854ea4f9ade6532c6cc49daa2667b1f3066946265e72b3e2d722d"
+        },
+        "image_count": 32,
+        "image_tree_sha256": "f5f8afab7a5fde21b15e4093861f3059cdec7f23638cd431967536cd4aa874bc"
+      },
+      "module_03": {
+        "code_json": {
+          "ref": "qa/reports/module-01-vs-03/code-comparison.json",
+          "file_sha256": "7a397a274e3159554b8abf6b32921116e1b296325833300a4a6f36bb36990a68",
+          "self_sha256": "d13c96d7f15d935ea74745b03f38c95329a4083b5d5e473dfcfbe0afe3fcc87b"
+        },
+        "code_markdown": {
+          "ref": "qa/reports/module-01-vs-03/code-comparison.md",
+          "file_sha256": "c5966373594bd9b58e56b278e275623b9ea13aa7f4840f33e30752b3acae7559"
+        },
+        "visual_json": {
+          "ref": "qa/reports/module-01-vs-03/visual-comparison.json",
+          "file_sha256": "f98e6172baa04831b58a8c8be48328eff0013e2a3cc04a6ee1811438f297269b",
+          "self_sha256": "492958c17f55fd72e69fda3002e24a7215240086418a14ede53c1a545da4f7be"
+        },
+        "visual_html": {
+          "ref": "qa/reports/module-01-vs-03/visual-comparison.html",
+          "file_sha256": "adef05e57697b115b2ed87926ca4ef6b8ab21b9570a6441928ac370c82d6cd53"
+        },
+        "image_count": 32,
+        "image_tree_sha256": "056d55782db1d14cd0fc9177b5d4d56ca50182f0e09ac7627ad161f9159e4ea5"
+      }
+    }
+  },
+  "checks": [
+    {
+      "command": "python3 qa/check-module-comparison-reports-v1.py",
+      "verdict": "PASS",
+      "evidence": "2 candidates; 48 code pairs; 64 images; SHA-256 readback"
+    },
+    {
+      "command": "python3 qa/check-module-definition-of-done-v1.py --module 2",
+      "verdict": "PASS",
+      "evidence": "24 pages; 21 criteria"
+    },
+    {
+      "command": "python3 qa/check-module-definition-of-done-v1.py --module 3",
+      "verdict": "PASS",
+      "evidence": "24 pages; 21 criteria"
+    },
+    {
+      "command": "node qa/check-module-definition-of-done-visual.mjs --module=2",
+      "verdict": "PASS",
+      "evidence": "24 routes; 80 scenarios; 8 axe runs; 24 no-JS routes"
+    },
+    {
+      "command": "node qa/check-module-definition-of-done-visual.mjs --module=3",
+      "verdict": "PASS",
+      "evidence": "24 routes; 80 scenarios; 8 axe runs; 24 no-JS routes"
+    },
+    {
+      "command": "node qa/check-resource-visual-homology.mjs",
+      "verdict": "PASS",
+      "evidence": "128 scenarios; 72 nested routes; 4 no-JS and 4 print checks"
+    },
+    {
+      "command": "node qa/check-editorial-depth-visual.mjs",
+      "verdict": "PASS",
+      "evidence": "96 scenarios; maximum visible density 1.276x; 12 no-JS routes; axe 4.12.1"
+    },
+    {
+      "command": "python3 qa/check-curriculum-expansion-v2.py",
+      "verdict": "PASS",
+      "evidence": "16 logical resources; 4 governed PDFs; ceiling RENDERED_DRAFT"
+    },
+    {
+      "command": "python3 qa/check-module-renderers-v2.py",
+      "verdict": "PASS",
+      "evidence": "4 deterministic interiors; unique IDs; safe URLs"
+    },
+    {
+      "command": "python3 qa/check-module-routing-v2.py",
+      "verdict": "PASS",
+      "evidence": "72 nested routes; 108 toggles; 3 locales; 2 audiences"
+    },
+    {
+      "command": "python3 qa/check-workbook-learning-cycle-v1.py",
+      "verdict": "PASS",
+      "evidence": "24 pages; 3 stages; 24 consolidation gates; 24 rubrics"
+    },
+    {
+      "command": "python3 qa/check-editorial-depth-v1.py",
+      "verdict": "PASS",
+      "evidence": "3 candidate module payloads; 18 variants; 72 resources; 126 HTML"
+    },
+    {
+      "command": "python3 qa/check-breadcrumbs.py",
+      "verdict": "PASS",
+      "evidence": "126 pages; 72 nested four-level breadcrumbs; 6 mutations rejected"
+    },
+    {
+      "command": "node qa/check-conoce-chrome.mjs",
+      "verdict": "PASS",
+      "evidence": "126 pages; 756 toggles; singleton shell; publication false"
+    },
+    {
+      "command": "python3 qa/check-editorial-parity.py",
+      "verdict": "PASS",
+      "evidence": "126 routes; 882 fields; 214 mutations; 40229 strings"
+    },
+    {
+      "command": "python3 qa/check-editorial-sitemap.py",
+      "verdict": "PASS",
+      "evidence": "126 canonicals; all internal links resolved"
+    },
+    {
+      "command": "node qa/check-method-identity.mjs",
+      "verdict": "PASS",
+      "evidence": "126 pages; 150 outputs; 24 mutations rejected"
+    },
+    {
+      "command": "python3 qa/check-prompt-experience-v2.py",
+      "verdict": "PASS",
+      "evidence": "27 contracts; 162 libraries; 1296 prompts; 2 routes"
+    },
+    {
+      "command": "python3 qa/check-notebooklm-execution.py",
+      "verdict": "PASS",
+      "evidence": "27 intents; 84 cards; 2 official sources"
+    },
+    {
+      "command": "python3 qa/check-prompt-contracts.py",
+      "verdict": "PASS_WITH_P2_WARNINGS",
+      "evidence": "27 contracts; 25 mutations; 6 legacy library-09 producer warnings"
+    }
+  ],
+  "determinism": {
+    "isolated_build_count": 2,
+    "files_per_build": 152,
+    "byte_identical": true,
+    "tree_sha256": "5ce11f9214b8a53bbd1018a56bb9ba7100b7d815bf69ccb6a841810cd3742eee",
+    "manifest_file_sha256": "edf4b25d22ea7b1a2db9b25762a92c29f3603e8a71d217dde0b7ddf2bb6be6c3",
+    "receipt_file_sha256": "c47b4e37633e71424e2da2e001b5617c341c9e3c80c4e65903d3bb5a16284858",
+    "matches_frozen_dist": true
+  },
+  "non_blocking_gaps": [
+    {
+      "severity": "P2",
+      "id": "GUARDIAN-P2-KEYBOARD",
+      "description": "La secuencia manual completa Tab, Shift+Tab, Enter, Space, Escape y retorno de foco no se reprodujo en las 48 páginas candidatas; los contratos semánticos, targets y estados sí están automatizados."
+    },
+    {
+      "severity": "P2",
+      "id": "GUARDIAN-P2-ZOOM",
+      "description": "El zoom real del navegador a 200 por ciento no se automatizó exhaustivamente; la matriz de 320, 390, 768 y 1440 píxeles no sustituye esa prueba manual."
+    },
+    {
+      "severity": "P2",
+      "id": "GUARDIAN-P2-SCREENREADER",
+      "description": "Los cuatro PDF oficiales son image-only y no etiquetados. Cada Masterclass aporta una guía HTML accesible, pero no se ejecutó lectura manual con VoiceOver sobre los PDF."
+    },
+    {
+      "severity": "P2",
+      "id": "GUARDIAN-P2-LEGACY-RENDERER",
+      "description": "M1 conserva un renderer paralelo legacy y M2-M3 usan el renderer modular tipado. Es deuda aceptada por el DoD, que exige paridad semántica, visual y funcional, no identidad de código."
+    },
+    {
+      "severity": "P2",
+      "id": "GUARDIAN-P2-LEGACY-PROMPT-WARNINGS",
+      "description": "El gate global de contratos conserva seis avisos en library-09 sobre promesas sin productor; no pertenecen a los grafos modulares M2-M3 y no rompen sus gates."
+    }
+  ],
+  "verdict": {
+    "status": "PASS",
+    "p0_count": 0,
+    "p1_count": 0,
+    "p2_count": 5,
+    "module_02": "PASS",
+    "module_03": "PASS",
+    "module_04": "OUT_OF_SCOPE_NEXT_CANDIDATE",
+    "release_state": "RENDERED_DRAFT",
+    "publication_authorized": false
+  },
+  "external_effects": {
+    "commit": false,
+    "push": false,
+    "deployment": false,
+    "publication": false,
+    "network_mutation": false,
+    "temporary_local_builds_only": true
+  },
+  "self_hash_model": "sha256(sorted-json-without-self_sha256)",
+  "self_sha256": "024976752ebe0f7faf9588f4946e58940bcc9f72ea9dd0b002f16fd501a8507d"
+}

@@ -129,18 +129,33 @@ for locale, audience in product(LANGS, AUDIENCES):
         natural = card.select_one('[id$="-natural"][data-prompt-template]')
         parameters = card.select_one('[id$="-parameters"][data-prompt-template]')
         pair = card.select_one('[id$="-pair"][data-prompt-template]')
-        # Level 1 is the contract cell's own prompt: it diverges by audience.
-        if natural is None or natural.get_text() != cell["prompt"]:
+        expected_modes = {
+            mode: compiler.structured_variants(locale, cell["title"], cell["prompt"], level_spec, cell, mode)
+            for mode in ("template", "demo")
+        }
+        # Level 1 projects the contract body into an explained template and a
+        # fully resolved demo; the contract remains the single authority.
+        natural_source = card.select_one('details[data-prompt-level="1"] textarea[data-prompt-mode="template"]')
+        if natural is None or natural_source is None or natural_source.get_text() != expected_modes["template"]["natural"]:
             raise SystemExit(f"PROMPT_NATURAL_DRIFT:{locale}:{audience}:{prompt_id}")
-        # Level 2 derives from `level_spec`, not from the natural prompt.
+        demo_natural = card.select_one('[id$="-natural-demo"][data-prompt-demo]')
+        demo_natural_source = card.select_one('details[data-prompt-level="1"] textarea[data-prompt-mode="demo"]')
+        if demo_natural is None or demo_natural_source is None or demo_natural_source.get_text() != expected_modes["demo"]["natural"]:
+            raise SystemExit(f"PROMPT_DEMO_NATURAL_DRIFT:{locale}:{audience}:{prompt_id}")
+        if re.search(r"<[^>]+>|\{\{[^}]+\}\}", demo_natural.get_text()):
+            raise SystemExit(f"PROMPT_DEMO_UNRESOLVED:{locale}:{audience}:{prompt_id}")
+        # Level 2 exposes execution parameters and typed inputs.
         parameters_text = "" if parameters is None else parameters.get_text("\n", strip=True)
         parameters_fragments = (
-            *(f"{name} = {default}" for name, default in level_spec["parameters"]),
+            *(f"{item['label']} = {item['default']}" for item in cell["parameters"]),
+            *(item["label"] for item in cell["inputs"]),
             level_spec["objective"], *level_spec["workflow"], *level_spec["guardrails"], *level_spec["output"],
         )
         if parameters is None or "## S —" in parameters_text or any(
                 fragment not in parameters_text for fragment in parameters_fragments):
             raise SystemExit(f"PROMPT_PARAMETERS_DRIFT:{locale}:{audience}:{prompt_id}")
+        if any(framework not in parameters_text for framework in level_spec["frameworks"]):
+            raise SystemExit(f"PROMPT_PARAMETERS_FRAMEWORK_GAP:{locale}:{audience}:{prompt_id}")
         # Level 4 carries `level_spec.role` per intent; the generic role is gone.
         pair_text = "" if pair is None else pair.get_text("\n", strip=True)
         pair_fragments = (
@@ -150,6 +165,8 @@ for locale, audience in product(LANGS, AUDIENCES):
         if pair is None or "## S —" in pair_text or legacy_pair_role in pair_text or any(
                 fragment not in pair_text for fragment in pair_fragments):
             raise SystemExit(f"PROMPT_PAIR_DRIFT:{locale}:{audience}:{prompt_id}")
+        if any(framework not in pair_text for framework in level_spec["frameworks"]):
+            raise SystemExit(f"PROMPT_PAIR_FRAMEWORK_GAP:{locale}:{audience}:{prompt_id}")
         # Level 3 SPEC quotes the contract cell (not the spec `items`) plus the
         # localized anatomy labels.
         required_fragments = (
@@ -161,6 +178,8 @@ for locale, audience in product(LANGS, AUDIENCES):
         )
         if any(fragment not in text for fragment in required_fragments):
             raise SystemExit(f"PROMPT_SPEC_CONTENT_GAP:{locale}:{audience}:{prompt_id}")
+        if any(framework not in text for framework in level_spec["frameworks"]):
+            raise SystemExit(f"PROMPT_SPEC_FRAMEWORK_GAP:{locale}:{audience}:{prompt_id}")
         forbidden_reasoning_requests = (
             "show your chain of thought", "reveal your chain of thought",
             "muestra tu cadena de pensamiento", "expón tu cadena de pensamiento",
@@ -231,7 +250,7 @@ def natural_sources(soup, locale, audience):
     sources = {}
     for block in soup.select("[data-prompt-library]"):
         surface, intent = classify(block["data-prompt-library"], locale)
-        node = block.select_one('details[data-prompt-level="1"] textarea[data-prompt-source]')
+        node = block.select_one('details[data-prompt-level="1"] textarea[data-prompt-source][data-prompt-mode="template"]')
         if node is None:
             raise SystemExit(f"PROMPT_AUDIENCE_NATURAL_MISSING:{locale}:{audience}:{intent}")
         sources[(surface, intent, locale, audience)] = node.get_text()
@@ -252,7 +271,9 @@ def assert_audience_divergence(sources):
             raise SystemExit(f"PROMPT_AUDIENCE_NATURAL_CLONE:{locale}:{intent}")
         pairs += 1
     for (_, intent, locale, audience), text in sorted(sources.items()):
-        if text != cell_of(intent, locale, audience)["prompt"]:
+        cell = cell_of(intent, locale, audience)
+        expected = compiler.structured_variants(locale, cell["title"], cell["prompt"], cell["level_spec"], cell, "template")["natural"]
+        if text != expected:
             raise SystemExit(f"PROMPT_AUDIENCE_NATURAL_DRIFT:{locale}:{audience}:{intent}")
     if pairs != AUDIENCE_PAIR_TOTAL:
         raise SystemExit(f"PROMPT_AUDIENCE_PAIR_COUNT:{pairs}")
@@ -265,6 +286,11 @@ compact_limit_facts_all = []
 natural_by_cell = {}
 for route in sorted(DIST.rglob("index.html")):
     soup = BeautifulSoup(route.read_text(encoding="utf-8"), "html.parser")
+    # M1 keeps the governed 27-contract prompt system. Modules 2–4 use their
+    # imported curriculum contracts and are verified by the expansion and
+    # module-renderer gates, so they must not be coerced into M1 intent IDs.
+    if soup.body and soup.body.get("data-module-id") != compiler.DEFAULT_MODULE_ID:
+        continue
     locale = soup.html.get("lang")
     audience = soup.html.get("data-audience")
     labels = source["locales"][locale]["spec_format"]

@@ -1,5 +1,5 @@
 {
-  "schema_version": "prompt-intent-contract-v1",
+  "schema_version": "prompt-intent-contract-v2",
   "intent_id": "B3",
   "surface": "workbook_brain",
   "phase": "Preparación",
@@ -10,46 +10,24 @@
       "B1",
       "B2"
     ],
-    "decision_rule": "Los tres prompts de preparación se usan antes de entrar al taller. Usa B3 cuando el encargo ya está confirmado y falta preplanificar el Notebook: caso, propósito, material cargable, exclusiones por privacidad o derechos, rol con límite y primera evidencia; si el texto sigue crudo y hay que quitar repeticiones y confirmar lo entendido, usa B1; si falta fijar propósito, audiencia, plazo y evidencia mínima, usa B2. B3 no limpia el dictado, no rehace el encargo, no crea el Notebook ni carga material, y no ejecuta los cinco pasos del taller: los deja planificados."
+    "decision_rule": "Los tres prompts de preparación se usan antes de entrar al taller. Usa B3 cuando el plan de estudio ya está confirmado y falta crear el plan de NotebookLM: caso, propósito, material cargable, exclusiones por privacidad o derechos, rol con límite y primera evidencia; si el texto sigue crudo y hay que quitar repeticiones y confirmar lo entendido, usa B1; si falta fijar propósito, audiencia, plazo y evidencia mínima, usa B2. B3 no limpia el dictado, no rehace el plan de estudio, no crea el Notebook ni carga material, y no ejecuta los cinco pasos del taller: los deja planificados."
   },
   "locales": {
     "es": {
       "persona": {
-        "title": "Convertir en preplan de NotebookLM",
-        "purpose": "Convierte tu encargo confirmado en una preplanificación de NotebookLM: fuentes cargables, exclusiones por privacidad o derechos, rol con límite y primera evidencia.",
+        "title": "Convertir el plan de estudio en un plan de NotebookLM",
+        "purpose": "Convierte tu plan de estudio confirmado en un plan de NotebookLM: fuentes cargables, exclusiones por privacidad o derechos, rol con límite y primera evidencia.",
         "when": "quieres abrir el taller con el Notebook ya pensado y sin improvisar qué material subir.",
         "example": "Tengo diez PDF y dos grabaciones y no sé cuáles puedo cargar ni con qué rol empezar.",
         "evidence": "caso clasificado, frase de propósito, resultado observable, fuentes cargables, vacíos por investigar, excluidos por privacidad o derechos con su razón, rol con su límite, plan mapeado a los cinco pasos del taller y la primera evidencia que debo producir.",
-        "prompt": "Quiero una preplanificación de NotebookLM antes del taller. Mi encargo confirmado es [ENCARGO CONFIRMADO] y mis materiales candidatos son [MATERIALES DISPONIBLES]. Los pego aquí: {{BRAIN_DUMP}}. Clasifica el caso entre estudiar, aprender algo nuevo, crear contenido basado en fuentes, preparar una decisión o reunión, configurar un asesor, configurar un coach o convertir una investigación en una skill; si no encaja en ninguno, dilo y propón el más cercano. Escribe «Este Notebook existe para…» derivado de [ENCARGO CONFIRMADO], y define mi audiencia, el resultado observable y la decisión final, que sigue siendo mía. Reparte [MATERIALES DISPONIBLES] en tres listas: cargables, vacíos por investigar y excluidos por privacidad o derechos, cada exclusión con su razón. Si todo queda excluido, detente y declara coverage_gap en vez de degradar el plan en silencio. Si los materiales exceden el alcance de [ENCARGO CONFIRMADO], manda el encargo y aparta el resto; si [ENCARGO CONFIRMADO] llega vacío, confírmalo conmigo en cinco puntos antes de preplanificar. Recomienda un rol basado en fuentes —profesor, asesor o coach— y su límite explícito. Entrega el plan mapeado a los cinco pasos del taller: construir, auditar, investigar, decidir suficiencia y activar rol. Cierra con la primera evidencia que debo producir. No inventes fuentes, adjuntos ni capacidades de NotebookLM.",
+        "prompt": "Quiero un plan de NotebookLM antes del taller. Mi plan de estudio confirmado es <PLAN DE ESTUDIO> y mis materiales candidatos son <MATERIALES>. Los pego aquí: <NOTAS INICIALES>. Clasifica el caso entre estudiar, aprender algo nuevo, crear contenido basado en fuentes, preparar una decisión o reunión, configurar un asesor, configurar un coach o convertir una investigación en una skill; si no encaja en ninguno, dilo y propón el más cercano. Escribe «Este Notebook existe para…» derivado de <PLAN DE ESTUDIO>, y define mi audiencia, el resultado observable y la decisión final, que sigue siendo mía. Reparte <MATERIALES> en tres listas: cargables, vacíos por investigar y excluidos por privacidad o derechos, cada exclusión con su razón. Si todo queda excluido, detente y declara coverage_gap en vez de degradar el plan en silencio. Si los materiales exceden el alcance de <PLAN DE ESTUDIO>, manda el plan de estudio y aparta el resto; si <PLAN DE ESTUDIO> llega vacío, confírmalo conmigo en cinco puntos antes de planificar. Recomienda un rol basado en fuentes —profesor, asesor o coach— y su límite explícito. Entrega el plan mapeado a los cinco pasos del taller: construir, auditar, investigar, decidir suficiencia y activar rol. Cierra con la primera evidencia que debo producir. No inventes fuentes, adjuntos ni capacidades de NotebookLM.",
         "level_spec": {
-          "role": "Arquitecto de aprendizaje basado en fuentes que preplanifica antes de abrir la herramienta",
-          "spec_role": "Especialista en preparación de casos y encargos de aprendizaje",
-          "objective": "Convertir el encargo confirmado en un preplan de NotebookLM ejecutable y con límites declarados",
-          "parameters": [
-            [
-              "proposito",
-              "derivado del encargo confirmado con la frase «Este Notebook existe para…»"
-            ],
-            [
-              "rol",
-              "profesor, asesor o coach, siempre con su límite explícito"
-            ],
-            [
-              "profundidad",
-              "preplan inicial: no crea el Notebook ni carga material"
-            ],
-            [
-              "privacidad",
-              "material sensible o sin derechos va a excluidos, con la razón por caso"
-            ],
-            [
-              "bloqueo",
-              "si no queda material cargable, el preplan se detiene y declara coverage_gap"
-            ]
-          ],
+          "role": "Arquitecto de aprendizaje basado en fuentes que planifica antes de abrir la herramienta",
+          "spec_role": "Especialista en preparación de casos y planes de estudio",
+          "objective": "Convertir el plan de estudio confirmado en un plan de NotebookLM ejecutable y con límites declarados",
           "workflow": [
             "Clasificar el caso entre los siete o declarar que ninguno encaja y proponer el más cercano",
-            "Escribir el propósito desde el encargo confirmado y definir audiencia, resultado observable y decisión final",
+            "Escribir el propósito desde el plan de estudio confirmado y definir audiencia, resultado observable y decisión final",
             "Repartir los materiales en cargables, vacíos por investigar y excluidos por privacidad o derechos",
             "Seleccionar el rol basado en fuentes y declarar su límite",
             "Mapear el plan a los cinco pasos del taller: construir, auditar, investigar, decidir suficiencia y activar rol",
@@ -58,8 +36,8 @@
           "guardrails": [
             "No inventar fuentes, adjuntos ni capacidades de NotebookLM que no estén documentadas",
             "No recomendar la carga de material privado o sin derechos: va a excluidos con su razón",
-            "Sin material cargable: detener el preplan y declarar coverage_gap, nunca degradarlo en silencio",
-            "No sustituir la decisión final de la persona: el preplan la prepara, no la toma"
+            "Sin material cargable: detener el plan y declarar coverage_gap, nunca degradarlo en silencio",
+            "No sustituir la decisión final de la persona: el plan la prepara, no la toma"
           ],
           "output": [
             "Caso clasificado",
@@ -69,11 +47,38 @@
             "Plan mapeado a los cinco pasos del taller",
             "Primera evidencia que debo producir"
           ],
-          "dod": "La preplanificación entrega caso, propósito, resultado observable, las tres listas de materiales con la razón de cada exclusión, el rol con su límite, los cinco pasos y la primera evidencia.",
+          "dod": "La plan entrega caso, propósito, resultado observable, las tres listas de materiales con la razón de cada exclusión, el rol con su límite, los cinco pasos y la primera evidencia.",
           "edge_cases": [
             "Caso que no encaja en los siete: declararlo y proponer el más cercano, sin forzar la etiqueta",
             "Todos los materiales excluidos por privacidad o derechos: coverage_gap y detención, no un plan degradado",
-            "Materiales que exceden el alcance del encargo: manda el encargo y el resto queda apartado"
+            "Materiales que exceden el alcance del plan de estudio: manda el plan de estudio y el resto queda apartado"
+          ],
+          "constraints": [
+            [
+              "proposito",
+              "derivado del plan de estudio confirmado con la frase «Este Notebook existe para…»"
+            ],
+            [
+              "rol",
+              "profesor, asesor o coach, siempre con su límite explícito"
+            ],
+            [
+              "profundidad",
+              "plan inicial: no crea el Notebook ni carga material"
+            ],
+            [
+              "privacidad",
+              "material sensible o sin derechos va a excluidos, con la razón por caso"
+            ],
+            [
+              "bloqueo",
+              "si no queda material cargable, el plan se detiene y declara coverage_gap"
+            ]
+          ],
+          "frameworks": [
+            "Diseño inverso · resultado, evidencia y pasos",
+            "MECE · sin solapamientos ni vacíos",
+            "Definition of Done · cierre observable"
           ]
         },
         "why_it_works": {
@@ -83,16 +88,16 @@
             "Los cinco pasos del taller aparecen nombrados, no citados como referencia externa"
           ],
           "edge_cases": [
-            "Encargo vacío: se confirma en cinco puntos antes de preplanificar, en vez de inferirlo",
-            "Cero materiales cargables: el preplan se detiene con coverage_gap declarado"
+            "Plan de estudio vacío: se confirma en cinco puntos antes de planificar, en vez de inferirlo",
+            "Cero materiales cargables: el plan se detiene con coverage_gap declarado"
           ],
           "tradeoffs": [
             "Preplan conservador a cambio de un arranque limpio y sin material que haya que retirar después",
             "Este turno excluye material por privacidad o derechos caso por caso según mi criterio; la celda de equipo trata la exclusión como política y añade revisor externo",
-            "La definición de terminado original decía que el preplan «permite abrir NotebookLM y comenzar la práctica»: eso ocurre fuera del turno, así que aquí se comprueban las piezas que el preplan sí entrega"
+            "La definición de terminado original decía que el plan «permite abrir NotebookLM y comenzar la práctica»: eso ocurre fuera del turno, así que aquí se comprueban las piezas que el plan sí entrega"
           ],
           "assumptions": [
-            "El encargo llega confirmado de un turno previo; si no, el propio prompt lo confirma antes de preplanificar",
+            "El plan de estudio llega confirmado de un turno previo; si no, el propio prompt lo confirma antes de planificar",
             "Los materiales candidatos son los que la persona nombra: no hay adjuntos implícitos"
           ],
           "limits": [
@@ -102,7 +107,7 @@
         },
         "traceability": [
           {
-            "claim": "El preplan con caso de uso, frase de propósito, rol basado en fuentes y mapeo a los cinco pasos del taller proviene del material de preparación publicado del método.",
+            "claim": "El plan con caso de uso, frase de propósito, rol basado en fuentes y mapeo a los cinco pasos del taller proviene del material de preparación publicado del método.",
             "source": "https://javimontano.github.io/prompt-amplificado/biblioteca-prompts.html"
           },
           {
@@ -118,26 +123,125 @@
             "source": "https://support.google.com/notebooklm/answer/16215270?hl=es"
           },
           {
-            "claim": "Detener el preplan con coverage_gap cuando no queda material cargable, en vez de degradarlo en silencio, es norma interna del método.",
+            "claim": "Detener el plan con coverage_gap cuando no queda material cargable, en vez de degradarlo en silencio, es norma interna del método.",
             "source": "method_internal"
           }
-        ]
+        ],
+        "inputs": [
+          {
+            "key": "study_plan",
+            "label": "PLAN DE ESTUDIO",
+            "help": "plan confirmado que define propósito, alcance y evidencia",
+            "example": "aprender a verificar respuestas de IA",
+            "required": true,
+            "type": "text",
+            "source": "previous_output",
+            "demo_value": "artefacto sintético del paso anterior: falta demostrar transferencia a un segundo contexto"
+          },
+          {
+            "key": "materials",
+            "label": "MATERIALES",
+            "help": "insumos que sí puedes usar",
+            "example": "notas y tres fuentes",
+            "required": true,
+            "type": "long_text",
+            "source": "user",
+            "demo_value": "dossier sintético Demo: guía del método, registro de práctica y criterios de revisión"
+          },
+          {
+            "key": "brain_dump",
+            "label": "NOTAS INICIALES",
+            "help": "ideas o dictado todavía sin ordenar",
+            "example": "quiero aprender IA para mejorar…",
+            "required": true,
+            "type": "long_text",
+            "source": "user",
+            "demo_value": "quiero aprender IA para mejorar…"
+          }
+        ],
+        "parameters": [
+          {
+            "key": "length",
+            "label": "LONGITUD",
+            "default": "concisa",
+            "choices": [
+              "concisa",
+              "media"
+            ]
+          },
+          {
+            "key": "structure",
+            "label": "ESTRUCTURA",
+            "default": "2 párrafos + bullets clave",
+            "choices": [
+              "2 párrafos + bullets clave",
+              "tabla breve"
+            ]
+          },
+          {
+            "key": "tone",
+            "label": "TONO",
+            "default": "claro y personal",
+            "choices": [
+              "claro y personal",
+              "didáctico"
+            ]
+          },
+          {
+            "key": "depth",
+            "label": "PROFUNDIDAD",
+            "default": "práctica",
+            "choices": [
+              "práctica",
+              "profunda"
+            ]
+          }
+        ],
+        "optional_clauses": []
       },
       "empresa": {
-        "title": "Convertir en preplan de NotebookLM del equipo",
-        "purpose": "Convierte el encargo confirmado en una preplanificación de NotebookLM con exclusiones aplicadas como política, rol con límite y preplan listo para revisión.",
+        "title": "Convertir el plan de estudio en un plan de NotebookLM del equipo",
+        "purpose": "Convierte el plan de estudio confirmado en un plan de NotebookLM con exclusiones aplicadas como política, rol con límite y plan listo para revisión.",
         "when": "el proceso exige que el Notebook nazca con material permitido y una decisión con dueño.",
         "example": "Queremos un Notebook de incorporación con material interno que nadie revisó por derechos.",
         "evidence": "caso clasificado, frase de propósito, resultado observable, fuentes cargables con derechos, vacíos por investigar, excluidos por política con su razón, rol con su límite, plan mapeado a los cinco pasos del taller, primera evidencia y revisor asignado.",
-        "prompt": "Preparamos una preplanificación de NotebookLM para [EQUIPO] antes del taller. El encargo confirmado es [ENCARGO CONFIRMADO] y los materiales candidatos son [MATERIALES DISPONIBLES]. Los pego aquí: {{BRAIN_DUMP}}. Clasifica el caso entre estudiar, aprender algo nuevo, crear contenido basado en fuentes, preparar una decisión o reunión, configurar un asesor, configurar un coach o convertir una investigación en una skill; si no encaja en ninguno, dilo y propón el más cercano. Escribe «Este Notebook existe para…» derivado de [ENCARGO CONFIRMADO], y define la audiencia dentro de [EQUIPO], el resultado observable y quién toma la decisión final. Reparte [MATERIALES DISPONIBLES] en cargables, vacíos por investigar y excluidos por privacidad o derechos; trata la exclusión como política del equipo y cita la razón por caso, no el criterio de quien pega el material. Si todo queda excluido, detente, declara coverage_gap y nombra el riesgo operativo de arrancar sin material con derechos. Recomienda un rol basado en fuentes —profesor, asesor o coach— y su límite explícito. Entrega el plan mapeado a los cinco pasos del taller: construir, auditar, investigar, decidir suficiencia y activar rol, listo para revisión por alguien que no lo escribió. Cierra con la primera evidencia y quién la revisa. No inventes fuentes, adjuntos ni capacidades de NotebookLM.",
+        "prompt": "Preparamos un plan de NotebookLM para <EQUIPO> antes del taller. El plan de estudio confirmado es <PLAN DE ESTUDIO> y los materiales candidatos son <MATERIALES>. Los pego aquí: <NOTAS INICIALES>. Clasifica el caso entre estudiar, aprender algo nuevo, crear contenido basado en fuentes, preparar una decisión o reunión, configurar un asesor, configurar un coach o convertir una investigación en una skill; si no encaja en ninguno, dilo y propón el más cercano. Escribe «Este Notebook existe para…» derivado de <PLAN DE ESTUDIO>, y define la audiencia dentro de <EQUIPO>, el resultado observable y quién toma la decisión final. Reparte <MATERIALES> en cargables, vacíos por investigar y excluidos por privacidad o derechos; trata la exclusión como política del equipo y cita la razón por caso, no el criterio de quien pega el material. Si todo queda excluido, detente, declara coverage_gap y nombra el riesgo operativo de arrancar sin material con derechos. Recomienda un rol basado en fuentes —profesor, asesor o coach— y su límite explícito. Entrega el plan mapeado a los cinco pasos del taller: construir, auditar, investigar, decidir suficiencia y activar rol, listo para revisión por alguien que no lo escribió. Cierra con la primera evidencia y quién la revisa. No inventes fuentes, adjuntos ni capacidades de NotebookLM.",
         "level_spec": {
-          "role": "Arquitecto de aprendizaje basado en fuentes que preplanifica el Notebook compartido antes de abrirlo",
-          "spec_role": "Especialista en preparación de casos y encargos de aprendizaje",
-          "objective": "Convertir el encargo confirmado en un preplan revisable, con material permitido y decisión con dueño",
-          "parameters": [
+          "role": "Arquitecto de aprendizaje basado en fuentes que planifica el Notebook compartido antes de abrirlo",
+          "spec_role": "Especialista en preparación de casos y planes de estudio",
+          "objective": "Convertir el plan de estudio confirmado en un plan revisable, con material permitido y decisión con dueño",
+          "workflow": [
+            "Clasificar el caso entre los siete o declarar que ninguno encaja y proponer el más cercano",
+            "Escribir el propósito desde el plan de estudio confirmado y definir audiencia, resultado observable y quién decide",
+            "Repartir los materiales en cargables, vacíos por investigar y excluidos, citando la política por caso",
+            "Seleccionar el rol basado en fuentes y declarar su límite",
+            "Mapear el plan a los cinco pasos del taller: construir, auditar, investigar, decidir suficiencia y activar rol",
+            "Nombrar la primera evidencia y el revisor que la comprueba"
+          ],
+          "guardrails": [
+            "No inventar fuentes, adjuntos ni capacidades de NotebookLM que no estén documentadas",
+            "No recomendar la carga de material privado o sin derechos: la exclusión se cita como política, no como opinión",
+            "Sin material con derechos: detener el plan, declarar coverage_gap y nombrar el riesgo operativo",
+            "No sustituir a quien toma la decisión final: el plan la prepara, no la aprueba"
+          ],
+          "output": [
+            "Caso clasificado",
+            "Propósito, audiencia, resultado observable y quién decide",
+            "Fuentes cargables, vacíos por investigar y excluidos con la política citada",
+            "Rol basado en fuentes con su límite",
+            "Plan mapeado a los cinco pasos del taller, listo para revisión",
+            "Primera evidencia y revisor asignado"
+          ],
+          "dod": "El plan nombra caso, propósito, resultado observable, las tres listas de materiales con la política citada por exclusión, el rol con su límite, los cinco pasos, la primera evidencia y su revisor.",
+          "edge_cases": [
+            "Caso que no encaja en los siete: declararlo y proponer el más cercano, sin forzar la etiqueta",
+            "Todo el material sin derechos claros: coverage_gap con el riesgo operativo nombrado, no un plan degradado",
+            "Nadie asignado para revisar: pedir el revisor antes de dar el plan por entregado"
+          ],
+          "constraints": [
             [
               "proposito",
-              "derivado del encargo confirmado con la frase «Este Notebook existe para…»"
+              "derivado del plan de estudio confirmado con la frase «Este Notebook existe para…»"
             ],
             [
               "rol",
@@ -149,55 +253,32 @@
             ],
             [
               "revision",
-              "preplan legible y revisable por alguien que no lo escribió"
+              "plan legible y revisable por alguien que no lo escribió"
             ],
             [
               "bloqueo",
               "sin material con derechos, coverage_gap y riesgo operativo declarado"
             ]
           ],
-          "workflow": [
-            "Clasificar el caso entre los siete o declarar que ninguno encaja y proponer el más cercano",
-            "Escribir el propósito desde el encargo confirmado y definir audiencia, resultado observable y quién decide",
-            "Repartir los materiales en cargables, vacíos por investigar y excluidos, citando la política por caso",
-            "Seleccionar el rol basado en fuentes y declarar su límite",
-            "Mapear el plan a los cinco pasos del taller: construir, auditar, investigar, decidir suficiencia y activar rol",
-            "Nombrar la primera evidencia y el revisor que la comprueba"
-          ],
-          "guardrails": [
-            "No inventar fuentes, adjuntos ni capacidades de NotebookLM que no estén documentadas",
-            "No recomendar la carga de material privado o sin derechos: la exclusión se cita como política, no como opinión",
-            "Sin material con derechos: detener el preplan, declarar coverage_gap y nombrar el riesgo operativo",
-            "No sustituir a quien toma la decisión final: el preplan la prepara, no la aprueba"
-          ],
-          "output": [
-            "Caso clasificado",
-            "Propósito, audiencia, resultado observable y quién decide",
-            "Fuentes cargables, vacíos por investigar y excluidos con la política citada",
-            "Rol basado en fuentes con su límite",
-            "Plan mapeado a los cinco pasos del taller, listo para revisión",
-            "Primera evidencia y revisor asignado"
-          ],
-          "dod": "El preplan nombra caso, propósito, resultado observable, las tres listas de materiales con la política citada por exclusión, el rol con su límite, los cinco pasos, la primera evidencia y su revisor.",
-          "edge_cases": [
-            "Caso que no encaja en los siete: declararlo y proponer el más cercano, sin forzar la etiqueta",
-            "Todo el material sin derechos claros: coverage_gap con el riesgo operativo nombrado, no un plan degradado",
-            "Nadie asignado para revisar: pedir el revisor antes de dar el preplan por entregado"
+          "frameworks": [
+            "Diseño inverso · resultado, evidencia y pasos",
+            "MECE · sin solapamientos ni vacíos",
+            "Definition of Done · cierre observable"
           ]
         },
         "why_it_works": {
           "acceptance_criteria": [
             "Cada material candidato aparece en una sola lista y cada exclusión cita la política que la sostiene",
             "El rol recomendado viene con una frase de límite que dice qué no hará",
-            "Alguien que no escribió el preplan puede leerlo y decir si cada pieza está o falta"
+            "Alguien que no escribió el plan puede leerlo y decir si cada pieza está o falta"
           ],
           "edge_cases": [
             "Material dudoso por derechos: se excluye y se declara la duda, en vez de asumir permiso",
-            "Cero material con derechos: el preplan se detiene con coverage_gap y riesgo operativo declarado"
+            "Cero material con derechos: el plan se detiene con coverage_gap y riesgo operativo declarado"
           ],
           "tradeoffs": [
             "Aplicar la exclusión como política frena el arranque a cambio de no cargar material que después haya que retirar",
-            "Este turno renuncia al criterio caso por caso de quien pega el material, que sí conserva la celda individual: aquí la razón debe citar la política del equipo para que la exclusión sea revisable por un tercero. La definición de terminado original prometía que el preplan «permite abrir NotebookLM y comenzar la práctica»: eso ocurre fuera del turno, así que aquí se comprueban las piezas entregadas —listas de material con política citada, rol con límite, cinco pasos, primera evidencia y su revisor—"
+            "Este turno renuncia al criterio caso por caso de quien pega el material, que sí conserva la celda individual: aquí la razón debe citar la política del equipo para que la exclusión sea revisable por un tercero. La definición de terminado original prometía que el plan «permite abrir NotebookLM y comenzar la práctica»: eso ocurre fuera del turno, así que aquí se comprueban las piezas entregadas —listas de material con política citada, rol con límite, cinco pasos, primera evidencia y su revisor—"
           ],
           "assumptions": [
             "Existe una política de privacidad y derechos aplicable, y un rol con autoridad para la decisión final"
@@ -225,49 +306,108 @@
             "source": "https://support.google.com/notebooklm/answer/16215270?hl=es"
           },
           {
-            "claim": "Tratar la exclusión por privacidad o derechos como política citable y exigir un revisor distinto de quien escribe el preplan son políticas internas para Notebooks compartidos.",
+            "claim": "Tratar la exclusión por privacidad o derechos como política citable y exigir un revisor distinto de quien escribe el plan son políticas internas para Notebooks compartidos.",
             "source": "method_internal"
           }
-        ]
+        ],
+        "inputs": [
+          {
+            "key": "team",
+            "label": "EQUIPO",
+            "help": "grupo que participa",
+            "example": "equipo de operaciones",
+            "required": true,
+            "type": "text",
+            "source": "user",
+            "demo_value": "equipo piloto de operaciones"
+          },
+          {
+            "key": "study_plan",
+            "label": "PLAN DE ESTUDIO",
+            "help": "plan confirmado que define propósito, alcance y evidencia",
+            "example": "aprender a verificar respuestas de IA",
+            "required": true,
+            "type": "text",
+            "source": "previous_output",
+            "demo_value": "artefacto sintético del paso anterior: falta demostrar transferencia a un segundo contexto"
+          },
+          {
+            "key": "materials",
+            "label": "MATERIALES",
+            "help": "insumos que sí puedes usar",
+            "example": "notas y tres fuentes",
+            "required": true,
+            "type": "long_text",
+            "source": "user",
+            "demo_value": "dossier sintético Demo: guía del método, registro de práctica y criterios de revisión"
+          },
+          {
+            "key": "brain_dump",
+            "label": "NOTAS INICIALES",
+            "help": "ideas o dictado todavía sin ordenar",
+            "example": "quiero aprender IA para mejorar…",
+            "required": true,
+            "type": "long_text",
+            "source": "user",
+            "demo_value": "quiero aprender IA para mejorar…"
+          }
+        ],
+        "parameters": [
+          {
+            "key": "length",
+            "label": "LONGITUD",
+            "default": "concisa",
+            "choices": [
+              "concisa",
+              "media"
+            ]
+          },
+          {
+            "key": "structure",
+            "label": "ESTRUCTURA",
+            "default": "2 párrafos + bullets clave",
+            "choices": [
+              "2 párrafos + bullets clave",
+              "tabla breve"
+            ]
+          },
+          {
+            "key": "tone",
+            "label": "TONO",
+            "default": "ejecutivo y operativo",
+            "choices": [
+              "ejecutivo y operativo",
+              "facilitador"
+            ]
+          },
+          {
+            "key": "depth",
+            "label": "PROFUNDIDAD",
+            "default": "práctica",
+            "choices": [
+              "práctica",
+              "profunda"
+            ]
+          }
+        ],
+        "optional_clauses": []
       }
     },
     "en": {
       "persona": {
-        "title": "Turn it into a NotebookLM preplan",
-        "purpose": "Turns your confirmed assignment into a NotebookLM preplan: loadable sources, exclusions by privacy or rights, a role with its boundary and a first evidence.",
+        "title": "Turn the study plan into a NotebookLM plan",
+        "purpose": "Turns your confirmed study plan into a NotebookLM plan: loadable sources, exclusions by privacy or rights, a role with its boundary and a first evidence.",
         "when": "you want to open the workshop with the Notebook already thought through, not improvising uploads.",
         "example": "I have ten PDFs and two recordings and I do not know which I may upload or which role to start with.",
         "evidence": "classified case, purpose sentence, observable outcome, loadable sources, gaps to research, items excluded by privacy or rights with their reason, role with its boundary, a plan mapped to the five workshop steps and the first evidence I should produce.",
-        "prompt": "I want a NotebookLM preplan before the workshop. My confirmed assignment is [CONFIRMED ASSIGNMENT] and my candidate material is [AVAILABLE MATERIAL]. I paste it here: {{BRAIN_DUMP}}. Classify the case among study, learn something new, create source-grounded content, prepare a decision or meeting, configure an advisor, configure a coach, or turn research into a skill; if none fits, say so and propose the closest. Write \"This Notebook exists to…\" derived from [CONFIRMED ASSIGNMENT], and define my audience, the observable outcome and the final decision, which stays mine. Split [AVAILABLE MATERIAL] into three lists: loadable, gaps to research, and excluded by privacy or rights, each exclusion with its reason. If everything ends up excluded, stop and declare coverage_gap instead of quietly degrading the plan. If the material exceeds the scope of [CONFIRMED ASSIGNMENT], the assignment wins and the rest is set aside; if [CONFIRMED ASSIGNMENT] arrives empty, confirm it with me in five points before preplanning. Recommend a source-grounded role —teacher, advisor or coach— and its explicit boundary. Deliver the plan mapped to the five workshop steps: build, audit, research, decide sufficiency and activate the role. Close with the first evidence I should produce. Do not invent sources, attachments or NotebookLM capabilities.",
+        "prompt": "I want a NotebookLM plan before the workshop. My confirmed study plan is <STUDY PLAN> and my candidate material is <MATERIAL>. I paste it here: <STARTING NOTES>. Classify the case among study, learn something new, create source-grounded content, prepare a decision or meeting, configure an advisor, configure a coach, or turn research into a skill; if none fits, say so and propose the closest. Write \"This Notebook exists to…\" derived from <STUDY PLAN>, and define my audience, the observable outcome and the final decision, which stays mine. Split <MATERIAL> into three lists: loadable, gaps to research, and excluded by privacy or rights, each exclusion with its reason. If everything ends up excluded, stop and declare coverage_gap instead of quietly degrading the plan. If the material exceeds the scope of <STUDY PLAN>, the study plan wins and the rest is set aside; if <STUDY PLAN> arrives empty, confirm it with me in five points before planning. Recommend a source-grounded role —teacher, advisor or coach— and its explicit boundary. Deliver the plan mapped to the five workshop steps: build, audit, research, decide sufficiency and activate the role. Close with the first evidence I should produce. Do not invent sources, attachments or NotebookLM capabilities.",
         "level_spec": {
-          "role": "Source-grounded learning architect who preplans before opening the tool",
-          "spec_role": "Specialist in preparing cases and learning assignments",
-          "objective": "Turn the confirmed assignment into an actionable NotebookLM preplan with declared boundaries",
-          "parameters": [
-            [
-              "purpose",
-              "derived from the confirmed assignment with the sentence \"This Notebook exists to…\""
-            ],
-            [
-              "role",
-              "teacher, advisor or coach, always with an explicit boundary"
-            ],
-            [
-              "depth",
-              "initial preplan: it neither creates the Notebook nor uploads material"
-            ],
-            [
-              "privacy",
-              "sensitive or unlicensed material goes to the excluded list, with a reason per item"
-            ],
-            [
-              "blocking",
-              "if no loadable material remains, the preplan stops and declares coverage_gap"
-            ]
-          ],
+          "role": "Source-grounded learning architect who plans before opening the tool",
+          "spec_role": "Specialist in preparing cases and study plans",
+          "objective": "Turn the confirmed study plan into an actionable NotebookLM plan with declared boundaries",
           "workflow": [
             "Classify the case among the seven, or declare none fits and propose the closest",
-            "Write the purpose from the confirmed assignment and define audience, observable outcome and final decision",
+            "Write the purpose from the confirmed study plan and define audience, observable outcome and final decision",
             "Split the material into loadable, gaps to research and excluded by privacy or rights",
             "Select the source-grounded role and declare its boundary",
             "Map the plan to the five workshop steps: build, audit, research, decide sufficiency and activate the role",
@@ -276,8 +416,8 @@
           "guardrails": [
             "Never invent sources, attachments or NotebookLM capabilities that are not documented",
             "Never recommend uploading private or unlicensed material: it goes to the excluded list with its reason",
-            "No loadable material: stop the preplan and declare coverage_gap, never degrade it quietly",
-            "Never replace the person’s final decision: the preplan prepares it, it does not take it"
+            "No loadable material: stop the plan and declare coverage_gap, never degrade it quietly",
+            "Never replace the person’s final decision: the plan prepares it, it does not take it"
           ],
           "output": [
             "Classified case",
@@ -287,11 +427,38 @@
             "Plan mapped to the five workshop steps",
             "First evidence I should produce"
           ],
-          "dod": "The preplan names case, purpose, observable outcome, the three material lists with a reason per exclusion, the role with its boundary, the five steps and the first evidence.",
+          "dod": "The plan names case, purpose, observable outcome, the three material lists with a reason per exclusion, the role with its boundary, the five steps and the first evidence.",
           "edge_cases": [
             "A case that fits none of the seven: declare it and propose the closest instead of forcing a label",
             "All material excluded by privacy or rights: coverage_gap and a stop, not a degraded plan",
-            "Material exceeding the scope of the assignment: the assignment wins and the rest is set aside"
+            "Material exceeding the scope of the study plan: the study plan wins and the rest is set aside"
+          ],
+          "constraints": [
+            [
+              "purpose",
+              "derived from the confirmed study plan with the sentence \"This Notebook exists to…\""
+            ],
+            [
+              "role",
+              "teacher, advisor or coach, always with an explicit boundary"
+            ],
+            [
+              "depth",
+              "initial plan: it neither creates the Notebook nor uploads material"
+            ],
+            [
+              "privacy",
+              "sensitive or unlicensed material goes to the excluded list, with a reason per item"
+            ],
+            [
+              "blocking",
+              "if no loadable material remains, the plan stops and declares coverage_gap"
+            ]
+          ],
+          "frameworks": [
+            "Backward design · outcome, evidence and steps",
+            "MECE · no overlaps or gaps",
+            "Definition of Done · observable completion"
           ]
         },
         "why_it_works": {
@@ -301,26 +468,26 @@
             "The five workshop steps are named, not cited as an external reference"
           ],
           "edge_cases": [
-            "Empty assignment: it is confirmed in five points before preplanning instead of being inferred",
-            "Zero loadable material: the preplan stops with coverage_gap declared"
+            "Empty study plan: it is confirmed in five points before planning instead of being inferred",
+            "Zero loadable material: the plan stops with coverage_gap declared"
           ],
           "tradeoffs": [
-            "A conservative preplan in exchange for a clean start with nothing that has to be pulled back later",
+            "A conservative plan in exchange for a clean start with nothing that has to be pulled back later",
             "This turn excludes material by privacy or rights case by case on my own judgement; the team cell treats exclusion as policy and adds an external reviewer",
-            "The original definition of done said the preplan \"lets the person open NotebookLM and begin\": that happens outside the turn, so what is checked here are the pieces the preplan does deliver"
+            "The original definition of done said the plan \"lets the person open NotebookLM and begin\": that happens outside the turn, so what is checked here are the pieces the plan does deliver"
           ],
           "assumptions": [
-            "The assignment arrives confirmed from an earlier turn; if not, the prompt itself confirms it before preplanning",
+            "The study plan arrives confirmed from an earlier turn; if not, the prompt itself confirms it before planning",
             "The candidate material is what the person names: there are no implicit attachments"
           ],
           "limits": [
-            "It preplans; it neither creates the Notebook, uploads material, nor runs the workshop steps",
+            "It plans; it neither creates the Notebook, uploads material, nor runs the workshop steps",
             "It promises no tool capability beyond what is documented, and no accuracy of the answers"
           ]
         },
         "traceability": [
           {
-            "claim": "The preplan with use case, purpose sentence, source-grounded role and mapping to the five workshop steps comes from the published preparation material of the method.",
+            "claim": "The plan with use case, purpose sentence, source-grounded role and mapping to the five workshop steps comes from the published preparation material of the method.",
             "source": "https://javimontano.github.io/prompt-amplificado/biblioteca-prompts.html"
           },
           {
@@ -336,26 +503,125 @@
             "source": "https://support.google.com/notebooklm/answer/16215270?hl=es"
           },
           {
-            "claim": "Stopping the preplan with coverage_gap when no loadable material remains, instead of quietly degrading it, is internal method policy.",
+            "claim": "Stopping the plan with coverage_gap when no loadable material remains, instead of quietly degrading it, is internal method policy.",
             "source": "method_internal"
           }
-        ]
+        ],
+        "inputs": [
+          {
+            "key": "study_plan",
+            "label": "STUDY PLAN",
+            "help": "confirmed plan defining purpose, scope and evidence",
+            "example": "learn to verify AI answers",
+            "required": true,
+            "type": "text",
+            "source": "previous_output",
+            "demo_value": "synthetic prior-step artifact: transfer to a second context still needs evidence"
+          },
+          {
+            "key": "materials",
+            "label": "MATERIAL",
+            "help": "inputs you may use",
+            "example": "notes and three sources",
+            "required": true,
+            "type": "long_text",
+            "source": "user",
+            "demo_value": "synthetic Demo dossier: method guide, practice log and review criteria"
+          },
+          {
+            "key": "brain_dump",
+            "label": "STARTING NOTES",
+            "help": "ideas or dictation not yet organized",
+            "example": "I want to learn AI to improve…",
+            "required": true,
+            "type": "long_text",
+            "source": "user",
+            "demo_value": "I want to learn AI to improve…"
+          }
+        ],
+        "parameters": [
+          {
+            "key": "length",
+            "label": "LENGTH",
+            "default": "concise",
+            "choices": [
+              "concise",
+              "medium"
+            ]
+          },
+          {
+            "key": "structure",
+            "label": "STRUCTURE",
+            "default": "2 paragraphs + key bullets",
+            "choices": [
+              "2 paragraphs + key bullets",
+              "short table"
+            ]
+          },
+          {
+            "key": "tone",
+            "label": "TONE",
+            "default": "clear and personal",
+            "choices": [
+              "clear and personal",
+              "instructional"
+            ]
+          },
+          {
+            "key": "depth",
+            "label": "DEPTH",
+            "default": "practical",
+            "choices": [
+              "practical",
+              "deep"
+            ]
+          }
+        ],
+        "optional_clauses": []
       },
       "empresa": {
-        "title": "Turn it into a NotebookLM preplan for a team",
-        "purpose": "Turns the confirmed assignment into a NotebookLM preplan with exclusions applied as policy, a role with its boundary and a preplan ready for review.",
+        "title": "Turn the study plan into a NotebookLM plan for a team",
+        "purpose": "Turns the confirmed study plan into a NotebookLM plan with exclusions applied as policy, a role with its boundary and a plan ready for review.",
         "when": "the process requires the Notebook to start with permitted material and a decision with an owner.",
         "example": "We want an onboarding Notebook built on internal material nobody has checked for rights.",
         "evidence": "classified case, purpose sentence, observable outcome, loadable sources with rights, gaps to research, items excluded by policy with their reason, role with its boundary, a plan mapped to the five workshop steps, first evidence and an assigned reviewer.",
-        "prompt": "We are preparing a NotebookLM preplan for [TEAM] before the workshop. The confirmed assignment is [CONFIRMED ASSIGNMENT] and the candidate material is [AVAILABLE MATERIAL]. I paste it here: {{BRAIN_DUMP}}. Classify the case among study, learn something new, create source-grounded content, prepare a decision or meeting, configure an advisor, configure a coach, or turn research into a skill; if none fits, say so and propose the closest. Write \"This Notebook exists to…\" derived from [CONFIRMED ASSIGNMENT], and define the audience inside [TEAM], the observable outcome and who takes the final decision. Split [AVAILABLE MATERIAL] into loadable, gaps to research and excluded by privacy or rights; treat exclusion as a policy of the team and cite the reason per item, not the judgement of whoever pasted the material. If everything ends up excluded, stop, declare coverage_gap and name the operational risk of starting without licensed material. Recommend a source-grounded role —teacher, advisor or coach— and its explicit boundary. Deliver the plan mapped to the five workshop steps: build, audit, research, decide sufficiency and activate the role, ready for review by someone who did not write it. Close with the first evidence and who reviews it. Do not invent sources, attachments or NotebookLM capabilities.",
+        "prompt": "We are preparing a NotebookLM plan for <TEAM> before the workshop. The confirmed study plan is <STUDY PLAN> and the candidate material is <MATERIAL>. I paste it here: <STARTING NOTES>. Classify the case among study, learn something new, create source-grounded content, prepare a decision or meeting, configure an advisor, configure a coach, or turn research into a skill; if none fits, say so and propose the closest. Write \"This Notebook exists to…\" derived from <STUDY PLAN>, and define the audience inside <TEAM>, the observable outcome and who takes the final decision. Split <MATERIAL> into loadable, gaps to research and excluded by privacy or rights; treat exclusion as a policy of the team and cite the reason per item, not the judgement of whoever pasted the material. If everything ends up excluded, stop, declare coverage_gap and name the operational risk of starting without licensed material. Recommend a source-grounded role —teacher, advisor or coach— and its explicit boundary. Deliver the plan mapped to the five workshop steps: build, audit, research, decide sufficiency and activate the role, ready for review by someone who did not write it. Close with the first evidence and who reviews it. Do not invent sources, attachments or NotebookLM capabilities.",
         "level_spec": {
-          "role": "Source-grounded learning architect who preplans a shared Notebook before opening it",
-          "spec_role": "Specialist in preparing cases and learning assignments",
-          "objective": "Turn the confirmed assignment into a reviewable preplan with permitted material and an owned decision",
-          "parameters": [
+          "role": "Source-grounded learning architect who plans a shared Notebook before opening it",
+          "spec_role": "Specialist in preparing cases and study plans",
+          "objective": "Turn the confirmed study plan into a reviewable plan with permitted material and an owned decision",
+          "workflow": [
+            "Classify the case among the seven, or declare none fits and propose the closest",
+            "Write the purpose from the confirmed study plan and define audience, observable outcome and who decides",
+            "Split the material into loadable, gaps to research and excluded, citing the policy per item",
+            "Select the source-grounded role and declare its boundary",
+            "Map the plan to the five workshop steps: build, audit, research, decide sufficiency and activate the role",
+            "Name the first evidence and the reviewer who checks it"
+          ],
+          "guardrails": [
+            "Never invent sources, attachments or NotebookLM capabilities that are not documented",
+            "Never recommend uploading private or unlicensed material: exclusion is cited as policy, not as opinion",
+            "Without licensed material: stop the plan, declare coverage_gap and name the operational risk",
+            "Never stand in for whoever takes the final decision: the plan prepares it, it does not approve it"
+          ],
+          "output": [
+            "Classified case",
+            "Purpose, audience, observable outcome and who decides",
+            "Loadable sources, gaps to research and excluded items with the policy cited",
+            "Source-grounded role with its boundary",
+            "Plan mapped to the five workshop steps, ready for review",
+            "First evidence and assigned reviewer"
+          ],
+          "dod": "The plan names case, purpose, observable outcome, the three material lists with the policy cited per exclusion, the role with its boundary, the five steps, the first evidence and its reviewer.",
+          "edge_cases": [
+            "A case that fits none of the seven: declare it and propose the closest instead of forcing a label",
+            "All material without clear rights: coverage_gap with the operational risk named, not a degraded plan",
+            "Nobody assigned to review: ask for the reviewer before calling the plan delivered"
+          ],
+          "constraints": [
             [
               "purpose",
-              "derived from the confirmed assignment with the sentence \"This Notebook exists to…\""
+              "derived from the confirmed study plan with the sentence \"This Notebook exists to…\""
             ],
             [
               "role",
@@ -367,61 +633,38 @@
             ],
             [
               "review",
-              "a preplan readable and checkable by someone who did not write it"
+              "a plan readable and checkable by someone who did not write it"
             ],
             [
               "blocking",
               "without licensed material, coverage_gap and a declared operational risk"
             ]
           ],
-          "workflow": [
-            "Classify the case among the seven, or declare none fits and propose the closest",
-            "Write the purpose from the confirmed assignment and define audience, observable outcome and who decides",
-            "Split the material into loadable, gaps to research and excluded, citing the policy per item",
-            "Select the source-grounded role and declare its boundary",
-            "Map the plan to the five workshop steps: build, audit, research, decide sufficiency and activate the role",
-            "Name the first evidence and the reviewer who checks it"
-          ],
-          "guardrails": [
-            "Never invent sources, attachments or NotebookLM capabilities that are not documented",
-            "Never recommend uploading private or unlicensed material: exclusion is cited as policy, not as opinion",
-            "Without licensed material: stop the preplan, declare coverage_gap and name the operational risk",
-            "Never stand in for whoever takes the final decision: the preplan prepares it, it does not approve it"
-          ],
-          "output": [
-            "Classified case",
-            "Purpose, audience, observable outcome and who decides",
-            "Loadable sources, gaps to research and excluded items with the policy cited",
-            "Source-grounded role with its boundary",
-            "Plan mapped to the five workshop steps, ready for review",
-            "First evidence and assigned reviewer"
-          ],
-          "dod": "The preplan names case, purpose, observable outcome, the three material lists with the policy cited per exclusion, the role with its boundary, the five steps, the first evidence and its reviewer.",
-          "edge_cases": [
-            "A case that fits none of the seven: declare it and propose the closest instead of forcing a label",
-            "All material without clear rights: coverage_gap with the operational risk named, not a degraded plan",
-            "Nobody assigned to review: ask for the reviewer before calling the preplan delivered"
+          "frameworks": [
+            "Backward design · outcome, evidence and steps",
+            "MECE · no overlaps or gaps",
+            "Definition of Done · observable completion"
           ]
         },
         "why_it_works": {
           "acceptance_criteria": [
             "Every candidate item sits in a single list and every exclusion cites the policy behind it",
             "The recommended role comes with a boundary sentence saying what it will not do",
-            "Someone who did not write the preplan can read it and say whether each piece is there or missing"
+            "Someone who did not write the plan can read it and say whether each piece is there or missing"
           ],
           "edge_cases": [
             "Material with doubtful rights: it is excluded and the doubt declared, instead of assuming permission",
-            "Zero licensed material: the preplan stops with coverage_gap and a declared operational risk"
+            "Zero licensed material: the plan stops with coverage_gap and a declared operational risk"
           ],
           "tradeoffs": [
             "Applying exclusion as policy slows the start in exchange for never loading material that has to be pulled back",
-            "This turn gives up the case-by-case judgement of whoever pasted the material, which the individual cell keeps: here the reason must cite team policy so a third party can check the exclusion. The original definition of done promised the preplan \"lets the person open NotebookLM and begin\": that happens outside the turn, so what is checked here are the delivered pieces — material lists with the policy cited, role with boundary, five steps, first evidence and its reviewer"
+            "This turn gives up the case-by-case judgement of whoever pasted the material, which the individual cell keeps: here the reason must cite team policy so a third party can check the exclusion. The original definition of done promised the plan \"lets the person open NotebookLM and begin\": that happens outside the turn, so what is checked here are the delivered pieces — material lists with the policy cited, role with boundary, five steps, first evidence and its reviewer"
           ],
           "assumptions": [
             "An applicable privacy and rights policy exists, and so does a role with authority for the final decision"
           ],
           "limits": [
-            "It preplans; it neither creates the Notebook, uploads material, nor runs the workshop steps",
+            "It plans; it neither creates the Notebook, uploads material, nor runs the workshop steps",
             "It promises no tool capability beyond what is documented, and it does not approve the use of the material: it leaves it reviewable"
           ]
         },
@@ -443,49 +686,108 @@
             "source": "https://support.google.com/notebooklm/answer/16215270?hl=es"
           },
           {
-            "claim": "Treating privacy and rights exclusion as citable policy and requiring a reviewer other than the preplan author are internal policy for shared Notebooks.",
+            "claim": "Treating privacy and rights exclusion as citable policy and requiring a reviewer other than the plan author are internal policy for shared Notebooks.",
             "source": "method_internal"
           }
-        ]
+        ],
+        "inputs": [
+          {
+            "key": "team",
+            "label": "TEAM",
+            "help": "group taking part",
+            "example": "operations team",
+            "required": true,
+            "type": "text",
+            "source": "user",
+            "demo_value": "operations pilot team"
+          },
+          {
+            "key": "study_plan",
+            "label": "STUDY PLAN",
+            "help": "confirmed plan defining purpose, scope and evidence",
+            "example": "learn to verify AI answers",
+            "required": true,
+            "type": "text",
+            "source": "previous_output",
+            "demo_value": "synthetic prior-step artifact: transfer to a second context still needs evidence"
+          },
+          {
+            "key": "materials",
+            "label": "MATERIAL",
+            "help": "inputs you may use",
+            "example": "notes and three sources",
+            "required": true,
+            "type": "long_text",
+            "source": "user",
+            "demo_value": "synthetic Demo dossier: method guide, practice log and review criteria"
+          },
+          {
+            "key": "brain_dump",
+            "label": "STARTING NOTES",
+            "help": "ideas or dictation not yet organized",
+            "example": "I want to learn AI to improve…",
+            "required": true,
+            "type": "long_text",
+            "source": "user",
+            "demo_value": "I want to learn AI to improve…"
+          }
+        ],
+        "parameters": [
+          {
+            "key": "length",
+            "label": "LENGTH",
+            "default": "concise",
+            "choices": [
+              "concise",
+              "medium"
+            ]
+          },
+          {
+            "key": "structure",
+            "label": "STRUCTURE",
+            "default": "2 paragraphs + key bullets",
+            "choices": [
+              "2 paragraphs + key bullets",
+              "short table"
+            ]
+          },
+          {
+            "key": "tone",
+            "label": "TONE",
+            "default": "executive and operational",
+            "choices": [
+              "executive and operational",
+              "facilitative"
+            ]
+          },
+          {
+            "key": "depth",
+            "label": "DEPTH",
+            "default": "practical",
+            "choices": [
+              "practical",
+              "deep"
+            ]
+          }
+        ],
+        "optional_clauses": []
       }
     },
     "pt": {
       "persona": {
-        "title": "Converter em pré-plano de NotebookLM",
-        "purpose": "Transforma seu encargo confirmado em um pré-planejamento de NotebookLM: fontes carregáveis, exclusões por privacidade ou direitos, papel com limite e primeira evidência.",
+        "title": "Converter o plano de estudo em plano do NotebookLM",
+        "purpose": "Transforma seu plano de estudo confirmado em um plano de NotebookLM: fontes carregáveis, exclusões por privacidade ou direitos, papel com limite e primeira evidência.",
         "when": "você quer abrir a oficina com o Notebook já pensado e sem improvisar o que enviar.",
         "example": "Tenho dez PDFs e duas gravações e não sei quais posso enviar nem com qual papel começar.",
         "evidence": "caso classificado, frase de propósito, resultado observável, fontes carregáveis, lacunas a pesquisar, itens excluídos por privacidade ou direitos com sua razão, papel com seu limite, plano mapeado aos cinco passos da oficina e a primeira evidência que devo produzir.",
-        "prompt": "Quero um pré-planejamento de NotebookLM antes da oficina. Meu encargo confirmado é [ENCARGO CONFIRMADO] e meu material candidato é [MATERIAL DISPONÍVEL]. Colo aqui: {{BRAIN_DUMP}}. Classifique o caso entre estudar, aprender algo novo, criar conteúdo baseado em fontes, preparar uma decisão ou reunião, configurar assessor, configurar coach ou transformar pesquisa em skill; se nenhum servir, diga e proponha o mais próximo. Escreva «Este Notebook existe para…» derivado de [ENCARGO CONFIRMADO] e defina meu público, o resultado observável e a decisão final, que continua sendo minha. Divida [MATERIAL DISPONÍVEL] em três listas: carregáveis, lacunas a pesquisar e excluídos por privacidade ou direitos, cada exclusão com sua razão. Se tudo ficar excluído, pare e declare coverage_gap em vez de degradar o plano em silêncio. Se o material exceder o escopo de [ENCARGO CONFIRMADO], o encargo prevalece e o resto fica de lado; se [ENCARGO CONFIRMADO] chegar vazio, confirme-o comigo em cinco pontos antes de pré-planejar. Recomende um papel baseado em fontes —professor, assessor ou coach— e seu limite explícito. Entregue o plano mapeado aos cinco passos da oficina: construir, auditar, pesquisar, decidir suficiência e ativar papel. Termine com a primeira evidência que devo produzir. Não invente fontes, anexos nem capacidades do NotebookLM.",
+        "prompt": "Quero um plano de NotebookLM antes da oficina. Meu plano de estudo confirmado é <PLANO DE ESTUDO> e meu material candidato é <MATERIAL>. Colo aqui: <NOTAS INICIAIS>. Classifique o caso entre estudar, aprender algo novo, criar conteúdo baseado em fontes, preparar uma decisão ou reunião, configurar assessor, configurar coach ou transformar pesquisa em skill; se nenhum servir, diga e proponha o mais próximo. Escreva «Este Notebook existe para…» derivado de <PLANO DE ESTUDO> e defina meu público, o resultado observável e a decisão final, que continua sendo minha. Divida <MATERIAL> em três listas: carregáveis, lacunas a pesquisar e excluídos por privacidade ou direitos, cada exclusão com sua razão. Se tudo ficar excluído, pare e declare coverage_gap em vez de degradar o plano em silêncio. Se o material exceder o escopo de <PLANO DE ESTUDO>, o plano de estudo prevalece e o resto fica de lado; se <PLANO DE ESTUDO> chegar vazio, confirme-o comigo em cinco pontos antes de planejar. Recomende um papel baseado em fontes —professor, assessor ou coach— e seu limite explícito. Entregue o plano mapeado aos cinco passos da oficina: construir, auditar, pesquisar, decidir suficiência e ativar papel. Termine com a primeira evidência que devo produzir. Não invente fontes, anexos nem capacidades do NotebookLM.",
         "level_spec": {
           "role": "Arquiteto de aprendizagem baseada em fontes que pré-planeja antes de abrir a ferramenta",
-          "spec_role": "Especialista em preparação de casos e encargos de aprendizagem",
-          "objective": "Converter o encargo confirmado em um pré-plano de NotebookLM executável e com limites declarados",
-          "parameters": [
-            [
-              "proposito",
-              "derivado do encargo confirmado com a frase «Este Notebook existe para…»"
-            ],
-            [
-              "papel",
-              "professor, assessor ou coach, sempre com seu limite explícito"
-            ],
-            [
-              "profundidade",
-              "pré-plano inicial: não cria o Notebook nem envia material"
-            ],
-            [
-              "privacidade",
-              "material sensível ou sem direitos vai para excluídos, com razão por item"
-            ],
-            [
-              "bloqueio",
-              "se não sobrar material carregável, o pré-plano para e declara coverage_gap"
-            ]
-          ],
+          "spec_role": "Especialista em preparação de casos e planos de estudo",
+          "objective": "Converter o plano de estudo confirmado em um plano de NotebookLM executável e com limites declarados",
           "workflow": [
             "Classificar o caso entre os sete ou declarar que nenhum serve e propor o mais próximo",
-            "Escrever o propósito a partir do encargo confirmado e definir público, resultado observável e decisão final",
+            "Escrever o propósito a partir do plano de estudo confirmado e definir público, resultado observável e decisão final",
             "Dividir o material em carregáveis, lacunas a pesquisar e excluídos por privacidade ou direitos",
             "Selecionar o papel baseado em fontes e declarar seu limite",
             "Mapear o plano aos cinco passos da oficina: construir, auditar, pesquisar, decidir suficiência e ativar papel",
@@ -494,8 +796,8 @@
           "guardrails": [
             "Não inventar fontes, anexos nem capacidades do NotebookLM que não estejam documentadas",
             "Não recomendar o envio de material privado ou sem direitos: vai para excluídos com sua razão",
-            "Sem material carregável: parar o pré-plano e declarar coverage_gap, nunca degradá-lo em silêncio",
-            "Não substituir a decisão final da pessoa: o pré-plano a prepara, não a toma"
+            "Sem material carregável: parar o plano e declarar coverage_gap, nunca degradá-lo em silêncio",
+            "Não substituir a decisão final da pessoa: o plano a prepara, não a toma"
           ],
           "output": [
             "Caso classificado",
@@ -505,11 +807,38 @@
             "Plano mapeado aos cinco passos da oficina",
             "Primeira evidência que devo produzir"
           ],
-          "dod": "O pré-planejamento entrega caso, propósito, resultado observável, as três listas de material com a razão de cada exclusão, o papel com seu limite, os cinco passos e a primeira evidência.",
+          "dod": "O plano entrega caso, propósito, resultado observável, as três listas de material com a razão de cada exclusão, o papel com seu limite, os cinco passos e a primeira evidência.",
           "edge_cases": [
             "Caso que não cabe nos sete: declarar e propor o mais próximo, sem forçar o rótulo",
             "Todo o material excluído por privacidade ou direitos: coverage_gap e parada, não um plano degradado",
-            "Material que excede o escopo do encargo: o encargo prevalece e o resto fica de lado"
+            "Material que excede o escopo do plano de estudo: o plano de estudo prevalece e o resto fica de lado"
+          ],
+          "constraints": [
+            [
+              "proposito",
+              "derivado do plano de estudo confirmado com a frase «Este Notebook existe para…»"
+            ],
+            [
+              "papel",
+              "professor, assessor ou coach, sempre com seu limite explícito"
+            ],
+            [
+              "profundidade",
+              "plano inicial: não cria o Notebook nem envia material"
+            ],
+            [
+              "privacidade",
+              "material sensível ou sem direitos vai para excluídos, com razão por item"
+            ],
+            [
+              "bloqueio",
+              "se não sobrar material carregável, o plano para e declara coverage_gap"
+            ]
+          ],
+          "frameworks": [
+            "Design reverso · resultado, evidência e passos",
+            "MECE · sem sobreposições nem lacunas",
+            "Definition of Done · conclusão observável"
           ]
         },
         "why_it_works": {
@@ -519,16 +848,16 @@
             "Os cinco passos da oficina aparecem nomeados, não citados como referência externa"
           ],
           "edge_cases": [
-            "Encargo vazio: confirma-se em cinco pontos antes de pré-planejar, em vez de inferi-lo",
-            "Zero material carregável: o pré-plano para com coverage_gap declarado"
+            "Plano de estudo vazio: confirma-se em cinco pontos antes de planejar, em vez de inferi-lo",
+            "Zero material carregável: o plano para com coverage_gap declarado"
           ],
           "tradeoffs": [
             "Pré-plano conservador em troca de um começo limpo, sem material que precise ser retirado depois",
             "Este turno exclui material por privacidade ou direitos caso a caso, pelo meu critério; a célula de equipe trata a exclusão como política e acrescenta revisor externo",
-            "A definição de concluído original dizia que o pré-plano «permite abrir o NotebookLM e iniciar a prática»: isso acontece fora do turno, então aqui se verificam as peças que o pré-plano entrega"
+            "A definição de concluído original dizia que o plano «permite abrir o NotebookLM e iniciar a prática»: isso acontece fora do turno, então aqui se verificam as peças que o plano entrega"
           ],
           "assumptions": [
-            "O encargo chega confirmado de um turno anterior; se não, o próprio prompt o confirma antes de pré-planejar",
+            "O plano de estudo chega confirmado de um turno anterior; se não, o próprio prompt o confirma antes de planejar",
             "O material candidato é o que a pessoa nomeia: não há anexos implícitos"
           ],
           "limits": [
@@ -538,7 +867,7 @@
         },
         "traceability": [
           {
-            "claim": "O pré-plano com caso de uso, frase de propósito, papel baseado em fontes e mapeamento aos cinco passos da oficina vem do material de preparação publicado do método.",
+            "claim": "O plano com caso de uso, frase de propósito, papel baseado em fontes e mapeamento aos cinco passos da oficina vem do material de preparação publicado do método.",
             "source": "https://javimontano.github.io/prompt-amplificado/biblioteca-prompts.html"
           },
           {
@@ -554,26 +883,125 @@
             "source": "https://support.google.com/notebooklm/answer/16215270?hl=es"
           },
           {
-            "claim": "Parar o pré-plano com coverage_gap quando não sobra material carregável, em vez de degradá-lo em silêncio, é norma interna do método.",
+            "claim": "Parar o plano com coverage_gap quando não sobra material carregável, em vez de degradá-lo em silêncio, é norma interna do método.",
             "source": "method_internal"
           }
-        ]
+        ],
+        "inputs": [
+          {
+            "key": "study_plan",
+            "label": "PLANO DE ESTUDO",
+            "help": "plano confirmado que define propósito, escopo e evidência",
+            "example": "aprender a verificar respostas de IA",
+            "required": true,
+            "type": "text",
+            "source": "previous_output",
+            "demo_value": "artefato sintético da etapa anterior: ainda falta demonstrar transferência para um segundo contexto"
+          },
+          {
+            "key": "materials",
+            "label": "MATERIAL",
+            "help": "insumos que pode usar",
+            "example": "notas e três fontes",
+            "required": true,
+            "type": "long_text",
+            "source": "user",
+            "demo_value": "dossiê sintético Demo: guia do método, registro de prática e critérios de revisão"
+          },
+          {
+            "key": "brain_dump",
+            "label": "NOTAS INICIAIS",
+            "help": "ideias ou ditado ainda sem organizar",
+            "example": "quero aprender IA para melhorar…",
+            "required": true,
+            "type": "long_text",
+            "source": "user",
+            "demo_value": "quero aprender IA para melhorar…"
+          }
+        ],
+        "parameters": [
+          {
+            "key": "length",
+            "label": "EXTENSÃO",
+            "default": "concisa",
+            "choices": [
+              "concisa",
+              "média"
+            ]
+          },
+          {
+            "key": "structure",
+            "label": "ESTRUTURA",
+            "default": "2 parágrafos + bullets-chave",
+            "choices": [
+              "2 parágrafos + bullets-chave",
+              "tabela breve"
+            ]
+          },
+          {
+            "key": "tone",
+            "label": "TOM",
+            "default": "claro e pessoal",
+            "choices": [
+              "claro e pessoal",
+              "didático"
+            ]
+          },
+          {
+            "key": "depth",
+            "label": "PROFUNDIDADE",
+            "default": "prática",
+            "choices": [
+              "prática",
+              "profunda"
+            ]
+          }
+        ],
+        "optional_clauses": []
       },
       "empresa": {
-        "title": "Converter em pré-plano de NotebookLM da equipe",
-        "purpose": "Transforma o encargo confirmado em um pré-planejamento de NotebookLM com exclusões aplicadas como política, papel com limite e pré-plano pronto para revisão.",
+        "title": "Converter o plano de estudo em plano do NotebookLM da equipe",
+        "purpose": "Transforma o plano de estudo confirmado em um plano de NotebookLM com exclusões aplicadas como política, papel com limite e plano pronto para revisão.",
         "when": "o processo exige que o Notebook nasça com material permitido e uma decisão com dono.",
         "example": "Queremos um Notebook de integração com material interno que ninguém revisou por direitos.",
         "evidence": "caso classificado, frase de propósito, resultado observável, fontes carregáveis com direitos, lacunas a pesquisar, itens excluídos por política com sua razão, papel com seu limite, plano mapeado aos cinco passos da oficina, primeira evidência e revisor designado.",
-        "prompt": "Preparamos um pré-planejamento de NotebookLM para [EQUIPE] antes da oficina. O encargo confirmado é [ENCARGO CONFIRMADO] e o material candidato é [MATERIAL DISPONÍVEL]. Colo aqui: {{BRAIN_DUMP}}. Classifique o caso entre estudar, aprender algo novo, criar conteúdo baseado em fontes, preparar uma decisão ou reunião, configurar assessor, configurar coach ou transformar pesquisa em skill; se nenhum servir, diga e proponha o mais próximo. Escreva «Este Notebook existe para…» derivado de [ENCARGO CONFIRMADO] e defina o público dentro de [EQUIPE], o resultado observável e quem toma a decisão final. Divida [MATERIAL DISPONÍVEL] em carregáveis, lacunas a pesquisar e excluídos por privacidade ou direitos; trate a exclusão como política da equipe e cite a razão por item, não o critério de quem colou o material. Se tudo ficar excluído, pare, declare coverage_gap e nomeie o risco operacional de começar sem material com direitos. Recomende um papel baseado em fontes —professor, assessor ou coach— e seu limite explícito. Entregue o plano mapeado aos cinco passos da oficina: construir, auditar, pesquisar, decidir suficiência e ativar papel, pronto para revisão por alguém que não o escreveu. Termine com a primeira evidência e quem a revisa. Não invente fontes, anexos nem capacidades do NotebookLM.",
+        "prompt": "Preparamos um plano de NotebookLM para <EQUIPE> antes da oficina. O plano de estudo confirmado é <PLANO DE ESTUDO> e o material candidato é <MATERIAL>. Colo aqui: <NOTAS INICIAIS>. Classifique o caso entre estudar, aprender algo novo, criar conteúdo baseado em fontes, preparar uma decisão ou reunião, configurar assessor, configurar coach ou transformar pesquisa em skill; se nenhum servir, diga e proponha o mais próximo. Escreva «Este Notebook existe para…» derivado de <PLANO DE ESTUDO> e defina o público dentro de <EQUIPE>, o resultado observável e quem toma a decisão final. Divida <MATERIAL> em carregáveis, lacunas a pesquisar e excluídos por privacidade ou direitos; trate a exclusão como política da equipe e cite a razão por item, não o critério de quem colou o material. Se tudo ficar excluído, pare, declare coverage_gap e nomeie o risco operacional de começar sem material com direitos. Recomende um papel baseado em fontes —professor, assessor ou coach— e seu limite explícito. Entregue o plano mapeado aos cinco passos da oficina: construir, auditar, pesquisar, decidir suficiência e ativar papel, pronto para revisão por alguém que não o escreveu. Termine com a primeira evidência e quem a revisa. Não invente fontes, anexos nem capacidades do NotebookLM.",
         "level_spec": {
           "role": "Arquiteto de aprendizagem baseada em fontes que pré-planeja o Notebook compartilhado antes de abri-lo",
-          "spec_role": "Especialista em preparação de casos e encargos de aprendizagem",
-          "objective": "Converter o encargo confirmado em um pré-plano revisável, com material permitido e decisão com dono",
-          "parameters": [
+          "spec_role": "Especialista em preparação de casos e planos de estudo",
+          "objective": "Converter o plano de estudo confirmado em um plano revisável, com material permitido e decisão com dono",
+          "workflow": [
+            "Classificar o caso entre os sete ou declarar que nenhum serve e propor o mais próximo",
+            "Escrever o propósito a partir do plano de estudo confirmado e definir público, resultado observável e quem decide",
+            "Dividir o material em carregáveis, lacunas a pesquisar e excluídos, citando a política por item",
+            "Selecionar o papel baseado em fontes e declarar seu limite",
+            "Mapear o plano aos cinco passos da oficina: construir, auditar, pesquisar, decidir suficiência e ativar papel",
+            "Nomear a primeira evidência e o revisor que a verifica"
+          ],
+          "guardrails": [
+            "Não inventar fontes, anexos nem capacidades do NotebookLM que não estejam documentadas",
+            "Não recomendar o envio de material privado ou sem direitos: a exclusão é citada como política, não como opinião",
+            "Sem material com direitos: parar o plano, declarar coverage_gap e nomear o risco operacional",
+            "Não ocupar o lugar de quem toma a decisão final: o plano a prepara, não a aprova"
+          ],
+          "output": [
+            "Caso classificado",
+            "Propósito, público, resultado observável e quem decide",
+            "Fontes carregáveis, lacunas a pesquisar e excluídos com a política citada",
+            "Papel baseado em fontes com seu limite",
+            "Plano mapeado aos cinco passos da oficina, pronto para revisão",
+            "Primeira evidência e revisor designado"
+          ],
+          "dod": "O plano entrega caso, propósito, resultado observável, as três listas de material com a política citada por exclusão, o papel com seu limite, os cinco passos, a primeira evidência e seu revisor.",
+          "edge_cases": [
+            "Caso que não cabe nos sete: declarar e propor o mais próximo, sem forçar o rótulo",
+            "Todo o material sem direitos claros: coverage_gap com o risco operacional nomeado, não um plano degradado",
+            "Ninguém designado para revisar: pedir o revisor antes de dar o plano por entregue"
+          ],
+          "constraints": [
             [
               "proposito",
-              "derivado do encargo confirmado com a frase «Este Notebook existe para…»"
+              "derivado do plano de estudo confirmado com a frase «Este Notebook existe para…»"
             ],
             [
               "papel",
@@ -585,55 +1013,32 @@
             ],
             [
               "revisao",
-              "pré-plano legível e verificável por quem não o escreveu"
+              "plano legível e verificável por quem não o escreveu"
             ],
             [
               "bloqueio",
               "sem material com direitos, coverage_gap e risco operacional declarado"
             ]
           ],
-          "workflow": [
-            "Classificar o caso entre os sete ou declarar que nenhum serve e propor o mais próximo",
-            "Escrever o propósito a partir do encargo confirmado e definir público, resultado observável e quem decide",
-            "Dividir o material em carregáveis, lacunas a pesquisar e excluídos, citando a política por item",
-            "Selecionar o papel baseado em fontes e declarar seu limite",
-            "Mapear o plano aos cinco passos da oficina: construir, auditar, pesquisar, decidir suficiência e ativar papel",
-            "Nomear a primeira evidência e o revisor que a verifica"
-          ],
-          "guardrails": [
-            "Não inventar fontes, anexos nem capacidades do NotebookLM que não estejam documentadas",
-            "Não recomendar o envio de material privado ou sem direitos: a exclusão é citada como política, não como opinião",
-            "Sem material com direitos: parar o pré-plano, declarar coverage_gap e nomear o risco operacional",
-            "Não ocupar o lugar de quem toma a decisão final: o pré-plano a prepara, não a aprova"
-          ],
-          "output": [
-            "Caso classificado",
-            "Propósito, público, resultado observável e quem decide",
-            "Fontes carregáveis, lacunas a pesquisar e excluídos com a política citada",
-            "Papel baseado em fontes com seu limite",
-            "Plano mapeado aos cinco passos da oficina, pronto para revisão",
-            "Primeira evidência e revisor designado"
-          ],
-          "dod": "O pré-planejamento entrega caso, propósito, resultado observável, as três listas de material com a política citada por exclusão, o papel com seu limite, os cinco passos, a primeira evidência e seu revisor.",
-          "edge_cases": [
-            "Caso que não cabe nos sete: declarar e propor o mais próximo, sem forçar o rótulo",
-            "Todo o material sem direitos claros: coverage_gap com o risco operacional nomeado, não um plano degradado",
-            "Ninguém designado para revisar: pedir o revisor antes de dar o pré-plano por entregue"
+          "frameworks": [
+            "Design reverso · resultado, evidência e passos",
+            "MECE · sem sobreposições nem lacunas",
+            "Definition of Done · conclusão observável"
           ]
         },
         "why_it_works": {
           "acceptance_criteria": [
             "Cada item candidato fica em uma única lista e cada exclusão cita a política que a sustenta",
             "O papel recomendado vem com uma frase de limite dizendo o que não fará",
-            "Quem não escreveu o pré-plano consegue lê-lo e dizer se cada peça está presente ou falta"
+            "Quem não escreveu o plano consegue lê-lo e dizer se cada peça está presente ou falta"
           ],
           "edge_cases": [
             "Material com direitos duvidosos: exclui-se e declara-se a dúvida, em vez de presumir permissão",
-            "Zero material com direitos: o pré-plano para com coverage_gap e risco operacional declarado"
+            "Zero material com direitos: o plano para com coverage_gap e risco operacional declarado"
           ],
           "tradeoffs": [
             "Aplicar a exclusão como política freia o começo em troca de nunca carregar material que depois precise ser retirado",
-            "Este turno abre mão do critério caso a caso de quem colou o material, que a célula individual mantém: aqui a razão precisa citar a política da equipe para que a exclusão seja verificável por terceiro. A definição de concluído original prometia que o pré-plano «permite abrir o NotebookLM e iniciar a prática»: isso acontece fora do turno, então aqui se verificam as peças entregues — listas de material com política citada, papel com limite, cinco passos, primeira evidência e seu revisor"
+            "Este turno abre mão do critério caso a caso de quem colou o material, que a célula individual mantém: aqui a razão precisa citar a política da equipe para que a exclusão seja verificável por terceiro. A definição de concluído original prometia que o plano «permite abrir o NotebookLM e iniciar a prática»: isso acontece fora do turno, então aqui se verificam as peças entregues — listas de material com política citada, papel com limite, cinco passos, primeira evidência e seu revisor"
           ],
           "assumptions": [
             "Existe uma política de privacidade e direitos aplicável e um papel com autoridade para a decisão final"
@@ -661,13 +1066,108 @@
             "source": "https://support.google.com/notebooklm/answer/16215270?hl=es"
           },
           {
-            "claim": "Tratar a exclusão por privacidade ou direitos como política citável e exigir revisor diferente de quem escreve o pré-plano são políticas internas para Notebooks compartilhados.",
+            "claim": "Tratar a exclusão por privacidade ou direitos como política citável e exigir revisor diferente de quem escreve o plano são políticas internas para Notebooks compartilhados.",
             "source": "method_internal"
           }
-        ]
+        ],
+        "inputs": [
+          {
+            "key": "team",
+            "label": "EQUIPE",
+            "help": "grupo participante",
+            "example": "equipe de operações",
+            "required": true,
+            "type": "text",
+            "source": "user",
+            "demo_value": "equipe piloto de operações"
+          },
+          {
+            "key": "study_plan",
+            "label": "PLANO DE ESTUDO",
+            "help": "plano confirmado que define propósito, escopo e evidência",
+            "example": "aprender a verificar respostas de IA",
+            "required": true,
+            "type": "text",
+            "source": "previous_output",
+            "demo_value": "artefato sintético da etapa anterior: ainda falta demonstrar transferência para um segundo contexto"
+          },
+          {
+            "key": "materials",
+            "label": "MATERIAL",
+            "help": "insumos que pode usar",
+            "example": "notas e três fontes",
+            "required": true,
+            "type": "long_text",
+            "source": "user",
+            "demo_value": "dossiê sintético Demo: guia do método, registro de prática e critérios de revisão"
+          },
+          {
+            "key": "brain_dump",
+            "label": "NOTAS INICIAIS",
+            "help": "ideias ou ditado ainda sem organizar",
+            "example": "quero aprender IA para melhorar…",
+            "required": true,
+            "type": "long_text",
+            "source": "user",
+            "demo_value": "quero aprender IA para melhorar…"
+          }
+        ],
+        "parameters": [
+          {
+            "key": "length",
+            "label": "EXTENSÃO",
+            "default": "concisa",
+            "choices": [
+              "concisa",
+              "média"
+            ]
+          },
+          {
+            "key": "structure",
+            "label": "ESTRUTURA",
+            "default": "2 parágrafos + bullets-chave",
+            "choices": [
+              "2 parágrafos + bullets-chave",
+              "tabela breve"
+            ]
+          },
+          {
+            "key": "tone",
+            "label": "TOM",
+            "default": "executivo e operacional",
+            "choices": [
+              "executivo e operacional",
+              "facilitador"
+            ]
+          },
+          {
+            "key": "depth",
+            "label": "PROFUNDIDADE",
+            "default": "prática",
+            "choices": [
+              "prática",
+              "profunda"
+            ]
+          }
+        ],
+        "optional_clauses": []
       }
     }
   },
   "self_hash_model": "sha256(sorted-json-without-self_sha256)",
-  "self_sha256": "58da67697f6d26097ac68700466b799ce5042f3c37a605b63abce0851653bff0"
+  "self_sha256": "6e950c77454aa29d1c7f4c848ea094ee79aade31ccb124402f45f2c2a9de4380",
+  "flow": {
+    "route": "workbook",
+    "order": 3,
+    "previous": "B2",
+    "next": "W01",
+    "branches": [],
+    "consumes": [
+      "PLAN_DE_ESTUDIO"
+    ],
+    "produces": "PLAN_DE_NOTEBOOKLM",
+    "external_gate": false,
+    "loop_to": null,
+    "standalone": true
+  }
 }

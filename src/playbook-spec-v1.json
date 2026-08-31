@@ -267,7 +267,7 @@
           "id": "method",
           "icon": "search",
           "title": "Investigación profunda con IA",
-          "lead": "La investigación comienza por el encargo, no por la herramienta.",
+          "lead": "La investigación comienza por el plan, no por la herramienta.",
           "items": [
             "Declara propósito, alcance, tensiones y criterios.",
             "Prioriza fuentes primarias y diversidad real.",
@@ -302,7 +302,7 @@
           "title": "Herramientas del método",
           "lead": "Elige la mínima combinación que permita investigar, practicar y verificar.",
           "items": [
-            "Una IA conversacional para estructurar el encargo.",
+            "Una IA conversacional para estructurar el plan de investigación.",
             "NotebookLM para trabajar con una base de fuentes.",
             "La skill abierta para repetir el workflow con guardrails."
           ]
@@ -364,14 +364,14 @@
           "title": "Glosario esencial",
           "lead": "Diez conceptos para hablar el mismo idioma.",
           "items": [
-            "Blueprint · encargo verificable de investigación.",
+            "Plan de investigación · preguntas, fuentes y criterios verificables.",
             "BoK · mapa de conocimiento y fuentes.",
             "Aprehender · recuperar y aplicar sin dependencia.",
             "Triangulación · contraste de evidencia independiente.",
             "Suficiencia · evidencia adecuada al propósito y riesgo.",
             "Teach-back · explicar para revelar comprensión.",
             "Skill · instrucciones y recursos reutilizables para una capacidad.",
-            "Prompt · encargo ejecutable para una IA.",
+            "Prompt · instrucción ejecutable para una IA.",
             "Fuente primaria · evidencia cercana al hecho o autoridad.",
             "coverage_gap · vacío declarado que impide afirmar cierre."
           ]
@@ -500,7 +500,7 @@
           "id": "method",
           "icon": "search",
           "title": "Deep research with AI",
-          "lead": "Research begins with the assignment, not the tool.",
+          "lead": "Research begins with the plan, not the tool.",
           "items": [
             "Declare purpose, scope, tensions and criteria.",
             "Prioritise primary sources and real diversity.",
@@ -535,7 +535,7 @@
           "title": "Method tools",
           "lead": "Choose the smallest combination that supports research, practice and verification.",
           "items": [
-            "A conversational AI to structure the assignment.",
+            "A conversational AI to structure the research plan.",
             "NotebookLM for working with a source base.",
             "The open skill to repeat the workflow with guardrails."
           ]
@@ -597,14 +597,14 @@
           "title": "Essential glossary",
           "lead": "Ten concepts for a shared language.",
           "items": [
-            "Blueprint · a verifiable research assignment.",
+            "Research plan · verifiable questions, sources and criteria.",
             "BoK · a map of knowledge and sources.",
             "Apprehend · retrieve and apply without dependency.",
             "Triangulation · contrast independent evidence.",
             "Sufficiency · evidence adequate to purpose and risk.",
             "Teach-back · explain to reveal understanding.",
             "Skill · reusable instructions and resources for a capability.",
-            "Prompt · an executable assignment for AI.",
+            "Prompt · an executable instruction for AI.",
             "Primary source · evidence close to the fact or authority.",
             "coverage_gap · a declared gap that prevents closure."
           ]
@@ -733,7 +733,7 @@
           "id": "method",
           "icon": "search",
           "title": "Pesquisa profunda com IA",
-          "lead": "A pesquisa começa pelo encargo, não pela ferramenta.",
+          "lead": "A pesquisa começa pelo plano, não pela ferramenta.",
           "items": [
             "Declare propósito, escopo, tensões e critérios.",
             "Priorize fontes primárias e diversidade real.",
@@ -768,7 +768,7 @@
           "title": "Ferramentas do método",
           "lead": "Escolha a menor combinação que permita pesquisar, praticar e verificar.",
           "items": [
-            "Uma IA conversacional para estruturar o encargo.",
+            "Uma IA conversacional para estruturar o plano de pesquisa.",
             "NotebookLM para trabalhar com uma base de fontes.",
             "A skill aberta para repetir o workflow com guardrails."
           ]
@@ -830,14 +830,14 @@
           "title": "Glossário essencial",
           "lead": "Dez conceitos para falar o mesmo idioma.",
           "items": [
-            "Blueprint · encargo verificável de pesquisa.",
+            "Plano de pesquisa · perguntas, fontes e critérios verificáveis.",
             "BoK · mapa de conhecimento e fontes.",
             "Apreender · recuperar e aplicar sem dependência.",
             "Triangulação · contraste de evidência independente.",
             "Suficiência · evidência adequada ao propósito e risco.",
             "Teach-back · explicar para revelar compreensão.",
             "Skill · instruções e recursos reutilizáveis para uma capacidade.",
-            "Prompt · encargo executável para uma IA.",
+            "Prompt · instrução executável para uma IA.",
             "Fonte primária · evidência próxima do fato ou autoridade.",
             "coverage_gap · lacuna declarada que impede o fechamento."
           ]
@@ -862,9 +862,9 @@
       "id": "01",
       "slug": "01-research-blueprint.md",
       "labels": {
-        "es": "Blueprint de investigación",
-        "en": "Research blueprint",
-        "pt": "Blueprint de pesquisa"
+        "es": "Plan inicial de investigación",
+        "en": "Initial research plan",
+        "pt": "Plano inicial de pesquisa"
       }
     },
     {

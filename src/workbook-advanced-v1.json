@@ -50,7 +50,7 @@
           {"key":"natural","level":"Nivel 1","name":"Directo","description":"Una instrucción clara, lista para conversar y ajustar."},
           {"key":"parameters","level":"Nivel 2","name":"Estructurado","description":"Explicita entradas, opciones, flujo y resultado esperado."},
           {"key":"spec","level":"Nivel 3","name":"Especificado","description":"Añade contrato, límites, validación y definición de terminado."},
-          {"key":"pair","level":"Nivel 4","name":"Orquestado","description":"Separa instrucciones de sistema y encargo del usuario para reutilizar."}
+          {"key":"pair","level":"Nivel 4","name":"Orquestado","description":"Separa instrucciones de sistema y solicitud del usuario para reutilizar."}
         ]
       },
       "use_cases_title": "Elige un propósito",
@@ -100,7 +100,7 @@
           {"key":"natural","level":"Level 1","name":"Direct","description":"A clear instruction, ready to discuss and refine."},
           {"key":"parameters","level":"Level 2","name":"Structured","description":"Makes inputs, options, flow and expected result explicit."},
           {"key":"spec","level":"Level 3","name":"Specified","description":"Adds contract, boundaries, verification and definition of done."},
-          {"key":"pair","level":"Level 4","name":"Orchestrated","description":"Separates system instructions from the user assignment for reuse."}
+          {"key":"pair","level":"Level 4","name":"Orchestrated","description":"Separates system instructions from the user request for reuse."}
         ]
       },
       "use_cases_title": "Choose a purpose",

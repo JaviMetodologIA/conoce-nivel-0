@@ -1,5 +1,5 @@
 {
-  "schema_version": "prompt-intent-contract-v1",
+  "schema_version": "prompt-intent-contract-v2",
   "intent_id": "07",
   "surface": "library",
   "phase": "Aprehender",
@@ -21,29 +21,11 @@
         "when": "quieres convertir una colección de documentos en un asistente en el que puedas confiar.",
         "example": "Notebook para preparar propuestas de IA con evidencia pública.",
         "evidence": "diagnóstico ejecutivo, matriz hallazgo, evidencia, riesgo y corrección, resultado de tres pruebas adversariales y configuración recomendada como insumo.",
-        "prompt": "Audita este Notebook contra mi propósito [PROPÓSITO] para [USUARIO]. Revisa el contenedor: cobertura, autoridad, vigencia, contradicciones, privacidad, derechos y límites de cita. Entrega diagnóstico ejecutivo y matriz hallazgo | evidencia | riesgo | corrección. Con material personal o derechos dudosos, retira por defecto; redacta o aísla un fragmento suelto y di cuál aplicaste. Tres pruebas adversariales —fuera de base, dato inventado, mi privacidad— aprueban solo si declara el límite. Propón instrucción, límites, prompts de inicio para lo que [USUARIO] pregunta primero y tareas prohibidas: configuración insumo, no la final. Sin [PROPÓSITO] declarado, detente y pídelo. No redecidas relevancia por fuente ni des veredicto de suficiencia. No inventes fuentes ni certeza.",
+        "prompt": "Audita este Notebook contra mi propósito <PROPÓSITO> para <USUARIO>. Revisa el contenedor: cobertura, autoridad, vigencia, contradicciones, privacidad, derechos y límites de cita. Entrega diagnóstico ejecutivo y matriz hallazgo | evidencia | riesgo | corrección. Con material personal o derechos dudosos, retira por defecto; redacta o aísla un fragmento suelto y di cuál aplicaste. Tres pruebas adversariales —fuera de base, dato inventado, mi privacidad— aprueban solo si declara el límite. Propón instrucción, límites, prompts de inicio para lo que <USUARIO> pregunta primero y tareas prohibidas: configuración insumo, no la final. Sin <PROPÓSITO> declarado, detente y pídelo. No redecidas relevancia por fuente ni des veredicto de suficiencia. No inventes fuentes ni certeza.",
         "level_spec": {
           "role": "Auditor del contenedor que prueba el asistente antes de recomendar su configuración",
           "spec_role": "Especialista en aprendizaje e investigación basada en evidencia",
           "objective": "Diagnosticar el Notebook como contenedor y proponer una configuración de asistente probada contra tres ataques",
-          "parameters": [
-            [
-              "unidad",
-              "el contenedor y su comportamiento, no la relevancia de cada fuente"
-            ],
-            [
-              "pruebas_adversariales",
-              "tres: pregunta fuera de la base, dato inventado plausible y petición que roza la privacidad"
-            ],
-            [
-              "criterio_de_aprobación",
-              "la prueba aprueba solo si el asistente declara el límite en vez de responder"
-            ],
-            [
-              "privacidad",
-              "retirar por defecto; redactar o aislar solo cuando el excedente es un fragmento, y decir cuál se aplicó"
-            ]
-          ],
           "workflow": [
             "Registrar el propósito declarado del Notebook y quién lo va a usar",
             "Revisar el contenedor en cobertura, autoridad, vigencia, contradicciones, privacidad, derechos y límites de cita",
@@ -66,6 +48,29 @@
             "Notebook sin propósito declarado: detener la auditoría y pedirlo",
             "Fuente con derechos dudosos: retirar por defecto",
             "Material personal en un solo fragmento: redactar o aislar y decir cuál se aplicó"
+          ],
+          "constraints": [
+            [
+              "unidad",
+              "el contenedor y su comportamiento, no la relevancia de cada fuente"
+            ],
+            [
+              "pruebas_adversariales",
+              "tres: pregunta fuera de la base, dato inventado plausible y petición que roza la privacidad"
+            ],
+            [
+              "criterio_de_aprobación",
+              "la prueba aprueba solo si el asistente declara el límite en vez de responder"
+            ],
+            [
+              "privacidad",
+              "retirar por defecto; redactar o aislar solo cuando el excedente es un fragmento, y decir cuál se aplicó"
+            ]
+          ],
+          "frameworks": [
+            "Jobs to Be Done · problema, usuario y resultado",
+            "Red teaming · busca fallos antes de decidir",
+            "Definition of Done · cierre observable"
           ]
         },
         "why_it_works": {
@@ -105,7 +110,68 @@
             "claim": "Retirar por defecto ante derechos dudosos y entregar la configuración como insumo y no como instrucción final son reglas internas del método.",
             "source": "method_internal"
           }
-        ]
+        ],
+        "inputs": [
+          {
+            "key": "purpose",
+            "label": "PROPÓSITO",
+            "help": "para qué necesitas el resultado",
+            "example": "repetir una práctica útil",
+            "required": true,
+            "type": "text",
+            "source": "user",
+            "demo_value": "crear una práctica verificable que pueda repetir y explicar"
+          },
+          {
+            "key": "user",
+            "label": "USUARIO",
+            "help": "persona que operará la solución",
+            "example": "líder del piloto",
+            "required": true,
+            "type": "text",
+            "source": "user",
+            "demo_value": "líder del piloto"
+          }
+        ],
+        "parameters": [
+          {
+            "key": "length",
+            "label": "LONGITUD",
+            "default": "concisa",
+            "choices": [
+              "concisa",
+              "media"
+            ]
+          },
+          {
+            "key": "structure",
+            "label": "ESTRUCTURA",
+            "default": "2 párrafos + bullets clave",
+            "choices": [
+              "2 párrafos + bullets clave",
+              "tabla breve"
+            ]
+          },
+          {
+            "key": "tone",
+            "label": "TONO",
+            "default": "claro y personal",
+            "choices": [
+              "claro y personal",
+              "didáctico"
+            ]
+          },
+          {
+            "key": "depth",
+            "label": "PROFUNDIDAD",
+            "default": "práctica",
+            "choices": [
+              "práctica",
+              "profunda"
+            ]
+          }
+        ],
+        "optional_clauses": []
       },
       "empresa": {
         "title": "Auditoría del Notebook del equipo",
@@ -113,29 +179,11 @@
         "when": "varios roles van a consultar la misma base y nadie fijó qué puede y qué no puede responder.",
         "example": "Notebook compartido para preparar propuestas de IA con evidencia pública.",
         "evidence": "diagnóstico ejecutivo, matriz hallazgo, evidencia, riesgo y corrección, pruebas adversariales, tareas prohibidas y configuración recomendada con responsable por corrección.",
-        "prompt": "Audita este Notebook contra el propósito [PROPÓSITO] de [EQUIPO]. Revisa el contenedor: cobertura, autoridad, vigencia, contradicciones, privacidad, derechos y límites de cita, con el riesgo operativo por hallazgo. Entrega diagnóstico ejecutivo y matriz hallazgo | evidencia | riesgo | corrección | responsable. Con derechos dudosos o material personal, retira por defecto; redacta o aísla un fragmento y di cuál. Tres pruebas adversariales —fuera de base, dato inventado, dato de cliente— aprueban solo si declara el límite. Propón instrucción, límites, prompts de inicio por rol de [EQUIPO] y tareas prohibidas: configuración insumo para revisión. Sin [PROPÓSITO] acordado, detente. No redecidas relevancia por fuente ni des veredicto de suficiencia. No inventes fuentes ni certeza.",
+        "prompt": "Audita este Notebook contra el propósito <PROPÓSITO> de <EQUIPO>. Revisa el contenedor: cobertura, autoridad, vigencia, contradicciones, privacidad, derechos y límites de cita, con el riesgo operativo por hallazgo. Entrega diagnóstico ejecutivo y matriz hallazgo | evidencia | riesgo | corrección | responsable. Con derechos dudosos o material personal, retira por defecto; redacta o aísla un fragmento y di cuál. Tres pruebas adversariales —fuera de base, dato inventado, dato de cliente— aprueban solo si declara el límite. Propón instrucción, límites, prompts de inicio por rol de <EQUIPO> y tareas prohibidas: configuración insumo para revisión. Sin <PROPÓSITO> acordado, detente. No redecidas relevancia por fuente ni des veredicto de suficiencia. No inventes fuentes ni certeza.",
         "level_spec": {
           "role": "Auditor del contenedor compartido que deja cada corrección con responsable",
           "spec_role": "Especialista en aprendizaje e investigación basada en evidencia",
           "objective": "Diagnosticar el Notebook del equipo y entregar una configuración probada, con responsable y lista para revisión",
-          "parameters": [
-            [
-              "unidad",
-              "el contenedor compartido y su comportamiento ante varios roles"
-            ],
-            [
-              "pruebas_adversariales",
-              "tres: pregunta fuera de la base, dato inventado plausible y petición que expone datos de un cliente"
-            ],
-            [
-              "criterio_de_aprobación",
-              "la prueba aprueba solo si el asistente declara el límite en vez de responder"
-            ],
-            [
-              "gobernanza",
-              "cada corrección lleva responsable y las tareas prohibidas las ratifica un responsable"
-            ]
-          ],
           "workflow": [
             "Registrar el propósito acordado, el equipo y los roles que consultarán la base",
             "Revisar el contenedor y nombrar el riesgo operativo de cada hallazgo",
@@ -158,6 +206,29 @@
             "Propósito no acordado entre roles: detener la auditoría y pedirlo",
             "Rol sin prompts de inicio propios: declararlo como vacío en vez de reutilizar los de otro rol",
             "Dato de cliente en un fragmento: redactar o aislar y registrar el riesgo"
+          ],
+          "constraints": [
+            [
+              "unidad",
+              "el contenedor compartido y su comportamiento ante varios roles"
+            ],
+            [
+              "pruebas_adversariales",
+              "tres: pregunta fuera de la base, dato inventado plausible y petición que expone datos de un cliente"
+            ],
+            [
+              "criterio_de_aprobación",
+              "la prueba aprueba solo si el asistente declara el límite en vez de responder"
+            ],
+            [
+              "gobernanza",
+              "cada corrección lleva responsable y las tareas prohibidas las ratifica un responsable"
+            ]
+          ],
+          "frameworks": [
+            "Jobs to Be Done · problema, usuario y resultado",
+            "Red teaming · busca fallos antes de decidir",
+            "Definition of Done · cierre observable"
           ]
         },
         "why_it_works": {
@@ -201,7 +272,68 @@
             "claim": "Exigir responsable por corrección, ratificación de las tareas prohibidas y retiro por defecto ante derechos dudosos son políticas internas para Notebooks compartidos.",
             "source": "method_internal"
           }
-        ]
+        ],
+        "inputs": [
+          {
+            "key": "purpose",
+            "label": "PROPÓSITO",
+            "help": "para qué necesitas el resultado",
+            "example": "repetir una práctica útil",
+            "required": true,
+            "type": "text",
+            "source": "user",
+            "demo_value": "probar una forma de trabajo compartida, verificable y repetible"
+          },
+          {
+            "key": "team",
+            "label": "EQUIPO",
+            "help": "grupo que participa",
+            "example": "equipo de operaciones",
+            "required": true,
+            "type": "text",
+            "source": "user",
+            "demo_value": "equipo piloto de operaciones"
+          }
+        ],
+        "parameters": [
+          {
+            "key": "length",
+            "label": "LONGITUD",
+            "default": "concisa",
+            "choices": [
+              "concisa",
+              "media"
+            ]
+          },
+          {
+            "key": "structure",
+            "label": "ESTRUCTURA",
+            "default": "2 párrafos + bullets clave",
+            "choices": [
+              "2 párrafos + bullets clave",
+              "tabla breve"
+            ]
+          },
+          {
+            "key": "tone",
+            "label": "TONO",
+            "default": "ejecutivo y operativo",
+            "choices": [
+              "ejecutivo y operativo",
+              "facilitador"
+            ]
+          },
+          {
+            "key": "depth",
+            "label": "PROFUNDIDAD",
+            "default": "práctica",
+            "choices": [
+              "práctica",
+              "profunda"
+            ]
+          }
+        ],
+        "optional_clauses": []
       }
     },
     "en": {
@@ -211,29 +343,11 @@
         "when": "you want a folder of documents to become an assistant you can actually trust.",
         "example": "Notebook for preparing AI proposals from public evidence.",
         "evidence": "executive diagnosis, finding, evidence, risk and correction matrix, results of three adversarial tests and a recommended configuration offered as input.",
-        "prompt": "Audit this Notebook against my purpose [PURPOSE] for [USER]. Review the container: coverage, authority, freshness, contradictions, privacy, rights, citation limits. Deliver executive diagnosis and matrix finding | evidence | risk | correction. With personal material or doubtful rights, remove by default; redact or isolate a lone fragment, say which. Three adversarial tests — outside base, invented datum, my privacy — pass only if it states the limit. Propose instruction, limits, starter prompts for what [USER] asks first, and forbidden tasks: input configuration, not final. Undeclared [PURPOSE]: stop and ask me. Do not re-decide relevance per source or give a sufficiency verdict. Never invent sources or certainty.",
+        "prompt": "Audit this Notebook against my purpose <PURPOSE> for <USER>. Review the container: coverage, authority, freshness, contradictions, privacy, rights, citation limits. Deliver executive diagnosis and matrix finding | evidence | risk | correction. With personal material or doubtful rights, remove by default; redact or isolate a lone fragment, say which. Three adversarial tests — outside base, invented datum, my privacy — pass only if it states the limit. Propose instruction, limits, starter prompts for what <USER> asks first, and forbidden tasks: input configuration, not final. Undeclared <PURPOSE>: stop and ask me. Do not re-decide relevance per source or give a sufficiency verdict. Never invent sources or certainty.",
         "level_spec": {
           "role": "Container auditor who tests the assistant before recommending its configuration",
           "spec_role": "Specialist in evidence-grounded learning and research",
           "objective": "Diagnose the Notebook as a container and propose an assistant configuration tested against three attacks",
-          "parameters": [
-            [
-              "unit",
-              "the container and its behaviour, not the relevance of each source"
-            ],
-            [
-              "adversarial_tests",
-              "three: a question outside the base, a plausible invented datum and a request touching privacy"
-            ],
-            [
-              "pass_criterion",
-              "a test passes only if the assistant states the limit instead of answering"
-            ],
-            [
-              "privacy",
-              "remove by default; redact or isolate only when the excess is a fragment, and say which was applied"
-            ]
-          ],
           "workflow": [
             "Record the declared purpose of the Notebook and who will use it",
             "Review the container for coverage, authority, freshness, contradictions, privacy, rights and citation limits",
@@ -256,6 +370,29 @@
             "Notebook with no declared purpose: stop the audit and ask for it",
             "Source with doubtful rights: remove by default",
             "Personal material in a single fragment: redact or isolate and say which was applied"
+          ],
+          "constraints": [
+            [
+              "unit",
+              "the container and its behaviour, not the relevance of each source"
+            ],
+            [
+              "adversarial_tests",
+              "three: a question outside the base, a plausible invented datum and a request touching privacy"
+            ],
+            [
+              "pass_criterion",
+              "a test passes only if the assistant states the limit instead of answering"
+            ],
+            [
+              "privacy",
+              "remove by default; redact or isolate only when the excess is a fragment, and say which was applied"
+            ]
+          ],
+          "frameworks": [
+            "Jobs to Be Done · problem, user and outcome",
+            "Red teaming · find flaws before deciding",
+            "Definition of Done · observable completion"
           ]
         },
         "why_it_works": {
@@ -295,7 +432,68 @@
             "claim": "Removing by default under doubtful rights and shipping the configuration as input rather than as the final instruction are internal method rules.",
             "source": "method_internal"
           }
-        ]
+        ],
+        "inputs": [
+          {
+            "key": "purpose",
+            "label": "PURPOSE",
+            "help": "why you need the result",
+            "example": "repeat a useful practice",
+            "required": true,
+            "type": "text",
+            "source": "user",
+            "demo_value": "build a verifiable practice I can repeat and explain"
+          },
+          {
+            "key": "user",
+            "label": "USER",
+            "help": "person who will operate the solution",
+            "example": "pilot lead",
+            "required": true,
+            "type": "text",
+            "source": "user",
+            "demo_value": "pilot lead"
+          }
+        ],
+        "parameters": [
+          {
+            "key": "length",
+            "label": "LENGTH",
+            "default": "concise",
+            "choices": [
+              "concise",
+              "medium"
+            ]
+          },
+          {
+            "key": "structure",
+            "label": "STRUCTURE",
+            "default": "2 paragraphs + key bullets",
+            "choices": [
+              "2 paragraphs + key bullets",
+              "short table"
+            ]
+          },
+          {
+            "key": "tone",
+            "label": "TONE",
+            "default": "clear and personal",
+            "choices": [
+              "clear and personal",
+              "instructional"
+            ]
+          },
+          {
+            "key": "depth",
+            "label": "DEPTH",
+            "default": "practical",
+            "choices": [
+              "practical",
+              "deep"
+            ]
+          }
+        ],
+        "optional_clauses": []
       },
       "empresa": {
         "title": "Team Notebook audit",
@@ -303,29 +501,11 @@
         "when": "several roles will query the same base and nobody has set what it may and may not answer.",
         "example": "Shared Notebook for preparing AI proposals from public evidence.",
         "evidence": "executive diagnosis, finding, evidence, risk and correction matrix, adversarial tests, forbidden tasks and a recommended configuration with an accountable owner per correction.",
-        "prompt": "Audit this Notebook against [PURPOSE] for [TEAM]. Review the container: coverage, authority, freshness, contradictions, privacy, rights, citation limits, with operational risk per finding. Deliver executive diagnosis and matrix finding | evidence | risk | correction | accountable owner. Doubtful rights or personal material: remove by default; redact or isolate a fragment, say which. Three adversarial tests — outside base, invented datum, client data — pass only if it states the limit. Propose instruction, limits, starter prompts per [TEAM] role, forbidden tasks: configuration input for review. Unagreed [PURPOSE]: stop. Do not re-decide relevance per source or give a sufficiency verdict. Never invent sources or certainty.",
+        "prompt": "Audit this Notebook against <PURPOSE> for <TEAM>. Review the container: coverage, authority, freshness, contradictions, privacy, rights, citation limits, with operational risk per finding. Deliver executive diagnosis and matrix finding | evidence | risk | correction | accountable owner. Doubtful rights or personal material: remove by default; redact or isolate a fragment, say which. Three adversarial tests — outside base, invented datum, client data — pass only if it states the limit. Propose instruction, limits, starter prompts per <TEAM> role, forbidden tasks: configuration input for review. Unagreed <PURPOSE>: stop. Do not re-decide relevance per source or give a sufficiency verdict. Never invent sources or certainty.",
         "level_spec": {
           "role": "Shared-container auditor who leaves every correction owned",
           "spec_role": "Specialist in evidence-grounded learning and research",
           "objective": "Diagnose the team Notebook and deliver a tested configuration, owned and ready for review",
-          "parameters": [
-            [
-              "unit",
-              "the shared container and its behaviour across several roles"
-            ],
-            [
-              "adversarial_tests",
-              "three: a question outside the base, a plausible invented datum and a request exposing client data"
-            ],
-            [
-              "pass_criterion",
-              "a test passes only if the assistant states the limit instead of answering"
-            ],
-            [
-              "governance",
-              "every correction names an owner and the forbidden tasks are ratified by an accountable owner"
-            ]
-          ],
           "workflow": [
             "Record the agreed purpose, the team and the roles that will query the base",
             "Review the container and name the operational risk of each finding",
@@ -348,6 +528,29 @@
             "Purpose not agreed across roles: stop the audit and ask for it",
             "Role without starter prompts of its own: declare the gap instead of reusing another role’s",
             "Client datum inside a fragment: redact or isolate it and log the risk"
+          ],
+          "constraints": [
+            [
+              "unit",
+              "the shared container and its behaviour across several roles"
+            ],
+            [
+              "adversarial_tests",
+              "three: a question outside the base, a plausible invented datum and a request exposing client data"
+            ],
+            [
+              "pass_criterion",
+              "a test passes only if the assistant states the limit instead of answering"
+            ],
+            [
+              "governance",
+              "every correction names an owner and the forbidden tasks are ratified by an accountable owner"
+            ]
+          ],
+          "frameworks": [
+            "Jobs to Be Done · problem, user and outcome",
+            "Red teaming · find flaws before deciding",
+            "Definition of Done · observable completion"
           ]
         },
         "why_it_works": {
@@ -391,7 +594,68 @@
             "claim": "Requiring an owner per correction, ratification of forbidden tasks and default removal under doubtful rights are internal policies for shared Notebooks.",
             "source": "method_internal"
           }
-        ]
+        ],
+        "inputs": [
+          {
+            "key": "purpose",
+            "label": "PURPOSE",
+            "help": "why you need the result",
+            "example": "repeat a useful practice",
+            "required": true,
+            "type": "text",
+            "source": "user",
+            "demo_value": "test a shared, verifiable and repeatable way of working"
+          },
+          {
+            "key": "team",
+            "label": "TEAM",
+            "help": "group taking part",
+            "example": "operations team",
+            "required": true,
+            "type": "text",
+            "source": "user",
+            "demo_value": "operations pilot team"
+          }
+        ],
+        "parameters": [
+          {
+            "key": "length",
+            "label": "LENGTH",
+            "default": "concise",
+            "choices": [
+              "concise",
+              "medium"
+            ]
+          },
+          {
+            "key": "structure",
+            "label": "STRUCTURE",
+            "default": "2 paragraphs + key bullets",
+            "choices": [
+              "2 paragraphs + key bullets",
+              "short table"
+            ]
+          },
+          {
+            "key": "tone",
+            "label": "TONE",
+            "default": "executive and operational",
+            "choices": [
+              "executive and operational",
+              "facilitative"
+            ]
+          },
+          {
+            "key": "depth",
+            "label": "DEPTH",
+            "default": "practical",
+            "choices": [
+              "practical",
+              "deep"
+            ]
+          }
+        ],
+        "optional_clauses": []
       }
     },
     "pt": {
@@ -401,29 +665,11 @@
         "when": "você quer transformar uma coleção de documentos em um assistente em que possa confiar.",
         "example": "Notebook para preparar propostas de IA com evidência pública.",
         "evidence": "diagnóstico executivo, matriz achado, evidência, risco e correção, resultado de três testes adversariais e configuração recomendada como insumo.",
-        "prompt": "Audite este Notebook contra o meu propósito [PROPÓSITO] para [USUÁRIO]. Revise o contêiner: cobertura, autoridade, atualidade, contradições, privacidade, direitos e limites de citação. Entregue diagnóstico executivo e matriz achado | evidência | risco | correção. Com material pessoal ou direitos duvidosos, retire por padrão; redija ou isole um trecho solto e diga qual aplicou. Três testes adversariais — fora da base, dado inventado, a minha privacidade — passam só se declarar o limite. Proponha instrução, limites, prompts de início para o que [USUÁRIO] pergunta primeiro e tarefas proibidas: configuração insumo, não a final. Sem [PROPÓSITO] declarado, pare e peça-o. Não redecida relevância por fonte nem dê veredito de suficiência. Não invente fontes nem certeza.",
+        "prompt": "Audite este Notebook contra o meu propósito <PROPÓSITO> para <USUÁRIO>. Revise o contêiner: cobertura, autoridade, atualidade, contradições, privacidade, direitos e limites de citação. Entregue diagnóstico executivo e matriz achado | evidência | risco | correção. Com material pessoal ou direitos duvidosos, retire por padrão; redija ou isole um trecho solto e diga qual aplicou. Três testes adversariais — fora da base, dado inventado, a minha privacidade — passam só se declarar o limite. Proponha instrução, limites, prompts de início para o que <USUÁRIO> pergunta primeiro e tarefas proibidas: configuração insumo, não a final. Sem <PROPÓSITO> declarado, pare e peça-o. Não redecida relevância por fonte nem dê veredito de suficiência. Não invente fontes nem certeza.",
         "level_spec": {
           "role": "Auditor do contêiner que testa o assistente antes de recomendar a configuração",
           "spec_role": "Especialista em aprendizagem e pesquisa baseada em evidências",
           "objective": "Diagnosticar o Notebook como contêiner e propor uma configuração de assistente testada contra três ataques",
-          "parameters": [
-            [
-              "unidade",
-              "o contêiner e seu comportamento, não a relevância de cada fonte"
-            ],
-            [
-              "testes_adversariais",
-              "três: pergunta fora da base, dado inventado plausível e pedido que toca a privacidade"
-            ],
-            [
-              "critério_de_aprovação",
-              "o teste passa só se o assistente declarar o limite em vez de responder"
-            ],
-            [
-              "privacidade",
-              "retirar por padrão; redigir ou isolar só quando o excedente é um trecho, e dizer qual foi aplicado"
-            ]
-          ],
           "workflow": [
             "Registrar o propósito declarado do Notebook e quem vai usá-lo",
             "Revisar o contêiner em cobertura, autoridade, atualidade, contradições, privacidade, direitos e limites de citação",
@@ -446,6 +692,29 @@
             "Notebook sem propósito declarado: parar a auditoria e pedi-lo",
             "Fonte com direitos duvidosos: retirar por padrão",
             "Material pessoal em um único trecho: redigir ou isolar e dizer qual foi aplicado"
+          ],
+          "constraints": [
+            [
+              "unidade",
+              "o contêiner e seu comportamento, não a relevância de cada fonte"
+            ],
+            [
+              "testes_adversariais",
+              "três: pergunta fora da base, dado inventado plausível e pedido que toca a privacidade"
+            ],
+            [
+              "critério_de_aprovação",
+              "o teste passa só se o assistente declarar o limite em vez de responder"
+            ],
+            [
+              "privacidade",
+              "retirar por padrão; redigir ou isolar só quando o excedente é um trecho, e dizer qual foi aplicado"
+            ]
+          ],
+          "frameworks": [
+            "Jobs to Be Done · problema, usuário e resultado",
+            "Red teaming · encontre falhas antes de decidir",
+            "Definition of Done · conclusão observável"
           ]
         },
         "why_it_works": {
@@ -485,7 +754,68 @@
             "claim": "Retirar por padrão diante de direitos duvidosos e entregar a configuração como insumo, e não como instrução final, são regras internas do método.",
             "source": "method_internal"
           }
-        ]
+        ],
+        "inputs": [
+          {
+            "key": "purpose",
+            "label": "PROPÓSITO",
+            "help": "para que precisa do resultado",
+            "example": "repetir uma prática útil",
+            "required": true,
+            "type": "text",
+            "source": "user",
+            "demo_value": "criar uma prática verificável que eu consiga repetir e explicar"
+          },
+          {
+            "key": "user",
+            "label": "USUÁRIO",
+            "help": "pessoa que operará a solução",
+            "example": "líder do piloto",
+            "required": true,
+            "type": "text",
+            "source": "user",
+            "demo_value": "líder do piloto"
+          }
+        ],
+        "parameters": [
+          {
+            "key": "length",
+            "label": "EXTENSÃO",
+            "default": "concisa",
+            "choices": [
+              "concisa",
+              "média"
+            ]
+          },
+          {
+            "key": "structure",
+            "label": "ESTRUTURA",
+            "default": "2 parágrafos + bullets-chave",
+            "choices": [
+              "2 parágrafos + bullets-chave",
+              "tabela breve"
+            ]
+          },
+          {
+            "key": "tone",
+            "label": "TOM",
+            "default": "claro e pessoal",
+            "choices": [
+              "claro e pessoal",
+              "didático"
+            ]
+          },
+          {
+            "key": "depth",
+            "label": "PROFUNDIDADE",
+            "default": "prática",
+            "choices": [
+              "prática",
+              "profunda"
+            ]
+          }
+        ],
+        "optional_clauses": []
       },
       "empresa": {
         "title": "Auditoria do Notebook da equipe",
@@ -493,29 +823,11 @@
         "when": "vários papéis vão consultar a mesma base e ninguém definiu o que ela pode e não pode responder.",
         "example": "Notebook compartilhado para preparar propostas de IA com evidência pública.",
         "evidence": "diagnóstico executivo, matriz achado, evidência, risco e correção, testes adversariais, tarefas proibidas e configuração recomendada com responsável por correção.",
-        "prompt": "Audite este Notebook contra o propósito [PROPÓSITO] da [EQUIPE]. Revise o contêiner: cobertura, autoridade, atualidade, contradições, privacidade, direitos e limites de citação, com o risco operacional por achado. Entregue diagnóstico executivo e matriz achado | evidência | risco | correção | responsável. Com direitos duvidosos ou material pessoal, retire por padrão; redija ou isole um trecho e diga qual. Três testes adversariais — fora da base, dado inventado, dado de cliente — passam só se declarar o limite. Proponha instrução, limites, prompts de início por papel da [EQUIPE] e tarefas proibidas: configuração insumo para revisão. Sem [PROPÓSITO] acordado, pare. Não redecida relevância por fonte nem dê veredito de suficiência. Não invente fontes nem certeza.",
+        "prompt": "Audite este Notebook contra o propósito <PROPÓSITO> da <EQUIPE>. Revise o contêiner: cobertura, autoridade, atualidade, contradições, privacidade, direitos e limites de citação, com o risco operacional por achado. Entregue diagnóstico executivo e matriz achado | evidência | risco | correção | responsável. Com direitos duvidosos ou material pessoal, retire por padrão; redija ou isole um trecho e diga qual. Três testes adversariais — fora da base, dado inventado, dado de cliente — passam só se declarar o limite. Proponha instrução, limites, prompts de início por papel da <EQUIPE> e tarefas proibidas: configuração insumo para revisão. Sem <PROPÓSITO> acordado, pare. Não redecida relevância por fonte nem dê veredito de suficiência. Não invente fontes nem certeza.",
         "level_spec": {
           "role": "Auditor do contêiner compartilhado que deixa cada correção com responsável",
           "spec_role": "Especialista em aprendizagem e pesquisa baseada em evidências",
           "objective": "Diagnosticar o Notebook da equipe e entregar uma configuração testada, com responsável e pronta para revisão",
-          "parameters": [
-            [
-              "unidade",
-              "o contêiner compartilhado e seu comportamento diante de vários papéis"
-            ],
-            [
-              "testes_adversariais",
-              "três: pergunta fora da base, dado inventado plausível e pedido que expõe dados de um cliente"
-            ],
-            [
-              "critério_de_aprovação",
-              "o teste passa só se o assistente declarar o limite em vez de responder"
-            ],
-            [
-              "governança",
-              "cada correção leva responsável e as tarefas proibidas são ratificadas por um responsável"
-            ]
-          ],
           "workflow": [
             "Registrar o propósito acordado, a equipe e os papéis que consultarão a base",
             "Revisar o contêiner e nomear o risco operacional de cada achado",
@@ -538,6 +850,29 @@
             "Propósito não acordado entre papéis: parar a auditoria e pedi-lo",
             "Papel sem prompts de início próprios: declarar a lacuna em vez de reaproveitar os de outro papel",
             "Dado de cliente em um trecho: redigir ou isolar e registrar o risco"
+          ],
+          "constraints": [
+            [
+              "unidade",
+              "o contêiner compartilhado e seu comportamento diante de vários papéis"
+            ],
+            [
+              "testes_adversariais",
+              "três: pergunta fora da base, dado inventado plausível e pedido que expõe dados de um cliente"
+            ],
+            [
+              "critério_de_aprovação",
+              "o teste passa só se o assistente declarar o limite em vez de responder"
+            ],
+            [
+              "governança",
+              "cada correção leva responsável e as tarefas proibidas são ratificadas por um responsável"
+            ]
+          ],
+          "frameworks": [
+            "Jobs to Be Done · problema, usuário e resultado",
+            "Red teaming · encontre falhas antes de decidir",
+            "Definition of Done · conclusão observável"
           ]
         },
         "why_it_works": {
@@ -581,10 +916,88 @@
             "claim": "Exigir responsável por correção, ratificação das tarefas proibidas e retirada por padrão diante de direitos duvidosos são políticas internas para Notebooks compartilhados.",
             "source": "method_internal"
           }
-        ]
+        ],
+        "inputs": [
+          {
+            "key": "purpose",
+            "label": "PROPÓSITO",
+            "help": "para que precisa do resultado",
+            "example": "repetir uma prática útil",
+            "required": true,
+            "type": "text",
+            "source": "user",
+            "demo_value": "testar uma forma de trabalho compartilhada, verificável e repetível"
+          },
+          {
+            "key": "team",
+            "label": "EQUIPE",
+            "help": "grupo participante",
+            "example": "equipe de operações",
+            "required": true,
+            "type": "text",
+            "source": "user",
+            "demo_value": "equipe piloto de operações"
+          }
+        ],
+        "parameters": [
+          {
+            "key": "length",
+            "label": "EXTENSÃO",
+            "default": "concisa",
+            "choices": [
+              "concisa",
+              "média"
+            ]
+          },
+          {
+            "key": "structure",
+            "label": "ESTRUTURA",
+            "default": "2 parágrafos + bullets-chave",
+            "choices": [
+              "2 parágrafos + bullets-chave",
+              "tabela breve"
+            ]
+          },
+          {
+            "key": "tone",
+            "label": "TOM",
+            "default": "executivo e operacional",
+            "choices": [
+              "executivo e operacional",
+              "facilitador"
+            ]
+          },
+          {
+            "key": "depth",
+            "label": "PROFUNDIDADE",
+            "default": "prática",
+            "choices": [
+              "prática",
+              "profunda"
+            ]
+          }
+        ],
+        "optional_clauses": []
       }
     }
   },
   "self_hash_model": "sha256(sorted-json-without-self_sha256)",
-  "self_sha256": "b11bec539a07e1f679f7bb876cdac1050e7570312cd4af74ca7e4607cfc124ec"
+  "self_sha256": "9bb117c049802c52ea315f7f0971f4feca675ad0bad3eabe8e14ba4200ad0dd4",
+  "flow": {
+    "route": "library",
+    "order": 5,
+    "previous": "04",
+    "next": "02",
+    "branches": [
+      "M1"
+    ],
+    "consumes": [
+      "BASE_AUDITADA",
+      "VERIFICACION_CRUZADA"
+    ],
+    "produces": "MAPA_DE_CASOS",
+    "external_gate": false,
+    "loop_to": null,
+    "standalone": true
+  }
 }

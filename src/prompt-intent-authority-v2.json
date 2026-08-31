@@ -217,7 +217,7 @@
       "W03": {
         "intent": [
           "diagnostico",
-          "impacto"
+          "critico"
         ],
         "evidence": [
           "aceptacion",
@@ -251,7 +251,7 @@
         ],
         "evidence": [
           "editoriales",
-          "pieza"
+          "contenido final"
         ]
       },
       "W07": {
@@ -306,17 +306,17 @@
       },
       "B2": {
         "intent": [
-          "encargo",
+          "plan de estudio",
           "herramientas"
         ],
         "evidence": [
-          "brief",
+          "audiencia",
           "confirmacion"
         ]
       },
       "B3": {
         "intent": [
-          "preplanificacion",
+          "plan",
           "notebooklm"
         ],
         "evidence": [
@@ -489,7 +489,7 @@
       "W03": {
         "intent": [
           "diagnosis",
-          "highest-impact"
+          "critical"
         ],
         "evidence": [
           "acceptance",
@@ -523,7 +523,7 @@
         ],
         "evidence": [
           "editorial",
-          "final piece"
+          "final content"
         ]
       },
       "W07": {
@@ -578,17 +578,17 @@
       },
       "B2": {
         "intent": [
-          "assignment",
+          "study plan",
           "tools"
         ],
         "evidence": [
-          "brief",
+          "audience",
           "confirmation"
         ]
       },
       "B3": {
         "intent": [
-          "preplan",
+          "plan",
           "notebooklm"
         ],
         "evidence": [
@@ -795,7 +795,7 @@
         ],
         "evidence": [
           "editoriais",
-          "peca"
+          "conteudo final"
         ]
       },
       "W07": {
@@ -850,17 +850,17 @@
       },
       "B2": {
         "intent": [
-          "encargo",
+          "plano de estudo",
           "ferramentas"
         ],
         "evidence": [
-          "brief",
+          "publico",
           "confirmacao"
         ]
       },
       "B3": {
         "intent": [
-          "pre-planejamento",
+          "plano",
           "notebooklm"
         ],
         "evidence": [
@@ -871,5 +871,5 @@
     }
   },
   "self_hash_model": "sha256(sorted-json-without-self_sha256)",
-  "self_sha256": "9e43b4826ef76b63c9fa1cca25ca29a9fd02510f07149680d967e49d9f5b4b86"
+  "self_sha256": "fd8495b10414afccb8e6f26fff8e713cbe3a819429a16562a77c4093a4e8d0b4"
 }

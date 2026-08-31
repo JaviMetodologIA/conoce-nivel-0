@@ -1,0 +1,1241 @@
+{
+  "architecture": {
+    "candidate": {
+      "compiler": "scripts/build.py",
+      "entrypoints": [
+        "render_masterclass",
+        "render_workbook",
+        "render_playbook",
+        "render_prompts"
+      ],
+      "main_identity_typed": true,
+      "pipeline": "typed-module-renderer",
+      "renderer": "scripts/module_renderers.py"
+    },
+    "reference": {
+      "compiler": "scripts/build.py",
+      "entrypoints": [
+        "masterclass",
+        "workbook",
+        "playbook",
+        "prompt_library_page"
+      ],
+      "main_identity_typed": false,
+      "pipeline": "legacy-parallel"
+    },
+    "shared": {
+      "brand_shell": "scripts/brand.py",
+      "css": "src/site.css",
+      "runtime": "src/site.js",
+      "ui_primitives": "scripts/ui_primitives.py"
+    }
+  },
+  "architecture_verdict": "ACCEPTED_DEBT_LEGACY_REFERENCE",
+  "candidate_module": "trabajo-amplificado",
+  "definition_of_done": {
+    "code_identity_required": false,
+    "ref": "src/module-resource-definition-of-done-v1.json",
+    "required_parity": "semantic-visual-functional",
+    "self_sha256": "1044950780a9ad0044586de3e837137e7d02f0f8ea7f2d8ae9eb99d9c7e74876"
+  },
+  "inputs": {
+    "build_manifest_sha256": "d264b4416eb6e8093f17320055ef67509d9e7b56c1532e46bfcf546b453cf4b6",
+    "build_py_sha256": "e73cf885cd3f3190b983ef5aa2e198b4e84a85f76627b2867059ca59197b86cd",
+    "build_receipt_sha256": "2a4f2de8e7a632ca699b5177548de489d18dce98f2f540507f88ce69412323e6",
+    "css_sha256": "18ff9c52f9eb5af42b037bdd9a3b5240c5cab65eff246636a8e1a20369999046",
+    "renderer_sha256": "8dee15610e3d6e5ae00f6ca1ad7e9a17d95e5e6bca8c67004b86355902882f3c",
+    "runtime_sha256": "da20fc831a7c752df397d2b3d7c7ff6a7de9429e8b8f2c410284582ef95beb89"
+  },
+  "pairs": [
+    {
+      "audience": "persona",
+      "candidate": {
+        "bytes": 37613,
+        "current_resource": 3,
+        "main_identity": {
+          "data-audience": "persona",
+          "data-locale": "es",
+          "data-module-id": "module-03-trabajar-amplificado",
+          "data-module-order": "3",
+          "data-module-resource": "masterclass"
+        },
+        "markers": {
+          "deck-controls": 1,
+          "masterclass-player": 2,
+          "official-pdf-card": 1
+        },
+        "path": "dist/modulos/03-trabajo-amplificado/masterclass/index.html",
+        "sha256": "566a90b564181068d9b233130342bde4a200bbb933de90c30ac2789bdb8ee7b2",
+        "sibling_navigation": 1,
+        "unique_ids": true,
+        "visible_words": 1418
+      },
+      "locale": "es",
+      "reference": {
+        "bytes": 33137,
+        "current_resource": 2,
+        "main_identity": {
+          "data-audience": null,
+          "data-locale": null,
+          "data-module-id": null,
+          "data-module-order": null,
+          "data-module-resource": null
+        },
+        "markers": {
+          "deck-controls": 1,
+          "masterclass-player": 2,
+          "official-pdf-card": 1
+        },
+        "path": "dist/deck/index.html",
+        "sha256": "fa8f82fefd014e7a951503c139126eafaad9e597c75f560e21b23c62778ce899",
+        "sibling_navigation": 0,
+        "unique_ids": true,
+        "visible_words": 1326
+      },
+      "resource": "masterclass",
+      "semantic_markers_present": true,
+      "visible_density_ratio": 1.0694
+    },
+    {
+      "audience": "persona",
+      "candidate": {
+        "bytes": 35586,
+        "current_resource": 3,
+        "main_identity": {
+          "data-audience": "persona",
+          "data-locale": "es",
+          "data-module-id": "module-03-trabajar-amplificado",
+          "data-module-order": "3",
+          "data-module-resource": "workbook"
+        },
+        "markers": {
+          "data-consolidation-gate": 1,
+          "sheet-tabs": 1,
+          "workbook-hero-grid": 1
+        },
+        "path": "dist/modulos/03-trabajo-amplificado/workbook/index.html",
+        "sha256": "29c63d52c975a5c366f18e5c4c2f31137d87213b6d0d10ff0413420535ffe42c",
+        "sibling_navigation": 1,
+        "unique_ids": true,
+        "visible_words": 1257
+      },
+      "locale": "es",
+      "reference": {
+        "bytes": 795036,
+        "current_resource": 2,
+        "main_identity": {
+          "data-audience": null,
+          "data-locale": null,
+          "data-module-id": null,
+          "data-module-order": null,
+          "data-module-resource": null
+        },
+        "markers": {
+          "data-consolidation-gate": 1,
+          "sheet-tabs": 1,
+          "workbook-hero-grid": 1
+        },
+        "path": "dist/workbook/index.html",
+        "sha256": "ed1245d57e7ca887c8fd562b2b092d7097205d8103ccbdde1f0d250fb718ec8c",
+        "sibling_navigation": 0,
+        "unique_ids": true,
+        "visible_words": 35168
+      },
+      "resource": "workbook",
+      "semantic_markers_present": true,
+      "visible_density_ratio": 0.0357
+    },
+    {
+      "audience": "persona",
+      "candidate": {
+        "bytes": 35444,
+        "current_resource": 3,
+        "main_identity": {
+          "data-audience": "persona",
+          "data-locale": "es",
+          "data-module-id": "module-03-trabajar-amplificado",
+          "data-module-order": "3",
+          "data-module-resource": "playbook"
+        },
+        "markers": {
+          "playbook-content": 1,
+          "playbook-hero-grid": 1,
+          "playbook-toc": 1
+        },
+        "path": "dist/modulos/03-trabajo-amplificado/playbook/index.html",
+        "sha256": "2b3017df8e35927fe207669635ca0d3259562d6093a49c0207a7ef428f7a2005",
+        "sibling_navigation": 1,
+        "unique_ids": true,
+        "visible_words": 1437
+      },
+      "locale": "es",
+      "reference": {
+        "bytes": 36256,
+        "current_resource": 2,
+        "main_identity": {
+          "data-audience": null,
+          "data-locale": null,
+          "data-module-id": null,
+          "data-module-order": null,
+          "data-module-resource": null
+        },
+        "markers": {
+          "playbook-content": 1,
+          "playbook-hero-grid": 1,
+          "playbook-toc": 1
+        },
+        "path": "dist/playbook/index.html",
+        "sha256": "53b224fa7592b87b51d9c81c3fbd150f3bd51e099f8e6c8f3d5fa657b0a92241",
+        "sibling_navigation": 0,
+        "unique_ids": true,
+        "visible_words": 1213
+      },
+      "resource": "playbook",
+      "semantic_markers_present": true,
+      "visible_density_ratio": 1.1847
+    },
+    {
+      "audience": "persona",
+      "candidate": {
+        "bytes": 463139,
+        "current_resource": 3,
+        "main_identity": {
+          "data-audience": "persona",
+          "data-locale": "es",
+          "data-module-id": "module-03-trabajar-amplificado",
+          "data-module-order": "3",
+          "data-module-resource": "prompts"
+        },
+        "markers": {
+          "data-notebook-execution-guide": 1,
+          "data-prompt-format": 40,
+          "library-prompt-card": 20
+        },
+        "path": "dist/modulos/03-trabajo-amplificado/prompts/index.html",
+        "sha256": "8565ef609b4aff81d69be5dcaa6fcf87d68101b25b9c8c9392714d35b5b20ad9",
+        "sibling_navigation": 1,
+        "unique_ids": true,
+        "visible_words": 14117
+      },
+      "locale": "es",
+      "reference": {
+        "bytes": 831635,
+        "current_resource": 2,
+        "main_identity": {
+          "data-audience": null,
+          "data-locale": null,
+          "data-module-id": null,
+          "data-module-order": null,
+          "data-module-resource": null
+        },
+        "markers": {
+          "data-notebook-execution-guide": 1,
+          "data-prompt-format": 56,
+          "library-prompt-card": 28
+        },
+        "path": "dist/prompts/index.html",
+        "sha256": "04c4f68d279f2824e2dd9c61a9518e9d77f7b1dd449ea652cc386af87ab7838a",
+        "sibling_navigation": 0,
+        "unique_ids": true,
+        "visible_words": 35398
+      },
+      "resource": "prompts",
+      "semantic_markers_present": true,
+      "visible_density_ratio": 0.3988
+    },
+    {
+      "audience": "empresa",
+      "candidate": {
+        "bytes": 38016,
+        "current_resource": 3,
+        "main_identity": {
+          "data-audience": "empresa",
+          "data-locale": "es",
+          "data-module-id": "module-03-trabajar-amplificado",
+          "data-module-order": "3",
+          "data-module-resource": "masterclass"
+        },
+        "markers": {
+          "deck-controls": 1,
+          "masterclass-player": 2,
+          "official-pdf-card": 1
+        },
+        "path": "dist/empresa/modulos/03-trabajo-amplificado/masterclass/index.html",
+        "sha256": "342122a35289bad3b657fc3f68f6ebc1a05bf49d7fb6f4d0437b2eba58ddbe41",
+        "sibling_navigation": 1,
+        "unique_ids": true,
+        "visible_words": 1397
+      },
+      "locale": "es",
+      "reference": {
+        "bytes": 33377,
+        "current_resource": 2,
+        "main_identity": {
+          "data-audience": null,
+          "data-locale": null,
+          "data-module-id": null,
+          "data-module-order": null,
+          "data-module-resource": null
+        },
+        "markers": {
+          "deck-controls": 1,
+          "masterclass-player": 2,
+          "official-pdf-card": 1
+        },
+        "path": "dist/empresa/deck/index.html",
+        "sha256": "83c1cbb201895c65ac70d71333ddd8f0958c1c6f3dc082232a0e4c86954544ba",
+        "sibling_navigation": 0,
+        "unique_ids": true,
+        "visible_words": 1332
+      },
+      "resource": "masterclass",
+      "semantic_markers_present": true,
+      "visible_density_ratio": 1.0488
+    },
+    {
+      "audience": "empresa",
+      "candidate": {
+        "bytes": 36102,
+        "current_resource": 3,
+        "main_identity": {
+          "data-audience": "empresa",
+          "data-locale": "es",
+          "data-module-id": "module-03-trabajar-amplificado",
+          "data-module-order": "3",
+          "data-module-resource": "workbook"
+        },
+        "markers": {
+          "data-consolidation-gate": 1,
+          "sheet-tabs": 1,
+          "workbook-hero-grid": 1
+        },
+        "path": "dist/empresa/modulos/03-trabajo-amplificado/workbook/index.html",
+        "sha256": "c8bbc802678a4c64a021ad65cf49d73aa426721c1ee2953f24443fca77d1f52e",
+        "sibling_navigation": 1,
+        "unique_ids": true,
+        "visible_words": 1269
+      },
+      "locale": "es",
+      "reference": {
+        "bytes": 826505,
+        "current_resource": 2,
+        "main_identity": {
+          "data-audience": null,
+          "data-locale": null,
+          "data-module-id": null,
+          "data-module-order": null,
+          "data-module-resource": null
+        },
+        "markers": {
+          "data-consolidation-gate": 1,
+          "sheet-tabs": 1,
+          "workbook-hero-grid": 1
+        },
+        "path": "dist/empresa/workbook/index.html",
+        "sha256": "85a6a90a925131582ec4c4d8bf5ffa7fae0694f8fc982810e5188f5312720637",
+        "sibling_navigation": 0,
+        "unique_ids": true,
+        "visible_words": 36954
+      },
+      "resource": "workbook",
+      "semantic_markers_present": true,
+      "visible_density_ratio": 0.0343
+    },
+    {
+      "audience": "empresa",
+      "candidate": {
+        "bytes": 35949,
+        "current_resource": 3,
+        "main_identity": {
+          "data-audience": "empresa",
+          "data-locale": "es",
+          "data-module-id": "module-03-trabajar-amplificado",
+          "data-module-order": "3",
+          "data-module-resource": "playbook"
+        },
+        "markers": {
+          "playbook-content": 1,
+          "playbook-hero-grid": 1,
+          "playbook-toc": 1
+        },
+        "path": "dist/empresa/modulos/03-trabajo-amplificado/playbook/index.html",
+        "sha256": "4a52065c8fc23c7ac2afdab0f6249fa7d00a2be36bdd75eac32d941026ca61dd",
+        "sibling_navigation": 1,
+        "unique_ids": true,
+        "visible_words": 1421
+      },
+      "locale": "es",
+      "reference": {
+        "bytes": 36497,
+        "current_resource": 2,
+        "main_identity": {
+          "data-audience": null,
+          "data-locale": null,
+          "data-module-id": null,
+          "data-module-order": null,
+          "data-module-resource": null
+        },
+        "markers": {
+          "playbook-content": 1,
+          "playbook-hero-grid": 1,
+          "playbook-toc": 1
+        },
+        "path": "dist/empresa/playbook/index.html",
+        "sha256": "0a11b07be42fb63b0c2c4c333de950076270680983a6bf17f6237f60487845d3",
+        "sibling_navigation": 0,
+        "unique_ids": true,
+        "visible_words": 1205
+      },
+      "resource": "playbook",
+      "semantic_markers_present": true,
+      "visible_density_ratio": 1.1793
+    },
+    {
+      "audience": "empresa",
+      "candidate": {
+        "bytes": 469794,
+        "current_resource": 3,
+        "main_identity": {
+          "data-audience": "empresa",
+          "data-locale": "es",
+          "data-module-id": "module-03-trabajar-amplificado",
+          "data-module-order": "3",
+          "data-module-resource": "prompts"
+        },
+        "markers": {
+          "data-notebook-execution-guide": 1,
+          "data-prompt-format": 40,
+          "library-prompt-card": 20
+        },
+        "path": "dist/empresa/modulos/03-trabajo-amplificado/prompts/index.html",
+        "sha256": "facec2b780649a0055c03bdd668a0c78f2115ed1e80ef83bcb91edc7cf133169",
+        "sibling_navigation": 1,
+        "unique_ids": true,
+        "visible_words": 14254
+      },
+      "locale": "es",
+      "reference": {
+        "bytes": 852879,
+        "current_resource": 2,
+        "main_identity": {
+          "data-audience": null,
+          "data-locale": null,
+          "data-module-id": null,
+          "data-module-order": null,
+          "data-module-resource": null
+        },
+        "markers": {
+          "data-notebook-execution-guide": 1,
+          "data-prompt-format": 56,
+          "library-prompt-card": 28
+        },
+        "path": "dist/empresa/prompts/index.html",
+        "sha256": "12bf6db7cc2583692c2aa9107c6c9360cd728abe10d5d3b27798cb916b6ef1cd",
+        "sibling_navigation": 0,
+        "unique_ids": true,
+        "visible_words": 36669
+      },
+      "resource": "prompts",
+      "semantic_markers_present": true,
+      "visible_density_ratio": 0.3887
+    },
+    {
+      "audience": "persona",
+      "candidate": {
+        "bytes": 36741,
+        "current_resource": 3,
+        "main_identity": {
+          "data-audience": "persona",
+          "data-locale": "en",
+          "data-module-id": "module-03-trabajar-amplificado",
+          "data-module-order": "3",
+          "data-module-resource": "masterclass"
+        },
+        "markers": {
+          "deck-controls": 1,
+          "masterclass-player": 2,
+          "official-pdf-card": 1
+        },
+        "path": "dist/en/modules/03-amplified-work/masterclass/index.html",
+        "sha256": "ea3e6fd090b82bf9c34a8ef660d7ce6ba0adacfbd43e8efe3068ea11b22bc034",
+        "sibling_navigation": 1,
+        "unique_ids": true,
+        "visible_words": 1395
+      },
+      "locale": "en",
+      "reference": {
+        "bytes": 32527,
+        "current_resource": 2,
+        "main_identity": {
+          "data-audience": null,
+          "data-locale": null,
+          "data-module-id": null,
+          "data-module-order": null,
+          "data-module-resource": null
+        },
+        "markers": {
+          "deck-controls": 1,
+          "masterclass-player": 2,
+          "official-pdf-card": 1
+        },
+        "path": "dist/en/deck/index.html",
+        "sha256": "255efd9b6bb22869fa8dcd9f5739f6bf9dc5f4bf33f2752e4c86434a3d8094ca",
+        "sibling_navigation": 0,
+        "unique_ids": true,
+        "visible_words": 1268
+      },
+      "resource": "masterclass",
+      "semantic_markers_present": true,
+      "visible_density_ratio": 1.1002
+    },
+    {
+      "audience": "persona",
+      "candidate": {
+        "bytes": 35012,
+        "current_resource": 3,
+        "main_identity": {
+          "data-audience": "persona",
+          "data-locale": "en",
+          "data-module-id": "module-03-trabajar-amplificado",
+          "data-module-order": "3",
+          "data-module-resource": "workbook"
+        },
+        "markers": {
+          "data-consolidation-gate": 1,
+          "sheet-tabs": 1,
+          "workbook-hero-grid": 1
+        },
+        "path": "dist/en/modules/03-amplified-work/workbook/index.html",
+        "sha256": "14ac7a343ff50bf707d73c8f25f8d223c60fba77ac4c3ffa60980436e3473c9b",
+        "sibling_navigation": 1,
+        "unique_ids": true,
+        "visible_words": 1251
+      },
+      "locale": "en",
+      "reference": {
+        "bytes": 769531,
+        "current_resource": 2,
+        "main_identity": {
+          "data-audience": null,
+          "data-locale": null,
+          "data-module-id": null,
+          "data-module-order": null,
+          "data-module-resource": null
+        },
+        "markers": {
+          "data-consolidation-gate": 1,
+          "sheet-tabs": 1,
+          "workbook-hero-grid": 1
+        },
+        "path": "dist/en/workbook/index.html",
+        "sha256": "8d7de31f0fc4c5d3f0be6aaddcd7d2796843092ecd8d50991b719f25c2d88c0c",
+        "sibling_navigation": 0,
+        "unique_ids": true,
+        "visible_words": 34041
+      },
+      "resource": "workbook",
+      "semantic_markers_present": true,
+      "visible_density_ratio": 0.0367
+    },
+    {
+      "audience": "persona",
+      "candidate": {
+        "bytes": 34660,
+        "current_resource": 3,
+        "main_identity": {
+          "data-audience": "persona",
+          "data-locale": "en",
+          "data-module-id": "module-03-trabajar-amplificado",
+          "data-module-order": "3",
+          "data-module-resource": "playbook"
+        },
+        "markers": {
+          "playbook-content": 1,
+          "playbook-hero-grid": 1,
+          "playbook-toc": 1
+        },
+        "path": "dist/en/modules/03-amplified-work/playbook/index.html",
+        "sha256": "5aa12a7993cc98c80c1a985991b302f7188e62d3bb36419267fa9c5bf532bf08",
+        "sibling_navigation": 1,
+        "unique_ids": true,
+        "visible_words": 1444
+      },
+      "locale": "en",
+      "reference": {
+        "bytes": 35415,
+        "current_resource": 2,
+        "main_identity": {
+          "data-audience": null,
+          "data-locale": null,
+          "data-module-id": null,
+          "data-module-order": null,
+          "data-module-resource": null
+        },
+        "markers": {
+          "playbook-content": 1,
+          "playbook-hero-grid": 1,
+          "playbook-toc": 1
+        },
+        "path": "dist/en/playbook/index.html",
+        "sha256": "85247d479adf56c896f34e6491f7a15e04c3af6ed1803d3de71365855d017388",
+        "sibling_navigation": 0,
+        "unique_ids": true,
+        "visible_words": 1151
+      },
+      "resource": "playbook",
+      "semantic_markers_present": true,
+      "visible_density_ratio": 1.2546
+    },
+    {
+      "audience": "persona",
+      "candidate": {
+        "bytes": 448913,
+        "current_resource": 3,
+        "main_identity": {
+          "data-audience": "persona",
+          "data-locale": "en",
+          "data-module-id": "module-03-trabajar-amplificado",
+          "data-module-order": "3",
+          "data-module-resource": "prompts"
+        },
+        "markers": {
+          "data-notebook-execution-guide": 1,
+          "data-prompt-format": 40,
+          "library-prompt-card": 20
+        },
+        "path": "dist/en/modules/03-amplified-work/prompts/index.html",
+        "sha256": "c1de2da2f289518d45d7b1e10bfa793cb6c55c96b19a7e85de5734057f601148",
+        "sibling_navigation": 1,
+        "unique_ids": true,
+        "visible_words": 13807
+      },
+      "locale": "en",
+      "reference": {
+        "bytes": 801038,
+        "current_resource": 2,
+        "main_identity": {
+          "data-audience": null,
+          "data-locale": null,
+          "data-module-id": null,
+          "data-module-order": null,
+          "data-module-resource": null
+        },
+        "markers": {
+          "data-notebook-execution-guide": 1,
+          "data-prompt-format": 56,
+          "library-prompt-card": 28
+        },
+        "path": "dist/en/prompts/index.html",
+        "sha256": "b509b73c55d253cf414d05e4997c73ab6d797761204e7bad3d208bb3bf652f20",
+        "sibling_navigation": 0,
+        "unique_ids": true,
+        "visible_words": 33899
+      },
+      "resource": "prompts",
+      "semantic_markers_present": true,
+      "visible_density_ratio": 0.4073
+    },
+    {
+      "audience": "empresa",
+      "candidate": {
+        "bytes": 36957,
+        "current_resource": 3,
+        "main_identity": {
+          "data-audience": "empresa",
+          "data-locale": "en",
+          "data-module-id": "module-03-trabajar-amplificado",
+          "data-module-order": "3",
+          "data-module-resource": "masterclass"
+        },
+        "markers": {
+          "deck-controls": 1,
+          "masterclass-player": 2,
+          "official-pdf-card": 1
+        },
+        "path": "dist/en/empresa/modules/03-amplified-work/masterclass/index.html",
+        "sha256": "fcfa5089dbd91998a92676b280c952669f75af506aabcc1284944ef3977cc413",
+        "sibling_navigation": 1,
+        "unique_ids": true,
+        "visible_words": 1359
+      },
+      "locale": "en",
+      "reference": {
+        "bytes": 32751,
+        "current_resource": 2,
+        "main_identity": {
+          "data-audience": null,
+          "data-locale": null,
+          "data-module-id": null,
+          "data-module-order": null,
+          "data-module-resource": null
+        },
+        "markers": {
+          "deck-controls": 1,
+          "masterclass-player": 2,
+          "official-pdf-card": 1
+        },
+        "path": "dist/en/empresa/deck/index.html",
+        "sha256": "a5bdda49d7e827c75e74f03ddcbf2b1f03b314b546cb17116d5a5b7c9a578af5",
+        "sibling_navigation": 0,
+        "unique_ids": true,
+        "visible_words": 1259
+      },
+      "resource": "masterclass",
+      "semantic_markers_present": true,
+      "visible_density_ratio": 1.0794
+    },
+    {
+      "audience": "empresa",
+      "candidate": {
+        "bytes": 35315,
+        "current_resource": 3,
+        "main_identity": {
+          "data-audience": "empresa",
+          "data-locale": "en",
+          "data-module-id": "module-03-trabajar-amplificado",
+          "data-module-order": "3",
+          "data-module-resource": "workbook"
+        },
+        "markers": {
+          "data-consolidation-gate": 1,
+          "sheet-tabs": 1,
+          "workbook-hero-grid": 1
+        },
+        "path": "dist/en/empresa/modules/03-amplified-work/workbook/index.html",
+        "sha256": "6b43231213be33dff596fb7898f8f1d0987aa32b277eb1278f3e8ec8715fb718",
+        "sibling_navigation": 1,
+        "unique_ids": true,
+        "visible_words": 1248
+      },
+      "locale": "en",
+      "reference": {
+        "bytes": 797500,
+        "current_resource": 2,
+        "main_identity": {
+          "data-audience": null,
+          "data-locale": null,
+          "data-module-id": null,
+          "data-module-order": null,
+          "data-module-resource": null
+        },
+        "markers": {
+          "data-consolidation-gate": 1,
+          "sheet-tabs": 1,
+          "workbook-hero-grid": 1
+        },
+        "path": "dist/en/empresa/workbook/index.html",
+        "sha256": "0a8159e1688c7026d16b033fc920875afaa162e2acf0bab9e730d64fc775d892",
+        "sibling_navigation": 0,
+        "unique_ids": true,
+        "visible_words": 35808
+      },
+      "resource": "workbook",
+      "semantic_markers_present": true,
+      "visible_density_ratio": 0.0349
+    },
+    {
+      "audience": "empresa",
+      "candidate": {
+        "bytes": 34962,
+        "current_resource": 3,
+        "main_identity": {
+          "data-audience": "empresa",
+          "data-locale": "en",
+          "data-module-id": "module-03-trabajar-amplificado",
+          "data-module-order": "3",
+          "data-module-resource": "playbook"
+        },
+        "markers": {
+          "playbook-content": 1,
+          "playbook-hero-grid": 1,
+          "playbook-toc": 1
+        },
+        "path": "dist/en/empresa/modules/03-amplified-work/playbook/index.html",
+        "sha256": "00c4981e2e3379658cda9e65d8d4cfd4c5c473f81f8ad1a841a4e30e967a437f",
+        "sibling_navigation": 1,
+        "unique_ids": true,
+        "visible_words": 1419
+      },
+      "locale": "en",
+      "reference": {
+        "bytes": 35629,
+        "current_resource": 2,
+        "main_identity": {
+          "data-audience": null,
+          "data-locale": null,
+          "data-module-id": null,
+          "data-module-order": null,
+          "data-module-resource": null
+        },
+        "markers": {
+          "playbook-content": 1,
+          "playbook-hero-grid": 1,
+          "playbook-toc": 1
+        },
+        "path": "dist/en/empresa/playbook/index.html",
+        "sha256": "e5af9eb93deb4040d077ab33c955d3e5c8b215dfdcf6c6ba4685f14cfbd2b6a3",
+        "sibling_navigation": 0,
+        "unique_ids": true,
+        "visible_words": 1139
+      },
+      "resource": "playbook",
+      "semantic_markers_present": true,
+      "visible_density_ratio": 1.2458
+    },
+    {
+      "audience": "empresa",
+      "candidate": {
+        "bytes": 451102,
+        "current_resource": 3,
+        "main_identity": {
+          "data-audience": "empresa",
+          "data-locale": "en",
+          "data-module-id": "module-03-trabajar-amplificado",
+          "data-module-order": "3",
+          "data-module-resource": "prompts"
+        },
+        "markers": {
+          "data-notebook-execution-guide": 1,
+          "data-prompt-format": 40,
+          "library-prompt-card": 20
+        },
+        "path": "dist/en/empresa/modules/03-amplified-work/prompts/index.html",
+        "sha256": "4afd3fb971b17b4694f425b82a146c113000c7d9c160345001bace3b202950ac",
+        "sibling_navigation": 1,
+        "unique_ids": true,
+        "visible_words": 13780
+      },
+      "locale": "en",
+      "reference": {
+        "bytes": 821143,
+        "current_resource": 2,
+        "main_identity": {
+          "data-audience": null,
+          "data-locale": null,
+          "data-module-id": null,
+          "data-module-order": null,
+          "data-module-resource": null
+        },
+        "markers": {
+          "data-notebook-execution-guide": 1,
+          "data-prompt-format": 56,
+          "library-prompt-card": 28
+        },
+        "path": "dist/en/empresa/prompts/index.html",
+        "sha256": "89b2c66f14ebd308adcb7af05ffb325f6da0925619021e8f599ad11a6ad428f9",
+        "sibling_navigation": 0,
+        "unique_ids": true,
+        "visible_words": 35059
+      },
+      "resource": "prompts",
+      "semantic_markers_present": true,
+      "visible_density_ratio": 0.3931
+    },
+    {
+      "audience": "persona",
+      "candidate": {
+        "bytes": 37558,
+        "current_resource": 3,
+        "main_identity": {
+          "data-audience": "persona",
+          "data-locale": "pt",
+          "data-module-id": "module-03-trabajar-amplificado",
+          "data-module-order": "3",
+          "data-module-resource": "masterclass"
+        },
+        "markers": {
+          "deck-controls": 1,
+          "masterclass-player": 2,
+          "official-pdf-card": 1
+        },
+        "path": "dist/pt/modulos/03-trabalho-amplificado/masterclass/index.html",
+        "sha256": "9660ea5ffe1cacec1709b7c663a3868a082e6cf7d6c62f9f5a48d9d24d5461d5",
+        "sibling_navigation": 1,
+        "unique_ids": true,
+        "visible_words": 1388
+      },
+      "locale": "pt",
+      "reference": {
+        "bytes": 33002,
+        "current_resource": 2,
+        "main_identity": {
+          "data-audience": null,
+          "data-locale": null,
+          "data-module-id": null,
+          "data-module-order": null,
+          "data-module-resource": null
+        },
+        "markers": {
+          "deck-controls": 1,
+          "masterclass-player": 2,
+          "official-pdf-card": 1
+        },
+        "path": "dist/pt/deck/index.html",
+        "sha256": "e1b8afdcc0f160e84b6d343ee2ca2efbdb02afc176cc3b8469fe5ff4435b021b",
+        "sibling_navigation": 0,
+        "unique_ids": true,
+        "visible_words": 1298
+      },
+      "resource": "masterclass",
+      "semantic_markers_present": true,
+      "visible_density_ratio": 1.0693
+    },
+    {
+      "audience": "persona",
+      "candidate": {
+        "bytes": 35587,
+        "current_resource": 3,
+        "main_identity": {
+          "data-audience": "persona",
+          "data-locale": "pt",
+          "data-module-id": "module-03-trabajar-amplificado",
+          "data-module-order": "3",
+          "data-module-resource": "workbook"
+        },
+        "markers": {
+          "data-consolidation-gate": 1,
+          "sheet-tabs": 1,
+          "workbook-hero-grid": 1
+        },
+        "path": "dist/pt/modulos/03-trabalho-amplificado/workbook/index.html",
+        "sha256": "c518e1baa867241eea7f0c9c1a8d6000b6409e5f16d1db1c686420f64059ce4e",
+        "sibling_navigation": 1,
+        "unique_ids": true,
+        "visible_words": 1251
+      },
+      "locale": "pt",
+      "reference": {
+        "bytes": 795448,
+        "current_resource": 2,
+        "main_identity": {
+          "data-audience": null,
+          "data-locale": null,
+          "data-module-id": null,
+          "data-module-order": null,
+          "data-module-resource": null
+        },
+        "markers": {
+          "data-consolidation-gate": 1,
+          "sheet-tabs": 1,
+          "workbook-hero-grid": 1
+        },
+        "path": "dist/pt/workbook/index.html",
+        "sha256": "cf8b1b0619d3dc11756619ff95a0bea52d3a1941217c9bb13cee15ca4a79d981",
+        "sibling_navigation": 0,
+        "unique_ids": true,
+        "visible_words": 34585
+      },
+      "resource": "workbook",
+      "semantic_markers_present": true,
+      "visible_density_ratio": 0.0362
+    },
+    {
+      "audience": "persona",
+      "candidate": {
+        "bytes": 35331,
+        "current_resource": 3,
+        "main_identity": {
+          "data-audience": "persona",
+          "data-locale": "pt",
+          "data-module-id": "module-03-trabajar-amplificado",
+          "data-module-order": "3",
+          "data-module-resource": "playbook"
+        },
+        "markers": {
+          "playbook-content": 1,
+          "playbook-hero-grid": 1,
+          "playbook-toc": 1
+        },
+        "path": "dist/pt/modulos/03-trabalho-amplificado/playbook/index.html",
+        "sha256": "62ba2d1a7e8aeb3271a6db397c7542b22e9ad861c7c90b7811e23e01f913c2b5",
+        "sibling_navigation": 1,
+        "unique_ids": true,
+        "visible_words": 1417
+      },
+      "locale": "pt",
+      "reference": {
+        "bytes": 36156,
+        "current_resource": 2,
+        "main_identity": {
+          "data-audience": null,
+          "data-locale": null,
+          "data-module-id": null,
+          "data-module-order": null,
+          "data-module-resource": null
+        },
+        "markers": {
+          "playbook-content": 1,
+          "playbook-hero-grid": 1,
+          "playbook-toc": 1
+        },
+        "path": "dist/pt/playbook/index.html",
+        "sha256": "e05be4fb771d789afed5876098c1ac1ff24ed4b7319ecf30a3f511c7696bcb30",
+        "sibling_navigation": 0,
+        "unique_ids": true,
+        "visible_words": 1198
+      },
+      "resource": "playbook",
+      "semantic_markers_present": true,
+      "visible_density_ratio": 1.1828
+    },
+    {
+      "audience": "persona",
+      "candidate": {
+        "bytes": 462555,
+        "current_resource": 3,
+        "main_identity": {
+          "data-audience": "persona",
+          "data-locale": "pt",
+          "data-module-id": "module-03-trabajar-amplificado",
+          "data-module-order": "3",
+          "data-module-resource": "prompts"
+        },
+        "markers": {
+          "data-notebook-execution-guide": 1,
+          "data-prompt-format": 40,
+          "library-prompt-card": 20
+        },
+        "path": "dist/pt/modulos/03-trabalho-amplificado/prompts/index.html",
+        "sha256": "e50411e2e71579e230b3b54a31bc447b9ad481924ae71aa7d4669bb1fb294936",
+        "sibling_navigation": 1,
+        "unique_ids": true,
+        "visible_words": 13915
+      },
+      "locale": "pt",
+      "reference": {
+        "bytes": 833538,
+        "current_resource": 2,
+        "main_identity": {
+          "data-audience": null,
+          "data-locale": null,
+          "data-module-id": null,
+          "data-module-order": null,
+          "data-module-resource": null
+        },
+        "markers": {
+          "data-notebook-execution-guide": 1,
+          "data-prompt-format": 56,
+          "library-prompt-card": 28
+        },
+        "path": "dist/pt/prompts/index.html",
+        "sha256": "89198dab404b3d918206d8eee61bbec83c0558f1b776101bc643dcb4269a6277",
+        "sibling_navigation": 0,
+        "unique_ids": true,
+        "visible_words": 34984
+      },
+      "resource": "prompts",
+      "semantic_markers_present": true,
+      "visible_density_ratio": 0.3978
+    },
+    {
+      "audience": "empresa",
+      "candidate": {
+        "bytes": 38006,
+        "current_resource": 3,
+        "main_identity": {
+          "data-audience": "empresa",
+          "data-locale": "pt",
+          "data-module-id": "module-03-trabajar-amplificado",
+          "data-module-order": "3",
+          "data-module-resource": "masterclass"
+        },
+        "markers": {
+          "deck-controls": 1,
+          "masterclass-player": 2,
+          "official-pdf-card": 1
+        },
+        "path": "dist/pt/empresa/modulos/03-trabalho-amplificado/masterclass/index.html",
+        "sha256": "5c8cc03bcd68b83cfcbfa8334ff018235fa072e3934832ee1691e2b903c108a9",
+        "sibling_navigation": 1,
+        "unique_ids": true,
+        "visible_words": 1364
+      },
+      "locale": "pt",
+      "reference": {
+        "bytes": 33243,
+        "current_resource": 2,
+        "main_identity": {
+          "data-audience": null,
+          "data-locale": null,
+          "data-module-id": null,
+          "data-module-order": null,
+          "data-module-resource": null
+        },
+        "markers": {
+          "deck-controls": 1,
+          "masterclass-player": 2,
+          "official-pdf-card": 1
+        },
+        "path": "dist/pt/empresa/deck/index.html",
+        "sha256": "7aa8a24a3ece9cf971f5a932dd4f23a92a1209305d4e05bc3fc41c08c0c446b1",
+        "sibling_navigation": 0,
+        "unique_ids": true,
+        "visible_words": 1301
+      },
+      "resource": "masterclass",
+      "semantic_markers_present": true,
+      "visible_density_ratio": 1.0484
+    },
+    {
+      "audience": "empresa",
+      "candidate": {
+        "bytes": 36153,
+        "current_resource": 3,
+        "main_identity": {
+          "data-audience": "empresa",
+          "data-locale": "pt",
+          "data-module-id": "module-03-trabajar-amplificado",
+          "data-module-order": "3",
+          "data-module-resource": "workbook"
+        },
+        "markers": {
+          "data-consolidation-gate": 1,
+          "sheet-tabs": 1,
+          "workbook-hero-grid": 1
+        },
+        "path": "dist/pt/empresa/modulos/03-trabalho-amplificado/workbook/index.html",
+        "sha256": "f15098be076f694a912545e3209130097a45f1a65a9e75937c4c0110a0a0626d",
+        "sibling_navigation": 1,
+        "unique_ids": true,
+        "visible_words": 1263
+      },
+      "locale": "pt",
+      "reference": {
+        "bytes": 828937,
+        "current_resource": 2,
+        "main_identity": {
+          "data-audience": null,
+          "data-locale": null,
+          "data-module-id": null,
+          "data-module-order": null,
+          "data-module-resource": null
+        },
+        "markers": {
+          "data-consolidation-gate": 1,
+          "sheet-tabs": 1,
+          "workbook-hero-grid": 1
+        },
+        "path": "dist/pt/empresa/workbook/index.html",
+        "sha256": "bce3929c9651a1898e335daa337713e34a5754e0eefeec91507f718d47b4f727",
+        "sibling_navigation": 0,
+        "unique_ids": true,
+        "visible_words": 36259
+      },
+      "resource": "workbook",
+      "semantic_markers_present": true,
+      "visible_density_ratio": 0.0348
+    },
+    {
+      "audience": "empresa",
+      "candidate": {
+        "bytes": 35872,
+        "current_resource": 3,
+        "main_identity": {
+          "data-audience": "empresa",
+          "data-locale": "pt",
+          "data-module-id": "module-03-trabajar-amplificado",
+          "data-module-order": "3",
+          "data-module-resource": "playbook"
+        },
+        "markers": {
+          "playbook-content": 1,
+          "playbook-hero-grid": 1,
+          "playbook-toc": 1
+        },
+        "path": "dist/pt/empresa/modulos/03-trabalho-amplificado/playbook/index.html",
+        "sha256": "d794b8d6fea1fd30a54033ea12c46b6b6f233c7c1003443c4f6955166f84e972",
+        "sibling_navigation": 1,
+        "unique_ids": true,
+        "visible_words": 1405
+      },
+      "locale": "pt",
+      "reference": {
+        "bytes": 36404,
+        "current_resource": 2,
+        "main_identity": {
+          "data-audience": null,
+          "data-locale": null,
+          "data-module-id": null,
+          "data-module-order": null,
+          "data-module-resource": null
+        },
+        "markers": {
+          "playbook-content": 1,
+          "playbook-hero-grid": 1,
+          "playbook-toc": 1
+        },
+        "path": "dist/pt/empresa/playbook/index.html",
+        "sha256": "dd7eda0cbfb833995c4dd773b9952eeaeeef4dd60a14075bbb917998e2f91ead",
+        "sibling_navigation": 0,
+        "unique_ids": true,
+        "visible_words": 1189
+      },
+      "resource": "playbook",
+      "semantic_markers_present": true,
+      "visible_density_ratio": 1.1817
+    },
+    {
+      "audience": "empresa",
+      "candidate": {
+        "bytes": 469075,
+        "current_resource": 3,
+        "main_identity": {
+          "data-audience": "empresa",
+          "data-locale": "pt",
+          "data-module-id": "module-03-trabajar-amplificado",
+          "data-module-order": "3",
+          "data-module-resource": "prompts"
+        },
+        "markers": {
+          "data-notebook-execution-guide": 1,
+          "data-prompt-format": 40,
+          "library-prompt-card": 20
+        },
+        "path": "dist/pt/empresa/modulos/03-trabalho-amplificado/prompts/index.html",
+        "sha256": "a083ab5daef3ccc17b1592f378633b8c9556871d251a6d6652258f1af2976ba6",
+        "sibling_navigation": 1,
+        "unique_ids": true,
+        "visible_words": 14082
+      },
+      "locale": "pt",
+      "reference": {
+        "bytes": 856180,
+        "current_resource": 2,
+        "main_identity": {
+          "data-audience": null,
+          "data-locale": null,
+          "data-module-id": null,
+          "data-module-order": null,
+          "data-module-resource": null
+        },
+        "markers": {
+          "data-notebook-execution-guide": 1,
+          "data-prompt-format": 56,
+          "library-prompt-card": 28
+        },
+        "path": "dist/pt/empresa/prompts/index.html",
+        "sha256": "8ccf4bd0849fe38dd44b82de00c5cfc4e8ed6bb4175ccde8b9cf5f955bd56c30",
+        "sibling_navigation": 0,
+        "unique_ids": true,
+        "visible_words": 36026
+      },
+      "resource": "prompts",
+      "semantic_markers_present": true,
+      "visible_density_ratio": 0.3909
+    }
+  ],
+  "reference_module": "ia-panorama",
+  "schema_version": "module-code-comparison-v1",
+  "self_hash_model": "sha256(sorted-json-without-self_sha256)",
+  "self_sha256": "0289af1175d087327fc9287df2642a5f38494cbb40f89673b3c123f9c8b46dae",
+  "summary": {
+    "code_identity": "NOT_REQUIRED_AND_NOT_PRESENT",
+    "maximum_visible_density_ratio": 1.2546,
+    "output_parity": "PASS",
+    "pairs": 24,
+    "publication_authorized": false,
+    "semantic_marker_pass": 24,
+    "state": "RENDERED_DRAFT",
+    "unique_candidate_dom": 24
+  }
+}

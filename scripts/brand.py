@@ -21,6 +21,60 @@ EDITORIAL_PAGES = ("level0", "how", "resources_index", "intakes")
 PAGES = RESOURCE_PAGES + EDITORIAL_PAGES
 ALLOWED_STORAGE = ("mdg_theme", "mdg_locale", "mdg_audience")
 PARENT = "https://metodologia.info/"
+PUBLIC = "https://conoce.metodologia.info/"
+DEFAULT_MODULE_ID = "ia-panorama"
+MODULE_IDS = (DEFAULT_MODULE_ID, "ocupado-productivo", "trabajo-amplificado", "trabajo-agentico")
+MODULE_ROUTES = {
+    DEFAULT_MODULE_ID: {
+        "order": 1,
+        "slugs": {"es": None, "en": None, "pt": None},
+        "labels": {
+            "es": "Módulo 01 · IA: qué está pasando y cómo sacarle provecho",
+            "en": "Module 01 · AI: what is happening and how to benefit",
+            "pt": "Módulo 01 · IA: o que está acontecendo e como aproveitar",
+        },
+    },
+    "ocupado-productivo": {
+        "order": 2,
+        "slugs": {
+            "es": "02-de-ocupado-a-productivo",
+            "en": "02-from-busy-to-productive",
+            "pt": "02-de-ocupado-a-produtivo",
+        },
+        "labels": {
+            "es": "Módulo 02 · De ocupado a productivo",
+            "en": "Module 02 · From busy to productive",
+            "pt": "Módulo 02 · De ocupado a produtivo",
+        },
+    },
+    "trabajo-amplificado": {
+        "order": 3,
+        "slugs": {
+            "es": "03-trabajo-amplificado",
+            "en": "03-amplified-work",
+            "pt": "03-trabalho-amplificado",
+        },
+        "labels": {
+            "es": "Módulo 03 · Trabajo amplificado",
+            "en": "Module 03 · Amplified work",
+            "pt": "Módulo 03 · Trabalho amplificado",
+        },
+    },
+    "trabajo-agentico": {
+        "order": 4,
+        "slugs": {
+            "es": "04-trabajo-agentico",
+            "en": "04-agentic-work",
+            "pt": "04-trabalho-agentico",
+        },
+        "labels": {
+            "es": "Módulo 04 · Trabajo agéntico",
+            "en": "Module 04 · Agentic work",
+            "pt": "Módulo 04 · Trabalho agêntico",
+        },
+    },
+}
+RESOURCE_SEGMENTS = {"deck": "masterclass", "workbook": "workbook", "playbook": "playbook", "prompts": "prompts"}
 
 ICON_MOON = '<svg aria-hidden="true" focusable="false" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>'
 ICON_GLOBE = '<svg aria-hidden="true" focusable="false" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>'
@@ -212,28 +266,105 @@ def validate_editorial_spec() -> dict:
     return validate_editorial_document(json.loads(EDITORIAL_SPEC.read_text(encoding="utf-8")))
 
 
-def page_dir(locale: str, audience: str, page: str) -> str:
+def _validate_route_variant(locale: str, audience: str, page: str, module_id: str) -> None:
+    if locale not in LOCALES or audience not in AUDIENCES or page not in PAGES or module_id not in MODULE_IDS:
+        raise RuntimeError("CONOCE_CHROME_RENDER_VARIANT_INVALID")
+
+
+def module_anchor(module_id: str) -> str:
+    if module_id not in MODULE_IDS:
+        raise RuntimeError("CONOCE_MODULE_INVALID")
+    return f'module-{MODULE_ROUTES[module_id]["order"]:02d}'
+
+
+def page_dir(locale: str, audience: str, page: str, module_id: str = DEFAULT_MODULE_ID) -> str:
+    """Return a canonical output directory while preserving the original flat M1 routes."""
+    _validate_route_variant(locale, audience, page, module_id)
     parts = [] if locale == "es" else [locale]
     if audience == "empresa":
         parts.append("empresa")
-    if page in EDITORIAL_PAGES:
+    if module_id != DEFAULT_MODULE_ID and page in RESOURCE_SEGMENTS:
+        parts.extend([
+            "modules" if locale == "en" else "modulos",
+            MODULE_ROUTES[module_id]["slugs"][locale],
+            RESOURCE_SEGMENTS[page],
+        ])
+    elif page in EDITORIAL_PAGES:
         parts.append(validate_editorial_spec()["pages"][page]["slugs"][locale])
     elif page != "landing":
         parts.append(page)
     return "/".join(parts) or "."
 
 
-def page_ref(locale: str, audience: str, page: str) -> str:
-    return posixpath.join(page_dir(locale, audience, page), "index.html")
+def page_ref(locale: str, audience: str, page: str, module_id: str = DEFAULT_MODULE_ID) -> str:
+    return posixpath.join(page_dir(locale, audience, page, module_id), "index.html")
 
 
 def relative_page(source_locale: str, source_audience: str, source_page: str,
-                  target_locale: str, target_audience: str, target_page: str) -> str:
+                  target_locale: str, target_audience: str, target_page: str,
+                  source_module_id: str = DEFAULT_MODULE_ID,
+                  target_module_id: str | None = None) -> str:
+    target_module_id = source_module_id if target_module_id is None else target_module_id
     ref = posixpath.relpath(
-        page_ref(target_locale, target_audience, target_page),
-        page_dir(source_locale, source_audience, source_page),
+        page_ref(target_locale, target_audience, target_page, target_module_id),
+        page_dir(source_locale, source_audience, source_page, source_module_id),
     )
     return ref if ref.startswith(".") else f"./{ref}"
+
+
+def absolute_page(locale: str, audience: str, page: str,
+                  module_id: str = DEFAULT_MODULE_ID, origin: str = PUBLIC) -> str:
+    route = page_dir(locale, audience, page, module_id)
+    return origin.rstrip("/") + "/" + ("" if route == "." else route + "/")
+
+
+def canonical_url(module_id: str, page: str, locale: str, audience: str,
+                  origin: str = PUBLIC) -> str:
+    """Return the canonical URL for the explicit module/page/locale/audience tuple."""
+    return absolute_page(locale, audience, page, module_id, origin)
+
+
+def hreflang_urls(module_id: str, page: str, locale: str, audience: str,
+                  origin: str = PUBLIC) -> dict[str, str]:
+    """Return same-module locale alternates plus the Spanish x-default."""
+    _validate_route_variant(locale, audience, page, module_id)
+    alternates = {
+        code: absolute_page(code, audience, page, module_id, origin)
+        for code in LOCALES
+    }
+    alternates["x-default"] = alternates["es"]
+    return alternates
+
+
+def breadcrumb_model(module_id: str, page: str, locale: str, audience: str) -> list[dict[str, str | bool]]:
+    """Build route-bound breadcrumb data, including the module tier on nested resources."""
+    _validate_route_variant(locale, audience, page, module_id)
+    spec = validate_chrome_spec()
+    copy = spec["copy"][locale]
+    items: list[dict[str, str | bool]] = [{
+        "id": "home",
+        "label": copy["home"],
+        "href": relative_page(locale, audience, page, locale, audience, "landing", module_id, DEFAULT_MODULE_ID),
+        "current": page == "landing",
+    }]
+    if page in RESOURCE_SEGMENTS:
+        overview = spec["resource_overview"]
+        overview_href = relative_page(
+            locale, audience, page, locale, audience, overview["page"], module_id, DEFAULT_MODULE_ID
+        )
+        items.append({"id": overview["id"], "label": copy["resources"], "href": overview_href, "current": False})
+        if module_id != DEFAULT_MODULE_ID:
+            items.append({
+                "id": module_id,
+                "label": MODULE_ROUTES[module_id]["labels"][locale],
+                "href": f"{overview_href}#{module_anchor(module_id)}",
+                "current": False,
+            })
+    if page != "landing":
+        current_id = next((item["id"] for item in spec["resources"] if item["page"] == page), page)
+        current_label = copy.get(current_id, current_id)
+        items.append({"id": current_id, "label": current_label, "href": "", "current": True})
+    return items
 
 
 def esc(value: object) -> str:
@@ -245,27 +376,41 @@ def _link(href: str, label: str, current: bool = False, attrs: str = "") -> str:
     return f'<a href="{esc(href)}"{active}{attrs}>{esc(label)}</a>'
 
 
-def _routes(spec: dict, locale: str, audience: str, page: str) -> dict[str, str]:
-    landing = relative_page(locale, audience, page, locale, audience, "landing")
+def _routes(spec: dict, locale: str, audience: str, page: str,
+            module_id: str = DEFAULT_MODULE_ID) -> dict[str, str]:
+    landing = relative_page(
+        locale, audience, page, locale, audience, "landing", module_id, DEFAULT_MODULE_ID
+    )
     routes = {
-        item["id"]: relative_page(locale, audience, page, locale, audience, item["page"])
+        item["id"]: relative_page(
+            locale, audience, page, locale, audience, item["page"], module_id, DEFAULT_MODULE_ID
+        )
         for item in spec["home_navigation"]
     }
-    routes[spec["resource_overview"]["id"]] = relative_page(locale, audience, page, locale, audience, spec["resource_overview"]["page"])
+    routes[spec["resource_overview"]["id"]] = relative_page(
+        locale, audience, page, locale, audience, spec["resource_overview"]["page"], module_id, DEFAULT_MODULE_ID
+    )
     routes.update({
-        item["id"]: relative_page(locale, audience, page, locale, audience, item["page"])
+        item["id"]: relative_page(
+            locale, audience, page, locale, audience, item["page"], module_id, module_id
+        )
         for item in spec["resources"]
+    })
+    routes.update({
+        candidate: f'{routes[spec["resource_overview"]["id"]]}#{module_anchor(candidate)}'
+        for candidate in MODULE_IDS
     })
     routes.update({item["id"]: item["href"] for item in spec["parent_routes"]})
     routes["home"] = landing
     return routes
 
 
-def _controls(spec: dict, locale: str, audience: str, page: str) -> str:
+def _controls(spec: dict, locale: str, audience: str, page: str,
+              module_id: str = DEFAULT_MODULE_ID) -> str:
     copy = spec["copy"][locale]
     variants = {
         lang: {
-            target: relative_page(locale, audience, page, lang, target, page)
+            target: relative_page(locale, audience, page, lang, target, page, module_id, module_id)
             for target in AUDIENCES
         } for lang in LOCALES
     }
@@ -277,7 +422,7 @@ def _controls(spec: dict, locale: str, audience: str, page: str) -> str:
     matrix = esc(json.dumps(variants, ensure_ascii=False, sort_keys=True, separators=(",", ":")))
     return (
         f'<div class="mdg-controls" role="group" aria-label="{esc(copy["preferences"])}" '
-        f'data-conoce-preferences data-locale="{locale}" data-audience="{audience}" data-variant-links="{matrix}" '
+        f'data-conoce-preferences data-module-id="{esc(module_id)}" data-locale="{locale}" data-audience="{audience}" data-variant-links="{matrix}" '
         f'data-theme-label="{esc(copy["theme"])}" data-light-label="{esc(copy["light"])}" data-dark-label="{esc(copy["dark"])}" data-change-label="{esc(copy["change_to"])}">'
         f'<button class="mdg-control" type="button" role="switch" aria-checked="false" aria-label="{esc(theme_label)}" data-mdg-theme>{ICON_MOON}</button>'
         f'<a class="mdg-control" href="{esc(variants[next_locale][audience])}" aria-label="{esc(locale_label)}" data-mdg-locale="{next_locale}">{ICON_GLOBE}</a>'
@@ -286,14 +431,14 @@ def _controls(spec: dict, locale: str, audience: str, page: str) -> str:
     )
 
 
-@lru_cache(maxsize=54)
-def shell(locale: str, audience: str, page: str) -> dict:
-    if locale not in LOCALES or audience not in AUDIENCES or page not in PAGES:
-        raise RuntimeError("CONOCE_CHROME_RENDER_VARIANT_INVALID")
+@lru_cache(maxsize=216)
+def shell(locale: str, audience: str, page: str,
+          module_id: str = DEFAULT_MODULE_ID) -> dict:
+    _validate_route_variant(locale, audience, page, module_id)
     spec = validate_chrome_spec()
     copy = spec["copy"][locale]
-    routes = _routes(spec, locale, audience, page)
-    source_dir = page_dir(locale, audience, page)
+    routes = _routes(spec, locale, audience, page, module_id)
+    source_dir = page_dir(locale, audience, page, module_id)
     root_ref = posixpath.relpath("assets/brand", source_dir)
     root_ref = root_ref if root_ref.startswith(".") else f"./{root_ref}"
     editorial_links = {
@@ -303,9 +448,14 @@ def shell(locale: str, audience: str, page: str) -> dict:
     home_link = _link(routes["home"], copy["home"], page == "landing", ' data-conoce-home-link')
     overview = spec["resource_overview"]
     overview_link = _link(routes[overview["id"]], copy[overview["id"]], page == overview["page"], ' data-conoce-resource-overview')
-    resource_links = "".join(
-        _link(routes[item["id"]], copy[item["id"]], item["page"] == page, ' data-conoce-resource-link')
-        for item in spec["resources"]
+    module_links = "".join(
+        _link(
+            routes[candidate],
+            MODULE_ROUTES[candidate]["labels"][locale],
+            candidate == module_id and page in RESOURCE_SEGMENTS,
+            f' data-conoce-module-link data-module-id="{esc(candidate)}"',
+        )
+        for candidate in MODULE_IDS
     )
     resource_current = page in RESOURCE_PAGES[1:] or page == "resources_index"
     resource_state = ' data-current="true"' if resource_current else ""
@@ -317,7 +467,7 @@ def shell(locale: str, audience: str, page: str) -> dict:
         f'<img src="{esc(root_ref)}/assets/metodologia-logo.svg" width="36" height="36" alt="">'
         f'<span><strong>{esc(copy["identity_name"])}</strong><small>{esc(copy["identity_level"])} <em>· {esc(copy["identity_by"])}</em></small></span></a>'
         f'<nav class="mdg-nav conoce-nav" id="conoce-primary-nav" aria-label="{esc(copy["nav_label"])}" data-conoce-nav>{home_link}{editorial_links["level0_page"]}{editorial_links["how_page"]}'
-        f'<details class="conoce-resources" data-conoce-resources{resource_state}><summary>{esc(copy["resources"])}{ICON_CHEVRON}</summary><div class="conoce-resource-menu">{overview_link}{resource_links}</div></details>{editorial_links["intakes_page"]}</nav>'
+        f'<details class="conoce-resources" data-conoce-resources{resource_state}><summary>{esc(copy["resources"])}{ICON_CHEVRON}</summary><div class="conoce-resource-menu">{overview_link}{module_links}</div></details>{editorial_links["intakes_page"]}</nav>'
         f'<a class="mdg-header-cta conoce-parent-cta" href="{esc(PARENT)}" data-conoce-parent>{esc(copy["parent_cta"])}</a></header>'
     )
     footer_groups = []
@@ -332,9 +482,11 @@ def shell(locale: str, audience: str, page: str) -> dict:
     )
     return {
         "header": header,
-        "controls": _controls(spec, locale, audience, page),
+        "controls": _controls(spec, locale, audience, page, module_id),
         "footer": footer,
         "stylesheetBase": f"{root_ref}/runtime",
+        "moduleId": module_id,
+        "route": page_dir(locale, audience, page, module_id),
         "spec": deepcopy(spec),
     }
 

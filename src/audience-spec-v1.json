@@ -187,7 +187,7 @@
         "resources_index": {
           "hero": "Asigna cada recurso a una necesidad concreta del equipo.",
           "problem": "Distribuir materiales sin propósito ni responsables produce consumo, no capacidad compartida.",
-          "benefits": "Los cuatro recursos separan contexto, ejecución, estandarización e instrucciones para facilitar su gobierno.",
+          "benefits": "Los dieciséis recursos separan contexto, ejecución, estandarización e instrucciones a lo largo de cuatro módulos.",
           "method": "Usa la masterclass para alinear, el workbook para documentar, el playbook para acordar y los prompts para operar.",
           "evidence": "Cada recurso debe dejar un acuerdo, artefacto o decisión que el equipo pueda revisar.",
           "cta": "Mapear recursos",
@@ -355,7 +355,7 @@
         "resources_index": {
           "hero": "Assign each resource to a concrete team need.",
           "problem": "Distributing materials without purpose or ownership produces consumption, not shared capability.",
-          "benefits": "The four resources separate context, execution, standardization and instructions for easier governance.",
+          "benefits": "The sixteen resources separate context, execution, standardization and instructions across four modules.",
           "method": "Use the masterclass to align, workbook to document, playbook to agree and prompts to operate.",
           "evidence": "Each resource should leave an agreement, artifact or decision the team can review.",
           "cta": "Map team resources",
@@ -523,7 +523,7 @@
         "resources_index": {
           "hero": "Associe cada recurso a uma necessidade concreta da equipe.",
           "problem": "Distribuir materiais sem propósito nem responsáveis gera consumo, não capacidade compartilhada.",
-          "benefits": "Os quatro recursos separam contexto, execução, padronização e instruções para facilitar o governo.",
+          "benefits": "Os dezesseis recursos separam contexto, execução, padronização e instruções ao longo de quatro módulos.",
           "method": "Use a masterclass para alinhar, o workbook para documentar, o playbook para combinar e os prompts para operar.",
           "evidence": "Cada recurso deve deixar um acordo, artefato ou decisão que a equipe possa revisar.",
           "cta": "Mapear recursos",

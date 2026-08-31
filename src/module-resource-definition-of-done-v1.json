@@ -1,0 +1,190 @@
+{
+  "schema_version": "module-resource-definition-of-done-v1",
+  "contract_id": "nivel-0-module-reference-parity-v1",
+  "state": "RENDERED_DRAFT",
+  "publication_authorized": false,
+  "reference_module": "ia-panorama",
+  "comparison_policy": {
+    "required_parity": "semantic-visual-functional",
+    "code_identity_required": false,
+    "topic_copy_reuse": "forbidden",
+    "module_specific_counts_allowed": true,
+    "maximum_visible_density_ratio": 2.0,
+    "legacy_parallel_renderer_must_be_reported": true
+  },
+  "sequence": [
+    "capture-reference-and-candidate",
+    "freeze-gap-report",
+    "approve-definition-of-done",
+    "improve-candidate-from-source",
+    "rebuild-candidate",
+    "verify-candidate",
+    "authorize-next-module"
+  ],
+  "common_criteria": [
+    {
+      "id": "DOD-C01",
+      "severity": "P1",
+      "requirement": "Edit canonical sources and regenerate; never patch dist directly.",
+      "automated_by": ["git-diff-review", "scripts/build.py"]
+    },
+    {
+      "id": "DOD-C02",
+      "severity": "P1",
+      "requirement": "Render ES, EN and PT for Persona and Empresa without fallback or cloned audience copy.",
+      "automated_by": ["qa/check-editorial-parity.py", "qa/check-editorial-depth-v1.py"]
+    },
+    {
+      "id": "DOD-C03",
+      "severity": "P1",
+      "requirement": "Each resource has one shell, one main and explicit module, order, resource, locale and audience identity.",
+      "automated_by": ["qa/check-module-definition-of-done-v1.py"]
+    },
+    {
+      "id": "DOD-C04",
+      "severity": "P1",
+      "requirement": "IDs are unique and every local href, aria-controls, aria-labelledby and aria-describedby reference resolves.",
+      "automated_by": ["qa/check-module-definition-of-done-v1.py"]
+    },
+    {
+      "id": "DOD-C05",
+      "severity": "P1",
+      "requirement": "Sibling navigation preserves module, locale and audience and exposes one visually distinct current resource.",
+      "automated_by": ["qa/check-module-definition-of-done-v1.py", "qa/check-module-definition-of-done-visual.mjs"]
+    },
+    {
+      "id": "DOD-C06",
+      "severity": "P1",
+      "requirement": "Breadcrumbs, canonicals, hreflang, sidebar and deep links resolve without changing the resource context.",
+      "automated_by": ["qa/check-breadcrumbs.py", "qa/check-module-routing-v2.py"]
+    },
+    {
+      "id": "DOD-C07",
+      "severity": "P1",
+      "requirement": "No essential content depends on JavaScript; keyboard, focus, reduced motion, print, 200 percent zoom and AA remain usable.",
+      "automated_by": ["qa/check-module-definition-of-done-visual.mjs", "qa/check-resource-visual-homology.mjs"]
+    },
+    {
+      "id": "DOD-C08",
+      "severity": "P1",
+      "requirement": "Two isolated builds are byte-identical and bind source, renderer, CSS, JavaScript, PDF and output hashes.",
+      "automated_by": ["qa/check-module-definition-of-done-v1.py", "dist/build-manifest.json"]
+    },
+    {
+      "id": "DOD-C09",
+      "severity": "P0",
+      "requirement": "Maximum state is RENDERED_DRAFT with no publication, tracking, network dependency or extra storage key.",
+      "automated_by": ["qa/check-module-definition-of-done-v1.py", "dist/build-receipt.json"]
+    }
+  ],
+  "resource_criteria": {
+    "masterclass": [
+      {
+        "id": "DOD-MC01",
+        "severity": "P1",
+        "requirement": "The governed local PDF is the primary surface and appears before sibling navigation and the accessible HTML guide."
+      },
+      {
+        "id": "DOD-MC02",
+        "severity": "P1",
+        "requirement": "Previous and next controls retain a visible icon or label at 320 and 390 pixels in light and dark themes."
+      }
+    ],
+    "workbook": [
+      {
+        "id": "DOD-WB01",
+        "severity": "P1",
+        "requirement": "Exactly three localized stages render in order: in-class, deepening and consolidation."
+      },
+      {
+        "id": "DOD-WB02",
+        "severity": "P1",
+        "requirement": "Consolidation contains criterion, expected evidence, review timing, transfer and a three-level rubric."
+      },
+      {
+        "id": "DOD-WB03",
+        "severity": "P1",
+        "requirement": "The hero follows the approved two-column grammar and its outcome watermark matches the current module order."
+      },
+      {
+        "id": "DOD-WB04",
+        "severity": "P1",
+        "requirement": "Five localized milestones lead into an ephemeral case intake and explicit prerequisites, inputs and limits."
+      },
+      {
+        "id": "DOD-WB05",
+        "severity": "P1",
+        "requirement": "Exactly three preparation prompts expose receives, produces and a resolvable library reference."
+      },
+      {
+        "id": "DOD-WB06",
+        "severity": "P1",
+        "requirement": "Every stage keeps dense guidance in accessible disclosures and the workbook closes with the next resource."
+      }
+    ],
+    "playbook": [
+      {
+        "id": "DOD-PB01",
+        "severity": "P1",
+        "requirement": "A primary start action reaches intro from the hero and is visible in the first viewport at 320, 390 and 1440 pixels."
+      },
+      {
+        "id": "DOD-PB02",
+        "severity": "P1",
+        "requirement": "The complete index has no broken target and every chapter closes with an observable decision, action or evidence handoff."
+      }
+    ],
+    "prompts": [
+      {
+        "id": "DOD-PR01",
+        "severity": "P1",
+        "requirement": "Each prompt exposes Chat or Sources, N1 through N4, Template and Demo, inputs, parameters and Receives to Produces."
+      },
+      {
+        "id": "DOD-PR02",
+        "severity": "P1",
+        "requirement": "Demo is fully resolved and synthetic; missing prior outputs or real-world execution are explicit gates, never invented evidence."
+      },
+      {
+        "id": "DOD-PR03",
+        "severity": "P1",
+        "requirement": "The graph has no orphan transition, undeclared cycle, implicit external execution or unresolved next artifact."
+      }
+    ]
+  },
+  "editorial_criteria": [
+    {
+      "id": "DOD-E01",
+      "severity": "P1",
+      "requirement": "Language is natural and localized; specialized English terms are introduced once with a plain-language equivalent."
+    },
+    {
+      "id": "DOD-E02",
+      "severity": "P1",
+      "requirement": "Persona and Empresa differ in actor, decision, evidence, risk and transfer rather than by a suffix."
+    },
+    {
+      "id": "DOD-E03",
+      "severity": "P2",
+      "requirement": "Depth comes from useful decisions, examples and limits; visible density stays at or below twice the approved baseline."
+    }
+  ],
+  "module_gate": {
+    "blocking_severities": ["P0", "P1"],
+    "next_module_requires": "PASS",
+    "verifier_must_be_independent": true,
+    "guardian_required_before_freeze": true,
+    "maximum_state": "RENDERED_DRAFT"
+  },
+  "visual_matrix": {
+    "widths": [320, 390, 768, 1440],
+    "themes": ["light", "dark"],
+    "locales": ["es", "en", "pt"],
+    "audiences": ["persona", "empresa"],
+    "zoom_percent": 200,
+    "no_js": true,
+    "print": true
+  },
+  "self_hash_model": "sha256(sorted-json-without-self_sha256)",
+  "self_sha256": "1044950780a9ad0044586de3e837137e7d02f0f8ea7f2d8ae9eb99d9c7e74876"
+}

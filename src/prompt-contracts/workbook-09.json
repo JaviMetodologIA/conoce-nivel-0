@@ -1,5 +1,5 @@
 {
-  "schema_version": "prompt-intent-contract-v1",
+  "schema_version": "prompt-intent-contract-v2",
   "intent_id": "W09",
   "surface": "workbook",
   "phase": "(R)Evolucionar",
@@ -11,7 +11,7 @@
       "W08",
       "W06"
     ],
-    "decision_rule": "Usa W09 cuando ya existe una pieza o decisión del taller y el paso es probarla con objeciones que suben de nivel en una sesión guiada, donde el contexto se pregunta en vez de fijarse por variables; si todavía no hay nada que defender, primero se produce con W06; si lo que falta es medir la comprensión de la base con rúbrica y calificación, usa W08; si el ensayo debe correr fuera del taller con variables fijas y presión sostenida, usa 09. W09 no redacta ni reestructura el entregable."
+    "decision_rule": "Usa W09 cuando ya existe un contenido o decisión del taller y el paso es probarla con objeciones que suben de nivel en una sesión guiada, donde el contexto se pregunta en vez de fijarse por variables; si todavía no hay nada que defender, primero se produce con W06; si lo que falta es medir la comprensión de la base con rúbrica y calificación, usa W08; si el ensayo debe correr fuera del taller con variables fijas y presión sostenida, usa 09. W09 no redacta ni reestructura el entregable."
   },
   "locales": {
     "es": {
@@ -21,15 +21,39 @@
         "when": "debes defender pronto algo que ya escribiste o decidiste en el taller.",
         "example": "QBR con preguntas hostiles sobre mi piloto y sus controles.",
         "evidence": "apertura con audiencia, resultado y tiempo, una pregunta por turno sobre evidencia, alternativas, riesgos y límites, una evaluación por respuesta citando mi frase, y cierre con fortalezas, vacíos y tres mejoras con acción y cita.",
-        "prompt": "Simula una [ENTREVISTA | QBR | DEFENSA] sobre [TEMA]; mi Notebook es la única base de citas. Pídeme antes audiencia, resultado y tiempo: poco tiempo, menos preguntas, nunca peor evaluación. Sin pieza o decisión hecha, detente: se prueba lo que existe, no se redacta. Una pregunta por vez sobre evidencia, alternativas, riesgos y límites; sube de aclaración a dato en contra y a consecuencia solo si la anterior citó y respondió; si no, repite. Evalúa citando mi frase. Cierra con fortalezas, vacíos y tres mejoras de [TEMA] con acción y cita. No inventes objeciones sin riesgo real ni citas.",
+        "prompt": "Simula una defensa de <ENTREGABLE> sobre <TEMA>; mi Notebook es la única base de citas. Pídeme antes audiencia, resultado y tiempo: poco tiempo, menos preguntas, nunca peor evaluación. Sin contenido o decisión hecha, detente: se prueba lo que existe, no se redacta. Una pregunta por vez sobre evidencia, alternativas, riesgos y límites; sube de aclaración a dato en contra y a consecuencia solo si la anterior citó y respondió; si no, repite. Evalúa citando mi frase. Cierra con fortalezas, vacíos y tres mejoras de <TEMA> con acción y cita. No inventes objeciones sin riesgo real ni citas.",
         "level_spec": {
           "role": "Entrevistador de taller que prueba lo que ya existe, sin reescribirlo",
           "spec_role": "Especialista en preparación de conversaciones exigentes basada en evidencia",
-          "objective": "Someter una pieza o decisión ya hecha a objeciones crecientes y devolver tres mejoras citadas",
-          "parameters": [
+          "objective": "Someter un contenido o decisión ya hecha a objeciones crecientes y devolver tres mejoras citadas",
+          "workflow": [
+            "Preguntar audiencia, resultado y tiempo antes de la primera pregunta y ajustar el número de preguntas al tiempo",
+            "Verificar que exista un contenido o decisión que defender y detenerse si no existe",
+            "Hacer una pregunta por turno sobre evidencia, alternativas, riesgos y límites",
+            "Subir de aclaración a dato en contra y a consecuencia solo si la respuesta anterior citó la base y respondió la objeción; si no, repetir el nivel",
+            "Evaluar cada respuesta citando la frase del usuario y cerrar con fortalezas, vacíos y tres mejoras con acción y cita"
+          ],
+          "guardrails": [
+            "No inventar objeciones sin un riesgo real detrás, ni citas o datos fuera de la base",
+            "No redactar ni reestructurar el entregable: producir el contenido es W06",
+            "Sin contenido o decisión hecha: detenerse y derivar a la producción, nunca fabricar el contenido a defender",
+            "Tiempo corto: reducir el número de preguntas, nunca la exigencia de la evaluación"
+          ],
+          "output": [
+            "Apertura con audiencia, resultado y tiempo fijados",
+            "Una pregunta por turno sobre evidencia, alternativas, riesgos y límites, con su evaluación citando la frase del usuario",
+            "Cierre con fortalezas, vacíos y tres mejoras con acción y cita"
+          ],
+          "dod": "Ensayo con apertura, evaluación y cierre comprobables: audiencia, resultado y tiempo fijados, cada evaluación citando la frase evaluada, y tres mejoras con acción y cita de la base.",
+          "edge_cases": [
+            "Sin material que defender: se detiene y deriva a producir el contenido en W06",
+            "Tiempo declarado corto: menos preguntas, misma exigencia de evaluación",
+            "Respuesta sin cita de la base: no sube de nivel, repite el mismo"
+          ],
+          "constraints": [
             [
               "entrada_del_paso_previo",
-              "pieza o decisión ya producida en el taller y el Notebook como única base de citas"
+              "contenido o decisión ya producida en el taller y el Notebook como única base de citas"
             ],
             [
               "apertura",
@@ -48,29 +72,10 @@
               "vacíos y tres mejoras como insumo de la configuración final"
             ]
           ],
-          "workflow": [
-            "Preguntar audiencia, resultado y tiempo antes de la primera pregunta y ajustar el número de preguntas al tiempo",
-            "Verificar que exista una pieza o decisión que defender y detenerse si no existe",
-            "Hacer una pregunta por turno sobre evidencia, alternativas, riesgos y límites",
-            "Subir de aclaración a dato en contra y a consecuencia solo si la respuesta anterior citó la base y respondió la objeción; si no, repetir el nivel",
-            "Evaluar cada respuesta citando la frase del usuario y cerrar con fortalezas, vacíos y tres mejoras con acción y cita"
-          ],
-          "guardrails": [
-            "No inventar objeciones sin un riesgo real detrás, ni citas o datos fuera de la base",
-            "No redactar ni reestructurar el entregable: producir la pieza es W06",
-            "Sin pieza o decisión hecha: detenerse y derivar a la producción, nunca fabricar el contenido a defender",
-            "Tiempo corto: reducir el número de preguntas, nunca la exigencia de la evaluación"
-          ],
-          "output": [
-            "Apertura con audiencia, resultado y tiempo fijados",
-            "Una pregunta por turno sobre evidencia, alternativas, riesgos y límites, con su evaluación citando la frase del usuario",
-            "Cierre con fortalezas, vacíos y tres mejoras con acción y cita"
-          ],
-          "dod": "Ensayo con apertura, evaluación y cierre comprobables: audiencia, resultado y tiempo fijados, cada evaluación citando la frase evaluada, y tres mejoras con acción y cita de la base.",
-          "edge_cases": [
-            "Sin material que defender: se detiene y deriva a producir la pieza en W06",
-            "Tiempo declarado corto: menos preguntas, misma exigencia de evaluación",
-            "Respuesta sin cita de la base: no sube de nivel, repite el mismo"
+          "frameworks": [
+            "Red teaming · busca fallos antes de decidir",
+            "Pre-mortem · anticipa objeciones y fallos",
+            "Rúbrica analítica · criterios y niveles observables"
           ]
         },
         "why_it_works": {
@@ -80,7 +85,7 @@
             "Cada una de las tres mejoras trae acción y cita de la base, así que se puede aplicar sin releer la sesión"
           ],
           "edge_cases": [
-            "Sin pieza que defender: se detiene en vez de simular sobre nada",
+            "Sin contenido que defender: se detiene en vez de simular sobre nada",
             "Poco tiempo: bajan las preguntas, no la exigencia"
           ],
           "tradeoffs": [
@@ -88,7 +93,7 @@
             "El metadato del taller se conserva íntegro: el cuándo pasa a when, el ejemplo del QBR hostil a example, el ensayo y las mejoras a evidence, el límite de no simular certeza a guardrails y las entradas audiencia, resultado y tiempo a la apertura preguntada"
           ],
           "assumptions": [
-            "El Notebook del taller está activo como base de evidencia y la pieza a defender ya existe"
+            "El Notebook del taller está activo como base de evidencia y el contenido a defender ya existe"
           ],
           "limits": [
             "Prueba el argumento; no lo redacta ni lo reestructura: producir es W06",
@@ -113,6 +118,83 @@
             "claim": "Evaluar citando la frase del usuario contra la base es posible porque el asistente puede responder desde las fuentes seleccionadas y mostrar sus citas.",
             "source": "https://support.google.com/notebooklm/answer/16179559?hl=es"
           }
+        ],
+        "inputs": [
+          {
+            "key": "deliverable",
+            "label": "ENTREGABLE",
+            "help": "entregable que debe quedar listo",
+            "example": "memo de una página",
+            "required": true,
+            "type": "text",
+            "source": "user",
+            "demo_value": "memo de una página"
+          },
+          {
+            "key": "topic",
+            "label": "TEMA",
+            "help": "asunto concreto",
+            "example": "verificar respuestas de IA",
+            "required": true,
+            "type": "text",
+            "source": "user",
+            "demo_value": "cómo aprender a aprender con IA mediante una práctica semanal de alto rendimiento"
+          }
+        ],
+        "parameters": [
+          {
+            "key": "length",
+            "label": "LONGITUD",
+            "default": "concisa",
+            "choices": [
+              "concisa",
+              "media"
+            ]
+          },
+          {
+            "key": "structure",
+            "label": "ESTRUCTURA",
+            "default": "2 párrafos + bullets clave",
+            "choices": [
+              "2 párrafos + bullets clave",
+              "tabla breve"
+            ]
+          },
+          {
+            "key": "tone",
+            "label": "TONO",
+            "default": "claro y personal",
+            "choices": [
+              "claro y personal",
+              "didáctico"
+            ]
+          },
+          {
+            "key": "depth",
+            "label": "PROFUNDIDAD",
+            "default": "práctica",
+            "choices": [
+              "práctica",
+              "profunda"
+            ]
+          },
+          {
+            "key": "conversation_mode",
+            "label": "TIPO DE CONVERSACIÓN",
+            "default": "defensa",
+            "choices": [
+              "entrevista",
+              "QBR",
+              "defensa"
+            ]
+          }
+        ],
+        "optional_clauses": [
+          {
+            "key": "visual_opening",
+            "text": "Si mejora la comprensión, abre con un esquema breve.",
+            "default_enabled": true
+          }
         ]
       },
       "empresa": {
@@ -121,15 +203,39 @@
         "when": "el proceso exige defender ante dirección una decisión ya documentada y hay un responsable.",
         "example": "QBR del área con preguntas hostiles sobre el piloto y sus controles.",
         "evidence": "apertura con audiencia, resultado y tiempo, una pregunta por turno sobre evidencia, alternativas, riesgos y límites, evaluación citada por respuesta, objeción trazada a un riesgo operativo y cierre con fortalezas, vacíos y tres mejoras con acción y cita, listo para revisión.",
-        "prompt": "Simula [ENTREVISTA | QBR | DEFENSA] ante dirección sobre [TEMA] en [PROCESO]; el Notebook del equipo es la base. Pide audiencia, resultado y tiempo; poco tiempo: menos preguntas, no peor evaluación. Sin pieza o decisión documentada, detente: se prueba, no se redacta. Una pregunta por vez: evidencia, alternativas, riesgos y límites; sube de aclaración a dato en contra y a consecuencia si la anterior citó y respondió. Cada objeción nombra un riesgo operativo de [PROCESO]. Cierra con fortalezas, vacíos y tres mejoras con acción y cita; listo para revisión. No inventes objeciones ni citas.",
+        "prompt": "Simula defensa ante dirección sobre <TEMA> en <PROCESO>; el Notebook del equipo es la base. Pide audiencia, resultado y tiempo; poco tiempo: menos preguntas, no peor evaluación. Sin contenido o decisión documentada, detente: se prueba, no se redacta. Una pregunta por vez: evidencia, alternativas, riesgos y límites; sube de aclaración a dato en contra y a consecuencia si la anterior citó y respondió. Cada objeción nombra un riesgo operativo de <PROCESO>. Cierra con fortalezas, vacíos y tres mejoras con acción y cita; listo para revisión. No inventes objeciones ni citas.",
         "level_spec": {
           "role": "Entrevistador de taller para el equipo que prueba una decisión documentada, sin reescribirla",
           "spec_role": "Especialista en preparación de conversaciones exigentes basada en evidencia",
           "objective": "Someter una decisión documentada del equipo a objeciones crecientes de gobernanza y costo y devolver tres mejoras citadas",
-          "parameters": [
+          "workflow": [
+            "Preguntar audiencia, resultado y tiempo antes de la primera pregunta y ajustar el número de preguntas al tiempo",
+            "Verificar que exista contenido o una decisión documentada; detenerse si falta",
+            "Hacer una pregunta por turno sobre evidencia, alternativas, riesgos y límites",
+            "Subir de aclaración a dato en contra y a consecuencia solo si la respuesta anterior citó la base y respondió, nombrando en cada objeción un riesgo operativo del proceso",
+            "Cerrar con fortalezas, vacíos y tres mejoras con acción y cita, listo para revisión"
+          ],
+          "guardrails": [
+            "No inventar objeciones sin riesgo operativo real detrás, ni citas o datos fuera de la base",
+            "No redactar ni reestructurar el entregable del equipo: producir el contenido es W06",
+            "Decisión no documentada: detenerse y derivar a la producción, nunca fabricar lo que se defiende",
+            "No sustituir el juicio de dirección: la simulación prueba, no aprueba"
+          ],
+          "output": [
+            "Apertura con audiencia, resultado y tiempo fijados",
+            "Una pregunta por turno sobre evidencia, alternativas, riesgos y límites, con la objeción trazada a un riesgo operativo y su evaluación citada",
+            "Cierre con fortalezas, vacíos y tres mejoras con acción y cita, listo para revisión"
+          ],
+          "dod": "Ensayo revisable: apertura con audiencia, resultado y tiempo, cada objeción trazada a un riesgo operativo, evaluación citada y tres mejoras con acción y cita.",
+          "edge_cases": [
+            "Decisión sin documentar: se detiene y deriva a producir el contenido en W06",
+            "Tiempo corto en agenda: menos preguntas, misma exigencia de evaluación",
+            "Presión por aprobar tras el ensayo: la simulación prueba, la decisión sigue siendo de dirección"
+          ],
+          "constraints": [
             [
               "entrada_del_paso_previo",
-              "decisión o pieza documentada y el Notebook del equipo como única base de citas"
+              "decisión o contenido documentado y el Notebook del equipo como única base de citas"
             ],
             [
               "apertura",
@@ -148,29 +254,10 @@
               "vacíos y tres mejoras listas para revisión, insumo de la configuración final"
             ]
           ],
-          "workflow": [
-            "Preguntar audiencia, resultado y tiempo antes de la primera pregunta y ajustar el número de preguntas al tiempo",
-            "Verificar que la pieza o decisión esté documentada y detenerse si no lo está",
-            "Hacer una pregunta por turno sobre evidencia, alternativas, riesgos y límites",
-            "Subir de aclaración a dato en contra y a consecuencia solo si la respuesta anterior citó la base y respondió, nombrando en cada objeción un riesgo operativo del proceso",
-            "Cerrar con fortalezas, vacíos y tres mejoras con acción y cita, listo para revisión"
-          ],
-          "guardrails": [
-            "No inventar objeciones sin riesgo operativo real detrás, ni citas o datos fuera de la base",
-            "No redactar ni reestructurar el entregable del equipo: producir la pieza es W06",
-            "Decisión no documentada: detenerse y derivar a la producción, nunca fabricar lo que se defiende",
-            "No sustituir el juicio de dirección: la simulación prueba, no aprueba"
-          ],
-          "output": [
-            "Apertura con audiencia, resultado y tiempo fijados",
-            "Una pregunta por turno sobre evidencia, alternativas, riesgos y límites, con la objeción trazada a un riesgo operativo y su evaluación citada",
-            "Cierre con fortalezas, vacíos y tres mejoras con acción y cita, listo para revisión"
-          ],
-          "dod": "Ensayo revisable: apertura con audiencia, resultado y tiempo, cada objeción trazada a un riesgo operativo, evaluación citada y tres mejoras con acción y cita.",
-          "edge_cases": [
-            "Decisión sin documentar: se detiene y deriva a producir la pieza en W06",
-            "Tiempo corto en agenda: menos preguntas, misma exigencia de evaluación",
-            "Presión por aprobar tras el ensayo: la simulación prueba, la decisión sigue siendo de dirección"
+          "frameworks": [
+            "Red teaming · busca fallos antes de decidir",
+            "Pre-mortem · anticipa objeciones y fallos",
+            "Rúbrica analítica · criterios y niveles observables"
           ]
         },
         "why_it_works": {
@@ -213,6 +300,83 @@
             "claim": "Trazar cada objeción a un riesgo operativo del proceso y dejar la aprobación a dirección es política interna para defensas de equipo.",
             "source": "method_internal"
           }
+        ],
+        "inputs": [
+          {
+            "key": "topic",
+            "label": "TEMA",
+            "help": "asunto concreto",
+            "example": "verificar respuestas de IA",
+            "required": true,
+            "type": "text",
+            "source": "user",
+            "demo_value": "cómo aprender a aprender con IA mediante formas de trabajo de alto rendimiento"
+          },
+          {
+            "key": "process",
+            "label": "PROCESO",
+            "help": "flujo que cambiará",
+            "example": "preparación de decisiones",
+            "required": true,
+            "type": "text",
+            "source": "user",
+            "demo_value": "preparación y revisión semanal de decisiones"
+          }
+        ],
+        "parameters": [
+          {
+            "key": "length",
+            "label": "LONGITUD",
+            "default": "concisa",
+            "choices": [
+              "concisa",
+              "media"
+            ]
+          },
+          {
+            "key": "structure",
+            "label": "ESTRUCTURA",
+            "default": "2 párrafos + bullets clave",
+            "choices": [
+              "2 párrafos + bullets clave",
+              "tabla breve"
+            ]
+          },
+          {
+            "key": "tone",
+            "label": "TONO",
+            "default": "ejecutivo y operativo",
+            "choices": [
+              "ejecutivo y operativo",
+              "facilitador"
+            ]
+          },
+          {
+            "key": "depth",
+            "label": "PROFUNDIDAD",
+            "default": "práctica",
+            "choices": [
+              "práctica",
+              "profunda"
+            ]
+          },
+          {
+            "key": "conversation_mode",
+            "label": "TIPO DE CONVERSACIÓN",
+            "default": "defensa",
+            "choices": [
+              "entrevista",
+              "QBR",
+              "defensa"
+            ]
+          }
+        ],
+        "optional_clauses": [
+          {
+            "key": "visual_opening",
+            "text": "Si mejora la comprensión, abre con un esquema breve.",
+            "default_enabled": true
+          }
         ]
       }
     },
@@ -223,15 +387,39 @@
         "when": "you must soon defend something you already wrote or decided in the workshop.",
         "example": "A QBR with hostile questions about my pilot and its controls.",
         "evidence": "an opening with audience, outcome and time, one question per turn on evidence, alternatives, risks and limits, a grade per answer quoting my words, and a close with strengths, gaps and three improvements with action and quote.",
-        "prompt": "Simulate an [INTERVIEW | QBR | DEFENSE] on [TOPIC]; my Notebook is the only source of quotes. Ask me first audience, outcome and time: less time, fewer questions, never a softer grade. Without a piece or decision already made, stop; this tests what exists, it does not draft. One question per turn: evidence, alternatives, risks, limits; move clarification, counter-evidence, consequence only if my previous answer quoted the base; otherwise repeat. Grade quoting my words. End with strengths, gaps and three improvements on [TOPIC] with action and quote. Do not invent objections or quotes.",
+        "prompt": "Simulate a defense of <DELIVERABLE> on <TOPIC>; my Notebook is the only source of quotes. Ask me first audience, outcome and time: less time, fewer questions, never a softer grade. Without content or decision already made, stop; this tests what exists, it does not draft. One question per turn: evidence, alternatives, risks, limits; move clarification, counter-evidence, consequence only if my previous answer quoted the base; otherwise repeat. Grade quoting my words. End with strengths, gaps and three improvements on <TOPIC> with action and quote. Do not invent objections or quotes.",
         "level_spec": {
           "role": "Workshop interviewer who tests what already exists, without rewriting it",
           "spec_role": "Specialist in evidence-grounded preparation for demanding conversations",
-          "objective": "Put an existing piece or decision under rising objections and return three quoted improvements",
-          "parameters": [
+          "objective": "Put an existing content or decision under rising objections and return three quoted improvements",
+          "workflow": [
+            "Ask audience, outcome and time before the first question and match the number of questions to the time",
+            "Check that content or decision to defend exists and stop if it does not",
+            "Ask one question per turn on evidence, alternatives, risks and limits",
+            "Move from clarification to counter-evidence to consequence only if the previous answer quoted the base and answered the objection; otherwise repeat the level",
+            "Grade every answer quoting the user words and close with strengths, gaps and three improvements with action and quote"
+          ],
+          "guardrails": [
+            "Never invent objections without a real risk behind them, nor quotes or data outside the base",
+            "Do not draft or restructure the deliverable: producing the content is W06",
+            "No content or decision made: stop and route to production, never fabricate the content to defend",
+            "Short time: cut the number of questions, never the demand of the grade"
+          ],
+          "output": [
+            "Opening with audience, outcome and time fixed",
+            "One question per turn on evidence, alternatives, risks and limits, with its grade quoting the user words",
+            "Close with strengths, gaps and three improvements with action and quote"
+          ],
+          "dod": "Checkable rehearsal: opening with audience, outcome and time, every grade quoting the answer, and three improvements with action and a quote from the base.",
+          "edge_cases": [
+            "Nothing to defend: it stops and routes to producing the content in W06",
+            "Declared time is short: fewer questions, same grading demand",
+            "Answer without a quote from the base: the level does not rise, it repeats"
+          ],
+          "constraints": [
             [
               "input_from_previous_step",
-              "piece or decision already produced in the workshop, Notebook as the only source of quotes"
+              "content or decision already produced in the workshop, Notebook as the only source of quotes"
             ],
             [
               "opening",
@@ -250,29 +438,10 @@
               "gaps and three improvements as input for the final configuration"
             ]
           ],
-          "workflow": [
-            "Ask audience, outcome and time before the first question and match the number of questions to the time",
-            "Check that a piece or decision to defend exists and stop if it does not",
-            "Ask one question per turn on evidence, alternatives, risks and limits",
-            "Move from clarification to counter-evidence to consequence only if the previous answer quoted the base and answered the objection; otherwise repeat the level",
-            "Grade every answer quoting the user words and close with strengths, gaps and three improvements with action and quote"
-          ],
-          "guardrails": [
-            "Never invent objections without a real risk behind them, nor quotes or data outside the base",
-            "Do not draft or restructure the deliverable: producing the piece is W06",
-            "No piece or decision made: stop and route to production, never fabricate the content to defend",
-            "Short time: cut the number of questions, never the demand of the grade"
-          ],
-          "output": [
-            "Opening with audience, outcome and time fixed",
-            "One question per turn on evidence, alternatives, risks and limits, with its grade quoting the user words",
-            "Close with strengths, gaps and three improvements with action and quote"
-          ],
-          "dod": "Checkable rehearsal: opening with audience, outcome and time, every grade quoting the answer, and three improvements with action and a quote from the base.",
-          "edge_cases": [
-            "Nothing to defend: it stops and routes to producing the piece in W06",
-            "Declared time is short: fewer questions, same grading demand",
-            "Answer without a quote from the base: the level does not rise, it repeats"
+          "frameworks": [
+            "Red teaming · find flaws before deciding",
+            "Pre-mortem · anticipate objections and failure",
+            "Analytic rubric · observable criteria and levels"
           ]
         },
         "why_it_works": {
@@ -282,7 +451,7 @@
             "The three improvements each name an action and a quote from the base"
           ],
           "edge_cases": [
-            "No piece to defend: it stops instead of simulating over nothing",
+            "No content to defend: it stops instead of simulating over nothing",
             "Little time: questions drop, demand does not"
           ],
           "tradeoffs": [
@@ -290,7 +459,7 @@
             "The workshop metadata is preserved whole: the when becomes the when field, the hostile QBR becomes example, rehearsal and improvements become evidence, the do-not-simulate-certainty limit becomes a guardrail and the audience, outcome and time inputs become the asked opening"
           ],
           "assumptions": [
-            "The workshop Notebook is active as the evidence base and the piece to defend already exists"
+            "The workshop Notebook is active as the evidence base and the content to defend already exists"
           ],
           "limits": [
             "It tests the argument; it neither drafts nor restructures it: producing is W06",
@@ -315,6 +484,83 @@
             "claim": "Grading by quoting the user words against the base is feasible because the assistant can answer from the selected sources and expose its citations.",
             "source": "https://support.google.com/notebooklm/answer/16179559?hl=es"
           }
+        ],
+        "inputs": [
+          {
+            "key": "deliverable",
+            "label": "DELIVERABLE",
+            "help": "deliverable that must be ready",
+            "example": "one-page memo",
+            "required": true,
+            "type": "text",
+            "source": "user",
+            "demo_value": "one-page memo"
+          },
+          {
+            "key": "topic",
+            "label": "TOPIC",
+            "help": "specific subject",
+            "example": "verify AI answers",
+            "required": true,
+            "type": "text",
+            "source": "user",
+            "demo_value": "how to learn with AI through a weekly high-performance practice"
+          }
+        ],
+        "parameters": [
+          {
+            "key": "length",
+            "label": "LENGTH",
+            "default": "concise",
+            "choices": [
+              "concise",
+              "medium"
+            ]
+          },
+          {
+            "key": "structure",
+            "label": "STRUCTURE",
+            "default": "2 paragraphs + key bullets",
+            "choices": [
+              "2 paragraphs + key bullets",
+              "short table"
+            ]
+          },
+          {
+            "key": "tone",
+            "label": "TONE",
+            "default": "clear and personal",
+            "choices": [
+              "clear and personal",
+              "instructional"
+            ]
+          },
+          {
+            "key": "depth",
+            "label": "DEPTH",
+            "default": "practical",
+            "choices": [
+              "practical",
+              "deep"
+            ]
+          },
+          {
+            "key": "conversation_mode",
+            "label": "CONVERSATION TYPE",
+            "default": "defense",
+            "choices": [
+              "interview",
+              "QBR",
+              "defense"
+            ]
+          }
+        ],
+        "optional_clauses": [
+          {
+            "key": "visual_opening",
+            "text": "If it improves understanding, open with a short diagram.",
+            "default_enabled": true
+          }
         ]
       },
       "empresa": {
@@ -323,15 +569,39 @@
         "when": "the process requires defending a documented decision before leadership and there is an accountable owner.",
         "example": "An area QBR with hostile questions about the pilot and its controls.",
         "evidence": "an opening with audience, outcome and time, one question per turn on evidence, alternatives, risks and limits, a quoted grade per answer, each objection traced to an operational risk and a close with strengths, gaps and three improvements with action and quote, ready for review.",
-        "prompt": "Simulate [INTERVIEW | QBR | DEFENSE] before leadership on [TOPIC] in [PROCESS]; the team Notebook is the base. Ask first audience, outcome and time: less time, fewer questions, no softer grade. No documented piece or decision: stop; this tests, it does not draft. One question per turn: evidence, alternatives, risks, limits; move clarification, counter-evidence, consequence only if the previous answer quoted. Each objection names an operational risk of [PROCESS]. End with strengths, gaps, three improvements with action and quote, ready for review. Do not invent objections or quotes.",
+        "prompt": "Simulate defense before leadership on <TOPIC> in <PROCESS>; the team Notebook is the base. Ask first audience, outcome and time: less time, fewer questions, no softer grade. No documented content or decision: stop; this tests, it does not draft. One question per turn: evidence, alternatives, risks, limits; move clarification, counter-evidence, consequence only if the previous answer quoted. Each objection names an operational risk of <PROCESS>. End with strengths, gaps, three improvements with action and quote, ready for review. Do not invent objections or quotes.",
         "level_spec": {
           "role": "Workshop interviewer for the team who tests a documented decision, without rewriting it",
           "spec_role": "Specialist in evidence-grounded preparation for demanding conversations",
           "objective": "Put a documented team decision under rising governance and cost objections and return three quoted improvements",
-          "parameters": [
+          "workflow": [
+            "Ask audience, outcome and time before the first question and match the number of questions to the time",
+            "Check that the content or decision is documented and stop if it is not",
+            "Ask one question per turn on evidence, alternatives, risks and limits",
+            "Move from clarification to counter-evidence to consequence only if the previous answer quoted the base, naming an operational risk of the process in every objection",
+            "Close with strengths, gaps and three improvements with action and quote, ready for review"
+          ],
+          "guardrails": [
+            "Never invent objections without a real operational risk behind them, nor quotes or data outside the base",
+            "Do not draft or restructure the team deliverable: producing the content is W06",
+            "Undocumented decision: stop and route to production, never fabricate what is defended",
+            "Do not replace leadership judgement: the simulation tests, it does not approve"
+          ],
+          "output": [
+            "Opening with audience, outcome and time fixed",
+            "One question per turn on evidence, alternatives, risks and limits, with the objection traced to an operational risk and its quoted grade",
+            "Close with strengths, gaps and three improvements with action and quote, ready for review"
+          ],
+          "dod": "Reviewable rehearsal: opening with audience, outcome and time, every objection traced to an operational risk, a quoted grade and three improvements with action and quote.",
+          "edge_cases": [
+            "Undocumented decision: it stops and routes to producing the content in W06",
+            "Short agenda slot: fewer questions, same grading demand",
+            "Pressure to approve after the rehearsal: the simulation tests, the decision stays with leadership"
+          ],
+          "constraints": [
             [
               "input_from_previous_step",
-              "documented decision or piece, team Notebook as the only source of quotes"
+              "documented decision or content, team Notebook as the only source of quotes"
             ],
             [
               "opening",
@@ -350,29 +620,10 @@
               "gaps and three improvements ready for review, input for the final configuration"
             ]
           ],
-          "workflow": [
-            "Ask audience, outcome and time before the first question and match the number of questions to the time",
-            "Check that the piece or decision is documented and stop if it is not",
-            "Ask one question per turn on evidence, alternatives, risks and limits",
-            "Move from clarification to counter-evidence to consequence only if the previous answer quoted the base, naming an operational risk of the process in every objection",
-            "Close with strengths, gaps and three improvements with action and quote, ready for review"
-          ],
-          "guardrails": [
-            "Never invent objections without a real operational risk behind them, nor quotes or data outside the base",
-            "Do not draft or restructure the team deliverable: producing the piece is W06",
-            "Undocumented decision: stop and route to production, never fabricate what is defended",
-            "Do not replace leadership judgement: the simulation tests, it does not approve"
-          ],
-          "output": [
-            "Opening with audience, outcome and time fixed",
-            "One question per turn on evidence, alternatives, risks and limits, with the objection traced to an operational risk and its quoted grade",
-            "Close with strengths, gaps and three improvements with action and quote, ready for review"
-          ],
-          "dod": "Reviewable rehearsal: opening with audience, outcome and time, every objection traced to an operational risk, a quoted grade and three improvements with action and quote.",
-          "edge_cases": [
-            "Undocumented decision: it stops and routes to producing the piece in W06",
-            "Short agenda slot: fewer questions, same grading demand",
-            "Pressure to approve after the rehearsal: the simulation tests, the decision stays with leadership"
+          "frameworks": [
+            "Red teaming · find flaws before deciding",
+            "Pre-mortem · anticipate objections and failure",
+            "Analytic rubric · observable criteria and levels"
           ]
         },
         "why_it_works": {
@@ -415,25 +666,126 @@
             "claim": "Tracing every objection to an operational risk of the process and leaving approval to leadership is internal policy for team defences.",
             "source": "method_internal"
           }
+        ],
+        "inputs": [
+          {
+            "key": "topic",
+            "label": "TOPIC",
+            "help": "specific subject",
+            "example": "verify AI answers",
+            "required": true,
+            "type": "text",
+            "source": "user",
+            "demo_value": "how to learn with AI through high-performance ways of working"
+          },
+          {
+            "key": "process",
+            "label": "PROCESS",
+            "help": "workflow that will change",
+            "example": "decision preparation",
+            "required": true,
+            "type": "text",
+            "source": "user",
+            "demo_value": "weekly decision preparation and review"
+          }
+        ],
+        "parameters": [
+          {
+            "key": "length",
+            "label": "LENGTH",
+            "default": "concise",
+            "choices": [
+              "concise",
+              "medium"
+            ]
+          },
+          {
+            "key": "structure",
+            "label": "STRUCTURE",
+            "default": "2 paragraphs + key bullets",
+            "choices": [
+              "2 paragraphs + key bullets",
+              "short table"
+            ]
+          },
+          {
+            "key": "tone",
+            "label": "TONE",
+            "default": "executive and operational",
+            "choices": [
+              "executive and operational",
+              "facilitative"
+            ]
+          },
+          {
+            "key": "depth",
+            "label": "DEPTH",
+            "default": "practical",
+            "choices": [
+              "practical",
+              "deep"
+            ]
+          },
+          {
+            "key": "conversation_mode",
+            "label": "CONVERSATION TYPE",
+            "default": "defense",
+            "choices": [
+              "interview",
+              "QBR",
+              "defense"
+            ]
+          }
+        ],
+        "optional_clauses": [
+          {
+            "key": "visual_opening",
+            "text": "If it improves understanding, open with a short diagram.",
+            "default_enabled": true
+          }
         ]
       }
     },
     "pt": {
       "persona": {
         "title": "Ensaio guiado da minha conversa difícil",
-        "purpose": "Simula a entrevista, QBR ou defesa que vem aí e sobe a pressão só quando sua resposta anterior cita a base da oficina e responde à objeção.",
+        "purpose": "Simule a entrevista, QBR ou defesa que vem aí e sobe a pressão só quando sua resposta anterior cita a base da oficina e responde à objeção.",
         "when": "você deve defender em breve algo que já escreveu ou decidiu na oficina.",
         "example": "QBR com perguntas hostis sobre meu piloto e seus controles.",
         "evidence": "abertura com público, resultado e tempo, uma pergunta por turno sobre evidência, alternativas, riscos e limites, uma avaliação por resposta citando minha frase, e fechamento com forças, lacunas e três melhorias com ação e citação.",
-        "prompt": "Simule uma [ENTREVISTA | QBR | DEFESA] sobre [TEMA]; meu Notebook é a única base de citações. Pergunte antes público, resultado e tempo: pouco tempo, menos perguntas, nunca avaliação frouxa. Sem peça ou decisão feita, pare: testa-se o que existe, não se redige. Uma pergunta por vez sobre evidência, alternativas, riscos e limites; suba de esclarecimento a dado contrário e a consequência só se a anterior citou a base; senão, repita. Avalie citando minha frase. Feche com forças, lacunas e três melhorias de [TEMA] com ação e citação. Não invente objeções sem risco real nem citações.",
+        "prompt": "Simule uma defesa de <ENTREGÁVEL> sobre <TEMA>; meu Notebook é a única base de citações. Pergunte antes público, resultado e tempo: pouco tempo, menos perguntas, nunca avaliação frouxa. Sem conteúdo ou decisão feita, pare: testa-se o que existe, não se redige. Uma pergunta por vez sobre evidência, alternativas, riscos e limites; suba de esclarecimento a dado contrário e a consequência só se a anterior citou a base; senão, repita. Avalie citando minha frase. Feche com forças, lacunas e três melhorias de <TEMA> com ação e citação. Não invente objeções sem risco real nem citações.",
         "level_spec": {
           "role": "Entrevistador de oficina que testa o que já existe, sem reescrever",
           "spec_role": "Especialista em preparação de conversas exigentes baseada em evidências",
-          "objective": "Submeter uma peça ou decisão já feita a objeções crescentes e devolver três melhorias citadas",
-          "parameters": [
+          "objective": "Submeter conteúdo ou decisão já produzidos a objeções crescentes e devolver três melhorias citadas",
+          "workflow": [
+            "Perguntar público, resultado e tempo antes da primeira pergunta e ajustar o número de perguntas ao tempo",
+            "Verificar que exista conteúdo ou decisão a defender; parar se faltar",
+            "Fazer uma pergunta por turno sobre evidência, alternativas, riscos e limites",
+            "Subir de esclarecimento a dado contrário e a consequência só se a resposta anterior citou a base e respondeu; senão, repetir o nível",
+            "Avaliar cada resposta citando a frase do usuário e fechar com forças, lacunas e três melhorias com ação e citação"
+          ],
+          "guardrails": [
+            "Não inventar objeções sem risco real por trás, nem citações ou dados fora da base",
+            "Não redigir nem reestruturar o entregável: produzir o conteúdo é W06",
+            "Sem conteúdo ou decisão feita: parar e encaminhar à produção, nunca fabricar o conteúdo a defender",
+            "Tempo curto: reduzir o número de perguntas, nunca a exigência da avaliação"
+          ],
+          "output": [
+            "Abertura com público, resultado e tempo fixados",
+            "Uma pergunta por turno sobre evidência, alternativas, riscos e limites, com sua avaliação citando a frase do usuário",
+            "Fechamento com forças, lacunas e três melhorias com ação e citação"
+          ],
+          "dod": "Ensaio verificável: abertura com público, resultado e tempo, cada avaliação citando a frase avaliada, e três melhorias com ação e citação da base.",
+          "edge_cases": [
+            "Sem material a defender: para e encaminha a produzir o conteúdo em W06",
+            "Tempo declarado curto: menos perguntas, mesma exigência de avaliação",
+            "Resposta sem citação da base: não sobe de nível, repete o mesmo"
+          ],
+          "constraints": [
             [
               "entrada_do_passo_anterior",
-              "peça ou decisão já produzida na oficina e Notebook como única base de citações"
+              "conteúdo ou decisão já produzida na oficina e Notebook como única base de citações"
             ],
             [
               "abertura",
@@ -452,29 +804,10 @@
               "lacunas e três melhorias como insumo da configuração final"
             ]
           ],
-          "workflow": [
-            "Perguntar público, resultado e tempo antes da primeira pergunta e ajustar o número de perguntas ao tempo",
-            "Verificar que exista peça ou decisão a defender e parar se não existir",
-            "Fazer uma pergunta por turno sobre evidência, alternativas, riscos e limites",
-            "Subir de esclarecimento a dado contrário e a consequência só se a resposta anterior citou a base e respondeu; senão, repetir o nível",
-            "Avaliar cada resposta citando a frase do usuário e fechar com forças, lacunas e três melhorias com ação e citação"
-          ],
-          "guardrails": [
-            "Não inventar objeções sem risco real por trás, nem citações ou dados fora da base",
-            "Não redigir nem reestruturar o entregável: produzir a peça é W06",
-            "Sem peça ou decisão feita: parar e encaminhar à produção, nunca fabricar o conteúdo a defender",
-            "Tempo curto: reduzir o número de perguntas, nunca a exigência da avaliação"
-          ],
-          "output": [
-            "Abertura com público, resultado e tempo fixados",
-            "Uma pergunta por turno sobre evidência, alternativas, riscos e limites, com sua avaliação citando a frase do usuário",
-            "Fechamento com forças, lacunas e três melhorias com ação e citação"
-          ],
-          "dod": "Ensaio verificável: abertura com público, resultado e tempo, cada avaliação citando a frase avaliada, e três melhorias com ação e citação da base.",
-          "edge_cases": [
-            "Sem material a defender: para e encaminha a produzir a peça em W06",
-            "Tempo declarado curto: menos perguntas, mesma exigência de avaliação",
-            "Resposta sem citação da base: não sobe de nível, repete o mesmo"
+          "frameworks": [
+            "Red teaming · encontre falhas antes de decidir",
+            "Pre-mortem · antecipe objeções e falhas",
+            "Rubrica analítica · critérios e níveis observáveis"
           ]
         },
         "why_it_works": {
@@ -484,7 +817,7 @@
             "As três melhorias trazem ação e citação da base"
           ],
           "edge_cases": [
-            "Sem peça a defender: para em vez de simular sobre nada",
+            "Sem conteúdo a defender: para em vez de simular sobre nada",
             "Pouco tempo: caem as perguntas, não a exigência"
           ],
           "tradeoffs": [
@@ -492,7 +825,7 @@
             "O metadado da oficina é preservado inteiro: o quando vira when, o QBR hostil vira example, o ensaio e as melhorias viram evidence, o limite de não simular certeza vira guardrail e as entradas público, resultado e tempo viram a abertura perguntada"
           ],
           "assumptions": [
-            "O Notebook da oficina está ativo como base de evidências e a peça a defender já existe"
+            "O Notebook da oficina está ativo como base de evidências e o conteúdo a defender já existe"
           ],
           "limits": [
             "Testa o argumento; não o redige nem o reestrutura: produzir é W06",
@@ -517,23 +850,124 @@
             "claim": "Avaliar citando a frase do usuário contra a base é possível porque o assistente pode responder a partir das fontes selecionadas e mostrar as citações.",
             "source": "https://support.google.com/notebooklm/answer/16179559?hl=es"
           }
+        ],
+        "inputs": [
+          {
+            "key": "deliverable",
+            "label": "ENTREGÁVEL",
+            "help": "entregável que deve ficar pronto",
+            "example": "memo de uma página",
+            "required": true,
+            "type": "text",
+            "source": "user",
+            "demo_value": "memo de uma página"
+          },
+          {
+            "key": "topic",
+            "label": "TEMA",
+            "help": "assunto concreto",
+            "example": "verificar respostas de IA",
+            "required": true,
+            "type": "text",
+            "source": "user",
+            "demo_value": "como aprender a aprender com IA por meio de uma prática semanal de alto desempenho"
+          }
+        ],
+        "parameters": [
+          {
+            "key": "length",
+            "label": "EXTENSÃO",
+            "default": "concisa",
+            "choices": [
+              "concisa",
+              "média"
+            ]
+          },
+          {
+            "key": "structure",
+            "label": "ESTRUTURA",
+            "default": "2 parágrafos + bullets-chave",
+            "choices": [
+              "2 parágrafos + bullets-chave",
+              "tabela breve"
+            ]
+          },
+          {
+            "key": "tone",
+            "label": "TOM",
+            "default": "claro e pessoal",
+            "choices": [
+              "claro e pessoal",
+              "didático"
+            ]
+          },
+          {
+            "key": "depth",
+            "label": "PROFUNDIDADE",
+            "default": "prática",
+            "choices": [
+              "prática",
+              "profunda"
+            ]
+          },
+          {
+            "key": "conversation_mode",
+            "label": "TIPO DE CONVERSA",
+            "default": "defesa",
+            "choices": [
+              "entrevista",
+              "QBR",
+              "defesa"
+            ]
+          }
+        ],
+        "optional_clauses": [
+          {
+            "key": "visual_opening",
+            "text": "Se melhorar a compreensão, abra com um esquema breve.",
+            "default_enabled": true
+          }
         ]
       },
       "empresa": {
         "title": "Ensaio de defesa da equipe perante a diretoria",
-        "purpose": "Simula a entrevista, QBR ou defesa perante a diretoria de uma decisão já documentada da equipe, com objeções de governança e custo que sobem só com resposta citada.",
+        "purpose": "Simule a entrevista, QBR ou defesa perante a diretoria de uma decisão já documentada da equipe, com objeções de governança e custo que sobem só com resposta citada.",
         "when": "o processo exige defender perante a diretoria uma decisão documentada e há um responsável.",
         "example": "QBR da área com perguntas hostis sobre o piloto e seus controles.",
         "evidence": "abertura com público, resultado e tempo, uma pergunta por turno sobre evidência, alternativas, riscos e limites, avaliação citada por resposta, objeção ligada a um risco operacional e fechamento com forças, lacunas e três melhorias com ação e citação, pronto para revisão.",
-        "prompt": "Simule [ENTREVISTA | QBR | DEFESA] perante a diretoria sobre [TEMA] em [PROCESSO]; o Notebook da equipe é a base. Pergunte antes público, resultado e tempo: pouco tempo, menos perguntas, não avaliação frouxa. Sem peça ou decisão documentada, pare: testa-se, não se redige. Uma pergunta por vez: evidência, alternativas, riscos e limites; suba esclarecimento, dado contrário, consequência só se a anterior citou a base. Cada objeção nomeia um risco operacional de [PROCESSO]. Feche com forças, lacunas e três melhorias com ação e citação, pronto para revisão. Não invente objeções nem citações.",
+        "prompt": "Simule defesa perante a diretoria sobre <TEMA> em <PROCESSO>; o Notebook da equipe é a base. Pergunte antes público, resultado e tempo: pouco tempo, menos perguntas, não avaliação frouxa. Sem conteúdo ou decisão documentada, pare: testa-se, não se redige. Uma pergunta por vez: evidência, alternativas, riscos e limites; suba esclarecimento, dado contrário, consequência só se a anterior citou a base. Cada objeção nomeia um risco operacional de <PROCESSO>. Feche com forças, lacunas e três melhorias com ação e citação, pronto para revisão. Não invente objeções nem citações.",
         "level_spec": {
           "role": "Entrevistador de oficina da equipe que testa uma decisão documentada, sem reescrever",
           "spec_role": "Especialista em preparação de conversas exigentes baseada em evidências",
           "objective": "Submeter uma decisão documentada da equipe a objeções crescentes de governança e custo e devolver três melhorias citadas",
-          "parameters": [
+          "workflow": [
+            "Perguntar público, resultado e tempo antes da primeira pergunta e ajustar o número de perguntas ao tempo",
+            "Verificar que exista conteúdo ou decisão documentada; parar se faltar",
+            "Fazer uma pergunta por turno sobre evidência, alternativas, riscos e limites",
+            "Subir de esclarecimento a dado contrário e a consequência só se a resposta anterior citou a base, nomeando em cada objeção um risco operacional do processo",
+            "Fechar com forças, lacunas e três melhorias com ação e citação, pronto para revisão"
+          ],
+          "guardrails": [
+            "Não inventar objeções sem risco operacional real por trás, nem citações ou dados fora da base",
+            "Não redigir nem reestruturar o entregável da equipe: produzir o conteúdo é W06",
+            "Decisão não documentada: parar e encaminhar à produção, nunca fabricar o que se defende",
+            "Não substituir o julgamento da diretoria: a simulação testa, não aprova"
+          ],
+          "output": [
+            "Abertura com público, resultado e tempo fixados",
+            "Uma pergunta por turno sobre evidência, alternativas, riscos e limites, com a objeção ligada a um risco operacional e sua avaliação citada",
+            "Fechamento com forças, lacunas e três melhorias com ação e citação, pronto para revisão"
+          ],
+          "dod": "Ensaio revisável: abertura com público, resultado e tempo, cada objeção ligada a um risco operacional, avaliação citada e três melhorias com ação e citação.",
+          "edge_cases": [
+            "Decisão sem documentar: para e encaminha a produzir o conteúdo em W06",
+            "Janela curta na agenda: menos perguntas, mesma exigência de avaliação",
+            "Pressão para aprovar após o ensaio: a simulação testa, a decisão segue com a diretoria"
+          ],
+          "constraints": [
             [
               "entrada_do_passo_anterior",
-              "decisão ou peça documentada e Notebook da equipe como única base de citações"
+              "decisão ou conteúdo documentado e Notebook da equipe como única base de citações"
             ],
             [
               "abertura",
@@ -552,29 +986,10 @@
               "lacunas e três melhorias prontas para revisão, insumo da configuração final"
             ]
           ],
-          "workflow": [
-            "Perguntar público, resultado e tempo antes da primeira pergunta e ajustar o número de perguntas ao tempo",
-            "Verificar que a peça ou decisão esteja documentada e parar se não estiver",
-            "Fazer uma pergunta por turno sobre evidência, alternativas, riscos e limites",
-            "Subir de esclarecimento a dado contrário e a consequência só se a resposta anterior citou a base, nomeando em cada objeção um risco operacional do processo",
-            "Fechar com forças, lacunas e três melhorias com ação e citação, pronto para revisão"
-          ],
-          "guardrails": [
-            "Não inventar objeções sem risco operacional real por trás, nem citações ou dados fora da base",
-            "Não redigir nem reestruturar o entregável da equipe: produzir a peça é W06",
-            "Decisão não documentada: parar e encaminhar à produção, nunca fabricar o que se defende",
-            "Não substituir o julgamento da diretoria: a simulação testa, não aprova"
-          ],
-          "output": [
-            "Abertura com público, resultado e tempo fixados",
-            "Uma pergunta por turno sobre evidência, alternativas, riscos e limites, com a objeção ligada a um risco operacional e sua avaliação citada",
-            "Fechamento com forças, lacunas e três melhorias com ação e citação, pronto para revisão"
-          ],
-          "dod": "Ensaio revisável: abertura com público, resultado e tempo, cada objeção ligada a um risco operacional, avaliação citada e três melhorias com ação e citação.",
-          "edge_cases": [
-            "Decisão sem documentar: para e encaminha a produzir a peça em W06",
-            "Janela curta na agenda: menos perguntas, mesma exigência de avaliação",
-            "Pressão para aprovar após o ensaio: a simulação testa, a decisão segue com a diretoria"
+          "frameworks": [
+            "Red teaming · encontre falhas antes de decidir",
+            "Pre-mortem · antecipe objeções e falhas",
+            "Rubrica analítica · critérios e níveis observáveis"
           ]
         },
         "why_it_works": {
@@ -617,10 +1032,102 @@
             "claim": "Ligar cada objeção a um risco operacional do processo e deixar a aprovação à diretoria é política interna para defesas de equipe.",
             "source": "method_internal"
           }
+        ],
+        "inputs": [
+          {
+            "key": "topic",
+            "label": "TEMA",
+            "help": "assunto concreto",
+            "example": "verificar respostas de IA",
+            "required": true,
+            "type": "text",
+            "source": "user",
+            "demo_value": "como aprender a aprender com IA por meio de formas de trabalho de alto desempenho"
+          },
+          {
+            "key": "process",
+            "label": "PROCESSO",
+            "help": "fluxo que mudará",
+            "example": "preparação de decisões",
+            "required": true,
+            "type": "text",
+            "source": "user",
+            "demo_value": "preparação e revisão semanal de decisões"
+          }
+        ],
+        "parameters": [
+          {
+            "key": "length",
+            "label": "EXTENSÃO",
+            "default": "concisa",
+            "choices": [
+              "concisa",
+              "média"
+            ]
+          },
+          {
+            "key": "structure",
+            "label": "ESTRUTURA",
+            "default": "2 parágrafos + bullets-chave",
+            "choices": [
+              "2 parágrafos + bullets-chave",
+              "tabela breve"
+            ]
+          },
+          {
+            "key": "tone",
+            "label": "TOM",
+            "default": "executivo e operacional",
+            "choices": [
+              "executivo e operacional",
+              "facilitador"
+            ]
+          },
+          {
+            "key": "depth",
+            "label": "PROFUNDIDADE",
+            "default": "prática",
+            "choices": [
+              "prática",
+              "profunda"
+            ]
+          },
+          {
+            "key": "conversation_mode",
+            "label": "TIPO DE CONVERSA",
+            "default": "defesa",
+            "choices": [
+              "entrevista",
+              "QBR",
+              "defesa"
+            ]
+          }
+        ],
+        "optional_clauses": [
+          {
+            "key": "visual_opening",
+            "text": "Se melhorar a compreensão, abra com um esquema breve.",
+            "default_enabled": true
+          }
         ]
       }
     }
   },
   "self_hash_model": "sha256(sorted-json-without-self_sha256)",
-  "self_sha256": "5484a7d663d4176790faaf2fe51e888b32ca36a02a99ef75a8852f3fc0b9dd76"
+  "self_sha256": "c6fc00145e876115a6746bd72db23153cbfb3cab64a4af33ef53add976725f18",
+  "flow": {
+    "route": "workbook",
+    "order": 12,
+    "previous": "W08",
+    "next": "W10",
+    "branches": [],
+    "consumes": [
+      "MATERIAL_DE_APRENDIZAJE",
+      "PREGUNTAS_DE_COMPRENSION"
+    ],
+    "produces": "ENSAYO_DE_DEFENSA",
+    "external_gate": false,
+    "loop_to": null,
+    "standalone": true
+  }
 }

@@ -1,0 +1,128 @@
+{
+  "schema_version": "module-depth-profile-v1",
+  "profile_id": "nivel-0-editorial-depth-v1",
+  "status": "RENDERED_DRAFT",
+  "publication_authorized": false,
+  "purpose": "Give modules 02-04 the same functional learning depth as module 01 without copying its subject matter or inflating the interface.",
+  "principles": [
+    "Explain, exemplify, practise, verify, decide and transfer.",
+    "Keep imported payloads immutable; enrich them through ID-bound overlays.",
+    "Use progressive disclosure and keep the default visible surface below twice its previous visible word count; expanded reference layers must remain non-redundant.",
+    "Keep conceptual copy localized and adapt application, responsibility and evidence materially by audience.",
+    "Do not assert performance percentages, 10x outcomes, causal cognitive effects or neuroscience without governed authority."
+  ],
+  "variant_policy": {
+    "locales": ["es", "en", "pt"],
+    "audiences": ["persona", "empresa"],
+    "exact_variants": 6,
+    "fallback_allowed": false,
+    "shared_copy_requires_allowlist": true,
+    "audience_distinction": {
+      "persona": ["individual decision", "personal boundary", "transferable evidence"],
+      "empresa": ["owner", "reviewer", "rights", "dependencies", "exceptions", "adoption"]
+    }
+  },
+  "resources": {
+    "masterclass": {
+      "preserve_base_ids": true,
+      "exact_phases": 3,
+      "moment_fields": [
+        "id",
+        "phase",
+        "explanation",
+        "key_points",
+        "application",
+        "check_question",
+        "micro_practice",
+        "takeaway",
+        "handoff",
+        "concept_ids",
+        "authority_refs"
+      ],
+      "key_points_range": [2, 3]
+    },
+    "workbook": {
+      "preserve_base_route_and_step_ids": true,
+      "exact_routes": 3,
+      "route_fields": ["id", "title", "brief", "steps"],
+      "preparation_prompts": 3,
+      "step_fields": [
+        "id",
+        "title",
+        "brief",
+        "actions",
+        "deliverable",
+        "example",
+        "criteria",
+        "watch_out",
+        "reflection",
+        "next_connection",
+        "prompt_ref",
+        "concept_ids",
+        "authority_refs"
+      ],
+      "actions_range": [2, 3],
+      "criteria_range": [2, 3],
+      "rubric_levels": 3
+    },
+    "playbook": {
+      "preserve_base_chapter_ids": true,
+      "chapter_fields": [
+        "id",
+        "principle",
+        "explanation",
+        "decision",
+        "actions",
+        "rule",
+        "example",
+        "antipattern",
+        "checklist",
+        "expected_evidence",
+        "limit",
+        "prompt_ref",
+        "concept_ids",
+        "authority_refs"
+      ],
+      "actions_range": [3, 4],
+      "checklist_range": [2, 3],
+      "closing_checklist_range": [3, 6],
+      "glossary_range": [4, 6],
+      "faq_range": [3, 4]
+    },
+    "prompts": {
+      "preserve_base_prompt_ids_and_count": true,
+      "prompt_fields": [
+        "id",
+        "purpose",
+        "when",
+        "workflow",
+        "frameworks",
+        "guardrails",
+        "acceptance_criteria",
+        "edge_cases",
+        "tradeoff",
+        "limits",
+        "next",
+        "concept_ids",
+        "authority_refs"
+      ],
+      "workflow_range": [3, 5],
+      "guardrails_range": [2, 3],
+      "acceptance_range": [2, 4],
+      "edge_cases_range": [1, 2]
+    }
+  },
+  "evidence_policy": {
+    "authority_refs_must_resolve_in_base_payload": true,
+    "synthetic_examples_must_be_declared": true,
+    "notebooklm_queries_are_editorial_leads_until_bound_to_captured_sources": true,
+    "unsupported_claims_fail_closed": true
+  },
+  "determinism": {
+    "merge_by_id_only": true,
+    "positional_merge_forbidden": true,
+    "unused_overlay_fields_forbidden": true,
+    "base_payload_mutation_forbidden": true,
+    "network_required": false
+  }
+}

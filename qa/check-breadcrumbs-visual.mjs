@@ -13,10 +13,11 @@ function walk(folder) {
   return fs.readdirSync(folder, {withFileTypes: true}).flatMap((entry) => entry.isDirectory() ? walk(resolve(folder, entry.name)) : [resolve(folder, entry.name)]);
 }
 const routes = walk(dist).filter((file) => file.endsWith('index.html')).map((file) => relative(dist, file));
-if (routes.length !== 54) throw new Error(`BREADCRUMB_VISUAL_ROUTE_COUNT ${routes.length}`);
+if (routes.length !== 126) throw new Error(`BREADCRUMB_VISUAL_ROUTE_COUNT ${routes.length}`);
 const local = (route) => pathToFileURL(resolve(dist, route)).href;
 
 const page = await browser.newPage({viewport: {width: 390, height: 844}});
+let nestedCount = 0;
 for (const route of routes) {
   for (const theme of ['light', 'dark']) {
     const errors = [];
@@ -28,6 +29,11 @@ for (const route of routes) {
     const state = await page.evaluate(async () => {
       const crumb = document.querySelector('[data-conoce-breadcrumbs]');
       const trigger = document.querySelector('[data-intrapage-open]');
+      const pageId = document.body.dataset.page;
+      const moduleId = document.body.dataset.moduleId;
+      const resource = ['deck', 'workbook', 'playbook', 'prompts'].includes(pageId);
+      const nested = resource && moduleId !== 'ia-panorama';
+      const expectedItems = pageId === 'landing' ? 1 : resource ? (nested ? 4 : 3) : 2;
       const crumbTargets = [...crumb.querySelectorAll('a,[aria-current="page"]')].map((node) => node.getBoundingClientRect());
       const triggerRect = trigger.getBoundingClientRect();
       const intersects = crumbTargets.some((rect) => !(rect.right <= triggerRect.left || rect.left >= triggerRect.right || rect.bottom <= triggerRect.top || rect.top >= triggerRect.bottom));
@@ -37,16 +43,22 @@ for (const route of routes) {
         violations: result.violations.map((item) => item.id),
         breadcrumbCount: document.querySelectorAll('[data-conoce-breadcrumbs]').length,
         currentCount: crumb.querySelectorAll('[aria-current="page"]').length,
+        itemCount: crumb.querySelectorAll('ol > li').length,
+        expectedItems,
+        nested,
+        nestedModuleLink: nested ? crumb.querySelector('ol > li:nth-child(3) a[href*="#module-"]') !== null : true,
         lastIsCurrent: crumb.querySelector('li:last-child > span[aria-current="page"]') !== null,
+        singletonShell: ['[data-conoce-header]', '[data-conoce-footer]', '[data-conoce-preferences]', '[data-intrapage-nav]'].every((selector) => document.querySelectorAll(selector).length === 1),
         visible: crumb.getClientRects().length > 0,
         overflow: document.documentElement.scrollWidth - innerWidth,
         overlap: intersects,
       };
     });
     page.off('pageerror', listener);
-    if (errors.length || state.axeVersion !== '4.12.1' || state.violations.length || state.breadcrumbCount !== 1 || state.currentCount !== 1 || !state.lastIsCurrent || !state.visible || state.overflow > 0 || state.overlap) {
+    if (errors.length || state.axeVersion !== '4.12.1' || state.violations.length || state.breadcrumbCount !== 1 || state.currentCount !== 1 || state.itemCount !== state.expectedItems || !state.nestedModuleLink || !state.lastIsCurrent || !state.singletonShell || !state.visible || state.overflow > 0 || state.overlap) {
       throw new Error(`BREADCRUMB_VISUAL_FAILED ${route}:${theme} ${JSON.stringify({errors, state})}`);
     }
+    if (theme === 'light' && state.nested) nestedCount += 1;
   }
   await page.locator('[data-conoce-menu]').evaluate((node) => node.click());
   await page.waitForFunction(() => document.querySelector('[data-conoce-home-link]')?.getClientRects().length > 0);
@@ -55,8 +67,14 @@ for (const route of routes) {
   await page.keyboard.press('Escape');
 }
 await page.close();
+if (nestedCount !== 72) throw new Error(`BREADCRUMB_VISUAL_NESTED_COUNT ${nestedCount}`);
 
-for (const [width, route] of [[320, 'playbook/index.html'], [390, 'empresa/convocatorias/index.html'], [768, 'en/empresa/resources/index.html'], [1440, 'pt/workbook/index.html']]) {
+for (const [width, route] of [
+  [320, 'playbook/index.html'],
+  [390, 'empresa/modulos/02-de-ocupado-a-productivo/prompts/index.html'],
+  [768, 'en/empresa/modules/03-amplified-work/workbook/index.html'],
+  [1440, 'pt/modulos/04-trabalho-agentico/masterclass/index.html'],
+]) {
   const test = await browser.newPage({viewport: {width, height: 900}});
   await test.goto(local(route));
   const state = await test.evaluate(() => {
@@ -70,7 +88,13 @@ for (const [width, route] of [[320, 'playbook/index.html'], [390, 'empresa/convo
 }
 
 const noJs = await browser.newContext({javaScriptEnabled: false, viewport: {width: 390, height: 844}});
-for (const route of ['index.html', 'nivel-0/index.html', 'recursos/index.html', 'playbook/index.html']) {
+for (const route of [
+  'index.html',
+  'nivel-0/index.html',
+  'recursos/index.html',
+  'playbook/index.html',
+  'empresa/modulos/02-de-ocupado-a-productivo/prompts/index.html',
+]) {
   const test = await noJs.newPage();
   await test.goto(local(route));
   const state = await test.evaluate(() => ({visible: document.querySelector('[data-conoce-breadcrumbs]').getClientRects().length > 0, current: document.querySelectorAll('[data-conoce-breadcrumbs] [aria-current="page"]').length, home: document.querySelectorAll('[data-conoce-home-link]').length}));
@@ -79,4 +103,4 @@ for (const route of ['index.html', 'nivel-0/index.html', 'recursos/index.html', 
 }
 await noJs.close();
 await browser.close();
-console.log('BREADCRUMB_VISUAL_OK pages=54 themes=2 axe=4.12.1 breakpoints=320/390/768/1440 no_js=4');
+console.log('[EVIDENCE:BREADCRUMB_VISUAL] BREADCRUMB_VISUAL_OK pages=126 nested_4_level=72 themes=2 axe=4.12.1 breakpoints=320/390/768/1440 no_js=5');

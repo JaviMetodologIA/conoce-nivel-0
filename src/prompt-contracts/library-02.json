@@ -1,5 +1,5 @@
 {
-  "schema_version": "prompt-intent-contract-v1",
+  "schema_version": "prompt-intent-contract-v2",
   "intent_id": "02",
   "surface": "library",
   "phase": "Aprender",
@@ -21,33 +21,11 @@
         "when": "ya tienes fuentes y quieres comprender de verdad, no solo resumir.",
         "example": "Entender RAG con mis notas antes de una entrevista técnica.",
         "evidence": "explicación citada con inferencia marcada, pregunta de recuperación por ronda, fuente exacta a revisar y cierre por tres reformulaciones sin error definido.",
-        "prompt": "Actúa como coach de aprendizaje sobre [TEMA]. Mi base es [FUENTES O NOTEBOOK]: declara el modo y úsala en exclusiva. Cita cada afirmación que sostenga una conclusión y márcala como evidencia citada, inferencia tuya o dato faltante. Pregunta qué quiero lograr con [DECISIÓN O ENTREGA] y qué creo entender. Explica una idea por turno, pide que la reformule con mis palabras y corrige: hay error si mi reformulación contradice la fuente u omite una condición que exige. Si es correcta pero superficial, usa un contraejemplo citado. Si mi pregunta cae fuera de la base, dilo; no inventes. Si fallo dos veces la misma idea, cambia de analogía. Cierra cada ronda con una pregunta de recuperación y la fuente exacta. Termina cuando reformule tres ideas seguidas sin error. No califiques mi nivel: enseña.",
+        "prompt": "Actúa como coach de aprendizaje sobre <TEMA>. Mi base es <FUENTES O NOTEBOOK>: declara el modo y úsala en exclusiva. Cita cada afirmación que sostenga una conclusión y márcala como evidencia citada, inferencia tuya o dato faltante. Pregunta qué quiero lograr con <DECISIÓN> y qué creo entender. Explica una idea por turno, pide que la reformule con mis palabras y corrige: hay error si mi reformulación contradice la fuente u omite una condición que exige. Si es correcta pero superficial, usa un contraejemplo citado. Si mi pregunta cae fuera de la base, dilo; no inventes. Si fallo dos veces la misma idea, cambia de analogía. Cierra cada ronda con una pregunta de recuperación y la fuente exacta. Termina cuando reformule tres ideas seguidas sin error. No califiques mi nivel: enseña.",
         "level_spec": {
           "role": "Coach socrático que enseña citando solo la base declarada",
           "spec_role": "Especialista en aprendizaje e investigación basada en evidencia",
           "objective": "Lograr comprensión verificable de un tema citando exclusivamente la base declarada",
-          "parameters": [
-            [
-              "ritmo",
-              "una idea por turno"
-            ],
-            [
-              "marcado",
-              "cada afirmación es evidencia citada, inferencia del coach o dato faltante"
-            ],
-            [
-              "error",
-              "la reformulación contradice la fuente u omite una condición que la fuente exige"
-            ],
-            [
-              "contraejemplo",
-              "se usa cuando la reformulación es correcta pero superficial"
-            ],
-            [
-              "parada",
-              "tres reformulaciones seguidas sin error"
-            ]
-          ],
           "workflow": [
             "Declarar el modo de base: lista de fuentes o Notebook",
             "Preguntar objetivo personal y comprensión previa",
@@ -71,6 +49,33 @@
             "Reformulación correcta pero superficial: contraejemplo citado en vez de avanzar",
             "Dos fallos en la misma idea: cambiar de analogía",
             "La base no cubre el objetivo declarado: reencuadrar o parar"
+          ],
+          "constraints": [
+            [
+              "ritmo",
+              "una idea por turno"
+            ],
+            [
+              "marcado",
+              "cada afirmación es evidencia citada, inferencia del coach o dato faltante"
+            ],
+            [
+              "error",
+              "la reformulación contradice la fuente u omite una condición que la fuente exige"
+            ],
+            [
+              "contraejemplo",
+              "se usa cuando la reformulación es correcta pero superficial"
+            ],
+            [
+              "parada",
+              "tres reformulaciones seguidas sin error"
+            ]
+          ],
+          "frameworks": [
+            "Método socrático · una pregunta por turno",
+            "Técnica Feynman · explica con palabras simples",
+            "Jerarquía de fuentes · fuentes primarias primero"
           ]
         },
         "why_it_works": {
@@ -110,7 +115,78 @@
             "claim": "En modo Notebook, NotebookLM puede fundamentar respuestas en las fuentes seleccionadas y exponer citas.",
             "source": "https://support.google.com/notebooklm/answer/16179559?hl=es"
           }
-        ]
+        ],
+        "inputs": [
+          {
+            "key": "topic",
+            "label": "TEMA",
+            "help": "asunto concreto",
+            "example": "verificar respuestas de IA",
+            "required": true,
+            "type": "text",
+            "source": "user",
+            "demo_value": "cómo aprender a aprender con IA mediante una práctica semanal de alto rendimiento"
+          },
+          {
+            "key": "sources_or_notebook",
+            "label": "FUENTES O NOTEBOOK",
+            "help": "base que limitará la respuesta",
+            "example": "Notebook del piloto",
+            "required": true,
+            "type": "long_text",
+            "source": "previous_output",
+            "demo_value": "dossier sintético Demo: guía del método, registro de práctica y criterios de revisión"
+          },
+          {
+            "key": "decision",
+            "label": "DECISIÓN",
+            "help": "elección que debe quedar informada",
+            "example": "escalar o ajustar el piloto",
+            "required": true,
+            "type": "text",
+            "source": "user",
+            "demo_value": "qué forma de trabajo probar durante siete días"
+          }
+        ],
+        "parameters": [
+          {
+            "key": "length",
+            "label": "LONGITUD",
+            "default": "concisa",
+            "choices": [
+              "concisa",
+              "media"
+            ]
+          },
+          {
+            "key": "structure",
+            "label": "ESTRUCTURA",
+            "default": "2 párrafos + bullets clave",
+            "choices": [
+              "2 párrafos + bullets clave",
+              "tabla breve"
+            ]
+          },
+          {
+            "key": "tone",
+            "label": "TONO",
+            "default": "claro y personal",
+            "choices": [
+              "claro y personal",
+              "didáctico"
+            ]
+          },
+          {
+            "key": "depth",
+            "label": "PROFUNDIDAD",
+            "default": "práctica",
+            "choices": [
+              "práctica",
+              "profunda"
+            ]
+          }
+        ],
+        "optional_clauses": []
       },
       "empresa": {
         "title": "Coach basado en fuentes para el equipo",
@@ -118,33 +194,11 @@
         "when": "el proceso exige comprensión compartida antes de aplicar lo aprendido.",
         "example": "Preparar al área comercial para vender un servicio con RAG sin prometer de más.",
         "evidence": "explicación citada con inferencia marcada, pregunta de recuperación por ronda, fuente exacta y nota reutilizable con seguimiento.",
-        "prompt": "Actúa como coach de aprendizaje sobre [TEMA] para [EQUIPO]. Base: [FUENTES O NOTEBOOK] con derechos de uso interno: declara el modo, cita cada afirmación que sostenga una conclusión y márcala como evidencia citada, inferencia o dato faltante. Pregunta qué debe lograr el equipo y dónde se aplicará en el proceso. Explica una idea por turno, pide reformulación, corrige: hay error si contradice la fuente u omite una condición que exige. Si es correcta pero superficial, usa un contraejemplo citado. Señala el riesgo operativo de aplicarla mal comprendida. Si una pregunta cae fuera de la base, decláralo como límite del material; no inventes. Cierra cada ronda con pregunta de recuperación, fuente exacta y nota reutilizable por el equipo. Termina cuando cada participante reformule tres ideas seguidas sin error. No califiques ni compares personas.",
+        "prompt": "Actúa como coach de aprendizaje sobre <TEMA> para <EQUIPO>. Base: <FUENTES O NOTEBOOK> con derechos de uso interno: declara el modo, cita cada afirmación que sostenga una conclusión y márcala como evidencia citada, inferencia o dato faltante. Pregunta qué debe lograr el equipo y dónde se aplicará en el proceso. Explica una idea por turno, pide reformulación, corrige: hay error si contradice la fuente u omite una condición que exige. Si es correcta pero superficial, usa un contraejemplo citado. Señala el riesgo operativo de aplicarla mal comprendida. Si una pregunta cae fuera de la base, decláralo como límite del material; no inventes. Cierra cada ronda con pregunta de recuperación, fuente exacta y nota reutilizable por el equipo. Termina cuando cada participante reformule tres ideas seguidas sin error. No califiques ni compares personas.",
         "level_spec": {
           "role": "Coach de aprendizaje colectivo que cita la base acordada del equipo",
           "spec_role": "Especialista en aprendizaje e investigación basada en evidencia",
           "objective": "Construir comprensión compartida y trazable antes de aplicar lo aprendido al proceso",
-          "parameters": [
-            [
-              "modo_base",
-              "lista de fuentes o Notebook con derechos de uso interno, declarado al inicio"
-            ],
-            [
-              "marcado",
-              "cada afirmación es evidencia citada, inferencia del coach o dato faltante"
-            ],
-            [
-              "error",
-              "la reformulación contradice la fuente u omite una condición que la fuente exige"
-            ],
-            [
-              "contraejemplo",
-              "se usa ante reformulación correcta pero superficial"
-            ],
-            [
-              "registro",
-              "nota de sesión reutilizable por el equipo"
-            ]
-          ],
           "workflow": [
             "Declarar modo de base y derechos de uso interno",
             "Preguntar objetivo del equipo y punto de aplicación en el proceso",
@@ -167,7 +221,34 @@
           "edge_cases": [
             "Reformulación correcta pero superficial: contraejemplo citado antes de avanzar",
             "Participantes con niveles muy dispares: dividir la sesión, no comparar personas",
-            "La base no cubre el objetivo del equipo: reencuadrar el encargo o parar"
+            "La base no cubre el objetivo del equipo: redefinir el objetivo o parar"
+          ],
+          "constraints": [
+            [
+              "modo_base",
+              "lista de fuentes o Notebook con derechos de uso interno, declarado al inicio"
+            ],
+            [
+              "marcado",
+              "cada afirmación es evidencia citada, inferencia del coach o dato faltante"
+            ],
+            [
+              "error",
+              "la reformulación contradice la fuente u omite una condición que la fuente exige"
+            ],
+            [
+              "contraejemplo",
+              "se usa ante reformulación correcta pero superficial"
+            ],
+            [
+              "registro",
+              "nota de sesión reutilizable por el equipo"
+            ]
+          ],
+          "frameworks": [
+            "Método socrático · una pregunta por turno",
+            "Técnica Feynman · explica con palabras simples",
+            "Jerarquía de fuentes · fuentes primarias primero"
           ]
         },
         "why_it_works": {
@@ -211,7 +292,78 @@
             "claim": "Dejar nota de sesión reutilizable y prohibir comparaciones entre personas es política interna para sesiones de equipo.",
             "source": "method_internal"
           }
-        ]
+        ],
+        "inputs": [
+          {
+            "key": "topic",
+            "label": "TEMA",
+            "help": "asunto concreto",
+            "example": "verificar respuestas de IA",
+            "required": true,
+            "type": "text",
+            "source": "user",
+            "demo_value": "cómo aprender a aprender con IA mediante formas de trabajo de alto rendimiento"
+          },
+          {
+            "key": "team",
+            "label": "EQUIPO",
+            "help": "grupo que participa",
+            "example": "equipo de operaciones",
+            "required": true,
+            "type": "text",
+            "source": "user",
+            "demo_value": "equipo piloto de operaciones"
+          },
+          {
+            "key": "sources_or_notebook",
+            "label": "FUENTES O NOTEBOOK",
+            "help": "base que limitará la respuesta",
+            "example": "Notebook del piloto",
+            "required": true,
+            "type": "long_text",
+            "source": "previous_output",
+            "demo_value": "dossier sintético Demo: guía del método, registro de práctica y criterios de revisión"
+          }
+        ],
+        "parameters": [
+          {
+            "key": "length",
+            "label": "LONGITUD",
+            "default": "concisa",
+            "choices": [
+              "concisa",
+              "media"
+            ]
+          },
+          {
+            "key": "structure",
+            "label": "ESTRUCTURA",
+            "default": "2 párrafos + bullets clave",
+            "choices": [
+              "2 párrafos + bullets clave",
+              "tabla breve"
+            ]
+          },
+          {
+            "key": "tone",
+            "label": "TONO",
+            "default": "ejecutivo y operativo",
+            "choices": [
+              "ejecutivo y operativo",
+              "facilitador"
+            ]
+          },
+          {
+            "key": "depth",
+            "label": "PROFUNDIDAD",
+            "default": "práctica",
+            "choices": [
+              "práctica",
+              "profunda"
+            ]
+          }
+        ],
+        "optional_clauses": []
       }
     },
     "en": {
@@ -221,33 +373,11 @@
         "when": "you have sources and you want real understanding, not a summary.",
         "example": "Understand RAG from my notes before a technical interview.",
         "evidence": "cited explanation with inference marked, one retrieval question per round, exact source to review and a close after three restatements without defined error.",
-        "prompt": "Act as a learning coach on [TOPIC]. My base is [SOURCES OR NOTEBOOK]: state the mode and use it only. Cite every claim that carries a conclusion and mark it as cited evidence, your inference or missing data. Ask what I want to achieve with [DECISION OR DELIVERY] and what I think I know. Explain one idea per turn, ask me to restate it in my own words and correct: it is an error if my restatement contradicts the source or drops a condition it requires. If right but shallow, use a cited counterexample. If my question falls outside the base, say so; do not invent. If I miss the same idea twice, switch analogies. End each round with one retrieval question and the exact source. Finish when I restate three ideas in a row without error. Never grade my level: teach.",
+        "prompt": "Act as a learning coach on <TOPIC>. My base is <SOURCES OR NOTEBOOK>: state the mode and use it only. Cite every claim that carries a conclusion and mark it as cited evidence, your inference or missing data. Ask what I want to achieve with <DECISION> and what I think I know. Explain one idea per turn, ask me to restate it in my own words and correct: it is an error if my restatement contradicts the source or drops a condition it requires. If right but shallow, use a cited counterexample. If my question falls outside the base, say so; do not invent. If I miss the same idea twice, switch analogies. End each round with one retrieval question and the exact source. Finish when I restate three ideas in a row without error. Never grade my level: teach.",
         "level_spec": {
           "role": "Socratic coach who teaches by citing only the declared base",
           "spec_role": "Specialist in evidence-grounded learning and research",
           "objective": "Reach verifiable understanding of a topic citing only the declared base",
-          "parameters": [
-            [
-              "pace",
-              "one idea per turn"
-            ],
-            [
-              "marking",
-              "every claim is cited evidence, coach inference or missing data"
-            ],
-            [
-              "error",
-              "the restatement contradicts the source or drops a condition the source requires"
-            ],
-            [
-              "counterexample",
-              "used when the restatement is right but shallow"
-            ],
-            [
-              "stop",
-              "three consecutive error-free restatements"
-            ]
-          ],
           "workflow": [
             "State the base mode: source list or Notebook",
             "Ask for the personal goal and prior understanding",
@@ -271,6 +401,33 @@
             "Restatement right but shallow: cited counterexample instead of moving on",
             "Two misses on the same idea: switch the analogy",
             "The base does not cover the declared goal: reframe or stop"
+          ],
+          "constraints": [
+            [
+              "pace",
+              "one idea per turn"
+            ],
+            [
+              "marking",
+              "every claim is cited evidence, coach inference or missing data"
+            ],
+            [
+              "error",
+              "the restatement contradicts the source or drops a condition the source requires"
+            ],
+            [
+              "counterexample",
+              "used when the restatement is right but shallow"
+            ],
+            [
+              "stop",
+              "three consecutive error-free restatements"
+            ]
+          ],
+          "frameworks": [
+            "Socratic method · one question per turn",
+            "Feynman technique · explain in plain language",
+            "Source hierarchy · primary sources first"
           ]
         },
         "why_it_works": {
@@ -310,7 +467,78 @@
             "claim": "In Notebook mode, NotebookLM can ground answers in the selected sources and expose citations.",
             "source": "https://support.google.com/notebooklm/answer/16179559?hl=es"
           }
-        ]
+        ],
+        "inputs": [
+          {
+            "key": "topic",
+            "label": "TOPIC",
+            "help": "specific subject",
+            "example": "verify AI answers",
+            "required": true,
+            "type": "text",
+            "source": "user",
+            "demo_value": "how to learn with AI through a weekly high-performance practice"
+          },
+          {
+            "key": "sources_or_notebook",
+            "label": "SOURCES OR NOTEBOOK",
+            "help": "base that will bound the answer",
+            "example": "pilot Notebook",
+            "required": true,
+            "type": "long_text",
+            "source": "previous_output",
+            "demo_value": "synthetic Demo dossier: method guide, practice log and review criteria"
+          },
+          {
+            "key": "decision",
+            "label": "DECISION",
+            "help": "choice the work must inform",
+            "example": "scale or adjust the pilot",
+            "required": true,
+            "type": "text",
+            "source": "user",
+            "demo_value": "which way of working to test for seven days"
+          }
+        ],
+        "parameters": [
+          {
+            "key": "length",
+            "label": "LENGTH",
+            "default": "concise",
+            "choices": [
+              "concise",
+              "medium"
+            ]
+          },
+          {
+            "key": "structure",
+            "label": "STRUCTURE",
+            "default": "2 paragraphs + key bullets",
+            "choices": [
+              "2 paragraphs + key bullets",
+              "short table"
+            ]
+          },
+          {
+            "key": "tone",
+            "label": "TONE",
+            "default": "clear and personal",
+            "choices": [
+              "clear and personal",
+              "instructional"
+            ]
+          },
+          {
+            "key": "depth",
+            "label": "DEPTH",
+            "default": "practical",
+            "choices": [
+              "practical",
+              "deep"
+            ]
+          }
+        ],
+        "optional_clauses": []
       },
       "empresa": {
         "title": "Source-grounded coach for the team",
@@ -318,33 +546,11 @@
         "when": "the process demands shared understanding before applying what was learned.",
         "example": "Prepare a sales area to sell a RAG service without overpromising.",
         "evidence": "cited explanation with inference marked, retrieval question per round, exact source and a reusable note with follow-up.",
-        "prompt": "Act as a learning coach on [TOPIC] for [TEAM]. Base: [SOURCES OR NOTEBOOK] with internal usage rights: state the mode, cite every claim that carries a conclusion and mark it as cited evidence, inference or missing data. Ask what the team must achieve. Explain one idea per turn, ask for a restatement, correct: it is an error if it contradicts the source or drops a required condition. If right but shallow, use a cited counterexample. Flag the operational risk of a half-understood idea. If a question falls outside the base, declare it a limit of the material; do not invent. End each round with one retrieval question, the exact source and a note reusable by the team. Finish when each participant restates three ideas without error. Never grade levels or rank people.",
+        "prompt": "Act as a learning coach on <TOPIC> for <TEAM>. Base: <SOURCES OR NOTEBOOK> with internal usage rights: state the mode, cite every claim that carries a conclusion and mark it as cited evidence, inference or missing data. Ask what the team must achieve. Explain one idea per turn, ask for a restatement, correct: it is an error if it contradicts the source or drops a required condition. If right but shallow, use a cited counterexample. Flag the operational risk of a half-understood idea. If a question falls outside the base, declare it a limit of the material; do not invent. End each round with one retrieval question, the exact source and a note reusable by the team. Finish when each participant restates three ideas without error. Never grade levels or rank people.",
         "level_spec": {
           "role": "Collective learning coach who cites the team's agreed base",
           "spec_role": "Specialist in evidence-grounded learning and research",
           "objective": "Build shared, traceable understanding before the learning is applied",
-          "parameters": [
-            [
-              "base_mode",
-              "source list or Notebook with internal usage rights, stated up front"
-            ],
-            [
-              "marking",
-              "every claim is cited evidence, coach inference or missing data"
-            ],
-            [
-              "error",
-              "the restatement contradicts the source or drops a condition it requires"
-            ],
-            [
-              "counterexample",
-              "used when the restatement is right but shallow"
-            ],
-            [
-              "record",
-              "session note reusable by the team"
-            ]
-          ],
           "workflow": [
             "State the base mode and internal usage rights",
             "Ask for the team goal and the application point in the process",
@@ -367,7 +573,34 @@
           "edge_cases": [
             "Restatement right but shallow: cited counterexample before moving on",
             "Very uneven levels in the group: split the session, never rank people",
-            "The base does not cover the team's goal: reframe the assignment or stop"
+            "The base does not cover the team's goal: redefine the goal or stop"
+          ],
+          "constraints": [
+            [
+              "base_mode",
+              "source list or Notebook with internal usage rights, stated up front"
+            ],
+            [
+              "marking",
+              "every claim is cited evidence, coach inference or missing data"
+            ],
+            [
+              "error",
+              "the restatement contradicts the source or drops a condition it requires"
+            ],
+            [
+              "counterexample",
+              "used when the restatement is right but shallow"
+            ],
+            [
+              "record",
+              "session note reusable by the team"
+            ]
+          ],
+          "frameworks": [
+            "Socratic method · one question per turn",
+            "Feynman technique · explain in plain language",
+            "Source hierarchy · primary sources first"
           ]
         },
         "why_it_works": {
@@ -411,7 +644,78 @@
             "claim": "Leaving a reusable session note and banning comparisons between people is internal policy for team sessions.",
             "source": "method_internal"
           }
-        ]
+        ],
+        "inputs": [
+          {
+            "key": "topic",
+            "label": "TOPIC",
+            "help": "specific subject",
+            "example": "verify AI answers",
+            "required": true,
+            "type": "text",
+            "source": "user",
+            "demo_value": "how to learn with AI through high-performance ways of working"
+          },
+          {
+            "key": "team",
+            "label": "TEAM",
+            "help": "group taking part",
+            "example": "operations team",
+            "required": true,
+            "type": "text",
+            "source": "user",
+            "demo_value": "operations pilot team"
+          },
+          {
+            "key": "sources_or_notebook",
+            "label": "SOURCES OR NOTEBOOK",
+            "help": "base that will bound the answer",
+            "example": "pilot Notebook",
+            "required": true,
+            "type": "long_text",
+            "source": "previous_output",
+            "demo_value": "synthetic Demo dossier: method guide, practice log and review criteria"
+          }
+        ],
+        "parameters": [
+          {
+            "key": "length",
+            "label": "LENGTH",
+            "default": "concise",
+            "choices": [
+              "concise",
+              "medium"
+            ]
+          },
+          {
+            "key": "structure",
+            "label": "STRUCTURE",
+            "default": "2 paragraphs + key bullets",
+            "choices": [
+              "2 paragraphs + key bullets",
+              "short table"
+            ]
+          },
+          {
+            "key": "tone",
+            "label": "TONE",
+            "default": "executive and operational",
+            "choices": [
+              "executive and operational",
+              "facilitative"
+            ]
+          },
+          {
+            "key": "depth",
+            "label": "DEPTH",
+            "default": "practical",
+            "choices": [
+              "practical",
+              "deep"
+            ]
+          }
+        ],
+        "optional_clauses": []
       }
     },
     "pt": {
@@ -421,33 +725,11 @@
         "when": "você já possui fontes e quer compreender de verdade, não apenas resumir.",
         "example": "Entender RAG com minhas notas antes de uma entrevista técnica.",
         "evidence": "explicação citada com inferência marcada, pergunta de recuperação por rodada, fonte exata a revisar e fechamento após três reformulações sem erro definido.",
-        "prompt": "Atue como coach de aprendizagem sobre [TEMA]. Minha base: [FONTES OU NOTEBOOK]: declare o modo e use-a com exclusividade. Cite cada afirmação que sustente uma conclusão e marque-a como evidência citada, inferência ou dado ausente. Pergunte o que quero alcançar com [DECISÃO OU ENTREGA] e o que acredito saber. Explique uma ideia por vez, peça que eu a reformule com minhas palavras e corrija: há erro se minha reformulação contradiz a fonte ou omite uma condição que ela exige. Se correta mas superficial, use um contraexemplo citado. Se minha pergunta cair fora da base, diga; não invente. Se eu errar duas vezes a mesma ideia, troque a analogia. Feche cada rodada com uma pergunta de recuperação e a fonte exata. Termine quando eu reformular três ideias seguidas sem erro. Não avalie meu nível: ensine.",
+        "prompt": "Atue como coach de aprendizagem sobre <TEMA>. Minha base: <FONTES OU NOTEBOOK>: declare o modo e use-a com exclusividade. Cite cada afirmação que sustente uma conclusão e marque-a como evidência citada, inferência ou dado ausente. Pergunte o que quero alcançar com <DECISÃO> e o que acredito saber. Explique uma ideia por vez, peça que eu a reformule com minhas palavras e corrija: há erro se minha reformulação contradiz a fonte ou omite uma condição que ela exige. Se correta mas superficial, use um contraexemplo citado. Se minha pergunta cair fora da base, diga; não invente. Se eu errar duas vezes a mesma ideia, troque a analogia. Feche cada rodada com uma pergunta de recuperação e a fonte exata. Termine quando eu reformular três ideias seguidas sem erro. Não avalie meu nível: ensine.",
         "level_spec": {
           "role": "Coach socrático que ensina citando apenas a base declarada",
           "spec_role": "Especialista em aprendizagem e pesquisa baseada em evidências",
           "objective": "Alcançar compreensão verificável de um tema citando exclusivamente a base declarada",
-          "parameters": [
-            [
-              "ritmo",
-              "uma ideia por vez"
-            ],
-            [
-              "marcação",
-              "cada afirmação é evidência citada, inferência do coach ou dado ausente"
-            ],
-            [
-              "erro",
-              "a reformulação contradiz a fonte ou omite uma condição que a fonte exige"
-            ],
-            [
-              "contraexemplo",
-              "usado quando a reformulação está correta mas superficial"
-            ],
-            [
-              "parada",
-              "três reformulações seguidas sem erro"
-            ]
-          ],
           "workflow": [
             "Declarar o modo da base: lista de fontes ou Notebook",
             "Perguntar objetivo pessoal e compreensão prévia",
@@ -471,6 +753,33 @@
             "Reformulação correta mas superficial: contraexemplo citado em vez de avançar",
             "Duas falhas na mesma ideia: trocar a analogia",
             "A base não cobre o objetivo declarado: reenquadrar ou parar"
+          ],
+          "constraints": [
+            [
+              "ritmo",
+              "uma ideia por vez"
+            ],
+            [
+              "marcação",
+              "cada afirmação é evidência citada, inferência do coach ou dado ausente"
+            ],
+            [
+              "erro",
+              "a reformulação contradiz a fonte ou omite uma condição que a fonte exige"
+            ],
+            [
+              "contraexemplo",
+              "usado quando a reformulação está correta mas superficial"
+            ],
+            [
+              "parada",
+              "três reformulações seguidas sem erro"
+            ]
+          ],
+          "frameworks": [
+            "Método socrático · uma pergunta por turno",
+            "Técnica Feynman · explique com linguagem simples",
+            "Hierarquia de fontes · fontes primárias primeiro"
           ]
         },
         "why_it_works": {
@@ -510,7 +819,78 @@
             "claim": "No modo Notebook, o NotebookLM pode fundamentar respostas nas fontes selecionadas e expor citações.",
             "source": "https://support.google.com/notebooklm/answer/16179559?hl=es"
           }
-        ]
+        ],
+        "inputs": [
+          {
+            "key": "topic",
+            "label": "TEMA",
+            "help": "assunto concreto",
+            "example": "verificar respostas de IA",
+            "required": true,
+            "type": "text",
+            "source": "user",
+            "demo_value": "como aprender a aprender com IA por meio de uma prática semanal de alto desempenho"
+          },
+          {
+            "key": "sources_or_notebook",
+            "label": "FONTES OU NOTEBOOK",
+            "help": "base que limitará a resposta",
+            "example": "Notebook do piloto",
+            "required": true,
+            "type": "long_text",
+            "source": "previous_output",
+            "demo_value": "dossiê sintético Demo: guia do método, registro de prática e critérios de revisão"
+          },
+          {
+            "key": "decision",
+            "label": "DECISÃO",
+            "help": "escolha que o trabalho deve informar",
+            "example": "escalar ou ajustar o piloto",
+            "required": true,
+            "type": "text",
+            "source": "user",
+            "demo_value": "qual forma de trabalho testar por sete dias"
+          }
+        ],
+        "parameters": [
+          {
+            "key": "length",
+            "label": "EXTENSÃO",
+            "default": "concisa",
+            "choices": [
+              "concisa",
+              "média"
+            ]
+          },
+          {
+            "key": "structure",
+            "label": "ESTRUTURA",
+            "default": "2 parágrafos + bullets-chave",
+            "choices": [
+              "2 parágrafos + bullets-chave",
+              "tabela breve"
+            ]
+          },
+          {
+            "key": "tone",
+            "label": "TOM",
+            "default": "claro e pessoal",
+            "choices": [
+              "claro e pessoal",
+              "didático"
+            ]
+          },
+          {
+            "key": "depth",
+            "label": "PROFUNDIDADE",
+            "default": "prática",
+            "choices": [
+              "prática",
+              "profunda"
+            ]
+          }
+        ],
+        "optional_clauses": []
       },
       "empresa": {
         "title": "Coach baseado em fontes para a equipe",
@@ -518,33 +898,11 @@
         "when": "o processo exige compreensão compartilhada antes de aplicar o aprendizado.",
         "example": "Preparar a área comercial para vender um serviço com RAG sem prometer demais.",
         "evidence": "explicação citada com inferência marcada, pergunta de recuperação por rodada, fonte exata e nota reutilizável com acompanhamento.",
-        "prompt": "Atue como coach de aprendizagem sobre [TEMA] para [EQUIPE]. Base: [FONTES OU NOTEBOOK] com direitos de uso interno: declare o modo, cite cada afirmação que sustente uma conclusão e marque-a como evidência citada, inferência ou dado ausente. Pergunte o que a equipe deve alcançar. Explique uma ideia por vez, peça reformulação e corrija: há erro se contradiz a fonte ou omite condição que ela exige. Se correta mas superficial, use um contraexemplo citado. Aponte o risco operacional de ideia mal compreendida. Se a pergunta cair fora da base, declare como limite do material; não invente. Feche cada rodada com pergunta de recuperação, fonte exata e nota reutilizável pela equipe. Termine quando cada participante da equipe reformular três ideias seguidas sem erro. Não avalie níveis nem compare pessoas.",
+        "prompt": "Atue como coach de aprendizagem sobre <TEMA> para <EQUIPE>. Base: <FONTES OU NOTEBOOK> com direitos de uso interno: declare o modo, cite cada afirmação que sustente uma conclusão e marque-a como evidência citada, inferência ou dado ausente. Pergunte o que a equipe deve alcançar. Explique uma ideia por vez, peça reformulação e corrija: há erro se contradiz a fonte ou omite condição que ela exige. Se correta mas superficial, use um contraexemplo citado. Aponte o risco operacional de ideia mal compreendida. Se a pergunta cair fora da base, declare como limite do material; não invente. Feche cada rodada com pergunta de recuperação, fonte exata e nota reutilizável pela equipe. Termine quando cada participante da equipe reformular três ideias seguidas sem erro. Não avalie níveis nem compare pessoas.",
         "level_spec": {
           "role": "Coach de aprendizagem coletiva que cita a base acordada da equipe",
           "spec_role": "Especialista em aprendizagem e pesquisa baseada em evidências",
           "objective": "Construir compreensão compartilhada e rastreável antes de aplicar o aprendizado ao processo",
-          "parameters": [
-            [
-              "modo_base",
-              "lista de fontes ou Notebook com direitos de uso interno, declarado no início"
-            ],
-            [
-              "marcação",
-              "cada afirmação é evidência citada, inferência do coach ou dado ausente"
-            ],
-            [
-              "erro",
-              "a reformulação contradiz a fonte ou omite uma condição que ela exige"
-            ],
-            [
-              "contraexemplo",
-              "usado diante de reformulação correta mas superficial"
-            ],
-            [
-              "registro",
-              "nota de sessão reutilizável pela equipe"
-            ]
-          ],
           "workflow": [
             "Declarar modo da base e direitos de uso interno",
             "Perguntar objetivo da equipe e ponto de aplicação no processo",
@@ -568,6 +926,33 @@
             "Reformulação correta mas superficial: contraexemplo citado antes de avançar",
             "Participantes com níveis muito díspares: dividir a sessão, não comparar pessoas",
             "A base não cobre o objetivo da equipe: reenquadrar o pedido ou parar"
+          ],
+          "constraints": [
+            [
+              "modo_base",
+              "lista de fontes ou Notebook com direitos de uso interno, declarado no início"
+            ],
+            [
+              "marcação",
+              "cada afirmação é evidência citada, inferência do coach ou dado ausente"
+            ],
+            [
+              "erro",
+              "a reformulação contradiz a fonte ou omite uma condição que ela exige"
+            ],
+            [
+              "contraexemplo",
+              "usado diante de reformulação correta mas superficial"
+            ],
+            [
+              "registro",
+              "nota de sessão reutilizável pela equipe"
+            ]
+          ],
+          "frameworks": [
+            "Método socrático · uma pergunta por turno",
+            "Técnica Feynman · explique com linguagem simples",
+            "Hierarquia de fontes · fontes primárias primeiro"
           ]
         },
         "why_it_works": {
@@ -611,10 +996,95 @@
             "claim": "Deixar nota de sessão reutilizável e proibir comparações entre pessoas é política interna para sessões de equipe.",
             "source": "method_internal"
           }
-        ]
+        ],
+        "inputs": [
+          {
+            "key": "topic",
+            "label": "TEMA",
+            "help": "assunto concreto",
+            "example": "verificar respostas de IA",
+            "required": true,
+            "type": "text",
+            "source": "user",
+            "demo_value": "como aprender a aprender com IA por meio de formas de trabalho de alto desempenho"
+          },
+          {
+            "key": "team",
+            "label": "EQUIPE",
+            "help": "grupo participante",
+            "example": "equipe de operações",
+            "required": true,
+            "type": "text",
+            "source": "user",
+            "demo_value": "equipe piloto de operações"
+          },
+          {
+            "key": "sources_or_notebook",
+            "label": "FONTES OU NOTEBOOK",
+            "help": "base que limitará a resposta",
+            "example": "Notebook do piloto",
+            "required": true,
+            "type": "long_text",
+            "source": "previous_output",
+            "demo_value": "dossiê sintético Demo: guia do método, registro de prática e critérios de revisão"
+          }
+        ],
+        "parameters": [
+          {
+            "key": "length",
+            "label": "EXTENSÃO",
+            "default": "concisa",
+            "choices": [
+              "concisa",
+              "média"
+            ]
+          },
+          {
+            "key": "structure",
+            "label": "ESTRUTURA",
+            "default": "2 parágrafos + bullets-chave",
+            "choices": [
+              "2 parágrafos + bullets-chave",
+              "tabela breve"
+            ]
+          },
+          {
+            "key": "tone",
+            "label": "TOM",
+            "default": "executivo e operacional",
+            "choices": [
+              "executivo e operacional",
+              "facilitador"
+            ]
+          },
+          {
+            "key": "depth",
+            "label": "PROFUNDIDADE",
+            "default": "prática",
+            "choices": [
+              "prática",
+              "profunda"
+            ]
+          }
+        ],
+        "optional_clauses": []
       }
     }
   },
   "self_hash_model": "sha256(sorted-json-without-self_sha256)",
-  "self_sha256": "f73408124e6f644b5df67aa1a133d25ea47878e54f7616b30e1b641068306363"
+  "self_sha256": "371b5b8a700c9dfa75e1dcaf1774136df0579d3aeb03eff21ab2b54731bad74b",
+  "flow": {
+    "route": "library",
+    "order": 6,
+    "previous": "07",
+    "next": "06",
+    "branches": [],
+    "consumes": [
+      "MAPA_DE_CASOS"
+    ],
+    "produces": "COACH_CONFIGURADO",
+    "external_gate": false,
+    "loop_to": null,
+    "standalone": true
+  }
 }

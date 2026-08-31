@@ -1,5 +1,5 @@
 {
-  "schema_version": "prompt-intent-contract-v1",
+  "schema_version": "prompt-intent-contract-v2",
   "intent_id": "W10",
   "surface": "workbook",
   "phase": "Aprehender",
@@ -21,33 +21,11 @@
         "when": "la base ya es suficiente y quieres que el Notebook se comporte como asistente estable.",
         "example": "Coach basado en fuentes para preparar mis propuestas.",
         "evidence": "instrucción personalizada con rol, tareas, límites, regla de citas y criterio de calidad; exactamente 10 prompts de inicio sin solapamiento; guía de prueba de 5 líneas con una prueba de límite.",
-        "prompt": "Quiero la configuración final de mi Notebook: [PROPÓSITO], [USUARIO], [RESULTADO], [RESTRICCIONES]. No redecidas qué fuentes conservar ni si la base alcanza: aquí defines su comportamiento. Si [RESTRICCIONES] choca con [PROPÓSITO], detente. Entrega A) instrucción personalizada con rol, tareas, límites, citas y calidad; B) exactamente 10 prompts de inicio que cubran lo que pregunto primero, sin repetir; C) guía de prueba de 5 líneas con una pregunta fuera de base, válida si declara el límite. Separa hechos, inferencias y datos faltantes. No inventes capacidades del asistente ni fuentes.",
+        "prompt": "Quiero la configuración final de mi Notebook: <PROPÓSITO>, <USUARIO>, <RESULTADO>, <RESTRICCIONES>. No redecidas qué fuentes conservar ni si la base alcanza: aquí defines su comportamiento. Si <RESTRICCIONES> choca con <PROPÓSITO>, detente. Entrega A) instrucción personalizada con rol, tareas, límites, citas y calidad; B) exactamente 10 prompts de inicio que cubran lo que pregunto primero, sin repetir; C) guía de prueba de 5 líneas con una pregunta fuera de base, válida si declara el límite. Separa hechos, inferencias y datos faltantes. No inventes capacidades del asistente ni fuentes.",
         "level_spec": {
           "role": "Diseñador de la configuración final del asistente, no auditor de la base",
           "spec_role": "Especialista en configuración de asistentes basados en fuentes",
           "objective": "Convertir la recomendación de la auditoría en instrucción final, prompts de inicio y guía de prueba coherentes con el veredicto de suficiencia",
-          "parameters": [
-            [
-              "entrada_del_paso_previo",
-              "auditoría de la base (W02) y del contenedor hechas, con el veredicto de suficiencia ya emitido en W04, tomados como dados"
-            ],
-            [
-              "instruccion",
-              "rol, tareas, límites, regla de citas y criterio de calidad"
-            ],
-            [
-              "prompts_de_inicio",
-              "exactamente 10, cubriendo lo que se pregunta primero, sin solaparse entre sí"
-            ],
-            [
-              "prueba_de_limite",
-              "al menos una pregunta fuera de la base; aprueba solo si el asistente declara el límite"
-            ],
-            [
-              "cierre_del_taller",
-              "la configuración cierra la sesión; no autoriza publicación ni conectores"
-            ]
-          ],
           "workflow": [
             "Registrar propósito, usuario, resultado y restricciones, y detenerse si las restricciones contradicen el propósito",
             "Tomar como dados la configuración recomendada por la auditoría y el veredicto de suficiencia, sin volver a decidir qué fuentes conservar",
@@ -72,6 +50,33 @@
             "Restricciones contra propósito: se señala y se detiene antes de configurar",
             "Material privado en la base: la instrucción incluye el límite de no exposición",
             "Menos casos que prompts de inicio: se declara el vacío en vez de rellenar con prompts repetidos"
+          ],
+          "constraints": [
+            [
+              "entrada_del_paso_previo",
+              "auditoría de la base (W02) y del contenedor hechas, con el veredicto de suficiencia ya emitido en W04, tomados como dados"
+            ],
+            [
+              "instruccion",
+              "rol, tareas, límites, regla de citas y criterio de calidad"
+            ],
+            [
+              "prompts_de_inicio",
+              "exactamente 10, cubriendo lo que se pregunta primero, sin solaparse entre sí"
+            ],
+            [
+              "prueba_de_limite",
+              "al menos una pregunta fuera de la base; aprueba solo si el asistente declara el límite"
+            ],
+            [
+              "cierre_del_taller",
+              "la configuración cierra la sesión; no autoriza publicación ni conectores"
+            ]
+          ],
+          "frameworks": [
+            "RACI · un responsable por decisión",
+            "SMART · resultado específico y medible",
+            "Definition of Done · cierre observable"
           ]
         },
         "why_it_works": {
@@ -114,6 +119,111 @@
             "claim": "La regla de citas del asistente es exigible porque puede responder desde las fuentes seleccionadas y mostrar sus citas; esas ayudas no garantizan exactitud.",
             "source": "https://support.google.com/notebooklm/answer/16179559?hl=es"
           }
+        ],
+        "inputs": [
+          {
+            "key": "purpose",
+            "label": "PROPÓSITO",
+            "help": "para qué necesitas el resultado",
+            "example": "repetir una práctica útil",
+            "required": true,
+            "type": "text",
+            "source": "user",
+            "demo_value": "crear una práctica verificable que pueda repetir y explicar"
+          },
+          {
+            "key": "user",
+            "label": "USUARIO",
+            "help": "persona que operará la solución",
+            "example": "líder del piloto",
+            "required": true,
+            "type": "text",
+            "source": "user",
+            "demo_value": "líder del piloto"
+          },
+          {
+            "key": "outcome",
+            "label": "RESULTADO",
+            "help": "cambio observable esperado",
+            "example": "una práctica repetible",
+            "required": true,
+            "type": "text",
+            "source": "user",
+            "demo_value": "una práctica repetible, citada y explicable"
+          },
+          {
+            "key": "constraints",
+            "label": "RESTRICCIONES",
+            "help": "límites que no deben romperse",
+            "example": "sin datos confidenciales",
+            "required": true,
+            "type": "text",
+            "source": "user",
+            "demo_value": "sin datos confidenciales"
+          }
+        ],
+        "parameters": [
+          {
+            "key": "length",
+            "label": "LONGITUD",
+            "default": "concisa",
+            "choices": [
+              "concisa",
+              "media"
+            ]
+          },
+          {
+            "key": "structure",
+            "label": "ESTRUCTURA",
+            "default": "2 párrafos + bullets clave",
+            "choices": [
+              "2 párrafos + bullets clave",
+              "tabla breve"
+            ]
+          },
+          {
+            "key": "tone",
+            "label": "TONO",
+            "default": "claro y personal",
+            "choices": [
+              "claro y personal",
+              "didáctico"
+            ]
+          },
+          {
+            "key": "depth",
+            "label": "PROFUNDIDAD",
+            "default": "práctica",
+            "choices": [
+              "práctica",
+              "profunda"
+            ]
+          },
+          {
+            "key": "aesthetic",
+            "label": "ESTÉTICA",
+            "default": "minimalista",
+            "choices": [
+              "minimalista",
+              "editorial"
+            ]
+          },
+          {
+            "key": "opening",
+            "label": "APERTURA",
+            "default": "diagrama antes del detalle",
+            "choices": [
+              "diagrama antes del detalle",
+              "idea clave primero"
+            ]
+          }
+        ],
+        "optional_clauses": [
+          {
+            "key": "visual_opening",
+            "text": "Si mejora la comprensión, abre con un esquema breve.",
+            "default_enabled": true
+          }
         ]
       },
       "empresa": {
@@ -122,33 +232,11 @@
         "when": "el proceso ya declaró suficiente la base y varios roles van a consultar el mismo asistente.",
         "example": "Coach basado en fuentes para las propuestas del área.",
         "evidence": "instrucción personalizada con rol, tareas, límites, citas y calidad ratificada por el responsable; exactamente 10 prompts de inicio por rol sin solapamiento; guía de prueba de 5 líneas ejecutable por cualquiera, listo para revisión.",
-        "prompt": "Notebook de [EQUIPO]: [PROPÓSITO], [USUARIO] por rol, [RESULTADO], [RESTRICCIONES]. No redecidas qué fuentes conservar ni si la base alcanza: define su comportamiento. [RESTRICCIONES] contra [PROPÓSITO]: detente. A) instrucción personalizada con rol, tareas, límites, citas y calidad que ratifica el responsable; B) exactamente 10 prompts de inicio que cubran lo que el proceso pregunta primero, sin repetir; C) guía de prueba de 5 líneas con pregunta fuera de base, válida si declara su límite. Separa hechos, inferencias y faltantes, listo para revisión. No inventes capacidades ni fuentes.",
+        "prompt": "Notebook de <EQUIPO>: <PROPÓSITO>, <USUARIO> por rol, <RESULTADO>, <RESTRICCIONES>. No redecidas qué fuentes conservar ni si la base alcanza: define su comportamiento. <RESTRICCIONES> contra <PROPÓSITO>: detente. A) instrucción personalizada con rol, tareas, límites, citas y calidad que ratifica el responsable; B) exactamente 10 prompts de inicio que cubran lo que el proceso pregunta primero, sin repetir; C) guía de prueba de 5 líneas con pregunta fuera de base, válida si declara su límite. Separa hechos, inferencias y faltantes, listo para revisión. No inventes capacidades ni fuentes.",
         "level_spec": {
           "role": "Diseñador de la configuración final del asistente del equipo, no auditor de la base",
           "spec_role": "Especialista en configuración de asistentes basados en fuentes",
           "objective": "Convertir la recomendación de la auditoría en instrucción final ratificable, prompts de inicio por rol y guía de prueba ejecutable por cualquiera",
-          "parameters": [
-            [
-              "entrada_del_paso_previo",
-              "auditoría de la base (W02) y del contenedor hechas, con el veredicto de suficiencia del proceso ya emitido en W04, tomados como dados"
-            ],
-            [
-              "instruccion",
-              "rol, tareas, límites, regla de citas y criterio de calidad, ratificada por el responsable"
-            ],
-            [
-              "prompts_de_inicio",
-              "exactamente 10, cubriendo lo que el proceso pregunta primero, sin solaparse"
-            ],
-            [
-              "prueba_de_limite",
-              "guía ejecutable por cualquiera, con una pregunta fuera de la base que aprueba solo si declara el límite"
-            ],
-            [
-              "cierre_del_taller",
-              "listo para revisión; no autoriza publicación ni conectores"
-            ]
-          ],
           "workflow": [
             "Registrar propósito, usuario por rol, resultado y restricciones, y detenerse si las restricciones contradicen el propósito",
             "Tomar como dados la configuración recomendada por la auditoría y el veredicto de suficiencia, sin volver a decidir qué fuentes conservar",
@@ -173,6 +261,33 @@
             "Restricciones contra propósito entre áreas: se señala y se detiene antes de configurar",
             "Material privado o de cliente: la instrucción incluye el límite de no exposición y el riesgo operativo",
             "Nadie ratifica la instrucción: se pide responsable antes de cerrar, porque la configuración quedaría sin dueño"
+          ],
+          "constraints": [
+            [
+              "entrada_del_paso_previo",
+              "auditoría de la base (W02) y del contenedor hechas, con el veredicto de suficiencia del proceso ya emitido en W04, tomados como dados"
+            ],
+            [
+              "instruccion",
+              "rol, tareas, límites, regla de citas y criterio de calidad, ratificada por el responsable"
+            ],
+            [
+              "prompts_de_inicio",
+              "exactamente 10, cubriendo lo que el proceso pregunta primero, sin solaparse"
+            ],
+            [
+              "prueba_de_limite",
+              "guía ejecutable por cualquiera, con una pregunta fuera de la base que aprueba solo si declara el límite"
+            ],
+            [
+              "cierre_del_taller",
+              "listo para revisión; no autoriza publicación ni conectores"
+            ]
+          ],
+          "frameworks": [
+            "RACI · un responsable por decisión",
+            "SMART · resultado específico y medible",
+            "Definition of Done · cierre observable"
           ]
         },
         "why_it_works": {
@@ -215,6 +330,121 @@
             "claim": "Exigir ratificación del responsable y una prueba de límite ejecutable por cualquiera es política interna para asistentes compartidos por un equipo.",
             "source": "method_internal"
           }
+        ],
+        "inputs": [
+          {
+            "key": "team",
+            "label": "EQUIPO",
+            "help": "grupo que participa",
+            "example": "equipo de operaciones",
+            "required": true,
+            "type": "text",
+            "source": "user",
+            "demo_value": "equipo piloto de operaciones"
+          },
+          {
+            "key": "purpose",
+            "label": "PROPÓSITO",
+            "help": "para qué necesitas el resultado",
+            "example": "repetir una práctica útil",
+            "required": true,
+            "type": "text",
+            "source": "user",
+            "demo_value": "probar una forma de trabajo compartida, verificable y repetible"
+          },
+          {
+            "key": "user",
+            "label": "USUARIO",
+            "help": "persona que operará la solución",
+            "example": "líder del piloto",
+            "required": true,
+            "type": "text",
+            "source": "user",
+            "demo_value": "líder del piloto"
+          },
+          {
+            "key": "outcome",
+            "label": "RESULTADO",
+            "help": "cambio observable esperado",
+            "example": "una práctica repetible",
+            "required": true,
+            "type": "text",
+            "source": "user",
+            "demo_value": "un flujo compartible con responsable, evidencia y control"
+          },
+          {
+            "key": "constraints",
+            "label": "RESTRICCIONES",
+            "help": "límites que no deben romperse",
+            "example": "sin datos confidenciales",
+            "required": true,
+            "type": "text",
+            "source": "user",
+            "demo_value": "sin datos confidenciales"
+          }
+        ],
+        "parameters": [
+          {
+            "key": "length",
+            "label": "LONGITUD",
+            "default": "concisa",
+            "choices": [
+              "concisa",
+              "media"
+            ]
+          },
+          {
+            "key": "structure",
+            "label": "ESTRUCTURA",
+            "default": "2 párrafos + bullets clave",
+            "choices": [
+              "2 párrafos + bullets clave",
+              "tabla breve"
+            ]
+          },
+          {
+            "key": "tone",
+            "label": "TONO",
+            "default": "ejecutivo y operativo",
+            "choices": [
+              "ejecutivo y operativo",
+              "facilitador"
+            ]
+          },
+          {
+            "key": "depth",
+            "label": "PROFUNDIDAD",
+            "default": "práctica",
+            "choices": [
+              "práctica",
+              "profunda"
+            ]
+          },
+          {
+            "key": "aesthetic",
+            "label": "ESTÉTICA",
+            "default": "minimalista",
+            "choices": [
+              "minimalista",
+              "editorial"
+            ]
+          },
+          {
+            "key": "opening",
+            "label": "APERTURA",
+            "default": "diagrama antes del detalle",
+            "choices": [
+              "diagrama antes del detalle",
+              "idea clave primero"
+            ]
+          }
+        ],
+        "optional_clauses": [
+          {
+            "key": "visual_opening",
+            "text": "Si mejora la comprensión, abre con un esquema breve.",
+            "default_enabled": true
+          }
         ]
       }
     },
@@ -225,33 +455,11 @@
         "when": "the base is already sufficient and you want the Notebook to behave as a stable assistant.",
         "example": "A source-grounded coach to prepare my proposals.",
         "evidence": "a personalized instruction with role, tasks, limits, citation rule and quality criterion; exactly 10 starter prompts without overlap; a five-line test guide with one limit test.",
-        "prompt": "I want the final configuration of my Notebook: [PURPOSE], [USER], [RESULT], [CONSTRAINTS]. Do not re-decide which sources to keep or whether the base is enough: here you define its behaviour. If [CONSTRAINTS] clash with [PURPOSE], stop. Deliver A) a personalized instruction with role, tasks, limits, citations and quality; B) exactly 10 starter prompts covering what I ask first, without repeating; C) a five-line test guide with one out-of-base question, valid only if the limit is declared. Separate facts, inferences and missing data. Do not invent assistant capabilities or sources.",
+        "prompt": "I want the final configuration of my Notebook: <PURPOSE>, <USER>, <OUTCOME>, <CONSTRAINTS>. Do not re-decide which sources to keep or whether the base is enough: here you define its behaviour. If <CONSTRAINTS> clash with <PURPOSE>, stop. Deliver A) a personalized instruction with role, tasks, limits, citations and quality; B) exactly 10 starter prompts covering what I ask first, without repeating; C) a five-line test guide with one out-of-base question, valid only if the limit is declared. Separate facts, inferences and missing data. Do not invent assistant capabilities or sources.",
         "level_spec": {
           "role": "Designer of the final assistant configuration, not auditor of the base",
           "spec_role": "Specialist in configuring source-grounded assistants",
           "objective": "Turn the audit recommendation into a final instruction, starter prompts and a test guide coherent with the sufficiency verdict",
-          "parameters": [
-            [
-              "input_from_previous_step",
-              "base audit (W02) and container audit done, with the sufficiency verdict already issued in W04, taken as given"
-            ],
-            [
-              "instruction",
-              "role, tasks, limits, citation rule and quality criterion"
-            ],
-            [
-              "starter_prompts",
-              "exactly 10, covering what gets asked first, without overlapping each other"
-            ],
-            [
-              "limit_test",
-              "at least one out-of-base question; it passes only if the assistant declares the limit"
-            ],
-            [
-              "workshop_close",
-              "the configuration closes the session; it authorizes neither publication nor connectors"
-            ]
-          ],
           "workflow": [
             "Record purpose, user, result and constraints, and stop if the constraints contradict the purpose",
             "Take the audit configuration recommendation and the sufficiency verdict as given, without re-deciding which sources to keep",
@@ -276,6 +484,33 @@
             "Constraints against purpose: it is flagged and the work stops before configuring",
             "Private material in the base: the instruction carries the non-exposure limit",
             "Fewer cases than starter prompts: the gap is declared instead of padding with repeated prompts"
+          ],
+          "constraints": [
+            [
+              "input_from_previous_step",
+              "base audit (W02) and container audit done, with the sufficiency verdict already issued in W04, taken as given"
+            ],
+            [
+              "instruction",
+              "role, tasks, limits, citation rule and quality criterion"
+            ],
+            [
+              "starter_prompts",
+              "exactly 10, covering what gets asked first, without overlapping each other"
+            ],
+            [
+              "limit_test",
+              "at least one out-of-base question; it passes only if the assistant declares the limit"
+            ],
+            [
+              "workshop_close",
+              "the configuration closes the session; it authorizes neither publication nor connectors"
+            ]
+          ],
+          "frameworks": [
+            "RACI · one accountable owner per decision",
+            "SMART · specific and measurable outcome",
+            "Definition of Done · observable completion"
           ]
         },
         "why_it_works": {
@@ -318,6 +553,111 @@
             "claim": "The assistant citation rule is enforceable because it can answer from the selected sources and expose its citations; those aids do not guarantee accuracy.",
             "source": "https://support.google.com/notebooklm/answer/16179559?hl=es"
           }
+        ],
+        "inputs": [
+          {
+            "key": "purpose",
+            "label": "PURPOSE",
+            "help": "why you need the result",
+            "example": "repeat a useful practice",
+            "required": true,
+            "type": "text",
+            "source": "user",
+            "demo_value": "build a verifiable practice I can repeat and explain"
+          },
+          {
+            "key": "user",
+            "label": "USER",
+            "help": "person who will operate the solution",
+            "example": "pilot lead",
+            "required": true,
+            "type": "text",
+            "source": "user",
+            "demo_value": "pilot lead"
+          },
+          {
+            "key": "outcome",
+            "label": "OUTCOME",
+            "help": "observable change expected",
+            "example": "a repeatable practice",
+            "required": true,
+            "type": "text",
+            "source": "user",
+            "demo_value": "a repeatable, cited and explainable practice"
+          },
+          {
+            "key": "constraints",
+            "label": "CONSTRAINTS",
+            "help": "limits that must not be broken",
+            "example": "no confidential data",
+            "required": true,
+            "type": "text",
+            "source": "user",
+            "demo_value": "no confidential data"
+          }
+        ],
+        "parameters": [
+          {
+            "key": "length",
+            "label": "LENGTH",
+            "default": "concise",
+            "choices": [
+              "concise",
+              "medium"
+            ]
+          },
+          {
+            "key": "structure",
+            "label": "STRUCTURE",
+            "default": "2 paragraphs + key bullets",
+            "choices": [
+              "2 paragraphs + key bullets",
+              "short table"
+            ]
+          },
+          {
+            "key": "tone",
+            "label": "TONE",
+            "default": "clear and personal",
+            "choices": [
+              "clear and personal",
+              "instructional"
+            ]
+          },
+          {
+            "key": "depth",
+            "label": "DEPTH",
+            "default": "practical",
+            "choices": [
+              "practical",
+              "deep"
+            ]
+          },
+          {
+            "key": "aesthetic",
+            "label": "AESTHETIC",
+            "default": "minimal",
+            "choices": [
+              "minimal",
+              "editorial"
+            ]
+          },
+          {
+            "key": "opening",
+            "label": "OPENING",
+            "default": "diagram before detail",
+            "choices": [
+              "diagram before detail",
+              "bottom line first"
+            ]
+          }
+        ],
+        "optional_clauses": [
+          {
+            "key": "visual_opening",
+            "text": "If it improves understanding, open with a short diagram.",
+            "default_enabled": true
+          }
         ]
       },
       "empresa": {
@@ -326,33 +666,11 @@
         "when": "the process already declared the base sufficient and several roles will query the same assistant.",
         "example": "A source-grounded coach for the proposals of the area.",
         "evidence": "a personalized instruction with role, tasks, limits, citations and quality ratified by the accountable owner; exactly 10 starter prompts per role without overlap; a five-line test guide anyone can run, ready for review.",
-        "prompt": "[TEAM] Notebook: [PURPOSE], [USER] per role, [RESULT], [CONSTRAINTS]. Do not re-decide which sources to keep or whether the base is enough: define its behaviour. [CONSTRAINTS] against [PURPOSE]: stop. A) a personalized instruction with role, tasks, limits, citations and quality, ratified by the accountable owner; B) exactly 10 starter prompts covering what the team asks first, without repeating; C) a five-line test guide with one out-of-base question, valid if the limit is declared. Separate facts, inferences and missing data; ready for review. Do not invent capabilities or sources.",
+        "prompt": "<TEAM> Notebook: <PURPOSE>, <USER> per role, <OUTCOME>, <CONSTRAINTS>. Do not re-decide which sources to keep or whether the base is enough: define its behaviour. <CONSTRAINTS> against <PURPOSE>: stop. A) a personalized instruction with role, tasks, limits, citations and quality, ratified by the accountable owner; B) exactly 10 starter prompts covering what the team asks first, without repeating; C) a five-line test guide with one out-of-base question, valid if the limit is declared. Separate facts, inferences and missing data; ready for review. Do not invent capabilities or sources.",
         "level_spec": {
           "role": "Designer of the final team assistant configuration, not auditor of the base",
           "spec_role": "Specialist in configuring source-grounded assistants",
           "objective": "Turn the audit recommendation into a ratifiable final instruction, starter prompts per role and a test guide anyone can run",
-          "parameters": [
-            [
-              "input_from_previous_step",
-              "base audit (W02) and container audit done, with the process sufficiency verdict already issued in W04, taken as given"
-            ],
-            [
-              "instruction",
-              "role, tasks, limits, citation rule and quality criterion, ratified by the accountable owner"
-            ],
-            [
-              "starter_prompts",
-              "exactly 10, covering what the team asks first, without overlapping"
-            ],
-            [
-              "limit_test",
-              "a guide anyone can run, with an out-of-base question that passes only if the limit is declared"
-            ],
-            [
-              "workshop_close",
-              "ready for review; it authorizes neither publication nor connectors"
-            ]
-          ],
           "workflow": [
             "Record purpose, user per role, result and constraints, and stop if the constraints contradict the purpose",
             "Take the audit configuration recommendation and the sufficiency verdict as given, without re-deciding which sources to keep",
@@ -377,6 +695,33 @@
             "Constraints against purpose across areas: it is flagged and the work stops before configuring",
             "Private or client material: the instruction carries the non-exposure limit and the operational risk",
             "Nobody ratifies the instruction: an owner is requested before closing, because the configuration would have none"
+          ],
+          "constraints": [
+            [
+              "input_from_previous_step",
+              "base audit (W02) and container audit done, with the process sufficiency verdict already issued in W04, taken as given"
+            ],
+            [
+              "instruction",
+              "role, tasks, limits, citation rule and quality criterion, ratified by the accountable owner"
+            ],
+            [
+              "starter_prompts",
+              "exactly 10, covering what the team asks first, without overlapping"
+            ],
+            [
+              "limit_test",
+              "a guide anyone can run, with an out-of-base question that passes only if the limit is declared"
+            ],
+            [
+              "workshop_close",
+              "ready for review; it authorizes neither publication nor connectors"
+            ]
+          ],
+          "frameworks": [
+            "RACI · one accountable owner per decision",
+            "SMART · specific and measurable outcome",
+            "Definition of Done · observable completion"
           ]
         },
         "why_it_works": {
@@ -419,6 +764,121 @@
             "claim": "Requiring owner ratification and a limit test anyone can run is internal policy for assistants shared by a team.",
             "source": "method_internal"
           }
+        ],
+        "inputs": [
+          {
+            "key": "team",
+            "label": "TEAM",
+            "help": "group taking part",
+            "example": "operations team",
+            "required": true,
+            "type": "text",
+            "source": "user",
+            "demo_value": "operations pilot team"
+          },
+          {
+            "key": "purpose",
+            "label": "PURPOSE",
+            "help": "why you need the result",
+            "example": "repeat a useful practice",
+            "required": true,
+            "type": "text",
+            "source": "user",
+            "demo_value": "test a shared, verifiable and repeatable way of working"
+          },
+          {
+            "key": "user",
+            "label": "USER",
+            "help": "person who will operate the solution",
+            "example": "pilot lead",
+            "required": true,
+            "type": "text",
+            "source": "user",
+            "demo_value": "pilot lead"
+          },
+          {
+            "key": "outcome",
+            "label": "OUTCOME",
+            "help": "observable change expected",
+            "example": "a repeatable practice",
+            "required": true,
+            "type": "text",
+            "source": "user",
+            "demo_value": "a shareable workflow with an owner, evidence and control"
+          },
+          {
+            "key": "constraints",
+            "label": "CONSTRAINTS",
+            "help": "limits that must not be broken",
+            "example": "no confidential data",
+            "required": true,
+            "type": "text",
+            "source": "user",
+            "demo_value": "no confidential data"
+          }
+        ],
+        "parameters": [
+          {
+            "key": "length",
+            "label": "LENGTH",
+            "default": "concise",
+            "choices": [
+              "concise",
+              "medium"
+            ]
+          },
+          {
+            "key": "structure",
+            "label": "STRUCTURE",
+            "default": "2 paragraphs + key bullets",
+            "choices": [
+              "2 paragraphs + key bullets",
+              "short table"
+            ]
+          },
+          {
+            "key": "tone",
+            "label": "TONE",
+            "default": "executive and operational",
+            "choices": [
+              "executive and operational",
+              "facilitative"
+            ]
+          },
+          {
+            "key": "depth",
+            "label": "DEPTH",
+            "default": "practical",
+            "choices": [
+              "practical",
+              "deep"
+            ]
+          },
+          {
+            "key": "aesthetic",
+            "label": "AESTHETIC",
+            "default": "minimal",
+            "choices": [
+              "minimal",
+              "editorial"
+            ]
+          },
+          {
+            "key": "opening",
+            "label": "OPENING",
+            "default": "diagram before detail",
+            "choices": [
+              "diagram before detail",
+              "bottom line first"
+            ]
+          }
+        ],
+        "optional_clauses": [
+          {
+            "key": "visual_opening",
+            "text": "If it improves understanding, open with a short diagram.",
+            "default_enabled": true
+          }
         ]
       }
     },
@@ -429,33 +889,11 @@
         "when": "a base já é suficiente e você quer que o Notebook se comporte como assistente estável.",
         "example": "Coach baseado em fontes para preparar minhas propostas.",
         "evidence": "instrução personalizada com papel, tarefas, limites, regra de citações e critério de qualidade; exatamente 10 prompts iniciais sem sobreposição; guia de teste de cinco linhas com um teste de limite.",
-        "prompt": "Quero a configuração final do meu Notebook: [PROPÓSITO], [USUÁRIO], [RESULTADO], [RESTRIÇÕES]. Não redecida quais fontes manter nem se a base basta: aqui você define o comportamento dele. Se [RESTRIÇÕES] colidir com [PROPÓSITO], pare. Entregue A) instrução personalizada com papel, tarefas, limites, citações e qualidade; B) exatamente 10 prompts iniciais que cubram o que pergunto primeiro, sem repetir; C) guia de teste de cinco linhas com uma pergunta fora da base, válida se declarar o limite. Separe fatos, inferências e dados ausentes. Não invente capacidades nem fontes.",
+        "prompt": "Quero a configuração final do meu Notebook: <PROPÓSITO>, <USUÁRIO>, <RESULTADO>, <RESTRIÇÕES>. Não redecida quais fontes manter nem se a base basta: aqui você define o comportamento dele. Se <RESTRIÇÕES> colidir com <PROPÓSITO>, pare. Entregue A) instrução personalizada com papel, tarefas, limites, citações e qualidade; B) exatamente 10 prompts iniciais que cubram o que pergunto primeiro, sem repetir; C) guia de teste de cinco linhas com uma pergunta fora da base, válida se declarar o limite. Separe fatos, inferências e dados ausentes. Não invente capacidades nem fontes.",
         "level_spec": {
           "role": "Projetista da configuração final do assistente, não auditor da base",
           "spec_role": "Especialista em configuração de assistentes baseados em fontes",
           "objective": "Converter a recomendação da auditoria em instrução final, prompts iniciais e guia de teste coerentes com o veredicto de suficiência",
-          "parameters": [
-            [
-              "entrada_do_passo_anterior",
-              "auditoria da base (W02) e do contêiner feitas, com o veredicto de suficiência já emitido em W04, tomados como dados"
-            ],
-            [
-              "instrucao",
-              "papel, tarefas, limites, regra de citações e critério de qualidade"
-            ],
-            [
-              "prompts_iniciais",
-              "exatamente 10, cobrindo o que se pergunta primeiro, sem se sobrepor"
-            ],
-            [
-              "teste_de_limite",
-              "ao menos uma pergunta fora da base; passa só se o assistente declarar o limite"
-            ],
-            [
-              "fechamento_da_oficina",
-              "a configuração fecha a sessão; não autoriza publicação nem conectores"
-            ]
-          ],
           "workflow": [
             "Registrar propósito, usuário, resultado e restrições, e parar se as restrições contradisserem o propósito",
             "Tomar como dados a configuração recomendada pela auditoria e o veredicto de suficiência, sem redecidir quais fontes manter",
@@ -480,6 +918,33 @@
             "Restrições contra propósito: sinaliza-se e para-se antes de configurar",
             "Material privado na base: a instrução inclui o limite de não exposição",
             "Menos casos que prompts iniciais: declara-se a lacuna em vez de encher com prompts repetidos"
+          ],
+          "constraints": [
+            [
+              "entrada_do_passo_anterior",
+              "auditoria da base (W02) e do contêiner feitas, com o veredicto de suficiência já emitido em W04, tomados como dados"
+            ],
+            [
+              "instrucao",
+              "papel, tarefas, limites, regra de citações e critério de qualidade"
+            ],
+            [
+              "prompts_iniciais",
+              "exatamente 10, cobrindo o que se pergunta primeiro, sem se sobrepor"
+            ],
+            [
+              "teste_de_limite",
+              "ao menos uma pergunta fora da base; passa só se o assistente declarar o limite"
+            ],
+            [
+              "fechamento_da_oficina",
+              "a configuração fecha a sessão; não autoriza publicação nem conectores"
+            ]
+          ],
+          "frameworks": [
+            "RACI · um responsável por decisão",
+            "SMART · resultado específico e mensurável",
+            "Definition of Done · conclusão observável"
           ]
         },
         "why_it_works": {
@@ -522,6 +987,111 @@
             "claim": "A regra de citações do assistente é exigível porque ele pode responder a partir das fontes selecionadas e mostrar as citações; essas ajudas não garantem exatidão.",
             "source": "https://support.google.com/notebooklm/answer/16179559?hl=es"
           }
+        ],
+        "inputs": [
+          {
+            "key": "purpose",
+            "label": "PROPÓSITO",
+            "help": "para que precisa do resultado",
+            "example": "repetir uma prática útil",
+            "required": true,
+            "type": "text",
+            "source": "user",
+            "demo_value": "criar uma prática verificável que eu consiga repetir e explicar"
+          },
+          {
+            "key": "user",
+            "label": "USUÁRIO",
+            "help": "pessoa que operará a solução",
+            "example": "líder do piloto",
+            "required": true,
+            "type": "text",
+            "source": "user",
+            "demo_value": "líder do piloto"
+          },
+          {
+            "key": "outcome",
+            "label": "RESULTADO",
+            "help": "mudança observável esperada",
+            "example": "uma prática repetível",
+            "required": true,
+            "type": "text",
+            "source": "user",
+            "demo_value": "uma prática repetível, citada e explicável"
+          },
+          {
+            "key": "constraints",
+            "label": "RESTRIÇÕES",
+            "help": "limites que não devem ser rompidos",
+            "example": "sem dados confidenciais",
+            "required": true,
+            "type": "text",
+            "source": "user",
+            "demo_value": "sem dados confidenciais"
+          }
+        ],
+        "parameters": [
+          {
+            "key": "length",
+            "label": "EXTENSÃO",
+            "default": "concisa",
+            "choices": [
+              "concisa",
+              "média"
+            ]
+          },
+          {
+            "key": "structure",
+            "label": "ESTRUTURA",
+            "default": "2 parágrafos + bullets-chave",
+            "choices": [
+              "2 parágrafos + bullets-chave",
+              "tabela breve"
+            ]
+          },
+          {
+            "key": "tone",
+            "label": "TOM",
+            "default": "claro e pessoal",
+            "choices": [
+              "claro e pessoal",
+              "didático"
+            ]
+          },
+          {
+            "key": "depth",
+            "label": "PROFUNDIDADE",
+            "default": "prática",
+            "choices": [
+              "prática",
+              "profunda"
+            ]
+          },
+          {
+            "key": "aesthetic",
+            "label": "ESTÉTICA",
+            "default": "minimalista",
+            "choices": [
+              "minimalista",
+              "editorial"
+            ]
+          },
+          {
+            "key": "opening",
+            "label": "ABERTURA",
+            "default": "diagrama antes do detalhe",
+            "choices": [
+              "diagrama antes do detalhe",
+              "ideia-chave primeiro"
+            ]
+          }
+        ],
+        "optional_clauses": [
+          {
+            "key": "visual_opening",
+            "text": "Se melhorar a compreensão, abra com um esquema breve.",
+            "default_enabled": true
+          }
         ]
       },
       "empresa": {
@@ -530,33 +1100,11 @@
         "when": "o processo já declarou a base suficiente e vários papéis vão consultar o mesmo assistente.",
         "example": "Coach baseado em fontes para as propostas da área.",
         "evidence": "instrução personalizada com papel, tarefas, limites, citações e qualidade ratificada pelo responsável; exatamente 10 prompts iniciais por papel sem sobreposição; guia de teste de cinco linhas executável por qualquer um, pronto para revisão.",
-        "prompt": "Notebook da [EQUIPE]: [PROPÓSITO], [USUÁRIO] por papel, [RESULTADO], [RESTRIÇÕES]. Não redecida quais fontes manter nem se a base basta: defina o comportamento dele. [RESTRIÇÕES] contra [PROPÓSITO]: pare. A) instrução personalizada com papel, tarefas, limites, citações e qualidade, que o responsável ratifica; B) exatamente 10 prompts iniciais que cubram o que o processo pergunta primeiro, sem repetir; C) guia de teste de cinco linhas com uma pergunta fora da base, válida se declarar o limite. Separe fatos, inferências e ausentes, pronto para revisão. Não invente capacidades nem fontes.",
+        "prompt": "Notebook da <EQUIPE>: <PROPÓSITO>, <USUÁRIO> por papel, <RESULTADO>, <RESTRIÇÕES>. Não redecida quais fontes manter nem se a base basta: defina o comportamento dele. <RESTRIÇÕES> contra <PROPÓSITO>: pare. A) instrução personalizada com papel, tarefas, limites, citações e qualidade, que o responsável ratifica; B) exatamente 10 prompts iniciais que cubram o que o processo pergunta primeiro, sem repetir; C) guia de teste de cinco linhas com uma pergunta fora da base, válida se declarar o limite. Separe fatos, inferências e ausentes, pronto para revisão. Não invente capacidades nem fontes.",
         "level_spec": {
           "role": "Projetista da configuração final do assistente da equipe, não auditor da base",
           "spec_role": "Especialista em configuração de assistentes baseados em fontes",
           "objective": "Converter a recomendação da auditoria em instrução final ratificável, prompts iniciais por papel e guia de teste executável por qualquer um",
-          "parameters": [
-            [
-              "entrada_do_passo_anterior",
-              "auditoria da base (W02) e do contêiner feitas, com o veredicto de suficiência do processo já emitido em W04, tomados como dados"
-            ],
-            [
-              "instrucao",
-              "papel, tarefas, limites, regra de citações e critério de qualidade, ratificada pelo responsável"
-            ],
-            [
-              "prompts_iniciais",
-              "exatamente 10, cobrindo o que o processo pergunta primeiro, sem se sobrepor"
-            ],
-            [
-              "teste_de_limite",
-              "guia executável por qualquer um, com uma pergunta fora da base que passa só se o limite for declarado"
-            ],
-            [
-              "fechamento_da_oficina",
-              "pronto para revisão; não autoriza publicação nem conectores"
-            ]
-          ],
           "workflow": [
             "Registrar propósito, usuário por papel, resultado e restrições, e parar se as restrições contradisserem o propósito",
             "Tomar como dados a configuração recomendada pela auditoria e o veredicto de suficiência, sem redecidir quais fontes manter",
@@ -581,6 +1129,33 @@
             "Restrições contra propósito entre áreas: sinaliza-se e para-se antes de configurar",
             "Material privado ou de cliente: a instrução inclui o limite de não exposição e o risco operacional",
             "Ninguém ratifica a instrução: pede-se responsável antes de fechar, porque a configuração ficaria sem dono"
+          ],
+          "constraints": [
+            [
+              "entrada_do_passo_anterior",
+              "auditoria da base (W02) e do contêiner feitas, com o veredicto de suficiência do processo já emitido em W04, tomados como dados"
+            ],
+            [
+              "instrucao",
+              "papel, tarefas, limites, regra de citações e critério de qualidade, ratificada pelo responsável"
+            ],
+            [
+              "prompts_iniciais",
+              "exatamente 10, cobrindo o que o processo pergunta primeiro, sem se sobrepor"
+            ],
+            [
+              "teste_de_limite",
+              "guia executável por qualquer um, com uma pergunta fora da base que passa só se o limite for declarado"
+            ],
+            [
+              "fechamento_da_oficina",
+              "pronto para revisão; não autoriza publicação nem conectores"
+            ]
+          ],
+          "frameworks": [
+            "RACI · um responsável por decisão",
+            "SMART · resultado específico e mensurável",
+            "Definition of Done · conclusão observável"
           ]
         },
         "why_it_works": {
@@ -623,10 +1198,141 @@
             "claim": "Exigir ratificação do responsável e um teste de limite executável por qualquer um é política interna para assistentes compartilhados por uma equipe.",
             "source": "method_internal"
           }
+        ],
+        "inputs": [
+          {
+            "key": "team",
+            "label": "EQUIPE",
+            "help": "grupo participante",
+            "example": "equipe de operações",
+            "required": true,
+            "type": "text",
+            "source": "user",
+            "demo_value": "equipe piloto de operações"
+          },
+          {
+            "key": "purpose",
+            "label": "PROPÓSITO",
+            "help": "para que precisa do resultado",
+            "example": "repetir uma prática útil",
+            "required": true,
+            "type": "text",
+            "source": "user",
+            "demo_value": "testar uma forma de trabalho compartilhada, verificável e repetível"
+          },
+          {
+            "key": "user",
+            "label": "USUÁRIO",
+            "help": "pessoa que operará a solução",
+            "example": "líder do piloto",
+            "required": true,
+            "type": "text",
+            "source": "user",
+            "demo_value": "líder do piloto"
+          },
+          {
+            "key": "outcome",
+            "label": "RESULTADO",
+            "help": "mudança observável esperada",
+            "example": "uma prática repetível",
+            "required": true,
+            "type": "text",
+            "source": "user",
+            "demo_value": "um fluxo compartilhável com responsável, evidência e controle"
+          },
+          {
+            "key": "constraints",
+            "label": "RESTRIÇÕES",
+            "help": "limites que não devem ser rompidos",
+            "example": "sem dados confidenciais",
+            "required": true,
+            "type": "text",
+            "source": "user",
+            "demo_value": "sem dados confidenciais"
+          }
+        ],
+        "parameters": [
+          {
+            "key": "length",
+            "label": "EXTENSÃO",
+            "default": "concisa",
+            "choices": [
+              "concisa",
+              "média"
+            ]
+          },
+          {
+            "key": "structure",
+            "label": "ESTRUTURA",
+            "default": "2 parágrafos + bullets-chave",
+            "choices": [
+              "2 parágrafos + bullets-chave",
+              "tabela breve"
+            ]
+          },
+          {
+            "key": "tone",
+            "label": "TOM",
+            "default": "executivo e operacional",
+            "choices": [
+              "executivo e operacional",
+              "facilitador"
+            ]
+          },
+          {
+            "key": "depth",
+            "label": "PROFUNDIDADE",
+            "default": "prática",
+            "choices": [
+              "prática",
+              "profunda"
+            ]
+          },
+          {
+            "key": "aesthetic",
+            "label": "ESTÉTICA",
+            "default": "minimalista",
+            "choices": [
+              "minimalista",
+              "editorial"
+            ]
+          },
+          {
+            "key": "opening",
+            "label": "ABERTURA",
+            "default": "diagrama antes do detalhe",
+            "choices": [
+              "diagrama antes do detalhe",
+              "ideia-chave primeiro"
+            ]
+          }
+        ],
+        "optional_clauses": [
+          {
+            "key": "visual_opening",
+            "text": "Se melhorar a compreensão, abra com um esquema breve.",
+            "default_enabled": true
+          }
         ]
       }
     }
   },
   "self_hash_model": "sha256(sorted-json-without-self_sha256)",
-  "self_sha256": "67baff3c539bd2794652e4cfa49ee4b10364a228de381d9ebae291059db7b6bd"
+  "self_sha256": "679dba0e612777f2d8c7edf9f033fb340e55a5953b61cbb10d8f5c7ed7c22b12",
+  "flow": {
+    "route": "workbook",
+    "order": 13,
+    "previous": "W09",
+    "next": null,
+    "branches": [],
+    "consumes": [
+      "VEREDICTO_DE_BASE",
+      "CASOS_PRIORIZADOS",
+      "ENSAYO_DE_DEFENSA"
+    ],
+    "produces": "PLAN_DE_TRANSFERENCIA",
+    "external_gate": false,
+    "loop_to": null,
+    "standalone": true
+  }
 }

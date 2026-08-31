@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Byte-exact gate over the committed prompt snapshot (648 entries).
+"""Byte-exact gate over the committed prompt snapshot (1,296 entries).
 
 Regenerates the snapshot from dist/ with the same exporter that produced the
 baseline, into a throwaway directory, and requires byte equality with the
@@ -19,18 +19,15 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 SNAPSHOTS = ROOT / "snapshots"
-BASELINE = SNAPSHOTS / "baseline"
+CONTRACTS_DIR = ROOT / "src" / "prompt-contracts"
 LOCALES = ("es", "en", "pt")
-ENTRIES_PER_LOCALE = 216
+ENTRIES_PER_LOCALE = 432
 TOTAL_ENTRIES = ENTRIES_PER_LOCALE * len(LOCALES)
 
-# Length cap ratified with qa/check-prompt-contracts.py: max(2 x baseline, 600).
-# It governs the authored level-1 text — the workbook baselines it was sized
-# against (239-286c) are natural prompts, and the floor exists because the
-# mandatory quality tokens ate 20-29% of a 478c cap. Levels 2-4 are mechanically
-# derived from `level_spec` by scripts/build.py, not authored, so the same
-# formula does not apply to them; their fidelity is covered by the byte-exact
-# comparison above.
+# The contract gate keeps the authored N1 body under the frozen v1 ceiling.
+# This gate then keeps each rendered Template/Demo N1 projection under 2x that
+# authored v2 body; inline help/examples are projection metadata, not an excuse
+# to expand the underlying editorial argument.
 LENGTH_FLOOR = 600
 CAPPED_LEVELS = ("natural",)
 
@@ -49,6 +46,10 @@ def load_exporter():
 
 def main() -> int:
     exporter = load_exporter()
+    contracts = {}
+    for path in CONTRACTS_DIR.glob("*.json"):
+        document = json.loads(path.read_text(encoding="utf-8"))
+        contracts[(document["surface"], document["intent_id"])] = document
     with tempfile.TemporaryDirectory() as workdir:
         regenerated = Path(workdir)
         exporter.ROOT = regenerated
@@ -71,17 +72,19 @@ def main() -> int:
             if document.get("self_sha256") != exporter.canonical_self(entries):
                 raise SystemExit(f"SNAPSHOT_SELF_DRIFT:{locale}")
 
-            baseline = json.loads((BASELINE / f"prompt-snapshot-{locale}.json").read_text(encoding="utf-8"))
             for key, value in entries.items():
                 text = value["text"]
                 if value["chars"] != len(text) or value["sha256"] != hashlib.sha256(text.encode("utf-8")).hexdigest():
                     raise SystemExit(f"SNAPSHOT_ENTRY_INCONSISTENT:{locale}:{key}")
-                if key.rsplit("/", 1)[-1] not in CAPPED_LEVELS:
+                parts = key.split("/")
+                if parts[-1] not in CAPPED_LEVELS:
                     continue
-                reference = baseline.get(key)
-                if reference is None:
-                    raise SystemExit(f"SNAPSHOT_BASELINE_MISSING:{locale}:{key}")
-                cap = length_cap(reference["chars"])
+                surface, intent, _, audience = parts[:4]
+                contract = contracts.get((surface, intent))
+                if contract is None:
+                    raise SystemExit(f"SNAPSHOT_CONTRACT_MISSING:{locale}:{key}")
+                authored = contract["locales"][locale][audience]["prompt"]
+                cap = length_cap(len(authored))
                 if value["chars"] > cap:
                     raise SystemExit(f"SNAPSHOT_LENGTH_EXCESS:{locale}:{key}:{value['chars']}>{cap}")
             total += len(entries)

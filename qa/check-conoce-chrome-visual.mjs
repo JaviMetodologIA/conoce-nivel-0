@@ -42,7 +42,7 @@ for (const width of [320, 390, 768, 1440]) {
     await page.keyboard.press('Escape');
   } else {
     await page.locator('[data-conoce-resources] summary').click();
-    await page.locator('[data-conoce-resource-link]').first().focus();
+    await page.locator('[data-conoce-module-link]').first().focus();
     await page.keyboard.press('Escape');
     const desktopDisclosure = await page.locator('[data-conoce-resources]').evaluate((node) => ({open: node.open, summaryFocused: node.querySelector('summary') === document.activeElement}));
     if (desktopDisclosure.open || !desktopDisclosure.summaryFocused) throw new Error(`Desktop resources Escape/focus return failed ${width}: ${JSON.stringify(desktopDisclosure)}`);
@@ -55,7 +55,7 @@ const noJsPage = await noJs.newPage();
 await noJsPage.goto(local('pt/prompts/index.html'));
 const noJsState = await noJsPage.evaluate(() => ({
   navDisplay: getComputedStyle(document.querySelector('[data-conoce-nav]')).display,
-  visibleResourceLinks: [...document.querySelectorAll('[data-conoce-resource-link]')].filter((item) => getComputedStyle(item).display !== 'none' && item.getClientRects().length).length,
+  visibleResourceLinks: [...document.querySelectorAll('[data-conoce-module-link]')].filter((item) => getComputedStyle(item).display !== 'none' && item.getClientRects().length).length,
   preferences: document.querySelectorAll('[data-conoce-preferences]').length,
 }));
 if (noJsState.navDisplay === 'none' || noJsState.visibleResourceLinks !== 4 || noJsState.preferences !== 1) throw new Error(`No-JS chrome failed: ${JSON.stringify(noJsState)}`);

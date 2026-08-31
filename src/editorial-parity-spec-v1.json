@@ -5,12 +5,12 @@
   "network_required": false,
   "fallback_policy": "forbidden",
   "self_hash_model": "sha256(sorted-json-without-self_sha256)",
-  "self_sha256": "ad07bf72e931202887c1625600579f9e39c1a84a78ecd2891fc70525b7f49fe6",
+  "self_sha256": "266f90ad8db00695aa3aeb086820d0846b4494caba31477ac714f43d65f06608",
   "matrix": {
     "locales": ["es", "en", "pt"],
     "audiences": ["persona", "empresa"],
     "pages": ["landing", "deck", "workbook", "playbook", "prompts", "level0", "how", "resources_index", "intakes"],
-    "canonical_routes": 54
+    "canonical_routes": 126
   },
   "localized_sources": [
     {"path": "src/conoce-chrome-spec-v1.json", "root": "copy", "dimensions": ["locale"]},

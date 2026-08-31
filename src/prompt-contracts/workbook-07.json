@@ -1,5 +1,5 @@
 {
-  "schema_version": "prompt-intent-contract-v1",
+  "schema_version": "prompt-intent-contract-v2",
   "intent_id": "W07",
   "surface": "workbook",
   "phase": "Aprehender",
@@ -10,7 +10,7 @@
       "W06",
       "W10"
     ],
-    "decision_rule": "Usa W07 cuando la base del taller ya sirve y la pregunta es dónde aplicarla: un mapa de casos de uso priorizados con escalas declaradas y un experimento de 7 días; si lo que falta es producir una pieza citada con una tesis, usa W06; si ya está claro qué casos valen y hay que convertirlos en el comportamiento del asistente, usa W10. W07 no redacta la pieza ni escribe la instrucción final, y no estima ROI ni precios."
+    "decision_rule": "Usa W07 cuando la base del taller ya sirve y la pregunta es dónde aplicarla: un mapa de casos de uso priorizados con escalas declaradas y un experimento de 7 días; si lo que falta es producir un contenido citado con una tesis, usa W06; si ya está claro qué casos valen y hay que convertirlos en el comportamiento del asistente, usa W10. W07 no redacta el contenido ni escribe la instrucción final, y no estima ROI ni precios."
   },
   "locales": {
     "es": {
@@ -20,12 +20,36 @@
         "when": "quieres oportunidades reales para tu trabajo y la base del taller ya quedó auditada.",
         "example": "Un piloto de 7 días para automatizar mi reporte semanal.",
         "evidence": "hasta diez casos con problema, usuario, evidencia citada, entrada, resultado, trabajo humano y de IA, riesgo y control, complejidad e impacto; ranking de valor frente a esfuerzo y un experimento de 7 días con métrica y umbral.",
-        "prompt": "Quiero aplicar mi base auditada: 10 casos de uso para [ROL] en [CONTEXTO], con mi Notebook. Por caso: problema, usuario, evidencia citada, entrada, resultado, trabajo humano y de IA, riesgo, control, complejidad, impacto. Sin evidencia, va especulativo, fuera del ranking. Escalas antes: valor 1-5 por efecto en [ROL], esfuerzo 1-5 por horas y complejidad. Ordena valor frente a esfuerzo; empate, gana menor esfuerzo. Recomienda uno: experimento de 7 días, métrica observable y umbral; insumo del paso siguiente. No redactes la pieza: esto prioriza. No inventes casos, evidencia ni ROI.",
+        "prompt": "Quiero aplicar mi base auditada: 10 casos de uso para <ROL> en <CONTEXTO>, con mi Notebook. Por caso: problema, usuario, evidencia citada, entrada, resultado, trabajo humano y de IA, riesgo, control, complejidad, impacto. Sin evidencia, va especulativo, fuera del ranking. Escalas antes: valor 1-5 por efecto en <ROL>, esfuerzo 1-5 por horas y complejidad. Ordena valor frente a esfuerzo; empate, gana menor esfuerzo. Recomienda uno: experimento de 7 días, métrica observable y umbral; insumo del paso siguiente. No redactes el contenido: esto prioriza. No inventes casos, evidencia ni ROI.",
         "level_spec": {
           "role": "Diseñador de casos de uso que prioriza sobre evidencia citada, no sobre entusiasmo",
           "spec_role": "Especialista en aplicación de IA a trabajo real, basada en evidencia",
           "objective": "Convertir la base del taller en un ranking de casos de uso defendibles con un experimento medible de 7 días",
-          "parameters": [
+          "workflow": [
+            "Registrar rol y contexto, y fijar la base auditada como única fuente",
+            "Diseñar hasta 10 casos con problema, usuario, evidencia citada, entrada, resultado, trabajo humano y de IA, riesgo y control, complejidad e impacto",
+            "Marcar como especulativo y dejar fuera del ranking todo caso sin evidencia en la base",
+            "Declarar las escalas de valor y esfuerzo antes de puntuar y ordenar valor frente a esfuerzo, con desempate por menor esfuerzo",
+            "Recomendar uno y definir su experimento de 7 días con métrica observable y umbral"
+          ],
+          "guardrails": [
+            "No inventar casos, evidencia ni ROI: sin evidencia en la base el caso se marca especulativo",
+            "No estimar precios ni retorno económico",
+            "No redactar el contenido citado: eso es W06",
+            "La recomendación no decide: quien prioriza es una persona"
+          ],
+          "output": [
+            "Hasta diez casos con sus diez atributos, cada uno con evidencia citada o marca de especulativo",
+            "Ranking de valor frente a esfuerzo con las escalas declaradas y la regla de desempate aplicada",
+            "Caso recomendado con experimento de 7 días, métrica observable y umbral"
+          ],
+          "dod": "Ranking defendible: escalas declaradas antes de puntuar, cada caso con evidencia citada o marcado especulativo, y un experimento de 7 días con métrica y umbral.",
+          "edge_cases": [
+            "Base sin material del dominio del rol: menos de diez casos y vacío declarado, nunca relleno",
+            "Empate en el ranking: gana el caso de menor esfuerzo, por regla declarada de antemano",
+            "Caso interesante sin evidencia en la base: entra marcado como especulativo, fuera del ranking"
+          ],
+          "constraints": [
             [
               "entrada_del_paso_previo",
               "base auditada del taller como única fuente de evidencia"
@@ -47,29 +71,10 @@
               "ranking y caso recomendado como insumo de la configuración final"
             ]
           ],
-          "workflow": [
-            "Registrar rol y contexto, y fijar la base auditada como única fuente",
-            "Diseñar hasta 10 casos con problema, usuario, evidencia citada, entrada, resultado, trabajo humano y de IA, riesgo y control, complejidad e impacto",
-            "Marcar como especulativo y dejar fuera del ranking todo caso sin evidencia en la base",
-            "Declarar las escalas de valor y esfuerzo antes de puntuar y ordenar valor frente a esfuerzo, con desempate por menor esfuerzo",
-            "Recomendar uno y definir su experimento de 7 días con métrica observable y umbral"
-          ],
-          "guardrails": [
-            "No inventar casos, evidencia ni ROI: sin evidencia en la base el caso se marca especulativo",
-            "No estimar precios ni retorno económico",
-            "No redactar la pieza de contenido: eso es W06",
-            "La recomendación no decide: quien prioriza es una persona"
-          ],
-          "output": [
-            "Hasta diez casos con sus diez atributos, cada uno con evidencia citada o marca de especulativo",
-            "Ranking de valor frente a esfuerzo con las escalas declaradas y la regla de desempate aplicada",
-            "Caso recomendado con experimento de 7 días, métrica observable y umbral"
-          ],
-          "dod": "Ranking defendible: escalas declaradas antes de puntuar, cada caso con evidencia citada o marcado especulativo, y un experimento de 7 días con métrica y umbral.",
-          "edge_cases": [
-            "Base sin material del dominio del rol: menos de diez casos y vacío declarado, nunca relleno",
-            "Empate en el ranking: gana el caso de menor esfuerzo, por regla declarada de antemano",
-            "Caso interesante sin evidencia en la base: entra marcado como especulativo, fuera del ranking"
+          "frameworks": [
+            "Jobs to Be Done · problema, usuario y resultado",
+            "Impacto–esfuerzo · prioriza lo viable",
+            "SMART · resultado específico y medible"
           ]
         },
         "why_it_works": {
@@ -91,7 +96,7 @@
           ],
           "limits": [
             "No estima ROI ni precios, y no reemplaza el juicio de quien decide",
-            "Prioriza dónde aplicar la base; no redacta la pieza (W06) ni escribe la instrucción final del asistente (W10)"
+            "Prioriza dónde aplicar la base; no redacta el contenido (W06) ni escribe la instrucción final del asistente (W10)"
           ]
         },
         "traceability": [
@@ -111,7 +116,68 @@
             "claim": "Exigir evidencia citada por caso es posible porque el asistente puede responder desde las fuentes seleccionadas y mostrar sus citas.",
             "source": "https://support.google.com/notebooklm/answer/16179559?hl=es"
           }
-        ]
+        ],
+        "inputs": [
+          {
+            "key": "role",
+            "label": "ROL",
+            "help": "función que debe cumplir la IA",
+            "example": "coach basado en fuentes",
+            "required": true,
+            "type": "text",
+            "source": "user",
+            "demo_value": "coach basado en fuentes"
+          },
+          {
+            "key": "context",
+            "label": "CONTEXTO",
+            "help": "situación y restricciones relevantes",
+            "example": "45 minutos al día",
+            "required": true,
+            "type": "text",
+            "source": "user",
+            "demo_value": "trabajo individual con 45 minutos disponibles al día"
+          }
+        ],
+        "parameters": [
+          {
+            "key": "length",
+            "label": "LONGITUD",
+            "default": "concisa",
+            "choices": [
+              "concisa",
+              "media"
+            ]
+          },
+          {
+            "key": "structure",
+            "label": "ESTRUCTURA",
+            "default": "2 párrafos + bullets clave",
+            "choices": [
+              "2 párrafos + bullets clave",
+              "tabla breve"
+            ]
+          },
+          {
+            "key": "tone",
+            "label": "TONO",
+            "default": "claro y personal",
+            "choices": [
+              "claro y personal",
+              "didáctico"
+            ]
+          },
+          {
+            "key": "depth",
+            "label": "PROFUNDIDAD",
+            "default": "práctica",
+            "choices": [
+              "práctica",
+              "profunda"
+            ]
+          }
+        ],
+        "optional_clauses": []
       },
       "empresa": {
         "title": "Casos de uso priorizados para el equipo",
@@ -119,12 +185,36 @@
         "when": "el proceso exige saber dónde aplicar la base y quién responde por cada piloto.",
         "example": "Un piloto de 7 días para automatizar el reporte semanal del área.",
         "evidence": "hasta diez casos con problema, usuario, evidencia citada, entrada, resultado, trabajo humano y de IA, riesgo y control, complejidad e impacto y responsable; ranking de valor frente a esfuerzo y experimento de 7 días con métrica, umbral y riesgo operativo, listo para revisión.",
-        "prompt": "Nuestro equipo usa la base auditada: 10 casos de uso para [EQUIPO] en [PROCESO], del Notebook. Por caso: problema, usuario, evidencia citada, entrada, resultado, trabajo humano y de IA, riesgo, control, complejidad, impacto, responsable. Sin evidencia: especulativo, fuera del ranking. Escalas antes: valor 1-5 por efecto en [PROCESO], esfuerzo 1-5 por horas, complejidad. Ordena valor frente a esfuerzo; empate, gana menor esfuerzo. Recomienda uno: experimento de 7 días, métrica, umbral y riesgo operativo, listo para revisión. No redactes la pieza: esto prioriza. No inventes casos ni ROI.",
+        "prompt": "Nuestro equipo usa la base auditada: 10 casos de uso para <EQUIPO> en <PROCESO>, del Notebook. Por caso: problema, usuario, evidencia citada, entrada, resultado, trabajo humano y de IA, riesgo, control, complejidad, impacto, responsable. Sin evidencia: especulativo, fuera del ranking. Escalas antes: valor 1-5 por efecto en <PROCESO>, esfuerzo 1-5 por horas, complejidad. Ordena valor frente a esfuerzo; empate, gana menor esfuerzo. Recomienda uno: experimento de 7 días, métrica, umbral y riesgo operativo, listo para revisión. No redactes el contenido: esto prioriza. No inventes casos ni ROI.",
         "level_spec": {
           "role": "Diseñador de casos de uso para el equipo que prioriza sobre evidencia citada y riesgo declarado",
           "spec_role": "Especialista en aplicación de IA a trabajo real, basada en evidencia",
           "objective": "Convertir la base del taller en un ranking de casos defendible ante revisión, con responsable y riesgo operativo por experimento",
-          "parameters": [
+          "workflow": [
+            "Registrar equipo y proceso, y fijar la base auditada como única fuente",
+            "Diseñar hasta 10 casos con problema, usuario, evidencia citada, entrada, resultado, trabajo humano y de IA, riesgo y control, complejidad e impacto y responsable",
+            "Marcar como especulativo y dejar fuera del ranking todo caso sin evidencia en la base",
+            "Declarar las escalas de valor y esfuerzo antes de puntuar y ordenar valor frente a esfuerzo, con desempate por menor esfuerzo",
+            "Recomendar uno y definir su experimento de 7 días con métrica, umbral y riesgo operativo, listo para revisión"
+          ],
+          "guardrails": [
+            "No inventar casos, evidencia ni ROI: sin evidencia en la base el caso se marca especulativo",
+            "No estimar precios ni retorno económico, tampoco para defender un presupuesto",
+            "No redactar el contenido citado: eso es W06",
+            "No arrancar un piloto sin responsable: el ranking informa, la decisión es de quien responde"
+          ],
+          "output": [
+            "Hasta diez casos con sus atributos y responsable, cada uno con evidencia citada o marca de especulativo",
+            "Ranking de valor frente a esfuerzo con las escalas declaradas y la regla de desempate aplicada",
+            "Caso recomendado con experimento de 7 días, métrica, umbral y riesgo operativo, listo para revisión"
+          ],
+          "dod": "Ranking revisable: escalas declaradas antes de puntuar, evidencia citada o marca de especulativo por caso, responsable por experimento y umbral a 7 días.",
+          "edge_cases": [
+            "Base sin material del dominio del proceso: menos de diez casos y vacío declarado, nunca relleno",
+            "Empate en el ranking: gana el caso de menor esfuerzo, por regla declarada de antemano",
+            "Experimento sin responsable: se pide antes de recomendarlo, porque nadie revisaría el umbral"
+          ],
+          "constraints": [
             [
               "entrada_del_paso_previo",
               "base auditada del equipo como única fuente de evidencia"
@@ -146,29 +236,10 @@
               "ranking listo para revisión, insumo de la configuración final"
             ]
           ],
-          "workflow": [
-            "Registrar equipo y proceso, y fijar la base auditada como única fuente",
-            "Diseñar hasta 10 casos con problema, usuario, evidencia citada, entrada, resultado, trabajo humano y de IA, riesgo y control, complejidad e impacto y responsable",
-            "Marcar como especulativo y dejar fuera del ranking todo caso sin evidencia en la base",
-            "Declarar las escalas de valor y esfuerzo antes de puntuar y ordenar valor frente a esfuerzo, con desempate por menor esfuerzo",
-            "Recomendar uno y definir su experimento de 7 días con métrica, umbral y riesgo operativo, listo para revisión"
-          ],
-          "guardrails": [
-            "No inventar casos, evidencia ni ROI: sin evidencia en la base el caso se marca especulativo",
-            "No estimar precios ni retorno económico, tampoco para defender un presupuesto",
-            "No redactar la pieza de contenido: eso es W06",
-            "No arrancar un piloto sin responsable: el ranking informa, la decisión es de quien responde"
-          ],
-          "output": [
-            "Hasta diez casos con sus atributos y responsable, cada uno con evidencia citada o marca de especulativo",
-            "Ranking de valor frente a esfuerzo con las escalas declaradas y la regla de desempate aplicada",
-            "Caso recomendado con experimento de 7 días, métrica, umbral y riesgo operativo, listo para revisión"
-          ],
-          "dod": "Ranking revisable: escalas declaradas antes de puntuar, evidencia citada o marca de especulativo por caso, responsable por experimento y umbral a 7 días.",
-          "edge_cases": [
-            "Base sin material del dominio del proceso: menos de diez casos y vacío declarado, nunca relleno",
-            "Empate en el ranking: gana el caso de menor esfuerzo, por regla declarada de antemano",
-            "Experimento sin responsable: se pide antes de recomendarlo, porque nadie revisaría el umbral"
+          "frameworks": [
+            "Jobs to Be Done · problema, usuario y resultado",
+            "Impacto–esfuerzo · prioriza lo viable",
+            "SMART · resultado específico y medible"
           ]
         },
         "why_it_works": {
@@ -190,7 +261,7 @@
           ],
           "limits": [
             "No estima ROI ni precios, y no reemplaza el juicio de quien decide el piloto",
-            "Prioriza dónde aplicar la base; no redacta la pieza (W06) ni escribe la instrucción final del asistente (W10)"
+            "Prioriza dónde aplicar la base; no redacta el contenido (W06) ni escribe la instrucción final del asistente (W10)"
           ]
         },
         "traceability": [
@@ -210,7 +281,68 @@
             "claim": "Exigir un responsable por experimento y riesgo operativo por caso es política interna para pilotos que corren dentro de un proceso.",
             "source": "method_internal"
           }
-        ]
+        ],
+        "inputs": [
+          {
+            "key": "team",
+            "label": "EQUIPO",
+            "help": "grupo que participa",
+            "example": "equipo de operaciones",
+            "required": true,
+            "type": "text",
+            "source": "user",
+            "demo_value": "equipo piloto de operaciones"
+          },
+          {
+            "key": "process",
+            "label": "PROCESO",
+            "help": "flujo que cambiará",
+            "example": "preparación de decisiones",
+            "required": true,
+            "type": "text",
+            "source": "user",
+            "demo_value": "preparación y revisión semanal de decisiones"
+          }
+        ],
+        "parameters": [
+          {
+            "key": "length",
+            "label": "LONGITUD",
+            "default": "concisa",
+            "choices": [
+              "concisa",
+              "media"
+            ]
+          },
+          {
+            "key": "structure",
+            "label": "ESTRUCTURA",
+            "default": "2 párrafos + bullets clave",
+            "choices": [
+              "2 párrafos + bullets clave",
+              "tabla breve"
+            ]
+          },
+          {
+            "key": "tone",
+            "label": "TONO",
+            "default": "ejecutivo y operativo",
+            "choices": [
+              "ejecutivo y operativo",
+              "facilitador"
+            ]
+          },
+          {
+            "key": "depth",
+            "label": "PROFUNDIDAD",
+            "default": "práctica",
+            "choices": [
+              "práctica",
+              "profunda"
+            ]
+          }
+        ],
+        "optional_clauses": []
       }
     },
     "en": {
@@ -220,12 +352,36 @@
         "when": "you want real opportunities for your work and the workshop base is already audited.",
         "example": "A seven-day pilot to automate my weekly report.",
         "evidence": "up to ten cases with problem, user, cited support, input, output, human and AI work, risk and control, complexity and impact; a value against effort ranking and a seven-day experiment with metric and threshold.",
-        "prompt": "I want to apply my audited base: 10 use cases for [ROLE] in [CONTEXT], using my Notebook. Per case: problem, user, cited support, input, output, human and AI work, risk and control, complexity, impact. Without support, it goes speculative and out of the ranking. Declare the scales first: value 1-5 by effect on [ROLE], effort 1-5 by hours and complexity. Rank value against effort; on a tie, lower effort wins. Recommend one with a seven-day experiment, observable metric and threshold, input for the next step. Do not draft the piece: this ranks. Do not invent cases, evidence or ROI.",
+        "prompt": "I want to apply my audited base: 10 use cases for <ROLE> in <CONTEXT>, using my Notebook. Per case: problem, user, cited support, input, output, human and AI work, risk and control, complexity, impact. Without support, it goes speculative and out of the ranking. Declare the scales first: value 1-5 by effect on <ROLE>, effort 1-5 by hours and complexity. Rank value against effort; on a tie, lower effort wins. Recommend one with a seven-day experiment, observable metric and threshold, input for the next step. Do not draft the content: this ranks. Do not invent cases, evidence or ROI.",
         "level_spec": {
           "role": "Use-case designer who ranks on cited support, not on enthusiasm",
           "spec_role": "Specialist in applying AI to real work, grounded in evidence",
           "objective": "Turn the workshop base into a defensible ranking of use cases with a measurable seven-day experiment",
-          "parameters": [
+          "workflow": [
+            "Record role and context, and fix the audited base as the only source",
+            "Design up to 10 cases with problem, user, cited support, input, output, human and AI work, risk and control, complexity and impact",
+            "Mark as speculative and keep out of the ranking every case without support in the base",
+            "Declare the value and effort scales before scoring and rank value against effort, breaking ties by lower effort",
+            "Recommend one and define its seven-day experiment with observable metric and threshold"
+          ],
+          "guardrails": [
+            "Never invent cases, evidence or ROI: without support in the base a case is marked speculative",
+            "Do not estimate prices or financial return",
+            "Do not draft the source-cited content: that is W06",
+            "The recommendation does not decide: a person ranks"
+          ],
+          "output": [
+            "Up to ten cases with their ten attributes, each with cited support or a speculative mark",
+            "Value against effort ranking with declared scales and the tiebreak rule applied",
+            "Recommended case with a seven-day experiment, observable metric and threshold"
+          ],
+          "dod": "Defensible ranking: scales declared before scoring, every case with cited support or marked speculative, and a seven-day experiment with metric and threshold.",
+          "edge_cases": [
+            "Base without material from the role domain: fewer than ten cases and a declared gap, never filler",
+            "Tie in the ranking: the lower effort case wins, by a rule declared upfront",
+            "Interesting case without support in the base: it enters marked speculative, out of the ranking"
+          ],
+          "constraints": [
             [
               "input_from_previous_step",
               "audited workshop base as the only source of support"
@@ -247,29 +403,10 @@
               "ranking and recommended case as input for the final configuration"
             ]
           ],
-          "workflow": [
-            "Record role and context, and fix the audited base as the only source",
-            "Design up to 10 cases with problem, user, cited support, input, output, human and AI work, risk and control, complexity and impact",
-            "Mark as speculative and keep out of the ranking every case without support in the base",
-            "Declare the value and effort scales before scoring and rank value against effort, breaking ties by lower effort",
-            "Recommend one and define its seven-day experiment with observable metric and threshold"
-          ],
-          "guardrails": [
-            "Never invent cases, evidence or ROI: without support in the base a case is marked speculative",
-            "Do not estimate prices or financial return",
-            "Do not draft the content piece: that is W06",
-            "The recommendation does not decide: a person ranks"
-          ],
-          "output": [
-            "Up to ten cases with their ten attributes, each with cited support or a speculative mark",
-            "Value against effort ranking with declared scales and the tiebreak rule applied",
-            "Recommended case with a seven-day experiment, observable metric and threshold"
-          ],
-          "dod": "Defensible ranking: scales declared before scoring, every case with cited support or marked speculative, and a seven-day experiment with metric and threshold.",
-          "edge_cases": [
-            "Base without material from the role domain: fewer than ten cases and a declared gap, never filler",
-            "Tie in the ranking: the lower effort case wins, by a rule declared upfront",
-            "Interesting case without support in the base: it enters marked speculative, out of the ranking"
+          "frameworks": [
+            "Jobs to Be Done · problem, user and outcome",
+            "Impact–effort · prioritize what is viable",
+            "SMART · specific and measurable outcome"
           ]
         },
         "why_it_works": {
@@ -291,7 +428,7 @@
           ],
           "limits": [
             "It estimates neither ROI nor prices, and does not replace the judgement of whoever decides",
-            "It ranks where to apply the base; it neither drafts the piece (W06) nor writes the final assistant instruction (W10)"
+            "It ranks where to apply the base; it neither drafts the content (W06) nor writes the final assistant instruction (W10)"
           ]
         },
         "traceability": [
@@ -311,7 +448,68 @@
             "claim": "Requiring cited support per case is feasible because the assistant can answer from the selected sources and expose its citations.",
             "source": "https://support.google.com/notebooklm/answer/16179559?hl=es"
           }
-        ]
+        ],
+        "inputs": [
+          {
+            "key": "role",
+            "label": "ROLE",
+            "help": "function the AI should perform",
+            "example": "source-grounded coach",
+            "required": true,
+            "type": "text",
+            "source": "user",
+            "demo_value": "source-grounded coach"
+          },
+          {
+            "key": "context",
+            "label": "CONTEXT",
+            "help": "relevant situation and constraints",
+            "example": "45 minutes a day",
+            "required": true,
+            "type": "text",
+            "source": "user",
+            "demo_value": "individual work with 45 minutes available each day"
+          }
+        ],
+        "parameters": [
+          {
+            "key": "length",
+            "label": "LENGTH",
+            "default": "concise",
+            "choices": [
+              "concise",
+              "medium"
+            ]
+          },
+          {
+            "key": "structure",
+            "label": "STRUCTURE",
+            "default": "2 paragraphs + key bullets",
+            "choices": [
+              "2 paragraphs + key bullets",
+              "short table"
+            ]
+          },
+          {
+            "key": "tone",
+            "label": "TONE",
+            "default": "clear and personal",
+            "choices": [
+              "clear and personal",
+              "instructional"
+            ]
+          },
+          {
+            "key": "depth",
+            "label": "DEPTH",
+            "default": "practical",
+            "choices": [
+              "practical",
+              "deep"
+            ]
+          }
+        ],
+        "optional_clauses": []
       },
       "empresa": {
         "title": "Ranked use cases for the team",
@@ -319,12 +517,36 @@
         "when": "the process needs to know where to apply the base and who is accountable for each pilot.",
         "example": "A seven-day pilot to automate the weekly report of the area.",
         "evidence": "up to ten cases with problem, user, cited support, input, output, human and AI work, risk and control, complexity and impact and an owner; a value against effort ranking and a seven-day experiment with metric, threshold and operational risk, ready for review.",
-        "prompt": "Our team applies the audited base: 10 use cases for [TEAM] in [PROCESS], using the Notebook. Per case: problem, user, cited support, input, output, human and AI work, risk and control, complexity, impact and an accountable owner. Without support, it goes speculative and out of the ranking. Scales first: value 1-5 by effect on [PROCESS], effort 1-5 by hours and complexity. Rank value against effort; tie: lower effort wins. Recommend one: seven-day experiment, metric, threshold and operational risk, ready for review. Do not draft the piece: this ranks. Do not invent cases or ROI.",
+        "prompt": "Our team applies the audited base: 10 use cases for <TEAM> in <PROCESS>, using the Notebook. Per case: problem, user, cited support, input, output, human and AI work, risk and control, complexity, impact and an accountable owner. Without support, it goes speculative and out of the ranking. Scales first: value 1-5 by effect on <PROCESS>, effort 1-5 by hours and complexity. Rank value against effort; tie: lower effort wins. Recommend one: seven-day experiment, metric, threshold and operational risk, ready for review. Do not draft the content: this ranks. Do not invent cases or ROI.",
         "level_spec": {
           "role": "Use-case designer for the team who ranks on cited support and declared risk",
           "spec_role": "Specialist in applying AI to real work, grounded in evidence",
           "objective": "Turn the workshop base into a ranking defensible under review, with an owner and operational risk per experiment",
-          "parameters": [
+          "workflow": [
+            "Record team and process, and fix the audited base as the only source",
+            "Design up to 10 cases with problem, user, cited support, input, output, human and AI work, risk and control, complexity and impact and an owner",
+            "Mark as speculative and keep out of the ranking every case without support in the base",
+            "Declare the value and effort scales before scoring and rank value against effort, breaking ties by lower effort",
+            "Recommend one and define its seven-day experiment with metric, threshold and operational risk, ready for review"
+          ],
+          "guardrails": [
+            "Never invent cases, evidence or ROI: without support in the base a case is marked speculative",
+            "Do not estimate prices or financial return, not even to defend a budget",
+            "Do not draft the source-cited content: that is W06",
+            "Do not start a pilot without an owner: the ranking informs, the accountable person decides"
+          ],
+          "output": [
+            "Up to ten cases with their attributes and owner, each with cited support or a speculative mark",
+            "Value against effort ranking with declared scales and the tiebreak rule applied",
+            "Recommended case with a seven-day experiment, metric, threshold and operational risk, ready for review"
+          ],
+          "dod": "Reviewable ranking: scales declared before scoring, cited support or a speculative mark per case, an owner per experiment and a threshold at seven days.",
+          "edge_cases": [
+            "Base without material from the process domain: fewer than ten cases and a declared gap, never filler",
+            "Tie in the ranking: the lower effort case wins, by a rule declared upfront",
+            "Experiment without an owner: it is requested before recommending, because nobody would review the threshold"
+          ],
+          "constraints": [
             [
               "input_from_previous_step",
               "audited team base as the only source of support"
@@ -346,29 +568,10 @@
               "ranking ready for review, input for the final configuration"
             ]
           ],
-          "workflow": [
-            "Record team and process, and fix the audited base as the only source",
-            "Design up to 10 cases with problem, user, cited support, input, output, human and AI work, risk and control, complexity and impact and an owner",
-            "Mark as speculative and keep out of the ranking every case without support in the base",
-            "Declare the value and effort scales before scoring and rank value against effort, breaking ties by lower effort",
-            "Recommend one and define its seven-day experiment with metric, threshold and operational risk, ready for review"
-          ],
-          "guardrails": [
-            "Never invent cases, evidence or ROI: without support in the base a case is marked speculative",
-            "Do not estimate prices or financial return, not even to defend a budget",
-            "Do not draft the content piece: that is W06",
-            "Do not start a pilot without an owner: the ranking informs, the accountable person decides"
-          ],
-          "output": [
-            "Up to ten cases with their attributes and owner, each with cited support or a speculative mark",
-            "Value against effort ranking with declared scales and the tiebreak rule applied",
-            "Recommended case with a seven-day experiment, metric, threshold and operational risk, ready for review"
-          ],
-          "dod": "Reviewable ranking: scales declared before scoring, cited support or a speculative mark per case, an owner per experiment and a threshold at seven days.",
-          "edge_cases": [
-            "Base without material from the process domain: fewer than ten cases and a declared gap, never filler",
-            "Tie in the ranking: the lower effort case wins, by a rule declared upfront",
-            "Experiment without an owner: it is requested before recommending, because nobody would review the threshold"
+          "frameworks": [
+            "Jobs to Be Done · problem, user and outcome",
+            "Impact–effort · prioritize what is viable",
+            "SMART · specific and measurable outcome"
           ]
         },
         "why_it_works": {
@@ -390,7 +593,7 @@
           ],
           "limits": [
             "It estimates neither ROI nor prices, and does not replace the judgement of whoever decides the pilot",
-            "It ranks where to apply the base; it neither drafts the piece (W06) nor writes the final assistant instruction (W10)"
+            "It ranks where to apply the base; it neither drafts the content (W06) nor writes the final assistant instruction (W10)"
           ]
         },
         "traceability": [
@@ -410,7 +613,68 @@
             "claim": "Requiring an owner per experiment and operational risk per case is internal policy for pilots running inside a process.",
             "source": "method_internal"
           }
-        ]
+        ],
+        "inputs": [
+          {
+            "key": "team",
+            "label": "TEAM",
+            "help": "group taking part",
+            "example": "operations team",
+            "required": true,
+            "type": "text",
+            "source": "user",
+            "demo_value": "operations pilot team"
+          },
+          {
+            "key": "process",
+            "label": "PROCESS",
+            "help": "workflow that will change",
+            "example": "decision preparation",
+            "required": true,
+            "type": "text",
+            "source": "user",
+            "demo_value": "weekly decision preparation and review"
+          }
+        ],
+        "parameters": [
+          {
+            "key": "length",
+            "label": "LENGTH",
+            "default": "concise",
+            "choices": [
+              "concise",
+              "medium"
+            ]
+          },
+          {
+            "key": "structure",
+            "label": "STRUCTURE",
+            "default": "2 paragraphs + key bullets",
+            "choices": [
+              "2 paragraphs + key bullets",
+              "short table"
+            ]
+          },
+          {
+            "key": "tone",
+            "label": "TONE",
+            "default": "executive and operational",
+            "choices": [
+              "executive and operational",
+              "facilitative"
+            ]
+          },
+          {
+            "key": "depth",
+            "label": "DEPTH",
+            "default": "practical",
+            "choices": [
+              "practical",
+              "deep"
+            ]
+          }
+        ],
+        "optional_clauses": []
       }
     },
     "pt": {
@@ -420,12 +684,36 @@
         "when": "você quer oportunidades reais para seu trabalho e a base já foi auditada.",
         "example": "Um piloto de sete dias para automatizar meu relatório semanal.",
         "evidence": "até dez casos com problema, usuário, suporte citado, entrada, resultado, trabalho humano e da IA, risco e controle, complexidade e impacto; ranking de valor versus esforço e um experimento de sete dias com métrica e limiar.",
-        "prompt": "Quero aplicar minha base auditada: 10 casos de uso para [PAPEL] em [CONTEXTO], com meu Notebook. Por caso: problema, usuário, suporte citado, entrada, resultado, trabalho humano e da IA, risco, controle, complexidade, impacto. Sem suporte, vai especulativo, fora do ranking. Escalas antes: valor 1-5 por efeito em [PAPEL], esforço 1-5 por horas e complexidade. Ordene valor versus esforço; empate, vence o menor esforço. Recomende um: experimento de sete dias, métrica observável e limiar; insumo do passo seguinte. Não redija a peça: isto prioriza. Não invente casos nem ROI.",
+        "prompt": "Quero aplicar minha base auditada: 10 casos de uso para <PAPEL> em <CONTEXTO>, com meu Notebook. Por caso: problema, usuário, suporte citado, entrada, resultado, trabalho humano e da IA, risco, controle, complexidade, impacto. Sem suporte, vai especulativo, fora do ranking. Escalas antes: valor 1-5 por efeito em <PAPEL>, esforço 1-5 por horas e complexidade. Ordene valor versus esforço; empate, vence o menor esforço. Recomende um: experimento de sete dias, métrica observável e limiar; insumo do passo seguinte. Não redija o conteúdo: isto prioriza. Não invente casos nem ROI.",
         "level_spec": {
           "role": "Projetista de casos de uso que prioriza sobre suporte citado, não sobre entusiasmo",
           "spec_role": "Especialista em aplicação de IA ao trabalho real, baseada em evidências",
           "objective": "Transformar a base da oficina num ranking de casos de uso defensáveis com um experimento mensurável de sete dias",
-          "parameters": [
+          "workflow": [
+            "Registrar papel e contexto, e fixar a base auditada como única fonte",
+            "Projetar até 10 casos com problema, usuário, suporte citado, entrada, resultado, trabalho humano e da IA, risco e controle, complexidade e impacto",
+            "Marcar como especulativo e deixar fora do ranking todo caso sem suporte na base",
+            "Declarar as escalas de valor e esforço antes de pontuar e ordenar valor versus esforço, com desempate por menor esforço",
+            "Recomendar um e definir seu experimento de sete dias com métrica observável e limiar"
+          ],
+          "guardrails": [
+            "Não inventar casos, evidências nem ROI: sem suporte na base o caso é marcado especulativo",
+            "Não estimar preços nem retorno econômico",
+            "Não redigir o conteúdo citado: isso é W06",
+            "A recomendação não decide: quem prioriza é uma pessoa"
+          ],
+          "output": [
+            "Até dez casos com seus dez atributos, cada um com suporte citado ou marca de especulativo",
+            "Ranking de valor versus esforço com as escalas declaradas e a regra de desempate aplicada",
+            "Caso recomendado com experimento de sete dias, métrica observável e limiar"
+          ],
+          "dod": "Ranking defensável: escalas declaradas antes de pontuar, cada caso com suporte citado ou marcado especulativo, e um experimento de sete dias com métrica e limiar.",
+          "edge_cases": [
+            "Base sem material do domínio do papel: menos de dez casos e lacuna declarada, nunca enchimento",
+            "Empate no ranking: vence o caso de menor esforço, por regra declarada de antemão",
+            "Caso interessante sem suporte na base: entra marcado como especulativo, fora do ranking"
+          ],
+          "constraints": [
             [
               "entrada_do_passo_anterior",
               "base auditada como única fonte de suporte"
@@ -447,29 +735,10 @@
               "ranking e caso recomendado como insumo da configuração final"
             ]
           ],
-          "workflow": [
-            "Registrar papel e contexto, e fixar a base auditada como única fonte",
-            "Projetar até 10 casos com problema, usuário, suporte citado, entrada, resultado, trabalho humano e da IA, risco e controle, complexidade e impacto",
-            "Marcar como especulativo e deixar fora do ranking todo caso sem suporte na base",
-            "Declarar as escalas de valor e esforço antes de pontuar e ordenar valor versus esforço, com desempate por menor esforço",
-            "Recomendar um e definir seu experimento de sete dias com métrica observável e limiar"
-          ],
-          "guardrails": [
-            "Não inventar casos, evidências nem ROI: sem suporte na base o caso é marcado especulativo",
-            "Não estimar preços nem retorno econômico",
-            "Não redigir a peça de conteúdo: isso é W06",
-            "A recomendação não decide: quem prioriza é uma pessoa"
-          ],
-          "output": [
-            "Até dez casos com seus dez atributos, cada um com suporte citado ou marca de especulativo",
-            "Ranking de valor versus esforço com as escalas declaradas e a regra de desempate aplicada",
-            "Caso recomendado com experimento de sete dias, métrica observável e limiar"
-          ],
-          "dod": "Ranking defensável: escalas declaradas antes de pontuar, cada caso com suporte citado ou marcado especulativo, e um experimento de sete dias com métrica e limiar.",
-          "edge_cases": [
-            "Base sem material do domínio do papel: menos de dez casos e lacuna declarada, nunca enchimento",
-            "Empate no ranking: vence o caso de menor esforço, por regra declarada de antemão",
-            "Caso interessante sem suporte na base: entra marcado como especulativo, fora do ranking"
+          "frameworks": [
+            "Jobs to Be Done · problema, usuário e resultado",
+            "Impacto–esforço · priorize o que é viável",
+            "SMART · resultado específico e mensurável"
           ]
         },
         "why_it_works": {
@@ -491,7 +760,7 @@
           ],
           "limits": [
             "Não estima ROI nem preços, e não substitui o julgamento de quem decide",
-            "Prioriza onde aplicar a base; não redige a peça (W06) nem escreve a instrução final do assistente (W10)"
+            "Prioriza onde aplicar a base; não redige o conteúdo (W06) nem escreve a instrução final do assistente (W10)"
           ]
         },
         "traceability": [
@@ -511,7 +780,68 @@
             "claim": "Exigir suporte citado por caso é possível porque o assistente pode responder a partir das fontes selecionadas e mostrar as citações.",
             "source": "https://support.google.com/notebooklm/answer/16179559?hl=es"
           }
-        ]
+        ],
+        "inputs": [
+          {
+            "key": "role",
+            "label": "PAPEL",
+            "help": "função que a IA deve cumprir",
+            "example": "coach baseado em fontes",
+            "required": true,
+            "type": "text",
+            "source": "user",
+            "demo_value": "coach baseado em fontes"
+          },
+          {
+            "key": "context",
+            "label": "CONTEXTO",
+            "help": "situação e restrições relevantes",
+            "example": "45 minutos por dia",
+            "required": true,
+            "type": "text",
+            "source": "user",
+            "demo_value": "trabalho individual com 45 minutos disponíveis por dia"
+          }
+        ],
+        "parameters": [
+          {
+            "key": "length",
+            "label": "EXTENSÃO",
+            "default": "concisa",
+            "choices": [
+              "concisa",
+              "média"
+            ]
+          },
+          {
+            "key": "structure",
+            "label": "ESTRUTURA",
+            "default": "2 parágrafos + bullets-chave",
+            "choices": [
+              "2 parágrafos + bullets-chave",
+              "tabela breve"
+            ]
+          },
+          {
+            "key": "tone",
+            "label": "TOM",
+            "default": "claro e pessoal",
+            "choices": [
+              "claro e pessoal",
+              "didático"
+            ]
+          },
+          {
+            "key": "depth",
+            "label": "PROFUNDIDADE",
+            "default": "prática",
+            "choices": [
+              "prática",
+              "profunda"
+            ]
+          }
+        ],
+        "optional_clauses": []
       },
       "empresa": {
         "title": "Casos de uso priorizados para a equipe",
@@ -519,12 +849,36 @@
         "when": "o processo exige saber onde aplicar a base e quem responde por cada piloto.",
         "example": "Um piloto de sete dias para automatizar o relatório semanal da área.",
         "evidence": "até dez casos com problema, usuário, suporte citado, entrada, resultado, trabalho humano e da IA, risco e controle, complexidade e impacto e responsável; ranking de valor versus esforço e experimento de sete dias com métrica, limiar e risco operacional, pronto para revisão.",
-        "prompt": "Nossa equipe usa a base auditada: 10 casos de uso para [EQUIPE] em [PROCESSO], com o Notebook. Por caso: problema, usuário, suporte citado, entrada, resultado, trabalho humano e da IA, risco, controle, complexidade, impacto, responsável. Sem suporte, vai especulativo, fora do ranking. Escalas antes: valor 1-5 por efeito em [PROCESSO], esforço 1-5 por horas e complexidade. Ordene valor versus esforço; empate, vence o menor esforço. Recomende um: experimento de sete dias, métrica, limiar e risco operacional, pronto para revisão. Não redija a peça: isto prioriza. Não invente casos nem ROI.",
+        "prompt": "Nossa equipe usa a base auditada: 10 casos de uso para <EQUIPE> em <PROCESSO>, com o Notebook. Por caso: problema, usuário, suporte citado, entrada, resultado, trabalho humano e da IA, risco, controle, complexidade, impacto, responsável. Sem suporte, vai especulativo, fora do ranking. Escalas antes: valor 1-5 por efeito em <PROCESSO>, esforço 1-5 por horas e complexidade. Ordene valor versus esforço; empate, vence o menor esforço. Recomende um: experimento de sete dias, métrica, limiar e risco operacional, pronto para revisão. Não redija o conteúdo: isto prioriza. Não invente casos nem ROI.",
         "level_spec": {
           "role": "Projetista de casos de uso da equipe que prioriza sobre suporte citado e risco declarado",
           "spec_role": "Especialista em aplicação de IA ao trabalho real, baseada em evidências",
           "objective": "Transformar a base da oficina num ranking defensável em revisão, com responsável e risco operacional por experimento",
-          "parameters": [
+          "workflow": [
+            "Registrar equipe e processo, e fixar a base auditada como única fonte",
+            "Projetar até 10 casos com problema, usuário, suporte citado, entrada, resultado, trabalho humano e da IA, risco e controle, complexidade e impacto e responsável",
+            "Marcar como especulativo e deixar fora do ranking todo caso sem suporte na base",
+            "Declarar as escalas de valor e esforço antes de pontuar e ordenar valor versus esforço, com desempate por menor esforço",
+            "Recomendar um e definir seu experimento de sete dias com métrica, limiar e risco operacional, pronto para revisão"
+          ],
+          "guardrails": [
+            "Não inventar casos, evidências nem ROI: sem suporte na base o caso é marcado especulativo",
+            "Não estimar preços nem retorno econômico, nem para defender um orçamento",
+            "Não redigir o conteúdo citado: isso é W06",
+            "Não iniciar piloto sem responsável: o ranking informa, quem responde decide"
+          ],
+          "output": [
+            "Até dez casos com seus atributos e responsável, cada um com suporte citado ou marca de especulativo",
+            "Ranking de valor versus esforço com as escalas declaradas e a regra de desempate aplicada",
+            "Caso recomendado com experimento de sete dias, métrica, limiar e risco operacional, pronto para revisão"
+          ],
+          "dod": "Ranking revisável: escalas declaradas antes de pontuar, suporte citado ou marca de especulativo por caso, responsável por experimento e limiar em sete dias.",
+          "edge_cases": [
+            "Base sem material do domínio do processo: menos de dez casos e lacuna declarada, nunca enchimento",
+            "Empate no ranking: vence o caso de menor esforço, por regra declarada de antemão",
+            "Experimento sem responsável: pede-se antes de recomendar, porque ninguém revisaria o limiar"
+          ],
+          "constraints": [
             [
               "entrada_do_passo_anterior",
               "base auditada da equipe como única fonte de suporte"
@@ -546,29 +900,10 @@
               "ranking pronto para revisão, insumo da configuração final"
             ]
           ],
-          "workflow": [
-            "Registrar equipe e processo, e fixar a base auditada como única fonte",
-            "Projetar até 10 casos com problema, usuário, suporte citado, entrada, resultado, trabalho humano e da IA, risco e controle, complexidade e impacto e responsável",
-            "Marcar como especulativo e deixar fora do ranking todo caso sem suporte na base",
-            "Declarar as escalas de valor e esforço antes de pontuar e ordenar valor versus esforço, com desempate por menor esforço",
-            "Recomendar um e definir seu experimento de sete dias com métrica, limiar e risco operacional, pronto para revisão"
-          ],
-          "guardrails": [
-            "Não inventar casos, evidências nem ROI: sem suporte na base o caso é marcado especulativo",
-            "Não estimar preços nem retorno econômico, nem para defender um orçamento",
-            "Não redigir a peça de conteúdo: isso é W06",
-            "Não iniciar piloto sem responsável: o ranking informa, quem responde decide"
-          ],
-          "output": [
-            "Até dez casos com seus atributos e responsável, cada um com suporte citado ou marca de especulativo",
-            "Ranking de valor versus esforço com as escalas declaradas e a regra de desempate aplicada",
-            "Caso recomendado com experimento de sete dias, métrica, limiar e risco operacional, pronto para revisão"
-          ],
-          "dod": "Ranking revisável: escalas declaradas antes de pontuar, suporte citado ou marca de especulativo por caso, responsável por experimento e limiar em sete dias.",
-          "edge_cases": [
-            "Base sem material do domínio do processo: menos de dez casos e lacuna declarada, nunca enchimento",
-            "Empate no ranking: vence o caso de menor esforço, por regra declarada de antemão",
-            "Experimento sem responsável: pede-se antes de recomendar, porque ninguém revisaria o limiar"
+          "frameworks": [
+            "Jobs to Be Done · problema, usuário e resultado",
+            "Impacto–esforço · priorize o que é viável",
+            "SMART · resultado específico e mensurável"
           ]
         },
         "why_it_works": {
@@ -590,7 +925,7 @@
           ],
           "limits": [
             "Não estima ROI nem preços, e não substitui o julgamento de quem decide o piloto",
-            "Prioriza onde aplicar a base; não redige a peça (W06) nem escreve a instrução final do assistente (W10)"
+            "Prioriza onde aplicar a base; não redige o conteúdo (W06) nem escreve a instrução final do assistente (W10)"
           ]
         },
         "traceability": [
@@ -610,10 +945,86 @@
             "claim": "Exigir um responsável por experimento e risco operacional por caso é política interna para pilotos que rodam dentro de um processo.",
             "source": "method_internal"
           }
-        ]
+        ],
+        "inputs": [
+          {
+            "key": "team",
+            "label": "EQUIPE",
+            "help": "grupo participante",
+            "example": "equipe de operações",
+            "required": true,
+            "type": "text",
+            "source": "user",
+            "demo_value": "equipe piloto de operações"
+          },
+          {
+            "key": "process",
+            "label": "PROCESSO",
+            "help": "fluxo que mudará",
+            "example": "preparação de decisões",
+            "required": true,
+            "type": "text",
+            "source": "user",
+            "demo_value": "preparação e revisão semanal de decisões"
+          }
+        ],
+        "parameters": [
+          {
+            "key": "length",
+            "label": "EXTENSÃO",
+            "default": "concisa",
+            "choices": [
+              "concisa",
+              "média"
+            ]
+          },
+          {
+            "key": "structure",
+            "label": "ESTRUTURA",
+            "default": "2 parágrafos + bullets-chave",
+            "choices": [
+              "2 parágrafos + bullets-chave",
+              "tabela breve"
+            ]
+          },
+          {
+            "key": "tone",
+            "label": "TOM",
+            "default": "executivo e operacional",
+            "choices": [
+              "executivo e operacional",
+              "facilitador"
+            ]
+          },
+          {
+            "key": "depth",
+            "label": "PROFUNDIDADE",
+            "default": "prática",
+            "choices": [
+              "prática",
+              "profunda"
+            ]
+          }
+        ],
+        "optional_clauses": []
       }
     }
   },
   "self_hash_model": "sha256(sorted-json-without-self_sha256)",
-  "self_sha256": "ffa24bc022572c83d673df328bb91fa7efe08e0c6c09208f06ae5738753c1e81"
+  "self_sha256": "1c284a2ffc734934199771d3d7469ba28f4b833a2fb7ab60104facd98850b879",
+  "flow": {
+    "route": "workbook",
+    "order": 10,
+    "previous": "W06",
+    "next": "W08",
+    "branches": [],
+    "consumes": [
+      "VEREDICTO_DE_BASE",
+      "MATERIAL_DE_APRENDIZAJE"
+    ],
+    "produces": "CASOS_PRIORIZADOS",
+    "external_gate": false,
+    "loop_to": null,
+    "standalone": true
+  }
 }

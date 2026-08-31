@@ -1,5 +1,5 @@
 {
-  "schema_version": "prompt-intent-contract-v1",
+  "schema_version": "prompt-intent-contract-v2",
   "intent_id": "M1",
   "surface": "library",
   "phase": "Metaprompt",
@@ -18,32 +18,14 @@
       "persona": {
         "title": "Generador de coach de aprendizaje",
         "purpose": "Diseña el instrumento y no la sesión: un system prompt de coach reutilizable, con preguntas de diagnóstico, límites declarados y pruebas que intentan inducir invención.",
-        "when": "quieres reutilizar tu método en otro tema o audiencia y necesitas el coach como pieza, no una clase suelta.",
+        "when": "quieres reutilizar tu método en otro tema o audiencia y necesitas el coach como guía reutilizable, no una clase suelta.",
         "example": "Coach de ciberseguridad para líderes no técnicos, armado sobre mis apuntes del último curso.",
         "evidence": "system prompt del coach con rol, base, flujo y mensaje inicial, cinco preguntas de diagnóstico, límites declarados y tres pruebas adversariales con su respuesta correcta.",
-        "prompt": "Diseña un coach de aprendizaje sobre [TEMA] para [AUDIENCIA] con [FUENTES] como mi base única: quiero el instrumento, no la sesión. No expliques [TEMA] aquí ni corrijas reformulaciones. Entrega un system prompt reutilizable con rol, base, flujo por turnos y el mensaje inicial de mi primera sesión; cinco preguntas de diagnóstico que cambien si [AUDIENCIA] es novata o experta, y si mezcla niveles diseña para la más novata y dilo. En los límites escribe que el coach no emite nivel, puntaje, veredicto ni rúbrica de calificación. Si [FUENTES] no cubren [TEMA], el coach abre declarando coverage_gap en vez de rellenar. Cierra con tres pruebas adversariales: el ataque que intenta inducir invención y la respuesta correcta, que es declarar el límite. No prometas que el coach nunca falla ni inventes fuentes.",
+        "prompt": "Diseña un coach de aprendizaje sobre <TEMA> para <AUDIENCIA> con <FUENTES> como mi base única: quiero el instrumento, no la sesión. No expliques <TEMA> aquí ni corrijas reformulaciones. Entrega un system prompt reutilizable con rol, base, flujo por turnos y el mensaje inicial de mi primera sesión; cinco preguntas de diagnóstico que cambien si <AUDIENCIA> es novata o experta, y si mezcla niveles diseña para la más novata y dilo. En los límites escribe que el coach no emite nivel, puntaje, veredicto ni rúbrica de calificación. Si <FUENTES> no cubren <TEMA>, el coach abre declarando coverage_gap en vez de rellenar. Cierra con tres pruebas adversariales: el ataque que intenta inducir invención y la respuesta correcta, que es declarar el límite. No prometas que el coach nunca falla ni inventes fuentes.",
         "level_spec": {
           "role": "Diseñador de instrumentos de aprendizaje: construye el coach, no la clase",
           "spec_role": "Especialista en aprendizaje e investigación basada en evidencia",
           "objective": "Producir un system prompt de coach reutilizable para mi plan de estudio, con límites y pruebas adversariales",
-          "parameters": [
-            [
-              "nivel",
-              "meta: la salida es el instrumento; la sesión sobre el tema es 02"
-            ],
-            [
-              "diagnostico",
-              "cinco preguntas que se bifurcan según la audiencia sea novata o experta"
-            ],
-            [
-              "frontera_coach_evaluador",
-              "el coach generado no emite nivel, puntaje ni veredicto: calificar es M2"
-            ],
-            [
-              "pruebas",
-              "ataque que intenta inducir invención más la respuesta correcta esperada"
-            ]
-          ],
           "workflow": [
             "Registrar tema, audiencia y base disponible como configuración del instrumento, no como materia a explicar",
             "Escribir el system prompt del coach: rol, base exclusiva, flujo por turnos y mensaje inicial",
@@ -67,6 +49,29 @@
             "Audiencia mixta novata y experta: diseñar para la más novata y declararlo",
             "Fuentes que no cubren el tema: el coach abre con coverage_gap",
             "Se pide la sesión en lugar del instrumento: derivar a 02 sin explicar el tema"
+          ],
+          "constraints": [
+            [
+              "nivel",
+              "meta: la salida es el instrumento; la sesión sobre el tema es 02"
+            ],
+            [
+              "diagnostico",
+              "cinco preguntas que se bifurcan según la audiencia sea novata o experta"
+            ],
+            [
+              "frontera_coach_evaluador",
+              "el coach generado no emite nivel, puntaje ni veredicto: calificar es M2"
+            ],
+            [
+              "pruebas",
+              "ataque que intenta inducir invención más la respuesta correcta esperada"
+            ]
+          ],
+          "frameworks": [
+            "Role charter · rol, límites y escalamiento",
+            "Método socrático · una pregunta por turno",
+            "Red teaming · busca fallos antes de decidir"
           ]
         },
         "why_it_works": {
@@ -108,7 +113,78 @@
             "claim": "Reformular «pruebas que demuestren que no inventa» como «ataques que intentan inducir invención con su respuesta correcta» es corrección interna del método: una prueba no demuestra ausencia.",
             "source": "method_internal"
           }
-        ]
+        ],
+        "inputs": [
+          {
+            "key": "topic",
+            "label": "TEMA",
+            "help": "asunto concreto",
+            "example": "verificar respuestas de IA",
+            "required": true,
+            "type": "text",
+            "source": "user",
+            "demo_value": "cómo aprender a aprender con IA mediante una práctica semanal de alto rendimiento"
+          },
+          {
+            "key": "audience",
+            "label": "AUDIENCIA",
+            "help": "quién usará el resultado",
+            "example": "profesionales no técnicos",
+            "required": true,
+            "type": "text",
+            "source": "user",
+            "demo_value": "profesionales no técnicos que empiezan con IA"
+          },
+          {
+            "key": "sources",
+            "label": "FUENTES",
+            "help": "material que sí puede citarse",
+            "example": "guía, informe y registro",
+            "required": true,
+            "type": "long_text",
+            "source": "user",
+            "demo_value": "dossier sintético Demo: guía del método, registro de práctica y criterios de revisión"
+          }
+        ],
+        "parameters": [
+          {
+            "key": "length",
+            "label": "LONGITUD",
+            "default": "concisa",
+            "choices": [
+              "concisa",
+              "media"
+            ]
+          },
+          {
+            "key": "structure",
+            "label": "ESTRUCTURA",
+            "default": "2 párrafos + bullets clave",
+            "choices": [
+              "2 párrafos + bullets clave",
+              "tabla breve"
+            ]
+          },
+          {
+            "key": "tone",
+            "label": "TONO",
+            "default": "claro y personal",
+            "choices": [
+              "claro y personal",
+              "didáctico"
+            ]
+          },
+          {
+            "key": "depth",
+            "label": "PROFUNDIDAD",
+            "default": "práctica",
+            "choices": [
+              "práctica",
+              "profunda"
+            ]
+          }
+        ],
+        "optional_clauses": []
       },
       "empresa": {
         "title": "Generador de coach de aprendizaje para el equipo",
@@ -116,29 +192,11 @@
         "when": "el proceso exige que varias personas comprendan lo mismo y hace falta un coach reutilizable con responsable.",
         "example": "Coach de ciberseguridad desplegado a líderes no técnicos del área comercial y mantenido por seguridad.",
         "evidence": "system prompt del coach con rol, base y mensaje inicial, responsable del instrumento, regla de mantenimiento, límites ratificados por gobernanza y tres pruebas adversariales con respuesta esperada, listo para revisión.",
-        "prompt": "Diseña un coach de aprendizaje sobre [TEMA] para [EQUIPO] con [FUENTES] de derechos internos: queremos el instrumento, no la sesión. Entrega un system prompt reutilizable por el equipo con rol, base, flujo por turnos y mensaje inicial; cinco preguntas de diagnóstico que cambien si [EQUIPO] llega novato o experto, y si mezcla niveles diseña para el más novato y decláralo. En los límites escribe que el coach no emite nivel, puntaje, veredicto ni rúbrica de calificación. Nombra un responsable del equipo para el instrumento y la regla de mantenimiento de la base. Si [FUENTES] no cubren [TEMA] o no tienen derechos claros, el coach abre con coverage_gap y nombra el riesgo operativo de enseñar sin base. Cierra con tres pruebas adversariales: ataque que intenta inducir invención y respuesta correcta. No inventes fuentes.",
+        "prompt": "Diseña un coach de aprendizaje sobre <TEMA> para <EQUIPO> con <FUENTES> de derechos internos: queremos el instrumento, no la sesión. Entrega un system prompt reutilizable por el equipo con rol, base, flujo por turnos y mensaje inicial; cinco preguntas de diagnóstico que cambien si <EQUIPO> llega novato o experto, y si mezcla niveles diseña para el más novato y decláralo. En los límites escribe que el coach no emite nivel, puntaje, veredicto ni rúbrica de calificación. Nombra un responsable del equipo para el instrumento y la regla de mantenimiento de la base. Si <FUENTES> no cubren <TEMA> o no tienen derechos claros, el coach abre con coverage_gap y nombra el riesgo operativo de enseñar sin base. Cierra con tres pruebas adversariales: ataque que intenta inducir invención y respuesta correcta. No inventes fuentes.",
         "level_spec": {
           "role": "Diseñador de instrumentos de aprendizaje para equipos: construye el coach desplegable, no la sesión",
           "spec_role": "Especialista en aprendizaje e investigación basada en evidencia",
           "objective": "Producir un coach desplegable al equipo con responsable, mantenimiento de la base y límites ratificados",
-          "parameters": [
-            [
-              "nivel",
-              "meta: la salida es el instrumento desplegable; la sesión con el equipo es 02"
-            ],
-            [
-              "propiedad",
-              "responsable nombrado del instrumento y regla de mantenimiento de la base"
-            ],
-            [
-              "frontera_coach_evaluador",
-              "el coach desplegado no emite nivel, puntaje ni veredicto: habilitar por medición es M2 y 08"
-            ],
-            [
-              "derechos",
-              "la base solo entra con derechos de uso interno verificados"
-            ]
-          ],
           "workflow": [
             "Registrar tema, equipo consumidor y base con derechos como configuración del instrumento",
             "Escribir el system prompt reutilizable por el equipo con rol, base, flujo y mensaje inicial",
@@ -162,6 +220,29 @@
             "Equipo con niveles mezclados: diseñar para el más novato y declararlo",
             "Fuentes sin derechos de uso interno: coverage_gap antes de generar",
             "Nadie acepta ser responsable del instrumento: no se despliega"
+          ],
+          "constraints": [
+            [
+              "nivel",
+              "meta: la salida es el instrumento desplegable; la sesión con el equipo es 02"
+            ],
+            [
+              "propiedad",
+              "responsable nombrado del instrumento y regla de mantenimiento de la base"
+            ],
+            [
+              "frontera_coach_evaluador",
+              "el coach desplegado no emite nivel, puntaje ni veredicto: habilitar por medición es M2 y 08"
+            ],
+            [
+              "derechos",
+              "la base solo entra con derechos de uso interno verificados"
+            ]
+          ],
+          "frameworks": [
+            "Role charter · rol, límites y escalamiento",
+            "Método socrático · una pregunta por turno",
+            "Red teaming · busca fallos antes de decidir"
           ]
         },
         "why_it_works": {
@@ -190,7 +271,7 @@
         },
         "traceability": [
           {
-            "claim": "El encargo de M1 —un coach reutilizable con system prompt, preguntas iniciales, límites y prueba adversarial— está publicado en la biblioteca del método y aquí se despliega a un equipo.",
+            "claim": "El diseño de M1 —un coach reutilizable con system prompt, preguntas iniciales, límites y prueba adversarial— está publicado en la biblioteca del método y aquí se despliega a un equipo.",
             "source": "https://javimontano.github.io/prompt-amplificado/biblioteca-prompts.html"
           },
           {
@@ -205,7 +286,78 @@
             "claim": "Nombrar el riesgo operativo de enseñar sobre una base incompleta, en lugar de prometer que el coach no fallará, es la regla interna que evita una garantía de exactitud.",
             "source": "method_internal"
           }
-        ]
+        ],
+        "inputs": [
+          {
+            "key": "topic",
+            "label": "TEMA",
+            "help": "asunto concreto",
+            "example": "verificar respuestas de IA",
+            "required": true,
+            "type": "text",
+            "source": "user",
+            "demo_value": "cómo aprender a aprender con IA mediante formas de trabajo de alto rendimiento"
+          },
+          {
+            "key": "team",
+            "label": "EQUIPO",
+            "help": "grupo que participa",
+            "example": "equipo de operaciones",
+            "required": true,
+            "type": "text",
+            "source": "user",
+            "demo_value": "equipo piloto de operaciones"
+          },
+          {
+            "key": "sources",
+            "label": "FUENTES",
+            "help": "material que sí puede citarse",
+            "example": "guía, informe y registro",
+            "required": true,
+            "type": "long_text",
+            "source": "user",
+            "demo_value": "dossier sintético Demo: guía del método, registro de práctica y criterios de revisión"
+          }
+        ],
+        "parameters": [
+          {
+            "key": "length",
+            "label": "LONGITUD",
+            "default": "concisa",
+            "choices": [
+              "concisa",
+              "media"
+            ]
+          },
+          {
+            "key": "structure",
+            "label": "ESTRUCTURA",
+            "default": "2 párrafos + bullets clave",
+            "choices": [
+              "2 párrafos + bullets clave",
+              "tabla breve"
+            ]
+          },
+          {
+            "key": "tone",
+            "label": "TONO",
+            "default": "ejecutivo y operativo",
+            "choices": [
+              "ejecutivo y operativo",
+              "facilitador"
+            ]
+          },
+          {
+            "key": "depth",
+            "label": "PROFUNDIDAD",
+            "default": "práctica",
+            "choices": [
+              "práctica",
+              "profunda"
+            ]
+          }
+        ],
+        "optional_clauses": []
       }
     },
     "en": {
@@ -215,29 +367,11 @@
         "when": "you want to reuse your method on another topic or audience and you need the coach as a part, not a class.",
         "example": "Cybersecurity coach for non-technical leaders, built on my notes from last quarter's course.",
         "evidence": "coach system prompt with role, base, flow and opening message, five diagnostic questions, declared limits and three adversarial tests with the correct answer.",
-        "prompt": "Design a learning coach on [TOPIC] for [AUDIENCE] with [SOURCES] as my only source base: I want the instrument, not the session. Do not explain [TOPIC] or correct restatements. Deliver a reusable system prompt with role, base, turn flow and the opening message of my first session; five diagnostic questions that change if [AUDIENCE] is new or expert, and if it mixes levels, design for the newest. In the limits write that the coach never issues a level, score, verdict or grading rubric. If [SOURCES] do not cover [TOPIC], the coach opens by declaring coverage_gap instead of filling. Close with three adversarial tests: the attack that tries to induce invention and the correct answer, which is to declare the limit. Never promise the coach cannot fail.",
+        "prompt": "Design a learning coach on <TOPIC> for <AUDIENCE> with <SOURCES> as my only source base: I want the instrument, not the session. Do not explain <TOPIC> or correct restatements. Deliver a reusable system prompt with role, base, turn flow and the opening message of my first session; five diagnostic questions that change if <AUDIENCE> is new or expert, and if it mixes levels, design for the newest. In the limits write that the coach never issues a level, score, verdict or grading rubric. If <SOURCES> do not cover <TOPIC>, the coach opens by declaring coverage_gap instead of filling. Close with three adversarial tests: the attack that tries to induce invention and the correct answer, which is to declare the limit. Never promise the coach cannot fail.",
         "level_spec": {
           "role": "Learning-instrument designer: builds the coach, not the class",
           "spec_role": "Specialist in evidence-grounded learning and research",
           "objective": "Produce a reusable coach system prompt for my own study plan, with limits and adversarial tests",
-          "parameters": [
-            [
-              "level",
-              "meta: the output is the instrument; the session on the topic is 02"
-            ],
-            [
-              "diagnostic",
-              "five questions that branch on whether the audience is new or expert"
-            ],
-            [
-              "coach_evaluator_boundary",
-              "the generated coach issues no level, score or verdict: grading is M2"
-            ],
-            [
-              "tests",
-              "attack that tries to induce invention plus the expected correct answer"
-            ]
-          ],
           "workflow": [
             "Record topic, audience and available base as instrument configuration, not as material to explain",
             "Write the coach system prompt: role, exclusive base, turn flow and opening message",
@@ -261,6 +395,29 @@
             "Mixed new and expert audience: design for the newest and declare it",
             "Sources that do not cover the topic: the coach opens with coverage_gap",
             "The session is requested instead of the instrument: route to 02 without explaining the topic"
+          ],
+          "constraints": [
+            [
+              "level",
+              "meta: the output is the instrument; the session on the topic is 02"
+            ],
+            [
+              "diagnostic",
+              "five questions that branch on whether the audience is new or expert"
+            ],
+            [
+              "coach_evaluator_boundary",
+              "the generated coach issues no level, score or verdict: grading is M2"
+            ],
+            [
+              "tests",
+              "attack that tries to induce invention plus the expected correct answer"
+            ]
+          ],
+          "frameworks": [
+            "Role charter · role, boundaries and escalation",
+            "Socratic method · one question per turn",
+            "Red teaming · find flaws before deciding"
           ]
         },
         "why_it_works": {
@@ -302,7 +459,78 @@
             "claim": "Restating «tests that prove it does not invent» as «attacks that try to induce invention, with their correct answer» is an internal method correction: a test cannot prove absence.",
             "source": "method_internal"
           }
-        ]
+        ],
+        "inputs": [
+          {
+            "key": "topic",
+            "label": "TOPIC",
+            "help": "specific subject",
+            "example": "verify AI answers",
+            "required": true,
+            "type": "text",
+            "source": "user",
+            "demo_value": "how to learn with AI through a weekly high-performance practice"
+          },
+          {
+            "key": "audience",
+            "label": "AUDIENCE",
+            "help": "who will use the result",
+            "example": "non-technical professionals",
+            "required": true,
+            "type": "text",
+            "source": "user",
+            "demo_value": "non-technical professionals starting with AI"
+          },
+          {
+            "key": "sources",
+            "label": "SOURCES",
+            "help": "material that may be cited",
+            "example": "guide, report and log",
+            "required": true,
+            "type": "long_text",
+            "source": "user",
+            "demo_value": "synthetic Demo dossier: method guide, practice log and review criteria"
+          }
+        ],
+        "parameters": [
+          {
+            "key": "length",
+            "label": "LENGTH",
+            "default": "concise",
+            "choices": [
+              "concise",
+              "medium"
+            ]
+          },
+          {
+            "key": "structure",
+            "label": "STRUCTURE",
+            "default": "2 paragraphs + key bullets",
+            "choices": [
+              "2 paragraphs + key bullets",
+              "short table"
+            ]
+          },
+          {
+            "key": "tone",
+            "label": "TONE",
+            "default": "clear and personal",
+            "choices": [
+              "clear and personal",
+              "instructional"
+            ]
+          },
+          {
+            "key": "depth",
+            "label": "DEPTH",
+            "default": "practical",
+            "choices": [
+              "practical",
+              "deep"
+            ]
+          }
+        ],
+        "optional_clauses": []
       },
       "empresa": {
         "title": "Team learning coach generator",
@@ -310,29 +538,11 @@
         "when": "the process needs several people to understand the same thing and a reusable coach with an owner.",
         "example": "Cybersecurity coach deployed to non-technical leaders in the sales area and maintained by the security function.",
         "evidence": "coach system prompt with role, base and opening message, instrument owner, maintenance rule, limits ratified by governance and three adversarial tests with the expected answer, ready for review.",
-        "prompt": "Design a learning coach on [TOPIC] for [TEAM] with [SOURCES] under internal rights: we want the instrument, not the session. Deliver a system prompt reusable by the team, with role, base, turn flow and opening message; five diagnostic questions that change if [TEAM] arrives new or expert, and if it mixes levels design for the newest and declare it. In the limits write that the coach never issues a level, score, verdict or grading rubric. Name an accountable owner of the instrument and the base maintenance rule. If [SOURCES] do not cover [TOPIC] or lack clear rights, the coach opens with coverage_gap and names the operational risk of teaching without a base. Close with three adversarial tests: the attack that tries to induce invention and the correct answer.",
+        "prompt": "Design a learning coach on <TOPIC> for <TEAM> with <SOURCES> under internal rights: we want the instrument, not the session. Deliver a system prompt reusable by the team, with role, base, turn flow and opening message; five diagnostic questions that change if <TEAM> arrives new or expert, and if it mixes levels design for the newest and declare it. In the limits write that the coach never issues a level, score, verdict or grading rubric. Name an accountable owner of the instrument and the base maintenance rule. If <SOURCES> do not cover <TOPIC> or lack clear rights, the coach opens with coverage_gap and names the operational risk of teaching without a base. Close with three adversarial tests: the attack that tries to induce invention and the correct answer.",
         "level_spec": {
           "role": "Learning-instrument designer for teams: builds the deployable coach, not the session",
           "spec_role": "Specialist in evidence-grounded learning and research",
           "objective": "Produce a coach deployable to the team with an owner, base maintenance and ratified limits",
-          "parameters": [
-            [
-              "level",
-              "meta: the output is the deployable instrument; the session with the team is 02"
-            ],
-            [
-              "ownership",
-              "named instrument owner and a base maintenance rule"
-            ],
-            [
-              "coach_evaluator_boundary",
-              "the deployed coach issues no level, score or verdict: clearing by measurement is M2 and 08"
-            ],
-            [
-              "rights",
-              "the base enters only with verified internal usage rights"
-            ]
-          ],
           "workflow": [
             "Record topic, consuming team and rights-cleared base as instrument configuration",
             "Write the system prompt reusable by the team with role, base, flow and opening message",
@@ -356,6 +566,29 @@
             "Team with mixed levels: design for the newest and declare it",
             "Sources without internal usage rights: coverage_gap before generating",
             "Nobody accepts ownership of the instrument: it is not deployed"
+          ],
+          "constraints": [
+            [
+              "level",
+              "meta: the output is the deployable instrument; the session with the team is 02"
+            ],
+            [
+              "ownership",
+              "named instrument owner and a base maintenance rule"
+            ],
+            [
+              "coach_evaluator_boundary",
+              "the deployed coach issues no level, score or verdict: clearing by measurement is M2 and 08"
+            ],
+            [
+              "rights",
+              "the base enters only with verified internal usage rights"
+            ]
+          ],
+          "frameworks": [
+            "Role charter · role, boundaries and escalation",
+            "Socratic method · one question per turn",
+            "Red teaming · find flaws before deciding"
           ]
         },
         "why_it_works": {
@@ -384,7 +617,7 @@
         },
         "traceability": [
           {
-            "claim": "The M1 brief — a reusable coach with system prompt, opening questions, limits and adversarial test — is published in the method library and is deployed here to a team.",
+            "claim": "The M1 design — a reusable coach with system prompt, opening questions, limits and adversarial test — is published in the method library and is deployed here to a team.",
             "source": "https://javimontano.github.io/prompt-amplificado/biblioteca-prompts.html"
           },
           {
@@ -399,39 +632,92 @@
             "claim": "Naming the operational risk of teaching on an incomplete base, instead of promising the coach will not fail, is the internal rule that avoids an accuracy guarantee.",
             "source": "method_internal"
           }
-        ]
+        ],
+        "inputs": [
+          {
+            "key": "topic",
+            "label": "TOPIC",
+            "help": "specific subject",
+            "example": "verify AI answers",
+            "required": true,
+            "type": "text",
+            "source": "user",
+            "demo_value": "how to learn with AI through high-performance ways of working"
+          },
+          {
+            "key": "team",
+            "label": "TEAM",
+            "help": "group taking part",
+            "example": "operations team",
+            "required": true,
+            "type": "text",
+            "source": "user",
+            "demo_value": "operations pilot team"
+          },
+          {
+            "key": "sources",
+            "label": "SOURCES",
+            "help": "material that may be cited",
+            "example": "guide, report and log",
+            "required": true,
+            "type": "long_text",
+            "source": "user",
+            "demo_value": "synthetic Demo dossier: method guide, practice log and review criteria"
+          }
+        ],
+        "parameters": [
+          {
+            "key": "length",
+            "label": "LENGTH",
+            "default": "concise",
+            "choices": [
+              "concise",
+              "medium"
+            ]
+          },
+          {
+            "key": "structure",
+            "label": "STRUCTURE",
+            "default": "2 paragraphs + key bullets",
+            "choices": [
+              "2 paragraphs + key bullets",
+              "short table"
+            ]
+          },
+          {
+            "key": "tone",
+            "label": "TONE",
+            "default": "executive and operational",
+            "choices": [
+              "executive and operational",
+              "facilitative"
+            ]
+          },
+          {
+            "key": "depth",
+            "label": "DEPTH",
+            "default": "practical",
+            "choices": [
+              "practical",
+              "deep"
+            ]
+          }
+        ],
+        "optional_clauses": []
       }
     },
     "pt": {
       "persona": {
         "title": "Gerador de coach de aprendizagem",
         "purpose": "Projete o instrumento e não a sessão: um system prompt de coach reutilizável, com perguntas de diagnóstico, limites declarados e testes que tentam induzir invenção.",
-        "when": "você quer reutilizar seu método em outro tema ou público e precisa do coach como peça, não de uma aula.",
+        "when": "você quer reutilizar seu método em outro tema ou público e precisa do coach como guia reutilizável, não de uma aula.",
         "example": "Coach de cibersegurança para líderes não técnicos, montado sobre minhas anotações do último curso.",
         "evidence": "system prompt do coach com papel, base, fluxo e mensagem inicial, cinco perguntas de diagnóstico, limites declarados e três testes adversariais com a resposta correta.",
-        "prompt": "Projete um coach de aprendizagem sobre [TEMA] para [PÚBLICO] com [FONTES] como minha base única: quero o instrumento, não a sessão. Não explique [TEMA] aqui nem corrija reformulações. Entregue um system prompt reutilizável com papel, base, fluxo por rodadas e a mensagem inicial da minha primeira sessão; cinco perguntas de diagnóstico que mudem se [PÚBLICO] for novato ou experiente, e se misturar níveis projete para o mais novato e diga. Nos limites escreva que o coach não emite nível, pontuação, veredito nem rubrica de pontuação. Se [FONTES] não cobrirem [TEMA], o coach abre declarando coverage_gap em vez de preencher. Feche com três testes adversariais: o ataque que tenta induzir invenção e a resposta correta, que é declarar o limite. Não prometa que o coach nunca falha nem invente fontes.",
+        "prompt": "Projete um coach de aprendizagem sobre <TEMA> para <PÚBLICO> com <FONTES> como minha base única: quero o instrumento, não a sessão. Não explique <TEMA> aqui nem corrija reformulações. Entregue um system prompt reutilizável com papel, base, fluxo por rodadas e a mensagem inicial da minha primeira sessão; cinco perguntas de diagnóstico que mudem se <PÚBLICO> for novato ou experiente, e se misturar níveis projete para o mais novato e diga. Nos limites escreva que o coach não emite nível, pontuação, veredito nem rubrica de pontuação. Se <FONTES> não cobrirem <TEMA>, o coach abre declarando coverage_gap em vez de preencher. Feche com três testes adversariais: o ataque que tenta induzir invenção e a resposta correta, que é declarar o limite. Não prometa que o coach nunca falha nem invente fontes.",
         "level_spec": {
           "role": "Projetista de instrumentos de aprendizagem: constrói o coach, não a aula",
           "spec_role": "Especialista em aprendizagem e pesquisa baseada em evidências",
           "objective": "Produzir um system prompt de coach reutilizável para o meu plano de estudo, com limites e testes adversariais",
-          "parameters": [
-            [
-              "nivel",
-              "meta: a saída é o instrumento; a sessão sobre o tema é 02"
-            ],
-            [
-              "diagnostico",
-              "cinco perguntas que se ramificam conforme o público seja novato ou experiente"
-            ],
-            [
-              "fronteira_coach_avaliador",
-              "o coach gerado não emite nível, pontuação nem veredito: pontuar é M2"
-            ],
-            [
-              "testes",
-              "ataque que tenta induzir invenção mais a resposta correta esperada"
-            ]
-          ],
           "workflow": [
             "Registrar tema, público e base disponível como configuração do instrumento, não como matéria a explicar",
             "Escrever o system prompt do coach: papel, base exclusiva, fluxo por rodadas e mensagem inicial",
@@ -455,6 +741,29 @@
             "Público misto novato e experiente: projetar para o mais novato e declarar",
             "Fontes que não cobrem o tema: o coach abre com coverage_gap",
             "Pede-se a sessão em vez do instrumento: encaminhar para 02 sem explicar o tema"
+          ],
+          "constraints": [
+            [
+              "nivel",
+              "meta: a saída é o instrumento; a sessão sobre o tema é 02"
+            ],
+            [
+              "diagnostico",
+              "cinco perguntas que se ramificam conforme o público seja novato ou experiente"
+            ],
+            [
+              "fronteira_coach_avaliador",
+              "o coach gerado não emite nível, pontuação nem veredito: pontuar é M2"
+            ],
+            [
+              "testes",
+              "ataque que tenta induzir invenção mais a resposta correta esperada"
+            ]
+          ],
+          "frameworks": [
+            "Role charter · papel, limites e escalonamento",
+            "Método socrático · uma pergunta por turno",
+            "Red teaming · encontre falhas antes de decidir"
           ]
         },
         "why_it_works": {
@@ -496,7 +805,78 @@
             "claim": "Reformular «testes que provam que não inventa» como «ataques que tentam induzir invenção, com a resposta correta» é correção interna do método: um teste não prova ausência.",
             "source": "method_internal"
           }
-        ]
+        ],
+        "inputs": [
+          {
+            "key": "topic",
+            "label": "TEMA",
+            "help": "assunto concreto",
+            "example": "verificar respostas de IA",
+            "required": true,
+            "type": "text",
+            "source": "user",
+            "demo_value": "como aprender a aprender com IA por meio de uma prática semanal de alto desempenho"
+          },
+          {
+            "key": "audience",
+            "label": "PÚBLICO",
+            "help": "quem usará o resultado",
+            "example": "profissionais não técnicos",
+            "required": true,
+            "type": "text",
+            "source": "user",
+            "demo_value": "profissionais não técnicos iniciando com IA"
+          },
+          {
+            "key": "sources",
+            "label": "FONTES",
+            "help": "material que pode ser citado",
+            "example": "guia, relatório e registro",
+            "required": true,
+            "type": "long_text",
+            "source": "user",
+            "demo_value": "dossiê sintético Demo: guia do método, registro de prática e critérios de revisão"
+          }
+        ],
+        "parameters": [
+          {
+            "key": "length",
+            "label": "EXTENSÃO",
+            "default": "concisa",
+            "choices": [
+              "concisa",
+              "média"
+            ]
+          },
+          {
+            "key": "structure",
+            "label": "ESTRUTURA",
+            "default": "2 parágrafos + bullets-chave",
+            "choices": [
+              "2 parágrafos + bullets-chave",
+              "tabela breve"
+            ]
+          },
+          {
+            "key": "tone",
+            "label": "TOM",
+            "default": "claro e pessoal",
+            "choices": [
+              "claro e pessoal",
+              "didático"
+            ]
+          },
+          {
+            "key": "depth",
+            "label": "PROFUNDIDADE",
+            "default": "prática",
+            "choices": [
+              "prática",
+              "profunda"
+            ]
+          }
+        ],
+        "optional_clauses": []
       },
       "empresa": {
         "title": "Gerador de coach de aprendizagem para a equipe",
@@ -504,29 +884,11 @@
         "when": "o processo exige que várias pessoas compreendam o mesmo e falta um coach reutilizável com responsável.",
         "example": "Coach de cibersegurança implantado para líderes não técnicos da área comercial e mantido pela segurança.",
         "evidence": "system prompt do coach com papel, base e mensagem inicial, responsável pelo instrumento, regra de manutenção, limites ratificados pela governança e três testes adversariais com a resposta esperada, pronto para revisão.",
-        "prompt": "Projete um coach de aprendizagem sobre [TEMA] para [EQUIPE] com [FONTES] de direitos internos: queremos o instrumento, não a sessão. Entregue um system prompt reutilizável pela equipe, com papel, base, fluxo por rodadas e mensagem inicial; cinco perguntas de diagnóstico que mudem se [EQUIPE] chegar novata ou experiente, e se misturar níveis projete para o mais novato e declare. Nos limites escreva que o coach não emite nível, pontuação, veredito nem rubrica de pontuação. Nomeie um responsável da equipe pelo instrumento e a regra de manutenção da base. Se [FONTES] não cobrirem [TEMA] ou não tiverem direitos claros, o coach abre com coverage_gap e nomeia o risco operacional de ensinar sem base. Feche com três testes adversariais: ataque que tenta induzir invenção e resposta correta. Não invente fontes.",
+        "prompt": "Projete um coach de aprendizagem sobre <TEMA> para <EQUIPE> com <FONTES> de direitos internos: queremos o instrumento, não a sessão. Entregue um system prompt reutilizável pela equipe, com papel, base, fluxo por rodadas e mensagem inicial; cinco perguntas de diagnóstico que mudem se <EQUIPE> chegar novata ou experiente, e se misturar níveis projete para o mais novato e declare. Nos limites escreva que o coach não emite nível, pontuação, veredito nem rubrica de pontuação. Nomeie um responsável da equipe pelo instrumento e a regra de manutenção da base. Se <FONTES> não cobrirem <TEMA> ou não tiverem direitos claros, o coach abre com coverage_gap e nomeia o risco operacional de ensinar sem base. Feche com três testes adversariais: ataque que tenta induzir invenção e resposta correta. Não invente fontes.",
         "level_spec": {
           "role": "Projetista de instrumentos de aprendizagem para equipes: constrói o coach implantável, não a sessão",
           "spec_role": "Especialista em aprendizagem e pesquisa baseada em evidências",
           "objective": "Produzir um coach implantável na equipe com responsável, manutenção da base e limites ratificados",
-          "parameters": [
-            [
-              "nivel",
-              "meta: a saída é o instrumento implantável; a sessão com a equipe é 02"
-            ],
-            [
-              "propriedade",
-              "responsável nomeado pelo instrumento e regra de manutenção da base"
-            ],
-            [
-              "fronteira_coach_avaliador",
-              "o coach implantado não emite nível, pontuação nem veredito: habilitar por medição é M2 e 08"
-            ],
-            [
-              "direitos",
-              "a base entra apenas com direitos de uso interno verificados"
-            ]
-          ],
           "workflow": [
             "Registrar tema, equipe consumidora e base com direitos como configuração do instrumento",
             "Escrever o system prompt reutilizável pela equipe com papel, base, fluxo e mensagem inicial",
@@ -550,6 +912,29 @@
             "Equipe com níveis misturados: projetar para o mais novato e declarar",
             "Fontes sem direitos de uso interno: coverage_gap antes de gerar",
             "Ninguém aceita ser responsável pelo instrumento: não se implanta"
+          ],
+          "constraints": [
+            [
+              "nivel",
+              "meta: a saída é o instrumento implantável; a sessão com a equipe é 02"
+            ],
+            [
+              "propriedade",
+              "responsável nomeado pelo instrumento e regra de manutenção da base"
+            ],
+            [
+              "fronteira_coach_avaliador",
+              "o coach implantado não emite nível, pontuação nem veredito: habilitar por medição é M2 e 08"
+            ],
+            [
+              "direitos",
+              "a base entra apenas com direitos de uso interno verificados"
+            ]
+          ],
+          "frameworks": [
+            "Role charter · papel, limites e escalonamento",
+            "Método socrático · uma pergunta por turno",
+            "Red teaming · encontre falhas antes de decidir"
           ]
         },
         "why_it_works": {
@@ -578,7 +963,7 @@
         },
         "traceability": [
           {
-            "claim": "O encargo de M1 — um coach reutilizável com system prompt, perguntas iniciais, limites e teste adversarial — está publicado na biblioteca do método e aqui é implantado numa equipe.",
+            "claim": "O desenho de M1 — um coach reutilizável com system prompt, perguntas iniciais, limites e teste adversarial — está publicado na biblioteca do método e aqui é implantado numa equipe.",
             "source": "https://javimontano.github.io/prompt-amplificado/biblioteca-prompts.html"
           },
           {
@@ -593,10 +978,95 @@
             "claim": "Nomear o risco operacional de ensinar sobre base incompleta, em vez de prometer que o coach não falhará, é a regra interna que evita uma garantia de exatidão.",
             "source": "method_internal"
           }
-        ]
+        ],
+        "inputs": [
+          {
+            "key": "topic",
+            "label": "TEMA",
+            "help": "assunto concreto",
+            "example": "verificar respostas de IA",
+            "required": true,
+            "type": "text",
+            "source": "user",
+            "demo_value": "como aprender a aprender com IA por meio de formas de trabalho de alto desempenho"
+          },
+          {
+            "key": "team",
+            "label": "EQUIPE",
+            "help": "grupo participante",
+            "example": "equipe de operações",
+            "required": true,
+            "type": "text",
+            "source": "user",
+            "demo_value": "equipe piloto de operações"
+          },
+          {
+            "key": "sources",
+            "label": "FONTES",
+            "help": "material que pode ser citado",
+            "example": "guia, relatório e registro",
+            "required": true,
+            "type": "long_text",
+            "source": "user",
+            "demo_value": "dossiê sintético Demo: guia do método, registro de prática e critérios de revisão"
+          }
+        ],
+        "parameters": [
+          {
+            "key": "length",
+            "label": "EXTENSÃO",
+            "default": "concisa",
+            "choices": [
+              "concisa",
+              "média"
+            ]
+          },
+          {
+            "key": "structure",
+            "label": "ESTRUTURA",
+            "default": "2 parágrafos + bullets-chave",
+            "choices": [
+              "2 parágrafos + bullets-chave",
+              "tabela breve"
+            ]
+          },
+          {
+            "key": "tone",
+            "label": "TOM",
+            "default": "executivo e operacional",
+            "choices": [
+              "executivo e operacional",
+              "facilitador"
+            ]
+          },
+          {
+            "key": "depth",
+            "label": "PROFUNDIDADE",
+            "default": "prática",
+            "choices": [
+              "prática",
+              "profunda"
+            ]
+          }
+        ],
+        "optional_clauses": []
       }
     }
   },
   "self_hash_model": "sha256(sorted-json-without-self_sha256)",
-  "self_sha256": "479ae1e298f2dadceb91b6e627f23bfafa3f1eb06c1054ed0772c40aad102c33"
+  "self_sha256": "9186290e48deea29cf79d4eb4ae3898c6e16b8e2997c7df14cd298de4ff2ad60",
+  "flow": {
+    "route": "library",
+    "order": 6,
+    "previous": "07",
+    "next": "02",
+    "branches": [],
+    "consumes": [
+      "MAPA_DE_CASOS"
+    ],
+    "produces": "CONFIG_COACH",
+    "external_gate": false,
+    "loop_to": null,
+    "standalone": true
+  }
 }

@@ -1,5 +1,8 @@
 # Prompt intent contract v1
 
+> Histórico: sustituido en producción por `prompt-intent-contract-v2.md`. Se
+> conserva para explicar la línea base y las pruebas negativas de migración.
+
 Esquema normativo de los **27 contratos de intención** de `src/prompt-contracts/`.
 Escrito en la fase 1 y actualizado tras el cutover: hoy los contratos existen, el
 build los consume y las reglas que aquí se listan son las que el gate aplica.

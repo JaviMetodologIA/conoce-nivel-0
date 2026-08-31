@@ -1,0 +1,199 @@
+{
+  "schema_version": "curriculum-spec-v2",
+  "route_id": "nivel-0-intro-ia",
+  "brand": "MetodologIA",
+  "status": "imported_local_draft",
+  "local_only": true,
+  "publication_authorized": false,
+  "authority_bindings": {
+    "approved_program_proposal_sha256": "4ef3371f2baab2bc13d305e925d38875e942cb5d80c2207bdf4a011a5eefb68e",
+    "source_bundle_sha256": "22bab6b848dd42f47f0d3c9a9d3e560909a8950eab250169b0231d64927f9488"
+  },
+  "languages": [
+    "es",
+    "en",
+    "pt"
+  ],
+  "audiences": [
+    "persona",
+    "empresa"
+  ],
+  "required_variants": [
+    {
+      "locale": "es",
+      "audience": "persona"
+    },
+    {
+      "locale": "es",
+      "audience": "empresa"
+    },
+    {
+      "locale": "en",
+      "audience": "persona"
+    },
+    {
+      "locale": "en",
+      "audience": "empresa"
+    },
+    {
+      "locale": "pt",
+      "audience": "persona"
+    },
+    {
+      "locale": "pt",
+      "audience": "empresa"
+    }
+  ],
+  "accessibility_notice": "The three imported official PDFs are image-only and untagged. They are unchanged local exhibits and require the structured accessible guides for text access.",
+  "classes": [
+    {
+      "id": "ia-panorama",
+      "order": 1,
+      "verb": "comprender",
+      "resource_state": {
+        "masterclass": "available",
+        "workbook": "available",
+        "playbook": "available",
+        "prompt_library": "available"
+      }
+    },
+    {
+      "id": "ocupado-productivo",
+      "module_id": "module-02-de-ocupado-a-productivo",
+      "order": 2,
+      "verb": "priorizar",
+      "maximum_source_state": "CONTENT_DRAFT",
+      "content": {
+        "ref": "modules/module-02-content-v1.json",
+        "sha256": "d285a8672ebf93595c2e5d22186361589c1306f65fd35ec4933462c0b825226e"
+      },
+      "depth_overlay": {
+        "ref": "modules/module-02-depth-v1.json",
+        "sha256": "12943314227c206d0c53d172508afb78809920a12f1ef1a641d87dadcb9b123f"
+      },
+      "official_pdf": {
+        "ref": "assets/02-ocupado-productivo.pdf",
+        "sha256": "d728c9a2c7cfb91e9d669ce24137bc96c0b53aae2de295db44ad5997be232532",
+        "page_count": 11,
+        "image_only": true,
+        "tagged": false
+      },
+      "variant_validation": {
+        "exact_variants": 6,
+        "moments_per_variant": 11,
+        "workbook_steps_per_variant": 9,
+        "playbook_chapters_per_variant": 9,
+        "prompts_per_variant": 8
+      },
+      "resource_state": {
+        "masterclass": "imported_local_draft",
+        "workbook": "imported_local_draft",
+        "playbook": "imported_local_draft",
+        "prompt_library": "imported_local_draft"
+      },
+      "evidence_tags": [
+        "proposal:sha256:4ef3371f2baab2bc13d305e925d38875e942cb5d80c2207bdf4a011a5eefb68e",
+        "source-bundle:sha256:22bab6b848dd42f47f0d3c9a9d3e560909a8950eab250169b0231d64927f9488",
+        "payload:sha256:d285a8672ebf93595c2e5d22186361589c1306f65fd35ec4933462c0b825226e",
+        "depth-overlay:sha256:12943314227c206d0c53d172508afb78809920a12f1ef1a641d87dadcb9b123f",
+        "pdf:sha256:d728c9a2c7cfb91e9d669ce24137bc96c0b53aae2de295db44ad5997be232532",
+        "accessibility:image-only",
+        "accessibility:untagged",
+        "scope:local-only",
+        "publication:false"
+      ]
+    },
+    {
+      "id": "trabajo-amplificado",
+      "module_id": "module-03-trabajar-amplificado",
+      "order": 3,
+      "verb": "amplificar",
+      "maximum_source_state": "CONTENT_DRAFT",
+      "content": {
+        "ref": "modules/module-03-content-v1.json",
+        "sha256": "7790d12a301b929c0d64863a6f2d1e66b99057344e80dedf77790916f5dd8fcf"
+      },
+      "depth_overlay": {
+        "ref": "modules/module-03-depth-v1.json",
+        "sha256": "37074fddd68089a1f0deaf1b54e69e9e5d787b6d074158bfc3a8b97d9ca2a058"
+      },
+      "official_pdf": {
+        "ref": "assets/03-trabajo-amplificado.pdf",
+        "sha256": "08b057fd1826ca0b5c3d085eb9d8efce7f1195a4b88f66c014208daa39232b2d",
+        "page_count": 12,
+        "image_only": true,
+        "tagged": false
+      },
+      "variant_validation": {
+        "exact_variants": 6,
+        "moments_per_variant": 12,
+        "workbook_steps_per_variant": 6,
+        "playbook_chapters_per_variant": 10,
+        "prompts_per_variant": 10
+      },
+      "resource_state": {
+        "masterclass": "imported_local_draft",
+        "workbook": "imported_local_draft",
+        "playbook": "imported_local_draft",
+        "prompt_library": "imported_local_draft"
+      },
+      "evidence_tags": [
+        "proposal:sha256:4ef3371f2baab2bc13d305e925d38875e942cb5d80c2207bdf4a011a5eefb68e",
+        "source-bundle:sha256:22bab6b848dd42f47f0d3c9a9d3e560909a8950eab250169b0231d64927f9488",
+        "payload:sha256:7790d12a301b929c0d64863a6f2d1e66b99057344e80dedf77790916f5dd8fcf",
+        "depth-overlay:sha256:37074fddd68089a1f0deaf1b54e69e9e5d787b6d074158bfc3a8b97d9ca2a058",
+        "pdf:sha256:08b057fd1826ca0b5c3d085eb9d8efce7f1195a4b88f66c014208daa39232b2d",
+        "accessibility:image-only",
+        "accessibility:untagged",
+        "scope:local-only",
+        "publication:false"
+      ]
+    },
+    {
+      "id": "trabajo-agentico",
+      "module_id": "module-04-trabajo-agentico",
+      "order": 4,
+      "verb": "orquestar",
+      "maximum_source_state": "RENDERED_DRAFT",
+      "content": {
+        "ref": "modules/module-04-content-v1.json",
+        "sha256": "7d3ca46610d1cd5550882df2fa66ad054e85c42c5eca599e1b0a97388d8be2ec"
+      },
+      "depth_overlay": {
+        "ref": "modules/module-04-depth-v1.json",
+        "sha256": "0160304d40b6c12f3538829fea377468f8f3946745cefd48075bbcba5e6c0c56"
+      },
+      "official_pdf": {
+        "ref": "assets/04-trabajo-agentico.pdf",
+        "sha256": "710cff50558a98bc587809be17520ad833f89de1066e2607a494bd9b6ee81b3f",
+        "page_count": 15,
+        "image_only": true,
+        "tagged": false
+      },
+      "variant_validation": {
+        "exact_variants": 6,
+        "moments_per_variant": 15,
+        "workbook_steps_per_variant": 9,
+        "playbook_chapters_per_variant": 9,
+        "prompts_per_variant": 8
+      },
+      "resource_state": {
+        "masterclass": "imported_local_draft",
+        "workbook": "imported_local_draft",
+        "playbook": "imported_local_draft",
+        "prompt_library": "imported_local_draft"
+      },
+      "evidence_tags": [
+        "proposal:sha256:4ef3371f2baab2bc13d305e925d38875e942cb5d80c2207bdf4a011a5eefb68e",
+        "source-bundle:sha256:22bab6b848dd42f47f0d3c9a9d3e560909a8950eab250169b0231d64927f9488",
+        "payload:sha256:7d3ca46610d1cd5550882df2fa66ad054e85c42c5eca599e1b0a97388d8be2ec",
+        "depth-overlay:sha256:0160304d40b6c12f3538829fea377468f8f3946745cefd48075bbcba5e6c0c56",
+        "pdf:sha256:710cff50558a98bc587809be17520ad833f89de1066e2607a494bd9b6ee81b3f",
+        "accessibility:image-only",
+        "accessibility:untagged",
+        "scope:local-only",
+        "publication:false"
+      ]
+    }
+  ]
+}

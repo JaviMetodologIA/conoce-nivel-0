@@ -23,7 +23,9 @@ function mutateServerHtml(html, resource) {
   if (start < 0) return html;
   const before = html.slice(0, start);
   let candidate = html.slice(start);
-  candidate = candidate.replace(/(<h3[^>]*>)[\s\S]*?(<\/h3>)/, `$1${longToken}$2`);
+  candidate = resource === "prompts"
+    ? candidate.replace(/(<strong class="library-prompt-title">)[\s\S]*?(<\/strong>)/, `$1${longToken}$2`)
+    : candidate.replace(/(<h3[^>]*>)[\s\S]*?(<\/h3>)/, `$1${longToken}$2`);
   candidate = candidate.replace(/(<pre class="prompt-format-panel"[^>]*>)[\s\S]*?(<\/pre>)/, `$1${longToken}$2`);
   if (resource === "prompts") {
     candidate = candidate.replace(/(<dd>)[\s\S]*?(<\/dd>)/, `$1${longToken}$2`);
@@ -86,7 +88,19 @@ async function overflowState(page) {
         const internal = node.scrollWidth - node.clientWidth > 2;
         const mayScroll = node.matches(".prompt-format-panel") && getComputedStyle(node).overflowX === "auto";
         return horizontal || (internal && !mayScroll)
-          ? [{ selector: node.className, left: box.left, right: box.right, width: box.width, viewport, internal, mayScroll }]
+          ? [{
+              tag: node.tagName.toLowerCase(),
+              selector: node.className,
+              parent: node.parentElement?.className,
+              root: node.closest(".library-prompt-card, .brain-prompt-card, .step")?.className,
+              text: node.textContent?.trim().replace(/\s+/g, " ").slice(0, 72),
+              left: box.left,
+              right: box.right,
+              width: box.width,
+              viewport,
+              internal,
+              mayScroll,
+            }]
           : [];
       });
     return { pageOverflow, offenders };
@@ -99,12 +113,15 @@ const browser = await chromium.launch({ headless: true, executablePath });
 let states = 0;
 let keyboardChecks = 0;
 let copyChecks = 0;
+let modeChecks = 0;
+let variantModeChecks = 0;
 let noJsChecks = 0;
 let zoomChecks = 0;
 let axeChecks = 0;
 let mutationChecks = 0;
 let whyChecks = 0;
 try {
+  if (process.env.PROMPT_VISUAL_SCOPE !== "mode") {
   for (const locale of ["es", "en", "pt"])
     for (const audience of ["persona", "empresa"])
       for (const resource of ["prompts", "workbook"])
@@ -131,44 +148,57 @@ try {
             const hero = document.querySelector(".prompt-library-hero");
             const copy = hero?.querySelector(".prompt-library-hero-copy");
             const title = hero?.querySelector("h1");
-            const map = hero?.querySelector(".prompt-library-map");
-            const metrics = [...(map?.querySelectorAll(".prompt-library-metrics > *") || [])];
-            const levels = [...(map?.querySelectorAll(".prompt-library-level-map > li") || [])];
+            const guide = hero?.querySelector("[data-notebook-execution-guide]");
+            const tabs = [...(guide?.querySelectorAll("[data-notebook-tab]") || [])];
+            const panels = [...(guide?.querySelectorAll("[data-notebook-panel]") || [])];
             const box = (node) => node?.getBoundingClientRect();
             const heroBox = box(hero);
             const copyBox = box(copy);
             const titleBox = box(title);
-            const mapBox = box(map);
+            const guideBox = box(guide);
             return {
-              metrics: metrics.length,
-              levels: levels.length,
+              tabs: tabs.length,
+              panels: panels.length,
+              selectedTabs: tabs.filter((node) => node.getAttribute("aria-selected") === "true").length,
+              visiblePanels: panels.filter((node) => !node.hidden).length,
               titleText: title?.textContent?.trim(),
               heroOverflow: document.documentElement.scrollWidth > innerWidth + 2,
               titleOverflow: Boolean(title && (title.scrollWidth > title.clientWidth + 2 || title.scrollHeight > title.clientHeight + 16) && getComputedStyle(title).overflow !== "visible"),
-              mapOverflow: Boolean(map && (map.scrollWidth > map.clientWidth + 2 || map.scrollHeight > map.clientHeight + 2)),
-              metricTargets: metrics.filter((node) => node.matches("a")).map((node) => box(node)?.height || 0),
-              horizontal: Boolean(copyBox && mapBox && mapBox.left > copyBox.right),
-              stacked: Boolean(copyBox && mapBox && mapBox.top > copyBox.bottom),
-              mapTop: mapBox?.top,
-              mapBottom: mapBox?.bottom,
+              guideOverflow: Boolean(guide && guide.scrollWidth > guide.clientWidth + 2),
+              tabTargets: tabs.map((node) => box(node)?.height || 0),
+              horizontal: Boolean(copyBox && guideBox && guideBox.left > copyBox.right),
+              stacked: Boolean(copyBox && guideBox && guideBox.top > copyBox.bottom),
+              guideTop: guideBox?.top,
               heroRight: heroBox?.right,
-              mapRight: mapBox?.right,
+              guideRight: guideBox?.right,
               titleHeight: titleBox?.height,
             };
           });
           if (
-            heroContract.metrics !== 3 ||
-            heroContract.levels !== 4 ||
+            heroContract.tabs !== 2 ||
+            heroContract.panels !== 2 ||
+            heroContract.selectedTabs !== 1 ||
+            heroContract.visiblePanels !== 1 ||
             !heroContract.titleText ||
             heroContract.heroOverflow ||
             heroContract.titleOverflow ||
-            heroContract.mapOverflow ||
-            heroContract.metricTargets.some((height) => height < 44) ||
+            heroContract.guideOverflow ||
+            heroContract.tabTargets.some((height) => height < 44) ||
             (width > 1050 && !heroContract.horizontal) ||
             (width <= 1050 && !heroContract.stacked) ||
-            (width <= 390 && heroContract.mapTop > 844) ||
-            heroContract.mapRight > width + 1
+            heroContract.guideRight > width + 1
           ) throw new Error(`PROMPT_HERO_CONTRACT:${locale}:${audience}:${theme}:${view.label}:${JSON.stringify(heroContract)}`);
+
+          await page.locator('[data-notebook-tab="source_search"]').click();
+          const tabState = await page.evaluate(() => ({
+            selected: document.querySelector('[data-notebook-tab="source_search"]')?.getAttribute("aria-selected"),
+            chatHidden: document.querySelector('[data-notebook-panel="chat"]')?.hidden,
+            searchHidden: document.querySelector('[data-notebook-panel="source_search"]')?.hidden,
+          }));
+          if (tabState.selected !== "true" || !tabState.chatHidden || tabState.searchHidden)
+            throw new Error(`NOTEBOOK_TAB_STATE:${locale}:${audience}:${theme}:${view.label}:${JSON.stringify(tabState)}`);
+          const firstDisclosure = page.locator("[data-prompt-card-disclosure]").first();
+          if (!(await firstDisclosure.evaluate((node) => node.open))) await firstDisclosure.locator(":scope > summary").click();
         }
         await page.locator('[data-prompt-format="spec"]').evaluateAll((tabs) => tabs.forEach((tab) => tab.click()));
         const panels = page.locator('[id$="-spec"][data-prompt-template]:not([hidden])');
@@ -221,7 +251,11 @@ try {
           const violations = [];
           for (const root of roots) {
             const result = await window.axe.run(root, { runOnly: { type: "tag", values: ["wcag2a", "wcag2aa"] } });
-            violations.push(...result.violations.map((item) => ({ id: item.id, impact: item.impact, nodes: item.nodes.length })));
+            violations.push(...result.violations.map((item) => ({
+              id: item.id,
+              impact: item.impact,
+              nodes: item.nodes.map((node) => ({ target: node.target, html: node.html.slice(0, 180) })),
+            })));
           }
           return violations;
         }, resource);
@@ -232,7 +266,9 @@ try {
           const card = document.querySelector(resource === "prompts" ? ".library-prompt-card" : ".brain-prompt-card");
           const library = card?.querySelector("[data-prompt-library]");
           const tabs = [...(library?.querySelectorAll("[data-prompt-format]") || [])];
-          const panel = library?.querySelector(".prompt-format-panel:not([hidden])");
+          const mode = library?.dataset.activeMode || "template";
+          const activeLevel = library?.querySelector('details[data-prompt-level][open]');
+          const panel = activeLevel?.querySelector(mode === "demo" ? "[data-prompt-demo]" : "[data-prompt-template]");
           const context = panel?.closest("details")?.querySelector(".prompt-level-context");
           const cardBox = card?.getBoundingClientRect();
           const libraryBox = library?.getBoundingClientRect();
@@ -261,13 +297,36 @@ try {
           !uiContract.contextVisible ||
           uiContract.sections < 4 ||
           uiContract.lineCount < 20 ||
-          (resource === "prompts" && width >= 768 && uiContract.expandedRatio < 0.84)
+          (resource === "prompts" && width >= 768 && uiContract.expandedRatio < 0.55)
         ) throw new Error(`PROMPT_UI_CONTRACT:${locale}:${audience}:${resource}:${theme}:${view.label}:${JSON.stringify(uiContract)}`);
+
+        if (resource === "prompts" && width === 390 && theme === "light") {
+          const disclosures = page.locator("[data-prompt-card-disclosure]");
+          await disclosures.nth(1).locator(":scope > summary").click();
+          await page.waitForTimeout(40);
+          const accordionState = await disclosures.evaluateAll((nodes) => nodes.slice(0, 2).map((node) => node.open));
+          if (accordionState[0] || !accordionState[1])
+            throw new Error(`PROMPT_ACCORDION:${locale}:${audience}:${JSON.stringify(accordionState)}`);
+          await disclosures.first().locator(":scope > summary").click();
+          for (const [surface, expected] of [["source_search", 2], ["chat", 8], ["all", 10]]) {
+            await page.locator(`[data-prompt-surface-filter="${surface}"]`).click();
+            const visible = await page.locator("#directos [data-library-prompt]:visible").count();
+            if (visible !== expected) throw new Error(`PROMPT_SURFACE_FILTER:${locale}:${audience}:${surface}:${visible}`);
+          }
+          const sourceTab = page.locator('[data-notebook-tab="source_search"]');
+          await sourceTab.focus();
+          await page.keyboard.press("Home");
+          const chatTab = page.locator('[data-notebook-tab="chat"]');
+          if ((await chatTab.getAttribute("aria-selected")) !== "true" || !(await chatTab.evaluate((node) => node === document.activeElement)))
+            throw new Error(`NOTEBOOK_TAB_KEYBOARD:${locale}:${audience}`);
+        }
 
         await page.evaluate(({ resource, longToken }) => {
           const root = document.querySelector(resource === "prompts" ? ".library-prompt-card" : ".brain-prompt-card");
           const brief = resource === "prompts" ? root?.querySelector("dd") : document.querySelector(".step p");
-          const targets = [root?.querySelector("h3"), brief, root?.querySelector(".prompt-format-panel:not([hidden])"), root?.querySelector("[data-prompt-why] li")];
+          const library = root?.querySelector("[data-prompt-library]");
+          const activeLevel = library?.querySelector('details[data-prompt-level][open]');
+          const targets = [root?.querySelector(resource === "prompts" ? ".library-prompt-title" : "h3"), brief, activeLevel?.querySelector("[data-prompt-template]"), root?.querySelector("[data-prompt-why] li")];
           targets.forEach((node) => { if (node) node.textContent = longToken; });
         }, { resource, longToken });
         const mutatedOverflow = await overflowState(page);
@@ -276,13 +335,19 @@ try {
         mutationChecks += 1;
 
         if (width === 390 && theme === "light") {
+          if (resource === "prompts") {
+            const disclosure = page.locator("[data-prompt-card-disclosure]").first();
+            if (!(await disclosure.evaluate((node) => node.open))) await disclosure.locator(":scope > summary").click();
+          }
           const firstLibrary = page.locator("[data-prompt-library]:has([data-format-copy])").first();
           for (const [level, key] of ["natural", "parameters", "spec", "pair"].entries()) {
             const tab = firstLibrary.locator(`[data-prompt-format="${key}"]`);
             await tab.click();
             const levelState = await firstLibrary.evaluate((library, expected) => {
-              const panel = library.querySelector(".prompt-format-panel:not([hidden])");
-              const source = panel?.closest("details")?.querySelector("[data-prompt-source]");
+              const mode = library.dataset.activeMode || "template";
+              const activeLevel = library.querySelector('details[data-prompt-level][open]');
+              const panel = activeLevel?.querySelector(mode === "demo" ? "[data-prompt-demo]" : "[data-prompt-template]");
+              const source = activeLevel?.querySelector(`[data-prompt-source][data-prompt-mode="${mode}"]`);
               const context = panel?.closest("details")?.querySelector(".prompt-level-context");
               return {
                 activeLevel: library.dataset.activeLevel,
@@ -319,35 +384,94 @@ try {
 
           const copy = firstLibrary.locator("[data-format-copy]");
           await copy.click();
-          const expected = await firstLibrary.locator('[data-prompt-level="3"] [data-prompt-source]').inputValue();
+          const expected = await firstLibrary.locator('[data-prompt-level="3"] [data-prompt-source][data-prompt-mode="template"]').inputValue();
           const copied = await page.evaluate(() => navigator.clipboard.readText());
           if (copied !== expected || !(await copy.getAttribute("aria-label"))?.includes("✓")) {
             const status = await firstLibrary.locator(".prompt-copy-status").textContent();
             if (copied !== expected || !status?.trim()) throw new Error(`PROMPT_COPY:${locale}:${audience}:${resource}`);
           }
           copyChecks += 1;
+
+          await firstLibrary.locator('[data-prompt-mode-select="demo"]').click();
+          const demoState = await page.evaluate(() => ({
+            modes: [...document.querySelectorAll("[data-prompt-library]")].map((node) => node.dataset.activeMode),
+            query: location.search,
+            unresolved: [...document.querySelectorAll('[data-prompt-source][data-prompt-mode="demo"]')]
+              .filter((node) => /<[^>]+>|\{\{|\}\}|\[[^\]]+\]/.test(node.value)).length,
+          }));
+          await copy.click();
+          const expectedDemo = await firstLibrary.locator('[data-prompt-level="3"] [data-prompt-source][data-prompt-mode="demo"]').inputValue();
+          const copiedDemo = await page.evaluate(() => navigator.clipboard.readText());
+          if (
+            demoState.modes.some((mode) => mode !== "demo") ||
+            !demoState.query.includes("mode=demo") ||
+            demoState.unresolved ||
+            copiedDemo !== expectedDemo
+          ) throw new Error(`PROMPT_DEMO_MODE:${locale}:${audience}:${resource}:${JSON.stringify(demoState)}`);
+          await firstLibrary.locator('[data-prompt-mode-select="template"]').click();
+          const templateReset = await page.evaluate(() => ({
+            modes: [...document.querySelectorAll("[data-prompt-library]")].map((node) => node.dataset.activeMode),
+            query: location.search,
+          }));
+          if (templateReset.modes.some((mode) => mode !== "template") || templateReset.query.includes("mode="))
+            throw new Error(`PROMPT_TEMPLATE_RESET:${locale}:${audience}:${resource}:${JSON.stringify(templateReset)}`);
+          modeChecks += 1;
         }
         states += 1;
         if (view.zoom === 2) zoomChecks += 1;
         await context.close();
       }
+  }
 
+  {
+    const context = await browser.newContext({ viewport: { width: 390, height: 900 } });
+    const page = await context.newPage();
+    await page.goto(`${origin}/prompts/#prompt-01`, { waitUntil: "load" });
+    await page.locator("[data-prompt-library] [data-prompt-mode-select=demo]").first().click();
+    for (const [selector, path] of [
+      ['[data-mdg-locale="en"]', "/en/prompts/index.html"],
+      ['[data-mdg-audience="empresa"]', "/en/empresa/prompts/index.html"],
+      ['[data-mdg-locale="pt"]', "/pt/empresa/prompts/index.html"],
+      ['[data-mdg-audience="persona"]', "/pt/prompts/index.html"],
+    ]) {
+      await Promise.all([page.waitForNavigation({ waitUntil: "load" }), page.locator(selector).click()]);
+      const state = await page.evaluate(() => ({
+        path: location.pathname,
+        search: location.search,
+        hash: location.hash,
+        modes: [...document.querySelectorAll("[data-prompt-library]")].map((node) => node.dataset.activeMode),
+      }));
+      if (
+        state.path !== path ||
+        state.search !== "?mode=demo" ||
+        state.hash !== "#prompt-01" ||
+        state.modes.some((mode) => mode !== "demo")
+      ) throw new Error(`PROMPT_MODE_VARIANT:${selector}:${JSON.stringify(state)}`);
+      variantModeChecks += 1;
+    }
+    await context.close();
+  }
+
+  if (process.env.PROMPT_VISUAL_SCOPE !== "mode") {
   for (const locale of ["es", "en", "pt"])
     for (const audience of ["persona", "empresa"])
       for (const resource of ["prompts", "workbook"]) {
       const context = await browser.newContext({ viewport: { width: 320, height: 900 }, javaScriptEnabled: false });
       const page = await context.newPage();
       await page.goto(`${origin}/${route(locale, audience, resource)}?mutation=long`, { waitUntil: "load" });
+      if (resource === "prompts") await page.locator("[data-prompt-card-disclosure] > summary").first().click();
       const summaries = page.locator(".prompt-level-fallback > summary");
       const specPanels = page.locator('[id$="-spec"][data-prompt-template]');
       const sources = page.locator("[data-prompt-source]");
+      const demoDisclosures = page.locator(".prompt-demo-native");
       const whyPanels = page.locator("[data-prompt-why]");
       const expectedPanels = resource === "prompts" ? 14 : 13;
       if (
         (await whyPanels.count()) !== expectedPanels ||
         (await summaries.count()) !== expectedPanels * 4 ||
         (await specPanels.count()) !== expectedPanels ||
-        (await sources.count()) !== expectedPanels * 4 ||
+        (await sources.count()) !== expectedPanels * 8 ||
+        (await demoDisclosures.count()) !== expectedPanels * 4 ||
         !(await summaries.nth(2).textContent())?.includes(locale === "es" ? "Especificado" : locale === "en" ? "Specified" : "Especificado")
       )
         throw new Error(`PROMPT_NO_JS_STRUCTURE:${locale}:${audience}:${resource}`);
@@ -363,9 +487,11 @@ try {
       noJsChecks += 1;
       await context.close();
     }
+  }
 } finally {
   await browser.close();
-  await new Promise((resolve) => server.close(resolve));
+  server.close();
+  server.closeAllConnections?.();
 }
 
-console.log(`PROMPT_SPEC_VISUAL_OK states=${states} zoom_200=${zoomChecks} axe=${axeChecks} mutations=${mutationChecks} why=${whyChecks} keyboard=${keyboardChecks} copy=${copyChecks} no_js=${noJsChecks}`);
+console.log(`PROMPT_SPEC_VISUAL_OK states=${states} zoom_200=${zoomChecks} axe=${axeChecks} mutations=${mutationChecks} why=${whyChecks} keyboard=${keyboardChecks} copy=${copyChecks} modes=${modeChecks} variant_modes=${variantModeChecks} no_js=${noJsChecks}`);

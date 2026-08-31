@@ -1,0 +1,1241 @@
+{
+  "architecture": {
+    "candidate": {
+      "compiler": "scripts/build.py",
+      "entrypoints": [
+        "render_masterclass",
+        "render_workbook",
+        "render_playbook",
+        "render_prompts"
+      ],
+      "main_identity_typed": true,
+      "pipeline": "typed-module-renderer",
+      "renderer": "scripts/module_renderers.py"
+    },
+    "reference": {
+      "compiler": "scripts/build.py",
+      "entrypoints": [
+        "masterclass",
+        "workbook",
+        "playbook",
+        "prompt_library_page"
+      ],
+      "main_identity_typed": false,
+      "pipeline": "legacy-parallel"
+    },
+    "shared": {
+      "brand_shell": "scripts/brand.py",
+      "css": "src/site.css",
+      "runtime": "src/site.js",
+      "ui_primitives": "scripts/ui_primitives.py"
+    }
+  },
+  "architecture_verdict": "ACCEPTED_DEBT_LEGACY_REFERENCE",
+  "candidate_module": "ocupado-productivo",
+  "definition_of_done": {
+    "code_identity_required": false,
+    "ref": "src/module-resource-definition-of-done-v1.json",
+    "required_parity": "semantic-visual-functional",
+    "self_sha256": "1044950780a9ad0044586de3e837137e7d02f0f8ea7f2d8ae9eb99d9c7e74876"
+  },
+  "inputs": {
+    "build_manifest_sha256": "d264b4416eb6e8093f17320055ef67509d9e7b56c1532e46bfcf546b453cf4b6",
+    "build_py_sha256": "e73cf885cd3f3190b983ef5aa2e198b4e84a85f76627b2867059ca59197b86cd",
+    "build_receipt_sha256": "2a4f2de8e7a632ca699b5177548de489d18dce98f2f540507f88ce69412323e6",
+    "css_sha256": "18ff9c52f9eb5af42b037bdd9a3b5240c5cab65eff246636a8e1a20369999046",
+    "renderer_sha256": "8dee15610e3d6e5ae00f6ca1ad7e9a17d95e5e6bca8c67004b86355902882f3c",
+    "runtime_sha256": "da20fc831a7c752df397d2b3d7c7ff6a7de9429e8b8f2c410284582ef95beb89"
+  },
+  "pairs": [
+    {
+      "audience": "persona",
+      "candidate": {
+        "bytes": 39378,
+        "current_resource": 3,
+        "main_identity": {
+          "data-audience": "persona",
+          "data-locale": "es",
+          "data-module-id": "module-02-de-ocupado-a-productivo",
+          "data-module-order": "2",
+          "data-module-resource": "masterclass"
+        },
+        "markers": {
+          "deck-controls": 1,
+          "masterclass-player": 2,
+          "official-pdf-card": 1
+        },
+        "path": "dist/modulos/02-de-ocupado-a-productivo/masterclass/index.html",
+        "sha256": "76047424038b6252e6a4c776da0b7a35e4ee036d3041f4c0199b927d983b9fb1",
+        "sibling_navigation": 1,
+        "unique_ids": true,
+        "visible_words": 1745
+      },
+      "locale": "es",
+      "reference": {
+        "bytes": 33137,
+        "current_resource": 2,
+        "main_identity": {
+          "data-audience": null,
+          "data-locale": null,
+          "data-module-id": null,
+          "data-module-order": null,
+          "data-module-resource": null
+        },
+        "markers": {
+          "deck-controls": 1,
+          "masterclass-player": 2,
+          "official-pdf-card": 1
+        },
+        "path": "dist/deck/index.html",
+        "sha256": "fa8f82fefd014e7a951503c139126eafaad9e597c75f560e21b23c62778ce899",
+        "sibling_navigation": 0,
+        "unique_ids": true,
+        "visible_words": 1326
+      },
+      "resource": "masterclass",
+      "semantic_markers_present": true,
+      "visible_density_ratio": 1.316
+    },
+    {
+      "audience": "persona",
+      "candidate": {
+        "bytes": 43909,
+        "current_resource": 3,
+        "main_identity": {
+          "data-audience": "persona",
+          "data-locale": "es",
+          "data-module-id": "module-02-de-ocupado-a-productivo",
+          "data-module-order": "2",
+          "data-module-resource": "workbook"
+        },
+        "markers": {
+          "data-consolidation-gate": 1,
+          "sheet-tabs": 1,
+          "workbook-hero-grid": 1
+        },
+        "path": "dist/modulos/02-de-ocupado-a-productivo/workbook/index.html",
+        "sha256": "c340afdb3b24503d4cb9c3155af65c9155fde5c409f5e058a1c1b662ec668367",
+        "sibling_navigation": 1,
+        "unique_ids": true,
+        "visible_words": 2012
+      },
+      "locale": "es",
+      "reference": {
+        "bytes": 795036,
+        "current_resource": 2,
+        "main_identity": {
+          "data-audience": null,
+          "data-locale": null,
+          "data-module-id": null,
+          "data-module-order": null,
+          "data-module-resource": null
+        },
+        "markers": {
+          "data-consolidation-gate": 1,
+          "sheet-tabs": 1,
+          "workbook-hero-grid": 1
+        },
+        "path": "dist/workbook/index.html",
+        "sha256": "ed1245d57e7ca887c8fd562b2b092d7097205d8103ccbdde1f0d250fb718ec8c",
+        "sibling_navigation": 0,
+        "unique_ids": true,
+        "visible_words": 35168
+      },
+      "resource": "workbook",
+      "semantic_markers_present": true,
+      "visible_density_ratio": 0.0572
+    },
+    {
+      "audience": "persona",
+      "candidate": {
+        "bytes": 39919,
+        "current_resource": 3,
+        "main_identity": {
+          "data-audience": "persona",
+          "data-locale": "es",
+          "data-module-id": "module-02-de-ocupado-a-productivo",
+          "data-module-order": "2",
+          "data-module-resource": "playbook"
+        },
+        "markers": {
+          "playbook-content": 1,
+          "playbook-hero-grid": 1,
+          "playbook-toc": 1
+        },
+        "path": "dist/modulos/02-de-ocupado-a-productivo/playbook/index.html",
+        "sha256": "22b4e8ec00c918dc185d6dabb9d64b3d0d722409c9e046eab747a72affeb7dfb",
+        "sibling_navigation": 1,
+        "unique_ids": true,
+        "visible_words": 1986
+      },
+      "locale": "es",
+      "reference": {
+        "bytes": 36256,
+        "current_resource": 2,
+        "main_identity": {
+          "data-audience": null,
+          "data-locale": null,
+          "data-module-id": null,
+          "data-module-order": null,
+          "data-module-resource": null
+        },
+        "markers": {
+          "playbook-content": 1,
+          "playbook-hero-grid": 1,
+          "playbook-toc": 1
+        },
+        "path": "dist/playbook/index.html",
+        "sha256": "53b224fa7592b87b51d9c81c3fbd150f3bd51e099f8e6c8f3d5fa657b0a92241",
+        "sibling_navigation": 0,
+        "unique_ids": true,
+        "visible_words": 1213
+      },
+      "resource": "playbook",
+      "semantic_markers_present": true,
+      "visible_density_ratio": 1.6373
+    },
+    {
+      "audience": "persona",
+      "candidate": {
+        "bytes": 463138,
+        "current_resource": 3,
+        "main_identity": {
+          "data-audience": "persona",
+          "data-locale": "es",
+          "data-module-id": "module-02-de-ocupado-a-productivo",
+          "data-module-order": "2",
+          "data-module-resource": "prompts"
+        },
+        "markers": {
+          "data-notebook-execution-guide": 1,
+          "data-prompt-format": 32,
+          "library-prompt-card": 16
+        },
+        "path": "dist/modulos/02-de-ocupado-a-productivo/prompts/index.html",
+        "sha256": "eddb69fbc8cd8a8e6409d6dbfa10e5406268f22a23f5411aef45a2a7004c81dc",
+        "sibling_navigation": 1,
+        "unique_ids": true,
+        "visible_words": 17034
+      },
+      "locale": "es",
+      "reference": {
+        "bytes": 831635,
+        "current_resource": 2,
+        "main_identity": {
+          "data-audience": null,
+          "data-locale": null,
+          "data-module-id": null,
+          "data-module-order": null,
+          "data-module-resource": null
+        },
+        "markers": {
+          "data-notebook-execution-guide": 1,
+          "data-prompt-format": 56,
+          "library-prompt-card": 28
+        },
+        "path": "dist/prompts/index.html",
+        "sha256": "04c4f68d279f2824e2dd9c61a9518e9d77f7b1dd449ea652cc386af87ab7838a",
+        "sibling_navigation": 0,
+        "unique_ids": true,
+        "visible_words": 35398
+      },
+      "resource": "prompts",
+      "semantic_markers_present": true,
+      "visible_density_ratio": 0.4812
+    },
+    {
+      "audience": "empresa",
+      "candidate": {
+        "bytes": 39839,
+        "current_resource": 3,
+        "main_identity": {
+          "data-audience": "empresa",
+          "data-locale": "es",
+          "data-module-id": "module-02-de-ocupado-a-productivo",
+          "data-module-order": "2",
+          "data-module-resource": "masterclass"
+        },
+        "markers": {
+          "deck-controls": 1,
+          "masterclass-player": 2,
+          "official-pdf-card": 1
+        },
+        "path": "dist/empresa/modulos/02-de-ocupado-a-productivo/masterclass/index.html",
+        "sha256": "e9f863dbcf2254c93543599dcd59f0a22b860d2d4983f50cf150c65fc273ebfe",
+        "sibling_navigation": 1,
+        "unique_ids": true,
+        "visible_words": 1773
+      },
+      "locale": "es",
+      "reference": {
+        "bytes": 33377,
+        "current_resource": 2,
+        "main_identity": {
+          "data-audience": null,
+          "data-locale": null,
+          "data-module-id": null,
+          "data-module-order": null,
+          "data-module-resource": null
+        },
+        "markers": {
+          "deck-controls": 1,
+          "masterclass-player": 2,
+          "official-pdf-card": 1
+        },
+        "path": "dist/empresa/deck/index.html",
+        "sha256": "83c1cbb201895c65ac70d71333ddd8f0958c1c6f3dc082232a0e4c86954544ba",
+        "sibling_navigation": 0,
+        "unique_ids": true,
+        "visible_words": 1332
+      },
+      "resource": "masterclass",
+      "semantic_markers_present": true,
+      "visible_density_ratio": 1.3311
+    },
+    {
+      "audience": "empresa",
+      "candidate": {
+        "bytes": 44909,
+        "current_resource": 3,
+        "main_identity": {
+          "data-audience": "empresa",
+          "data-locale": "es",
+          "data-module-id": "module-02-de-ocupado-a-productivo",
+          "data-module-order": "2",
+          "data-module-resource": "workbook"
+        },
+        "markers": {
+          "data-consolidation-gate": 1,
+          "sheet-tabs": 1,
+          "workbook-hero-grid": 1
+        },
+        "path": "dist/empresa/modulos/02-de-ocupado-a-productivo/workbook/index.html",
+        "sha256": "bbcff19d8b396f4a866579d8b514e0e575a2beb3a02ea17c1e22dd656266f9b3",
+        "sibling_navigation": 1,
+        "unique_ids": true,
+        "visible_words": 2112
+      },
+      "locale": "es",
+      "reference": {
+        "bytes": 826505,
+        "current_resource": 2,
+        "main_identity": {
+          "data-audience": null,
+          "data-locale": null,
+          "data-module-id": null,
+          "data-module-order": null,
+          "data-module-resource": null
+        },
+        "markers": {
+          "data-consolidation-gate": 1,
+          "sheet-tabs": 1,
+          "workbook-hero-grid": 1
+        },
+        "path": "dist/empresa/workbook/index.html",
+        "sha256": "85a6a90a925131582ec4c4d8bf5ffa7fae0694f8fc982810e5188f5312720637",
+        "sibling_navigation": 0,
+        "unique_ids": true,
+        "visible_words": 36954
+      },
+      "resource": "workbook",
+      "semantic_markers_present": true,
+      "visible_density_ratio": 0.0572
+    },
+    {
+      "audience": "empresa",
+      "candidate": {
+        "bytes": 40070,
+        "current_resource": 3,
+        "main_identity": {
+          "data-audience": "empresa",
+          "data-locale": "es",
+          "data-module-id": "module-02-de-ocupado-a-productivo",
+          "data-module-order": "2",
+          "data-module-resource": "playbook"
+        },
+        "markers": {
+          "playbook-content": 1,
+          "playbook-hero-grid": 1,
+          "playbook-toc": 1
+        },
+        "path": "dist/empresa/modulos/02-de-ocupado-a-productivo/playbook/index.html",
+        "sha256": "e9fd8b2eabb3fb9f51b1577f685c03343519bf8aafd11fed1804be9668d21946",
+        "sibling_navigation": 1,
+        "unique_ids": true,
+        "visible_words": 1967
+      },
+      "locale": "es",
+      "reference": {
+        "bytes": 36497,
+        "current_resource": 2,
+        "main_identity": {
+          "data-audience": null,
+          "data-locale": null,
+          "data-module-id": null,
+          "data-module-order": null,
+          "data-module-resource": null
+        },
+        "markers": {
+          "playbook-content": 1,
+          "playbook-hero-grid": 1,
+          "playbook-toc": 1
+        },
+        "path": "dist/empresa/playbook/index.html",
+        "sha256": "0a11b07be42fb63b0c2c4c333de950076270680983a6bf17f6237f60487845d3",
+        "sibling_navigation": 0,
+        "unique_ids": true,
+        "visible_words": 1205
+      },
+      "resource": "playbook",
+      "semantic_markers_present": true,
+      "visible_density_ratio": 1.6324
+    },
+    {
+      "audience": "empresa",
+      "candidate": {
+        "bytes": 467160,
+        "current_resource": 3,
+        "main_identity": {
+          "data-audience": "empresa",
+          "data-locale": "es",
+          "data-module-id": "module-02-de-ocupado-a-productivo",
+          "data-module-order": "2",
+          "data-module-resource": "prompts"
+        },
+        "markers": {
+          "data-notebook-execution-guide": 1,
+          "data-prompt-format": 32,
+          "library-prompt-card": 16
+        },
+        "path": "dist/empresa/modulos/02-de-ocupado-a-productivo/prompts/index.html",
+        "sha256": "d29a144875a1bc6320ffb6a678812072983f4a2ad30c740e6c54eda74029b2f6",
+        "sibling_navigation": 1,
+        "unique_ids": true,
+        "visible_words": 17355
+      },
+      "locale": "es",
+      "reference": {
+        "bytes": 852879,
+        "current_resource": 2,
+        "main_identity": {
+          "data-audience": null,
+          "data-locale": null,
+          "data-module-id": null,
+          "data-module-order": null,
+          "data-module-resource": null
+        },
+        "markers": {
+          "data-notebook-execution-guide": 1,
+          "data-prompt-format": 56,
+          "library-prompt-card": 28
+        },
+        "path": "dist/empresa/prompts/index.html",
+        "sha256": "12bf6db7cc2583692c2aa9107c6c9360cd728abe10d5d3b27798cb916b6ef1cd",
+        "sibling_navigation": 0,
+        "unique_ids": true,
+        "visible_words": 36669
+      },
+      "resource": "prompts",
+      "semantic_markers_present": true,
+      "visible_density_ratio": 0.4733
+    },
+    {
+      "audience": "persona",
+      "candidate": {
+        "bytes": 38374,
+        "current_resource": 3,
+        "main_identity": {
+          "data-audience": "persona",
+          "data-locale": "en",
+          "data-module-id": "module-02-de-ocupado-a-productivo",
+          "data-module-order": "2",
+          "data-module-resource": "masterclass"
+        },
+        "markers": {
+          "deck-controls": 1,
+          "masterclass-player": 2,
+          "official-pdf-card": 1
+        },
+        "path": "dist/en/modules/02-from-busy-to-productive/masterclass/index.html",
+        "sha256": "d09d751da119ecb1873ddb735df40cf48afc2e22dff7cb8772f1591b28ed22d3",
+        "sibling_navigation": 1,
+        "unique_ids": true,
+        "visible_words": 1713
+      },
+      "locale": "en",
+      "reference": {
+        "bytes": 32527,
+        "current_resource": 2,
+        "main_identity": {
+          "data-audience": null,
+          "data-locale": null,
+          "data-module-id": null,
+          "data-module-order": null,
+          "data-module-resource": null
+        },
+        "markers": {
+          "deck-controls": 1,
+          "masterclass-player": 2,
+          "official-pdf-card": 1
+        },
+        "path": "dist/en/deck/index.html",
+        "sha256": "255efd9b6bb22869fa8dcd9f5739f6bf9dc5f4bf33f2752e4c86434a3d8094ca",
+        "sibling_navigation": 0,
+        "unique_ids": true,
+        "visible_words": 1268
+      },
+      "resource": "masterclass",
+      "semantic_markers_present": true,
+      "visible_density_ratio": 1.3509
+    },
+    {
+      "audience": "persona",
+      "candidate": {
+        "bytes": 42571,
+        "current_resource": 3,
+        "main_identity": {
+          "data-audience": "persona",
+          "data-locale": "en",
+          "data-module-id": "module-02-de-ocupado-a-productivo",
+          "data-module-order": "2",
+          "data-module-resource": "workbook"
+        },
+        "markers": {
+          "data-consolidation-gate": 1,
+          "sheet-tabs": 1,
+          "workbook-hero-grid": 1
+        },
+        "path": "dist/en/modules/02-from-busy-to-productive/workbook/index.html",
+        "sha256": "807169b7c9c21ded6e55de2505c52f4c0774b397414b0430cbc284b89b6f2087",
+        "sibling_navigation": 1,
+        "unique_ids": true,
+        "visible_words": 2003
+      },
+      "locale": "en",
+      "reference": {
+        "bytes": 769531,
+        "current_resource": 2,
+        "main_identity": {
+          "data-audience": null,
+          "data-locale": null,
+          "data-module-id": null,
+          "data-module-order": null,
+          "data-module-resource": null
+        },
+        "markers": {
+          "data-consolidation-gate": 1,
+          "sheet-tabs": 1,
+          "workbook-hero-grid": 1
+        },
+        "path": "dist/en/workbook/index.html",
+        "sha256": "8d7de31f0fc4c5d3f0be6aaddcd7d2796843092ecd8d50991b719f25c2d88c0c",
+        "sibling_navigation": 0,
+        "unique_ids": true,
+        "visible_words": 34041
+      },
+      "resource": "workbook",
+      "semantic_markers_present": true,
+      "visible_density_ratio": 0.0588
+    },
+    {
+      "audience": "persona",
+      "candidate": {
+        "bytes": 38571,
+        "current_resource": 3,
+        "main_identity": {
+          "data-audience": "persona",
+          "data-locale": "en",
+          "data-module-id": "module-02-de-ocupado-a-productivo",
+          "data-module-order": "2",
+          "data-module-resource": "playbook"
+        },
+        "markers": {
+          "playbook-content": 1,
+          "playbook-hero-grid": 1,
+          "playbook-toc": 1
+        },
+        "path": "dist/en/modules/02-from-busy-to-productive/playbook/index.html",
+        "sha256": "26d8ac3ee79b5722e11119bd4f3b6b3e11b6bdd7594c9a62592fcc378d98a678",
+        "sibling_navigation": 1,
+        "unique_ids": true,
+        "visible_words": 1971
+      },
+      "locale": "en",
+      "reference": {
+        "bytes": 35415,
+        "current_resource": 2,
+        "main_identity": {
+          "data-audience": null,
+          "data-locale": null,
+          "data-module-id": null,
+          "data-module-order": null,
+          "data-module-resource": null
+        },
+        "markers": {
+          "playbook-content": 1,
+          "playbook-hero-grid": 1,
+          "playbook-toc": 1
+        },
+        "path": "dist/en/playbook/index.html",
+        "sha256": "85247d479adf56c896f34e6491f7a15e04c3af6ed1803d3de71365855d017388",
+        "sibling_navigation": 0,
+        "unique_ids": true,
+        "visible_words": 1151
+      },
+      "resource": "playbook",
+      "semantic_markers_present": true,
+      "visible_density_ratio": 1.7124
+    },
+    {
+      "audience": "persona",
+      "candidate": {
+        "bytes": 446532,
+        "current_resource": 3,
+        "main_identity": {
+          "data-audience": "persona",
+          "data-locale": "en",
+          "data-module-id": "module-02-de-ocupado-a-productivo",
+          "data-module-order": "2",
+          "data-module-resource": "prompts"
+        },
+        "markers": {
+          "data-notebook-execution-guide": 1,
+          "data-prompt-format": 32,
+          "library-prompt-card": 16
+        },
+        "path": "dist/en/modules/02-from-busy-to-productive/prompts/index.html",
+        "sha256": "dac12b0270b9acceeeb366729e48378da6fd982ee77199eb5189ce7c49b8d469",
+        "sibling_navigation": 1,
+        "unique_ids": true,
+        "visible_words": 16624
+      },
+      "locale": "en",
+      "reference": {
+        "bytes": 801038,
+        "current_resource": 2,
+        "main_identity": {
+          "data-audience": null,
+          "data-locale": null,
+          "data-module-id": null,
+          "data-module-order": null,
+          "data-module-resource": null
+        },
+        "markers": {
+          "data-notebook-execution-guide": 1,
+          "data-prompt-format": 56,
+          "library-prompt-card": 28
+        },
+        "path": "dist/en/prompts/index.html",
+        "sha256": "b509b73c55d253cf414d05e4997c73ab6d797761204e7bad3d208bb3bf652f20",
+        "sibling_navigation": 0,
+        "unique_ids": true,
+        "visible_words": 33899
+      },
+      "resource": "prompts",
+      "semantic_markers_present": true,
+      "visible_density_ratio": 0.4904
+    },
+    {
+      "audience": "empresa",
+      "candidate": {
+        "bytes": 38774,
+        "current_resource": 3,
+        "main_identity": {
+          "data-audience": "empresa",
+          "data-locale": "en",
+          "data-module-id": "module-02-de-ocupado-a-productivo",
+          "data-module-order": "2",
+          "data-module-resource": "masterclass"
+        },
+        "markers": {
+          "deck-controls": 1,
+          "masterclass-player": 2,
+          "official-pdf-card": 1
+        },
+        "path": "dist/en/empresa/modules/02-from-busy-to-productive/masterclass/index.html",
+        "sha256": "62d72df677400c30e9b982200e8d68c89bb8e9409cccfba18fd1ff0c319f154f",
+        "sibling_navigation": 1,
+        "unique_ids": true,
+        "visible_words": 1729
+      },
+      "locale": "en",
+      "reference": {
+        "bytes": 32751,
+        "current_resource": 2,
+        "main_identity": {
+          "data-audience": null,
+          "data-locale": null,
+          "data-module-id": null,
+          "data-module-order": null,
+          "data-module-resource": null
+        },
+        "markers": {
+          "deck-controls": 1,
+          "masterclass-player": 2,
+          "official-pdf-card": 1
+        },
+        "path": "dist/en/empresa/deck/index.html",
+        "sha256": "a5bdda49d7e827c75e74f03ddcbf2b1f03b314b546cb17116d5a5b7c9a578af5",
+        "sibling_navigation": 0,
+        "unique_ids": true,
+        "visible_words": 1259
+      },
+      "resource": "masterclass",
+      "semantic_markers_present": true,
+      "visible_density_ratio": 1.3733
+    },
+    {
+      "audience": "empresa",
+      "candidate": {
+        "bytes": 43625,
+        "current_resource": 3,
+        "main_identity": {
+          "data-audience": "empresa",
+          "data-locale": "en",
+          "data-module-id": "module-02-de-ocupado-a-productivo",
+          "data-module-order": "2",
+          "data-module-resource": "workbook"
+        },
+        "markers": {
+          "data-consolidation-gate": 1,
+          "sheet-tabs": 1,
+          "workbook-hero-grid": 1
+        },
+        "path": "dist/en/empresa/modules/02-from-busy-to-productive/workbook/index.html",
+        "sha256": "81a67e4d0ab637ec5f8ab888a75010560cbe0d7563c18b55f5e7a2b828917980",
+        "sibling_navigation": 1,
+        "unique_ids": true,
+        "visible_words": 2066
+      },
+      "locale": "en",
+      "reference": {
+        "bytes": 797500,
+        "current_resource": 2,
+        "main_identity": {
+          "data-audience": null,
+          "data-locale": null,
+          "data-module-id": null,
+          "data-module-order": null,
+          "data-module-resource": null
+        },
+        "markers": {
+          "data-consolidation-gate": 1,
+          "sheet-tabs": 1,
+          "workbook-hero-grid": 1
+        },
+        "path": "dist/en/empresa/workbook/index.html",
+        "sha256": "0a8159e1688c7026d16b033fc920875afaa162e2acf0bab9e730d64fc775d892",
+        "sibling_navigation": 0,
+        "unique_ids": true,
+        "visible_words": 35808
+      },
+      "resource": "workbook",
+      "semantic_markers_present": true,
+      "visible_density_ratio": 0.0577
+    },
+    {
+      "audience": "empresa",
+      "candidate": {
+        "bytes": 38472,
+        "current_resource": 3,
+        "main_identity": {
+          "data-audience": "empresa",
+          "data-locale": "en",
+          "data-module-id": "module-02-de-ocupado-a-productivo",
+          "data-module-order": "2",
+          "data-module-resource": "playbook"
+        },
+        "markers": {
+          "playbook-content": 1,
+          "playbook-hero-grid": 1,
+          "playbook-toc": 1
+        },
+        "path": "dist/en/empresa/modules/02-from-busy-to-productive/playbook/index.html",
+        "sha256": "05873779992281427b75218dab99dd105d2d41af11f22b830ec8ba8959eb4830",
+        "sibling_navigation": 1,
+        "unique_ids": true,
+        "visible_words": 1906
+      },
+      "locale": "en",
+      "reference": {
+        "bytes": 35629,
+        "current_resource": 2,
+        "main_identity": {
+          "data-audience": null,
+          "data-locale": null,
+          "data-module-id": null,
+          "data-module-order": null,
+          "data-module-resource": null
+        },
+        "markers": {
+          "playbook-content": 1,
+          "playbook-hero-grid": 1,
+          "playbook-toc": 1
+        },
+        "path": "dist/en/empresa/playbook/index.html",
+        "sha256": "e5af9eb93deb4040d077ab33c955d3e5c8b215dfdcf6c6ba4685f14cfbd2b6a3",
+        "sibling_navigation": 0,
+        "unique_ids": true,
+        "visible_words": 1139
+      },
+      "resource": "playbook",
+      "semantic_markers_present": true,
+      "visible_density_ratio": 1.6734
+    },
+    {
+      "audience": "empresa",
+      "candidate": {
+        "bytes": 452444,
+        "current_resource": 3,
+        "main_identity": {
+          "data-audience": "empresa",
+          "data-locale": "en",
+          "data-module-id": "module-02-de-ocupado-a-productivo",
+          "data-module-order": "2",
+          "data-module-resource": "prompts"
+        },
+        "markers": {
+          "data-notebook-execution-guide": 1,
+          "data-prompt-format": 32,
+          "library-prompt-card": 16
+        },
+        "path": "dist/en/empresa/modules/02-from-busy-to-productive/prompts/index.html",
+        "sha256": "756d3c46f8a4e22ee0a979b3ee151fd6bd5ec3e0881f1b3c266357c13f02f5e3",
+        "sibling_navigation": 1,
+        "unique_ids": true,
+        "visible_words": 16903
+      },
+      "locale": "en",
+      "reference": {
+        "bytes": 821143,
+        "current_resource": 2,
+        "main_identity": {
+          "data-audience": null,
+          "data-locale": null,
+          "data-module-id": null,
+          "data-module-order": null,
+          "data-module-resource": null
+        },
+        "markers": {
+          "data-notebook-execution-guide": 1,
+          "data-prompt-format": 56,
+          "library-prompt-card": 28
+        },
+        "path": "dist/en/empresa/prompts/index.html",
+        "sha256": "89b2c66f14ebd308adcb7af05ffb325f6da0925619021e8f599ad11a6ad428f9",
+        "sibling_navigation": 0,
+        "unique_ids": true,
+        "visible_words": 35059
+      },
+      "resource": "prompts",
+      "semantic_markers_present": true,
+      "visible_density_ratio": 0.4821
+    },
+    {
+      "audience": "persona",
+      "candidate": {
+        "bytes": 39228,
+        "current_resource": 3,
+        "main_identity": {
+          "data-audience": "persona",
+          "data-locale": "pt",
+          "data-module-id": "module-02-de-ocupado-a-productivo",
+          "data-module-order": "2",
+          "data-module-resource": "masterclass"
+        },
+        "markers": {
+          "deck-controls": 1,
+          "masterclass-player": 2,
+          "official-pdf-card": 1
+        },
+        "path": "dist/pt/modulos/02-de-ocupado-a-produtivo/masterclass/index.html",
+        "sha256": "d04442f4481f7f9221f0f33624ac3060766612c2426b69d35ef2f0c385e49052",
+        "sibling_navigation": 1,
+        "unique_ids": true,
+        "visible_words": 1713
+      },
+      "locale": "pt",
+      "reference": {
+        "bytes": 33002,
+        "current_resource": 2,
+        "main_identity": {
+          "data-audience": null,
+          "data-locale": null,
+          "data-module-id": null,
+          "data-module-order": null,
+          "data-module-resource": null
+        },
+        "markers": {
+          "deck-controls": 1,
+          "masterclass-player": 2,
+          "official-pdf-card": 1
+        },
+        "path": "dist/pt/deck/index.html",
+        "sha256": "e1b8afdcc0f160e84b6d343ee2ca2efbdb02afc176cc3b8469fe5ff4435b021b",
+        "sibling_navigation": 0,
+        "unique_ids": true,
+        "visible_words": 1298
+      },
+      "resource": "masterclass",
+      "semantic_markers_present": true,
+      "visible_density_ratio": 1.3197
+    },
+    {
+      "audience": "persona",
+      "candidate": {
+        "bytes": 43696,
+        "current_resource": 3,
+        "main_identity": {
+          "data-audience": "persona",
+          "data-locale": "pt",
+          "data-module-id": "module-02-de-ocupado-a-productivo",
+          "data-module-order": "2",
+          "data-module-resource": "workbook"
+        },
+        "markers": {
+          "data-consolidation-gate": 1,
+          "sheet-tabs": 1,
+          "workbook-hero-grid": 1
+        },
+        "path": "dist/pt/modulos/02-de-ocupado-a-produtivo/workbook/index.html",
+        "sha256": "727b2b2268eaf401217c5e8bfc564cf9ff309beb97ed51e74455c5b2e65f9305",
+        "sibling_navigation": 1,
+        "unique_ids": true,
+        "visible_words": 2014
+      },
+      "locale": "pt",
+      "reference": {
+        "bytes": 795448,
+        "current_resource": 2,
+        "main_identity": {
+          "data-audience": null,
+          "data-locale": null,
+          "data-module-id": null,
+          "data-module-order": null,
+          "data-module-resource": null
+        },
+        "markers": {
+          "data-consolidation-gate": 1,
+          "sheet-tabs": 1,
+          "workbook-hero-grid": 1
+        },
+        "path": "dist/pt/workbook/index.html",
+        "sha256": "cf8b1b0619d3dc11756619ff95a0bea52d3a1941217c9bb13cee15ca4a79d981",
+        "sibling_navigation": 0,
+        "unique_ids": true,
+        "visible_words": 34585
+      },
+      "resource": "workbook",
+      "semantic_markers_present": true,
+      "visible_density_ratio": 0.0582
+    },
+    {
+      "audience": "persona",
+      "candidate": {
+        "bytes": 39619,
+        "current_resource": 3,
+        "main_identity": {
+          "data-audience": "persona",
+          "data-locale": "pt",
+          "data-module-id": "module-02-de-ocupado-a-productivo",
+          "data-module-order": "2",
+          "data-module-resource": "playbook"
+        },
+        "markers": {
+          "playbook-content": 1,
+          "playbook-hero-grid": 1,
+          "playbook-toc": 1
+        },
+        "path": "dist/pt/modulos/02-de-ocupado-a-produtivo/playbook/index.html",
+        "sha256": "6d9a113a9fd6afb60f6d9f4642c6143ccffbda64e78123c06be7c7e004cc56b7",
+        "sibling_navigation": 1,
+        "unique_ids": true,
+        "visible_words": 1937
+      },
+      "locale": "pt",
+      "reference": {
+        "bytes": 36156,
+        "current_resource": 2,
+        "main_identity": {
+          "data-audience": null,
+          "data-locale": null,
+          "data-module-id": null,
+          "data-module-order": null,
+          "data-module-resource": null
+        },
+        "markers": {
+          "playbook-content": 1,
+          "playbook-hero-grid": 1,
+          "playbook-toc": 1
+        },
+        "path": "dist/pt/playbook/index.html",
+        "sha256": "e05be4fb771d789afed5876098c1ac1ff24ed4b7319ecf30a3f511c7696bcb30",
+        "sibling_navigation": 0,
+        "unique_ids": true,
+        "visible_words": 1198
+      },
+      "resource": "playbook",
+      "semantic_markers_present": true,
+      "visible_density_ratio": 1.6169
+    },
+    {
+      "audience": "persona",
+      "candidate": {
+        "bytes": 458966,
+        "current_resource": 3,
+        "main_identity": {
+          "data-audience": "persona",
+          "data-locale": "pt",
+          "data-module-id": "module-02-de-ocupado-a-productivo",
+          "data-module-order": "2",
+          "data-module-resource": "prompts"
+        },
+        "markers": {
+          "data-notebook-execution-guide": 1,
+          "data-prompt-format": 32,
+          "library-prompt-card": 16
+        },
+        "path": "dist/pt/modulos/02-de-ocupado-a-produtivo/prompts/index.html",
+        "sha256": "0f11ffed1d798b33624c849610d18d878f65d1471eed4974f79500589277987c",
+        "sibling_navigation": 1,
+        "unique_ids": true,
+        "visible_words": 16680
+      },
+      "locale": "pt",
+      "reference": {
+        "bytes": 833538,
+        "current_resource": 2,
+        "main_identity": {
+          "data-audience": null,
+          "data-locale": null,
+          "data-module-id": null,
+          "data-module-order": null,
+          "data-module-resource": null
+        },
+        "markers": {
+          "data-notebook-execution-guide": 1,
+          "data-prompt-format": 56,
+          "library-prompt-card": 28
+        },
+        "path": "dist/pt/prompts/index.html",
+        "sha256": "89198dab404b3d918206d8eee61bbec83c0558f1b776101bc643dcb4269a6277",
+        "sibling_navigation": 0,
+        "unique_ids": true,
+        "visible_words": 34984
+      },
+      "resource": "prompts",
+      "semantic_markers_present": true,
+      "visible_density_ratio": 0.4768
+    },
+    {
+      "audience": "empresa",
+      "candidate": {
+        "bytes": 39670,
+        "current_resource": 3,
+        "main_identity": {
+          "data-audience": "empresa",
+          "data-locale": "pt",
+          "data-module-id": "module-02-de-ocupado-a-productivo",
+          "data-module-order": "2",
+          "data-module-resource": "masterclass"
+        },
+        "markers": {
+          "deck-controls": 1,
+          "masterclass-player": 2,
+          "official-pdf-card": 1
+        },
+        "path": "dist/pt/empresa/modulos/02-de-ocupado-a-produtivo/masterclass/index.html",
+        "sha256": "94f3a9922069b9239051a3445af63bd91a78f81ffa3998680e3f57d24f9e5d7a",
+        "sibling_navigation": 1,
+        "unique_ids": true,
+        "visible_words": 1744
+      },
+      "locale": "pt",
+      "reference": {
+        "bytes": 33243,
+        "current_resource": 2,
+        "main_identity": {
+          "data-audience": null,
+          "data-locale": null,
+          "data-module-id": null,
+          "data-module-order": null,
+          "data-module-resource": null
+        },
+        "markers": {
+          "deck-controls": 1,
+          "masterclass-player": 2,
+          "official-pdf-card": 1
+        },
+        "path": "dist/pt/empresa/deck/index.html",
+        "sha256": "7aa8a24a3ece9cf971f5a932dd4f23a92a1209305d4e05bc3fc41c08c0c446b1",
+        "sibling_navigation": 0,
+        "unique_ids": true,
+        "visible_words": 1301
+      },
+      "resource": "masterclass",
+      "semantic_markers_present": true,
+      "visible_density_ratio": 1.3405
+    },
+    {
+      "audience": "empresa",
+      "candidate": {
+        "bytes": 44930,
+        "current_resource": 3,
+        "main_identity": {
+          "data-audience": "empresa",
+          "data-locale": "pt",
+          "data-module-id": "module-02-de-ocupado-a-productivo",
+          "data-module-order": "2",
+          "data-module-resource": "workbook"
+        },
+        "markers": {
+          "data-consolidation-gate": 1,
+          "sheet-tabs": 1,
+          "workbook-hero-grid": 1
+        },
+        "path": "dist/pt/empresa/modulos/02-de-ocupado-a-produtivo/workbook/index.html",
+        "sha256": "7a6d4c6cc809efff488bee70d8b77678b2883dcbed62e9ef150d6a35d2c99a54",
+        "sibling_navigation": 1,
+        "unique_ids": true,
+        "visible_words": 2108
+      },
+      "locale": "pt",
+      "reference": {
+        "bytes": 828937,
+        "current_resource": 2,
+        "main_identity": {
+          "data-audience": null,
+          "data-locale": null,
+          "data-module-id": null,
+          "data-module-order": null,
+          "data-module-resource": null
+        },
+        "markers": {
+          "data-consolidation-gate": 1,
+          "sheet-tabs": 1,
+          "workbook-hero-grid": 1
+        },
+        "path": "dist/pt/empresa/workbook/index.html",
+        "sha256": "bce3929c9651a1898e335daa337713e34a5754e0eefeec91507f718d47b4f727",
+        "sibling_navigation": 0,
+        "unique_ids": true,
+        "visible_words": 36259
+      },
+      "resource": "workbook",
+      "semantic_markers_present": true,
+      "visible_density_ratio": 0.0581
+    },
+    {
+      "audience": "empresa",
+      "candidate": {
+        "bytes": 39927,
+        "current_resource": 3,
+        "main_identity": {
+          "data-audience": "empresa",
+          "data-locale": "pt",
+          "data-module-id": "module-02-de-ocupado-a-productivo",
+          "data-module-order": "2",
+          "data-module-resource": "playbook"
+        },
+        "markers": {
+          "playbook-content": 1,
+          "playbook-hero-grid": 1,
+          "playbook-toc": 1
+        },
+        "path": "dist/pt/empresa/modulos/02-de-ocupado-a-produtivo/playbook/index.html",
+        "sha256": "35da5e06f178817acbe67ac3ba3bf2133f084de1083922ef774000c86b11831c",
+        "sibling_navigation": 1,
+        "unique_ids": true,
+        "visible_words": 1925
+      },
+      "locale": "pt",
+      "reference": {
+        "bytes": 36404,
+        "current_resource": 2,
+        "main_identity": {
+          "data-audience": null,
+          "data-locale": null,
+          "data-module-id": null,
+          "data-module-order": null,
+          "data-module-resource": null
+        },
+        "markers": {
+          "playbook-content": 1,
+          "playbook-hero-grid": 1,
+          "playbook-toc": 1
+        },
+        "path": "dist/pt/empresa/playbook/index.html",
+        "sha256": "dd7eda0cbfb833995c4dd773b9952eeaeeef4dd60a14075bbb917998e2f91ead",
+        "sibling_navigation": 0,
+        "unique_ids": true,
+        "visible_words": 1189
+      },
+      "resource": "playbook",
+      "semantic_markers_present": true,
+      "visible_density_ratio": 1.619
+    },
+    {
+      "audience": "empresa",
+      "candidate": {
+        "bytes": 465390,
+        "current_resource": 3,
+        "main_identity": {
+          "data-audience": "empresa",
+          "data-locale": "pt",
+          "data-module-id": "module-02-de-ocupado-a-productivo",
+          "data-module-order": "2",
+          "data-module-resource": "prompts"
+        },
+        "markers": {
+          "data-notebook-execution-guide": 1,
+          "data-prompt-format": 32,
+          "library-prompt-card": 16
+        },
+        "path": "dist/pt/empresa/modulos/02-de-ocupado-a-produtivo/prompts/index.html",
+        "sha256": "e27e6184712089568be31c3cf77ddd507d8e992cbb67ea21eefc5dc19bf86173",
+        "sibling_navigation": 1,
+        "unique_ids": true,
+        "visible_words": 17079
+      },
+      "locale": "pt",
+      "reference": {
+        "bytes": 856180,
+        "current_resource": 2,
+        "main_identity": {
+          "data-audience": null,
+          "data-locale": null,
+          "data-module-id": null,
+          "data-module-order": null,
+          "data-module-resource": null
+        },
+        "markers": {
+          "data-notebook-execution-guide": 1,
+          "data-prompt-format": 56,
+          "library-prompt-card": 28
+        },
+        "path": "dist/pt/empresa/prompts/index.html",
+        "sha256": "8ccf4bd0849fe38dd44b82de00c5cfc4e8ed6bb4175ccde8b9cf5f955bd56c30",
+        "sibling_navigation": 0,
+        "unique_ids": true,
+        "visible_words": 36026
+      },
+      "resource": "prompts",
+      "semantic_markers_present": true,
+      "visible_density_ratio": 0.4741
+    }
+  ],
+  "reference_module": "ia-panorama",
+  "schema_version": "module-code-comparison-v1",
+  "self_hash_model": "sha256(sorted-json-without-self_sha256)",
+  "self_sha256": "e632f41772595c8eccbcd50a5bed305fd65fb85c347986e98c8e959f7a36d873",
+  "summary": {
+    "code_identity": "NOT_REQUIRED_AND_NOT_PRESENT",
+    "maximum_visible_density_ratio": 1.7124,
+    "output_parity": "PASS",
+    "pairs": 24,
+    "publication_authorized": false,
+    "semantic_marker_pass": 24,
+    "state": "RENDERED_DRAFT",
+    "unique_candidate_dom": 24
+  }
+}

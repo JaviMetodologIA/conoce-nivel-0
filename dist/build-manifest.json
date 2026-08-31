@@ -1,8 +1,20 @@
 {
-  "build_id": "nivel-0-learning-resources-v10",
+  "build_id": "nivel-0-learning-resources-v15",
   "compiler": {
+    "depth_validator": {
+      "ref": "scripts/module_depth.py",
+      "sha256": "35625cc8b8535d8024f888ca09a49f11582a2f59b52af5555f864aa9fdb6c83c"
+    },
+    "module_renderer": {
+      "ref": "scripts/module_renderers.py",
+      "sha256": "8dee15610e3d6e5ae00f6ca1ad7e9a17d95e5e6bca8c67004b86355902882f3c"
+    },
     "ref": "scripts/build.py",
-    "sha256": "515ecabefe704390be49076ac07b456c3274f4e0d23d54f74d23625e3534fa93"
+    "sha256": "e73cf885cd3f3190b983ef5aa2e198b4e84a85f76627b2867059ca59197b86cd",
+    "ui_primitives": {
+      "ref": "scripts/ui_primitives.py",
+      "sha256": "01b7ecfbb5d33bfb2b238010669de46e44584af4c7106aa3bc35d765d7030c2f"
+    }
   },
   "conoce_chrome": {
     "brand_release_immutable": true,
@@ -38,7 +50,7 @@
       "same_tab": true
     },
     "publication_authorized": false,
-    "rendered_pages": 54,
+    "rendered_pages": 126,
     "schema_version": "conoce-chrome-spec-v1",
     "self_sha256": "f3b862a736c86e041430b2d4b759504c956335ff3ec782494c91985e7bf8531a",
     "site_id": "conoce-nivel-0",
@@ -50,6 +62,114 @@
       "mdg_locale",
       "mdg_audience"
     ]
+  },
+  "curriculum": {
+    "authority_bindings": {
+      "approved_program_proposal_sha256": "4ef3371f2baab2bc13d305e925d38875e942cb5d80c2207bdf4a011a5eefb68e",
+      "source_bundle_sha256": "22bab6b848dd42f47f0d3c9a9d3e560909a8950eab250169b0231d64927f9488"
+    },
+    "canonical_pages": 126,
+    "depth_overlays": {
+      "ocupado-productivo": "12943314227c206d0c53d172508afb78809920a12f1ef1a641d87dadcb9b123f",
+      "trabajo-agentico": "0160304d40b6c12f3538829fea377468f8f3946745cefd48075bbcba5e6c0c56",
+      "trabajo-amplificado": "37074fddd68089a1f0deaf1b54e69e9e5d787b6d074158bfc3a8b97d9ca2a058"
+    },
+    "depth_profile": {
+      "profile_id": "nivel-0-editorial-depth-v1",
+      "ref": "src/modules/module-depth-profile-v1.json",
+      "sha256": "05070bfe255d19937b6718025f6d722450712b4e8fefd8dc88476e7429fcafcf"
+    },
+    "logical_resources": 16,
+    "modules": [
+      {
+        "id": "ia-panorama",
+        "order": 1
+      },
+      {
+        "id": "ocupado-productivo",
+        "order": 2
+      },
+      {
+        "id": "trabajo-amplificado",
+        "order": 3
+      },
+      {
+        "id": "trabajo-agentico",
+        "order": 4
+      }
+    ],
+    "official_masterclasses": [
+      {
+        "document_language": "es",
+        "image_only": true,
+        "media_type": "application/pdf",
+        "module_id": "ia-panorama",
+        "page_count": 18,
+        "primary_surface": true,
+        "publication_authorized": false,
+        "rendered_variants": 6,
+        "rights": "MetodologIA masterclass supplied by the owner for this local pilot",
+        "sha256": "5df5533a29652184f492b2f797ecfa0f1fa47cdb682bfcefb8f30c96014ce402",
+        "source": "assets/masterclass-ia-nivel-0.pdf",
+        "tagged": false
+      },
+      {
+        "document_language": "es",
+        "image_only": true,
+        "media_type": "application/pdf",
+        "module_id": "ocupado-productivo",
+        "page_count": 11,
+        "primary_surface": true,
+        "publication_authorized": false,
+        "rendered_variants": 6,
+        "rights": "cleared-local-use",
+        "sha256": "d728c9a2c7cfb91e9d669ce24137bc96c0b53aae2de295db44ad5997be232532",
+        "source": "assets/02-ocupado-productivo.pdf",
+        "tagged": false
+      },
+      {
+        "document_language": "es",
+        "image_only": true,
+        "media_type": "application/pdf",
+        "module_id": "trabajo-amplificado",
+        "page_count": 12,
+        "primary_surface": true,
+        "publication_authorized": false,
+        "rendered_variants": 6,
+        "rights": "cleared-local-use",
+        "sha256": "08b057fd1826ca0b5c3d085eb9d8efce7f1195a4b88f66c014208daa39232b2d",
+        "source": "assets/03-trabajo-amplificado.pdf",
+        "tagged": false
+      },
+      {
+        "document_language": "es",
+        "image_only": true,
+        "media_type": "application/pdf",
+        "module_id": "trabajo-agentico",
+        "page_count": 15,
+        "primary_surface": true,
+        "publication_authorized": false,
+        "rendered_variants": 6,
+        "rights": "cleared-local-use",
+        "sha256": "710cff50558a98bc587809be17520ad833f89de1066e2607a494bd9b6ee81b3f",
+        "source": "assets/04-trabajo-agentico.pdf",
+        "tagged": false
+      }
+    ],
+    "payloads": {
+      "ocupado-productivo": "d285a8672ebf93595c2e5d22186361589c1306f65fd35ec4933462c0b825226e",
+      "trabajo-agentico": "7d3ca46610d1cd5550882df2fa66ad054e85c42c5eca599e1b0a97388d8be2ec",
+      "trabajo-amplificado": "7790d12a301b929c0d64863a6f2d1e66b99057344e80dedf77790916f5dd8fcf"
+    },
+    "provenance_sha256": "c2aefe8568b666d632b8b900ed3dfebfa5eefce7d39bbc68a055a22e912a6013",
+    "provenance_source": "src/curriculum-provenance-rights-v2.json",
+    "publication_authorized": false,
+    "rendered_resource_pages": 96,
+    "run_dependency_at_build_time": false,
+    "schema_version": "curriculum-spec-v2",
+    "source": "src/curriculum-spec-v2.json",
+    "source_sha256": "6506fe8ce3495e145f1b140e9668d1d002beb40f5651cfcc0ddf9798804c934a",
+    "state": "RENDERED_DRAFT"
   },
   "digital_brand": {
     "manifest_sha256": "3deaa35db4120e227325867d8165b0cb448756455698651f8a0dfa1405d99686",
@@ -68,14 +188,14 @@
   "editorial_parity": {
     "fallback_policy": "forbidden",
     "inventory": "editorial-string-inventory.json",
-    "inventory_self_sha256": "4ea85a9e00dfabe0173bb9da7b06194493315db1e45bf78a8fd4e47d181d8e1c",
-    "inventory_sha256": "3718408229d505f6919b7de9b3755c8dcc7b4bff29443b2f1a55eb93881e280c",
+    "inventory_self_sha256": "f6336c41c7ae5be175a3bb4518c178be60c5f830778386f30a8e03a4f84e412c",
+    "inventory_sha256": "fe8d517e6b74ee25916c1ff7a657c27bb1e193ba1214f6ffc7e037845f6563a1",
     "matrix": {
       "audiences": [
         "persona",
         "empresa"
       ],
-      "canonical_routes": 54,
+      "canonical_routes": 126,
       "locales": [
         "es",
         "en",
@@ -95,18 +215,18 @@
     },
     "publication_authorized": false,
     "schema_version": "editorial-parity-spec-v1",
-    "self_sha256": "ad07bf72e931202887c1625600579f9e39c1a84a78ecd2891fc70525b7f49fe6",
+    "self_sha256": "266f90ad8db00695aa3aeb086820d0846b4494caba31477ac714f43d65f06608",
     "shared_allowlist": [
       "organization_and_method_marks",
       "localized_chrome",
       "official_spanish_pdf"
     ],
     "source": "src/editorial-parity-spec-v1.json",
-    "source_sha256": "df83b1883003c41c16471809a43fcab11442e9c075284b180d4d8d250c5e638c",
+    "source_sha256": "df496abfa60692da47e243cc178f620a267bda348f9ee98f98829d8e3b1b7753",
     "state": "RENDERED_DRAFT"
   },
   "editorial_sitemap": {
-    "canonical_count": 54,
+    "canonical_count": 126,
     "pages": [
       "level0",
       "how",
@@ -116,18 +236,18 @@
     "publication_authorized": false,
     "rendered_pages": 24,
     "schema_version": "editorial-sitemap-spec-v1",
-    "self_sha256": "74ba8a170e62765891577cec783cee472984c692ee24eb63802c4f3c0e5711b9",
+    "self_sha256": "648566295b41f61601fc64f88fbbdbcaea53fbcdbf4413ba6a92c991b182e718",
     "source": "src/editorial-sitemap-spec-v1.json",
-    "source_sha256": "01889c820e9b03999af6171a83407339b2f4220ddc5b5a838eb2b7c2c4e48b8a",
+    "source_sha256": "27ea26cbde0657274b7381b8efc6e1fb3949a8e56381599ba333e5bca402c90e",
     "state": "RENDERED_DRAFT"
   },
   "intrapage_navigation": {
     "desktop_width_px": 260,
     "publication_authorized": false,
-    "rendered_pages": 54,
+    "rendered_pages": 126,
     "schema_version": "intrapage-navigation-spec-v1",
     "source": "src/intrapage-navigation-spec-v1.json",
-    "source_sha256": "cfae0e0b01c8830805049837fcd87f9388fc6a117af1e20feafef16cd796d342"
+    "source_sha256": "e9aa4d32fef5b6c9bad155f32318dd0331babc035fa98e3fb71d149b5d8486f3"
   },
   "method_identity": {
     "assets": {
@@ -145,17 +265,95 @@
     "role": "method_mark",
     "schema_version": "method-identity-v1"
   },
+  "module_definition_of_done": {
+    "code_identity_required": false,
+    "contract_id": "nivel-0-module-reference-parity-v1",
+    "next_module_requires": "PASS",
+    "publication_authorized": false,
+    "reference_module": "ia-panorama",
+    "required_parity": "semantic-visual-functional",
+    "schema_version": "module-resource-definition-of-done-v1",
+    "self_sha256": "1044950780a9ad0044586de3e837137e7d02f0f8ea7f2d8ae9eb99d9c7e74876",
+    "source": "src/module-resource-definition-of-done-v1.json",
+    "source_sha256": "d43f43935de080e876ee40cac3ced71c2431c78f6ed398f2b50f6af7053f414c",
+    "state": "RENDERED_DRAFT"
+  },
   "official_masterclass": {
     "document_language": "es",
+    "image_only": true,
     "media_type": "application/pdf",
+    "module_id": "ia-panorama",
     "page_count": 18,
     "primary_surface": true,
     "publication_authorized": false,
     "rendered_variants": 6,
+    "rights": "MetodologIA masterclass supplied by the owner for this local pilot",
     "sha256": "5df5533a29652184f492b2f797ecfa0f1fa47cdb682bfcefb8f30c96014ce402",
-    "source": "assets/masterclass-ia-nivel-0.pdf"
+    "source": "assets/masterclass-ia-nivel-0.pdf",
+    "tagged": false
   },
+  "official_masterclasses": [
+    {
+      "document_language": "es",
+      "image_only": true,
+      "media_type": "application/pdf",
+      "module_id": "ia-panorama",
+      "page_count": 18,
+      "primary_surface": true,
+      "publication_authorized": false,
+      "rendered_variants": 6,
+      "rights": "MetodologIA masterclass supplied by the owner for this local pilot",
+      "sha256": "5df5533a29652184f492b2f797ecfa0f1fa47cdb682bfcefb8f30c96014ce402",
+      "source": "assets/masterclass-ia-nivel-0.pdf",
+      "tagged": false
+    },
+    {
+      "document_language": "es",
+      "image_only": true,
+      "media_type": "application/pdf",
+      "module_id": "ocupado-productivo",
+      "page_count": 11,
+      "primary_surface": true,
+      "publication_authorized": false,
+      "rendered_variants": 6,
+      "rights": "cleared-local-use",
+      "sha256": "d728c9a2c7cfb91e9d669ce24137bc96c0b53aae2de295db44ad5997be232532",
+      "source": "assets/02-ocupado-productivo.pdf",
+      "tagged": false
+    },
+    {
+      "document_language": "es",
+      "image_only": true,
+      "media_type": "application/pdf",
+      "module_id": "trabajo-amplificado",
+      "page_count": 12,
+      "primary_surface": true,
+      "publication_authorized": false,
+      "rendered_variants": 6,
+      "rights": "cleared-local-use",
+      "sha256": "08b057fd1826ca0b5c3d085eb9d8efce7f1195a4b88f66c014208daa39232b2d",
+      "source": "assets/03-trabajo-amplificado.pdf",
+      "tagged": false
+    },
+    {
+      "document_language": "es",
+      "image_only": true,
+      "media_type": "application/pdf",
+      "module_id": "trabajo-agentico",
+      "page_count": 15,
+      "primary_surface": true,
+      "publication_authorized": false,
+      "rendered_variants": 6,
+      "rights": "cleared-local-use",
+      "sha256": "710cff50558a98bc587809be17520ad833f89de1066e2607a494bd9b6ee81b3f",
+      "source": "assets/04-trabajo-agentico.pdf",
+      "tagged": false
+    }
+  ],
   "outputs": {
+    "assets/02-ocupado-productivo.pdf": "d728c9a2c7cfb91e9d669ce24137bc96c0b53aae2de295db44ad5997be232532",
+    "assets/03-trabajo-amplificado.pdf": "08b057fd1826ca0b5c3d085eb9d8efce7f1195a4b88f66c014208daa39232b2d",
+    "assets/04-trabajo-agentico.pdf": "710cff50558a98bc587809be17520ad833f89de1066e2607a494bd9b6ee81b3f",
     "assets/brand/assets/Montserrat-OFL.txt": "8b7141c03fa4f8d44e6345d5d4931709290f0f67875e452e95ac1fd3a027802e",
     "assets/brand/assets/Montserrat-Variable.ttf": "0f7b311b2f3279e4eef9b2f968bcdbab6e28f4daeb1f049f4f278a902bcd82f7",
     "assets/brand/assets/Poppins-Bold.ttf": "983676516167748b74de6f4771fb384c664fd913acb8b471122ecacf5da5ea6c",
@@ -168,69 +366,141 @@
     "assets/masterclass-ia-nivel-0.pdf": "5df5533a29652184f492b2f797ecfa0f1fa47cdb682bfcefb8f30c96014ce402",
     "assets/method-a2re-compact.svg": "b07a0713a106f1f78491e54667b248ef6a790ce175b0a07ba2e721137e936393",
     "assets/method-a2re-primary.svg": "9bb51b15bfc473b4c43741ba1bcc974071d7ce42fc47245fd09d80ec6463d4d3",
-    "assets/site.css": "81db43dd7bfd9ea8d4e0c413c01c389f95fccaae2a6f2ca1bfa377f147cae464",
-    "assets/site.js": "e7f79ca9fecb1a977b8a9e207189c8b23c9460b6e7bd68636e8cc90d4edb069e",
+    "assets/site.css": "18ff9c52f9eb5af42b037bdd9a3b5240c5cab65eff246636a8e1a20369999046",
+    "assets/site.js": "da20fc831a7c752df397d2b3d7c7ff6a7de9429e8b8f2c410284582ef95beb89",
     "assets/team-daniel-zuluaga.jpg": "2b114074b2487d333adf7c5deccc0d722fb943976be5e7bb4cb2d1d6db425db2",
     "assets/team-german-sepulveda.png": "752dda8237655da262b31d1f8d9e3e31fc5afaee2d4c585461c32b1636a77450",
     "assets/team-javier-montano.webp": "4cac6ea8b4e303c1e0a27573736114f46ffb1b8783745d1ac1335b4f02da756d",
     "assets/team-katherine-oquendo.png": "233ee0b8cc197566933320ab52adaa181fe0265cdcb88450dc4ae71a8138f18a",
-    "como-funciona/index.html": "39520aa13030f4b3ced5b89951ab851bb20c7b89c7ac03b2faa8d6f0562729b0",
-    "convocatorias/index.html": "0b022c5a2223e9eee62a2fbbf03e1f1c612c0187d52e1e01ea1fee36350b4e6f",
-    "deck/index.html": "4d6fc26f5a091ff85f2d6e5ef7c074419ca3d809d6a4811dbb76d3d8e994d620",
-    "editorial-string-inventory.json": "3718408229d505f6919b7de9b3755c8dcc7b4bff29443b2f1a55eb93881e280c",
-    "empresa/como-funciona/index.html": "5e7365cc75d4eff831b01ba61c96cabe0e9fdb3967563a2448e12dc942d271f4",
-    "empresa/convocatorias/index.html": "db4af529550dcc12b3f9282e249d09635faabd52dbf0751a5486efa59f3f38ec",
-    "empresa/deck/index.html": "9f9ec488cdd45392db73859c4f1456d4a6b57c7f7db57f6aa7b3edebd370f5f5",
-    "empresa/index.html": "3d6063deb3b1225c3344a0f6d85e5ff44dd12e2ab991aae740c737284e0c12be",
-    "empresa/nivel-0/index.html": "34930013b053d6d1697e9102a21d476eca137768515d86dc4b4c68faff2d113b",
-    "empresa/playbook/index.html": "01076db93b3cc7c48c0c699166dbbe2a746b9c42eb35d0982b909a9b99ac4e95",
-    "empresa/prompts/index.html": "2fa5f8ed0b3415e168b1a437e62ee87856446e61efcc42a29aa29de2b5f7f529",
-    "empresa/recursos/index.html": "88d674c17f1729fe9a75730e691ee686f217eda9c36020460ca76327baf08945",
-    "empresa/workbook/index.html": "08d4a3f27eb88c7d3dcf03e660d2e18a0f6c638502c4f57f10c1c163f89344fd",
-    "en/deck/index.html": "7dc8e80ccc8afaf5fb0f755d8285103d5da01c5645c179801b14432ad09943d8",
-    "en/empresa/deck/index.html": "b89597307a5d7643b53229c37ce62ffbcd4dfffe202278adaeb92f84b23fe2f7",
-    "en/empresa/how-it-works/index.html": "5a354323b3aca83495c53d5c068f6688e5e6ddb80ab9e43fb8f6724880527f93",
-    "en/empresa/index.html": "e302402dd08e9e71d87022e03653afc1e3f1ff571700ee4d388f2ce3a9378ae7",
-    "en/empresa/intakes/index.html": "5a57ddc738a7230190ab5682301d61d415c36ae23e3b98a32e60595279c36c66",
-    "en/empresa/level-0/index.html": "e48de199ad27259b697b272a28ce5a10c2aff3aa75d69c9e616ff24faef73924",
-    "en/empresa/playbook/index.html": "d01c07227d969cea91c9bdd98b82c0773acfc7035733ddf680a2254fb3857ac4",
-    "en/empresa/prompts/index.html": "9342f360ce2906f8c79b23281aa6714d579426cdd5e399d28ab5fac597d57785",
-    "en/empresa/resources/index.html": "2ee9f9a118b759c201bd33a6b11151bfcf769778669a049748f7a646f53ccde9",
-    "en/empresa/workbook/index.html": "abaff6de160e92223db96c06eddd7c31e79417986a6b08dd33c3f73573496d65",
-    "en/how-it-works/index.html": "60a0f005048e6ec2351ea0ae79c5ad01c52cf0a09b17c9d9af5bb8cea8fcff8b",
-    "en/index.html": "fbb7e1c32c2559d867e979ab2b72ff4ce186a8e7ce4d293fea10a38995e0f587",
-    "en/intakes/index.html": "4764f3c2f3a4adef776c2923e4458da690144e50eee664f9ad5303619eaf78b1",
-    "en/level-0/index.html": "657f9e05bf362ed4684d87b6d503a7af1ab6d6d28b74c253cc44a3dbacaeebfe",
-    "en/playbook/index.html": "4fa44d4b225f754e29f245f910ddd01b5c0a2d0a9c73ce4be9a040634e7c4e73",
-    "en/prompts/index.html": "df667860423d6f1b4ae5875b34def045f24e325b5c467cb50741a20aa920bf2b",
-    "en/resources/index.html": "7a7eaa5cd6eb6ec498043900f05175a99e576dec81d4bebd75f271dbda7f3cf7",
-    "en/workbook/index.html": "9be58f45ea72312efc67f5cc9743ef62b1c5f81fc039c4c196d95909c41f307f",
-    "index.html": "8e45e18b20f0691a324f7a7d6b5310fff05733fa29b777a46fc0dda632c65473",
-    "nivel-0/index.html": "7cd2021474a1f36e76eb18e61040043185bdc6c9b0d7d59e056e8e655b939a80",
-    "playbook/index.html": "5e7c0b5b4ac6db64d5714464b96583093115a056ddbc40def052ed54a1d17f4d",
-    "prompts/index.html": "11a1d119a4429159ecdc375ff1856c4d338d2a2471363bad4a83cbd0ee8f3c1f",
-    "pt/como-funciona/index.html": "f66198d34a2354a06eb08ce7df1fe2a57f05f39b21b97f408139c4c937264c00",
-    "pt/deck/index.html": "c16b5b28544f99727dc40800e60c29e98ca616e5fbe7d87349cb5e06ba6ed0a4",
-    "pt/empresa/como-funciona/index.html": "84205d881a002ec985d4c6f72eafb298c293dbe58c3e2aea929f1c6309653480",
-    "pt/empresa/deck/index.html": "b4c48e283a0c9372a6c7f13cefbb1f66569ed994c3c6eda4c635dbd49fa2e8b3",
-    "pt/empresa/index.html": "34c60f5b614064f86fe6a7c0afa9488e3a4a2b94d620112517226f8413ca7c4c",
-    "pt/empresa/nivel-0/index.html": "230f668110cbbbb15ffed2e43ea2c54354fc9886294d3a45c9d8fb9201d7b2ab",
-    "pt/empresa/playbook/index.html": "8a5d8a2b8ee1db1dc3155ec87f1e2098a8c4830463e7366acd741053f87bc8a8",
-    "pt/empresa/prompts/index.html": "187ad186a62c33a2e5baebee624059b60a6c15b11138cba61e98ae92a4639139",
-    "pt/empresa/recursos/index.html": "17a63f8a067fa4407e89c1a9e36ea061de57e9c90f4f01ed5a8393d8db267498",
-    "pt/empresa/turmas/index.html": "08e4da4c80d9214042dfe776299ecc776e5b7763a78ebd7f4245437d6e08ceba",
-    "pt/empresa/workbook/index.html": "5be5c1e153e98a8b4ada1dd9b8bd53de77db1a568ca0f19a7558c69b76d429eb",
-    "pt/index.html": "2a741598e807610694a77a27a8328fe16d040e4cc3d84f22186c23a3fe0be3d8",
-    "pt/nivel-0/index.html": "46e7e5a5e1c788bd0caa45cfe3452d6967cf29183f562d7d0d21e168129bd655",
-    "pt/playbook/index.html": "6392b6fefba62fa15228d925e8f946b2fce3bf8a57935b428b45cc105e62ebc7",
-    "pt/prompts/index.html": "8574d5dc596290e476532360d548479dc8d77aba4bfa39272780efed27cd01b4",
-    "pt/recursos/index.html": "1d0e10dd0d0634d4043ae096b836a8c56ce374187edf643443e8fe78b63851ad",
-    "pt/turmas/index.html": "07b3a8c7078acd8ff24ba140c07701f378be727630b9ce2ec8cf586485d64469",
-    "pt/workbook/index.html": "5dcc75856bad2e091b1b731b94f38d6e690fe45cc76553336b53a8b74873121d",
-    "recursos/index.html": "e3011ac1cc2034931a08a25e24042ce279c92a8ff89bcb07efad74baa8e88de8",
+    "como-funciona/index.html": "e04390bd3ef0990d320ecbc488b9515f2d576398ac6f53fbc43c80307a505f6f",
+    "convocatorias/index.html": "a4839b21a9201d10faeea729bfa7e9be3bab0bdd91b3f1d9c8dc66d62e4dbc34",
+    "deck/index.html": "fa8f82fefd014e7a951503c139126eafaad9e597c75f560e21b23c62778ce899",
+    "editorial-string-inventory.json": "fe8d517e6b74ee25916c1ff7a657c27bb1e193ba1214f6ffc7e037845f6563a1",
+    "empresa/como-funciona/index.html": "b668732367bbb50960ca95cf53500c920a8c47ffe9bfede5431a3348f952d36c",
+    "empresa/convocatorias/index.html": "f17a101e8672764d0550f5e039822f97547c2c1ae982cfb59551a7176c5c5dca",
+    "empresa/deck/index.html": "83c1cbb201895c65ac70d71333ddd8f0958c1c6f3dc082232a0e4c86954544ba",
+    "empresa/index.html": "276eb35ce7f7f7da0f03b0bf4a14e3d6cb985d9a8015385991bade4a77368945",
+    "empresa/modulos/02-de-ocupado-a-productivo/masterclass/index.html": "e9f863dbcf2254c93543599dcd59f0a22b860d2d4983f50cf150c65fc273ebfe",
+    "empresa/modulos/02-de-ocupado-a-productivo/playbook/index.html": "e9fd8b2eabb3fb9f51b1577f685c03343519bf8aafd11fed1804be9668d21946",
+    "empresa/modulos/02-de-ocupado-a-productivo/prompts/index.html": "d29a144875a1bc6320ffb6a678812072983f4a2ad30c740e6c54eda74029b2f6",
+    "empresa/modulos/02-de-ocupado-a-productivo/workbook/index.html": "bbcff19d8b396f4a866579d8b514e0e575a2beb3a02ea17c1e22dd656266f9b3",
+    "empresa/modulos/03-trabajo-amplificado/masterclass/index.html": "342122a35289bad3b657fc3f68f6ebc1a05bf49d7fb6f4d0437b2eba58ddbe41",
+    "empresa/modulos/03-trabajo-amplificado/playbook/index.html": "4a52065c8fc23c7ac2afdab0f6249fa7d00a2be36bdd75eac32d941026ca61dd",
+    "empresa/modulos/03-trabajo-amplificado/prompts/index.html": "facec2b780649a0055c03bdd668a0c78f2115ed1e80ef83bcb91edc7cf133169",
+    "empresa/modulos/03-trabajo-amplificado/workbook/index.html": "c8bbc802678a4c64a021ad65cf49d73aa426721c1ee2953f24443fca77d1f52e",
+    "empresa/modulos/04-trabajo-agentico/masterclass/index.html": "3bec48c3f0c9f2536b164322f515e99881d02a94f463156c605d7b442d5ab151",
+    "empresa/modulos/04-trabajo-agentico/playbook/index.html": "04d3ee37ebb313b3528bc20e24e3516787c0343ff4e114698d1c01875fd79092",
+    "empresa/modulos/04-trabajo-agentico/prompts/index.html": "5d8582c825dc2435e0685042e4cfe51c0d012a58d447572e23950a558b8eaa9d",
+    "empresa/modulos/04-trabajo-agentico/workbook/index.html": "7dd1df3e5a00490ce4f26b0fa7e0c21793179d9e066f1c8f9ddc47185c66c1b3",
+    "empresa/nivel-0/index.html": "0ee3b7f6ac15b836a15406daf39e3f17e46ca450c2de8ca2ab99d197fdee8443",
+    "empresa/playbook/index.html": "0a11b07be42fb63b0c2c4c333de950076270680983a6bf17f6237f60487845d3",
+    "empresa/prompts/index.html": "12bf6db7cc2583692c2aa9107c6c9360cd728abe10d5d3b27798cb916b6ef1cd",
+    "empresa/recursos/index.html": "535c38c58f46841652f248d6f7476f9d7ce4553962209a265d2dcc216fc37595",
+    "empresa/workbook/index.html": "85a6a90a925131582ec4c4d8bf5ffa7fae0694f8fc982810e5188f5312720637",
+    "en/deck/index.html": "255efd9b6bb22869fa8dcd9f5739f6bf9dc5f4bf33f2752e4c86434a3d8094ca",
+    "en/empresa/deck/index.html": "a5bdda49d7e827c75e74f03ddcbf2b1f03b314b546cb17116d5a5b7c9a578af5",
+    "en/empresa/how-it-works/index.html": "65cd1419192eb3ca03baa6ee92df9ad8c4a3477ad96ddf7a913a14c3228b030c",
+    "en/empresa/index.html": "6075a594df17334ab3440929d069d489450874bb1f8d7831025dd25921f53a34",
+    "en/empresa/intakes/index.html": "32107418d6263a78ec1226ff2e40bc44ef540737841dc93dea4aa4f18540626a",
+    "en/empresa/level-0/index.html": "8158a6a636626e3c6007758ed82f30f8d5c5360f27b6306b7023fa795ab8df78",
+    "en/empresa/modules/02-from-busy-to-productive/masterclass/index.html": "62d72df677400c30e9b982200e8d68c89bb8e9409cccfba18fd1ff0c319f154f",
+    "en/empresa/modules/02-from-busy-to-productive/playbook/index.html": "05873779992281427b75218dab99dd105d2d41af11f22b830ec8ba8959eb4830",
+    "en/empresa/modules/02-from-busy-to-productive/prompts/index.html": "756d3c46f8a4e22ee0a979b3ee151fd6bd5ec3e0881f1b3c266357c13f02f5e3",
+    "en/empresa/modules/02-from-busy-to-productive/workbook/index.html": "81a67e4d0ab637ec5f8ab888a75010560cbe0d7563c18b55f5e7a2b828917980",
+    "en/empresa/modules/03-amplified-work/masterclass/index.html": "fcfa5089dbd91998a92676b280c952669f75af506aabcc1284944ef3977cc413",
+    "en/empresa/modules/03-amplified-work/playbook/index.html": "00c4981e2e3379658cda9e65d8d4cfd4c5c473f81f8ad1a841a4e30e967a437f",
+    "en/empresa/modules/03-amplified-work/prompts/index.html": "4afd3fb971b17b4694f425b82a146c113000c7d9c160345001bace3b202950ac",
+    "en/empresa/modules/03-amplified-work/workbook/index.html": "6b43231213be33dff596fb7898f8f1d0987aa32b277eb1278f3e8ec8715fb718",
+    "en/empresa/modules/04-agentic-work/masterclass/index.html": "4d85eb1ee22a433e6db98ef08229850a3ee4b3c36b4fa1bda8037c2bfc51d360",
+    "en/empresa/modules/04-agentic-work/playbook/index.html": "37cdbb0cfe9217123184cee1159c6301bd1376c16529e10ed10fc83c7bff1929",
+    "en/empresa/modules/04-agentic-work/prompts/index.html": "6aebfca71b52477317e1a32cf98bc7b57e0fa2d582e39e1505c3748b22467a4f",
+    "en/empresa/modules/04-agentic-work/workbook/index.html": "5028526847c6de4d99095026e3017661933ee33dc9a1e0f1c620a61b5431eb87",
+    "en/empresa/playbook/index.html": "e5af9eb93deb4040d077ab33c955d3e5c8b215dfdcf6c6ba4685f14cfbd2b6a3",
+    "en/empresa/prompts/index.html": "89b2c66f14ebd308adcb7af05ffb325f6da0925619021e8f599ad11a6ad428f9",
+    "en/empresa/resources/index.html": "2312aafd1361a57135a045a48c26714dba2106c68d72b76794b6c69424682b20",
+    "en/empresa/workbook/index.html": "0a8159e1688c7026d16b033fc920875afaa162e2acf0bab9e730d64fc775d892",
+    "en/how-it-works/index.html": "b333718aa5da27e791bfaca73bb7360dc39f9b92f9e7401f5eddc9188b4852d3",
+    "en/index.html": "93fcce25700182375ebb208e4f2ecdb6031d5ed34bb985f813a1fb8f1c5f1851",
+    "en/intakes/index.html": "cecfabc3c46be7657501be5fda713afc1288972da7eaf3fcb3d05a3b8eb347c9",
+    "en/level-0/index.html": "34cf77641f8c87029210b49c8f3a50d5a139c4ad7fd4bfd8b050adb69d50ab9b",
+    "en/modules/02-from-busy-to-productive/masterclass/index.html": "d09d751da119ecb1873ddb735df40cf48afc2e22dff7cb8772f1591b28ed22d3",
+    "en/modules/02-from-busy-to-productive/playbook/index.html": "26d8ac3ee79b5722e11119bd4f3b6b3e11b6bdd7594c9a62592fcc378d98a678",
+    "en/modules/02-from-busy-to-productive/prompts/index.html": "dac12b0270b9acceeeb366729e48378da6fd982ee77199eb5189ce7c49b8d469",
+    "en/modules/02-from-busy-to-productive/workbook/index.html": "807169b7c9c21ded6e55de2505c52f4c0774b397414b0430cbc284b89b6f2087",
+    "en/modules/03-amplified-work/masterclass/index.html": "ea3e6fd090b82bf9c34a8ef660d7ce6ba0adacfbd43e8efe3068ea11b22bc034",
+    "en/modules/03-amplified-work/playbook/index.html": "5aa12a7993cc98c80c1a985991b302f7188e62d3bb36419267fa9c5bf532bf08",
+    "en/modules/03-amplified-work/prompts/index.html": "c1de2da2f289518d45d7b1e10bfa793cb6c55c96b19a7e85de5734057f601148",
+    "en/modules/03-amplified-work/workbook/index.html": "14ac7a343ff50bf707d73c8f25f8d223c60fba77ac4c3ffa60980436e3473c9b",
+    "en/modules/04-agentic-work/masterclass/index.html": "c1d146cf05e85fba55ffb5db382fb900559491196fa921aef963f10109150100",
+    "en/modules/04-agentic-work/playbook/index.html": "b4cf1f482fdc24df7221fa31fe6d1aea162a2833f7a0e870eee3d1d6b9aa823b",
+    "en/modules/04-agentic-work/prompts/index.html": "84ec943160d7d0d657595864547d0f50315bbc57a2b61a61c8ae98c6984c169f",
+    "en/modules/04-agentic-work/workbook/index.html": "f0029818faed030d73ece41872e8e9a20e4bdea54873379a8f336359cfdd00f7",
+    "en/playbook/index.html": "85247d479adf56c896f34e6491f7a15e04c3af6ed1803d3de71365855d017388",
+    "en/prompts/index.html": "b509b73c55d253cf414d05e4997c73ab6d797761204e7bad3d208bb3bf652f20",
+    "en/resources/index.html": "662c529b70b2e967ab9527e741c091fe6d0fe4f3a738f97b60ad03483044a96b",
+    "en/workbook/index.html": "8d7de31f0fc4c5d3f0be6aaddcd7d2796843092ecd8d50991b719f25c2d88c0c",
+    "index.html": "89b82b43581dbb22ebaec69924040ef7637979219d25ef110a609f22c310eeac",
+    "modulos/02-de-ocupado-a-productivo/masterclass/index.html": "76047424038b6252e6a4c776da0b7a35e4ee036d3041f4c0199b927d983b9fb1",
+    "modulos/02-de-ocupado-a-productivo/playbook/index.html": "22b4e8ec00c918dc185d6dabb9d64b3d0d722409c9e046eab747a72affeb7dfb",
+    "modulos/02-de-ocupado-a-productivo/prompts/index.html": "eddb69fbc8cd8a8e6409d6dbfa10e5406268f22a23f5411aef45a2a7004c81dc",
+    "modulos/02-de-ocupado-a-productivo/workbook/index.html": "c340afdb3b24503d4cb9c3155af65c9155fde5c409f5e058a1c1b662ec668367",
+    "modulos/03-trabajo-amplificado/masterclass/index.html": "566a90b564181068d9b233130342bde4a200bbb933de90c30ac2789bdb8ee7b2",
+    "modulos/03-trabajo-amplificado/playbook/index.html": "2b3017df8e35927fe207669635ca0d3259562d6093a49c0207a7ef428f7a2005",
+    "modulos/03-trabajo-amplificado/prompts/index.html": "8565ef609b4aff81d69be5dcaa6fcf87d68101b25b9c8c9392714d35b5b20ad9",
+    "modulos/03-trabajo-amplificado/workbook/index.html": "29c63d52c975a5c366f18e5c4c2f31137d87213b6d0d10ff0413420535ffe42c",
+    "modulos/04-trabajo-agentico/masterclass/index.html": "ec29e3ede1c1cd770a02d52599433c39932917d216325c67a4a149eef17a8236",
+    "modulos/04-trabajo-agentico/playbook/index.html": "f165f40a81b1aa1dc18597a250e55a50e33faf8872a043162cd06483044d177c",
+    "modulos/04-trabajo-agentico/prompts/index.html": "2ceec1fe5485055e0e1ca7a79abbe0810192c8c5c5f4efe095805ad31a36e3b5",
+    "modulos/04-trabajo-agentico/workbook/index.html": "4860cba6e0d78237fb55b30b920273c18d04fc38b3840a687e32d0adffc02bb6",
+    "nivel-0/index.html": "f573a8737f816059741e31149e4f24a5648b440c48d3bcfd65e87d40393ff231",
+    "playbook/index.html": "53b224fa7592b87b51d9c81c3fbd150f3bd51e099f8e6c8f3d5fa657b0a92241",
+    "prompts/index.html": "04c4f68d279f2824e2dd9c61a9518e9d77f7b1dd449ea652cc386af87ab7838a",
+    "pt/como-funciona/index.html": "ad9e3c287c6e2bf038e5c1040c61670a54ff7f902c609b5ae8cbba9160338e66",
+    "pt/deck/index.html": "e1b8afdcc0f160e84b6d343ee2ca2efbdb02afc176cc3b8469fe5ff4435b021b",
+    "pt/empresa/como-funciona/index.html": "b972b60d7f0928825259b6aa72c19356e849108a63d9d59830d434bc4b549cf6",
+    "pt/empresa/deck/index.html": "7aa8a24a3ece9cf971f5a932dd4f23a92a1209305d4e05bc3fc41c08c0c446b1",
+    "pt/empresa/index.html": "648f08b0b229b4cafde0197d5ac29a7534614c8f611e9fa6271d20ccb14e5d24",
+    "pt/empresa/modulos/02-de-ocupado-a-produtivo/masterclass/index.html": "94f3a9922069b9239051a3445af63bd91a78f81ffa3998680e3f57d24f9e5d7a",
+    "pt/empresa/modulos/02-de-ocupado-a-produtivo/playbook/index.html": "35da5e06f178817acbe67ac3ba3bf2133f084de1083922ef774000c86b11831c",
+    "pt/empresa/modulos/02-de-ocupado-a-produtivo/prompts/index.html": "e27e6184712089568be31c3cf77ddd507d8e992cbb67ea21eefc5dc19bf86173",
+    "pt/empresa/modulos/02-de-ocupado-a-produtivo/workbook/index.html": "7a6d4c6cc809efff488bee70d8b77678b2883dcbed62e9ef150d6a35d2c99a54",
+    "pt/empresa/modulos/03-trabalho-amplificado/masterclass/index.html": "5c8cc03bcd68b83cfcbfa8334ff018235fa072e3934832ee1691e2b903c108a9",
+    "pt/empresa/modulos/03-trabalho-amplificado/playbook/index.html": "d794b8d6fea1fd30a54033ea12c46b6b6f233c7c1003443c4f6955166f84e972",
+    "pt/empresa/modulos/03-trabalho-amplificado/prompts/index.html": "a083ab5daef3ccc17b1592f378633b8c9556871d251a6d6652258f1af2976ba6",
+    "pt/empresa/modulos/03-trabalho-amplificado/workbook/index.html": "f15098be076f694a912545e3209130097a45f1a65a9e75937c4c0110a0a0626d",
+    "pt/empresa/modulos/04-trabalho-agentico/masterclass/index.html": "1f897507ffa5e2c9df85c011cad48b21896de1cf1c54877211d5773db0955e23",
+    "pt/empresa/modulos/04-trabalho-agentico/playbook/index.html": "fdf055c8e39fd0dcd09672afb5cf756baa94da6bbb187a07b4159c59a5149ae8",
+    "pt/empresa/modulos/04-trabalho-agentico/prompts/index.html": "1166780e9c125fe78b7156e4f4764a7ccce0eb79e6a62ee65f25c4d2b1fb8e1a",
+    "pt/empresa/modulos/04-trabalho-agentico/workbook/index.html": "ec8345ee26cbd2c1c1cf94b6fd5b0ce58682cf695ee85c14c96c8880bd1c0b7b",
+    "pt/empresa/nivel-0/index.html": "75ee9ce1196f9ab7e422db430dd20bf81ca21f05280531d97900954a718ba77f",
+    "pt/empresa/playbook/index.html": "dd7eda0cbfb833995c4dd773b9952eeaeeef4dd60a14075bbb917998e2f91ead",
+    "pt/empresa/prompts/index.html": "8ccf4bd0849fe38dd44b82de00c5cfc4e8ed6bb4175ccde8b9cf5f955bd56c30",
+    "pt/empresa/recursos/index.html": "d921bcbe2f629eaeb18e68bbdbd1ba2beb2fc485379e74b1936e824108dc675b",
+    "pt/empresa/turmas/index.html": "d94d39bc8a12972368836d8afe21dfe5c6e4ddc55396246ab632edb739e88f2d",
+    "pt/empresa/workbook/index.html": "bce3929c9651a1898e335daa337713e34a5754e0eefeec91507f718d47b4f727",
+    "pt/index.html": "0dbed6f3b7e0f4ef132924dcac240fba9edfa676ae5c4f17d879fec4ffb33e35",
+    "pt/modulos/02-de-ocupado-a-produtivo/masterclass/index.html": "d04442f4481f7f9221f0f33624ac3060766612c2426b69d35ef2f0c385e49052",
+    "pt/modulos/02-de-ocupado-a-produtivo/playbook/index.html": "6d9a113a9fd6afb60f6d9f4642c6143ccffbda64e78123c06be7c7e004cc56b7",
+    "pt/modulos/02-de-ocupado-a-produtivo/prompts/index.html": "0f11ffed1d798b33624c849610d18d878f65d1471eed4974f79500589277987c",
+    "pt/modulos/02-de-ocupado-a-produtivo/workbook/index.html": "727b2b2268eaf401217c5e8bfc564cf9ff309beb97ed51e74455c5b2e65f9305",
+    "pt/modulos/03-trabalho-amplificado/masterclass/index.html": "9660ea5ffe1cacec1709b7c663a3868a082e6cf7d6c62f9f5a48d9d24d5461d5",
+    "pt/modulos/03-trabalho-amplificado/playbook/index.html": "62ba2d1a7e8aeb3271a6db397c7542b22e9ad861c7c90b7811e23e01f913c2b5",
+    "pt/modulos/03-trabalho-amplificado/prompts/index.html": "e50411e2e71579e230b3b54a31bc447b9ad481924ae71aa7d4669bb1fb294936",
+    "pt/modulos/03-trabalho-amplificado/workbook/index.html": "c518e1baa867241eea7f0c9c1a8d6000b6409e5f16d1db1c686420f64059ce4e",
+    "pt/modulos/04-trabalho-agentico/masterclass/index.html": "13d8242415b024998457a877cbaffe3e71e49a041d333ed8516e1d0a05fb54d2",
+    "pt/modulos/04-trabalho-agentico/playbook/index.html": "8fe182536ea82eca3daa654f3b4738999ddab8c543f7286be4f3c53c34aaefb0",
+    "pt/modulos/04-trabalho-agentico/prompts/index.html": "f78988eb9cbc6b30ccd3fb1d8aa247c2d1762d28606ef9b175d834b3952f0c0a",
+    "pt/modulos/04-trabalho-agentico/workbook/index.html": "c4f2dbf849f083de5fc676dba43a98d0bc3518d8baabc15c45ef11e7db21259c",
+    "pt/nivel-0/index.html": "0f2a62e01cb633acb1e7bc2a1699064680ff77275df69090487e0fa28aa91c11",
+    "pt/playbook/index.html": "e05be4fb771d789afed5876098c1ac1ff24ed4b7319ecf30a3f511c7696bcb30",
+    "pt/prompts/index.html": "89198dab404b3d918206d8eee61bbec83c0558f1b776101bc643dcb4269a6277",
+    "pt/recursos/index.html": "d0387a42596f8fa54676a8573d89868a66f4fd95d980b4507d3e527e2c8603f0",
+    "pt/turmas/index.html": "b01aa38f889ba13ce1f0ada6527a55afc5c88f5525bc41c83ba10c26ff8c0137",
+    "pt/workbook/index.html": "cf8b1b0619d3dc11756619ff95a0bea52d3a1941217c9bb13cee15ca4a79d981",
+    "recursos/index.html": "4278d022ab84fb946b51b7258acedcef333ae8b4edc1419c73e845d114fb30e6",
     "robots.txt": "798f7b5ccc24fcd5203507ff947b904d4cb70b14aa4e410d0bb55cb42368565d",
-    "sitemap.xml": "f60f16949daa726fd155aa1f6841f748b0c3e98c0e39278bfc8bdb3623e50df6",
-    "workbook/index.html": "f68db9f35304759ff27e94c30df2e5cc8b6bb2bc846b9fc7039e187bed78e036"
+    "sitemap.xml": "8466d53af12c4786c7daccb7c7c4854281bf66db2b058c3dbc5329d5c84c9685",
+    "workbook/index.html": "ed1245d57e7ca887c8fd562b2b092d7097205d8103ccbdde1f0d250fb718ec8c"
   },
   "prompt_library": {
     "anatomy": [
@@ -250,50 +520,254 @@
       "source_sha256": "64baf1e2299faaca3ff6a89d11dbf92a07be946224960bfe1b60370a9e70753c",
       "state": "RENDERED_DRAFT"
     },
+    "notebooklm_execution": {
+      "last_verified": "2026-08-28",
+      "official_sources": {
+        "chat": "https://support.google.com/notebooklm/answer/16179559?hl=es-419",
+        "source_search": "https://support.google.com/notebooklm/answer/16215270?hl=es-419"
+      },
+      "publication_authorized": false,
+      "routes": {
+        "01": {
+          "handoff": "chat",
+          "launch": "source_search",
+          "mode": "deep_research"
+        },
+        "02": {
+          "handoff": null,
+          "launch": "chat",
+          "mode": "selected_sources"
+        },
+        "03": {
+          "handoff": "chat",
+          "launch": "source_search",
+          "mode": "deep_research"
+        },
+        "04": {
+          "handoff": null,
+          "launch": "chat",
+          "mode": "selected_sources"
+        },
+        "05": {
+          "handoff": null,
+          "launch": "chat",
+          "mode": "selected_sources"
+        },
+        "06": {
+          "handoff": null,
+          "launch": "chat",
+          "mode": "selected_sources"
+        },
+        "07": {
+          "handoff": null,
+          "launch": "chat",
+          "mode": "selected_sources"
+        },
+        "08": {
+          "handoff": null,
+          "launch": "chat",
+          "mode": "selected_sources"
+        },
+        "09": {
+          "handoff": null,
+          "launch": "chat",
+          "mode": "selected_sources"
+        },
+        "10": {
+          "handoff": null,
+          "launch": "chat",
+          "mode": "selected_sources"
+        },
+        "B1": {
+          "handoff": null,
+          "launch": "chat",
+          "mode": "selected_sources"
+        },
+        "B2": {
+          "handoff": null,
+          "launch": "chat",
+          "mode": "selected_sources"
+        },
+        "B3": {
+          "handoff": null,
+          "launch": "chat",
+          "mode": "selected_sources"
+        },
+        "M1": {
+          "handoff": null,
+          "launch": "chat",
+          "mode": "selected_sources"
+        },
+        "M2": {
+          "handoff": null,
+          "launch": "chat",
+          "mode": "selected_sources"
+        },
+        "M3": {
+          "handoff": null,
+          "launch": "chat",
+          "mode": "selected_sources"
+        },
+        "M4": {
+          "handoff": null,
+          "launch": "chat",
+          "mode": "selected_sources"
+        },
+        "W01": {
+          "handoff": "chat",
+          "launch": "source_search",
+          "mode": "deep_research"
+        },
+        "W02": {
+          "handoff": null,
+          "launch": "chat",
+          "mode": "selected_sources"
+        },
+        "W03": {
+          "handoff": "source_search",
+          "launch": "chat",
+          "mode": "research_brief"
+        },
+        "W04": {
+          "handoff": null,
+          "launch": "chat",
+          "mode": "selected_sources"
+        },
+        "W05": {
+          "handoff": null,
+          "launch": "chat",
+          "mode": "selected_sources"
+        },
+        "W06": {
+          "handoff": null,
+          "launch": "chat",
+          "mode": "selected_sources"
+        },
+        "W07": {
+          "handoff": null,
+          "launch": "chat",
+          "mode": "selected_sources"
+        },
+        "W08": {
+          "handoff": null,
+          "launch": "chat",
+          "mode": "selected_sources"
+        },
+        "W09": {
+          "handoff": null,
+          "launch": "chat",
+          "mode": "selected_sources"
+        },
+        "W10": {
+          "handoff": null,
+          "launch": "chat",
+          "mode": "selected_sources"
+        }
+      },
+      "schema_version": "notebooklm-execution-spec-v1",
+      "source": "src/notebooklm-execution-spec-v1.json",
+      "source_sha256": "92cc587b975dfceec4726d2a044088b08397a37353c1c2e7d2d7817bbb36fdd9",
+      "state": "RENDERED_DRAFT"
+    },
     "prompt_contracts": {
+      "artifact_labels": {
+        "artifact_count": 27,
+        "fallback_policy": "forbidden",
+        "locales": [
+          "es",
+          "en",
+          "pt"
+        ],
+        "module_artifact_count": 78,
+        "modules": [
+          "ocupado-productivo",
+          "trabajo-amplificado",
+          "trabajo-agentico"
+        ],
+        "publication_authorized": false,
+        "schema_version": "prompt-artifact-labels-v1",
+        "source": "src/prompt-artifact-labels-v1.json",
+        "source_sha256": "039c71f24965298e0763f37b4e7ce2cadec15bc39535efbbd773243b71c626d0",
+        "state": "RENDERED_DRAFT"
+      },
       "contract_count": 27,
       "fallback_policy": "forbidden",
       "intent_authority": {
         "publication_authorized": false,
         "rights": "MetodologIA governed contract; no long-form third-party copy reproduced",
         "schema_version": "prompt-intent-authority-v2",
-        "self_sha256": "9e43b4826ef76b63c9fa1cca25ca29a9fd02510f07149680d967e49d9f5b4b86",
+        "self_sha256": "fd8495b10414afccb8e6f26fff8e713cbe3a819429a16562a77c4093a4e8d0b4",
         "source": "src/prompt-intent-authority-v2.json",
-        "source_sha256": "52bdcdd85faf0e211f3672bf1b86a41344bd567f3b0f715484eb165ac154e20a",
+        "source_sha256": "4c2eae3eaa1e5395411bd543d67cad279b907b7c6c68d23de078b63df1bba5cd",
         "state": "RENDERED_DRAFT",
         "status": "frozen_phase_3"
       },
+      "modes": [
+        "template",
+        "demo"
+      ],
       "publication_authorized": false,
       "rendered_cells": 162,
-      "schema_version": "prompt-intent-contract-v1",
+      "rendered_prompts": 1296,
+      "routes": {
+        "library": [
+          "01",
+          "05",
+          "03",
+          "04",
+          "07",
+          "02",
+          "06",
+          "08",
+          "10",
+          "09"
+        ],
+        "workbook": [
+          "B1",
+          "B2",
+          "B3",
+          "W01",
+          "W02",
+          "W03",
+          "W04",
+          "W05",
+          "W06",
+          "W07",
+          "W08",
+          "W09",
+          "W10"
+        ]
+      },
+      "runtime_sha256": "da20fc831a7c752df397d2b3d7c7ff6a7de9429e8b8f2c410284582ef95beb89",
+      "schema_version": "prompt-intent-contract-v2",
       "self_sha256": {
-        "01": "8cc447ca3db0605b3c1ed7441047947d2b136990b53d8cf7c9d66a6854e8561f",
-        "02": "f73408124e6f644b5df67aa1a133d25ea47878e54f7616b30e1b641068306363",
-        "03": "8b9fe1f79ae0f8ab50865d839492d545661f16abdbc93769f82f0d80eb9c07b5",
-        "04": "dbd234e9eec76318f6176acc03aaa2002cc73163992d7b0b84e59f76535ebb84",
-        "05": "c231f0bbbfdd787f07886ff41029379ab06babcb6cd8989143f7e71f5a029f18",
-        "06": "288c3ad3a865662e42c5b82c53e3a3c3106f31dc829ebd2c819b9bfed5d461af",
-        "07": "b11bec539a07e1f679f7bb876cdac1050e7570312cd4af74ca7e4607cfc124ec",
-        "08": "3b8df4aa27f1d3d776ccbda0eb8f394d80e742eb8f5ec371b2c3e98e51ee85c0",
-        "09": "e47bb261ee7e62d3f6441dd07fd1d3a45c1ad523c5afb4e2e3c68511e582123d",
-        "10": "85d2f4ed5e47ef88c2e4bc186940cf8505f2f5d760e3cbfde48be3742ceec012",
-        "B1": "acaa5821397bd773544377d29fef4e14db2e25e4185629e45dda8bdc5a8e2939",
-        "B2": "890638b0c9059d38c7da1dd1217b4549e79b5ae42ef64bed5b6adf078187c65d",
-        "B3": "58da67697f6d26097ac68700466b799ce5042f3c37a605b63abce0851653bff0",
-        "M1": "479ae1e298f2dadceb91b6e627f23bfafa3f1eb06c1054ed0772c40aad102c33",
-        "M2": "ec909c7c87957964b94466029629af10e2a6f295358b4be06a4d55b8bfbf2121",
-        "M3": "8b1d95d34421d38db5fc2615200e529669daa34995580a371efe69c0ab934d00",
-        "M4": "597f85515fb1910d3c6ee9cbee4efb4206c1ee1d3b798600143fc3bb157b4c73",
-        "W01": "8f22a5673c3d13fb8f6a3b8dbfa6cb949d059db6e84d29cd8dd45fd85b4325b4",
-        "W02": "4f1ed9a3c3a883d9944dfb2e51bc1973a35448692f25a9e9a2d0ff8dde6bdeec",
-        "W03": "80ba930bb56414601dac27dee6422741058274496ce569f2025da7780a237bf1",
-        "W04": "6da69842adcf34a0fc672fcdc18d5d2fc077b9163be6703769bcc73cc69d806e",
-        "W05": "0d87be0438195edea50133f41f4b4321cc6006ab5511b5942e56a83f06b353e5",
-        "W06": "fea00c74d3e261dbcc94f8f77cbf88b1ad54b35710d3d47b84e023561a0c321e",
-        "W07": "ffa24bc022572c83d673df328bb91fa7efe08e0c6c09208f06ae5738753c1e81",
-        "W08": "063eb9a4c107b003c243fc4c86333c1bcf3a0b52e2a9f5944f388440b1f7a350",
-        "W09": "5484a7d663d4176790faaf2fe51e888b32ca36a02a99ef75a8852f3fc0b9dd76",
-        "W10": "67baff3c539bd2794652e4cfa49ee4b10364a228de381d9ebae291059db7b6bd"
+        "01": "9b176eb85561b23e7c90e2f405b8130fe5e4a0631d6c048a3a05c2fa5b5b427c",
+        "02": "371b5b8a700c9dfa75e1dcaf1774136df0579d3aeb03eff21ab2b54731bad74b",
+        "03": "373602755437353946223c83480f0f1e5f1b0170bcc2d7e65cafe74a162169fe",
+        "04": "9eccb14ed4a19b94c15c7fa892408915aa51b9f8ff13b887d2ce96280c1eac0a",
+        "05": "ea629704313b0aee25376f82f8979a47267417ef087329a21987c5284a10d685",
+        "06": "0acc6a54f8589785aa72ce840faf8e26460b5417fe80e44d02121a98e8af03c2",
+        "07": "9bb117c049802c52ea315f7f0971f4feca675ad0bad3eabe8e14ba4200ad0dd4",
+        "08": "b843c632d9b8ce7b670e8f3e71e2dabd9bcc82087581bc9b5ca4bbde8918f3f4",
+        "09": "d845a1b59469146ee8cdc1641c4af36a6653c12c1778ca56c8b16a5f769a1f2e",
+        "10": "93a2171ef84e4110c5fa52962c87cca2073e3ee9330702cf4c354dcd56abd724",
+        "B1": "9c459f4464275948b1b405663afcc842e25ca6fb3e23ad70f4d6d9591378a408",
+        "B2": "3af9464420304df907bca1fdffaae72146aa84c8014bfe5af1e1f43a6e630160",
+        "B3": "6e950c77454aa29d1c7f4c848ea094ee79aade31ccb124402f45f2c2a9de4380",
+        "M1": "9186290e48deea29cf79d4eb4ae3898c6e16b8e2997c7df14cd298de4ff2ad60",
+        "M2": "2f13eb2bf7ba4bd613742a856e7d59f2267cc4ab8a9b8d9555aa4dc9a710ddb9",
+        "M3": "63b66163786d9cbdc0b5603c212a6364b0ad1cb07abf22f346ee2b1c9622169e",
+        "M4": "039d0532820c2c94214b24a83ec5f2a536e26cab1595b9258344055e11b69873",
+        "W01": "f15a6ca17270b84209a6edaa1344561678ce3f139492b004d40454a44758ff0f",
+        "W02": "0d14e7b428df7f940774339f99bf3494ec450ab1075020d691fc9f7b24d3c34a",
+        "W03": "e47a657849babf8b51d7f9e542f5d283fa0f8cb37a62d82e71a715e17fcd49dc",
+        "W04": "6ba40d4fe556ac46db48b3e6952db79a68aa464dd0bd7baf295c8a730c74dbda",
+        "W05": "8e5624013f888954f81cf30e4e1e25c169a724463a71ecb33026ed0796313414",
+        "W06": "4f0a499c57155b31ea72235e9cad0c9d82c7131d14bfa11aea046765656e06a4",
+        "W07": "1c284a2ffc734934199771d3d7469ba28f4b833a2fb7ab60104facd98850b879",
+        "W08": "cfacbae9e659586768256d004a7517a834e714921ea0a3109c3207f6d7e15137",
+        "W09": "c6fc00145e876115a6746bd72db23153cbfb3cab64a4af33ef53add976725f18",
+        "W10": "679dba0e612777f2d8c7edf9f033fb340e55a5953b61cbb10d8f5c7ed7c22b12"
       },
       "source": "src/prompt-contracts",
       "state": "RENDERED_DRAFT",
@@ -332,6 +806,11 @@
           "B3"
         ]
       },
+      "syntax": {
+        "input": "<LABEL · help · example>",
+        "optional": "[editable or removable text]",
+        "parameters": "named block with editable defaults"
+      },
       "why_panel": true
     },
     "prompt_count": 14,
@@ -343,14 +822,17 @@
     "rendered_variants": 6,
     "schema_version": "prompt-library-spec-v1",
     "source": "src/prompt-library-spec-v1.json",
-    "source_sha256": "644f7a2dcb94ccf560bf277437735e4b242f4528ff9db3a66013ed96b0672f7b",
+    "source_sha256": "500fff4b954f155213bfd36bcb5fff71cd797ad02fd201b638ef3ba4b5a7e33d",
     "state": "RENDERED_DRAFT"
   },
   "publication_authorized": false,
   "schema_version": "build-manifest-v2",
   "self_hash_model": "sha256(sorted-json-without-self_sha256)",
-  "self_sha256": "619e72d880dabfcba389f430d434a1f8177edda79be5b9c1dd03f7da18137207",
+  "self_sha256": "9ff4e67cba6fe0881cb0c10429186655dfd011bffaa9c9ca1b0122c0dc37dce3",
   "sources": {
+    "assets/02-ocupado-productivo.pdf": "d728c9a2c7cfb91e9d669ce24137bc96c0b53aae2de295db44ad5997be232532",
+    "assets/03-trabajo-amplificado.pdf": "08b057fd1826ca0b5c3d085eb9d8efce7f1195a4b88f66c014208daa39232b2d",
+    "assets/04-trabajo-agentico.pdf": "710cff50558a98bc587809be17520ad833f89de1066e2607a494bd9b6ee81b3f",
     "assets/javier-montano.jpg": "1fecdedb8e705eeb5ef49d2854b70ede3224014ddd278924cc6b3bc263b75ad5",
     "assets/masterclass-ia-nivel-0.pdf": "5df5533a29652184f492b2f797ecfa0f1fa47cdb682bfcefb8f30c96014ce402",
     "assets/method-a2re-compact.svg": "b07a0713a106f1f78491e54667b248ef6a790ce175b0a07ba2e721137e936393",
@@ -359,7 +841,7 @@
     "assets/team-german-sepulveda.png": "752dda8237655da262b31d1f8d9e3e31fc5afaee2d4c585461c32b1636a77450",
     "assets/team-javier-montano.webp": "4cac6ea8b4e303c1e0a27573736114f46ffb1b8783745d1ac1335b4f02da756d",
     "assets/team-katherine-oquendo.png": "233ee0b8cc197566933320ab52adaa181fe0265cdcb88450dc4ae71a8138f18a",
-    "audience-spec-v1.json": "b858a5f8ae9d292d0e6fd17ee55b87ac2d0bb5e4a6371f6064ee411781de1291",
+    "audience-spec-v1.json": "307c74924f40ebdfabf0894a4b8608c4b4b0440a27a5a5401394e476cda5d2d5",
     "brand-release-v3/assets/Montserrat-OFL.txt": "8b7141c03fa4f8d44e6345d5d4931709290f0f67875e452e95ac1fd3a027802e",
     "brand-release-v3/assets/Montserrat-Variable.ttf": "0f7b311b2f3279e4eef9b2f968bcdbab6e28f4daeb1f049f4f278a902bcd82f7",
     "brand-release-v3/assets/Poppins-Bold.ttf": "983676516167748b74de6f4771fb384c664fd913acb8b471122ecacf5da5ea6c",
@@ -378,49 +860,61 @@
     "brand-release-v3/tools/render_shell.py": "e6da675d3ed7d504665115e1703d5621d3ad3385092705558addf68d307faa7f",
     "claim-ledger.json": "f32f95a8a2086cea7cc90f08d9eef8300b24d53836613029e4c2b6a81495c2f0",
     "conoce-chrome-spec-v1.json": "370ca87adbf0c5b89e9e8c2072d6010f7060c1c2045f414ed779aa6096911cad",
+    "curriculum-provenance-rights-v2.json": "c2aefe8568b666d632b8b900ed3dfebfa5eefce7d39bbc68a055a22e912a6013",
     "curriculum-spec-v1.json": "a04f1b39fc67c516f541f1fb38f7c7943e1edb8bfbe3d1842ad9ad5d4af86f25",
-    "editorial-parity-spec-v1.json": "df83b1883003c41c16471809a43fcab11442e9c075284b180d4d8d250c5e638c",
-    "editorial-sitemap-spec-v1.json": "01889c820e9b03999af6171a83407339b2f4220ddc5b5a838eb2b7c2c4e48b8a",
+    "curriculum-spec-v2.json": "6506fe8ce3495e145f1b140e9668d1d002beb40f5651cfcc0ddf9798804c934a",
+    "editorial-parity-spec-v1.json": "df496abfa60692da47e243cc178f620a267bda348f9ee98f98829d8e3b1b7753",
+    "editorial-sitemap-spec-v1.json": "27ea26cbde0657274b7381b8efc6e1fb3949a8e56381599ba333e5bca402c90e",
     "forms.css": "39d442f54b252b78e435bcd4da23bd90ebc89c11bb10baf1fe0615a505981ea1",
-    "intrapage-navigation-spec-v1.json": "cfae0e0b01c8830805049837fcd87f9388fc6a117af1e20feafef16cd796d342",
-    "landing-spec-v2.json": "7bbe00ebb004a4cb5865576d5639fbdf63691fc9864b7b7eb6e20beb22928625",
+    "intrapage-navigation-spec-v1.json": "e9aa4d32fef5b6c9bad155f32318dd0331babc035fa98e3fb71d149b5d8486f3",
+    "landing-spec-v2.json": "796198a4959ef5331d99bdf60757cf111276d589b55059d523e7e27278145804",
     "masterclass-spec-v1.json": "130d26016a64af46f7577c390f8e890788066d24d0fb87a315b873a286246fd8",
-    "playbook-spec-v1.json": "13f41a1b76f9d4cdf9d6c895a32bff5d8c9e351e0686f8199ce85a501851c6b5",
-    "prompt-contracts/library-01.json": "1bfa138cacd1540daec5a45715dcf42234adc747f45238d74d25b8b8f9cd88ec",
-    "prompt-contracts/library-02.json": "9588df75e4c0c814b811f052689accd5783c799d703eaed6b80459f8362c4b22",
-    "prompt-contracts/library-03.json": "d2191c1e14e8efa387fdd35241b06d20d3dc9ce16f41577c6a17b020c5641773",
-    "prompt-contracts/library-04.json": "555afdf6850e92b8b8bf32b9b9b4d32dc717c4f677f0473b0d62c29236257730",
-    "prompt-contracts/library-05.json": "29fc29d4de21290599e41312e4be66f122ed3d6d5a0c894976ade7273e2bb8c0",
-    "prompt-contracts/library-06.json": "2d3ce7d0a1fe3a37a5457cd671a82807c9cd69577c261ce6605ca66bf51d3a17",
-    "prompt-contracts/library-07.json": "b809e2eea49c58822634813a8fff6e99b3ef43502beb4a0f89bc95c9fc6a91e2",
-    "prompt-contracts/library-08.json": "5de760f77cce69475b29e8e0aaa48a32fbdee9fe15d768ec635ac2348d069b9b",
-    "prompt-contracts/library-09.json": "21809a32ad303cce70cff4af2531ec3ccc759522ec0f5b5be78de8210276d3bf",
-    "prompt-contracts/library-10.json": "63962c97b3501928f77e89f61d5be8ffb4fcfb685f62a239a1db7acc760aedd1",
-    "prompt-contracts/library-m1.json": "4595cf7ba3ece20403643b708e9cc2191b0f286e4ef24d028178d1a8f1b4d2d7",
-    "prompt-contracts/library-m2.json": "cc24f8cb43f43664677eff57b0f122b0ceb951577bf26be9129550de21b0b28e",
-    "prompt-contracts/library-m3.json": "7cb3995e83e344e15b418cad68c45d7964aeca35583bf4f534c39e35bb1e3525",
-    "prompt-contracts/library-m4.json": "505b90cf25082c94b8c7b000f4d1c39d29e2a7f90ff0bc345807b1b1c8ef1c2e",
-    "prompt-contracts/workbook-01.json": "26eeacc3b2c02d8a71cf2cd553e12e092a55833c851f60bee8dd393a830c2b14",
-    "prompt-contracts/workbook-02.json": "797f1af4464c78a486b8d4972e8ebebb6ed2e89de14a6d577fe37a5bd15131cb",
-    "prompt-contracts/workbook-03.json": "c250c05b5a699399fffb31539478f212e6c1992faf34d51238c727c5761cc9b5",
-    "prompt-contracts/workbook-04.json": "fea092f1f04882d1a2a7cdad54afa48892379f0ef28c5ace5f33473d84a3cdfb",
-    "prompt-contracts/workbook-05.json": "56ff9b653eb3e866fc306ee8e7ee22d96a8e3ff58e3e122af2e3b56c9779c752",
-    "prompt-contracts/workbook-06.json": "a7ed8425224fea504c2bbe2763d994868e3c014240b54532abbc10ae7cb7a05f",
-    "prompt-contracts/workbook-07.json": "69f453f6e537c04096af7af21d3600581adb73df0b0667c3b31a01b0429c6652",
-    "prompt-contracts/workbook-08.json": "4271162a94b86c7652013c58202fcac1b297a985176c07fd7195e774c5c45531",
-    "prompt-contracts/workbook-09.json": "8803610f93c17e19c0e5b99c018e15a3b4dfa65eeb729e44e37784d8983aee21",
-    "prompt-contracts/workbook-10.json": "105668fb3859e89c9dc47f662241312d338b5669d17843c7cdac39b776d3db20",
-    "prompt-contracts/workbook-brain-1.json": "7a791b5777aa42d8961874d364af4ca7b4cdc7f6581a648e82e3f810c6415b70",
-    "prompt-contracts/workbook-brain-2.json": "202b606345fa19b666093794b152cd6aa0f8d87eb496b47ce610f3fcd6ef5d25",
-    "prompt-contracts/workbook-brain-3.json": "da0562cc9d6741e1ff86c2458ceed08a4dcca88f7c3832f12011fc1b058ab8c2",
-    "prompt-intent-authority-v2.json": "52bdcdd85faf0e211f3672bf1b86a41344bd567f3b0f715484eb165ac154e20a",
-    "prompt-library-spec-v1.json": "644f7a2dcb94ccf560bf277437735e4b242f4528ff9db3a66013ed96b0672f7b",
+    "module-resource-definition-of-done-v1.json": "d43f43935de080e876ee40cac3ced71c2431c78f6ed398f2b50f6af7053f414c",
+    "modules/module-02-content-v1.json": "d285a8672ebf93595c2e5d22186361589c1306f65fd35ec4933462c0b825226e",
+    "modules/module-02-depth-v1.json": "12943314227c206d0c53d172508afb78809920a12f1ef1a641d87dadcb9b123f",
+    "modules/module-03-content-v1.json": "7790d12a301b929c0d64863a6f2d1e66b99057344e80dedf77790916f5dd8fcf",
+    "modules/module-03-depth-v1.json": "37074fddd68089a1f0deaf1b54e69e9e5d787b6d074158bfc3a8b97d9ca2a058",
+    "modules/module-04-content-v1.json": "7d3ca46610d1cd5550882df2fa66ad054e85c42c5eca599e1b0a97388d8be2ec",
+    "modules/module-04-depth-v1.json": "0160304d40b6c12f3538829fea377468f8f3946745cefd48075bbcba5e6c0c56",
+    "modules/module-depth-profile-v1.json": "05070bfe255d19937b6718025f6d722450712b4e8fefd8dc88476e7429fcafcf",
+    "notebooklm-execution-spec-v1.json": "92cc587b975dfceec4726d2a044088b08397a37353c1c2e7d2d7817bbb36fdd9",
+    "playbook-spec-v1.json": "c2846bc9cc3091492e7530972cfc0ee85b6b5769fd5e4535a4770b1d4c9f6787",
+    "prompt-artifact-labels-v1.json": "039c71f24965298e0763f37b4e7ce2cadec15bc39535efbbd773243b71c626d0",
+    "prompt-contracts/library-01.json": "b8a28013751ae1dc24840c011b7c660041b7ac712c75c68caa4d63f4885c49b5",
+    "prompt-contracts/library-02.json": "3eda15bf22f0bea7a46ae0ab0799d7a32f0468742742864d0762271bd2827fa7",
+    "prompt-contracts/library-03.json": "a13438203a109ddbfdc10fb41c45c350fe3dee7f4ea20e5205d2c2ffb4ae8455",
+    "prompt-contracts/library-04.json": "32be7e3e2dd29068c744efe7c8115dc3f045e7525e8cbd5342796a47294e8874",
+    "prompt-contracts/library-05.json": "9d33799b1c6ccc58e727c3a8899d215542d608555778c3a0cae0c01bb7ef1b10",
+    "prompt-contracts/library-06.json": "e95e84b45910a5fd99e0d5c47385c5f5a6621dd75b38e9a7a46130632d34a50a",
+    "prompt-contracts/library-07.json": "d6d0ef09efadbeedc932a62f6f51b1ad634423f73565e9dbe8f764fa7497b3dd",
+    "prompt-contracts/library-08.json": "6b23ac8a30049bc74d1d46dfdbdab3d846fb13f18c7c2aedff5bdede12302883",
+    "prompt-contracts/library-09.json": "305fafa099a6af7e16f27ede646ae3779121d5ae03fd0fa7f221174a3ad8bab8",
+    "prompt-contracts/library-10.json": "9761b46a238396acb0c3c370b579af819a292d407fba58ba7f4d8913e48c3e3d",
+    "prompt-contracts/library-m1.json": "8327864125eab7e4f278bfed62ae9b82608a89ed6242abb4b3ffcaf9973279f3",
+    "prompt-contracts/library-m2.json": "f7e5a9e9fbc29f89dd2e8a5fa81f3f247257bc77d78a195df46bd455b67354e5",
+    "prompt-contracts/library-m3.json": "424e9a9da5ed0d0a4b6598f7e65460a3f851c53edce62f977a1127fa6ffb66c6",
+    "prompt-contracts/library-m4.json": "f9f8cdb6ef821203f7795b400ec46a134113bba955e7245e18bea02a34be38a7",
+    "prompt-contracts/workbook-01.json": "06df98e8e46e84f8b13a8501279f15b41aa2292724a7cff6b3144918f919dd71",
+    "prompt-contracts/workbook-02.json": "a8cc309cafcd99a50af3a8535644bc57ff6204cfc4a7e4a9694d761d99005422",
+    "prompt-contracts/workbook-03.json": "2fae23a9d4b335fbc14e9ae4fb9c5a6ed0eb44861d04f12b16fdfc79047cce15",
+    "prompt-contracts/workbook-04.json": "9d147d728886ba5ad3324fc266b1f164f1e4f1a5afe6614859b34f3b809224ec",
+    "prompt-contracts/workbook-05.json": "ae8f0ce5a8e716a69516ac806cbc70b6dcdfae7bd676c91830a78252df7488f4",
+    "prompt-contracts/workbook-06.json": "9898edc1a6c0d162720221c550dc4485c35c3109dd73f8fbea79c647f4f417b8",
+    "prompt-contracts/workbook-07.json": "e0d1014e354781bab87997b559c17574e5380f9006439adb0481fddb98ae12f7",
+    "prompt-contracts/workbook-08.json": "b7a0c32686b6375c4fdf3079f7a35a5f406d7ab84ceb3f3aa4d2ff7c83a45e86",
+    "prompt-contracts/workbook-09.json": "6ce318e7f1dc510d670eafc876b6dadd61b6270ddbca027192b6f2bd077a483f",
+    "prompt-contracts/workbook-10.json": "2a22e0be077e6b56a6eb22da8db84248709b39c9e66820b485722dbdb105c9f0",
+    "prompt-contracts/workbook-brain-1.json": "511401eb263ae51a20923dbf9b09f233fd8c4d228a7f4c0aaee9dc456845c9ba",
+    "prompt-contracts/workbook-brain-2.json": "a1106d595b7937c08bb77f1fc88275dab36174667ae57e40ad2a5c8002110980",
+    "prompt-contracts/workbook-brain-3.json": "0025f74244d03100e8a2840195e9d0265e57e47f71c7efa4dd9443682194d48f",
+    "prompt-intent-authority-v2.json": "4c2eae3eaa1e5395411bd543d67cad279b907b7c6c68d23de078b63df1bba5cd",
+    "prompt-library-spec-v1.json": "500fff4b954f155213bfd36bcb5fff71cd797ad02fd201b638ef3ba4b5a7e33d",
     "prompt-spec-authority-v1.json": "64baf1e2299faaca3ff6a89d11dbf92a07be946224960bfe1b60370a9e70753c",
-    "public-asset-manifest.json": "088305d2b68881ca34796ac3691efa0c58b7bba5bb166dc9d629668948906424",
+    "public-asset-manifest.json": "3d4e609ec5ea2280cfadca321ad7c84cc5a6fbcd957f883a8315560f02887aca",
     "public-resource-spec-v1.json": "815421af6c5b88d35074654bd445e32df97c58e40b8028b5aeb4a89a10951741",
-    "site.css": "81db43dd7bfd9ea8d4e0c413c01c389f95fccaae2a6f2ca1bfa377f147cae464",
-    "site.js": "e7f79ca9fecb1a977b8a9e207189c8b23c9460b6e7bd68636e8cc90d4edb069e",
-    "workbook-advanced-v1.json": "d0db9729b410d20c4ef24df31c4b89c1079b36f1af82dcd4a07affa4cd0dad70",
+    "site.css": "18ff9c52f9eb5af42b037bdd9a3b5240c5cab65eff246636a8e1a20369999046",
+    "site.js": "da20fc831a7c752df397d2b3d7c7ff6a7de9429e8b8f2c410284582ef95beb89",
+    "workbook-advanced-v1.json": "7a0059db1ccb2dcdc74344c4dc7a4e3e178f8292180da10164e2cc3166dbad30",
     "workbook-prompts-v1.json": "0dbb76813b3832087131f3ee491c5e56afd7923fee32a1cb7131807593fc0eb0",
     "workbook-spec-v1.json": "a520dd1b16926ecd80538fcea15013fbbb44f452bb4833c6be60593bc85f02df"
   },
@@ -430,7 +924,7 @@
       "persona",
       "empresa"
     ],
-    "canonical_pages": 54,
+    "canonical_pages": 126,
     "editorial_pages": [
       "level0",
       "how",
@@ -442,6 +936,14 @@
       "en",
       "pt"
     ],
+    "logical_resources": 16,
+    "modules": [
+      "ia-panorama",
+      "ocupado-productivo",
+      "trabajo-amplificado",
+      "trabajo-agentico"
+    ],
+    "rendered_resource_pages": 96,
     "resources": [
       "landing",
       "workbook",

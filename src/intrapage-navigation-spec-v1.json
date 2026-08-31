@@ -52,8 +52,8 @@
         {"anchor": "guia", "labels": {"es": "Guía", "en": "Guide", "pt": "Guia"}},
         {"anchor": "descarga", "labels": {"es": "Abrir herramientas", "en": "Open tools", "pt": "Abrir ferramentas"}},
         {"anchor": "preparacion", "labels": {"es": "Preparación", "en": "Preparation", "pt": "Preparação"}},
-        {"anchor": "sheet-session", "labels": {"es": "En sesión", "en": "In session", "pt": "Em aula"}},
-        {"anchor": "sheet-depth", "labels": {"es": "Profundidad", "en": "Depth", "pt": "Profundidade"}},
+        {"anchor": "sheet-session", "labels": {"es": "En clase", "en": "In class", "pt": "Em aula"}},
+        {"anchor": "sheet-depth", "labels": {"es": "Profundización", "en": "Deepening", "pt": "Aprofundamento"}},
         {"anchor": "sheet-consolidation", "labels": {"es": "Consolidación", "en": "Consolidation", "pt": "Consolidação"}},
         {"anchor": "transferencia", "labels": {"es": "Transferencia", "en": "Transfer", "pt": "Transferência"}}
       ]

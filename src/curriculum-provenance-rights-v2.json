@@ -1,0 +1,210 @@
+{
+  "schema_version": "curriculum-provenance-rights-v2",
+  "ledger_id": "nivel-0-modules-02-04-local-import",
+  "captured_on": "2026-08-30",
+  "scope": {
+    "local_only": true,
+    "publication_authorized": false,
+    "network_required": false,
+    "external_mutation": false,
+    "run_dependency_at_build_time": false,
+    "excluded_source_types": [
+      "html",
+      "css",
+      "javascript",
+      "templates"
+    ]
+  },
+  "authority_bindings": {
+    "approved_program_proposal_sha256": "4ef3371f2baab2bc13d305e925d38875e942cb5d80c2207bdf4a011a5eefb68e",
+    "source_bundle_sha256": "22bab6b848dd42f47f0d3c9a9d3e560909a8950eab250169b0231d64927f9488"
+  },
+  "rights": {
+    "status": "cleared-local-use",
+    "basis": "user-provided",
+    "statement": "The user selected the official Masterclass PDFs and authorized their unchanged local use with the structured module payloads. Publication remains unauthorized."
+  },
+  "accessibility_notice": {
+    "applies_to_all_imported_pdfs": true,
+    "image_only": true,
+    "tagged": false,
+    "statement": "Each official PDF is image-only and untagged. The PDFs remain unchanged exhibits; the structured module guides provide the text alternative for local use."
+  },
+  "editorial_depth_policy": {
+    "profile_ref": "modules/module-depth-profile-v1.json",
+    "profile_sha256": "05070bfe255d19937b6718025f6d722450712b4e8fefd8dc88476e7429fcafcf",
+    "derivation": "Local ID-bound editorial enrichment over immutable imported payloads.",
+    "base_payloads_immutable": true,
+    "notebooklm_queries": {
+      "role": "editorial-leads-only",
+      "captured_sources": 0,
+      "authority_granted": false
+    },
+    "local_only": true,
+    "publication_authorized": false
+  },
+  "entries": [
+    {
+      "module_id": "module-02-de-ocupado-a-productivo",
+      "approved_program_proposal_sha256": "4ef3371f2baab2bc13d305e925d38875e942cb5d80c2207bdf4a011a5eefb68e",
+      "source_bundle_sha256": "22bab6b848dd42f47f0d3c9a9d3e560909a8950eab250169b0231d64927f9488",
+      "payload": {
+        "provenance_locator": "run:nivel-zero-v3-20260830/work-units/module-02/module-content-v1.json",
+        "imported_ref": "modules/module-02-content-v1.json",
+        "source_sha256": "d285a8672ebf93595c2e5d22186361589c1306f65fd35ec4933462c0b825226e",
+        "imported_sha256": "d285a8672ebf93595c2e5d22186361589c1306f65fd35ec4933462c0b825226e",
+        "exact_copy": true
+      },
+      "editorial_depth_overlay": {
+        "ref": "modules/module-02-depth-v1.json",
+        "sha256": "12943314227c206d0c53d172508afb78809920a12f1ef1a641d87dadcb9b123f",
+        "base_payload_sha256": "d285a8672ebf93595c2e5d22186361589c1306f65fd35ec4933462c0b825226e",
+        "profile_ref": "modules/module-depth-profile-v1.json",
+        "derivation": "local-id-bound-editorial-enrichment",
+        "exact_copy_of_external_run": false,
+        "local_only": true,
+        "publication_authorized": false
+      },
+      "official_pdf": {
+        "provenance_locator": "run:nivel-zero-v3-20260830/documents/official/02-ocupado-productivo.pdf",
+        "imported_ref": "assets/02-ocupado-productivo.pdf",
+        "source_sha256": "d728c9a2c7cfb91e9d669ce24137bc96c0b53aae2de295db44ad5997be232532",
+        "imported_sha256": "d728c9a2c7cfb91e9d669ce24137bc96c0b53aae2de295db44ad5997be232532",
+        "exact_copy": true,
+        "page_count": 11,
+        "image_only": true,
+        "tagged": false
+      },
+      "variant_counts": {
+        "variants": 6,
+        "moments": 11,
+        "workbook_steps": 9,
+        "playbook_chapters": 9,
+        "prompts": 8
+      },
+      "evidence_tags": [
+        "payload-hash-verified",
+        "depth-overlay-hash-verified",
+        "depth-base-bound",
+        "audience-depth-verified",
+        "pdf-hash-verified",
+        "page-count-verified",
+        "variant-counts-verified",
+        "image-only-verified",
+        "untagged-verified",
+        "local-only",
+        "publication-false"
+      ]
+    },
+    {
+      "module_id": "module-03-trabajar-amplificado",
+      "approved_program_proposal_sha256": "4ef3371f2baab2bc13d305e925d38875e942cb5d80c2207bdf4a011a5eefb68e",
+      "source_bundle_sha256": "22bab6b848dd42f47f0d3c9a9d3e560909a8950eab250169b0231d64927f9488",
+      "payload": {
+        "provenance_locator": "run:nivel-zero-v3-20260830/work-units/module-03/module-content-v1.json",
+        "imported_ref": "modules/module-03-content-v1.json",
+        "source_sha256": "7790d12a301b929c0d64863a6f2d1e66b99057344e80dedf77790916f5dd8fcf",
+        "imported_sha256": "7790d12a301b929c0d64863a6f2d1e66b99057344e80dedf77790916f5dd8fcf",
+        "exact_copy": true
+      },
+      "editorial_depth_overlay": {
+        "ref": "modules/module-03-depth-v1.json",
+        "sha256": "37074fddd68089a1f0deaf1b54e69e9e5d787b6d074158bfc3a8b97d9ca2a058",
+        "base_payload_sha256": "7790d12a301b929c0d64863a6f2d1e66b99057344e80dedf77790916f5dd8fcf",
+        "profile_ref": "modules/module-depth-profile-v1.json",
+        "derivation": "local-id-bound-editorial-enrichment",
+        "exact_copy_of_external_run": false,
+        "local_only": true,
+        "publication_authorized": false
+      },
+      "official_pdf": {
+        "provenance_locator": "run:nivel-zero-v3-20260830/documents/official/03-trabajo-amplificado.pdf",
+        "imported_ref": "assets/03-trabajo-amplificado.pdf",
+        "source_sha256": "08b057fd1826ca0b5c3d085eb9d8efce7f1195a4b88f66c014208daa39232b2d",
+        "imported_sha256": "08b057fd1826ca0b5c3d085eb9d8efce7f1195a4b88f66c014208daa39232b2d",
+        "exact_copy": true,
+        "page_count": 12,
+        "image_only": true,
+        "tagged": false
+      },
+      "variant_counts": {
+        "variants": 6,
+        "moments": 12,
+        "workbook_steps": 6,
+        "playbook_chapters": 10,
+        "prompts": 10
+      },
+      "evidence_tags": [
+        "payload-hash-verified",
+        "depth-overlay-hash-verified",
+        "depth-base-bound",
+        "audience-depth-verified",
+        "pdf-hash-verified",
+        "page-count-verified",
+        "variant-counts-verified",
+        "image-only-verified",
+        "untagged-verified",
+        "local-only",
+        "publication-false",
+        "demo-artifacts-resolved",
+        "external-execution-gate-bound",
+        "language-review-applied"
+      ]
+    },
+    {
+      "module_id": "module-04-trabajo-agentico",
+      "approved_program_proposal_sha256": "4ef3371f2baab2bc13d305e925d38875e942cb5d80c2207bdf4a011a5eefb68e",
+      "source_bundle_sha256": "22bab6b848dd42f47f0d3c9a9d3e560909a8950eab250169b0231d64927f9488",
+      "payload": {
+        "provenance_locator": "run:nivel-zero-v3-20260830/work-units/module-04/module-content-v1.json",
+        "imported_ref": "modules/module-04-content-v1.json",
+        "source_sha256": "7d3ca46610d1cd5550882df2fa66ad054e85c42c5eca599e1b0a97388d8be2ec",
+        "imported_sha256": "7d3ca46610d1cd5550882df2fa66ad054e85c42c5eca599e1b0a97388d8be2ec",
+        "exact_copy": true
+      },
+      "editorial_depth_overlay": {
+        "ref": "modules/module-04-depth-v1.json",
+        "sha256": "0160304d40b6c12f3538829fea377468f8f3946745cefd48075bbcba5e6c0c56",
+        "base_payload_sha256": "7d3ca46610d1cd5550882df2fa66ad054e85c42c5eca599e1b0a97388d8be2ec",
+        "profile_ref": "modules/module-depth-profile-v1.json",
+        "derivation": "local-id-bound-editorial-enrichment",
+        "exact_copy_of_external_run": false,
+        "local_only": true,
+        "publication_authorized": false
+      },
+      "official_pdf": {
+        "provenance_locator": "run:nivel-zero-v3-20260830/documents/official/04-trabajo-agentico.pdf",
+        "imported_ref": "assets/04-trabajo-agentico.pdf",
+        "source_sha256": "710cff50558a98bc587809be17520ad833f89de1066e2607a494bd9b6ee81b3f",
+        "imported_sha256": "710cff50558a98bc587809be17520ad833f89de1066e2607a494bd9b6ee81b3f",
+        "exact_copy": true,
+        "page_count": 15,
+        "image_only": true,
+        "tagged": false
+      },
+      "variant_counts": {
+        "variants": 6,
+        "moments": 15,
+        "workbook_steps": 9,
+        "playbook_chapters": 9,
+        "prompts": 8
+      },
+      "evidence_tags": [
+        "payload-hash-verified",
+        "depth-overlay-hash-verified",
+        "depth-base-bound",
+        "audience-depth-verified",
+        "pdf-hash-verified",
+        "page-count-verified",
+        "variant-counts-verified",
+        "image-only-verified",
+        "untagged-verified",
+        "local-only",
+        "publication-false",
+        "demo-artifacts-resolved",
+        "external-execution-gate-bound",
+        "language-review-applied"
+      ]
+    }
+  ]
+}

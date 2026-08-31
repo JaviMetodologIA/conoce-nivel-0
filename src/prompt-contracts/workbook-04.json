@@ -1,5 +1,5 @@
 {
-  "schema_version": "prompt-intent-contract-v1",
+  "schema_version": "prompt-intent-contract-v2",
   "intent_id": "W04",
   "surface": "workbook",
   "phase": "Aprehender",
@@ -13,39 +13,21 @@
       "W03",
       "W05"
     ],
-    "decision_rule": "Usa W04 cuando ya importaste la respuesta del encargo de W03 y hay que pesar el delta de la base contra la auditoría de W02 para cerrar o repetir el ciclo; si lo que está en duda es una sola afirmación y su veredicto, verifica con la variante autónoma 04; si hace falta re-decidir fuente por fuente qué conservar o retirar, audita con 05. W04 no verifica afirmaciones una a una ni activa un rol conversacional: eso llega en W05."
+    "decision_rule": "Usa W04 cuando ya importaste la informe de investigación de W03 y hay que pesar el delta de la base contra la auditoría de W02 para cerrar o repetir el ciclo; si lo que está en duda es una sola afirmación y su veredicto, verifica con la variante autónoma 04; si hace falta re-decidir fuente por fuente qué conservar o retirar, audita con 05. W04 no verifica afirmaciones una a una ni activa un rol conversacional: eso llega en W05."
   },
   "locales": {
     "es": {
       "persona": {
         "title": "Cerrar o repetir el ciclo",
         "purpose": "Pesa lo que cambió en la base después de importar, con las afirmaciones refutadas marcadas, y decide si te detienes con límites o repites, con una definición operativa de suficiente.",
-        "when": "ya importaste la respuesta del encargo y debes decidir si paras o repites.",
-        "example": "Cuatro fuentes nuevas sobre adopción, importadas tras el encargo anterior.",
+        "when": "ya importaste la respuesta del plan de investigación y debes decidir si paras o repites.",
+        "example": "Cuatro fuentes nuevas sobre adopción, importadas tras el plan de investigación anterior.",
         "evidence": "comparación punto por punto contra la auditoría previa, afirmaciones confirmadas o refutadas, tensiones nuevas, valor de cada fuente en escala declarada, riesgo residual y veredicto suficiente con límites o repetir con el siguiente prompt.",
-        "prompt": "Paso 4, cierre del ciclo: importé a mi Notebook las fuentes del encargo para mi propósito [PROPÓSITO]. Compara la base con la auditoría anterior, punto por punto: [VACÍO AUDITADO] cerrado o no, afirmaciones confirmadas o refutadas, tensiones nuevas, valor de cada fuente en escala alta/media/baja y riesgo residual. No verifiques afirmación por afirmación: aquí mides el delta contra la auditoría. Emite [BASE SUFICIENTE] con límites o [REPETIR INVESTIGACIÓN] con el siguiente prompt: suficiente = ningún vacío abierto bloquea [PROPÓSITO]. Con fuente que contradiga la base, no hay suficiente sin resolver la tensión. Tras 3 vueltas, re-delimita. No inventes cierres ni fuentes.",
+        "prompt": "Paso 4, cierre del ciclo: importé a mi Notebook las fuentes del plan de investigación para mi propósito <PROPÓSITO>. Compara la base con la auditoría anterior, punto por punto: <VACÍO> cerrado o no, afirmaciones confirmadas o refutadas, tensiones nuevas, valor de cada fuente en escala alta/media/baja y riesgo residual. No verifiques afirmación por afirmación: aquí mides el delta contra la auditoría. Emite BASE SUFICIENTE con límites o REPETIR INVESTIGACIÓN con el siguiente prompt: suficiente = ningún vacío abierto bloquea <PROPÓSITO>. Con fuente que contradiga la base, no hay suficiente sin resolver la tensión. Tras 3 vueltas, re-delimita. No inventes cierres ni fuentes.",
         "level_spec": {
           "role": "Juez del paso 4: pesa el delta y cierra o repite el ciclo",
           "spec_role": "Facilitador de taller guiado sobre NotebookLM",
           "objective": "Comparar la base tras la importación contra la auditoría previa y emitir un veredicto de suficiencia con límites",
-          "parameters": [
-            [
-              "posicion_en_la_secuencia",
-              "paso 4: recibe la base ampliada con la respuesta del paso 3 y cierra o reabre el ciclo"
-            ],
-            [
-              "unidad_de_analisis",
-              "el delta de la base, no cada afirmación por separado"
-            ],
-            [
-              "escala_de_valor",
-              "cada fuente nueva se puntúa alta, media o baja"
-            ],
-            [
-              "suficiente",
-              "ningún vacío abierto bloquea el propósito declarado"
-            ]
-          ],
           "workflow": [
             "Registrar el propósito y el vacío auditado en la vuelta anterior",
             "Comparar punto por punto la base actual contra la auditoría previa",
@@ -68,6 +50,29 @@
             "Fuentes nuevas que contradicen la base: la tensión se resuelve antes de cerrar",
             "Más de 3 vueltas del ciclo: re-delimitar el tema en vez de seguir iterando",
             "Vacío auditado no declarado: pedirlo antes de comparar"
+          ],
+          "constraints": [
+            [
+              "posicion_en_la_secuencia",
+              "paso 4: recibe la base ampliada con la respuesta del paso 3 y cierra o reabre el ciclo"
+            ],
+            [
+              "unidad_de_analisis",
+              "el delta de la base, no cada afirmación por separado"
+            ],
+            [
+              "escala_de_valor",
+              "cada fuente nueva se puntúa alta, media o baja"
+            ],
+            [
+              "suficiente",
+              "ningún vacío abierto bloquea el propósito declarado"
+            ]
+          ],
+          "frameworks": [
+            "Gate Go/No-Go · decide con criterio explícito",
+            "Definition of Done · cierre observable",
+            "Análisis de brechas · prioriza lo que bloquea"
           ]
         },
         "why_it_works": {
@@ -106,37 +111,80 @@
             "claim": "Definir suficiente como «ningún vacío abierto bloquea el propósito» y cortar el ciclo tras tres vueltas son normas internas del taller.",
             "source": "method_internal"
           }
-        ]
+        ],
+        "inputs": [
+          {
+            "key": "purpose",
+            "label": "PROPÓSITO",
+            "help": "para qué necesitas el resultado",
+            "example": "repetir una práctica útil",
+            "required": true,
+            "type": "text",
+            "source": "user",
+            "demo_value": "crear una práctica verificable que pueda repetir y explicar"
+          },
+          {
+            "key": "gap",
+            "label": "VACÍO",
+            "help": "pregunta aún sin soporte",
+            "example": "qué evidencia demuestra transferencia",
+            "required": true,
+            "type": "text",
+            "source": "previous_output",
+            "demo_value": "artefacto sintético del paso anterior: falta demostrar transferencia a un segundo contexto"
+          }
+        ],
+        "parameters": [
+          {
+            "key": "length",
+            "label": "LONGITUD",
+            "default": "concisa",
+            "choices": [
+              "concisa",
+              "media"
+            ]
+          },
+          {
+            "key": "structure",
+            "label": "ESTRUCTURA",
+            "default": "2 párrafos + bullets clave",
+            "choices": [
+              "2 párrafos + bullets clave",
+              "tabla breve"
+            ]
+          },
+          {
+            "key": "tone",
+            "label": "TONO",
+            "default": "claro y personal",
+            "choices": [
+              "claro y personal",
+              "didáctico"
+            ]
+          },
+          {
+            "key": "depth",
+            "label": "PROFUNDIDAD",
+            "default": "práctica",
+            "choices": [
+              "práctica",
+              "profunda"
+            ]
+          }
+        ],
+        "optional_clauses": []
       },
       "empresa": {
         "title": "Cerrar o repetir con el equipo",
         "purpose": "Pesa lo que cambió en la base compartida, con las afirmaciones refutadas marcadas, y decide si el proceso se detiene con límites comunicables o repite, con suficiente definido de forma operativa.",
-        "when": "el equipo importó la respuesta del encargo y el proceso debe parar o repetir.",
+        "when": "el equipo importó la respuesta del plan de investigación y el proceso debe parar o repetir.",
         "example": "Cuatro fuentes nuevas sobre adopción, importadas al Notebook del área.",
         "evidence": "comparación punto por punto contra la auditoría previa, afirmaciones confirmadas o refutadas, tensiones nuevas, valor de cada fuente en escala declarada, riesgo residual con su riesgo operativo y veredicto suficiente con límites listos para revisión.",
-        "prompt": "Paso 4, cierre: importé al Notebook del equipo las fuentes del encargo para [PROPÓSITO] en [PROCESO]. Compara la base con la auditoría, punto por punto: [VACÍO AUDITADO] cerrado o no, afirmaciones confirmadas o refutadas, tensiones nuevas, valor de cada fuente en escala alta/media/baja y riesgo residual con su riesgo operativo. No verifiques afirmación por afirmación: mides el delta contra la auditoría. Emite [BASE SUFICIENTE] con límites comunicables fuera del taller, o [REPETIR INVESTIGACIÓN] con el siguiente prompt, listo para revisión: suficiente = ningún vacío abierto bloquea el proceso. Fuente que contradiga: no hay suficiente sin resolver la tensión. No inventes cierres ni fuentes.",
+        "prompt": "Paso 4, cierre: importé al Notebook del equipo las fuentes del plan de investigación para <PROPÓSITO> en <PROCESO>. Compara la base con la auditoría, punto por punto: <VACÍO> cerrado o no, afirmaciones confirmadas o refutadas, tensiones nuevas, valor de cada fuente en escala alta/media/baja y riesgo residual con su riesgo operativo. No verifiques afirmación por afirmación: mides el delta contra la auditoría. Emite BASE SUFICIENTE con límites comunicables fuera del taller, o REPETIR INVESTIGACIÓN con el siguiente prompt, listo para revisión: suficiente = ningún vacío abierto bloquea el proceso. Fuente que contradiga: no hay suficiente sin resolver la tensión. No inventes cierres ni fuentes.",
         "level_spec": {
           "role": "Juez del paso 4 para equipos: pesa el delta compartido y cierra o repite",
           "spec_role": "Facilitador de taller guiado sobre NotebookLM",
           "objective": "Comparar la base compartida tras la importación y emitir un veredicto de suficiencia revisable por el responsable",
-          "parameters": [
-            [
-              "posicion_en_la_secuencia",
-              "paso 4: recibe la base ampliada con la respuesta del paso 3 y cierra o reabre el ciclo del equipo"
-            ],
-            [
-              "unidad_de_analisis",
-              "el delta de la base compartida, no cada afirmación por separado"
-            ],
-            [
-              "escala_de_valor",
-              "cada fuente nueva se puntúa alta, media o baja"
-            ],
-            [
-              "suficiente",
-              "ningún vacío abierto bloquea el proceso, con límites comunicables fuera del taller"
-            ]
-          ],
           "workflow": [
             "Registrar el propósito del proceso y el vacío auditado en la vuelta anterior",
             "Comparar punto por punto la base compartida contra la auditoría previa",
@@ -160,6 +208,29 @@
             "Más de 3 vueltas del ciclo: re-delimitar antes de repetir, con o sin visto bueno del responsable",
             "Veredicto sin responsable que lo revise: pedirlo antes de comunicarlo fuera",
             "Vacío auditado no declarado: pedirlo antes de comparar"
+          ],
+          "constraints": [
+            [
+              "posicion_en_la_secuencia",
+              "paso 4: recibe la base ampliada con la respuesta del paso 3 y cierra o reabre el ciclo del equipo"
+            ],
+            [
+              "unidad_de_analisis",
+              "el delta de la base compartida, no cada afirmación por separado"
+            ],
+            [
+              "escala_de_valor",
+              "cada fuente nueva se puntúa alta, media o baja"
+            ],
+            [
+              "suficiente",
+              "ningún vacío abierto bloquea el proceso, con límites comunicables fuera del taller"
+            ]
+          ],
+          "frameworks": [
+            "Gate Go/No-Go · decide con criterio explícito",
+            "Definition of Done · cierre observable",
+            "Análisis de brechas · prioriza lo que bloquea"
           ]
         },
         "why_it_works": {
@@ -198,39 +269,92 @@
             "claim": "Exigir límites comunicables fuera del taller y revisión del responsable antes de dar por cerrada una base compartida es política interna del método.",
             "source": "method_internal"
           }
-        ]
+        ],
+        "inputs": [
+          {
+            "key": "purpose",
+            "label": "PROPÓSITO",
+            "help": "para qué necesitas el resultado",
+            "example": "repetir una práctica útil",
+            "required": true,
+            "type": "text",
+            "source": "user",
+            "demo_value": "probar una forma de trabajo compartida, verificable y repetible"
+          },
+          {
+            "key": "process",
+            "label": "PROCESO",
+            "help": "flujo que cambiará",
+            "example": "preparación de decisiones",
+            "required": true,
+            "type": "text",
+            "source": "user",
+            "demo_value": "preparación y revisión semanal de decisiones"
+          },
+          {
+            "key": "gap",
+            "label": "VACÍO",
+            "help": "pregunta aún sin soporte",
+            "example": "qué evidencia demuestra transferencia",
+            "required": true,
+            "type": "text",
+            "source": "previous_output",
+            "demo_value": "artefacto sintético del paso anterior: falta demostrar transferencia a un segundo contexto"
+          }
+        ],
+        "parameters": [
+          {
+            "key": "length",
+            "label": "LONGITUD",
+            "default": "concisa",
+            "choices": [
+              "concisa",
+              "media"
+            ]
+          },
+          {
+            "key": "structure",
+            "label": "ESTRUCTURA",
+            "default": "2 párrafos + bullets clave",
+            "choices": [
+              "2 párrafos + bullets clave",
+              "tabla breve"
+            ]
+          },
+          {
+            "key": "tone",
+            "label": "TONO",
+            "default": "ejecutivo y operativo",
+            "choices": [
+              "ejecutivo y operativo",
+              "facilitador"
+            ]
+          },
+          {
+            "key": "depth",
+            "label": "PROFUNDIDAD",
+            "default": "práctica",
+            "choices": [
+              "práctica",
+              "profunda"
+            ]
+          }
+        ],
+        "optional_clauses": []
       }
     },
     "en": {
       "persona": {
         "title": "Stop or repeat the cycle",
         "purpose": "Weighs what changed in the base after importing, with refuted claims marked, and decides whether you stop with limits or repeat, with an operational definition of sufficient.",
-        "when": "you imported the answer to the brief and you must decide: stop or repeat.",
-        "example": "Four new sources on adoption, imported after the previous brief.",
+        "when": "you imported the answer to the research plan and you must decide: stop or repeat.",
+        "example": "Four new sources on adoption, imported after the previous research plan.",
         "evidence": "point-by-point comparison against the previous audit, claims confirmed or refuted, new tensions, value of each source on the declared scale, residual risk and a sufficient verdict with limits or a repeat with the next prompt.",
-        "prompt": "Step 4, closing the cycle: I imported the sources into my Notebook for my purpose [PURPOSE]. Compare the base with the previous audit, point by point: [AUDITED GAP] closed or not, claims confirmed or refuted, new tensions, value of each source on a high/medium/low scale, and residual risk. Do not verify claim by claim: here you measure the delta against the audit. Issue [BASE SUFFICIENT] with limits or [REPEAT RESEARCH] with the next prompt: sufficient = no open gap blocks [PURPOSE]. With a source that contradicts the base, there is no sufficient without resolving the tension. After 3 rounds, re-scope. Do not invent closures or sources.",
+        "prompt": "Step 4, closing the cycle: I imported the sources into my Notebook for my purpose <PURPOSE>. Compare the base with the previous audit, point by point: <GAP> closed or not, claims confirmed or refuted, new tensions, value of each source on a high/medium/low scale, and residual risk. Do not verify claim by claim: here you measure the delta against the audit. Issue BASE SUFFICIENT with limits or REPEAT RESEARCH with the next prompt: sufficient = no open gap blocks <PURPOSE>. With a source that contradicts the base, there is no sufficient without resolving the tension. After 3 rounds, re-scope. Do not invent closures or sources.",
         "level_spec": {
           "role": "Step 4 judge: weighs the delta and closes or repeats the cycle",
           "spec_role": "Guided workshop facilitator for NotebookLM",
           "objective": "Compare the base after the import against the previous audit and issue a sufficiency verdict with limits",
-          "parameters": [
-            [
-              "sequence_position",
-              "step 4: receives the base widened by the step 3 answer and closes or reopens the cycle"
-            ],
-            [
-              "unit_of_analysis",
-              "the delta of the base, not each claim on its own"
-            ],
-            [
-              "value_scale",
-              "every new source is scored high, medium or low"
-            ],
-            [
-              "sufficient",
-              "no open gap blocks the declared purpose"
-            ]
-          ],
           "workflow": [
             "Record the purpose and the gap audited in the previous round",
             "Compare the current base against the previous audit point by point",
@@ -253,6 +377,29 @@
             "New sources that contradict the base: the tension is resolved before closing",
             "More than 3 rounds of the cycle: re-scope the topic instead of iterating on",
             "Audited gap not declared: ask for it before comparing"
+          ],
+          "constraints": [
+            [
+              "sequence_position",
+              "step 4: receives the base widened by the step 3 answer and closes or reopens the cycle"
+            ],
+            [
+              "unit_of_analysis",
+              "the delta of the base, not each claim on its own"
+            ],
+            [
+              "value_scale",
+              "every new source is scored high, medium or low"
+            ],
+            [
+              "sufficient",
+              "no open gap blocks the declared purpose"
+            ]
+          ],
+          "frameworks": [
+            "Go/No-Go gate · decide with an explicit criterion",
+            "Definition of Done · observable completion",
+            "Gap analysis · prioritize what blocks progress"
           ]
         },
         "why_it_works": {
@@ -291,37 +438,80 @@
             "claim": "Defining sufficient as \"no open gap blocks the purpose\" and cutting the cycle after three rounds are internal workshop policy.",
             "source": "method_internal"
           }
-        ]
+        ],
+        "inputs": [
+          {
+            "key": "purpose",
+            "label": "PURPOSE",
+            "help": "why you need the result",
+            "example": "repeat a useful practice",
+            "required": true,
+            "type": "text",
+            "source": "user",
+            "demo_value": "build a verifiable practice I can repeat and explain"
+          },
+          {
+            "key": "gap",
+            "label": "GAP",
+            "help": "question still unsupported",
+            "example": "what proves transfer",
+            "required": true,
+            "type": "text",
+            "source": "previous_output",
+            "demo_value": "synthetic prior-step artifact: transfer to a second context still needs evidence"
+          }
+        ],
+        "parameters": [
+          {
+            "key": "length",
+            "label": "LENGTH",
+            "default": "concise",
+            "choices": [
+              "concise",
+              "medium"
+            ]
+          },
+          {
+            "key": "structure",
+            "label": "STRUCTURE",
+            "default": "2 paragraphs + key bullets",
+            "choices": [
+              "2 paragraphs + key bullets",
+              "short table"
+            ]
+          },
+          {
+            "key": "tone",
+            "label": "TONE",
+            "default": "clear and personal",
+            "choices": [
+              "clear and personal",
+              "instructional"
+            ]
+          },
+          {
+            "key": "depth",
+            "label": "DEPTH",
+            "default": "practical",
+            "choices": [
+              "practical",
+              "deep"
+            ]
+          }
+        ],
+        "optional_clauses": []
       },
       "empresa": {
         "title": "Stop or repeat with the team",
         "purpose": "Weighs what changed in the shared base, with refuted claims marked, and decides whether the process stops with communicable limits or repeats, with sufficient defined operationally.",
-        "when": "the team imported the brief answer and the process must stop or repeat.",
+        "when": "the team imported the research plan answer and the process must stop or repeat.",
         "example": "Four new sources on adoption, imported into the area Notebook.",
         "evidence": "point-by-point comparison against the previous audit, claims confirmed or refuted, new tensions, value of each source on the declared scale, residual risk with its operational risk, and a sufficient verdict with limits ready for review.",
-        "prompt": "Step 4, closing: I imported the sources into the team Notebook for [PURPOSE] in [PROCESS]. Compare the base with the audit, point by point: [AUDITED GAP] closed or not, claims confirmed or refuted, new tensions, value of each source on a high/medium/low scale, and residual risk with its operational risk. Do not verify claim by claim: measure the delta against the audit. Issue [BASE SUFFICIENT] with limits communicable outside the workshop, or [REPEAT RESEARCH] with the next prompt, ready for review: sufficient = no open gap blocks the process. A source that contradicts: no sufficient without resolving the tension. Do not invent closures or sources.",
+        "prompt": "Step 4, closing: I imported the sources into the team Notebook for <PURPOSE> in <PROCESS>. Compare the base with the audit, point by point: <GAP> closed or not, claims confirmed or refuted, new tensions, value of each source on a high/medium/low scale, and residual risk with its operational risk. Do not verify claim by claim: measure the delta against the audit. Issue BASE SUFFICIENT with limits communicable outside the workshop, or REPEAT RESEARCH with the next prompt, ready for review: sufficient = no open gap blocks the process. A source that contradicts: no sufficient without resolving the tension. Do not invent closures or sources.",
         "level_spec": {
           "role": "Step 4 judge for teams: weighs the shared delta and closes or repeats",
           "spec_role": "Guided workshop facilitator for NotebookLM",
           "objective": "Compare the shared base after the import and issue a sufficiency verdict the accountable owner can review",
-          "parameters": [
-            [
-              "sequence_position",
-              "step 4: receives the base widened by the step 3 answer and closes or reopens the team cycle"
-            ],
-            [
-              "unit_of_analysis",
-              "the delta of the shared base, not each claim on its own"
-            ],
-            [
-              "value_scale",
-              "every new source is scored high, medium or low"
-            ],
-            [
-              "sufficient",
-              "no open gap blocks the process, with limits communicable outside the workshop"
-            ]
-          ],
           "workflow": [
             "Record the process purpose and the gap audited in the previous round",
             "Compare the shared base against the previous audit point by point",
@@ -345,6 +535,29 @@
             "More than 3 rounds of the cycle: re-scope before repeating, with or without the owner sign-off",
             "Verdict with no owner to review it: ask before communicating it outside",
             "Audited gap not declared: ask for it before comparing"
+          ],
+          "constraints": [
+            [
+              "sequence_position",
+              "step 4: receives the base widened by the step 3 answer and closes or reopens the team cycle"
+            ],
+            [
+              "unit_of_analysis",
+              "the delta of the shared base, not each claim on its own"
+            ],
+            [
+              "value_scale",
+              "every new source is scored high, medium or low"
+            ],
+            [
+              "sufficient",
+              "no open gap blocks the process, with limits communicable outside the workshop"
+            ]
+          ],
+          "frameworks": [
+            "Go/No-Go gate · decide with an explicit criterion",
+            "Definition of Done · observable completion",
+            "Gap analysis · prioritize what blocks progress"
           ]
         },
         "why_it_works": {
@@ -383,39 +596,92 @@
             "claim": "Requiring limits communicable outside the workshop and an owner review before a shared base is called closed is internal method policy.",
             "source": "method_internal"
           }
-        ]
+        ],
+        "inputs": [
+          {
+            "key": "purpose",
+            "label": "PURPOSE",
+            "help": "why you need the result",
+            "example": "repeat a useful practice",
+            "required": true,
+            "type": "text",
+            "source": "user",
+            "demo_value": "test a shared, verifiable and repeatable way of working"
+          },
+          {
+            "key": "process",
+            "label": "PROCESS",
+            "help": "workflow that will change",
+            "example": "decision preparation",
+            "required": true,
+            "type": "text",
+            "source": "user",
+            "demo_value": "weekly decision preparation and review"
+          },
+          {
+            "key": "gap",
+            "label": "GAP",
+            "help": "question still unsupported",
+            "example": "what proves transfer",
+            "required": true,
+            "type": "text",
+            "source": "previous_output",
+            "demo_value": "synthetic prior-step artifact: transfer to a second context still needs evidence"
+          }
+        ],
+        "parameters": [
+          {
+            "key": "length",
+            "label": "LENGTH",
+            "default": "concise",
+            "choices": [
+              "concise",
+              "medium"
+            ]
+          },
+          {
+            "key": "structure",
+            "label": "STRUCTURE",
+            "default": "2 paragraphs + key bullets",
+            "choices": [
+              "2 paragraphs + key bullets",
+              "short table"
+            ]
+          },
+          {
+            "key": "tone",
+            "label": "TONE",
+            "default": "executive and operational",
+            "choices": [
+              "executive and operational",
+              "facilitative"
+            ]
+          },
+          {
+            "key": "depth",
+            "label": "DEPTH",
+            "default": "practical",
+            "choices": [
+              "practical",
+              "deep"
+            ]
+          }
+        ],
+        "optional_clauses": []
       }
     },
     "pt": {
       "persona": {
         "title": "Encerrar ou repetir o ciclo",
         "purpose": "Pesa o que mudou na base depois da importação, com as afirmações refutadas marcadas, e decide se você para com limites ou repete, com definição operacional de suficiente.",
-        "when": "você importou a resposta do encargo e deve decidir: parar ou repetir.",
-        "example": "Quatro fontes novas sobre adoção, importadas após o encargo anterior.",
+        "when": "você importou a resposta do plano de pesquisa e deve decidir: parar ou repetir.",
+        "example": "Quatro fontes novas sobre adoção, importadas após o plano de pesquisa anterior.",
         "evidence": "comparação ponto a ponto contra a auditoria anterior, afirmações confirmadas ou refutadas, tensões novas, valor de cada fonte na escala declarada, risco residual e veredicto suficiente com limites ou repetir com o próximo prompt.",
-        "prompt": "Passo 4, fecho do ciclo: importei as fontes no meu Notebook para o meu propósito [PROPÓSITO]. Compare a base com a auditoria, ponto a ponto: [LACUNA AUDITADA] fechada ou não, afirmações confirmadas ou refutadas, tensões novas, valor de cada fonte em escala alta/média/baixa e risco residual. Não verifique afirmação por afirmação: aqui mede-se o delta contra a auditoria. Emita [BASE SUFICIENTE] com limites ou [REPETIR PESQUISA] com o próximo prompt: suficiente = nenhuma lacuna aberta bloqueia [PROPÓSITO]. Com fonte que contradiga, não há suficiente sem resolver a tensão. Após 3 rodadas, redelimite. Não invente fechamentos nem fontes.",
+        "prompt": "Passo 4, fecho do ciclo: importei as fontes no meu Notebook para o meu propósito <PROPÓSITO>. Compare a base com a auditoria, ponto a ponto: <LACUNA> fechada ou não, afirmações confirmadas ou refutadas, tensões novas, valor de cada fonte em escala alta/média/baixa e risco residual. Não verifique afirmação por afirmação: aqui mede-se o delta contra a auditoria. Emita BASE SUFICIENTE com limites ou REPETIR PESQUISA com o próximo prompt: suficiente = nenhuma lacuna aberta bloqueia <PROPÓSITO>. Com fonte que contradiga, não há suficiente sem resolver a tensão. Após 3 rodadas, redelimite. Não invente fechamentos nem fontes.",
         "level_spec": {
           "role": "Juiz do passo 4: pesa o delta e encerra ou repete o ciclo",
           "spec_role": "Facilitador de oficina guiada no NotebookLM",
           "objective": "Comparar a base após a importação contra a auditoria anterior e emitir veredicto de suficiência com limites",
-          "parameters": [
-            [
-              "posicao_na_sequencia",
-              "passo 4: recebe a base ampliada pela resposta do passo 3 e fecha ou reabre o ciclo"
-            ],
-            [
-              "unidade_de_analise",
-              "o delta da base, não cada afirmação isolada"
-            ],
-            [
-              "escala_de_valor",
-              "cada fonte nova é pontuada alta, média ou baixa"
-            ],
-            [
-              "suficiente",
-              "nenhuma lacuna aberta bloqueia o propósito declarado"
-            ]
-          ],
           "workflow": [
             "Registrar o propósito e a lacuna auditada na rodada anterior",
             "Comparar a base atual contra a auditoria anterior ponto a ponto",
@@ -438,6 +704,29 @@
             "Fontes novas que contradizem a base: a tensão é resolvida antes de fechar",
             "Mais de 3 rodadas do ciclo: redelimitar o tema em vez de seguir iterando",
             "Lacuna auditada não declarada: pedir antes de comparar"
+          ],
+          "constraints": [
+            [
+              "posicao_na_sequencia",
+              "passo 4: recebe a base ampliada pela resposta do passo 3 e fecha ou reabre o ciclo"
+            ],
+            [
+              "unidade_de_analise",
+              "o delta da base, não cada afirmação isolada"
+            ],
+            [
+              "escala_de_valor",
+              "cada fonte nova é pontuada alta, média ou baixa"
+            ],
+            [
+              "suficiente",
+              "nenhuma lacuna aberta bloqueia o propósito declarado"
+            ]
+          ],
+          "frameworks": [
+            "Gate Go/No-Go · decida com critério explícito",
+            "Definition of Done · conclusão observável",
+            "Análise de lacunas · priorize o que bloqueia"
           ]
         },
         "why_it_works": {
@@ -476,37 +765,80 @@
             "claim": "Definir suficiente como «nenhuma lacuna aberta bloqueia o propósito» e cortar o ciclo após três rodadas são normas internas da oficina.",
             "source": "method_internal"
           }
-        ]
+        ],
+        "inputs": [
+          {
+            "key": "purpose",
+            "label": "PROPÓSITO",
+            "help": "para que precisa do resultado",
+            "example": "repetir uma prática útil",
+            "required": true,
+            "type": "text",
+            "source": "user",
+            "demo_value": "criar uma prática verificável que eu consiga repetir e explicar"
+          },
+          {
+            "key": "gap",
+            "label": "LACUNA",
+            "help": "questão ainda sem suporte",
+            "example": "o que demonstra transferência",
+            "required": true,
+            "type": "text",
+            "source": "previous_output",
+            "demo_value": "artefato sintético da etapa anterior: ainda falta demonstrar transferência para um segundo contexto"
+          }
+        ],
+        "parameters": [
+          {
+            "key": "length",
+            "label": "EXTENSÃO",
+            "default": "concisa",
+            "choices": [
+              "concisa",
+              "média"
+            ]
+          },
+          {
+            "key": "structure",
+            "label": "ESTRUTURA",
+            "default": "2 parágrafos + bullets-chave",
+            "choices": [
+              "2 parágrafos + bullets-chave",
+              "tabela breve"
+            ]
+          },
+          {
+            "key": "tone",
+            "label": "TOM",
+            "default": "claro e pessoal",
+            "choices": [
+              "claro e pessoal",
+              "didático"
+            ]
+          },
+          {
+            "key": "depth",
+            "label": "PROFUNDIDADE",
+            "default": "prática",
+            "choices": [
+              "prática",
+              "profunda"
+            ]
+          }
+        ],
+        "optional_clauses": []
       },
       "empresa": {
         "title": "Encerrar ou repetir com a equipe",
         "purpose": "Pesa o que mudou na base compartilhada da equipe, com as afirmações refutadas marcadas, e decide se o processo para com limites comunicáveis ou repete, com suficiente definido de forma operacional.",
-        "when": "a equipe importou a resposta do encargo e o processo deve parar ou repetir.",
+        "when": "a equipe importou a resposta do plano de pesquisa e o processo deve parar ou repetir.",
         "example": "Quatro fontes novas sobre adoção, importadas no Notebook da área.",
         "evidence": "comparação ponto a ponto contra a auditoria anterior, afirmações confirmadas ou refutadas, tensões novas, valor de cada fonte na escala declarada, risco residual com seu risco operacional e veredicto suficiente com limites prontos para revisão.",
-        "prompt": "Passo 4, fecho: importei fontes no Notebook da equipe para [PROPÓSITO] em [PROCESSO]. Compare a base com a auditoria, ponto a ponto: [LACUNA AUDITADA] fechada ou não, afirmações confirmadas ou refutadas, tensões novas, valor de cada fonte em escala alta/média/baixa e risco residual com risco operacional. Não verifique afirmação por afirmação: mede-se o delta. Emita [BASE SUFICIENTE] com limites comunicáveis fora, ou [REPETIR PESQUISA] com o próximo prompt, pronto para revisão: suficiente = nenhuma lacuna aberta bloqueia o processo. Fonte que contradiga: sem resolver a tensão não há suficiente. Não invente fechamentos nem fontes.",
+        "prompt": "Passo 4, fecho: importei fontes no Notebook da equipe para <PROPÓSITO> em <PROCESSO>. Compare a base com a auditoria, ponto a ponto: <LACUNA> fechada ou não, afirmações confirmadas ou refutadas, tensões novas, valor de cada fonte em escala alta/média/baixa e risco residual com risco operacional. Não verifique afirmação por afirmação: mede-se o delta. Emita BASE SUFICIENTE com limites comunicáveis fora, ou REPETIR PESQUISA com o próximo prompt, pronto para revisão: suficiente = nenhuma lacuna aberta bloqueia o processo. Fonte que contradiga: sem resolver a tensão não há suficiente. Não invente fechamentos nem fontes.",
         "level_spec": {
           "role": "Juiz do passo 4 para equipes: pesa o delta compartilhado e fecha ou repete",
           "spec_role": "Facilitador de oficina guiada no NotebookLM",
           "objective": "Comparar a base compartilhada após a importação e emitir veredicto de suficiência revisável pelo responsável",
-          "parameters": [
-            [
-              "posicao_na_sequencia",
-              "passo 4: recebe a base ampliada pela resposta do passo 3 e fecha ou reabre o ciclo da equipe"
-            ],
-            [
-              "unidade_de_analise",
-              "o delta da base compartilhada, não cada afirmação isolada"
-            ],
-            [
-              "escala_de_valor",
-              "cada fonte nova é pontuada alta, média ou baixa"
-            ],
-            [
-              "suficiente",
-              "nenhuma lacuna aberta bloqueia o processo, com limites comunicáveis fora da oficina"
-            ]
-          ],
           "workflow": [
             "Registrar o propósito do processo e a lacuna auditada na rodada anterior",
             "Comparar a base compartilhada contra a auditoria anterior ponto a ponto",
@@ -530,6 +862,29 @@
             "Mais de 3 rodadas do ciclo: redelimitar antes de repetir, com ou sem o aval do responsável",
             "Veredicto sem responsável que o revise: pedir antes de comunicar fora",
             "Lacuna auditada não declarada: pedir antes de comparar"
+          ],
+          "constraints": [
+            [
+              "posicao_na_sequencia",
+              "passo 4: recebe a base ampliada pela resposta do passo 3 e fecha ou reabre o ciclo da equipe"
+            ],
+            [
+              "unidade_de_analise",
+              "o delta da base compartilhada, não cada afirmação isolada"
+            ],
+            [
+              "escala_de_valor",
+              "cada fonte nova é pontuada alta, média ou baixa"
+            ],
+            [
+              "suficiente",
+              "nenhuma lacuna aberta bloqueia o processo, com limites comunicáveis fora da oficina"
+            ]
+          ],
+          "frameworks": [
+            "Gate Go/No-Go · decida com critério explícito",
+            "Definition of Done · conclusão observável",
+            "Análise de lacunas · priorize o que bloqueia"
           ]
         },
         "why_it_works": {
@@ -568,10 +923,95 @@
             "claim": "Exigir limites comunicáveis fora da oficina e revisão do responsável antes de dar por fechada uma base compartilhada é política interna do método.",
             "source": "method_internal"
           }
-        ]
+        ],
+        "inputs": [
+          {
+            "key": "purpose",
+            "label": "PROPÓSITO",
+            "help": "para que precisa do resultado",
+            "example": "repetir uma prática útil",
+            "required": true,
+            "type": "text",
+            "source": "user",
+            "demo_value": "testar uma forma de trabalho compartilhada, verificável e repetível"
+          },
+          {
+            "key": "process",
+            "label": "PROCESSO",
+            "help": "fluxo que mudará",
+            "example": "preparação de decisões",
+            "required": true,
+            "type": "text",
+            "source": "user",
+            "demo_value": "preparação e revisão semanal de decisões"
+          },
+          {
+            "key": "gap",
+            "label": "LACUNA",
+            "help": "questão ainda sem suporte",
+            "example": "o que demonstra transferência",
+            "required": true,
+            "type": "text",
+            "source": "previous_output",
+            "demo_value": "artefato sintético da etapa anterior: ainda falta demonstrar transferência para um segundo contexto"
+          }
+        ],
+        "parameters": [
+          {
+            "key": "length",
+            "label": "EXTENSÃO",
+            "default": "concisa",
+            "choices": [
+              "concisa",
+              "média"
+            ]
+          },
+          {
+            "key": "structure",
+            "label": "ESTRUTURA",
+            "default": "2 parágrafos + bullets-chave",
+            "choices": [
+              "2 parágrafos + bullets-chave",
+              "tabela breve"
+            ]
+          },
+          {
+            "key": "tone",
+            "label": "TOM",
+            "default": "executivo e operacional",
+            "choices": [
+              "executivo e operacional",
+              "facilitador"
+            ]
+          },
+          {
+            "key": "depth",
+            "label": "PROFUNDIDADE",
+            "default": "prática",
+            "choices": [
+              "prática",
+              "profunda"
+            ]
+          }
+        ],
+        "optional_clauses": []
       }
     }
   },
   "self_hash_model": "sha256(sorted-json-without-self_sha256)",
-  "self_sha256": "6da69842adcf34a0fc672fcdc18d5d2fc077b9163be6703769bcc73cc69d806e"
+  "self_sha256": "6ba40d4fe556ac46db48b3e6952db79a68aa464dd0bd7baf295c8a730c74dbda",
+  "flow": {
+    "route": "workbook",
+    "order": 7,
+    "previous": "W03",
+    "next": "W05",
+    "branches": [],
+    "consumes": [
+      "PLAN_DE_INVESTIGACION"
+    ],
+    "produces": "VEREDICTO_DE_BASE",
+    "external_gate": false,
+    "loop_to": "W03",
+    "standalone": true
+  }
 }

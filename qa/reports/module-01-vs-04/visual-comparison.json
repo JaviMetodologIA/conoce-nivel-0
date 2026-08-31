@@ -1,0 +1,312 @@
+{
+  "schema_version": "module-visual-comparison-v1",
+  "reference_module": "ia-panorama",
+  "candidate_module": "module-04-trabajo-agentico",
+  "candidate_module_order": 4,
+  "widths": [
+    390,
+    1440
+  ],
+  "theme": "light",
+  "pairs": [
+    {
+      "width": 390,
+      "theme": "light",
+      "resource": "masterclass",
+      "reference": {
+        "route": "deck/index.html",
+        "images": [
+          {
+            "state": "hero",
+            "file": "reference-m01-masterclass-390-hero.png",
+            "sha256": "f6558c7603d154bbbfb7abf2313f4200375a1b0296826745c50fc07d205c874c"
+          },
+          {
+            "state": "state",
+            "file": "reference-m01-masterclass-390-state.png",
+            "sha256": "69c96ba8b1c039c1bda3290779de95b8a0685dd1542fb57056b3b499b3a42fbe"
+          }
+        ]
+      },
+      "candidate": {
+        "route": "modulos/04-trabajo-agentico/masterclass/index.html",
+        "images": [
+          {
+            "state": "hero",
+            "file": "candidate-m04-masterclass-390-hero.png",
+            "sha256": "fc1f0ebc79e850b6c22294d1b79993843a46a8aa8c55df70c6493225273f23e4"
+          },
+          {
+            "state": "state",
+            "file": "candidate-m04-masterclass-390-state.png",
+            "sha256": "55f82fc678ca56894cf914ab17e5bce83436c5491f6be3713280c3e7ce079c3c"
+          }
+        ]
+      }
+    },
+    {
+      "width": 390,
+      "theme": "light",
+      "resource": "workbook",
+      "reference": {
+        "route": "workbook/index.html",
+        "images": [
+          {
+            "state": "hero",
+            "file": "reference-m01-workbook-390-hero.png",
+            "sha256": "f7a84a100e20c0f7177a1463e61ec6b280dbdb9fda415cbc5d339cfbc4d7cc11"
+          },
+          {
+            "state": "state",
+            "file": "reference-m01-workbook-390-state.png",
+            "sha256": "0c971ec085d6cce690b207bd0f50aabdbbadc0eaf7d920634823e3e07b5ef2b9"
+          }
+        ]
+      },
+      "candidate": {
+        "route": "modulos/04-trabajo-agentico/workbook/index.html",
+        "images": [
+          {
+            "state": "hero",
+            "file": "candidate-m04-workbook-390-hero.png",
+            "sha256": "4851c97df1aa9c261c24380ed5bd7f8bfe785ce04cad365f8ad34d8f91bd1897"
+          },
+          {
+            "state": "state",
+            "file": "candidate-m04-workbook-390-state.png",
+            "sha256": "26c2268e56f1ff8917bb328789c903f9a1da3f3521fca805d0ce85bd5f23b009"
+          }
+        ]
+      }
+    },
+    {
+      "width": 390,
+      "theme": "light",
+      "resource": "playbook",
+      "reference": {
+        "route": "playbook/index.html",
+        "images": [
+          {
+            "state": "hero",
+            "file": "reference-m01-playbook-390-hero.png",
+            "sha256": "1243e77ed2d306d2fc4124bc721de73a93c9cd80cf145b5702d72b0a372f79b6"
+          },
+          {
+            "state": "state",
+            "file": "reference-m01-playbook-390-state.png",
+            "sha256": "ca494ef504c8f3e5b1b6d057e19695d219940c18b4d701b02afe034cd092feeb"
+          }
+        ]
+      },
+      "candidate": {
+        "route": "modulos/04-trabajo-agentico/playbook/index.html",
+        "images": [
+          {
+            "state": "hero",
+            "file": "candidate-m04-playbook-390-hero.png",
+            "sha256": "87b22cbbe7258721a78dc491d8ea87606fc423f147fcbe85ab07963bdb0b2f2f"
+          },
+          {
+            "state": "state",
+            "file": "candidate-m04-playbook-390-state.png",
+            "sha256": "4077ee4510d9fe6ee2bec350c8a44bf7ed0f5c052eb4e0dea8801640a7e6dd04"
+          }
+        ]
+      }
+    },
+    {
+      "width": 390,
+      "theme": "light",
+      "resource": "prompts",
+      "reference": {
+        "route": "prompts/index.html",
+        "images": [
+          {
+            "state": "hero",
+            "file": "reference-m01-prompts-390-hero.png",
+            "sha256": "145692d54f25a5efa9cb17cb3ef7d3239dba6e1106114be03805646520d0587e"
+          },
+          {
+            "state": "state",
+            "file": "reference-m01-prompts-390-state.png",
+            "sha256": "5bf66274a694fa599ac2c0367159830ad563c74667df611d2d55dbabc5893344"
+          }
+        ]
+      },
+      "candidate": {
+        "route": "modulos/04-trabajo-agentico/prompts/index.html",
+        "images": [
+          {
+            "state": "hero",
+            "file": "candidate-m04-prompts-390-hero.png",
+            "sha256": "dacc83481e6f753e3304e1569480ab9514315904a26f41f10a49e6ad6e3c2c8a"
+          },
+          {
+            "state": "state",
+            "file": "candidate-m04-prompts-390-state.png",
+            "sha256": "81e0866d097305f6cdca2335ff58571f97f1b84c8518bd1128f107bc93b23b64"
+          }
+        ]
+      }
+    },
+    {
+      "width": 1440,
+      "theme": "light",
+      "resource": "masterclass",
+      "reference": {
+        "route": "deck/index.html",
+        "images": [
+          {
+            "state": "hero",
+            "file": "reference-m01-masterclass-1440-hero.png",
+            "sha256": "9aa6e99134ba72e09fc0c0d834bfea2b034bd6f16e9ecd5ccb4a503a59b7311d"
+          },
+          {
+            "state": "state",
+            "file": "reference-m01-masterclass-1440-state.png",
+            "sha256": "3ed2f908c0bbf25c8ced32cca99848ba0006ea4dc2f1a295a5ad439b4e883052"
+          }
+        ]
+      },
+      "candidate": {
+        "route": "modulos/04-trabajo-agentico/masterclass/index.html",
+        "images": [
+          {
+            "state": "hero",
+            "file": "candidate-m04-masterclass-1440-hero.png",
+            "sha256": "c47b6c3fc01eef58a90f9ed1588ef8fcc0ab1fcdffb8df3238ab9f9939a01711"
+          },
+          {
+            "state": "state",
+            "file": "candidate-m04-masterclass-1440-state.png",
+            "sha256": "25b535d9bcb87bd86d15da3972ce1b5aee93e0f4919b933e894cda8248bfcfc5"
+          }
+        ]
+      }
+    },
+    {
+      "width": 1440,
+      "theme": "light",
+      "resource": "workbook",
+      "reference": {
+        "route": "workbook/index.html",
+        "images": [
+          {
+            "state": "hero",
+            "file": "reference-m01-workbook-1440-hero.png",
+            "sha256": "b0f1c09a0036d8bc28727370f8004b191285c60bf66f90d2a89962d5eacaaf58"
+          },
+          {
+            "state": "state",
+            "file": "reference-m01-workbook-1440-state.png",
+            "sha256": "d798f7b72a78bbe11c92bbbd626465207117be93253acc8e3601ad2b6d14f4d2"
+          }
+        ]
+      },
+      "candidate": {
+        "route": "modulos/04-trabajo-agentico/workbook/index.html",
+        "images": [
+          {
+            "state": "hero",
+            "file": "candidate-m04-workbook-1440-hero.png",
+            "sha256": "af6bab736b1b0fa36e73920a14dd6138b328b11c5a2c45ee7cbffb4145e5e644"
+          },
+          {
+            "state": "state",
+            "file": "candidate-m04-workbook-1440-state.png",
+            "sha256": "eb47e0dd319d0e32180fc3f4b98e2f821ad58e398bced3a8e30617b3c0babcd5"
+          }
+        ]
+      }
+    },
+    {
+      "width": 1440,
+      "theme": "light",
+      "resource": "playbook",
+      "reference": {
+        "route": "playbook/index.html",
+        "images": [
+          {
+            "state": "hero",
+            "file": "reference-m01-playbook-1440-hero.png",
+            "sha256": "45ac95b6ba4e2bf7665b50bfd36790747dcc8eeaf889822ef7b2169de52c99f4"
+          },
+          {
+            "state": "state",
+            "file": "reference-m01-playbook-1440-state.png",
+            "sha256": "af01868954cefcdb23368807688b70d7634124736eaff302774b84f5bb1c5270"
+          }
+        ]
+      },
+      "candidate": {
+        "route": "modulos/04-trabajo-agentico/playbook/index.html",
+        "images": [
+          {
+            "state": "hero",
+            "file": "candidate-m04-playbook-1440-hero.png",
+            "sha256": "d4425b81a698134817bd1e31528c8544e47315680419b51adaa384510d6d2e6b"
+          },
+          {
+            "state": "state",
+            "file": "candidate-m04-playbook-1440-state.png",
+            "sha256": "60046d247c08f70e7131b83f73195460479a2534ff696dda130763a384ba2894"
+          }
+        ]
+      }
+    },
+    {
+      "width": 1440,
+      "theme": "light",
+      "resource": "prompts",
+      "reference": {
+        "route": "prompts/index.html",
+        "images": [
+          {
+            "state": "hero",
+            "file": "reference-m01-prompts-1440-hero.png",
+            "sha256": "d2a0fbd11340d23dcaef824cc4b3f25a7a495334878ab740a6ac9dd9141e8ddc"
+          },
+          {
+            "state": "state",
+            "file": "reference-m01-prompts-1440-state.png",
+            "sha256": "6e6e09318890dee23f4868f3bb9d89916a382e10de1ae73d0b3722c573fe99cc"
+          }
+        ]
+      },
+      "candidate": {
+        "route": "modulos/04-trabajo-agentico/prompts/index.html",
+        "images": [
+          {
+            "state": "hero",
+            "file": "candidate-m04-prompts-1440-hero.png",
+            "sha256": "637db9d2522a923437b135bcbe4f7783961b42a7638b30a61860bb492e9a64d1"
+          },
+          {
+            "state": "state",
+            "file": "candidate-m04-prompts-1440-state.png",
+            "sha256": "0cfcb5da2d8edb0894d427455d6e5f0aeef426a9c3357b9bfda52e33b14481f2"
+          }
+        ]
+      }
+    }
+  ],
+  "summary": {
+    "pair_count": 8,
+    "image_count": 32,
+    "evidence_readback": "sha256-bound",
+    "visual_policy": "same-functional-and-brand-grammar-not-pixel-identity",
+    "verdict": "PASS"
+  },
+  "inputs": {
+    "build_manifest_sha256": "d264b4416eb6e8093f17320055ef67509d9e7b56c1532e46bfcf546b453cf4b6",
+    "build_receipt_sha256": "2a4f2de8e7a632ca699b5177548de489d18dce98f2f540507f88ce69412323e6",
+    "definition_of_done_ref": "src/module-resource-definition-of-done-v1.json",
+    "definition_of_done_sha256": "d43f43935de080e876ee40cac3ced71c2431c78f6ed398f2b50f6af7053f414c",
+    "css_sha256": "18ff9c52f9eb5af42b037bdd9a3b5240c5cab65eff246636a8e1a20369999046",
+    "runtime_sha256": "da20fc831a7c752df397d2b3d7c7ff6a7de9429e8b8f2c410284582ef95beb89"
+  },
+  "state": "RENDERED_DRAFT",
+  "publication_authorized": false,
+  "self_hash_model": "sha256(sorted-json-without-self_sha256)",
+  "self_sha256": "ffa17ff3d541022fb12b8c48376c42aacb1dc075864f6246cb2b4636cafec3c1"
+}
