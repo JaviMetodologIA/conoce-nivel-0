@@ -775,11 +775,62 @@ def rendered_pages(orders: Mapping[str, int]) -> Dict[Tuple[str, str, str], Tupl
     return pages
 
 
+def m1_prompt_ui_contract(locale: str, audience: str) -> Dict[str, Any]:
+    """Read the rendered M1 homologue as the visual and interaction authority."""
+
+    parts: List[str] = []
+    if locale != "es":
+        parts.append(locale)
+    if audience == "empresa":
+        parts.append("empresa")
+    parts.extend(("prompts", "index.html"))
+    path = DIST.joinpath(*parts)
+    if not path.is_file() or path.is_symlink():
+        fail("M1_UI_REFERENCE_MISSING", str(path.relative_to(ROOT)))
+    soup = BeautifulSoup(path.read_text(encoding="utf-8"), "html.parser")
+    cards = soup.select("[data-library-prompt]")
+    if len(cards) != CARDS_PER_PAGE:
+        fail("M1_UI_REFERENCE_CARDS", f"{locale}:{audience}:{len(cards)}")
+    first = cards[0]
+    summary = one(first.select(".library-prompt-disclosure > summary"), "M1_UI_SUMMARY", locale)
+    discovery = one(first.select(".prompt-card-discovery"), "M1_UI_DISCOVERY", locale)
+    input_summary = one(first.select(".prompt-input-guide > summary"), "M1_UI_INPUT", locale)
+    copy_button = one(first.select("[data-format-copy]"), "M1_UI_COPY", locale)
+    surface_labels: Dict[str, str] = {}
+    for card in cards:
+        surface = card.get("data-notebook-surface")
+        badge = one(card.select(".prompt-launch-badge strong"), "M1_UI_SURFACE", locale)
+        label = badge.get_text(" ", strip=True)
+        if surface in surface_labels and surface_labels[surface] != label:
+            fail("M1_UI_SURFACE_DRIFT", f"{locale}:{audience}:{surface}")
+        surface_labels[str(surface)] = label
+    return {
+        "family_labels": [
+            one(card.select(".library-prompt-summary-copy .eyebrow"), "M1_UI_FAMILY", locale).get_text(" ", strip=True)
+            for card in cards
+        ],
+        "summary_child_classes": [tuple(node.get("class", ())) for node in summary.find_all(recursive=False)],
+        "discovery_text": discovery.get_text(" ", strip=True),
+        "discovery_label": summary.get("data-discovery-label"),
+        "mode_labels": [node.get_text(" ", strip=True) for node in first.select("[data-prompt-mode-select]")],
+        "tab_labels": [node.get("aria-label") for node in first.select("[data-prompt-format]")],
+        "tab_small_labels": [node.get_text(" ", strip=True) for node in first.select(".prompt-tab-copy small")],
+        "input_summary": next(input_summary.stripped_strings, ""),
+        "syntax": one(first.select(".prompt-syntax"), "M1_UI_SYNTAX", locale).get_text(" ", strip=True),
+        "launch_small": one(first.select(".prompt-launch-badge small"), "M1_UI_LAUNCH", locale).get_text(" ", strip=True),
+        "surface_labels": surface_labels,
+        "copy_label": copy_button.get("data-copy-label"),
+        "copied_label": copy_button.get("data-copied-label"),
+        "copy_svg_count": len(copy_button.select("svg")),
+    }
+
+
 def validate_page(
     key: Tuple[str, str, str],
     path: Path,
     soup: BeautifulSoup,
     expected: Mapping[str, Any],
+    golden_ui: Mapping[str, Any],
     totals: Counter,
 ) -> Dict[str, Dict[Tuple[int, str], str]]:
     alias, locale, audience = key
@@ -815,6 +866,12 @@ def validate_page(
         fail("CARD_FAMILY_DISTRIBUTION", where_page)
     if Counter(card.get("data-notebook-surface") for card in cards) != Counter(EXPECTED_SURFACES_PER_PAGE):
         fail("CARD_SURFACE_DISTRIBUTION", where_page)
+    family_labels = [
+        one(card.select(".library-prompt-summary-copy .eyebrow"), "CARD_FAMILY_LABEL", where_page).get_text(" ", strip=True)
+        for card in cards
+    ]
+    if family_labels != golden_ui["family_labels"]:
+        fail("M1_UI_FAMILY_PARITY", f"{where_page}:{family_labels}")
     direct_section = one(main.select("section#directos"), "DIRECT_SECTION", where_page)
     meta_section = one(main.select("section#metaprompts"), "META_SECTION", where_page)
     if len(direct_section.select("[data-library-prompt]")) != EXPECTED_KINDS["direct"]:
@@ -837,16 +894,53 @@ def validate_page(
         if card.get("data-prompt-slot") != expected_slot:
             fail("CARD_SLOT", f"{where_card}:{card.get('data-prompt-slot')}!={expected_slot}")
         totals[f"surface:{surface}"] += 1
+        disclosure = one(card.select(".library-prompt-disclosure"), "DISCLOSURE_COUNT", where_card)
+        if disclosure.has_attr("open"):
+            fail("DISCLOSURE_DEFAULT", where_card)
+        summary = one(card.select(".library-prompt-disclosure > summary"), "SUMMARY_COUNT", where_card)
+        summary_classes = [tuple(node.get("class", ())) for node in summary.find_all(recursive=False)]
+        if summary_classes != golden_ui["summary_child_classes"]:
+            fail("M1_UI_SUMMARY_STRUCTURE", where_card)
+        discovery = one(card.select(".prompt-card-discovery"), "DISCOVERY_CUE", where_card)
+        if (
+            discovery.get_text(" ", strip=True) != golden_ui["discovery_text"]
+            or summary.get("data-discovery-label") != golden_ui["discovery_label"]
+        ):
+            fail("M1_UI_DISCOVERY_PARITY", where_card)
+        badge = one(card.select(".prompt-launch-badge"), "LAUNCH_BADGE", where_card)
+        badge_small = one(badge.select("small"), "LAUNCH_BADGE_LABEL", where_card).get_text(" ", strip=True)
+        badge_strong = one(badge.select("strong"), "LAUNCH_BADGE_VALUE", where_card).get_text(" ", strip=True)
+        if badge_small != golden_ui["launch_small"] or badge_strong != golden_ui["surface_labels"].get(surface):
+            fail("M1_UI_LAUNCH_PARITY", f"{where_card}:{badge_small}:{badge_strong}")
+        if len(card.select(".prompt-flow")) != 1 or len(card.select(".prompt-flow nav")) != 1:
+            fail("M1_UI_FLOW", where_card)
         library = one(card.select("[data-prompt-library]"), "LIBRARY_COUNT", where_card)
         mode_buttons = [node.get("data-prompt-mode-select") for node in library.select("[data-prompt-mode-select]")]
         if mode_buttons != ["template", "demo"]:
             fail("MODE_CONTROLS", f"{where_card}:{mode_buttons}")
+        if [node.get_text(" ", strip=True) for node in library.select("[data-prompt-mode-select]")] != golden_ui["mode_labels"]:
+            fail("M1_UI_MODE_LABELS", where_card)
         tab_matrix = [
             (node.get("data-prompt-format"), node.get("data-level-number"))
             for node in library.select("[data-prompt-format]")
         ]
         if tab_matrix != [(format_id, str(level)) for level, format_id in enumerate(FORMAT_IDS, 1)]:
             fail("LEVEL_TABS", f"{where_card}:{tab_matrix}")
+        if (
+            [node.get("aria-label") for node in library.select("[data-prompt-format]")] != golden_ui["tab_labels"]
+            or [node.get_text(" ", strip=True) for node in library.select(".prompt-tab-copy small")] != golden_ui["tab_small_labels"]
+        ):
+            fail("M1_UI_LEVEL_LABELS", where_card)
+        syntax = one(library.select(".prompt-syntax"), "PROMPT_SYNTAX", where_card).get_text(" ", strip=True)
+        if syntax != golden_ui["syntax"]:
+            fail("M1_UI_SYNTAX_PARITY", where_card)
+        copy_button = one(library.select("[data-format-copy]"), "COPY_BUTTON", where_card)
+        if (
+            copy_button.get("data-copy-label") != golden_ui["copy_label"]
+            or copy_button.get("data-copied-label") != golden_ui["copied_label"]
+            or len(copy_button.select("svg")) != golden_ui["copy_svg_count"]
+        ):
+            fail("M1_UI_COPY_PARITY", where_card)
         totals["tabs"] += len(tab_matrix)
         levels = library.select("details[data-prompt-level]")
         if [node.get("data-prompt-level") for node in levels] != ["1", "2", "3", "4"]:
@@ -854,6 +948,9 @@ def validate_page(
         expected_inputs = expected["inputs"][prompt_id]
         expected_parameter_count = expected["parameter_counts"][prompt_id]
         input_guide = one(card.select("details.prompt-input-guide"), "INPUT_GUIDE", where_card)
+        input_summary = one(input_guide.select(":scope > summary"), "INPUT_GUIDE_SUMMARY", where_card)
+        if next(input_summary.stripped_strings, "") != golden_ui["input_summary"]:
+            fail("M1_UI_INPUT_LABEL", where_card)
         guide_lists = input_guide.select("ul")
         if len(guide_lists) != 2:
             fail("INPUT_GUIDE_LISTS", where_card)
@@ -951,9 +1048,14 @@ def main() -> int:
         fail("PAGE_MATRIX", f"missing={sorted(set(expected)-set(rendered))}:extra={sorted(set(rendered)-set(expected))}")
     totals: Counter = Counter()
     extracted: Dict[Tuple[str, str, str], Dict[str, Dict[Tuple[int, str], str]]] = {}
+    golden_ui = {
+        (locale, audience): m1_prompt_ui_contract(locale, audience)
+        for locale in LOCALES
+        for audience in AUDIENCES
+    }
     for key in sorted(expected):
         path, soup = rendered[key]
-        extracted[key] = validate_page(key, path, soup, expected[key], totals)
+        extracted[key] = validate_page(key, path, soup, expected[key], golden_ui[(key[1], key[2])], totals)
     pairs = validate_audience_parity(extracted)
     actual = (totals["pages"], totals["cards"], totals["tabs"], totals["levels"], totals["textareas"])
     wanted = (EXPECTED_PAGES, EXPECTED_CARDS, EXPECTED_TABS, EXPECTED_LEVELS, EXPECTED_TEXTAREAS)

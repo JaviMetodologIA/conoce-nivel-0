@@ -34,7 +34,7 @@
           {
             "state": "hero",
             "file": "candidate-m02-masterclass-390-hero.png",
-            "sha256": "8ac8d709efc6dba968f97ac32a261ecf5fa4baf50fdbf683b4f93606d3f4f890"
+            "sha256": "a2ed8d46d4450664c4cac2e345028654b48d8e51ab307a22c6ebaebca76c97ed"
           },
           {
             "state": "state",
@@ -124,12 +124,12 @@
           {
             "state": "hero",
             "file": "reference-m01-prompts-390-hero.png",
-            "sha256": "145692d54f25a5efa9cb17cb3ef7d3239dba6e1106114be03805646520d0587e"
+            "sha256": "2ded19013164f82e7fd5ac34fd1f7103cc7354c7d1a7ab28c1d263cdfe367892"
           },
           {
             "state": "state",
             "file": "reference-m01-prompts-390-state.png",
-            "sha256": "79882dab594ba15d8cdd36890a14cc49035c5950caca283ca3130bc812b9a51f"
+            "sha256": "401fdcb3fa9e3e5c4fc16fb1a288d6bdaca1da7a5ae4939fa3de80ed59310c9c"
           }
         ]
       },
@@ -139,12 +139,12 @@
           {
             "state": "hero",
             "file": "candidate-m02-prompts-390-hero.png",
-            "sha256": "db990cc467a8c6d6972d0a38dc2380e9239b07fe396d801b4840fcccd5266d15"
+            "sha256": "3f5f0d613ba3ef26d74d76fa9668cd858d3955232fca175e86710d56365edbe3"
           },
           {
             "state": "state",
             "file": "candidate-m02-prompts-390-state.png",
-            "sha256": "f1b9c12c6803644bc913320bdbd245e1f8721731fc32eb7468db5a48b036072a"
+            "sha256": "8ebceb4f2117f0282ca7121dc67dcf26ea45085d3eb05a3a1d7c9a3a07e99c50"
           }
         ]
       }
@@ -159,7 +159,7 @@
           {
             "state": "hero",
             "file": "reference-m01-masterclass-1440-hero.png",
-            "sha256": "a1abebf38aa1e28318fc4ced05f0052fb45f3cca7148615575181bd45fa558da"
+            "sha256": "9aa6e99134ba72e09fc0c0d834bfea2b034bd6f16e9ecd5ccb4a503a59b7311d"
           },
           {
             "state": "state",
@@ -174,7 +174,7 @@
           {
             "state": "hero",
             "file": "candidate-m02-masterclass-1440-hero.png",
-            "sha256": "9d4774b8e8972396800784184e4f4ce6c158077032f680a83b1d5d5518867d70"
+            "sha256": "3ac417d5e04f66f850ca815da8c854fe53b93983b925036656bc7d8c5401be4f"
           },
           {
             "state": "state",
@@ -269,7 +269,7 @@
           {
             "state": "state",
             "file": "reference-m01-prompts-1440-state.png",
-            "sha256": "783b241bab5d3de660c8083513b4d934538f8e7db000db02f636f5fd10bd7b34"
+            "sha256": "02565ca1929406750f91ab9d34b65d7892edac806d27e0f06f57efe146031cb3"
           }
         ]
       },
@@ -284,7 +284,7 @@
           {
             "state": "state",
             "file": "candidate-m02-prompts-1440-state.png",
-            "sha256": "4158315f5e8bb574fed34ead2a6c8edf495666e0126d6e40a7d8bcb19ec0bbab"
+            "sha256": "ec1462fc17c42e84178011069d6c96795c4aaa98baac113df4012657e82b8b97"
           }
         ]
       }
@@ -298,15 +298,15 @@
     "verdict": "PASS"
   },
   "inputs": {
-    "build_manifest_sha256": "74a70b256430a9f8072c79021614386235a57a9f73a6d78a4026228088408f9a",
-    "build_receipt_sha256": "dd95ed28d931377ef96b741f52976fe11921cb1e37e71d278e1cd4c2c336feba",
+    "build_manifest_sha256": "89bfdc6f5e3f9ab70a26cd424bcd97cb0ff94a2062b311f4581b19b8e0dc3e4a",
+    "build_receipt_sha256": "f7615750da8f51c412c52b32b6b0c99487acde56e6008e2340d95d993c201779",
     "definition_of_done_ref": "src/module-resource-definition-of-done-v1.json",
     "definition_of_done_sha256": "d43f43935de080e876ee40cac3ced71c2431c78f6ed398f2b50f6af7053f414c",
-    "css_sha256": "32eae164c452284dea19dfef1b42906760346de8365f724cf6050e18ed556591",
-    "runtime_sha256": "da20fc831a7c752df397d2b3d7c7ff6a7de9429e8b8f2c410284582ef95beb89"
+    "css_sha256": "971657ea52a77edb86d5ae6868cd95eea1bef0c9e91b959abef93998cfbce93e",
+    "runtime_sha256": "7df998dba65251e8478e272576b1ba4befc4b94063747adac3b896ab45c44d32"
   },
   "state": "RENDERED_DRAFT",
   "publication_authorized": false,
   "self_hash_model": "sha256(sorted-json-without-self_sha256)",
-  "self_sha256": "545cb1b68b9c2b2fa2d49e39da81342eeeb0b5db7b6ceae45677bbe9a484c69b"
+  "self_sha256": "3df36a07d2dba2ae4bc716b8b3beb0c66e5517b96606753544fb17f5b3d8c8af"
 }

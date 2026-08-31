@@ -39,12 +39,12 @@
     "self_sha256": "1044950780a9ad0044586de3e837137e7d02f0f8ea7f2d8ae9eb99d9c7e74876"
   },
   "inputs": {
-    "build_manifest_sha256": "74a70b256430a9f8072c79021614386235a57a9f73a6d78a4026228088408f9a",
-    "build_py_sha256": "978076da750e39b54860f62b6c79f111489b3718ea5da2d0302247f15e49e1a7",
-    "build_receipt_sha256": "dd95ed28d931377ef96b741f52976fe11921cb1e37e71d278e1cd4c2c336feba",
-    "css_sha256": "32eae164c452284dea19dfef1b42906760346de8365f724cf6050e18ed556591",
-    "renderer_sha256": "d7e784490b1de5e264518fb6e2ebfb5372dd52745ab1dee954ba4a31c8e126cd",
-    "runtime_sha256": "da20fc831a7c752df397d2b3d7c7ff6a7de9429e8b8f2c410284582ef95beb89"
+    "build_manifest_sha256": "89bfdc6f5e3f9ab70a26cd424bcd97cb0ff94a2062b311f4581b19b8e0dc3e4a",
+    "build_py_sha256": "4e447d2353805d60a4a048bf35df950a64fe42704004819ba34aa20f6d51c6dd",
+    "build_receipt_sha256": "f7615750da8f51c412c52b32b6b0c99487acde56e6008e2340d95d993c201779",
+    "css_sha256": "971657ea52a77edb86d5ae6868cd95eea1bef0c9e91b959abef93998cfbce93e",
+    "renderer_sha256": "3d8ac3df7a95bad563012f5ef9001ab1c08f59a9b34aa1b952b48ae2358d1d93",
+    "runtime_sha256": "7df998dba65251e8478e272576b1ba4befc4b94063747adac3b896ab45c44d32"
   },
   "pairs": [
     {
@@ -197,7 +197,7 @@
     {
       "audience": "persona",
       "candidate": {
-        "bytes": 870694,
+        "bytes": 887179,
         "current_resource": 3,
         "main_identity": {
           "data-audience": "persona",
@@ -212,14 +212,14 @@
           "library-prompt-card": 28
         },
         "path": "dist/modulos/03-trabajo-amplificado/prompts/index.html",
-        "sha256": "968a1a7257a86ffb1ead6e500e2dc8baf81ae0933e6501809eca223b1ada60ce",
+        "sha256": "d5d753d4dedc254da1e70cea56ec308aa48c4268225ad710426d838dc0dd9b8a",
         "sibling_navigation": 1,
         "unique_ids": true,
-        "visible_words": 31982
+        "visible_words": 32627
       },
       "locale": "es",
       "reference": {
-        "bytes": 831873,
+        "bytes": 835121,
         "current_resource": 2,
         "main_identity": {
           "data-audience": null,
@@ -234,14 +234,14 @@
           "library-prompt-card": 28
         },
         "path": "dist/prompts/index.html",
-        "sha256": "fcd4805a54559856ddf5208d665060a4bb5c7d2bfa9e7e34b78f3bb4d02a7dc5",
+        "sha256": "c3021fedb6cc78da92dc435d4b440a9a619652ea35e7df50f29e66cee7d9919e",
         "sibling_navigation": 0,
         "unique_ids": true,
-        "visible_words": 35398
+        "visible_words": 35524
       },
       "resource": "prompts",
       "semantic_markers_present": true,
-      "visible_density_ratio": 0.9035
+      "visible_density_ratio": 0.9184
     },
     {
       "audience": "empresa",
@@ -393,7 +393,7 @@
     {
       "audience": "empresa",
       "candidate": {
-        "bytes": 873765,
+        "bytes": 890250,
         "current_resource": 3,
         "main_identity": {
           "data-audience": "empresa",
@@ -408,14 +408,14 @@
           "library-prompt-card": 28
         },
         "path": "dist/empresa/modulos/03-trabajo-amplificado/prompts/index.html",
-        "sha256": "9f0b3549d6faeb3e6a9932316f1980967da9b7aaf8f9535e262ce9afa612d9bd",
+        "sha256": "197946ee61ae72b5ecf47ddd8b07a3631657ee09863b2f5326c9ba3156c5aced",
         "sibling_navigation": 1,
         "unique_ids": true,
-        "visible_words": 31454
+        "visible_words": 32099
       },
       "locale": "es",
       "reference": {
-        "bytes": 853117,
+        "bytes": 856365,
         "current_resource": 2,
         "main_identity": {
           "data-audience": null,
@@ -430,14 +430,14 @@
           "library-prompt-card": 28
         },
         "path": "dist/empresa/prompts/index.html",
-        "sha256": "6a93d40cd63621ab8fcc6b3a739746c1ee5488abd0141857391532f1a1d2f522",
+        "sha256": "5211667e82c5f5427e13d4d3a8fa2b62508e297fe4f4b302eebb81b918256533",
         "sibling_navigation": 0,
         "unique_ids": true,
-        "visible_words": 36669
+        "visible_words": 36795
       },
       "resource": "prompts",
       "semantic_markers_present": true,
-      "visible_density_ratio": 0.8578
+      "visible_density_ratio": 0.8724
     },
     {
       "audience": "persona",
@@ -589,7 +589,7 @@
     {
       "audience": "persona",
       "candidate": {
-        "bytes": 852271,
+        "bytes": 867831,
         "current_resource": 3,
         "main_identity": {
           "data-audience": "persona",
@@ -604,14 +604,14 @@
           "library-prompt-card": 28
         },
         "path": "dist/en/modules/03-amplified-work/prompts/index.html",
-        "sha256": "03fd0083d726a10cec4b423996f2c2897617c25eb1611baa61ee2c3ae8fba17e",
+        "sha256": "cdd2d1f1e565267586aafe26e38037de5ffa953acd64edf45636a0d3ee3ac1d8",
         "sibling_navigation": 1,
         "unique_ids": true,
-        "visible_words": 32822
+        "visible_words": 33517
       },
       "locale": "en",
       "reference": {
-        "bytes": 801276,
+        "bytes": 804230,
         "current_resource": 2,
         "main_identity": {
           "data-audience": null,
@@ -626,14 +626,14 @@
           "library-prompt-card": 28
         },
         "path": "dist/en/prompts/index.html",
-        "sha256": "8d8bf3e2561d93bd7dc18f34bf38be4bff46c64b4f40f9d820399423d89c1f44",
+        "sha256": "ba824135cd4eb643243442713e1844f4b28f7aec88664bb4b346910f6cac8136",
         "sibling_navigation": 0,
         "unique_ids": true,
-        "visible_words": 33899
+        "visible_words": 33997
       },
       "resource": "prompts",
       "semantic_markers_present": true,
-      "visible_density_ratio": 0.9682
+      "visible_density_ratio": 0.9859
     },
     {
       "audience": "empresa",
@@ -785,7 +785,7 @@
     {
       "audience": "empresa",
       "candidate": {
-        "bytes": 843630,
+        "bytes": 859190,
         "current_resource": 3,
         "main_identity": {
           "data-audience": "empresa",
@@ -800,14 +800,14 @@
           "library-prompt-card": 28
         },
         "path": "dist/en/empresa/modules/03-amplified-work/prompts/index.html",
-        "sha256": "11da3e0e10cbe543b024d022e2f65612039735d2dd19ffc794b007ea198729b2",
+        "sha256": "e0ca7bc7caab6bb5cbd32fac066098db60434198a7ed0db1594e3ff2c6dd0da2",
         "sibling_navigation": 1,
         "unique_ids": true,
-        "visible_words": 31230
+        "visible_words": 31925
       },
       "locale": "en",
       "reference": {
-        "bytes": 821381,
+        "bytes": 824335,
         "current_resource": 2,
         "main_identity": {
           "data-audience": null,
@@ -822,14 +822,14 @@
           "library-prompt-card": 28
         },
         "path": "dist/en/empresa/prompts/index.html",
-        "sha256": "21543fa2189f90f1f2f628cb46d213e59377adb8e27ea0c55ab433735a3feb6e",
+        "sha256": "c6489ee1cf962a86bc736a89e4292f7d96383d60f725321024e65b21efeb32f8",
         "sibling_navigation": 0,
         "unique_ids": true,
-        "visible_words": 35059
+        "visible_words": 35157
       },
       "resource": "prompts",
       "semantic_markers_present": true,
-      "visible_density_ratio": 0.8908
+      "visible_density_ratio": 0.9081
     },
     {
       "audience": "persona",
@@ -981,7 +981,7 @@
     {
       "audience": "persona",
       "candidate": {
-        "bytes": 873287,
+        "bytes": 889879,
         "current_resource": 3,
         "main_identity": {
           "data-audience": "persona",
@@ -996,14 +996,14 @@
           "library-prompt-card": 28
         },
         "path": "dist/pt/modulos/03-trabalho-amplificado/prompts/index.html",
-        "sha256": "c8eb528ba005153c8fa0f66589ec9b464c092dc115fdf73711ff64b518774ad0",
+        "sha256": "8f1e514eb64f428edab5082b91a1dfc082719a1af1d5039d859183de49fedeb9",
         "sibling_navigation": 1,
         "unique_ids": true,
-        "visible_words": 32484
+        "visible_words": 33140
       },
       "locale": "pt",
       "reference": {
-        "bytes": 833776,
+        "bytes": 836884,
         "current_resource": 2,
         "main_identity": {
           "data-audience": null,
@@ -1018,14 +1018,14 @@
           "library-prompt-card": 28
         },
         "path": "dist/pt/prompts/index.html",
-        "sha256": "272bccc821c4b03c509bd9b7cfc4991cba132fc012bdda8d2ce3dbfd96e035ce",
+        "sha256": "b6b008f09ccc725510891bddfe139cfa839e5aa061a3074457b0fae7a7a764ab",
         "sibling_navigation": 0,
         "unique_ids": true,
-        "visible_words": 34984
+        "visible_words": 35110
       },
       "resource": "prompts",
       "semantic_markers_present": true,
-      "visible_density_ratio": 0.9285
+      "visible_density_ratio": 0.9439
     },
     {
       "audience": "empresa",
@@ -1177,7 +1177,7 @@
     {
       "audience": "empresa",
       "candidate": {
-        "bytes": 872506,
+        "bytes": 889098,
         "current_resource": 3,
         "main_identity": {
           "data-audience": "empresa",
@@ -1192,14 +1192,14 @@
           "library-prompt-card": 28
         },
         "path": "dist/pt/empresa/modulos/03-trabalho-amplificado/prompts/index.html",
-        "sha256": "834248867708c78e4e70dab31682ff9f2d5f3c024d830afba6eb9b6f68a2e042",
+        "sha256": "5c82977d8d6ee5bf56d08882f2145993dbd37da075d5d75cac79a95612f14a0e",
         "sibling_navigation": 1,
         "unique_ids": true,
-        "visible_words": 31476
+        "visible_words": 32132
       },
       "locale": "pt",
       "reference": {
-        "bytes": 856418,
+        "bytes": 859526,
         "current_resource": 2,
         "main_identity": {
           "data-audience": null,
@@ -1214,20 +1214,20 @@
           "library-prompt-card": 28
         },
         "path": "dist/pt/empresa/prompts/index.html",
-        "sha256": "7fdf27b6839eca8446dd04a6e7c73a9c1002b6c8f48bd4ec158ac839a28cf91c",
+        "sha256": "898de5284a3112098c2ac5a5456e5837324ed1eee093936ab54cce592fe18fa6",
         "sibling_navigation": 0,
         "unique_ids": true,
-        "visible_words": 36026
+        "visible_words": 36152
       },
       "resource": "prompts",
       "semantic_markers_present": true,
-      "visible_density_ratio": 0.8737
+      "visible_density_ratio": 0.8888
     }
   ],
   "reference_module": "ia-panorama",
   "schema_version": "module-code-comparison-v1",
   "self_hash_model": "sha256(sorted-json-without-self_sha256)",
-  "self_sha256": "50da8867cf41085f8f271648b72f3a520b10d94cc3dd7004bbcfb4ab69eea0df",
+  "self_sha256": "b6c85576b06f0da6ff420b1a98a9441cda68a1122b400f925f7931b805a063b4",
   "summary": {
     "code_identity": "NOT_REQUIRED_AND_NOT_PRESENT",
     "maximum_visible_density_ratio": 1.2546,

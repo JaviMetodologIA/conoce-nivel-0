@@ -517,7 +517,31 @@ function checkResource(route, width, theme, resource, state, baseline, nested) {
 
 async function exercisePrompt(page, route, width, theme) {
   const firstCard = page.locator('.library-prompt-disclosure').first();
+  const closedName = await firstCard.evaluate((node) => {
+    const summary = node.querySelector(':scope > summary');
+    return {
+      name: summary?.getAttribute('aria-label') || '',
+      open: summary?.dataset.openLabel || '',
+      close: summary?.dataset.closeLabel || '',
+    };
+  });
+  const occurrence = (value, needle) => needle ? value.split(needle).length - 1 : 0;
+  if (occurrence(closedName.name, closedName.open) !== 1 || occurrence(closedName.name, closedName.close) !== 0) {
+    record('PROMPTS_DISCLOSURE_NAME_CLOSED', route, JSON.stringify(closedName), width, theme);
+  }
   await firstCard.evaluate((node) => { node.open = true; });
+  await page.evaluate(() => new Promise((done) => requestAnimationFrame(done)));
+  const openName = await firstCard.evaluate((node) => {
+    const summary = node.querySelector(':scope > summary');
+    return {
+      name: summary?.getAttribute('aria-label') || '',
+      open: summary?.dataset.openLabel || '',
+      close: summary?.dataset.closeLabel || '',
+    };
+  });
+  if (occurrence(openName.name, openName.close) !== 1 || occurrence(openName.name, openName.open) !== 0) {
+    record('PROMPTS_DISCLOSURE_NAME_OPEN', route, JSON.stringify(openName), width, theme);
+  }
   const library = firstCard.locator('[data-prompt-library]');
   const before = await library.evaluate((node) => ({
     tabs: node.querySelectorAll('[role="tab"]').length,
@@ -684,6 +708,49 @@ for (const route of promptRoutes) {
 }
 await promptLabelContext.close();
 
+// A structural count is not enough: exercise the exact copy action a reader
+// performs for every M2-M4 page, level and mode.
+let copyMatrixChecks = 0;
+const promptCopyContext = await browser.newContext({viewport: {width: 390, height: 960}, reducedMotion: 'reduce'});
+await promptCopyContext.addInitScript(() => {
+  Object.defineProperty(navigator, 'clipboard', {
+    configurable: true,
+    value: {writeText: async (value) => { window.__copiedPrompt = value; }},
+  });
+});
+for (const route of promptRoutes) {
+  const {page, runtimeErrors} = await openPage(promptCopyContext, route, 'light');
+  if (runtimeErrors.length) record('PROMPTS_COPY_RUNTIME', route, runtimeErrors.join(' | '), 390, 'light');
+  const card = page.locator('.library-prompt-disclosure').first();
+  await card.locator(':scope > summary').click();
+  const library = card.locator('[data-prompt-library]');
+  for (const mode of ['template', 'demo']) {
+    await library.locator(`[data-prompt-mode-select="${mode}"]`).click();
+    for (let index = 0; index < 4; index += 1) {
+      await library.locator('[data-prompt-format]').nth(index).click();
+      const expected = await library.locator(`textarea[data-prompt-source][data-prompt-mode="${mode}"]`).nth(index).inputValue();
+      await page.evaluate(() => { window.__copiedPrompt = null; });
+      await library.locator('[data-format-copy]').click();
+      const state = await library.evaluate((node) => ({
+        copied: window.__copiedPrompt,
+        button: node.querySelector('[data-format-copy]')?.textContent.trim().replace(/\s+/g, ' ') || '',
+        selected: node.querySelector('[data-prompt-format][aria-selected="true"]')?.dataset.levelNumber || '',
+        mode: node.querySelector('[data-prompt-mode-select][aria-pressed="true"]')?.dataset.promptModeSelect || '',
+      }));
+      if (state.copied !== expected || state.selected !== String(index + 1) || state.mode !== mode
+          || !state.button.includes(`N${index + 1}`)) {
+        record('PROMPTS_COPY_MATRIX', route, JSON.stringify({index: index + 1, mode, ...state}), 390, 'light');
+      }
+      copyMatrixChecks += 1;
+    }
+  }
+  await page.close();
+}
+await promptCopyContext.close();
+if (copyMatrixChecks !== promptRoutes.length * 8) {
+  record('PROMPTS_COPY_MATRIX_COUNT', 'dist', `expected=${promptRoutes.length * 8} actual=${copyMatrixChecks}`);
+}
+
 // Print is a separate projection: the action disappears while writable fields remain.
 const printContext = await browser.newContext({viewport: {width: 1440, height: 960}, reducedMotion: 'reduce'});
 for (const route of [referenceRoutes.workbook, ...representativeRoutes.filter(({resource}) => resource === 'workbook').map(({route}) => route)]) {
@@ -743,5 +810,5 @@ if (failures.size) {
   if (failures.size > 160) console.error(`... ${failures.size - 160} additional failures omitted`);
   process.exitCode = 1;
 } else {
-  console.log(`[EVIDENCE:RESOURCE_VISUAL_HOMOLOGY] RESOURCE_VISUAL_HOMOLOGY_OK scenarios=${visualScenarios} nested=${nestedRoutes.length} matrix=${widths.join('/')}x${themes.join('/')} no_js=4 print=4`);
+  console.log(`[EVIDENCE:RESOURCE_VISUAL_HOMOLOGY] RESOURCE_VISUAL_HOMOLOGY_OK scenarios=${visualScenarios} nested=${nestedRoutes.length} matrix=${widths.join('/')}x${themes.join('/')} prompt_copy=${copyMatrixChecks} no_js=4 print=4`);
 }

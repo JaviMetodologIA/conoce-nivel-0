@@ -101,6 +101,7 @@ UI = {
         "your_evidence": "Tu evidencia",
         "transfer": "Transferencia",
         "next_step": "Siguiente paso",
+        "previous": "Anterior",
         "open_next": "Abrir",
         "resource_handoff": "Continúa con el siguiente recurso del recorrido.",
         "full_index": "Índice completo",
@@ -122,7 +123,9 @@ UI = {
         "mode": "Modo",
         "template": "Plantilla",
         "demo": "Demo",
-        "syntax": "< > reemplaza · [ ] opcional · PARÁMETROS ajusta",
+        "level_prefix": "Nivel",
+        "inputs_help": "Qué debes reemplazar",
+        "syntax": "<INPUT> se reemplaza · [texto] se ajusta o borra",
         "inputs": "Inputs",
         "example": "Ejemplo",
         "required": "Obligatorio",
@@ -195,6 +198,7 @@ UI = {
         "gate_produces": "Debes aportar",
         "gate_criteria": "Continúa cuando",
         "level_names": ("Directo", "Estructurado", "Especificado", "Orquestado"),
+        "family_names": {"learn": "Aprender", "embody": "Aprehender", "evolve": "(R)Evolucionar", "meta": "Metaprompt"},
         "level_desc": (
             "Una orden clara y breve.",
             "Inputs y parámetros explícitos.",
@@ -253,6 +257,7 @@ UI = {
         "your_evidence": "Your evidence",
         "transfer": "Transfer",
         "next_step": "Next step",
+        "previous": "Previous",
         "open_next": "Open",
         "resource_handoff": "Continue with the next resource in the journey.",
         "full_index": "Full index",
@@ -274,7 +279,9 @@ UI = {
         "mode": "Mode",
         "template": "Template",
         "demo": "Demo",
-        "syntax": "< > replace · [ ] optional · PARAMETERS adjust",
+        "level_prefix": "Level",
+        "inputs_help": "What you need to replace",
+        "syntax": "Replace <INPUT> · adjust or delete [text]",
         "inputs": "Inputs",
         "example": "Example",
         "required": "Required",
@@ -347,6 +354,7 @@ UI = {
         "gate_produces": "You must provide",
         "gate_criteria": "Continue when",
         "level_names": ("Direct", "Structured", "Specified", "Orchestrated"),
+        "family_names": {"learn": "Learn", "embody": "Embody", "evolve": "(R)Evolve", "meta": "Meta-prompt"},
         "level_desc": (
             "A clear, concise instruction.",
             "Explicit inputs and parameters.",
@@ -405,6 +413,7 @@ UI = {
         "your_evidence": "Sua evidência",
         "transfer": "Transferência",
         "next_step": "Próximo passo",
+        "previous": "Anterior",
         "open_next": "Abrir",
         "resource_handoff": "Continue com o próximo recurso do percurso.",
         "full_index": "Índice completo",
@@ -426,7 +435,9 @@ UI = {
         "mode": "Modo",
         "template": "Modelo",
         "demo": "Demo",
-        "syntax": "< > substitua · [ ] opcional · PARÂMETROS ajuste",
+        "level_prefix": "Nível",
+        "inputs_help": "O que deve substituir",
+        "syntax": "Substitua <INPUT> · ajuste ou apague [texto]",
         "inputs": "Inputs",
         "example": "Exemplo",
         "required": "Obrigatório",
@@ -499,6 +510,7 @@ UI = {
         "gate_produces": "Você deve fornecer",
         "gate_criteria": "Continue quando",
         "level_names": ("Direto", "Estruturado", "Especificado", "Orquestrado"),
+        "family_names": {"learn": "Aprender", "embody": "Apreender", "evolve": "(R)Evoluir", "meta": "Metaprompt"},
         "level_desc": (
             "Uma instrução clara e curta.",
             "Inputs e parâmetros explícitos.",
@@ -1643,7 +1655,7 @@ def _prompt_input_guide(prompt: Mapping[str, Any], labels: Mapping[str, Any], lo
     for key, value in _prompt_parameter_contract(prompt, locale, path):
         parameter_items.append(f'<li><code>{_e(key)} = {_e(value)}</code></li>')
     return (
-        f'<details class="prompt-input-guide"><summary>{_e(labels["inputs"])} <span>{len(items)}</span></summary>'
+        f'<details class="prompt-input-guide"><summary>{_e(labels["inputs_help"])} <span>{len(items)}</span></summary>'
         f'<ul>{"".join(items)}</ul><strong>{_e(labels["parameters"])}</strong><ul>{"".join(parameter_items)}</ul></details>'
     )
 
@@ -1945,6 +1957,7 @@ def _prompt_level_ui(
     audience: str,
     labels: Mapping[str, Any],
     path: str,
+    level_convention: Mapping[str, Any],
     depth_prompt: Mapping[str, Any] | None = None,
     next_label: str | None = None,
 ) -> str:
@@ -1976,12 +1989,21 @@ def _prompt_level_ui(
     tabs: list[str] = []
     panels: list[str] = []
     format_ids = ("natural", "parameters", "spec", "pair")
+    convention_items = _sequence(level_convention.get("items"), "promptLibrary.levelConvention.items")
+    if len(convention_items) != 4:
+        raise RendererContractError("promptLibrary.levelConvention.items: expected exactly four items")
+    prompt_copy = _text(level_convention, "copy", "promptLibrary.levelConvention")
+    prompt_copied = _text(level_convention, "copied", "promptLibrary.levelConvention")
     for index, (_, level) in enumerate(normalized, 1):
         format_id = format_ids[index - 1]
         panel_id = f"{group_id}-{format_id}"
         context_id = f"{panel_id}-context"
-        name = labels["level_names"][index - 1]
-        description = labels["level_desc"][index - 1]
+        convention_item = _mapping(convention_items[index - 1], f"promptLibrary.levelConvention.items[{index - 1}]")
+        if _text(convention_item, "key", "promptLibrary.levelConvention") != format_id:
+            raise RendererContractError("promptLibrary.levelConvention.items: expected natural, parameters, spec, pair")
+        level_label = _text(convention_item, "level", "promptLibrary.levelConvention")
+        name = _text(convention_item, "name", "promptLibrary.levelConvention")
+        description = _text(convention_item, "description", "promptLibrary.levelConvention")
         if semantic_template is not None and semantic_demo is not None:
             level_template = semantic_template[index - 1]
             level_demo = semantic_demo[index - 1]
@@ -1999,19 +2021,19 @@ def _prompt_level_ui(
             contract_suffix = _prompt_contract_suffix(depth_prompt, labels, index)
             level_template += contract_suffix
             level_demo += contract_suffix
-        label = f"N{index} · {name}"
+        label = f'{level_label} · {name}'
         tabs.append(
             f'<button type="button" role="tab" tabindex="{0 if index == 1 else -1}" '
             f'aria-selected="{"true" if index == 1 else "false"}" aria-label="{_e(label)}" '
             f'aria-controls="{panel_id}" data-prompt-format="{format_id}" data-level-number="{index}">'
             f'<span class="prompt-tab-number" aria-hidden="true">{index}</span>'
-            f'<span class="prompt-tab-copy" aria-hidden="true"><strong>{_e(name)}</strong><small>N{index}</small></span></button>'
+            f'<span class="prompt-tab-copy" aria-hidden="true"><strong>{_e(name)}</strong><small>{_e(level_label)}</small></span></button>'
         )
         panels.append(
             f'<details class="prompt-level-fallback" data-prompt-level="{index}"{" open" if index == 1 else ""}>'
             f'<summary><span class="prompt-summary-number" aria-hidden="true">{index}</span><span><strong>{_e(label)}</strong>'
             f'<small>{_e(description)}</small></span></summary>'
-            f'<div class="prompt-level-context" id="{context_id}"><span>N{index}</span><strong>{_e(name)}</strong><p>{_e(description)}</p></div>'
+            f'<div class="prompt-level-context" id="{context_id}"><span>{_e(level_label)}</span><strong>{_e(name)}</strong><p>{_e(description)}</p></div>'
             f'<pre class="prompt-format-panel prompt-format-panel-{format_id}" id="{panel_id}" role="tabpanel" tabindex="0" '
             f'aria-label="{_e(label)} · {_e(labels["template"])}" aria-describedby="{context_id}" data-prompt-template data-prompt-mode-panel="template">'
             f'{_prompt_lines(level_template)}</pre>'
@@ -2023,7 +2045,13 @@ def _prompt_level_ui(
             f'</details></details>'
         )
 
-    copy_aria = f'{labels["copy"]} · N1 · {labels["level_names"][0]}'
+    first_convention = _mapping(convention_items[0], "promptLibrary.levelConvention.items[0]")
+    copy_aria = (
+        f'{prompt_copy} · {_text(first_convention, "level", "promptLibrary.levelConvention")} · '
+        f'{_text(first_convention, "name", "promptLibrary.levelConvention")} · {labels["template"]}'
+    )
+    copy_icon = ('<svg aria-hidden="true" viewBox="0 0 24 24"><rect x="8" y="8" width="11" height="11" rx="2"></rect>'
+                 '<path d="M16 8V6a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h2"></path></svg>')
     return (
         f'<div class="prompt-library" data-prompt-library="{_e(group_id)}" data-active-level="1" data-active-format="natural" data-active-mode="template">'
         f'<div class="prompt-library-toolbar"><div class="prompt-mode-switch" role="group" aria-label="{_e(labels["mode"])}">'
@@ -2031,11 +2059,11 @@ def _prompt_level_ui(
         f'<button type="button" aria-pressed="false" data-prompt-mode-select="demo">{_e(labels["demo"])}</button></div>'
         f'<span class="prompt-syntax">{_e(labels["syntax"])}</span></div>'
         f'{_prompt_input_guide(prompt, labels, locale, path)}'
-        f'<div class="prompt-format-tabs" role="tablist" aria-label="N1–N4">{"".join(tabs)}</div>'
+        f'<div class="prompt-format-tabs" role="tablist" aria-label="{_e(_text(level_convention, "tablist", "promptLibrary.levelConvention"))}">{"".join(tabs)}</div>'
         f'<div class="prompt-format-panels">{"".join(panels)}</div>'
         f'<div class="prompt-library-actions"><button class="copy prompt-format-copy" type="button" aria-label="{_e(copy_aria)}" '
-        f'data-format-copy="{_e(group_id)}" data-copy-label="{_e(labels["copy"])}" data-copied-label="{_e(labels["copied"])}">'
-        f'<span>{_e(labels["copy"])}</span></button><span class="prompt-copy-status sr-only" role="status" aria-live="polite"></span></div></div>'
+        f'data-format-copy="{_e(group_id)}" data-copy-label="{_e(prompt_copy)}" data-copied-label="{_e(prompt_copied)}">'
+        f'{copy_icon}<span>{_e(prompt_copy)}</span></button><span class="prompt-copy-status sr-only" role="status" aria-live="polite"></span></div></div>'
     )
 
 
@@ -2048,6 +2076,8 @@ def render_prompts(
     *,
     depth: Mapping[str, Any] | None = None,
     execution_guide: str | None = None,
+    execution_copy: Mapping[str, str] | None = None,
+    level_convention: Mapping[str, Any] | None = None,
     artifact_labels: Mapping[str, str] | None = None,
 ) -> str:
     """Render a compact prompt library with four levels and two modes."""
@@ -2058,6 +2088,35 @@ def render_prompts(
             raise RendererContractError("promptLibrary.executionGuide: expected one governed NotebookLM guide")
         if "<script" in execution_guide.lower():
             raise RendererContractError("promptLibrary.executionGuide: scripts are forbidden")
+    required_execution_copy = {"selected_sources", "deep_research", "search_tab"}
+    if execution_copy is not None:
+        if not isinstance(execution_copy, Mapping) or not required_execution_copy.issubset(execution_copy):
+            raise RendererContractError("promptLibrary.executionCopy: governed localized surface copy is incomplete")
+        if any(not isinstance(execution_copy[key], str) or not execution_copy[key].strip() for key in required_execution_copy):
+            raise RendererContractError("promptLibrary.executionCopy: expected non-empty localized strings")
+    if level_convention is None:
+        level_convention = {
+            "tablist": f'{labels["level_prefix"]} 1–4',
+            "copy": labels["copy"],
+            "copied": labels["copied"],
+            "items": [
+                {
+                    "key": key,
+                    "level": f'{labels["level_prefix"]} {index}',
+                    "name": labels["level_names"][index - 1],
+                    "description": labels["level_desc"][index - 1],
+                }
+                for index, key in enumerate(("natural", "parameters", "spec", "pair"), 1)
+            ],
+        }
+    elif not isinstance(level_convention, Mapping):
+        raise RendererContractError("promptLibrary.levelConvention: expected governed mapping")
+    convention_tablist = _text(level_convention, "tablist", "promptLibrary.levelConvention")
+    _text(level_convention, "copy", "promptLibrary.levelConvention")
+    _text(level_convention, "copied", "promptLibrary.levelConvention")
+    convention_items = _sequence(level_convention.get("items"), "promptLibrary.levelConvention.items")
+    if len(convention_items) != 4:
+        raise RendererContractError("promptLibrary.levelConvention.items: expected exactly four items")
     if not isinstance(artifact_labels, Mapping) or not artifact_labels:
         raise RendererContractError("promptLibrary.artifactLabels: governed localized labels are required")
     normalized_artifact_labels: dict[str, str] = {}
@@ -2125,7 +2184,13 @@ def render_prompts(
         kind = prompt.get("kind", "direct")
         family_id = prompt.get("family_id", "learn" if prompt_index < 4 else "embody" if prompt_index < 8 else "evolve")
         surface = _prompt_surface(prompt["surface"], f"{path}.surface")
-        surface_label = labels["chat"] if surface == "chat" else labels["sources"]
+        surface_label = (
+            f'{labels["chat"]} · {execution_copy["selected_sources"]}'
+            if surface == "chat" and execution_copy is not None
+            else f'{execution_copy["search_tab"]} · {execution_copy["deep_research"]}'
+            if execution_copy is not None
+            else labels["chat"] if surface == "chat" else labels["sources"]
+        )
         receive = (
             _text(depth_prompt, "receive_override", "depth.prompt")
             if depth_prompt is not None and "receive_override" in depth_prompt
@@ -2139,18 +2204,35 @@ def render_prompts(
             if consume_labels
             else ""
         )
-        flow = (
-            f'<div class="prompt-flow" data-prompt-flow="{_e(prompt["id"])}"><div><span>{_e(labels["receives"])}</span>'
-            f'<code>{_e(receive)}</code></div><i aria-hidden="true">→</i><div><span>{_e(labels["produces"])}</span>'
-            f'<code>{_e(produces)}</code></div>{consume_gate}</div>'
-        )
         next_label = None
+        next_id = None
         if depth_prompt is not None:
             next_id = _text(depth_prompt, "next", "depth.prompt")
             next_label = labels["next_step"] if next_id == "module-next" else prompt_titles.get(next_id)
             if next_label is None:
                 raise RendererContractError(f"{path}: unresolved depth next prompt {next_id}")
-        level_ui = _prompt_level_ui(prompt, module["moduleId"], locale, audience, labels, path, depth_prompt, next_label)
+        flow_links: list[str] = []
+        if prompt_index > 0:
+            previous = normalized[prompt_index - 1]
+            flow_links.append(
+                f'<a href="#{_e(previous["id"])}">← {_e(labels["previous"])} · {_e(prompt_titles[previous["id"]])}</a>'
+            )
+        if next_id is not None:
+            next_href = _url(urls, "resources") if next_id == "module-next" else f'#{next_id}'
+            flow_links.append(f'<a href="{_e(next_href)}">{_e(labels["next_step"])} · {_e(next_label)} →</a>')
+        flow_nav = (
+            f'<nav aria-label="{_e(labels["previous"])} / {_e(labels["next_step"])}">{"".join(flow_links)}</nav>'
+            if flow_links else ""
+        )
+        flow = (
+            f'<div class="prompt-flow" data-prompt-flow="{_e(prompt["id"])}"><div><span>{_e(labels["receives"])}</span>'
+            f'<code>{_e(receive)}</code></div><i aria-hidden="true">→</i><div><span>{_e(labels["produces"])}</span>'
+            f'<code>{_e(produces)}</code></div>{consume_gate}{flow_nav}</div>'
+        )
+        level_ui = _prompt_level_ui(
+            prompt, module["moduleId"], locale, audience, labels, path,
+            level_convention, depth_prompt, next_label,
+        )
         if depth_prompt is not None:
             prompt_inputs = _prompt_input_contract(prompt, locale, path)
             context_when = _text(depth_prompt, "when", "depth.prompt")
@@ -2175,15 +2257,23 @@ def render_prompts(
         )
         summary_text = _text(depth_prompt, "purpose", "depth.prompt") if depth_prompt is not None else produces
         display_number = f'M{len(cards["meta"]) + 1}' if kind == "meta" else f'{len(cards["direct"]) + 1:02d}'
+        family_label = labels["family_names"][family_id]
+        discovery_label = f'4 · {convention_tablist} · {labels["template"]} / {labels["demo"]}'
+        discovery_markup = (
+            f'<span class="prompt-card-discovery"><strong>4 · {_e(convention_tablist)}</strong>'
+            f'<span>{_e(labels["template"])} / {_e(labels["demo"])}</span>'
+            f'<em>{_e(labels["open_prompt"])} →</em></span>'
+        )
         cards[kind].append(
             f'<article class="library-prompt-card" id="{_e(prompt["id"])}" data-library-prompt data-prompt-kind="{kind}" '
             f'data-prompt-family="{family_id}" data-prompt-slot="{_e(display_number)}" '
             f'data-notebook-surface="{surface}" data-evidence-ids="{_evidence_attr(prompt, path)}">'
             f'<details class="library-prompt-disclosure" data-prompt-card-disclosure>'
-            f'<summary data-open-label="{_e(labels["open_prompt"])}" data-close-label="{_e(labels["close_prompt"])}">'
+            f'<summary data-open-label="{_e(labels["open_prompt"])}" data-close-label="{_e(labels["close_prompt"])}" '
+            f'data-discovery-label="{_e(discovery_label)}">'
             f'<span class="library-prompt-number" aria-hidden="true">{_e(display_number)}</span>'
-            f'<span class="library-prompt-summary-copy"><span class="eyebrow">{_e(labels["surface"])} · {_e(surface_label)}</span>'
-            f'<strong class="library-prompt-title">{_e(prompt["title"])}</strong><small>{_e(summary_text)}</small></span>'
+            f'<span class="library-prompt-summary-copy"><span class="eyebrow">{_e(family_label)}</span>'
+            f'<strong class="library-prompt-title">{_e(prompt["title"])}</strong><small>{_e(summary_text)}</small>{discovery_markup}</span>'
             f'<span class="prompt-launch-badge" data-launch="{surface}"><small>{_e(labels["surface"])}</small><strong>{_e(surface_label)}</strong></span>'
             f'<span class="library-prompt-chevron" aria-hidden="true">⌄</span></summary>'
             f'<div class="library-prompt-card-body"><div class="library-prompt-side"><details class="prompt-card-context">'
@@ -2199,8 +2289,10 @@ def render_prompts(
         f'<a href="#directos"><strong>{surfaces["source_search"]}</strong><span>{_e(labels["sources"])}</span></a></div>'
     )
     level_map = "".join(
-        f'<li><span>N{index}</span><strong>{_e(name)}</strong><p>{_e(labels["level_desc"][index - 1])}</p></li>'
-        for index, name in enumerate(labels["level_names"], 1)
+        f'<li><span>{_e(_text(_mapping(item, "promptLibrary.levelConvention.item"), "level", "promptLibrary.levelConvention"))}</span>'
+        f'<strong>{_e(_text(_mapping(item, "promptLibrary.levelConvention.item"), "name", "promptLibrary.levelConvention"))}</strong>'
+        f'<p>{_e(_text(_mapping(item, "promptLibrary.levelConvention.item"), "description", "promptLibrary.levelConvention"))}</p></li>'
+        for item in convention_items
     )
     map_markup = (
         f'<aside class="prompt-library-map"><header><span class="eyebrow">{_e(labels["library_map"])}</span>'
@@ -2210,7 +2302,7 @@ def render_prompts(
     hero_companion = execution_guide if execution_guide is not None else map_markup
     secondary_map = (
         f'<details class="shell prompt-library-secondary-map"><summary><strong>{_e(labels["library_map"])}</strong>'
-        f'<span>{len(normalized)} · N1–N4</span></summary>{map_markup}</details>'
+        f'<span>{len(normalized)} · {_e(convention_tablist)}</span></summary>{map_markup}</details>'
         if execution_guide is not None
         else ""
     )
@@ -2250,6 +2342,8 @@ def render_module_bundle(
     variant: Mapping[str, Any],
     urls: Mapping[str, Any],
     depth: Mapping[str, Any] | None = None,
+    execution_copy: Mapping[str, str] | None = None,
+    level_convention: Mapping[str, Any] | None = None,
     artifact_labels: Mapping[str, str] | None = None,
 ) -> dict[str, str]:
     """Render all four resource interiors from one exact variant and depth overlay."""
@@ -2267,6 +2361,8 @@ def render_module_bundle(
         "playbook": render_playbook(module["playbook"], locale, audience, module, urls, depth=depth),
         "prompts": render_prompts(
             module["promptLibrary"], locale, audience, module, urls, depth=depth,
+            execution_copy=execution_copy,
+            level_convention=level_convention,
             artifact_labels=artifact_labels,
         ),
     }

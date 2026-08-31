@@ -26,7 +26,7 @@ from module_prompt_parity import PromptParityError, compose_prompt_parity
 from ui_primitives import ui_icon
 
 ROOT=Path(__file__).resolve().parents[1]; SRC=ROOT/'src'; DIST=ROOT/'dist'
-BUILD_ID='nivel-0-learning-resources-v16'
+BUILD_ID='nivel-0-learning-resources-v17'
 FORM='https://docs.google.com/forms/d/e/1FAIpQLSeLysigcdIjlq4xguRXhBkN0WbC7H6FOzxylqgJC_7Ws4OtWQ/viewform'
 HELP_BY_LANG={
     'es':'https://support.google.com/notebooklm/answer/16164461?hl=es',
@@ -943,6 +943,8 @@ def module_resource_page(lang,page,module_key):
     guide=notebook_execution_guide(lang,convention,include_method_mark=False)
     content=renderer(
       module[resource_key],lang,CURRENT_AUDIENCE,module,urls,depth=depth,execution_guide=guide,
+      execution_copy=NOTEBOOK_EXECUTION['locales'][lang],
+      level_convention=convention,
       artifact_labels=PROMPT_ARTIFACTS['module_artifacts'][module_key][lang],
     )
   elif page=='workbook':
@@ -1390,6 +1392,15 @@ def notebook_launch_badge(lang,intent_id):
     label=f"{copy['chat_tab']} · {copy['selected_sources']}"
   return f'''<span class="prompt-launch-badge" data-launch="{esc(route['launch'])}"><small>{esc(copy['run_in'])}</small><strong>{esc(label)}</strong></span>'''
 
+def prompt_discovery_markup(lang,convention):
+  copy=NOTEBOOK_EXECUTION['locales'][lang]
+  modes=f"{FORMAT_COPY[lang]['template']} / {FORMAT_COPY[lang]['demo']}"
+  label=f"4 · {convention['tablist']} · {modes}"
+  markup=(f'''<span class="prompt-card-discovery"><strong>4 · {esc(convention['tablist'])}</strong>'''
+          f'''<span>{esc(modes)}</span>'''
+          f'''<em>{esc(copy['open_prompt'])} →</em></span>''')
+  return markup,label
+
 def notebook_execution_guide(lang,convention,include_method_mark=True):
   copy=NOTEBOOK_EXECUTION['locales'][lang]
   sources=NOTEBOOK_EXECUTION['official_sources']
@@ -1412,7 +1423,8 @@ def prompt_library_page(lang):
     formats={mode:structured_variants(lang,cell['title'],cell['prompt'],cell['level_spec'],cell,mode) for mode in ('template','demo')}
     controls=prompt_formats_markup(lang,group,formats,ADVANCED['locales'][lang]['level_convention'],cell)+prompt_why_markup(lang,group,cell['why_it_works'])
     route=NOTEBOOK_EXECUTION['intent_routes'][intent_id]
-    card=f'''<article class="library-prompt-card" id="prompt-{intent_id.lower()}" data-library-prompt data-prompt-kind="{'meta' if intent_id.startswith('M') else 'direct'}" data-notebook-surface="{esc(route['launch'])}"><details class="library-prompt-disclosure" data-prompt-card-disclosure><summary data-open-label="{esc(NOTEBOOK_EXECUTION['locales'][lang]['open_prompt'])}" data-close-label="{esc(NOTEBOOK_EXECUTION['locales'][lang]['close_prompt'])}"><span class="library-prompt-number" aria-hidden="true">{esc(intent_id)}</span><span class="library-prompt-summary-copy"><span class="eyebrow">{esc(phases[intent_id])}</span><strong class="library-prompt-title">{esc(cell['title'])}</strong><small>{esc(cell['purpose'])}</small></span>{notebook_launch_badge(lang,intent_id)}<span class="library-prompt-chevron" aria-hidden="true">⌄</span></summary><div class="library-prompt-card-body"><div class="library-prompt-side"><details class="prompt-card-context"><summary>{esc(NOTEBOOK_EXECUTION['locales'][lang]['details'])}</summary><dl class="library-prompt-brief"><div><dt>{esc(p['use'])}</dt><dd>{esc(cell['when'])}</dd></div><div><dt>{esc(p['example'])}</dt><dd>{esc(cell['example'])}</dd></div><div><dt>{esc(p['evidence'])}</dt><dd>{esc(cell['evidence'])}</dd></div>{prompt_limit_markup(lang,cell['why_it_works'],as_definition=True)}</dl></details>{prompt_flow_markup(lang,intent_id)}</div>{controls}</div></details></article>'''
+    discovery,discovery_label=prompt_discovery_markup(lang,convention)
+    card=f'''<article class="library-prompt-card" id="prompt-{intent_id.lower()}" data-library-prompt data-prompt-kind="{'meta' if intent_id.startswith('M') else 'direct'}" data-notebook-surface="{esc(route['launch'])}"><details class="library-prompt-disclosure" data-prompt-card-disclosure><summary data-open-label="{esc(NOTEBOOK_EXECUTION['locales'][lang]['open_prompt'])}" data-close-label="{esc(NOTEBOOK_EXECUTION['locales'][lang]['close_prompt'])}" data-discovery-label="{esc(discovery_label)}"><span class="library-prompt-number" aria-hidden="true">{esc(intent_id)}</span><span class="library-prompt-summary-copy"><span class="eyebrow">{esc(phases[intent_id])}</span><strong class="library-prompt-title">{esc(cell['title'])}</strong><small>{esc(cell['purpose'])}</small>{discovery}</span>{notebook_launch_badge(lang,intent_id)}<span class="library-prompt-chevron" aria-hidden="true">⌄</span></summary><div class="library-prompt-card-body"><div class="library-prompt-side"><details class="prompt-card-context"><summary>{esc(NOTEBOOK_EXECUTION['locales'][lang]['details'])}</summary><dl class="library-prompt-brief"><div><dt>{esc(p['use'])}</dt><dd>{esc(cell['when'])}</dd></div><div><dt>{esc(p['example'])}</dt><dd>{esc(cell['example'])}</dd></div><div><dt>{esc(p['evidence'])}</dt><dd>{esc(cell['evidence'])}</dd></div>{prompt_limit_markup(lang,cell['why_it_works'],as_definition=True)}</dl></details>{prompt_flow_markup(lang,intent_id)}</div>{controls}</div></details></article>'''
     (meta if intent_id.startswith('M') else direct).append(card)
   skill=RESOURCES['open_skill']
   filters=NOTEBOOK_EXECUTION['locales'][lang]
