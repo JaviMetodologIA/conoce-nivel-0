@@ -1,0 +1,186 @@
+{
+  "schema_version": "module-01-prompt-inventory-v1",
+  "inventory_id": "nivel-zero-module-01-prompt-golden-v1",
+  "authority": "MetodologIA",
+  "state": "RENDERED_DRAFT",
+  "publication_authorized": false,
+  "reference_module": {
+    "module_id": "ia-panorama",
+    "display_name": "IA: qué está pasando y cómo sacarle provecho",
+    "technical_order": 1,
+    "route": "/prompts/",
+    "source_contract": "prompt-intent-contract-v2"
+  },
+  "cardinality": {
+    "cards_per_variant": 14,
+    "direct_prompts": 10,
+    "metaprompts": 4,
+    "levels_per_card": 4,
+    "modes_per_level": 2,
+    "copyable_prompts_per_card": 8,
+    "copyable_prompts_per_page": 112,
+    "locales": 3,
+    "audiences": 2,
+    "page_variants": 6,
+    "copyable_prompts_in_reference_matrix": 672,
+    "chat_cards_per_variant": 12,
+    "source_search_cards_per_variant": 2
+  },
+  "ecosystem_cardinality": {
+    "visible_library_contracts": 14,
+    "workbook_preparation_contracts": 3,
+    "workbook_route_contracts": 10,
+    "total_module_prompt_contracts": 27,
+    "localized_components": 162,
+    "copyable_prompts_across_four_levels_and_two_modes": 1296,
+    "parity_scope_of_this_inventory": "visible-prompt-library",
+    "integral_module_parity_status": "separate-future-gate"
+  },
+  "families": {
+    "direct": {
+      "ids": ["01", "02", "03", "04", "05", "06", "07", "08", "09", "10"],
+      "purpose": "Ejecutar una tarea concreta y producir un artefacto revisable."
+    },
+    "meta": {
+      "ids": ["M1", "M2", "M3", "M4"],
+      "purpose": "Construir un instrumento reutilizable; nunca simular que ya ejecutó la tarea."
+    }
+  },
+  "capability_families": {
+    "learn": {"ids": ["01", "02", "03", "04"], "count": 4},
+    "embody": {"ids": ["05", "06", "07", "08"], "count": 4},
+    "evolve": {"ids": ["09", "10"], "count": 2},
+    "meta": {"ids": ["M1", "M2", "M3", "M4"], "count": 4}
+  },
+  "levels": [
+    {
+      "number": 1,
+      "format_id": "natural",
+      "name": {"es": "Directo", "en": "Direct", "pt": "Direto"},
+      "required_semantics": ["objective", "data", "frameworks", "order", "deliverables", "boundary"]
+    },
+    {
+      "number": 2,
+      "format_id": "parameters",
+      "name": {"es": "Estructurado", "en": "Structured", "pt": "Estruturado"},
+      "required_semantics": ["parameters", "inputs", "optional_clauses", "task", "frameworks", "workflow", "boundaries", "expected_output"]
+    },
+    {
+      "number": 3,
+      "format_id": "spec",
+      "name": {"es": "Especificado", "en": "Specified", "pt": "Especificado"},
+      "required_semantics": ["spec_header", "situation", "purpose", "standards", "verifiable_criteria", "definition_of_done", "provenance", "metadata", "private_reasoning_policy"]
+    },
+    {
+      "number": 4,
+      "format_id": "pair",
+      "name": {"es": "Orquestado", "en": "Orchestrated", "pt": "Orquestrado"},
+      "required_semantics": ["system_rules", "user_case_data", "frameworks", "boundaries", "definition_of_done", "parameters", "inputs", "workflow", "expected_output"]
+    }
+  ],
+  "modes": {
+    "template": {
+      "count_per_card": 4,
+      "requirements": ["explained_angle_inputs", "localized_examples", "editable_parameters", "removable_optional_clauses", "no_demo_values"]
+    },
+    "demo": {
+      "count_per_card": 4,
+      "requirements": ["all_inputs_resolved", "synthetic_label", "runnable_without_user_input", "no_angle_or_square_placeholders", "same_logic_as_template"]
+    }
+  },
+  "contract_anatomy": {
+    "root_fields": ["schema_version", "intent_id", "surface", "phase", "state", "publication_authorized", "boundary", "locales", "self_hash_model", "self_sha256", "flow"],
+    "localized_cell_fields": ["title", "purpose", "when", "example", "evidence", "prompt", "level_spec", "why_it_works", "traceability", "inputs", "parameters", "optional_clauses"],
+    "card_ui": ["kind", "phase", "title", "purpose", "notebook_surface", "when", "example", "evidence", "compact_limit", "receives", "produces", "previous", "next", "external_gate", "input_guide", "parameter_guide", "four_level_tabs", "template_demo_switch", "why_it_works"],
+    "why_it_works_sections": ["acceptance_criteria", "edge_cases", "tradeoffs", "assumptions", "limits"],
+    "flow_fields": ["route", "order", "previous", "next", "branches", "consumes", "produces", "external_gate", "loop_to", "standalone"]
+  },
+  "editorial_ranges": {
+    "inputs_per_card": {"minimum": 2, "maximum": 6},
+    "parameters_per_card": {"minimum": 4, "maximum": 6},
+    "acceptance_criteria": {"minimum": 3, "maximum": 4},
+    "edge_cases": {"minimum": 2, "maximum": 3},
+    "tradeoffs": {"minimum": 1, "maximum": 5},
+    "assumptions": {"minimum": 1, "maximum": 2},
+    "limits": {"minimum": 1, "maximum": 3},
+    "traceability_claims": {"minimum": 3, "maximum": 5}
+  },
+  "editorial_floors": {
+    "material_characters": {"purpose": 45, "when": 35, "example": 35, "evidence": 40, "prompt": 300},
+    "level_spec": {
+      "workflow": {"minimum": 5, "maximum": 6},
+      "frameworks": {"exact": 3},
+      "guardrails": {"minimum": 3, "maximum": 5},
+      "edge_cases": {"exact": 3},
+      "output": {"minimum": 3, "maximum": 4},
+      "constraints": {"minimum": 4, "maximum": 5}
+    },
+    "required_non_empty": ["role", "spec_role", "objective", "definition_of_done"]
+  },
+  "cards": [
+    {"id": "01", "kind": "direct", "family_id": "learn", "phase": "Aprender", "surface": "source_search", "mode": "deep_research", "title_es": "Plan inicial de investigación", "consumes": [], "produces": "PLAN_INICIAL_DE_INVESTIGACION", "external_gate": true},
+    {"id": "02", "kind": "direct", "family_id": "learn", "phase": "Aprender", "surface": "chat", "mode": "selected_sources", "title_es": "Coach basado en fuentes", "consumes": ["MAPA_DE_CASOS"], "produces": "COACH_CONFIGURADO", "external_gate": false},
+    {"id": "03", "kind": "direct", "family_id": "learn", "phase": "Aprender", "surface": "source_search", "mode": "deep_research", "title_es": "Investigación profunda", "consumes": ["BASE_AUDITADA"], "produces": "INFORME_DE_INVESTIGACION", "external_gate": true},
+    {"id": "04", "kind": "direct", "family_id": "learn", "phase": "Aprender", "surface": "chat", "mode": "selected_sources", "title_es": "Verificación cruzada de una afirmación", "consumes": ["INFORME_DE_INVESTIGACION"], "produces": "VERIFICACION_CRUZADA", "external_gate": false},
+    {"id": "05", "kind": "direct", "family_id": "embody", "phase": "Aprehender", "surface": "chat", "mode": "selected_sources", "title_es": "Auditoría de relevancia de mi base", "consumes": ["PLAN_INICIAL_DE_INVESTIGACION"], "produces": "BASE_AUDITADA", "external_gate": false},
+    {"id": "06", "kind": "direct", "family_id": "embody", "phase": "Aprehender", "surface": "chat", "mode": "selected_sources", "title_es": "Generador de práctica", "consumes": ["COACH_CONFIGURADO"], "produces": "PRACTICA_GENERADA", "external_gate": false},
+    {"id": "07", "kind": "direct", "family_id": "embody", "phase": "Aprehender", "surface": "chat", "mode": "selected_sources", "title_es": "Auditoría de mi Notebook", "consumes": ["BASE_AUDITADA", "VERIFICACION_CRUZADA"], "produces": "MAPA_DE_CASOS", "external_gate": false},
+    {"id": "08", "kind": "direct", "family_id": "embody", "phase": "Aprehender", "surface": "chat", "mode": "selected_sources", "title_es": "Evaluador progresivo", "consumes": ["PRACTICA_GENERADA"], "produces": "EVALUACION_PROGRESIVA", "external_gate": false},
+    {"id": "09", "kind": "direct", "family_id": "evolve", "phase": "(R)Evolucionar", "surface": "chat", "mode": "selected_sources", "title_es": "Simulador de entrevista", "consumes": ["ENSAYO_DE_ENTREGA"], "produces": "BORRADOR_DE_ENTREGA", "external_gate": false},
+    {"id": "10", "kind": "direct", "family_id": "evolve", "phase": "(R)Evolucionar", "surface": "chat", "mode": "selected_sources", "title_es": "Coach de presentación", "consumes": ["VERIFICACION_CRUZADA", "EVALUACION_PROGRESIVA"], "produces": "ENSAYO_DE_ENTREGA", "external_gate": false},
+    {"id": "M1", "kind": "meta", "family_id": "meta", "phase": "Metaprompt", "surface": "chat", "mode": "selected_sources", "title_es": "Generador de coach de aprendizaje", "consumes": ["MAPA_DE_CASOS"], "produces": "CONFIG_COACH", "external_gate": false},
+    {"id": "M2", "kind": "meta", "family_id": "meta", "phase": "Metaprompt", "surface": "chat", "mode": "selected_sources", "title_es": "Generador de evaluador progresivo", "consumes": ["PRACTICA_GENERADA"], "produces": "CONFIG_EVALUADOR", "external_gate": false},
+    {"id": "M3", "kind": "meta", "family_id": "meta", "phase": "Metaprompt", "surface": "chat", "mode": "selected_sources", "title_es": "Generador de entrevistador adversarial", "consumes": ["ENSAYO_DE_ENTREGA"], "produces": "CONFIG_ENTREVISTADOR", "external_gate": false},
+    {"id": "M4", "kind": "meta", "family_id": "meta", "phase": "Metaprompt", "surface": "chat", "mode": "selected_sources", "title_es": "Generador de guía para preparar una entrega", "consumes": ["EVALUACION_PROGRESIVA"], "produces": "CONFIG_PREPARADOR", "external_gate": false}
+  ],
+  "source_contract_bindings": {
+    "01": {"ref": "prompt-contracts/library-01.json", "raw_sha256": "b8a28013751ae1dc24840c011b7c660041b7ac712c75c68caa4d63f4885c49b5", "self_sha256": "9b176eb85561b23e7c90e2f405b8130fe5e4a0631d6c048a3a05c2fa5b5b427c"},
+    "02": {"ref": "prompt-contracts/library-02.json", "raw_sha256": "3eda15bf22f0bea7a46ae0ab0799d7a32f0468742742864d0762271bd2827fa7", "self_sha256": "371b5b8a700c9dfa75e1dcaf1774136df0579d3aeb03eff21ab2b54731bad74b"},
+    "03": {"ref": "prompt-contracts/library-03.json", "raw_sha256": "a13438203a109ddbfdc10fb41c45c350fe3dee7f4ea20e5205d2c2ffb4ae8455", "self_sha256": "373602755437353946223c83480f0f1e5f1b0170bcc2d7e65cafe74a162169fe"},
+    "04": {"ref": "prompt-contracts/library-04.json", "raw_sha256": "32be7e3e2dd29068c744efe7c8115dc3f045e7525e8cbd5342796a47294e8874", "self_sha256": "9eccb14ed4a19b94c15c7fa892408915aa51b9f8ff13b887d2ce96280c1eac0a"},
+    "05": {"ref": "prompt-contracts/library-05.json", "raw_sha256": "9d33799b1c6ccc58e727c3a8899d215542d608555778c3a0cae0c01bb7ef1b10", "self_sha256": "ea629704313b0aee25376f82f8979a47267417ef087329a21987c5284a10d685"},
+    "06": {"ref": "prompt-contracts/library-06.json", "raw_sha256": "e95e84b45910a5fd99e0d5c47385c5f5a6621dd75b38e9a7a46130632d34a50a", "self_sha256": "0acc6a54f8589785aa72ce840faf8e26460b5417fe80e44d02121a98e8af03c2"},
+    "07": {"ref": "prompt-contracts/library-07.json", "raw_sha256": "d6d0ef09efadbeedc932a62f6f51b1ad634423f73565e9dbe8f764fa7497b3dd", "self_sha256": "9bb117c049802c52ea315f7f0971f4feca675ad0bad3eabe8e14ba4200ad0dd4"},
+    "08": {"ref": "prompt-contracts/library-08.json", "raw_sha256": "6b23ac8a30049bc74d1d46dfdbdab3d846fb13f18c7c2aedff5bdede12302883", "self_sha256": "b843c632d9b8ce7b670e8f3e71e2dabd9bcc82087581bc9b5ca4bbde8918f3f4"},
+    "09": {"ref": "prompt-contracts/library-09.json", "raw_sha256": "305fafa099a6af7e16f27ede646ae3779121d5ae03fd0fa7f221174a3ad8bab8", "self_sha256": "d845a1b59469146ee8cdc1641c4af36a6653c12c1778ca56c8b16a5f769a1f2e"},
+    "10": {"ref": "prompt-contracts/library-10.json", "raw_sha256": "9761b46a238396acb0c3c370b579af819a292d407fba58ba7f4d8913e48c3e3d", "self_sha256": "93a2171ef84e4110c5fa52962c87cca2073e3ee9330702cf4c354dcd56abd724"},
+    "M1": {"ref": "prompt-contracts/library-m1.json", "raw_sha256": "8327864125eab7e4f278bfed62ae9b82608a89ed6242abb4b3ffcaf9973279f3", "self_sha256": "9186290e48deea29cf79d4eb4ae3898c6e16b8e2997c7df14cd298de4ff2ad60"},
+    "M2": {"ref": "prompt-contracts/library-m2.json", "raw_sha256": "f7e5a9e9fbc29f89dd2e8a5fa81f3f247257bc77d78a195df46bd455b67354e5", "self_sha256": "2f13eb2bf7ba4bd613742a856e7d59f2267cc4ab8a9b8d9555aa4dc9a710ddb9"},
+    "M3": {"ref": "prompt-contracts/library-m3.json", "raw_sha256": "424e9a9da5ed0d0a4b6598f7e65460a3f851c53edce62f977a1127fa6ffb66c6", "self_sha256": "63b66163786d9cbdc0b5603c212a6364b0ad1cb07abf22f346ee2b1c9622169e"},
+    "M4": {"ref": "prompt-contracts/library-m4.json", "raw_sha256": "f9f8cdb6ef821203f7795b400ec46a134113bba955e7245e18bea02a34be38a7", "self_sha256": "039d0532820c2c94214b24a83ec5f2a536e26cab1595b9258344055e11b69873"}
+  },
+  "surface_authority_binding": {
+    "ref": "notebooklm-execution-spec-v1.json",
+    "raw_sha256": "92cc587b975dfceec4726d2a044088b08397a37353c1c2e7d2d7817bbb36fdd9",
+    "route_ids": ["01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "M1", "M2", "M3", "M4"]
+  },
+  "source_contract_self_sha256": {
+    "01": "9b176eb85561b23e7c90e2f405b8130fe5e4a0631d6c048a3a05c2fa5b5b427c",
+    "02": "371b5b8a700c9dfa75e1dcaf1774136df0579d3aeb03eff21ab2b54731bad74b",
+    "03": "373602755437353946223c83480f0f1e5f1b0170bcc2d7e65cafe74a162169fe",
+    "04": "9eccb14ed4a19b94c15c7fa892408915aa51b9f8ff13b887d2ce96280c1eac0a",
+    "05": "ea629704313b0aee25376f82f8979a47267417ef087329a21987c5284a10d685",
+    "06": "0acc6a54f8589785aa72ce840faf8e26460b5417fe80e44d02121a98e8af03c2",
+    "07": "9bb117c049802c52ea315f7f0971f4feca675ad0bad3eabe8e14ba4200ad0dd4",
+    "08": "b843c632d9b8ce7b670e8f3e71e2dabd9bcc82087581bc9b5ca4bbde8918f3f4",
+    "09": "d845a1b59469146ee8cdc1641c4af36a6653c12c1778ca56c8b16a5f769a1f2e",
+    "10": "93a2171ef84e4110c5fa52962c87cca2073e3ee9330702cf4c354dcd56abd724",
+    "M1": "9186290e48deea29cf79d4eb4ae3898c6e16b8e2997c7df14cd298de4ff2ad60",
+    "M2": "2f13eb2bf7ba4bd613742a856e7d59f2267cc4ab8a9b8d9555aa4dc9a710ddb9",
+    "M3": "63b66163786d9cbdc0b5603c212a6364b0ad1cb07abf22f346ee2b1c9622169e",
+    "M4": "039d0532820c2c94214b24a83ec5f2a536e26cab1595b9258344055e11b69873"
+  },
+  "parity_policy": {
+    "applies_to": ["module-02-de-ocupado-a-productivo", "module-03-trabajo-amplificado", "module-04-trabajo-agentico"],
+    "exact_cardinality_required": true,
+    "exact_family_distribution_required": true,
+    "exact_level_and_mode_semantics_required": true,
+    "exact_surface_distribution_required": true,
+    "editorial_ranges_required": true,
+    "literal_copy_identity_required": false,
+    "module_specific_purpose_required": true,
+    "fallback_to_reference_copy": "forbidden"
+  },
+  "self_hash_model": "sha256(sorted-json-without-self_sha256)",
+  "self_sha256": "425f9621d0820e6a9076820260ece6bdb09e6d004d82ab2b9feb907619246ce3"
+}

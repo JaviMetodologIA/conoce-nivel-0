@@ -1,0 +1,132 @@
+{
+  "schema_version": "module-prompt-parity-receipt-v1",
+  "scope": "visible-prompt-library",
+  "reference_module": "ia-panorama",
+  "candidate_modules": [
+    "ocupado-productivo",
+    "trabajo-amplificado",
+    "trabajo-agentico"
+  ],
+  "golden": {
+    "inventory_ref": "src/module-01-prompt-inventory-v1.json",
+    "inventory_source_sha256": "09304c42c387059d5d4e24955c8ffc9fea6268b8b8df07091c7d30b4f9cb5ae2",
+    "inventory_self_sha256": "425f9621d0820e6a9076820260ece6bdb09e6d004d82ab2b9feb907619246ce3",
+    "human_inventory_ref": "module-01-prompt-inventory.md",
+    "human_inventory_sha256": "f927a9a2e0267ce10c30cb818d84e10ae3208469aaedb7b1086efd2224a9f775"
+  },
+  "composition": {
+    "cards_per_variant": 14,
+    "direct_prompts": 10,
+    "metaprompts": 4,
+    "families": {
+      "learn": 4,
+      "embody": 4,
+      "evolve": 2,
+      "meta": 4
+    },
+    "notebook_surfaces": {
+      "chat": 12,
+      "source_search": 2
+    },
+    "levels": [
+      "natural",
+      "parameters",
+      "spec",
+      "pair"
+    ],
+    "modes": [
+      "template",
+      "demo"
+    ]
+  },
+  "rendered_matrix": {
+    "pages": 18,
+    "cards": 252,
+    "levels": 1008,
+    "copyable_prompts": 2016,
+    "locales": 3,
+    "audiences": 2,
+    "fallback": "forbidden"
+  },
+  "implementation": {
+    "composer_ref": "scripts/module_prompt_parity.py",
+    "composer_sha256": "058a3e1e48a651cff5b4fd5eef2c12bd83e1fd091868c21bae5d967509a946a4",
+    "renderer_ref": "scripts/module_renderers.py",
+    "renderer_sha256": "d7e784490b1de5e264518fb6e2ebfb5372dd52745ab1dee954ba4a31c8e126cd",
+    "css_ref": "src/site.css",
+    "css_sha256": "32eae164c452284dea19dfef1b42906760346de8365f724cf6050e18ed556591"
+  },
+  "verification": [
+    {
+      "command": "python3 qa/check-module-01-prompt-inventory-v1.py",
+      "verdict": "PASS",
+      "evidence": "14 contracts, 84 cards, 672 copyable prompts, 8 adversarial mutations"
+    },
+    {
+      "command": "python3 qa/check-module-prompt-parity-v1.py",
+      "verdict": "PASS",
+      "evidence": "18 pages, 252 cards, 1008 levels, 2016 textareas, 126 audience pairs"
+    },
+    {
+      "command": "node qa/check-module-definition-of-done-visual.mjs --module=all",
+      "verdict": "PASS",
+      "evidence": "72 routes, 240 scenarios, 24 axe runs, 72 no-JS routes"
+    },
+    {
+      "command": "node qa/check-resource-visual-homology.mjs",
+      "verdict": "PASS",
+      "evidence": "128 scenarios across 72 nested resources"
+    },
+    {
+      "command": "node qa/check-prompt-spec-visual.mjs",
+      "verdict": "PASS",
+      "evidence": "120 states, 120 axe runs, 120 long-copy mutations, 24 zoom checks"
+    },
+    {
+      "command": "python3 qa/check-module-comparison-reports-v1.py",
+      "verdict": "PASS",
+      "evidence": "three candidates, 72 code pairs, 96 SHA-bound images"
+    }
+  ],
+  "visual_evidence": {
+    "module_02": {
+      "ref": "qa/reports/module-01-vs-02/visual-comparison.json",
+      "self_sha256": "a432dd608e2deead37a0b2c6e3095a76ba26266d385b6e9604a2f2080abb6a85"
+    },
+    "module_03": {
+      "ref": "qa/reports/module-01-vs-03/visual-comparison.json",
+      "self_sha256": "7d1f5574265a19ea4f38e50d137d3df5f7d522c75687e6305d474e4c470b6386"
+    },
+    "module_04": {
+      "ref": "qa/reports/module-01-vs-04/visual-comparison.json",
+      "self_sha256": "90e3e8c993e098a8ccfba856b9de42baf3f2ccfb3e4ffdb8901e4c72425b8645"
+    }
+  },
+  "determinism": {
+    "isolated_builds": 2,
+    "files_per_build": 152,
+    "byte_identical": true,
+    "matches_worktree_dist": true,
+    "tree_sha256": "5ad6fef4b8024863d52cc7a1c0070ec72fdea9a0aff7ef03ecd096aa237debf2",
+    "manifest_sha256": "3318158dfabbe7392d8d493bf64a8cbb58924fbdd3e788f86a1787b104fd53f5",
+    "receipt_sha256": "ca8a3f1e4d3b2d1175682423d969716ba92b4b836fc10a5b696a188e89e4eaeb"
+  },
+  "findings": {
+    "p0": [],
+    "p1": [],
+    "p2": [
+      {
+        "id": "PROMPT-PARITY-P2-INTEGRAL-WORKBOOK",
+        "description": "This receipt proves visible-library parity. Integral parity for the 13 workbook prompt contracts remains a separate future gate."
+      },
+      {
+        "id": "PROMPT-PARITY-P2-LEGACY-09-PRODUCER-WARNINGS",
+        "description": "The unchanged reference contract 09 retains six non-blocking promise-to-producer warnings across locales and audiences."
+      }
+    ]
+  },
+  "state": "RENDERED_DRAFT",
+  "publication_authorized": false,
+  "self_hash_model": "sha256(sorted-json-without-self_sha256)",
+  "self_sha256": "2100ab078296dde11fc7b7d9328d36a89373d18867c47bc5f7052604455dfed5"
+}

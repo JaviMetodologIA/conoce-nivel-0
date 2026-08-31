@@ -39,18 +39,18 @@
     "self_sha256": "1044950780a9ad0044586de3e837137e7d02f0f8ea7f2d8ae9eb99d9c7e74876"
   },
   "inputs": {
-    "build_manifest_sha256": "d264b4416eb6e8093f17320055ef67509d9e7b56c1532e46bfcf546b453cf4b6",
-    "build_py_sha256": "e73cf885cd3f3190b983ef5aa2e198b4e84a85f76627b2867059ca59197b86cd",
-    "build_receipt_sha256": "2a4f2de8e7a632ca699b5177548de489d18dce98f2f540507f88ce69412323e6",
-    "css_sha256": "18ff9c52f9eb5af42b037bdd9a3b5240c5cab65eff246636a8e1a20369999046",
-    "renderer_sha256": "8dee15610e3d6e5ae00f6ca1ad7e9a17d95e5e6bca8c67004b86355902882f3c",
+    "build_manifest_sha256": "74a70b256430a9f8072c79021614386235a57a9f73a6d78a4026228088408f9a",
+    "build_py_sha256": "978076da750e39b54860f62b6c79f111489b3718ea5da2d0302247f15e49e1a7",
+    "build_receipt_sha256": "dd95ed28d931377ef96b741f52976fe11921cb1e37e71d278e1cd4c2c336feba",
+    "css_sha256": "32eae164c452284dea19dfef1b42906760346de8365f724cf6050e18ed556591",
+    "renderer_sha256": "d7e784490b1de5e264518fb6e2ebfb5372dd52745ab1dee954ba4a31c8e126cd",
     "runtime_sha256": "da20fc831a7c752df397d2b3d7c7ff6a7de9429e8b8f2c410284582ef95beb89"
   },
   "pairs": [
     {
       "audience": "persona",
       "candidate": {
-        "bytes": 39378,
+        "bytes": 39633,
         "current_resource": 3,
         "main_identity": {
           "data-audience": "persona",
@@ -65,14 +65,14 @@
           "official-pdf-card": 1
         },
         "path": "dist/modulos/02-de-ocupado-a-productivo/masterclass/index.html",
-        "sha256": "76047424038b6252e6a4c776da0b7a35e4ee036d3041f4c0199b927d983b9fb1",
+        "sha256": "407e2f165b980db0c61f80baf8c59ffc3f06464dffa61a87d2aee43d4eeb24eb",
         "sibling_navigation": 1,
         "unique_ids": true,
         "visible_words": 1745
       },
       "locale": "es",
       "reference": {
-        "bytes": 33137,
+        "bytes": 33375,
         "current_resource": 2,
         "main_identity": {
           "data-audience": null,
@@ -87,7 +87,7 @@
           "official-pdf-card": 1
         },
         "path": "dist/deck/index.html",
-        "sha256": "fa8f82fefd014e7a951503c139126eafaad9e597c75f560e21b23c62778ce899",
+        "sha256": "5d099a57c4419b4554a082c854fea447bec0c257f7f07dd02d6ae4675ed3883d",
         "sibling_navigation": 0,
         "unique_ids": true,
         "visible_words": 1326
@@ -99,7 +99,7 @@
     {
       "audience": "persona",
       "candidate": {
-        "bytes": 43909,
+        "bytes": 44178,
         "current_resource": 3,
         "main_identity": {
           "data-audience": "persona",
@@ -114,14 +114,14 @@
           "workbook-hero-grid": 1
         },
         "path": "dist/modulos/02-de-ocupado-a-productivo/workbook/index.html",
-        "sha256": "c340afdb3b24503d4cb9c3155af65c9155fde5c409f5e058a1c1b662ec668367",
+        "sha256": "be917ebb2eb55117268ca32e4174c87cc4932036bf38bbf2f28067e365de8525",
         "sibling_navigation": 1,
         "unique_ids": true,
-        "visible_words": 2012
+        "visible_words": 2014
       },
       "locale": "es",
       "reference": {
-        "bytes": 795036,
+        "bytes": 795274,
         "current_resource": 2,
         "main_identity": {
           "data-audience": null,
@@ -136,19 +136,19 @@
           "workbook-hero-grid": 1
         },
         "path": "dist/workbook/index.html",
-        "sha256": "ed1245d57e7ca887c8fd562b2b092d7097205d8103ccbdde1f0d250fb718ec8c",
+        "sha256": "6a7b0bd9a3575912feb8dd2d6657b8f5d05ad3d260424ef34ccf4cb50f984d53",
         "sibling_navigation": 0,
         "unique_ids": true,
         "visible_words": 35168
       },
       "resource": "workbook",
       "semantic_markers_present": true,
-      "visible_density_ratio": 0.0572
+      "visible_density_ratio": 0.0573
     },
     {
       "audience": "persona",
       "candidate": {
-        "bytes": 39919,
+        "bytes": 40174,
         "current_resource": 3,
         "main_identity": {
           "data-audience": "persona",
@@ -163,14 +163,14 @@
           "playbook-toc": 1
         },
         "path": "dist/modulos/02-de-ocupado-a-productivo/playbook/index.html",
-        "sha256": "22b4e8ec00c918dc185d6dabb9d64b3d0d722409c9e046eab747a72affeb7dfb",
+        "sha256": "d356de127a3fa75eaffa239f63198a91e2284dc38eaaf3013a7b2d1957a1c364",
         "sibling_navigation": 1,
         "unique_ids": true,
         "visible_words": 1986
       },
       "locale": "es",
       "reference": {
-        "bytes": 36256,
+        "bytes": 36494,
         "current_resource": 2,
         "main_identity": {
           "data-audience": null,
@@ -185,7 +185,7 @@
           "playbook-toc": 1
         },
         "path": "dist/playbook/index.html",
-        "sha256": "53b224fa7592b87b51d9c81c3fbd150f3bd51e099f8e6c8f3d5fa657b0a92241",
+        "sha256": "2f0531a2376176b1135be30f49a126d4ddd75d2e057784ca64121fb358bcb4a2",
         "sibling_navigation": 0,
         "unique_ids": true,
         "visible_words": 1213
@@ -197,7 +197,7 @@
     {
       "audience": "persona",
       "candidate": {
-        "bytes": 463138,
+        "bytes": 954555,
         "current_resource": 3,
         "main_identity": {
           "data-audience": "persona",
@@ -208,18 +208,18 @@
         },
         "markers": {
           "data-notebook-execution-guide": 1,
-          "data-prompt-format": 32,
-          "library-prompt-card": 16
+          "data-prompt-format": 56,
+          "library-prompt-card": 28
         },
         "path": "dist/modulos/02-de-ocupado-a-productivo/prompts/index.html",
-        "sha256": "eddb69fbc8cd8a8e6409d6dbfa10e5406268f22a23f5411aef45a2a7004c81dc",
+        "sha256": "50a14d6182e5fa5c73bd80048810c37f99b324765564697571f5b6f73d94297c",
         "sibling_navigation": 1,
         "unique_ids": true,
-        "visible_words": 17034
+        "visible_words": 37476
       },
       "locale": "es",
       "reference": {
-        "bytes": 831635,
+        "bytes": 831873,
         "current_resource": 2,
         "main_identity": {
           "data-audience": null,
@@ -234,19 +234,19 @@
           "library-prompt-card": 28
         },
         "path": "dist/prompts/index.html",
-        "sha256": "04c4f68d279f2824e2dd9c61a9518e9d77f7b1dd449ea652cc386af87ab7838a",
+        "sha256": "fcd4805a54559856ddf5208d665060a4bb5c7d2bfa9e7e34b78f3bb4d02a7dc5",
         "sibling_navigation": 0,
         "unique_ids": true,
         "visible_words": 35398
       },
       "resource": "prompts",
       "semantic_markers_present": true,
-      "visible_density_ratio": 0.4812
+      "visible_density_ratio": 1.0587
     },
     {
       "audience": "empresa",
       "candidate": {
-        "bytes": 39839,
+        "bytes": 40094,
         "current_resource": 3,
         "main_identity": {
           "data-audience": "empresa",
@@ -261,14 +261,14 @@
           "official-pdf-card": 1
         },
         "path": "dist/empresa/modulos/02-de-ocupado-a-productivo/masterclass/index.html",
-        "sha256": "e9f863dbcf2254c93543599dcd59f0a22b860d2d4983f50cf150c65fc273ebfe",
+        "sha256": "a75a79e2d44f86a9ecc2e5e91d80c345068bb5eb1ea7676411df91fbf05d869e",
         "sibling_navigation": 1,
         "unique_ids": true,
         "visible_words": 1773
       },
       "locale": "es",
       "reference": {
-        "bytes": 33377,
+        "bytes": 33615,
         "current_resource": 2,
         "main_identity": {
           "data-audience": null,
@@ -283,7 +283,7 @@
           "official-pdf-card": 1
         },
         "path": "dist/empresa/deck/index.html",
-        "sha256": "83c1cbb201895c65ac70d71333ddd8f0958c1c6f3dc082232a0e4c86954544ba",
+        "sha256": "b6b4c3c470b1dac27b7d079b2966be18950478dd76f5b517c6eaa55bd74183c1",
         "sibling_navigation": 0,
         "unique_ids": true,
         "visible_words": 1332
@@ -295,7 +295,7 @@
     {
       "audience": "empresa",
       "candidate": {
-        "bytes": 44909,
+        "bytes": 45178,
         "current_resource": 3,
         "main_identity": {
           "data-audience": "empresa",
@@ -310,14 +310,14 @@
           "workbook-hero-grid": 1
         },
         "path": "dist/empresa/modulos/02-de-ocupado-a-productivo/workbook/index.html",
-        "sha256": "bbcff19d8b396f4a866579d8b514e0e575a2beb3a02ea17c1e22dd656266f9b3",
+        "sha256": "111d98a2f60093900043995a40fc793861db8dc0d5ee41ee78ff941f38499f65",
         "sibling_navigation": 1,
         "unique_ids": true,
-        "visible_words": 2112
+        "visible_words": 2114
       },
       "locale": "es",
       "reference": {
-        "bytes": 826505,
+        "bytes": 826743,
         "current_resource": 2,
         "main_identity": {
           "data-audience": null,
@@ -332,7 +332,7 @@
           "workbook-hero-grid": 1
         },
         "path": "dist/empresa/workbook/index.html",
-        "sha256": "85a6a90a925131582ec4c4d8bf5ffa7fae0694f8fc982810e5188f5312720637",
+        "sha256": "496bcc2d653374dcf40d5282b98eb12f8d7e59a2a454dc4eafe1cabf2694751c",
         "sibling_navigation": 0,
         "unique_ids": true,
         "visible_words": 36954
@@ -344,7 +344,7 @@
     {
       "audience": "empresa",
       "candidate": {
-        "bytes": 40070,
+        "bytes": 40325,
         "current_resource": 3,
         "main_identity": {
           "data-audience": "empresa",
@@ -359,14 +359,14 @@
           "playbook-toc": 1
         },
         "path": "dist/empresa/modulos/02-de-ocupado-a-productivo/playbook/index.html",
-        "sha256": "e9fd8b2eabb3fb9f51b1577f685c03343519bf8aafd11fed1804be9668d21946",
+        "sha256": "0425e57db68eeea3d62309f149fe60098b0dbc5fe05f368ceadf0c61935dbfcd",
         "sibling_navigation": 1,
         "unique_ids": true,
         "visible_words": 1967
       },
       "locale": "es",
       "reference": {
-        "bytes": 36497,
+        "bytes": 36735,
         "current_resource": 2,
         "main_identity": {
           "data-audience": null,
@@ -381,7 +381,7 @@
           "playbook-toc": 1
         },
         "path": "dist/empresa/playbook/index.html",
-        "sha256": "0a11b07be42fb63b0c2c4c333de950076270680983a6bf17f6237f60487845d3",
+        "sha256": "8ae1e683873cf55711c36dfd918a39d79fe7eaa9d94cfc2f777bc1eb0d2044ec",
         "sibling_navigation": 0,
         "unique_ids": true,
         "visible_words": 1205
@@ -393,7 +393,7 @@
     {
       "audience": "empresa",
       "candidate": {
-        "bytes": 467160,
+        "bytes": 958361,
         "current_resource": 3,
         "main_identity": {
           "data-audience": "empresa",
@@ -404,18 +404,18 @@
         },
         "markers": {
           "data-notebook-execution-guide": 1,
-          "data-prompt-format": 32,
-          "library-prompt-card": 16
+          "data-prompt-format": 56,
+          "library-prompt-card": 28
         },
         "path": "dist/empresa/modulos/02-de-ocupado-a-productivo/prompts/index.html",
-        "sha256": "d29a144875a1bc6320ffb6a678812072983f4a2ad30c740e6c54eda74029b2f6",
+        "sha256": "89c4319e9fbff43f39df091fd2e922e3a00cd81b7807a71436d6619558773d3c",
         "sibling_navigation": 1,
         "unique_ids": true,
-        "visible_words": 17355
+        "visible_words": 37391
       },
       "locale": "es",
       "reference": {
-        "bytes": 852879,
+        "bytes": 853117,
         "current_resource": 2,
         "main_identity": {
           "data-audience": null,
@@ -430,19 +430,19 @@
           "library-prompt-card": 28
         },
         "path": "dist/empresa/prompts/index.html",
-        "sha256": "12bf6db7cc2583692c2aa9107c6c9360cd728abe10d5d3b27798cb916b6ef1cd",
+        "sha256": "6a93d40cd63621ab8fcc6b3a739746c1ee5488abd0141857391532f1a1d2f522",
         "sibling_navigation": 0,
         "unique_ids": true,
         "visible_words": 36669
       },
       "resource": "prompts",
       "semantic_markers_present": true,
-      "visible_density_ratio": 0.4733
+      "visible_density_ratio": 1.0197
     },
     {
       "audience": "persona",
       "candidate": {
-        "bytes": 38374,
+        "bytes": 38629,
         "current_resource": 3,
         "main_identity": {
           "data-audience": "persona",
@@ -457,14 +457,14 @@
           "official-pdf-card": 1
         },
         "path": "dist/en/modules/02-from-busy-to-productive/masterclass/index.html",
-        "sha256": "d09d751da119ecb1873ddb735df40cf48afc2e22dff7cb8772f1591b28ed22d3",
+        "sha256": "56c16135fc871402c77f2d17857a487ab0cf7ae1790049f60b43d5477776ccbb",
         "sibling_navigation": 1,
         "unique_ids": true,
         "visible_words": 1713
       },
       "locale": "en",
       "reference": {
-        "bytes": 32527,
+        "bytes": 32765,
         "current_resource": 2,
         "main_identity": {
           "data-audience": null,
@@ -479,7 +479,7 @@
           "official-pdf-card": 1
         },
         "path": "dist/en/deck/index.html",
-        "sha256": "255efd9b6bb22869fa8dcd9f5739f6bf9dc5f4bf33f2752e4c86434a3d8094ca",
+        "sha256": "5b09af5b15184f733cea861e657c801732c7438ca4f48a57d21359896a7833f0",
         "sibling_navigation": 0,
         "unique_ids": true,
         "visible_words": 1268
@@ -491,7 +491,7 @@
     {
       "audience": "persona",
       "candidate": {
-        "bytes": 42571,
+        "bytes": 42835,
         "current_resource": 3,
         "main_identity": {
           "data-audience": "persona",
@@ -506,14 +506,14 @@
           "workbook-hero-grid": 1
         },
         "path": "dist/en/modules/02-from-busy-to-productive/workbook/index.html",
-        "sha256": "807169b7c9c21ded6e55de2505c52f4c0774b397414b0430cbc284b89b6f2087",
+        "sha256": "3024c659d62a4d828ea8e3e52c69347fb9130f3b9a2aa4832c4db7114441ab88",
         "sibling_navigation": 1,
         "unique_ids": true,
-        "visible_words": 2003
+        "visible_words": 2005
       },
       "locale": "en",
       "reference": {
-        "bytes": 769531,
+        "bytes": 769769,
         "current_resource": 2,
         "main_identity": {
           "data-audience": null,
@@ -528,19 +528,19 @@
           "workbook-hero-grid": 1
         },
         "path": "dist/en/workbook/index.html",
-        "sha256": "8d7de31f0fc4c5d3f0be6aaddcd7d2796843092ecd8d50991b719f25c2d88c0c",
+        "sha256": "9f0bbac9cf552b2b6163c950335f885f19ec25477c37ae8fd01eecd4125ce43f",
         "sibling_navigation": 0,
         "unique_ids": true,
         "visible_words": 34041
       },
       "resource": "workbook",
       "semantic_markers_present": true,
-      "visible_density_ratio": 0.0588
+      "visible_density_ratio": 0.0589
     },
     {
       "audience": "persona",
       "candidate": {
-        "bytes": 38571,
+        "bytes": 38826,
         "current_resource": 3,
         "main_identity": {
           "data-audience": "persona",
@@ -555,14 +555,14 @@
           "playbook-toc": 1
         },
         "path": "dist/en/modules/02-from-busy-to-productive/playbook/index.html",
-        "sha256": "26d8ac3ee79b5722e11119bd4f3b6b3e11b6bdd7594c9a62592fcc378d98a678",
+        "sha256": "e94fd46670e4e0a36572e44f583cff217c8d28b973de6a2ab9d0044771ac1d27",
         "sibling_navigation": 1,
         "unique_ids": true,
         "visible_words": 1971
       },
       "locale": "en",
       "reference": {
-        "bytes": 35415,
+        "bytes": 35653,
         "current_resource": 2,
         "main_identity": {
           "data-audience": null,
@@ -577,7 +577,7 @@
           "playbook-toc": 1
         },
         "path": "dist/en/playbook/index.html",
-        "sha256": "85247d479adf56c896f34e6491f7a15e04c3af6ed1803d3de71365855d017388",
+        "sha256": "886ca1dc2c13f3380611a7cde86c451f6f1adebaf82846ada1d7d5b2eaa617a2",
         "sibling_navigation": 0,
         "unique_ids": true,
         "visible_words": 1151
@@ -589,7 +589,7 @@
     {
       "audience": "persona",
       "candidate": {
-        "bytes": 446532,
+        "bytes": 927084,
         "current_resource": 3,
         "main_identity": {
           "data-audience": "persona",
@@ -600,18 +600,18 @@
         },
         "markers": {
           "data-notebook-execution-guide": 1,
-          "data-prompt-format": 32,
-          "library-prompt-card": 16
+          "data-prompt-format": 56,
+          "library-prompt-card": 28
         },
         "path": "dist/en/modules/02-from-busy-to-productive/prompts/index.html",
-        "sha256": "dac12b0270b9acceeeb366729e48378da6fd982ee77199eb5189ce7c49b8d469",
+        "sha256": "f952c897f89635f4c3058d41a038b6c1cbeabb8edeccbe2d3f58e9e6c3010dfe",
         "sibling_navigation": 1,
         "unique_ids": true,
-        "visible_words": 16624
+        "visible_words": 38068
       },
       "locale": "en",
       "reference": {
-        "bytes": 801038,
+        "bytes": 801276,
         "current_resource": 2,
         "main_identity": {
           "data-audience": null,
@@ -626,19 +626,19 @@
           "library-prompt-card": 28
         },
         "path": "dist/en/prompts/index.html",
-        "sha256": "b509b73c55d253cf414d05e4997c73ab6d797761204e7bad3d208bb3bf652f20",
+        "sha256": "8d8bf3e2561d93bd7dc18f34bf38be4bff46c64b4f40f9d820399423d89c1f44",
         "sibling_navigation": 0,
         "unique_ids": true,
         "visible_words": 33899
       },
       "resource": "prompts",
       "semantic_markers_present": true,
-      "visible_density_ratio": 0.4904
+      "visible_density_ratio": 1.123
     },
     {
       "audience": "empresa",
       "candidate": {
-        "bytes": 38774,
+        "bytes": 39029,
         "current_resource": 3,
         "main_identity": {
           "data-audience": "empresa",
@@ -653,14 +653,14 @@
           "official-pdf-card": 1
         },
         "path": "dist/en/empresa/modules/02-from-busy-to-productive/masterclass/index.html",
-        "sha256": "62d72df677400c30e9b982200e8d68c89bb8e9409cccfba18fd1ff0c319f154f",
+        "sha256": "eb2a556e5d5c5144b05c65f7fa1a17d999922053f98701016d61f943659d5b09",
         "sibling_navigation": 1,
         "unique_ids": true,
         "visible_words": 1729
       },
       "locale": "en",
       "reference": {
-        "bytes": 32751,
+        "bytes": 32989,
         "current_resource": 2,
         "main_identity": {
           "data-audience": null,
@@ -675,7 +675,7 @@
           "official-pdf-card": 1
         },
         "path": "dist/en/empresa/deck/index.html",
-        "sha256": "a5bdda49d7e827c75e74f03ddcbf2b1f03b314b546cb17116d5a5b7c9a578af5",
+        "sha256": "b267bde2855655f32f7d5d5c90538dd6bce86c2dce7bc4a542dd125daa4c5d93",
         "sibling_navigation": 0,
         "unique_ids": true,
         "visible_words": 1259
@@ -687,7 +687,7 @@
     {
       "audience": "empresa",
       "candidate": {
-        "bytes": 43625,
+        "bytes": 43889,
         "current_resource": 3,
         "main_identity": {
           "data-audience": "empresa",
@@ -702,14 +702,14 @@
           "workbook-hero-grid": 1
         },
         "path": "dist/en/empresa/modules/02-from-busy-to-productive/workbook/index.html",
-        "sha256": "81a67e4d0ab637ec5f8ab888a75010560cbe0d7563c18b55f5e7a2b828917980",
+        "sha256": "8a10d288ceb393583dfa76b4003eb405fdcf161a1c6790b3eaa0e8fd503cc3c9",
         "sibling_navigation": 1,
         "unique_ids": true,
-        "visible_words": 2066
+        "visible_words": 2068
       },
       "locale": "en",
       "reference": {
-        "bytes": 797500,
+        "bytes": 797738,
         "current_resource": 2,
         "main_identity": {
           "data-audience": null,
@@ -724,19 +724,19 @@
           "workbook-hero-grid": 1
         },
         "path": "dist/en/empresa/workbook/index.html",
-        "sha256": "0a8159e1688c7026d16b033fc920875afaa162e2acf0bab9e730d64fc775d892",
+        "sha256": "be371a0db96d028bddff403f8a751103e26b20a8df1e7afce8fef5f5fa61cd0d",
         "sibling_navigation": 0,
         "unique_ids": true,
         "visible_words": 35808
       },
       "resource": "workbook",
       "semantic_markers_present": true,
-      "visible_density_ratio": 0.0577
+      "visible_density_ratio": 0.0578
     },
     {
       "audience": "empresa",
       "candidate": {
-        "bytes": 38472,
+        "bytes": 38727,
         "current_resource": 3,
         "main_identity": {
           "data-audience": "empresa",
@@ -751,14 +751,14 @@
           "playbook-toc": 1
         },
         "path": "dist/en/empresa/modules/02-from-busy-to-productive/playbook/index.html",
-        "sha256": "05873779992281427b75218dab99dd105d2d41af11f22b830ec8ba8959eb4830",
+        "sha256": "18ccc3ccb4d95cd260c9c85851144811829c8f330ba55fc02358110d6973489f",
         "sibling_navigation": 1,
         "unique_ids": true,
         "visible_words": 1906
       },
       "locale": "en",
       "reference": {
-        "bytes": 35629,
+        "bytes": 35867,
         "current_resource": 2,
         "main_identity": {
           "data-audience": null,
@@ -773,7 +773,7 @@
           "playbook-toc": 1
         },
         "path": "dist/en/empresa/playbook/index.html",
-        "sha256": "e5af9eb93deb4040d077ab33c955d3e5c8b215dfdcf6c6ba4685f14cfbd2b6a3",
+        "sha256": "fa2394b6ceefc7e01c6fce1a8f5ebcc0173591fdc70dba7f4a27e3baf9b532f4",
         "sibling_navigation": 0,
         "unique_ids": true,
         "visible_words": 1139
@@ -785,7 +785,7 @@
     {
       "audience": "empresa",
       "candidate": {
-        "bytes": 452444,
+        "bytes": 921065,
         "current_resource": 3,
         "main_identity": {
           "data-audience": "empresa",
@@ -796,18 +796,18 @@
         },
         "markers": {
           "data-notebook-execution-guide": 1,
-          "data-prompt-format": 32,
-          "library-prompt-card": 16
+          "data-prompt-format": 56,
+          "library-prompt-card": 28
         },
         "path": "dist/en/empresa/modules/02-from-busy-to-productive/prompts/index.html",
-        "sha256": "756d3c46f8a4e22ee0a979b3ee151fd6bd5ec3e0881f1b3c266357c13f02f5e3",
+        "sha256": "cf760633acbca2caa6371ffcecbd92cccf16dfc34189ad021161d6cf34738819",
         "sibling_navigation": 1,
         "unique_ids": true,
-        "visible_words": 16903
+        "visible_words": 36621
       },
       "locale": "en",
       "reference": {
-        "bytes": 821143,
+        "bytes": 821381,
         "current_resource": 2,
         "main_identity": {
           "data-audience": null,
@@ -822,19 +822,19 @@
           "library-prompt-card": 28
         },
         "path": "dist/en/empresa/prompts/index.html",
-        "sha256": "89b2c66f14ebd308adcb7af05ffb325f6da0925619021e8f599ad11a6ad428f9",
+        "sha256": "21543fa2189f90f1f2f628cb46d213e59377adb8e27ea0c55ab433735a3feb6e",
         "sibling_navigation": 0,
         "unique_ids": true,
         "visible_words": 35059
       },
       "resource": "prompts",
       "semantic_markers_present": true,
-      "visible_density_ratio": 0.4821
+      "visible_density_ratio": 1.0446
     },
     {
       "audience": "persona",
       "candidate": {
-        "bytes": 39228,
+        "bytes": 39483,
         "current_resource": 3,
         "main_identity": {
           "data-audience": "persona",
@@ -849,14 +849,14 @@
           "official-pdf-card": 1
         },
         "path": "dist/pt/modulos/02-de-ocupado-a-produtivo/masterclass/index.html",
-        "sha256": "d04442f4481f7f9221f0f33624ac3060766612c2426b69d35ef2f0c385e49052",
+        "sha256": "bcf1659c29161f6af985b98622a80545309b09ef44ffe2ced9bd9d4dd98e0208",
         "sibling_navigation": 1,
         "unique_ids": true,
         "visible_words": 1713
       },
       "locale": "pt",
       "reference": {
-        "bytes": 33002,
+        "bytes": 33240,
         "current_resource": 2,
         "main_identity": {
           "data-audience": null,
@@ -871,7 +871,7 @@
           "official-pdf-card": 1
         },
         "path": "dist/pt/deck/index.html",
-        "sha256": "e1b8afdcc0f160e84b6d343ee2ca2efbdb02afc176cc3b8469fe5ff4435b021b",
+        "sha256": "da5e388aee20dd9eb226e708c36f38ff924faeab26b29d114d8185a1ed024685",
         "sibling_navigation": 0,
         "unique_ids": true,
         "visible_words": 1298
@@ -883,7 +883,7 @@
     {
       "audience": "persona",
       "candidate": {
-        "bytes": 43696,
+        "bytes": 43968,
         "current_resource": 3,
         "main_identity": {
           "data-audience": "persona",
@@ -898,14 +898,14 @@
           "workbook-hero-grid": 1
         },
         "path": "dist/pt/modulos/02-de-ocupado-a-produtivo/workbook/index.html",
-        "sha256": "727b2b2268eaf401217c5e8bfc564cf9ff309beb97ed51e74455c5b2e65f9305",
+        "sha256": "a77cf322dc176a0bf7622d6d7da2b01dd8805873e0f405a534dd1f4e92c14476",
         "sibling_navigation": 1,
         "unique_ids": true,
-        "visible_words": 2014
+        "visible_words": 2017
       },
       "locale": "pt",
       "reference": {
-        "bytes": 795448,
+        "bytes": 795686,
         "current_resource": 2,
         "main_identity": {
           "data-audience": null,
@@ -920,19 +920,19 @@
           "workbook-hero-grid": 1
         },
         "path": "dist/pt/workbook/index.html",
-        "sha256": "cf8b1b0619d3dc11756619ff95a0bea52d3a1941217c9bb13cee15ca4a79d981",
+        "sha256": "9f1c9bcc5998f7d3c914da6980c94d86a52e2d721c1829dbbc019fdf21326438",
         "sibling_navigation": 0,
         "unique_ids": true,
         "visible_words": 34585
       },
       "resource": "workbook",
       "semantic_markers_present": true,
-      "visible_density_ratio": 0.0582
+      "visible_density_ratio": 0.0583
     },
     {
       "audience": "persona",
       "candidate": {
-        "bytes": 39619,
+        "bytes": 39874,
         "current_resource": 3,
         "main_identity": {
           "data-audience": "persona",
@@ -947,14 +947,14 @@
           "playbook-toc": 1
         },
         "path": "dist/pt/modulos/02-de-ocupado-a-produtivo/playbook/index.html",
-        "sha256": "6d9a113a9fd6afb60f6d9f4642c6143ccffbda64e78123c06be7c7e004cc56b7",
+        "sha256": "89cb4c75804bc0d544179e9af8a69bb08af5322486cea05516f6a4f70efeb064",
         "sibling_navigation": 1,
         "unique_ids": true,
         "visible_words": 1937
       },
       "locale": "pt",
       "reference": {
-        "bytes": 36156,
+        "bytes": 36394,
         "current_resource": 2,
         "main_identity": {
           "data-audience": null,
@@ -969,7 +969,7 @@
           "playbook-toc": 1
         },
         "path": "dist/pt/playbook/index.html",
-        "sha256": "e05be4fb771d789afed5876098c1ac1ff24ed4b7319ecf30a3f511c7696bcb30",
+        "sha256": "60ed580b1646d0006c192c1cb891c4c7041ee6de178a432d5cbb7e2fbacf3683",
         "sibling_navigation": 0,
         "unique_ids": true,
         "visible_words": 1198
@@ -981,7 +981,7 @@
     {
       "audience": "persona",
       "candidate": {
-        "bytes": 458966,
+        "bytes": 948900,
         "current_resource": 3,
         "main_identity": {
           "data-audience": "persona",
@@ -992,18 +992,18 @@
         },
         "markers": {
           "data-notebook-execution-guide": 1,
-          "data-prompt-format": 32,
-          "library-prompt-card": 16
+          "data-prompt-format": 56,
+          "library-prompt-card": 28
         },
         "path": "dist/pt/modulos/02-de-ocupado-a-produtivo/prompts/index.html",
-        "sha256": "0f11ffed1d798b33624c849610d18d878f65d1471eed4974f79500589277987c",
+        "sha256": "af2926f591b7afe486bdf4211681aae601cd37597e410891b93c77765a6a51f8",
         "sibling_navigation": 1,
         "unique_ids": true,
-        "visible_words": 16680
+        "visible_words": 37485
       },
       "locale": "pt",
       "reference": {
-        "bytes": 833538,
+        "bytes": 833776,
         "current_resource": 2,
         "main_identity": {
           "data-audience": null,
@@ -1018,19 +1018,19 @@
           "library-prompt-card": 28
         },
         "path": "dist/pt/prompts/index.html",
-        "sha256": "89198dab404b3d918206d8eee61bbec83c0558f1b776101bc643dcb4269a6277",
+        "sha256": "272bccc821c4b03c509bd9b7cfc4991cba132fc012bdda8d2ce3dbfd96e035ce",
         "sibling_navigation": 0,
         "unique_ids": true,
         "visible_words": 34984
       },
       "resource": "prompts",
       "semantic_markers_present": true,
-      "visible_density_ratio": 0.4768
+      "visible_density_ratio": 1.0715
     },
     {
       "audience": "empresa",
       "candidate": {
-        "bytes": 39670,
+        "bytes": 39925,
         "current_resource": 3,
         "main_identity": {
           "data-audience": "empresa",
@@ -1045,14 +1045,14 @@
           "official-pdf-card": 1
         },
         "path": "dist/pt/empresa/modulos/02-de-ocupado-a-produtivo/masterclass/index.html",
-        "sha256": "94f3a9922069b9239051a3445af63bd91a78f81ffa3998680e3f57d24f9e5d7a",
+        "sha256": "ff037a39ac1c131d15a6d70605e403d968ebd62095d25a1381cc39014837d035",
         "sibling_navigation": 1,
         "unique_ids": true,
         "visible_words": 1744
       },
       "locale": "pt",
       "reference": {
-        "bytes": 33243,
+        "bytes": 33481,
         "current_resource": 2,
         "main_identity": {
           "data-audience": null,
@@ -1067,7 +1067,7 @@
           "official-pdf-card": 1
         },
         "path": "dist/pt/empresa/deck/index.html",
-        "sha256": "7aa8a24a3ece9cf971f5a932dd4f23a92a1209305d4e05bc3fc41c08c0c446b1",
+        "sha256": "fed7a4617947f08564b60bf08321c080e58550723cd6c5867e34667d04604b5a",
         "sibling_navigation": 0,
         "unique_ids": true,
         "visible_words": 1301
@@ -1079,7 +1079,7 @@
     {
       "audience": "empresa",
       "candidate": {
-        "bytes": 44930,
+        "bytes": 45202,
         "current_resource": 3,
         "main_identity": {
           "data-audience": "empresa",
@@ -1094,14 +1094,14 @@
           "workbook-hero-grid": 1
         },
         "path": "dist/pt/empresa/modulos/02-de-ocupado-a-produtivo/workbook/index.html",
-        "sha256": "7a6d4c6cc809efff488bee70d8b77678b2883dcbed62e9ef150d6a35d2c99a54",
+        "sha256": "50a203ac4b4e304adb25ed6e1e0b9a6ca7785ca91ab4990aa5efb319dcc11592",
         "sibling_navigation": 1,
         "unique_ids": true,
-        "visible_words": 2108
+        "visible_words": 2111
       },
       "locale": "pt",
       "reference": {
-        "bytes": 828937,
+        "bytes": 829175,
         "current_resource": 2,
         "main_identity": {
           "data-audience": null,
@@ -1116,19 +1116,19 @@
           "workbook-hero-grid": 1
         },
         "path": "dist/pt/empresa/workbook/index.html",
-        "sha256": "bce3929c9651a1898e335daa337713e34a5754e0eefeec91507f718d47b4f727",
+        "sha256": "0675763aab891c5293c450a591c27e5610615fb47ad27affebb2f22591a20dd3",
         "sibling_navigation": 0,
         "unique_ids": true,
         "visible_words": 36259
       },
       "resource": "workbook",
       "semantic_markers_present": true,
-      "visible_density_ratio": 0.0581
+      "visible_density_ratio": 0.0582
     },
     {
       "audience": "empresa",
       "candidate": {
-        "bytes": 39927,
+        "bytes": 40182,
         "current_resource": 3,
         "main_identity": {
           "data-audience": "empresa",
@@ -1143,14 +1143,14 @@
           "playbook-toc": 1
         },
         "path": "dist/pt/empresa/modulos/02-de-ocupado-a-produtivo/playbook/index.html",
-        "sha256": "35da5e06f178817acbe67ac3ba3bf2133f084de1083922ef774000c86b11831c",
+        "sha256": "b165aa93accef18744f9ae93bdb7997b32092881d5e26d1df9a6f8c4e6ef7a99",
         "sibling_navigation": 1,
         "unique_ids": true,
         "visible_words": 1925
       },
       "locale": "pt",
       "reference": {
-        "bytes": 36404,
+        "bytes": 36642,
         "current_resource": 2,
         "main_identity": {
           "data-audience": null,
@@ -1165,7 +1165,7 @@
           "playbook-toc": 1
         },
         "path": "dist/pt/empresa/playbook/index.html",
-        "sha256": "dd7eda0cbfb833995c4dd773b9952eeaeeef4dd60a14075bbb917998e2f91ead",
+        "sha256": "2de861cf92fb68d99adcb8cfe4aadac6e89ea21b0f0b5bbb862a2e7237a8cf79",
         "sibling_navigation": 0,
         "unique_ids": true,
         "visible_words": 1189
@@ -1177,7 +1177,7 @@
     {
       "audience": "empresa",
       "candidate": {
-        "bytes": 465390,
+        "bytes": 953601,
         "current_resource": 3,
         "main_identity": {
           "data-audience": "empresa",
@@ -1188,18 +1188,18 @@
         },
         "markers": {
           "data-notebook-execution-guide": 1,
-          "data-prompt-format": 32,
-          "library-prompt-card": 16
+          "data-prompt-format": 56,
+          "library-prompt-card": 28
         },
         "path": "dist/pt/empresa/modulos/02-de-ocupado-a-produtivo/prompts/index.html",
-        "sha256": "e27e6184712089568be31c3cf77ddd507d8e992cbb67ea21eefc5dc19bf86173",
+        "sha256": "1def6577c247930648bd347a7eedb71ea6c57655c9cd4c15b0ba005bb6dbf8c4",
         "sibling_navigation": 1,
         "unique_ids": true,
-        "visible_words": 17079
+        "visible_words": 36768
       },
       "locale": "pt",
       "reference": {
-        "bytes": 856180,
+        "bytes": 856418,
         "current_resource": 2,
         "main_identity": {
           "data-audience": null,
@@ -1214,20 +1214,20 @@
           "library-prompt-card": 28
         },
         "path": "dist/pt/empresa/prompts/index.html",
-        "sha256": "8ccf4bd0849fe38dd44b82de00c5cfc4e8ed6bb4175ccde8b9cf5f955bd56c30",
+        "sha256": "7fdf27b6839eca8446dd04a6e7c73a9c1002b6c8f48bd4ec158ac839a28cf91c",
         "sibling_navigation": 0,
         "unique_ids": true,
         "visible_words": 36026
       },
       "resource": "prompts",
       "semantic_markers_present": true,
-      "visible_density_ratio": 0.4741
+      "visible_density_ratio": 1.0206
     }
   ],
   "reference_module": "ia-panorama",
   "schema_version": "module-code-comparison-v1",
   "self_hash_model": "sha256(sorted-json-without-self_sha256)",
-  "self_sha256": "e632f41772595c8eccbcd50a5bed305fd65fb85c347986e98c8e959f7a36d873",
+  "self_sha256": "ce4e82a56e2c6df600efac9e21c5b33cde3c9cb282f258dc8b62daf3f87209a7",
   "summary": {
     "code_identity": "NOT_REQUIRED_AND_NOT_PRESENT",
     "maximum_visible_density_ratio": 1.7124,

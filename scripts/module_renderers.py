@@ -115,7 +115,7 @@ UI = {
         "surface": "Ejecutar en",
         "open_prompt": "Abrir prompt",
         "close_prompt": "Cerrar prompt",
-        "details": "Cuándo usarlo",
+        "details": "Antes de copiar",
         "receives": "Recibe",
         "produces": "Produce",
         "consumes": "Consume",
@@ -172,6 +172,10 @@ UI = {
         "glossary": "Glosario",
         "faq": "Preguntas frecuentes",
         "prompt_contract": "Por qué funciona",
+        "direct_prompts": "10 prompts de trabajo",
+        "direct_prompts_lead": "Avanza de la situación al resultado con una secuencia verificable.",
+        "meta_prompts": "4 metaprompts",
+        "meta_prompts_lead": "Crea instrumentos reutilizables para repetir y adaptar la práctica.",
         "purpose": "Propósito",
         "when": "Cuándo usarlo",
         "workflow": "Flujo",
@@ -180,6 +184,9 @@ UI = {
         "acceptance": "Criterios de aceptación",
         "edge_cases": "Casos borde",
         "tradeoff": "Trade-off",
+        "tradeoffs": "Compensaciones",
+        "assumptions": "Supuestos",
+        "prompt_assumption": "Los inputs, permisos y fuentes declarados representan el caso que se revisará.",
         "limits": "Límites",
         "independent_use": "Uso independiente",
         "demo_artifact": "Datos sintéticos disponibles",
@@ -187,7 +194,7 @@ UI = {
         "execution_gate": "Acción fuera de NotebookLM",
         "gate_produces": "Debes aportar",
         "gate_criteria": "Continúa cuando",
-        "level_names": ("Directo", "Con parámetros", "SPEC", "System / User"),
+        "level_names": ("Directo", "Estructurado", "Especificado", "Orquestado"),
         "level_desc": (
             "Una orden clara y breve.",
             "Inputs y parámetros explícitos.",
@@ -260,7 +267,7 @@ UI = {
         "surface": "Run in",
         "open_prompt": "Open prompt",
         "close_prompt": "Close prompt",
-        "details": "When to use it",
+        "details": "Before copying",
         "receives": "Receives",
         "produces": "Produces",
         "consumes": "Consumes",
@@ -317,6 +324,10 @@ UI = {
         "glossary": "Glossary",
         "faq": "Frequently asked questions",
         "prompt_contract": "Why it works",
+        "direct_prompts": "10 working prompts",
+        "direct_prompts_lead": "Move from the situation to the outcome through a verifiable sequence.",
+        "meta_prompts": "4 metaprompts",
+        "meta_prompts_lead": "Create reusable instruments to repeat and adapt the practice.",
         "purpose": "Purpose",
         "when": "When to use it",
         "workflow": "Workflow",
@@ -325,6 +336,9 @@ UI = {
         "acceptance": "Acceptance criteria",
         "edge_cases": "Edge cases",
         "tradeoff": "Trade-off",
+        "tradeoffs": "Trade-offs",
+        "assumptions": "Assumptions",
+        "prompt_assumption": "The declared inputs, permissions and sources represent the case under review.",
         "limits": "Limits",
         "independent_use": "Independent use",
         "demo_artifact": "Available synthetic data",
@@ -332,7 +346,7 @@ UI = {
         "execution_gate": "Action outside NotebookLM",
         "gate_produces": "You must provide",
         "gate_criteria": "Continue when",
-        "level_names": ("Direct", "With parameters", "SPEC", "System / User"),
+        "level_names": ("Direct", "Structured", "Specified", "Orchestrated"),
         "level_desc": (
             "A clear, concise instruction.",
             "Explicit inputs and parameters.",
@@ -405,7 +419,7 @@ UI = {
         "surface": "Executar em",
         "open_prompt": "Abrir prompt",
         "close_prompt": "Fechar prompt",
-        "details": "Quando usar",
+        "details": "Antes de copiar",
         "receives": "Recebe",
         "produces": "Produz",
         "consumes": "Consome",
@@ -462,6 +476,10 @@ UI = {
         "glossary": "Glossário",
         "faq": "Perguntas frequentes",
         "prompt_contract": "Por que funciona",
+        "direct_prompts": "10 prompts de trabalho",
+        "direct_prompts_lead": "Avance da situação ao resultado por uma sequência verificável.",
+        "meta_prompts": "4 metaprompts",
+        "meta_prompts_lead": "Crie instrumentos reutilizáveis para repetir e adaptar a prática.",
         "purpose": "Propósito",
         "when": "Quando usar",
         "workflow": "Fluxo",
@@ -470,6 +488,9 @@ UI = {
         "acceptance": "Critérios de aceitação",
         "edge_cases": "Casos-limite",
         "tradeoff": "Trade-off",
+        "tradeoffs": "Compensações",
+        "assumptions": "Suposições",
+        "prompt_assumption": "Os inputs, permissões e fontes declarados representam o caso em revisão.",
         "limits": "Limites",
         "independent_use": "Uso independente",
         "demo_artifact": "Dados sintéticos disponíveis",
@@ -477,7 +498,7 @@ UI = {
         "execution_gate": "Ação fora do NotebookLM",
         "gate_produces": "Você deve fornecer",
         "gate_criteria": "Continue quando",
-        "level_names": ("Direto", "Com parâmetros", "SPEC", "System / User"),
+        "level_names": ("Direto", "Estruturado", "Especificado", "Orquestrado"),
         "level_desc": (
             "Uma instrução clara e curta.",
             "Inputs e parâmetros explícitos.",
@@ -1237,6 +1258,10 @@ def render_workbook(
                 raise RendererContractError(f"depth.workbook.preparation_prompt.library_ref: unknown prompt {library_ref}")
             receive_ref = _text(library_prompt, "receive", "module.promptLibrary.prompt")
             receive_label = normalized_artifact_labels.get(receive_ref)
+            if receive_label is None and receive_ref.endswith("-output"):
+                producer = base_prompts.get(receive_ref[:-7])
+                if producer is not None:
+                    receive_label = _prompt_artifact_label(producer, "module.promptLibrary.prompt")
             if receive_label is None:
                 raise RendererContractError(
                     f"workbook.artifactLabels: missing governed localized artifact label for {receive_ref}"
@@ -1883,26 +1908,19 @@ def _prompt_contract_ui(
 ) -> str:
     if contract is None:
         return ""
-    groups = (
-        ("workflow", labels["workflow"]),
-        ("frameworks", labels["frameworks"]),
-        ("guardrails", labels["guardrails"]),
-        ("acceptance_criteria", labels["acceptance"]),
-        ("edge_cases", labels["edge_cases"]),
-        ("limits", labels["limits"]),
-    )
     group_markup = "".join(
-        f'<section><h4>{_e(label)}</h4>{_bullet_list(_sequence(contract.get(key), f"depth.prompt.{key}", minimum=1))}</section>'
-        for key, label in groups
+        (
+            f'<section><h4>{_e(labels["acceptance"])}</h4>{_bullet_list(_sequence(contract.get("acceptance_criteria"), "depth.prompt.acceptance_criteria", minimum=3))}</section>',
+            f'<section><h4>{_e(labels["edge_cases"])}</h4>{_bullet_list(_sequence(contract.get("edge_cases"), "depth.prompt.edge_cases", minimum=2))}</section>',
+            f'<section><h4>{_e(labels["tradeoffs"])}</h4>{_bullet_list((_text(contract, "tradeoff", "depth.prompt"),))}</section>',
+            f'<section><h4>{_e(labels["assumptions"])}</h4>{_bullet_list((labels["prompt_assumption"],))}</section>',
+            f'<section><h4>{_e(labels["limits"])}</h4>{_bullet_list(_sequence(contract.get("limits"), "depth.prompt.limits", minimum=1))}</section>',
+        )
     )
     return (
-        f'<details class="module-depth-disclosure prompt-contract-depth"><summary><strong>{_e(labels["prompt_contract"])}</strong>'
-        f'<span>{_e(labels["acceptance"])}</span></summary><div class="module-depth-grid">'
-        f'<dl>{_definition(labels["purpose"], _text(contract, "purpose", "depth.prompt"))}'
-        f'{_definition(labels["when"], _text(contract, "when", "depth.prompt"))}'
-        f'{_definition(labels["tradeoff"], _text(contract, "tradeoff", "depth.prompt"))}'
-        f'{_definition(labels["next"], next_label)}</dl>'
-        f'<div class="module-depth-contract-groups">{group_markup}</div></div></details>'
+        f'<details class="module-depth-disclosure prompt-contract-depth prompt-why" data-prompt-why>'
+        f'<summary><strong>{_e(labels["prompt_contract"])}</strong><span>{_e(labels["acceptance"])}</span></summary>'
+        f'<div class="prompt-why-body">{group_markup}</div></details>'
     )
 
 
@@ -1957,8 +1975,10 @@ def _prompt_level_ui(
     group_id = f"{module_id}-{prompt_id}"
     tabs: list[str] = []
     panels: list[str] = []
+    format_ids = ("natural", "parameters", "spec", "pair")
     for index, (_, level) in enumerate(normalized, 1):
-        panel_id = f"{group_id}-n{index}"
+        format_id = format_ids[index - 1]
+        panel_id = f"{group_id}-{format_id}"
         context_id = f"{panel_id}-context"
         name = labels["level_names"][index - 1]
         description = labels["level_desc"][index - 1]
@@ -1983,7 +2003,7 @@ def _prompt_level_ui(
         tabs.append(
             f'<button type="button" role="tab" tabindex="{0 if index == 1 else -1}" '
             f'aria-selected="{"true" if index == 1 else "false"}" aria-label="{_e(label)}" '
-            f'aria-controls="{panel_id}" data-prompt-format="n{index}" data-level-number="{index}">'
+            f'aria-controls="{panel_id}" data-prompt-format="{format_id}" data-level-number="{index}">'
             f'<span class="prompt-tab-number" aria-hidden="true">{index}</span>'
             f'<span class="prompt-tab-copy" aria-hidden="true"><strong>{_e(name)}</strong><small>N{index}</small></span></button>'
         )
@@ -1992,12 +2012,12 @@ def _prompt_level_ui(
             f'<summary><span class="prompt-summary-number" aria-hidden="true">{index}</span><span><strong>{_e(label)}</strong>'
             f'<small>{_e(description)}</small></span></summary>'
             f'<div class="prompt-level-context" id="{context_id}"><span>N{index}</span><strong>{_e(name)}</strong><p>{_e(description)}</p></div>'
-            f'<pre class="prompt-format-panel prompt-format-panel-n{index}" id="{panel_id}" role="tabpanel" tabindex="0" '
+            f'<pre class="prompt-format-panel prompt-format-panel-{format_id}" id="{panel_id}" role="tabpanel" tabindex="0" '
             f'aria-label="{_e(label)} · {_e(labels["template"])}" aria-describedby="{context_id}" data-prompt-template data-prompt-mode-panel="template">'
             f'{_prompt_lines(level_template)}</pre>'
             f'<textarea class="prompt-format-source" hidden aria-hidden="true" tabindex="-1" data-prompt-source data-prompt-mode="template">{_e(level_template)}</textarea>'
             f'<details class="prompt-demo-native" data-prompt-mode-panel="demo"><summary>{_e(labels["demo"])} · {_e(label)}</summary>'
-            f'<pre class="prompt-format-panel prompt-format-panel-n{index}" id="{panel_id}-demo" role="tabpanel" tabindex="0" '
+            f'<pre class="prompt-format-panel prompt-format-panel-{format_id}" id="{panel_id}-demo" role="tabpanel" tabindex="0" '
             f'aria-label="{_e(label)} · {_e(labels["demo"])}" aria-describedby="{context_id}" data-prompt-demo>{_prompt_lines(level_demo)}</pre>'
             f'<textarea class="prompt-format-source" hidden aria-hidden="true" tabindex="-1" data-prompt-source data-prompt-mode="demo">{_e(level_demo)}</textarea>'
             f'</details></details>'
@@ -2005,12 +2025,12 @@ def _prompt_level_ui(
 
     copy_aria = f'{labels["copy"]} · N1 · {labels["level_names"][0]}'
     return (
-        f'<div class="prompt-library" data-prompt-library="{_e(group_id)}" data-active-level="1" data-active-format="n1" data-active-mode="template">'
+        f'<div class="prompt-library" data-prompt-library="{_e(group_id)}" data-active-level="1" data-active-format="natural" data-active-mode="template">'
         f'<div class="prompt-library-toolbar"><div class="prompt-mode-switch" role="group" aria-label="{_e(labels["mode"])}">'
         f'<button type="button" aria-pressed="true" data-prompt-mode-select="template">{_e(labels["template"])}</button>'
         f'<button type="button" aria-pressed="false" data-prompt-mode-select="demo">{_e(labels["demo"])}</button></div>'
         f'<span class="prompt-syntax">{_e(labels["syntax"])}</span></div>'
-        f'{_prompt_input_guide(prompt, labels, locale, path)}{_prompt_contract_ui(depth_prompt, labels, next_label)}'
+        f'{_prompt_input_guide(prompt, labels, locale, path)}'
         f'<div class="prompt-format-tabs" role="tablist" aria-label="N1–N4">{"".join(tabs)}</div>'
         f'<div class="prompt-format-panels">{"".join(panels)}</div>'
         f'<div class="prompt-library-actions"><button class="copy prompt-format-copy" type="button" aria-label="{_e(copy_aria)}" '
@@ -2055,6 +2075,7 @@ def render_prompts(
     normalized: list[Mapping[str, Any]] = []
     seen_ids: set[str] = set()
     surfaces = {"chat": 0, "source_search": 0}
+    kinds = {"direct": 0, "meta": 0}
     for prompt_index, raw in enumerate(prompts):
         path = f"promptLibrary.prompts[{prompt_index}]"
         prompt = _mapping(raw, path)
@@ -2070,7 +2091,16 @@ def render_prompts(
             _stable_id(consume_id, f"{path}.consumeIds[{index}]")
         _evidence_attr(prompt, path)
         surface = _prompt_surface(prompt.get("surface"), f"{path}.surface")
+        kind = prompt.get("kind", "direct")
+        if kind not in kinds:
+            raise RendererContractError(f"{path}.kind: expected direct or meta")
+        family_id = prompt.get("family_id", "learn" if prompt_index < 4 else "embody" if prompt_index < 8 else "evolve")
+        if family_id not in {"learn", "embody", "evolve", "meta"}:
+            raise RendererContractError(f"{path}.family_id: invalid capability family")
+        if (kind == "meta") != (family_id == "meta"):
+            raise RendererContractError(f"{path}: kind and family_id disagree")
         surfaces[surface] += 1
+        kinds[kind] += 1
         normalized.append(prompt)
 
     prompt_titles = {prompt["id"]: _text(prompt, "title", "promptLibrary.prompt") for prompt in normalized}
@@ -2088,10 +2118,12 @@ def render_prompts(
             return prompt_outputs[reference[:-7]]
         raise RendererContractError(f"{path}: missing governed localized artifact label for {reference}")
 
-    cards: list[str] = []
+    cards: dict[str, list[str]] = {"direct": [], "meta": []}
     for prompt_index, prompt in enumerate(normalized):
         path = f"promptLibrary.prompts[{prompt_index}]"
         depth_prompt = depth_prompts.get(prompt["id"])
+        kind = prompt.get("kind", "direct")
+        family_id = prompt.get("family_id", "learn" if prompt_index < 4 else "embody" if prompt_index < 8 else "evolve")
         surface = _prompt_surface(prompt["surface"], f"{path}.surface")
         surface_label = labels["chat"] if surface == "chat" else labels["sources"]
         receive = (
@@ -2119,20 +2151,45 @@ def render_prompts(
             if next_label is None:
                 raise RendererContractError(f"{path}: unresolved depth next prompt {next_id}")
         level_ui = _prompt_level_ui(prompt, module["moduleId"], locale, audience, labels, path, depth_prompt, next_label)
-        cards.append(
-            f'<article class="library-prompt-card" id="{_e(prompt["id"])}" data-library-prompt data-prompt-kind="direct" '
+        if depth_prompt is not None:
+            prompt_inputs = _prompt_input_contract(prompt, locale, path)
+            context_when = _text(depth_prompt, "when", "depth.prompt")
+            context_example = _text(depth_prompt, "demo_artifact", "depth.prompt")
+            context_evidence = "; ".join(
+                str(item).strip() for item in _sequence(
+                    depth_prompt.get("acceptance_criteria"), "depth.prompt.acceptance", minimum=3
+                )[:2]
+            )
+            context_limit = str(_sequence(depth_prompt.get("limits"), "depth.prompt.limits", minimum=1)[0]).strip()
+        else:
+            prompt_inputs = _prompt_input_contract(prompt, locale, path)
+            context_when = receive
+            context_example = prompt_inputs[0]["example"]
+            context_evidence = produces
+            context_limit = labels["synthetic_demo_rule"]
+        context_markup = (
+            f'<dl class="library-prompt-brief"><div><dt>{_e(labels["when"])}</dt><dd>{_e(context_when)}</dd></div>'
+            f'<div><dt>{_e(labels["example"])}</dt><dd>{_e(context_example)}</dd></div>'
+            f'<div><dt>{_e(labels["evidence"])}</dt><dd>{_e(context_evidence)}</dd></div>'
+            f'<div class="prompt-limit-compact"><dt>{_e(labels["limit"])}</dt><dd>{_e(context_limit)}</dd></div></dl>'
+        )
+        summary_text = _text(depth_prompt, "purpose", "depth.prompt") if depth_prompt is not None else produces
+        display_number = f'M{len(cards["meta"]) + 1}' if kind == "meta" else f'{len(cards["direct"]) + 1:02d}'
+        cards[kind].append(
+            f'<article class="library-prompt-card" id="{_e(prompt["id"])}" data-library-prompt data-prompt-kind="{kind}" '
+            f'data-prompt-family="{family_id}" data-prompt-slot="{_e(display_number)}" '
             f'data-notebook-surface="{surface}" data-evidence-ids="{_evidence_attr(prompt, path)}">'
             f'<details class="library-prompt-disclosure" data-prompt-card-disclosure>'
             f'<summary data-open-label="{_e(labels["open_prompt"])}" data-close-label="{_e(labels["close_prompt"])}">'
-            f'<span class="library-prompt-number" aria-hidden="true">{prompt_index + 1:02d}</span>'
+            f'<span class="library-prompt-number" aria-hidden="true">{_e(display_number)}</span>'
             f'<span class="library-prompt-summary-copy"><span class="eyebrow">{_e(labels["surface"])} · {_e(surface_label)}</span>'
-            f'<strong class="library-prompt-title">{_e(prompt["title"])}</strong><small>{_e(produces)}</small></span>'
+            f'<strong class="library-prompt-title">{_e(prompt["title"])}</strong><small>{_e(summary_text)}</small></span>'
             f'<span class="prompt-launch-badge" data-launch="{surface}"><small>{_e(labels["surface"])}</small><strong>{_e(surface_label)}</strong></span>'
             f'<span class="library-prompt-chevron" aria-hidden="true">⌄</span></summary>'
             f'<div class="library-prompt-card-body"><div class="library-prompt-side"><details class="prompt-card-context">'
-            f'<summary>{_e(labels["details"])}</summary><dl class="library-prompt-brief"><div><dt>{_e(labels["receives"])}</dt>'
-            f'<dd>{_e(receive)}</dd></div><div><dt>{_e(labels["produces"])}</dt><dd>{_e(produces)}</dd></div></dl>'
-            f'</details>{flow}{_prompt_execution_gate_ui(depth_prompt, labels)}</div>{level_ui}</div></details></article>'
+            f'<summary>{_e(labels["details"])}</summary>{context_markup}'
+            f'</details>{flow}{_prompt_execution_gate_ui(depth_prompt, labels)}</div>{level_ui}'
+            f'{_prompt_contract_ui(depth_prompt, labels, next_label)}</div></details></article>'
         )
 
     sibling_nav = _sibling_nav("prompts", urls, labels)
@@ -2179,9 +2236,12 @@ def render_prompts(
         f'<h1>{_e(title)}</h1><p class="lead">{_e(lede)}</p><div class="actions"><a class="btn" href="#directos">{_e(labels["view_prompts"])} →</a>'
         f'{_link(_url(urls, "playbook"), labels["playbook"], "btn secondary")}</div></div>'
         f'{hero_companion}</div>{sibling_nav}</div></section>{secondary_map}<section class="prompt-library-section shell" id="directos">'
-        f'<div class="prompt-library-section-heading"><div class="section-head"><span class="eyebrow">{_e(labels["prompts"])}</span>'
-        f'<h2 class="h2">{_e(title)}</h2></div>{filter_ui}</div>{graph_markup}<div class="library-prompt-list">{"".join(cards)}</div></section>'
+        f'<div class="prompt-library-section-heading"><div class="section-head"><span class="eyebrow">{_e(labels["direct_prompts"])}</span>'
+        f'<h2 class="h2">{_e(labels["direct_prompts_lead"])}</h2></div>{filter_ui}</div>{graph_markup}<div class="library-prompt-list">{"".join(cards["direct"])}</div></section>'
         f'<section class="prompt-library-section prompt-library-meta" id="metaprompts"><div class="shell">'
+        f'<div class="section-head"><span class="eyebrow">{_e(labels["meta_prompts"])}</span>'
+        f'<h2 class="h2">{_e(labels["meta_prompts_lead"])}</h2></div>'
+        f'<div class="library-prompt-list">{"".join(cards["meta"])}</div>'
         f'{_next_step("prompts", "resources", urls, labels)}</div></section></main>'
     )
 

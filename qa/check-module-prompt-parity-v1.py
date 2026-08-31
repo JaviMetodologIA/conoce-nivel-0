@@ -8,11 +8,15 @@ Template/Demo contract, locale and audience parity, and NotebookLM surfaces.
 
 from __future__ import annotations
 
+import copy
+import hashlib
+import importlib.util
 import json
 import re
+import sys
 from collections import Counter
 from pathlib import Path
-from typing import Any, Dict, List, Mapping, Sequence, Tuple
+from typing import Any, Callable, Dict, List, Mapping, Sequence, Tuple
 
 from bs4 import BeautifulSoup
 
@@ -23,12 +27,23 @@ DIST = ROOT / "dist"
 
 LOCALES = ("es", "en", "pt")
 AUDIENCES = ("persona", "empresa")
-MODULE_COUNTS = {2: 8, 3: 10, 4: 8}
+MODULE_ORDERS = (2, 3, 4)
+INVENTORY_PATH = SRC / "module-01-prompt-inventory-v1.json"
+COMPOSER_PATH = ROOT / "scripts" / "module_prompt_parity.py"
+FORMAT_IDS = ("natural", "parameters", "spec", "pair")
+KIND_SEQUENCE = ("direct",) * 10 + ("meta",) * 4
+FAMILY_SEQUENCE = ("learn",) * 4 + ("embody",) * 4 + ("evolve",) * 2 + ("meta",) * 4
+SLOT_SEQUENCE = tuple(f"{index:02d}" for index in range(1, 11)) + tuple(f"M{index}" for index in range(1, 5))
+CARDS_PER_PAGE = 14
 EXPECTED_PAGES = 18
-EXPECTED_CARDS = 156
-EXPECTED_LEVELS = 624
-EXPECTED_TEXTAREAS = 1248
-EXPECTED_SURFACES = {"chat": 132, "source_search": 24}
+EXPECTED_CARDS = 252
+EXPECTED_TABS = 1008
+EXPECTED_LEVELS = 1008
+EXPECTED_TEXTAREAS = 2016
+EXPECTED_SURFACES_PER_PAGE = {"chat": 12, "source_search": 2}
+EXPECTED_SURFACES = {"chat": 216, "source_search": 36}
+EXPECTED_KINDS = {"direct": 10, "meta": 4}
+EXPECTED_FAMILIES = {"learn": 4, "embody": 4, "evolve": 2, "meta": 4}
 
 LOCALIZED: Mapping[str, Mapping[str, Any]] = {
     "es": {
@@ -52,6 +67,8 @@ LOCALIZED: Mapping[str, Mapping[str, Any]] = {
         "provenance": "## Procedencia",
         "case_data": "Datos del caso",
         "synthetic": "Demo sintética",
+        "demo_available": "Datos sintéticos disponibles:",
+        "why": "Por qué funciona",
         "authorities": "Autoridades declaradas:",
         "policy": "no expongas razonamiento privado ni cadena de pensamiento.",
         "example": "ej.:",
@@ -84,6 +101,8 @@ LOCALIZED: Mapping[str, Mapping[str, Any]] = {
         "provenance": "## Provenance",
         "case_data": "Case data",
         "synthetic": "Synthetic demo",
+        "demo_available": "Available synthetic data:",
+        "why": "Why it works",
         "authorities": "Declared authorities:",
         "policy": "do not expose private reasoning or chain of thought.",
         "example": "e.g.:",
@@ -116,6 +135,8 @@ LOCALIZED: Mapping[str, Mapping[str, Any]] = {
         "provenance": "## Procedência",
         "case_data": "Dados do caso",
         "synthetic": "Demo sintética",
+        "demo_available": "Dados sintéticos disponíveis:",
+        "why": "Por que funciona",
         "authorities": "Autoridades declaradas:",
         "policy": "não exponha raciocínio privado nem cadeia de pensamento.",
         "example": "ex.:",
@@ -131,7 +152,8 @@ LOCALIZED: Mapping[str, Mapping[str, Any]] = {
 
 ANGLE_INPUT = re.compile(r"<([^<>\n]+)>")
 SQUARE_INPUT = re.compile(r"\[[^\[\]\n]+\]")
-INPUT_KEY = re.compile(r"^[A-ZÁÉÍÓÚÂÊÔÃÕÇ_][A-Z0-9ÁÉÍÓÚÂÊÔÃÕÇ_]*$")
+INPUT_KEY = re.compile(r"^[A-ZÁÉÍÓÚÜÑÂÊÔÃÕÇ_][A-Z0-9ÁÉÍÓÚÜÑÂÊÔÃÕÇ_]*$")
+STABLE_ID = re.compile(r"^[a-z0-9][a-z0-9-]*$")
 
 
 def fail(code: str, where: str = "") -> None:
@@ -149,6 +171,157 @@ def load_json(path: Path) -> Dict[str, Any]:
     if not isinstance(value, dict):
         fail("SOURCE_NOT_OBJECT", str(path.relative_to(ROOT)))
     return value
+
+
+def canonical_self(value: Mapping[str, Any]) -> str:
+    payload = {key: item for key, item in value.items() if key != "self_sha256"}
+    raw = json.dumps(payload, ensure_ascii=False, sort_keys=True, separators=(",", ":")) + "\n"
+    return hashlib.sha256(raw.encode("utf-8")).hexdigest()
+
+
+def sha256(path: Path) -> str:
+    return hashlib.sha256(path.read_bytes()).hexdigest()
+
+
+def validate_golden_inventory() -> Dict[str, Any]:
+    """Load M1 as the immutable parity authority, not as a loose hint."""
+
+    inventory = load_json(INVENTORY_PATH)
+    if (
+        inventory.get("schema_version") != "module-01-prompt-inventory-v1"
+        or inventory.get("inventory_id") != "nivel-zero-module-01-prompt-golden-v1"
+        or inventory.get("authority") != "MetodologIA"
+    ):
+        fail("GOLDEN_IDENTITY")
+    if inventory.get("state") != "RENDERED_DRAFT" or inventory.get("publication_authorized") is not False:
+        fail("GOLDEN_GOVERNANCE")
+    if (
+        inventory.get("self_hash_model") != "sha256(sorted-json-without-self_sha256)"
+        or inventory.get("self_sha256") != canonical_self(inventory)
+    ):
+        fail("GOLDEN_SELF_HASH")
+
+    cardinality = inventory.get("cardinality")
+    expected_cardinality = {
+        "cards_per_variant": CARDS_PER_PAGE,
+        "direct_prompts": EXPECTED_KINDS["direct"],
+        "metaprompts": EXPECTED_KINDS["meta"],
+        "levels_per_card": len(FORMAT_IDS),
+        "modes_per_level": 2,
+        "copyable_prompts_per_card": 8,
+        "copyable_prompts_per_page": 112,
+        "locales": len(LOCALES),
+        "audiences": len(AUDIENCES),
+        "page_variants": len(LOCALES) * len(AUDIENCES),
+        "copyable_prompts_in_reference_matrix": 672,
+        "chat_cards_per_variant": EXPECTED_SURFACES_PER_PAGE["chat"],
+        "source_search_cards_per_variant": EXPECTED_SURFACES_PER_PAGE["source_search"],
+    }
+    if cardinality != expected_cardinality:
+        fail("GOLDEN_CARDINALITY")
+
+    direct_ids = tuple(str(index).zfill(2) for index in range(1, 11))
+    meta_ids = tuple(f"M{index}" for index in range(1, 5))
+    families = inventory.get("families")
+    if (
+        not isinstance(families, dict)
+        or set(families) != {"direct", "meta"}
+        or tuple(families["direct"].get("ids", ())) != direct_ids
+        or tuple(families["meta"].get("ids", ())) != meta_ids
+    ):
+        fail("GOLDEN_KINDS")
+    capability = inventory.get("capability_families")
+    expected_capability = {
+        "learn": {"ids": list(direct_ids[:4]), "count": 4},
+        "embody": {"ids": list(direct_ids[4:8]), "count": 4},
+        "evolve": {"ids": list(direct_ids[8:]), "count": 2},
+        "meta": {"ids": list(meta_ids), "count": 4},
+    }
+    if capability != expected_capability:
+        fail("GOLDEN_FAMILIES")
+
+    levels = inventory.get("levels")
+    if (
+        not isinstance(levels, list)
+        or len(levels) != len(FORMAT_IDS)
+        or tuple(item.get("format_id") for item in levels if isinstance(item, dict)) != FORMAT_IDS
+        or tuple(item.get("number") for item in levels if isinstance(item, dict)) != (1, 2, 3, 4)
+    ):
+        fail("GOLDEN_LEVELS")
+    modes = inventory.get("modes")
+    if (
+        not isinstance(modes, dict)
+        or set(modes) != {"template", "demo"}
+        or modes["template"].get("count_per_card") != 4
+        or modes["demo"].get("count_per_card") != 4
+    ):
+        fail("GOLDEN_MODES")
+    ranges = inventory.get("editorial_ranges")
+    if (
+        not isinstance(ranges, dict)
+        or ranges.get("inputs_per_card") != {"minimum": 2, "maximum": 6}
+        or ranges.get("parameters_per_card") != {"minimum": 4, "maximum": 6}
+    ):
+        fail("GOLDEN_EDITORIAL_RANGES")
+
+    cards = inventory.get("cards")
+    if not isinstance(cards, list) or len(cards) != CARDS_PER_PAGE:
+        fail("GOLDEN_CARDS")
+    if (
+        Counter(item.get("kind") for item in cards if isinstance(item, dict)) != Counter(EXPECTED_KINDS)
+        or Counter(item.get("family_id") for item in cards if isinstance(item, dict)) != Counter(EXPECTED_FAMILIES)
+        or Counter(item.get("surface") for item in cards if isinstance(item, dict)) != Counter(EXPECTED_SURFACES_PER_PAGE)
+    ):
+        fail("GOLDEN_DISTRIBUTIONS")
+
+    bindings = inventory.get("source_contract_bindings")
+    if not isinstance(bindings, dict) or set(bindings) != set((*direct_ids, *meta_ids)):
+        fail("GOLDEN_BINDING_MATRIX")
+    for intent_id, binding in bindings.items():
+        if not isinstance(binding, dict) or set(binding) != {"ref", "raw_sha256", "self_sha256"}:
+            fail("GOLDEN_BINDING_SHAPE", intent_id)
+        ref = binding.get("ref")
+        if not isinstance(ref, str):
+            fail("GOLDEN_BINDING_REF", intent_id)
+        path = SRC / ref
+        if not path.is_file() or path.is_symlink() or sha256(path) != binding.get("raw_sha256"):
+            fail("GOLDEN_BINDING_RAW_HASH", intent_id)
+        contract = load_json(path)
+        if contract.get("self_sha256") != binding.get("self_sha256"):
+            fail("GOLDEN_BINDING_SELF_HASH", intent_id)
+
+    surface_binding = inventory.get("surface_authority_binding")
+    if not isinstance(surface_binding, dict) or set(surface_binding) != {"ref", "raw_sha256", "route_ids"}:
+        fail("GOLDEN_SURFACE_BINDING")
+    surface_path = SRC / str(surface_binding["ref"])
+    if (
+        not surface_path.is_file()
+        or surface_path.is_symlink()
+        or sha256(surface_path) != surface_binding.get("raw_sha256")
+        or tuple(surface_binding.get("route_ids", ())) != (*direct_ids, *meta_ids)
+    ):
+        fail("GOLDEN_SURFACE_HASH")
+    return inventory
+
+
+def load_composer() -> Callable[[str, Mapping[str, Any], Mapping[str, Any]], Tuple[Mapping[str, Any], Mapping[str, Any]]]:
+    """Load the deterministic composition helper without accepting legacy 8/10/8."""
+
+    if not COMPOSER_PATH.is_file() or COMPOSER_PATH.is_symlink():
+        fail("COMPOSER_MISSING", str(COMPOSER_PATH.relative_to(ROOT)))
+    spec = importlib.util.spec_from_file_location("module_prompt_parity_gate", COMPOSER_PATH)
+    if spec is None or spec.loader is None:
+        fail("COMPOSER_IMPORT")
+    module = importlib.util.module_from_spec(spec)
+    sys.modules[spec.name] = module
+    try:
+        spec.loader.exec_module(module)
+    except Exception as error:
+        fail("COMPOSER_IMPORT", str(error))
+    composer = getattr(module, "compose_prompt_parity", None)
+    if not callable(composer):
+        fail("COMPOSER_API")
+    return composer
 
 
 def one(nodes: Sequence[Any], code: str, where: str) -> Any:
@@ -184,25 +357,41 @@ def section(text: str, heading: str, following: Sequence[str], where: str) -> st
     return value
 
 
-def validate_template_inputs(text: str, locale: str, where: str) -> None:
+def input_token(item: Mapping[str, Any], locale: str) -> str:
+    return (
+        f'{item["name"]} · {item["description"]} · '
+        f'{LOCALIZED[locale]["example"]} {item["example"]}'
+    )
+
+
+def validate_template_inputs(
+    text: str,
+    locale: str,
+    expected_inputs: Sequence[Mapping[str, Any]],
+    where: str,
+) -> None:
     if "{{" in text or "}}" in text:
         fail("TEMPLATE_LEGACY_INPUT", where)
     tokens = ANGLE_INPUT.findall(text)
-    if len(tokens) != 1:
-        fail("TEMPLATE_INPUT_COUNT", f"{where}:count={len(tokens)}")
-    parts = [part.strip() for part in tokens[0].split(" · ")]
-    if len(parts) < 3 or not INPUT_KEY.fullmatch(parts[0]) or LOCALIZED[locale]["example"] not in parts[-1]:
-        fail("TEMPLATE_INPUT_UNEXPLAINED", f"{where}:<{tokens[0]}>")
+    if not 2 <= len(expected_inputs) <= 6 or len(tokens) != len(expected_inputs):
+        fail("TEMPLATE_INPUT_COUNT", f"{where}:actual={len(tokens)}:expected={len(expected_inputs)}")
+    expected_tokens = [input_token(item, locale) for item in expected_inputs]
+    if Counter(tokens) != Counter(expected_tokens):
+        fail("TEMPLATE_INPUT_MATRIX", where)
+    for token in tokens:
+        parts = [part.strip() for part in token.split(" · ", 2)]
+        if len(parts) != 3 or not INPUT_KEY.fullmatch(parts[0]) or not parts[1] or not parts[2].startswith(LOCALIZED[locale]["example"]):
+            fail("TEMPLATE_INPUT_UNEXPLAINED", f"{where}:<{token}>")
 
 
 def validate_demo(text: str, locale: str, where: str) -> None:
     if ANGLE_INPUT.search(text) or SQUARE_INPUT.search(text) or "{{" in text or "}}" in text:
         fail("DEMO_UNRESOLVED_INPUT", where)
-    if LOCALIZED[locale]["synthetic"] not in text:
+    if not any(LOCALIZED[locale][label] in text for label in ("synthetic", "demo_available")):
         fail("DEMO_SYNTHETIC_LABEL", where)
 
 
-def validate_parameters(text: str, locale: str, where: str) -> None:
+def validate_parameters(text: str, locale: str, expected_count: int, where: str) -> Tuple[str, ...]:
     labels = LOCALIZED[locale]
     heading = labels["n2"][0]
     block = section(text, heading, labels["n2"][1:], where)
@@ -215,12 +404,16 @@ def validate_parameters(text: str, locale: str, where: str) -> None:
         if key in parsed:
             fail("PARAMETER_DUPLICATE", f"{where}:{key}")
         parsed[key] = value
-    allowed = labels["parameters"]
-    if not labels["core_parameters"].issubset(parsed) or not set(parsed).issubset(allowed):
+    if not 4 <= expected_count <= 6 or len(parsed) != expected_count:
+        fail("PARAMETER_COUNT", f"{where}:actual={len(parsed)}:expected={expected_count}")
+    if not labels["core_parameters"].issubset(parsed) or any(not INPUT_KEY.fullmatch(key) for key in parsed):
         fail("PARAMETER_KEYS", f"{where}:{sorted(parsed)}")
-    for key, value in parsed.items():
-        if value not in allowed[key]:
-            fail("PARAMETER_VALUE", f"{where}:{key}={value}")
+    foreign_core = set().union(
+        *(LOCALIZED[candidate]["core_parameters"] for candidate in LOCALES if candidate != locale)
+    ) - labels["core_parameters"]
+    if set(parsed) & foreign_core:
+        fail("PARAMETER_LOCALE", f"{where}:{sorted(set(parsed) & foreign_core)}")
+    return tuple(parsed)
 
 
 def validate_n1(text: str, locale: str, where: str) -> None:
@@ -241,19 +434,20 @@ def validate_n1(text: str, locale: str, where: str) -> None:
         fail("N1_FLOW_OR_DELIVERABLE", where)
 
 
-def validate_n2(text: str, locale: str, where: str) -> None:
-    headings = LOCALIZED[locale]["n2"]
-    ordered_once(text, headings, "N2_HEADINGS", where)
-    for index, heading in enumerate(headings):
-        section(text, heading, headings[index + 1:], where)
-    validate_parameters(text, locale, where)
-    if len(re.findall(r"(?m)^- \S", section(text, headings[4], headings[5:], where))) < 2:
+def validate_n2(text: str, locale: str, expected_parameter_count: int, where: str) -> None:
+    labels = LOCALIZED[locale]["n2"]
+    required = (labels[0], labels[1], labels[3], labels[4], labels[5], labels[6], labels[7])
+    ordered_once(text, required, "N2_HEADINGS", where)
+    for index, heading in enumerate(required):
+        section(text, heading, required[index + 1:], where)
+    validate_parameters(text, locale, expected_parameter_count, where)
+    if len(re.findall(r"(?m)^- \S", section(text, labels[4], labels[5:], where))) < 2:
         fail("N2_FRAMEWORKS", where)
-    if len(re.findall(r"(?m)^\d+\. \S", section(text, headings[5], headings[6:], where))) < 2:
+    if len(re.findall(r"(?m)^\d+\. \S", section(text, labels[5], labels[6:], where))) < 2:
         fail("N2_WORKFLOW", where)
-    if len(re.findall(r"(?m)^- \S", section(text, headings[6], headings[7:], where))) < 2:
+    if len(re.findall(r"(?m)^- \S", section(text, labels[6], labels[7:], where))) < 2:
         fail("N2_BOUNDARIES", where)
-    if len(re.findall(r"(?m)^- \S", section(text, headings[7], (), where))) < 2:
+    if len(re.findall(r"(?m)^- \S", section(text, labels[7], (), where))) < 2:
         fail("N2_OUTPUT", where)
 
 
@@ -264,6 +458,7 @@ def validate_n3(
     module_id: str,
     prompt_id: str,
     surface: str,
+    expected_parameter_count: int,
     where: str,
 ) -> None:
     labels = LOCALIZED[locale]
@@ -273,7 +468,7 @@ def validate_n3(
     ordered_once(text, headings, "N3_SECTIONS", where)
     for index, heading in enumerate(headings):
         section(text, heading, headings[index + 1:], where)
-    validate_parameters(text, locale, where)
+    validate_parameters(text, locale, expected_parameter_count, where)
     if "# Definition of Done:" not in text or "Trade-off:" not in text:
         fail("N3_ACCEPTANCE", where)
     provenance = section(text, labels["provenance"], ("## Metadata",), where)
@@ -301,7 +496,7 @@ def validate_n3(
         fail("N3_REASONING_POLICY", where)
 
 
-def validate_n4(text: str, locale: str, where: str) -> None:
+def validate_n4(text: str, locale: str, expected_parameter_count: int, where: str) -> None:
     labels = LOCALIZED[locale]
     system_heading, user_heading = "# system", "# user"
     positions = ordered_once(text, (system_heading, user_heading), "N4_PAIR", where)
@@ -311,25 +506,105 @@ def validate_n4(text: str, locale: str, where: str) -> None:
     user = section(text, user_heading, (), where)
     required_system = (labels["n2"][4], labels["n2"][6], "# Definition of Done")
     required_user = (
-        labels["n2"][0], labels["n2"][1], labels["n2"][2],
-        labels["n2"][3], labels["n2"][5], labels["n2"][7],
+        labels["n2"][0], labels["n2"][1], labels["n2"][3], labels["n2"][5], labels["n2"][7],
     )
     ordered_once(system, required_system, "N4_SYSTEM_CONTRACT", where)
     ordered_once(user, required_user, "N4_USER_CONTRACT", where)
-    validate_parameters(user, locale, where)
+    validate_parameters(user, locale, expected_parameter_count, where)
 
 
-def expected_variants() -> Tuple[Dict[Tuple[str, str, str], Dict[str, Any]], Dict[str, int]]:
+def as_mapping(value: Any, code: str, where: str) -> Mapping[str, Any]:
+    if not isinstance(value, dict):
+        fail(code, where)
+    return value
+
+
+def as_sequence(value: Any, code: str, where: str) -> Sequence[Any]:
+    if not isinstance(value, list):
+        fail(code, where)
+    return value
+
+
+def source_inputs(prompt: Mapping[str, Any], where: str) -> List[Dict[str, str]]:
+    syntax = as_mapping(prompt.get("syntax"), "SOURCE_SYNTAX", where)
+    raw_inputs = as_sequence(syntax.get("inputs"), "SOURCE_INPUTS", where)
+    if not 2 <= len(raw_inputs) <= 6:
+        fail("SOURCE_INPUT_COUNT", f"{where}:{len(raw_inputs)}")
+    normalized: List[Dict[str, str]] = []
+    for index, raw in enumerate(raw_inputs):
+        item = as_mapping(raw, "SOURCE_INPUT", f"{where}:{index}")
+        name = next(
+            (
+                str(item[key]).strip()
+                for key in ("name", "label", "key")
+                if isinstance(item.get(key), str) and str(item[key]).strip()
+            ),
+            "",
+        )
+        description = item.get("description", item.get("help"))
+        example = item.get("example")
+        if (
+            not INPUT_KEY.fullmatch(name)
+            or not isinstance(description, str)
+            or not description.strip()
+            or not isinstance(example, str)
+            or not example.strip()
+            or not isinstance(item.get("required"), bool)
+        ):
+            fail("SOURCE_INPUT_SHAPE", f"{where}:{index}")
+        normalized.append({"name": name, "description": description.strip(), "example": example.strip()})
+    if len({item["name"] for item in normalized}) != len(normalized):
+        fail("SOURCE_INPUT_DUPLICATE", where)
+    return normalized
+
+
+def source_parameter_count(prompt: Mapping[str, Any], where: str) -> int:
+    syntax = as_mapping(prompt.get("syntax"), "SOURCE_SYNTAX", where)
+    raw = syntax.get("parameters")
+    if isinstance(raw, dict):
+        parameters = list(raw.items())
+    elif isinstance(raw, list):
+        parameters = []
+        for index, raw_parameter in enumerate(raw):
+            parameter = as_mapping(raw_parameter, "SOURCE_PARAMETER", f"{where}:{index}")
+            parameters.append((parameter.get("key"), parameter.get("default")))
+    else:
+        fail("SOURCE_PARAMETERS", where)
+    if not 4 <= len(parameters) <= 6:
+        fail("SOURCE_PARAMETER_COUNT", f"{where}:{len(parameters)}")
+    keys = []
+    for key, value in parameters:
+        if not isinstance(key, str) or not key.strip() or not isinstance(value, (str, int, float)) or isinstance(value, bool):
+            fail("SOURCE_PARAMETER_SHAPE", where)
+        keys.append(key.strip().casefold())
+    if len(set(keys)) != len(keys):
+        fail("SOURCE_PARAMETER_DUPLICATE", where)
+    return len(parameters)
+
+
+def validate_source_why(depth_prompt: Mapping[str, Any], where: str) -> None:
+    for field in ("workflow", "frameworks", "guardrails", "acceptance_criteria", "edge_cases", "limits"):
+        values = depth_prompt.get(field)
+        if not isinstance(values, list) or not values or any(not isinstance(item, str) or not item.strip() for item in values):
+            fail("SOURCE_WHY", f"{where}:{field}")
+    if not isinstance(depth_prompt.get("tradeoff"), str) or not depth_prompt["tradeoff"].strip():
+        fail("SOURCE_WHY", f"{where}:tradeoff")
+
+
+def expected_variants(
+    composer: Callable[[str, Mapping[str, Any], Mapping[str, Any]], Tuple[Mapping[str, Any], Mapping[str, Any]]]
+) -> Tuple[Dict[Tuple[str, str, str], Dict[str, Any]], Dict[str, int]]:
     curriculum = load_json(SRC / "curriculum-spec-v2.json")
     classes = curriculum.get("classes")
     if not isinstance(classes, list):
         fail("CURRICULUM_CLASSES")
-    selected = [item for item in classes if isinstance(item, dict) and item.get("order") in MODULE_COUNTS]
-    if len(selected) != len(MODULE_COUNTS) or {item.get("order") for item in selected} != set(MODULE_COUNTS):
+    selected = [item for item in classes if isinstance(item, dict) and item.get("order") in MODULE_ORDERS]
+    if len(selected) != len(MODULE_ORDERS) or {item.get("order") for item in selected} != set(MODULE_ORDERS):
         fail("CURRICULUM_MODULE_MATRIX")
 
     variants: Dict[Tuple[str, str, str], Dict[str, Any]] = {}
     orders: Dict[str, int] = {}
+    ids_by_module: Dict[str, List[str]] = {}
     for module in selected:
         order = module["order"]
         alias = module.get("id")
@@ -343,7 +618,6 @@ def expected_variants() -> Tuple[Dict[Tuple[str, str, str], Dict[str, Any]], Dic
             or not isinstance(content.get("ref"), str)
             or not isinstance(validation, dict)
             or validation.get("exact_variants") != 6
-            or validation.get("prompts_per_variant") != MODULE_COUNTS[order]
         ):
             fail("CURRICULUM_MODULE_CONTRACT", str(order))
         depth_ref = module.get("depth_overlay")
@@ -354,9 +628,9 @@ def expected_variants() -> Tuple[Dict[Tuple[str, str, str], Dict[str, Any]], Dic
         if payload.get("moduleId") != module_id:
             fail("PAYLOAD_MODULE_ID", str(order))
         raw_variants = payload.get("variants")
+        depth_variants = depth.get("variants")
         if not isinstance(raw_variants, list) or len(raw_variants) != 6:
             fail("PAYLOAD_VARIANT_COUNT", str(order))
-        depth_variants = depth.get("variants")
         if not isinstance(depth_variants, list) or len(depth_variants) != 6:
             fail("DEPTH_VARIANT_COUNT", str(order))
         depth_by_variant = {
@@ -364,7 +638,7 @@ def expected_variants() -> Tuple[Dict[Tuple[str, str, str], Dict[str, Any]], Dic
             for item in depth_variants
             if isinstance(item, dict)
         }
-        if len(depth_by_variant) != 6:
+        if set(depth_by_variant) != {(locale, audience) for locale in LOCALES for audience in AUDIENCES}:
             fail("DEPTH_VARIANT_MATRIX", str(order))
         orders[alias] = order
         for raw in raw_variants:
@@ -374,44 +648,91 @@ def expected_variants() -> Tuple[Dict[Tuple[str, str, str], Dict[str, Any]], Dic
             key = (alias, locale, audience)
             if locale not in LOCALES or audience not in AUDIENCES or key in variants:
                 fail("PAYLOAD_VARIANT_MATRIX", f"{order}:{locale}:{audience}")
-            inner = raw.get("module")
-            library = inner.get("promptLibrary") if isinstance(inner, dict) else None
-            prompts = library.get("prompts") if isinstance(library, dict) else None
-            if not isinstance(prompts, list) or len(prompts) != MODULE_COUNTS[order]:
-                fail("PAYLOAD_PROMPT_COUNT", f"{order}:{locale}:{audience}")
-            expected_ids = [f"prompt-{index:02d}" for index in range(1, MODULE_COUNTS[order] + 1)]
-            if [item.get("id") for item in prompts if isinstance(item, dict)] != expected_ids:
-                fail("PAYLOAD_PROMPT_IDS", f"{order}:{locale}:{audience}")
-            depth_variant = depth_by_variant.get((locale, audience))
-            depth_prompts_root = depth_variant.get("prompts") if isinstance(depth_variant, dict) else None
-            depth_prompts = depth_prompts_root.get("items") if isinstance(depth_prompts_root, dict) else None
-            if not isinstance(depth_prompts, list) or [item.get("id") for item in depth_prompts if isinstance(item, dict)] != expected_ids:
-                fail("DEPTH_PROMPT_IDS", f"{order}:{locale}:{audience}")
-            depth_by_id = {item["id"]: item for item in depth_prompts}
+            depth_variant = depth_by_variant[(locale, audience)]
+            try:
+                composed = composer(module_id, copy.deepcopy(raw), copy.deepcopy(depth_variant))
+            except Exception as error:
+                fail("COMPOSER_EXECUTION", f"{order}:{locale}:{audience}:{error}")
+            if not isinstance(composed, tuple) or len(composed) != 2:
+                fail("COMPOSER_RESULT", f"{order}:{locale}:{audience}")
+            composed_variant = as_mapping(composed[0], "COMPOSER_VARIANT", f"{order}:{locale}:{audience}")
+            composed_depth = as_mapping(composed[1], "COMPOSER_DEPTH", f"{order}:{locale}:{audience}")
+            if composed_variant.get("locale") != locale or composed_variant.get("audience") != audience:
+                fail("COMPOSER_VARIANT_IDENTITY", f"{order}:{locale}:{audience}")
+            if composed_depth.get("locale") != locale or composed_depth.get("audience") != audience:
+                fail("COMPOSER_DEPTH_IDENTITY", f"{order}:{locale}:{audience}")
+            inner = as_mapping(composed_variant.get("module"), "COMPOSER_MODULE", f"{order}:{locale}:{audience}")
+            if inner.get("moduleId") != module_id:
+                fail("COMPOSER_MODULE_ID", f"{order}:{locale}:{audience}")
+            library = as_mapping(inner.get("promptLibrary"), "COMPOSER_LIBRARY", f"{order}:{locale}:{audience}")
+            prompts = as_sequence(library.get("prompts"), "COMPOSER_PROMPTS", f"{order}:{locale}:{audience}")
+            depth_root = as_mapping(composed_depth.get("prompts"), "COMPOSER_DEPTH_PROMPTS", f"{order}:{locale}:{audience}")
+            depth_prompts = as_sequence(depth_root.get("items"), "COMPOSER_DEPTH_ITEMS", f"{order}:{locale}:{audience}")
+            if len(prompts) != CARDS_PER_PAGE or len(depth_prompts) != CARDS_PER_PAGE:
+                fail("COMPOSED_PROMPT_COUNT", f"{order}:{locale}:{audience}:{len(prompts)}/{len(depth_prompts)}")
+            prompt_ids = [item.get("id") for item in prompts if isinstance(item, dict)]
+            if (
+                len(prompt_ids) != CARDS_PER_PAGE
+                or len(set(prompt_ids)) != CARDS_PER_PAGE
+                or any(not isinstance(item, str) or not STABLE_ID.fullmatch(item) for item in prompt_ids)
+                or [item.get("id") for item in depth_prompts if isinstance(item, dict)] != prompt_ids
+            ):
+                fail("COMPOSED_PROMPT_IDS", f"{order}:{locale}:{audience}")
+            if module_id in ids_by_module and ids_by_module[module_id] != prompt_ids:
+                fail("COMPOSED_PROMPT_ID_DRIFT", f"{order}:{locale}:{audience}")
+            ids_by_module.setdefault(module_id, prompt_ids)
+
+            raw_inner = as_mapping(raw.get("module"), "PAYLOAD_MODULE", f"{order}:{locale}:{audience}")
+            raw_library = as_mapping(raw_inner.get("promptLibrary"), "PAYLOAD_LIBRARY", f"{order}:{locale}:{audience}")
+            raw_prompts = as_sequence(raw_library.get("prompts"), "PAYLOAD_PROMPTS", f"{order}:{locale}:{audience}")
+            raw_ids = [item.get("id") for item in raw_prompts if isinstance(item, dict)]
+            if len(raw_ids) != len(raw_prompts) or not set(raw_ids).issubset(prompt_ids):
+                fail("COMPOSED_BASE_COVERAGE", f"{order}:{locale}:{audience}")
+
+            depth_by_id = {item["id"]: item for item in depth_prompts if isinstance(item, dict)}
+            inputs_by_id: Dict[str, List[Dict[str, str]]] = {}
+            parameters_by_id: Dict[str, int] = {}
             demo_artifacts: Dict[str, str] = {}
-            for prompt in prompts:
+            for prompt_index, prompt in enumerate(prompts):
                 if not isinstance(prompt, dict):
-                    fail("PAYLOAD_PROMPT_TYPE", f"{order}:{locale}:{audience}")
+                    fail("COMPOSED_PROMPT_TYPE", f"{order}:{locale}:{audience}:{prompt_index}")
+                prompt_id = prompt["id"]
+                where_prompt = f"{order}:{locale}:{audience}:{prompt_id}"
                 consumes = prompt.get("consumeIds")
                 if not isinstance(consumes, list):
-                    fail("PAYLOAD_CONSUMES_TYPE", f"{order}:{locale}:{audience}:{prompt.get('id')}")
+                    fail("COMPOSED_CONSUMES_TYPE", where_prompt)
+                depth_prompt = as_mapping(depth_by_id[prompt_id], "COMPOSED_DEPTH_ITEM", where_prompt)
+                validate_source_why(depth_prompt, where_prompt)
+                inputs_by_id[prompt_id] = source_inputs(prompt, where_prompt)
+                parameters_by_id[prompt_id] = source_parameter_count(prompt, where_prompt)
                 if consumes:
-                    artifact = depth_by_id[prompt["id"]].get("demo_artifact")
+                    artifact = depth_prompt.get("demo_artifact")
                     if not isinstance(artifact, str) or len(artifact.strip()) < 40:
-                        fail("DEMO_ARTIFACT_MISSING", f"{order}:{locale}:{audience}:{prompt['id']}")
-                    demo_artifacts[prompt["id"]] = artifact.strip()
-            if len(set(demo_artifacts.values())) != len(demo_artifacts):
-                fail("DEMO_ARTIFACT_DUPLICATE", f"{order}:{locale}:{audience}")
+                        fail("DEMO_ARTIFACT_MISSING", where_prompt)
+                    demo_artifacts[prompt_id] = artifact.strip()
+            kinds = [item.get("kind") for item in prompts]
+            families = [item.get("family_id") for item in prompts]
+            if tuple(kinds) != KIND_SEQUENCE:
+                fail("COMPOSED_KIND_SEQUENCE", f"{order}:{locale}:{audience}:{kinds}")
+            if tuple(families) != FAMILY_SEQUENCE:
+                fail("COMPOSED_FAMILY_SEQUENCE", f"{order}:{locale}:{audience}:{families}")
             raw_surfaces = [item.get("surface") for item in prompts]
-            surface_projection = {"chat": "chat", "sources": "source_search"}
+            surface_projection = {"chat": "chat", "sources": "source_search", "source_search": "source_search"}
             if any(surface not in surface_projection for surface in raw_surfaces):
-                fail("PAYLOAD_SURFACE", f"{order}:{locale}:{audience}:{raw_surfaces}")
+                fail("COMPOSED_SURFACE", f"{order}:{locale}:{audience}:{raw_surfaces}")
             surfaces = [surface_projection[surface] for surface in raw_surfaces]
+            if Counter(surfaces) != Counter(EXPECTED_SURFACES_PER_PAGE):
+                fail("COMPOSED_SURFACE_MIX", f"{order}:{locale}:{audience}:{Counter(surfaces)}")
             variants[key] = {
                 "order": order,
                 "module_id": module_id,
-                "prompt_ids": expected_ids,
+                "prompt_ids": prompt_ids,
                 "surfaces": surfaces,
+                "kinds": kinds,
+                "families": families,
+                "slots": list(SLOT_SEQUENCE),
+                "inputs": inputs_by_id,
+                "parameter_counts": parameters_by_id,
                 "demo_artifacts": demo_artifacts,
             }
     expected_keys = {
@@ -484,17 +805,37 @@ def validate_page(
         fail("NOTEBOOK_SURFACES", where_page)
 
     cards = main.select("[data-library-prompt]")
-    if len(cards) != len(expected["prompt_ids"]):
+    if len(cards) != CARDS_PER_PAGE or len(cards) != len(expected["prompt_ids"]):
         fail("CARD_COUNT", f"{where_page}:count={len(cards)}")
     if [card.get("id") for card in cards] != expected["prompt_ids"]:
         fail("CARD_IDS", where_page)
+    if Counter(card.get("data-prompt-kind") for card in cards) != Counter(EXPECTED_KINDS):
+        fail("CARD_KIND_DISTRIBUTION", where_page)
+    if Counter(card.get("data-prompt-family") for card in cards) != Counter(EXPECTED_FAMILIES):
+        fail("CARD_FAMILY_DISTRIBUTION", where_page)
+    if Counter(card.get("data-notebook-surface") for card in cards) != Counter(EXPECTED_SURFACES_PER_PAGE):
+        fail("CARD_SURFACE_DISTRIBUTION", where_page)
+    direct_section = one(main.select("section#directos"), "DIRECT_SECTION", where_page)
+    meta_section = one(main.select("section#metaprompts"), "META_SECTION", where_page)
+    if len(direct_section.select("[data-library-prompt]")) != EXPECTED_KINDS["direct"]:
+        fail("DIRECT_SECTION_COUNT", where_page)
+    if len(meta_section.select("[data-library-prompt]")) != EXPECTED_KINDS["meta"]:
+        fail("META_SECTION_COUNT", where_page)
     sources_by_prompt: Dict[str, Dict[Tuple[int, str], str]] = {}
     page_source_count = 0
-    for prompt_id, expected_surface, card in zip(expected["prompt_ids"], expected["surfaces"], cards):
+    for prompt_id, expected_surface, expected_kind, expected_family, expected_slot, card in zip(
+        expected["prompt_ids"], expected["surfaces"], expected["kinds"], expected["families"], expected["slots"], cards
+    ):
         where_card = f"{where_page}:{prompt_id}"
         surface = card.get("data-notebook-surface")
         if surface != expected_surface:
             fail("CARD_SURFACE", f"{where_card}:{surface}!={expected_surface}")
+        if card.get("data-prompt-kind") != expected_kind:
+            fail("CARD_KIND", f"{where_card}:{card.get('data-prompt-kind')}!={expected_kind}")
+        if card.get("data-prompt-family") != expected_family:
+            fail("CARD_FAMILY", f"{where_card}:{card.get('data-prompt-family')}!={expected_family}")
+        if card.get("data-prompt-slot") != expected_slot:
+            fail("CARD_SLOT", f"{where_card}:{card.get('data-prompt-slot')}!={expected_slot}")
         totals[f"surface:{surface}"] += 1
         library = one(card.select("[data-prompt-library]"), "LIBRARY_COUNT", where_card)
         mode_buttons = [node.get("data-prompt-mode-select") for node in library.select("[data-prompt-mode-select]")]
@@ -504,11 +845,35 @@ def validate_page(
             (node.get("data-prompt-format"), node.get("data-level-number"))
             for node in library.select("[data-prompt-format]")
         ]
-        if tab_matrix != [(f"n{level}", str(level)) for level in range(1, 5)]:
+        if tab_matrix != [(format_id, str(level)) for level, format_id in enumerate(FORMAT_IDS, 1)]:
             fail("LEVEL_TABS", f"{where_card}:{tab_matrix}")
+        totals["tabs"] += len(tab_matrix)
         levels = library.select("details[data-prompt-level]")
         if [node.get("data-prompt-level") for node in levels] != ["1", "2", "3", "4"]:
             fail("LEVEL_MATRIX", where_card)
+        expected_inputs = expected["inputs"][prompt_id]
+        expected_parameter_count = expected["parameter_counts"][prompt_id]
+        input_guide = one(card.select("details.prompt-input-guide"), "INPUT_GUIDE", where_card)
+        guide_lists = input_guide.select("ul")
+        if len(guide_lists) != 2:
+            fail("INPUT_GUIDE_LISTS", where_card)
+        guide_names = [node.get_text(strip=True).strip("<>") for node in guide_lists[0].select("li code")]
+        if guide_names != [item["name"] for item in expected_inputs] or not 2 <= len(guide_names) <= 6:
+            fail("INPUT_GUIDE_MATRIX", f"{where_card}:{guide_names}")
+        why = one(
+            card.select("details.prompt-contract-depth[data-prompt-why]"),
+            "WHY_UI",
+            where_card,
+        )
+        why_title = why.select_one("summary strong")
+        why_sections = why.select(".prompt-why-body > section")
+        if (
+            why_title is None
+            or why_title.get_text(" ", strip=True) != LOCALIZED[locale]["why"]
+            or len(why_sections) != 5
+            or any(section_node.select_one("h4") is None or not section_node.select("li") for section_node in why_sections)
+        ):
+            fail("WHY_UI_CONTRACT", where_card)
         prompt_sources: Dict[Tuple[int, str], str] = {}
         for number, level in enumerate(levels, 1):
             nodes = level.select("textarea[data-prompt-source][data-prompt-mode]")
@@ -522,7 +887,7 @@ def validate_page(
                 if not text.strip():
                     fail("TEXTAREA_EMPTY", where)
                 if mode == "template":
-                    validate_template_inputs(text, locale, where)
+                    validate_template_inputs(text, locale, expected_inputs, where)
                 else:
                     validate_demo(text, locale, where)
                     artifact = expected["demo_artifacts"].get(prompt_id)
@@ -531,11 +896,14 @@ def validate_page(
                 if number == 1:
                     validate_n1(text, locale, where)
                 elif number == 2:
-                    validate_n2(text, locale, where)
+                    validate_n2(text, locale, expected_parameter_count, where)
                 elif number == 3:
-                    validate_n3(text, locale, mode, expected["module_id"], prompt_id, surface, where)
+                    validate_n3(
+                        text, locale, mode, expected["module_id"], prompt_id, surface,
+                        expected_parameter_count, where,
+                    )
                 else:
-                    validate_n4(text, locale, where)
+                    validate_n4(text, locale, expected_parameter_count, where)
                 prompt_sources[(number, mode)] = text
                 page_source_count += 1
                 totals["textareas"] += 1
@@ -570,12 +938,14 @@ def validate_audience_parity(
                     fail("AUDIENCE_N1_NOT_DISTINCT", f"{alias}:{locale}:{prompt_id}")
                 if changed < 6:
                     fail("AUDIENCE_NOT_MATERIAL", f"{alias}:{locale}:{prompt_id}:changed={changed}/8")
-            pairs += 1
+                pairs += 1
     return pairs
 
 
 def main() -> int:
-    expected, orders = expected_variants()
+    validate_golden_inventory()
+    composer = load_composer()
+    expected, orders = expected_variants(composer)
     rendered = rendered_pages(orders)
     if set(rendered) != set(expected):
         fail("PAGE_MATRIX", f"missing={sorted(set(expected)-set(rendered))}:extra={sorted(set(rendered)-set(expected))}")
@@ -585,8 +955,8 @@ def main() -> int:
         path, soup = rendered[key]
         extracted[key] = validate_page(key, path, soup, expected[key], totals)
     pairs = validate_audience_parity(extracted)
-    actual = (totals["pages"], totals["cards"], totals["levels"], totals["textareas"])
-    wanted = (EXPECTED_PAGES, EXPECTED_CARDS, EXPECTED_LEVELS, EXPECTED_TEXTAREAS)
+    actual = (totals["pages"], totals["cards"], totals["tabs"], totals["levels"], totals["textareas"])
+    wanted = (EXPECTED_PAGES, EXPECTED_CARDS, EXPECTED_TABS, EXPECTED_LEVELS, EXPECTED_TEXTAREAS)
     if actual != wanted:
         fail("TOTALS", f"actual={actual}:wanted={wanted}")
     surfaces = {surface: totals[f"surface:{surface}"] for surface in EXPECTED_SURFACES}
@@ -594,8 +964,11 @@ def main() -> int:
         fail("SURFACE_TOTALS", f"actual={surfaces}:wanted={EXPECTED_SURFACES}")
     print(
         "[EVIDENCE:MODULE_PROMPT_PARITY] MODULE_PROMPT_PARITY_OK "
-        f"pages={totals['pages']} cards={totals['cards']} levels={totals['levels']} "
+        f"pages={totals['pages']} cards={totals['cards']} tabs={totals['tabs']} levels={totals['levels']} "
         f"textareas={totals['textareas']} locales={len(LOCALES)} audiences={len(AUDIENCES)} "
+        f"direct={EXPECTED_KINDS['direct'] * EXPECTED_PAGES} meta={EXPECTED_KINDS['meta'] * EXPECTED_PAGES} "
+        f"families=learn:{EXPECTED_FAMILIES['learn'] * EXPECTED_PAGES},embody:{EXPECTED_FAMILIES['embody'] * EXPECTED_PAGES},"
+        f"evolve:{EXPECTED_FAMILIES['evolve'] * EXPECTED_PAGES},meta:{EXPECTED_FAMILIES['meta'] * EXPECTED_PAGES} "
         f"audience_pairs={pairs} chat={surfaces['chat']} source_search={surfaces['source_search']}"
     )
     return 0

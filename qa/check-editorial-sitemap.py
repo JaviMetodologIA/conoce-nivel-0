@@ -21,15 +21,13 @@ from brand import (  # noqa: E402
     EDITORIAL_SPEC,
     LOCALES,
     MODULE_IDS,
+    PUBLIC,
     RESOURCE_SEGMENTS,
     canonical_self,
     page_dir,
     validate_editorial_document,
     validate_editorial_spec,
 )
-
-PUBLIC = "https://conoce.metodologia.info/"
-
 
 def reject(code: str, mutate) -> None:
     candidate = copy.deepcopy(source)

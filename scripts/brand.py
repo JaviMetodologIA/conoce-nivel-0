@@ -21,7 +21,7 @@ EDITORIAL_PAGES = ("level0", "how", "resources_index", "intakes")
 PAGES = RESOURCE_PAGES + EDITORIAL_PAGES
 ALLOWED_STORAGE = ("mdg_theme", "mdg_locale", "mdg_audience")
 PARENT = "https://metodologia.info/"
-PUBLIC = "https://conoce.metodologia.info/"
+PUBLIC = "https://javimetodologia.github.io/conoce-nivel-0/"
 DEFAULT_MODULE_ID = "ia-panorama"
 MODULE_IDS = (DEFAULT_MODULE_ID, "ocupado-productivo", "trabajo-amplificado", "trabajo-agentico")
 MODULE_ROUTES = {
@@ -129,7 +129,7 @@ def validate_chrome_document(spec: dict) -> dict:
         raise RuntimeError("CONOCE_CHROME_SHAPE_INVALID")
     if spec.get("state") != "RENDERED_DRAFT" or spec.get("publication_authorized") is not False or spec.get("network_required") is not False:
         raise RuntimeError("CONOCE_CHROME_STATE_INVALID")
-    if spec.get("canonical_origin") != "https://conoce.metodologia.info/":
+    if spec.get("canonical_origin") != PUBLIC:
         raise RuntimeError("CONOCE_CHROME_ORIGIN_INVALID")
     if spec.get("self_hash_model") != "sha256(sorted-json-without-self_sha256)" or spec.get("self_sha256") != canonical_self(spec, "self_sha256"):
         raise RuntimeError("CONOCE_CHROME_SELF_DRIFT")
@@ -226,7 +226,7 @@ def validate_editorial_document(spec: dict) -> dict:
         raise RuntimeError("EDITORIAL_SITEMAP_CONTRACT_INVALID")
     if spec.get("publication_authorized") is not False or spec.get("network_required") is not False:
         raise RuntimeError("EDITORIAL_SITEMAP_EFFECT_INVALID")
-    if spec.get("canonical_origin") != "https://conoce.metodologia.info/" or spec.get("self_sha256") != canonical_self(spec, "self_sha256"):
+    if spec.get("canonical_origin") != PUBLIC or spec.get("self_sha256") != canonical_self(spec, "self_sha256"):
         raise RuntimeError("EDITORIAL_SITEMAP_BINDING_INVALID")
     if spec.get("locales") != list(LOCALES) or spec.get("audiences") != list(AUDIENCES) or spec.get("page_order") != list(EDITORIAL_PAGES):
         raise RuntimeError("EDITORIAL_SITEMAP_VARIANTS_INVALID")

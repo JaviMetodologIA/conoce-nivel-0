@@ -12,8 +12,13 @@ src/  →  scripts/build.py  →  dist/
 
 - `src/`: contratos de intención, `landing-spec-v2`, contenido localizado,
   design system y ledger de claims.
-- `src/prompt-contracts/`: los 27 contratos `prompt-intent-contract-v2`. Es la
-  única fuente de los prompts renderizados; el build no tiene fallback.
+- `src/prompt-contracts/`: los 27 contratos `prompt-intent-contract-v2` del
+  módulo de referencia (14 de biblioteca + 13 de workbook), sin fallback.
+- `src/module-01-prompt-inventory-v1.json`: inventario golden hash-bound de la
+  biblioteca visible: composición, familias, niveles, modos, superficies,
+  rangos editoriales y los 14 contratos fuente.
+- `scripts/module_prompt_parity.py`: compositor puro y fail-closed que proyecta
+  M2–M4 a la misma pauta visible sin copiar el contenido temático de M1.
 - `src/prompt-artifact-labels-v1.json`: nombres concretos y localizados de los
   documentos que cada prompt recibe y produce; las claves técnicas nunca se
   muestran al lector.
@@ -22,7 +27,7 @@ src/  →  scripts/build.py  →  dist/
   nunca los modifican ni usan fallback entre idioma o audiencia.
 - `scripts/build.py`: compilador determinista.
 - `dist/`: 126 rutas HTML (30 globales/editoriales + 96 recursos), 150 outputs registrados
-  totales y receipts hash-bound sobre 87 fuentes de `src/`.
+  totales y receipts hash-bound sobre 88 fuentes de `src/`.
 
 Compilar:
 
@@ -36,6 +41,7 @@ Verificar (gates locales, todos sin red):
 python3 qa/check-prompt-contracts.py     # gate del modelo de contratos
 python3 qa/check-prompt-experience-v2.py # inputs, Demo y rutas
 python3 qa/check-notebooklm-execution.py # Chat vs Fuentes y UI compacta
+python3 qa/check-module-01-prompt-inventory-v1.py # congela la pauta golden M1
 python3 qa/check-module-prompt-parity-v1.py # N1–N4 de M2–M4 contra la pauta M1
 python3 qa/check-curriculum-expansion-v2.py # 16 recursos, 6 variantes y 4 PDF
 python3 qa/check-workbook-learning-cycle-v1.py # En clase → Profundización → Consolidación
@@ -74,7 +80,7 @@ con un caso sintético combinado, listo para copiar sin completar inputs.
 [PEDAGOGIA] Los cuatro niveles son `natural`, `parameters`, `spec` y `pair`; los
 números `1–4` son la única etiqueta visual del selector.
 
-[METODOLOGIA] Las 156 tarjetas de M2–M4 usan la misma progresión semántica:
+[METODOLOGIA] Las 252 tarjetas de M2–M4 usan la misma progresión semántica:
 N1 es una orden ejecutiva; N2 declara parámetros, inputs, marcos, flujo,
 límites y salida; N3 es una `SPEC MetodologIA` completa con bloques S/P/E/C,
 procedencia y metadata; N4 separa reglas invariantes en `system` de los datos
@@ -84,7 +90,7 @@ solo el significado de un nivel.
 
 [PEDAGOGIA] Cada tarjeta modular conserva Plantilla y Demo. Plantilla explica
 qué reemplazar; Demo resuelve inputs y artefactos sintéticos sin marcadores
-pendientes. El conjunto añade 1.248 prompts copiables verificados en 18 páginas
+pendientes. El conjunto añade 2.016 prompts copiables verificados en 18 páginas
 de módulo, con parámetros y ejemplos localizados para ES/EN/PT.
 
 [METODOLOGIA] Cada intención nombra entre una y tres prácticas que realmente

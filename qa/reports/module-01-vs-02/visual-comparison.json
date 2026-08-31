@@ -34,7 +34,7 @@
           {
             "state": "hero",
             "file": "candidate-m02-masterclass-390-hero.png",
-            "sha256": "4ed73e37ba51477d184594236704b874b7986fb849b6f4a4de9105132d0d28fe"
+            "sha256": "8ac8d709efc6dba968f97ac32a261ecf5fa4baf50fdbf683b4f93606d3f4f890"
           },
           {
             "state": "state",
@@ -74,7 +74,7 @@
           {
             "state": "state",
             "file": "candidate-m02-workbook-390-state.png",
-            "sha256": "5f34c6332c95bf61c5772a53757ce4f0e39005fbcfdd04e9e0119043458f5d04"
+            "sha256": "658fdad609a8a433e8d5e3afe56c59d1cc701ba55365f5864e7c3f25fa5e714b"
           }
         ]
       }
@@ -129,7 +129,7 @@
           {
             "state": "state",
             "file": "reference-m01-prompts-390-state.png",
-            "sha256": "5bf66274a694fa599ac2c0367159830ad563c74667df611d2d55dbabc5893344"
+            "sha256": "79882dab594ba15d8cdd36890a14cc49035c5950caca283ca3130bc812b9a51f"
           }
         ]
       },
@@ -139,12 +139,12 @@
           {
             "state": "hero",
             "file": "candidate-m02-prompts-390-hero.png",
-            "sha256": "628d6c3a846854f6db99dba88e91e86ed5bdb298f583f44d7bc3309cf27d7d0a"
+            "sha256": "db990cc467a8c6d6972d0a38dc2380e9239b07fe396d801b4840fcccd5266d15"
           },
           {
             "state": "state",
             "file": "candidate-m02-prompts-390-state.png",
-            "sha256": "5f21d218fd5d20dc15d839974053bc25852f576c03963a442588be2f8484bc2c"
+            "sha256": "f1b9c12c6803644bc913320bdbd245e1f8721731fc32eb7468db5a48b036072a"
           }
         ]
       }
@@ -159,7 +159,7 @@
           {
             "state": "hero",
             "file": "reference-m01-masterclass-1440-hero.png",
-            "sha256": "9aa6e99134ba72e09fc0c0d834bfea2b034bd6f16e9ecd5ccb4a503a59b7311d"
+            "sha256": "a1abebf38aa1e28318fc4ced05f0052fb45f3cca7148615575181bd45fa558da"
           },
           {
             "state": "state",
@@ -269,7 +269,7 @@
           {
             "state": "state",
             "file": "reference-m01-prompts-1440-state.png",
-            "sha256": "6e6e09318890dee23f4868f3bb9d89916a382e10de1ae73d0b3722c573fe99cc"
+            "sha256": "783b241bab5d3de660c8083513b4d934538f8e7db000db02f636f5fd10bd7b34"
           }
         ]
       },
@@ -284,7 +284,7 @@
           {
             "state": "state",
             "file": "candidate-m02-prompts-1440-state.png",
-            "sha256": "10b5e203164f75b343881b555edd2afbcf906856501ec5cefc9cc18ac2e89928"
+            "sha256": "4158315f5e8bb574fed34ead2a6c8edf495666e0126d6e40a7d8bcb19ec0bbab"
           }
         ]
       }
@@ -298,15 +298,15 @@
     "verdict": "PASS"
   },
   "inputs": {
-    "build_manifest_sha256": "d264b4416eb6e8093f17320055ef67509d9e7b56c1532e46bfcf546b453cf4b6",
-    "build_receipt_sha256": "2a4f2de8e7a632ca699b5177548de489d18dce98f2f540507f88ce69412323e6",
+    "build_manifest_sha256": "74a70b256430a9f8072c79021614386235a57a9f73a6d78a4026228088408f9a",
+    "build_receipt_sha256": "dd95ed28d931377ef96b741f52976fe11921cb1e37e71d278e1cd4c2c336feba",
     "definition_of_done_ref": "src/module-resource-definition-of-done-v1.json",
     "definition_of_done_sha256": "d43f43935de080e876ee40cac3ced71c2431c78f6ed398f2b50f6af7053f414c",
-    "css_sha256": "18ff9c52f9eb5af42b037bdd9a3b5240c5cab65eff246636a8e1a20369999046",
+    "css_sha256": "32eae164c452284dea19dfef1b42906760346de8365f724cf6050e18ed556591",
     "runtime_sha256": "da20fc831a7c752df397d2b3d7c7ff6a7de9429e8b8f2c410284582ef95beb89"
   },
   "state": "RENDERED_DRAFT",
   "publication_authorized": false,
   "self_hash_model": "sha256(sorted-json-without-self_sha256)",
-  "self_sha256": "3e70059da5aaba9ec4919ae835dcd02c1bf46f7794e982d691e7f95081af4eba"
+  "self_sha256": "545cb1b68b9c2b2fa2d49e39da81342eeeb0b5db7b6ceae45677bbe9a484c69b"
 }

@@ -15,6 +15,7 @@ from brand import (  # noqa: E402
     DEFAULT_MODULE_ID,
     LOCALES,
     MODULE_IDS,
+    PUBLIC,
     RESOURCE_SEGMENTS,
     breadcrumb_model,
     canonical_url,
@@ -65,7 +66,7 @@ for module_id in MODULE_IDS[1:]:
                 actual = page_dir(locale, audience, page, module_id)
                 if actual != wanted:
                     raise AssertionError(f"MODULE_ROUTE_MISMATCH:{module_id}:{locale}:{audience}:{page}:{actual}")
-                if canonical_url(module_id, page, locale, audience) != f"https://conoce.metodologia.info/{wanted}/":
+                if canonical_url(module_id, page, locale, audience) != f"{PUBLIC}{wanted}/":
                     raise AssertionError("MODULE_CANONICAL_MISMATCH")
                 route_count += 1
 

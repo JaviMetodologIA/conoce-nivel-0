@@ -106,7 +106,9 @@ const resourceMarkers = {
   prompts: [
     ['data-notebook-execution-guide', 1],
     ['class="shell prompt-library-secondary-map"', 1],
-    ['class="library-prompt-list"', 1],
+    // The visible library is intentionally split into ten direct prompts and
+    // four metaprompts; each group owns one compact list.
+    ['class="library-prompt-list"', 2],
     ['data-prompt-card-disclosure', null],
   ],
 };

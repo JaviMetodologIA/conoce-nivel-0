@@ -9,7 +9,7 @@ from pathlib import Path
 import fontTools
 from brand import (
     AUDIENCES, CHROME_SPEC, DEFAULT_MODULE_ID, EDITORIAL_PAGES, EDITORIAL_SPEC,
-    MANIFEST_RAW, MODULE_IDS, MODULE_ROUTES, PAGES, RECEIPT_RAW, RELEASE,
+    MANIFEST_RAW, MODULE_IDS, MODULE_ROUTES, PAGES, PUBLIC, RECEIPT_RAW, RELEASE,
     breadcrumb_model as chrome_breadcrumb_model, canonical_url, hreflang_urls,
     page_dir as brand_page_dir, relative_page as brand_relative_page, shell,
     theme_bootstrap, validate_chrome_spec, validate_editorial_spec, validate_release,
@@ -22,9 +22,11 @@ from module_renderers import (
     render_workbook,
 )
 from module_depth import DepthContractError, load_json as load_depth_json, sha256_file, validate_depth_overlay
+from module_prompt_parity import PromptParityError, compose_prompt_parity
 from ui_primitives import ui_icon
 
 ROOT=Path(__file__).resolve().parents[1]; SRC=ROOT/'src'; DIST=ROOT/'dist'
+BUILD_ID='nivel-0-learning-resources-v16'
 FORM='https://docs.google.com/forms/d/e/1FAIpQLSeLysigcdIjlq4xguRXhBkN0WbC7H6FOzxylqgJC_7Ws4OtWQ/viewform'
 HELP_BY_LANG={
     'es':'https://support.google.com/notebooklm/answer/16164461?hl=es',
@@ -41,7 +43,6 @@ ANTHROPIC_RESEARCH='https://support.anthropic.com/en/articles/11088861-using-res
 NOTEBOOK_LIMITS='https://support.google.com/notebooklm/answer/16213268?hl=en'
 NOTEBOOK_MCP='https://github.com/PleasePrompto/notebooklm-mcp'
 REFERENCE_WORKBOOK='https://javimontano.github.io/trabajar-amplificado/aprender-aprehender-revolucionar-notebooklm.html'
-PUBLIC='https://conoce.metodologia.info/'
 LANGS=('es','en','pt')
 CURRENT_AUDIENCE='persona'
 CURRENT_MODULE=DEFAULT_MODULE_ID
@@ -71,6 +72,8 @@ PARITY=json.loads((SRC/'editorial-parity-spec-v1.json').read_text(encoding='utf-
 CURRICULUM=json.loads((SRC/'curriculum-spec-v2.json').read_text(encoding='utf-8'))
 CURRICULUM_PROVENANCE=json.loads((SRC/'curriculum-provenance-rights-v2.json').read_text(encoding='utf-8'))
 MODULE_DOD=json.loads((SRC/'module-resource-definition-of-done-v1.json').read_text(encoding='utf-8'))
+MODULE_PROMPT_GOLDEN_PATH=SRC/'module-01-prompt-inventory-v1.json'
+MODULE_PROMPT_GOLDEN=json.loads(MODULE_PROMPT_GOLDEN_PATH.read_text(encoding='utf-8'))
 MODULE_DEPTH_PROFILE=load_depth_json(SRC/'modules/module-depth-profile-v1.json')
 RESOURCE_PAGE_KEYS=('deck','workbook','playbook','prompts')
 RESOURCE_SPEC_KEYS={'deck':'masterclass','workbook':'workbook','playbook':'playbook','prompts':'prompt_library'}
@@ -101,6 +104,22 @@ for page,expected in EXPECTED_INTRAPAGE_ANCHORS.items():
   if any(set(item.get('labels',{}))!=set(LANGS) or not all(item['labels'].values()) for item in items):
     raise SystemExit(f'INTRAPAGE_NAV_LABELS_INVALID:{page}')
 AUDIENCE_SURFACES=('hero','problem','benefits','method','evidence','cta','closing')
+
+def canonical_document_hash(document,field='self_sha256'):
+  raw=json.dumps({key:value for key,value in document.items() if key!=field},ensure_ascii=False,sort_keys=True,separators=(',',':'))+'\n'
+  return hashlib.sha256(raw.encode('utf-8')).hexdigest()
+
+if (
+  MODULE_PROMPT_GOLDEN.get('schema_version')!='module-01-prompt-inventory-v1'
+  or MODULE_PROMPT_GOLDEN.get('state')!='RENDERED_DRAFT'
+  or MODULE_PROMPT_GOLDEN.get('publication_authorized') is not False
+  or MODULE_PROMPT_GOLDEN.get('self_hash_model')!='sha256(sorted-json-without-self_sha256)'
+  or MODULE_PROMPT_GOLDEN.get('self_sha256')!=canonical_document_hash(MODULE_PROMPT_GOLDEN)
+  or MODULE_PROMPT_GOLDEN.get('cardinality',{}).get('cards_per_variant')!=14
+  or MODULE_PROMPT_GOLDEN.get('cardinality',{}).get('direct_prompts')!=10
+  or MODULE_PROMPT_GOLDEN.get('cardinality',{}).get('metaprompts')!=4
+):
+  raise SystemExit('MODULE_PROMPT_GOLDEN_INVALID')
 
 def validate_curriculum(document=None):
   spec=CURRICULUM if document is None else document
@@ -167,7 +186,16 @@ def validate_curriculum(document=None):
       depth_variants=validate_depth_overlay(MODULE_DEPTH_PROFILE,depth_overlay,payload,item['content']['sha256'])
     except DepthContractError as error:
       raise SystemExit(f'CURRICULUM_DEPTH_CONTRACT_INVALID:{item["id"]}:{error}') from error
-    kits[item['id']]={'spec':item,'payload':payload,'variants':{(variant['locale'],variant['audience']):variant for variant in variants},'depth_overlay':depth_overlay,'depth_variants':depth_variants}
+    imported_variants={(variant['locale'],variant['audience']):variant for variant in variants}
+    composed_variants={};composed_depth_variants={}
+    for variant_key,variant in imported_variants.items():
+      try:
+        composed_variant,composed_depth=compose_prompt_parity(item['id'],variant,depth_variants[variant_key])
+      except PromptParityError as error:
+        raise SystemExit(f'CURRICULUM_PROMPT_PARITY_INVALID:{item["id"]}:{variant_key[0]}:{variant_key[1]}:{error}') from error
+      composed_variants[variant_key]=composed_variant
+      composed_depth_variants[variant_key]=composed_depth
+    kits[item['id']]={'spec':item,'payload':payload,'imported_variants':imported_variants,'variants':composed_variants,'depth_overlay':depth_overlay,'imported_depth_variants':depth_variants,'depth_variants':composed_depth_variants}
   ledger=CURRICULUM_PROVENANCE
   if ledger.get('schema_version')!='curriculum-provenance-rights-v2' or ledger.get('scope',{}).get('local_only') is not True or ledger.get('scope',{}).get('publication_authorized') is not False or ledger.get('scope',{}).get('run_dependency_at_build_time') is not False:
     raise SystemExit('CURRICULUM_PROVENANCE_INVALID')
@@ -437,13 +465,18 @@ for module_id,localized in module_artifacts.items():
   if set(localized)!=set(LANGS):
     raise SystemExit(f'PROMPT_MODULE_ARTIFACT_LOCALES_INVALID:{module_id}')
   for locale in LANGS:
-    expected={
-      prompt['receive']
-      for audience in AUDIENCES
-      for prompt in MODULE_KITS[module_id]['variants'][(locale,audience)]['module']['promptLibrary']['prompts']
-    }
+    expected=set()
+    for audience in AUDIENCES:
+      prompts=MODULE_KITS[module_id]['variants'][(locale,audience)]['module']['promptLibrary']['prompts']
+      prompt_ids={prompt['id'] for prompt in prompts}
+      for prompt in prompts:
+        refs=[prompt['receive'],*prompt.get('consumeIds',[])]
+        expected.update(
+          ref for ref in refs
+          if ref not in prompt_ids and not (isinstance(ref,str) and ref.endswith('-output') and ref[:-7] in prompt_ids)
+        )
     labels=localized[locale]
-    if set(labels)!=expected or any(not isinstance(value,str) or not value.strip() for value in labels.values()):
+    if not expected.issubset(set(labels)) or any(not isinstance(value,str) or not value.strip() for value in labels.values()):
       raise SystemExit(f'PROMPT_MODULE_ARTIFACT_MATRIX_INVALID:{module_id}:{locale}')
 
 def assert_distinct_intent_parameters(contracts=None):
@@ -859,7 +892,7 @@ def module_intrapage_items(lang,page,module):
     {'anchor':'directos','label':{'es':'Biblioteca','en':'Library','pt':'Biblioteca'}[lang]},
     {'anchor':prompts[0]['id'],'label':prompts[0]['title']},
     {'anchor':midpoint['id'],'label':midpoint['title']},
-    {'anchor':'metaprompts','label':{'es':'Siguiente paso','en':'Next step','pt':'Próximo passo'}[lang]},
+    {'anchor':'metaprompts','label':{'es':'Metaprompts','en':'Metaprompts','pt':'Metaprompts'}[lang]},
   ]
 
 def bind_module_audience(content,variant,page,urls):
@@ -1679,8 +1712,26 @@ def build():
     'rendered_resource_pages':len(MODULE_IDS)*len(RESOURCE_PAGE_KEYS)*len(LANGS)*len(AUDIENCES),'canonical_pages':len(html_outputs),
     'run_dependency_at_build_time':False,'state':'RENDERED_DRAFT','publication_authorized':False,
   }
+  curriculum_binding['prompt_parity']={
+    'schema_version':MODULE_PROMPT_GOLDEN['schema_version'],
+    'golden_source':'src/module-01-prompt-inventory-v1.json',
+    'golden_source_sha256':source_hashes['module-01-prompt-inventory-v1.json'],
+    'golden_self_sha256':MODULE_PROMPT_GOLDEN['self_sha256'],
+    'scope':MODULE_PROMPT_GOLDEN['ecosystem_cardinality']['parity_scope_of_this_inventory'],
+    'integral_module_parity_status':MODULE_PROMPT_GOLDEN['ecosystem_cardinality']['integral_module_parity_status'],
+    'imported_prompt_counts':{
+      module_id:MODULE_KITS[module_id]['spec']['variant_validation']['prompts_per_variant']
+      for module_id in MODULE_IDS[1:]
+    },
+    'rendered_prompt_counts':{module_id:14 for module_id in MODULE_IDS[1:]},
+    'rendered_cards':252,'rendered_levels':1008,'rendered_copyable_prompts':2016,
+    'families':{'direct':10,'meta':4,'learn':4,'embody':4,'evolve':2},
+    'surfaces':{'chat':12,'source_search':2},
+    'composer':{'ref':'scripts/module_prompt_parity.py','sha256':hashlib.sha256((ROOT/'scripts/module_prompt_parity.py').read_bytes()).hexdigest()},
+    'fallback_policy':'forbidden','state':'RENDERED_DRAFT','publication_authorized':False,
+  }
   module_dod_binding={'schema_version':MODULE_DOD['schema_version'],'contract_id':MODULE_DOD['contract_id'],'source':'src/module-resource-definition-of-done-v1.json','source_sha256':source_hashes['module-resource-definition-of-done-v1.json'],'self_sha256':MODULE_DOD['self_sha256'],'reference_module':MODULE_DOD['reference_module'],'required_parity':MODULE_DOD['comparison_policy']['required_parity'],'code_identity_required':False,'next_module_requires':'PASS','state':'RENDERED_DRAFT','publication_authorized':False}
-  manifest={'schema_version':'build-manifest-v2','build_id':'nivel-0-learning-resources-v15','state':'RENDERED_DRAFT','publication_authorized':False,'compiler':{'ref':'scripts/build.py','sha256':hashlib.sha256(Path(__file__).read_bytes()).hexdigest(),'module_renderer':{'ref':'scripts/module_renderers.py','sha256':hashlib.sha256((ROOT/'scripts/module_renderers.py').read_bytes()).hexdigest()},'ui_primitives':{'ref':'scripts/ui_primitives.py','sha256':hashlib.sha256((ROOT/'scripts/ui_primitives.py').read_bytes()).hexdigest()},'depth_validator':{'ref':'scripts/module_depth.py','sha256':hashlib.sha256((ROOT/'scripts/module_depth.py').read_bytes()).hexdigest()}},'variants':{'locales':list(LANGS),'audiences':list(AUDIENCES),'resources':['landing','workbook','playbook','prompts','deck'],'editorial_pages':list(EDITORIAL_PAGES),'modules':list(MODULE_IDS),'logical_resources':len(MODULE_IDS)*len(RESOURCE_PAGE_KEYS),'rendered_resource_pages':len(MODULE_IDS)*len(RESOURCE_PAGE_KEYS)*len(LANGS)*len(AUDIENCES),'canonical_pages':len(html_outputs)},'digital_brand':{'release_id':brand_manifest['releaseId'],'manifest_sha256':MANIFEST_RAW,'receipt_sha256':RECEIPT_RAW,'usage':['tokens','fonts','organization_mark','asset_rights'],'runtime_mount':False,'network_required':False,'publication_authority':False},'conoce_chrome':chrome_binding,'curriculum':curriculum_binding,'module_definition_of_done':module_dod_binding,'editorial_sitemap':editorial_binding,'editorial_parity':parity_binding,'prompt_library':prompt_binding,'official_masterclass':official_masterclasses[0],'official_masterclasses':official_masterclasses,'intrapage_navigation':{'schema_version':INTRAPAGE_NAV['schema_version'],'source':'src/intrapage-navigation-spec-v1.json','source_sha256':source_hashes['intrapage-navigation-spec-v1.json'],'desktop_width_px':INTRAPAGE_NAV['desktop_width_px'],'rendered_pages':len(html_outputs),'publication_authorized':False},'method_identity':{'schema_version':METHOD_IDENTITY['schema_version'],'display_label':METHOD_IDENTITY['display_label'],'role':METHOD_IDENTITY['role'],'generator_sha256':hashlib.sha256((ROOT/METHOD_IDENTITY['source']['generator']).read_bytes()).hexdigest(),'assets':{name:item['sha256'] for name,item in METHOD_IDENTITY['assets'].items()},'resources':METHOD_IDENTITY['usage']['resources'],'rendered_pages':relevant_pages},'outputs':hashes,'sources':source_hashes,'self_hash_model':'sha256(sorted-json-without-self_sha256)'}
+  manifest={'schema_version':'build-manifest-v2','build_id':BUILD_ID,'state':'RENDERED_DRAFT','publication_authorized':False,'compiler':{'ref':'scripts/build.py','sha256':hashlib.sha256(Path(__file__).read_bytes()).hexdigest(),'module_renderer':{'ref':'scripts/module_renderers.py','sha256':hashlib.sha256((ROOT/'scripts/module_renderers.py').read_bytes()).hexdigest()},'ui_primitives':{'ref':'scripts/ui_primitives.py','sha256':hashlib.sha256((ROOT/'scripts/ui_primitives.py').read_bytes()).hexdigest()},'depth_validator':{'ref':'scripts/module_depth.py','sha256':hashlib.sha256((ROOT/'scripts/module_depth.py').read_bytes()).hexdigest()},'prompt_parity_composer':{'ref':'scripts/module_prompt_parity.py','sha256':hashlib.sha256((ROOT/'scripts/module_prompt_parity.py').read_bytes()).hexdigest()}},'variants':{'locales':list(LANGS),'audiences':list(AUDIENCES),'resources':['landing','workbook','playbook','prompts','deck'],'editorial_pages':list(EDITORIAL_PAGES),'modules':list(MODULE_IDS),'logical_resources':len(MODULE_IDS)*len(RESOURCE_PAGE_KEYS),'rendered_resource_pages':len(MODULE_IDS)*len(RESOURCE_PAGE_KEYS)*len(LANGS)*len(AUDIENCES),'canonical_pages':len(html_outputs)},'digital_brand':{'release_id':brand_manifest['releaseId'],'manifest_sha256':MANIFEST_RAW,'receipt_sha256':RECEIPT_RAW,'usage':['tokens','fonts','organization_mark','asset_rights'],'runtime_mount':False,'network_required':False,'publication_authority':False},'conoce_chrome':chrome_binding,'curriculum':curriculum_binding,'module_definition_of_done':module_dod_binding,'editorial_sitemap':editorial_binding,'editorial_parity':parity_binding,'prompt_library':prompt_binding,'official_masterclass':official_masterclasses[0],'official_masterclasses':official_masterclasses,'intrapage_navigation':{'schema_version':INTRAPAGE_NAV['schema_version'],'source':'src/intrapage-navigation-spec-v1.json','source_sha256':source_hashes['intrapage-navigation-spec-v1.json'],'desktop_width_px':INTRAPAGE_NAV['desktop_width_px'],'rendered_pages':len(html_outputs),'publication_authorized':False},'method_identity':{'schema_version':METHOD_IDENTITY['schema_version'],'display_label':METHOD_IDENTITY['display_label'],'role':METHOD_IDENTITY['role'],'generator_sha256':hashlib.sha256((ROOT/METHOD_IDENTITY['source']['generator']).read_bytes()).hexdigest(),'assets':{name:item['sha256'] for name,item in METHOD_IDENTITY['assets'].items()},'resources':METHOD_IDENTITY['usage']['resources'],'rendered_pages':relevant_pages},'outputs':hashes,'sources':source_hashes,'self_hash_model':'sha256(sorted-json-without-self_sha256)'}
   manifest['self_sha256']=hashlib.sha256((json.dumps({key:value for key,value in manifest.items() if key!='self_sha256'},ensure_ascii=False,sort_keys=True,separators=(',',':'))+'\n').encode('utf-8')).hexdigest()
   write(DIST/'build-manifest.json',json.dumps(manifest,ensure_ascii=False,sort_keys=True,indent=2)+'\n')
   receipt={'schema_version':'build-receipt-v1','build_id':manifest['build_id'],'manifest_sha256':hashlib.sha256((DIST/'build-manifest.json').read_bytes()).hexdigest(),'manifest_self_sha256':manifest['self_sha256'],'output_count':len(hashes),'deterministic_inputs':True,'state':'RENDERED_DRAFT','publication_authorized':False,'conoce_chrome':manifest['conoce_chrome'],'curriculum':manifest['curriculum'],'module_definition_of_done':manifest['module_definition_of_done'],'editorial_sitemap':manifest['editorial_sitemap'],'editorial_parity':manifest['editorial_parity'],'prompt_library':manifest['prompt_library'],'official_masterclass':manifest['official_masterclass'],'official_masterclasses':manifest['official_masterclasses'],'intrapage_navigation':manifest['intrapage_navigation'],'method_identity':manifest['method_identity'],'self_hash_model':'sha256(sorted-json-without-self)'}

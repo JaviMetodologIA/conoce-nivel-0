@@ -16,7 +16,9 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 DIST = ROOT / "dist"
 SRC = ROOT / "src"
-WORKBOOK_GOLDEN_SHA256 = "ed1245d57e7ca887c8fd562b2b092d7097205d8103ccbdde1f0d250fb718ec8c"
+WORKBOOK_GOLDEN_SHA256 = "6a7b0bd9a3575912feb8dd2d6657b8f5d05ad3d260424ef34ccf4cb50f984d53"
+PROMPT_GOLDEN = json.loads((SRC / "module-01-prompt-inventory-v1.json").read_text(encoding="utf-8"))
+PROMPT_CARDS_PER_VARIANT = int(PROMPT_GOLDEN["cardinality"]["cards_per_variant"])
 sys.path.insert(0, str(ROOT / "scripts"))
 
 from brand import AUDIENCES, DEFAULT_MODULE_ID, MODULE_IDS, page_dir  # noqa: E402
@@ -227,7 +229,9 @@ def verify_page(path: Path, locale: str, audience: str, module: dict[str, object
             errors.append(f"PLAYBOOK_INDEX:{route}")
     elif resource == "prompts":
         cards = source.count('class="library-prompt-card"')
-        expected_cards = int(module["variant_validation"]["prompts_per_variant"])
+        # Imported payload counts remain provenance facts (8/10/8). The
+        # rendered suite is governed by the M1 golden and must be 14/14/14.
+        expected_cards = PROMPT_CARDS_PER_VARIANT
         if cards != expected_cards:
             errors.append(f"PROMPTS_COUNT:{route}:{cards}!={expected_cards}")
         if source.count("data-prompt-format=") != cards * 4:

@@ -144,7 +144,7 @@ const sample = fs.readFileSync(pages[0], 'utf8');
 for (const mutation of [
   sample.replace('"name":"Conoce · Nivel 0"', '"name":"Other"'),
   sample.replace('"url":"https://metodologia.info/"', '"url":"https://example.com/"'),
-  sample.replace('"url":"https://conoce.metodologia.info/', '"url":"https://example.com/'),
+  sample.replace('"url":"https://javimetodologia.github.io/conoce-nivel-0/', '"url":"https://example.com/'),
 ]) {
   let rejected = false;
   try { validateStructured(mutation); } catch { rejected = true; }

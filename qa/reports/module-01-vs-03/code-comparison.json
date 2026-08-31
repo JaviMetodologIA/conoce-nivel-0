@@ -39,18 +39,18 @@
     "self_sha256": "1044950780a9ad0044586de3e837137e7d02f0f8ea7f2d8ae9eb99d9c7e74876"
   },
   "inputs": {
-    "build_manifest_sha256": "d264b4416eb6e8093f17320055ef67509d9e7b56c1532e46bfcf546b453cf4b6",
-    "build_py_sha256": "e73cf885cd3f3190b983ef5aa2e198b4e84a85f76627b2867059ca59197b86cd",
-    "build_receipt_sha256": "2a4f2de8e7a632ca699b5177548de489d18dce98f2f540507f88ce69412323e6",
-    "css_sha256": "18ff9c52f9eb5af42b037bdd9a3b5240c5cab65eff246636a8e1a20369999046",
-    "renderer_sha256": "8dee15610e3d6e5ae00f6ca1ad7e9a17d95e5e6bca8c67004b86355902882f3c",
+    "build_manifest_sha256": "74a70b256430a9f8072c79021614386235a57a9f73a6d78a4026228088408f9a",
+    "build_py_sha256": "978076da750e39b54860f62b6c79f111489b3718ea5da2d0302247f15e49e1a7",
+    "build_receipt_sha256": "dd95ed28d931377ef96b741f52976fe11921cb1e37e71d278e1cd4c2c336feba",
+    "css_sha256": "32eae164c452284dea19dfef1b42906760346de8365f724cf6050e18ed556591",
+    "renderer_sha256": "d7e784490b1de5e264518fb6e2ebfb5372dd52745ab1dee954ba4a31c8e126cd",
     "runtime_sha256": "da20fc831a7c752df397d2b3d7c7ff6a7de9429e8b8f2c410284582ef95beb89"
   },
   "pairs": [
     {
       "audience": "persona",
       "candidate": {
-        "bytes": 37613,
+        "bytes": 37868,
         "current_resource": 3,
         "main_identity": {
           "data-audience": "persona",
@@ -65,14 +65,14 @@
           "official-pdf-card": 1
         },
         "path": "dist/modulos/03-trabajo-amplificado/masterclass/index.html",
-        "sha256": "566a90b564181068d9b233130342bde4a200bbb933de90c30ac2789bdb8ee7b2",
+        "sha256": "4cf2db623ced743c5b4c344ac60d45640a0fa8dfceb53a96789c1d034f3b4c8f",
         "sibling_navigation": 1,
         "unique_ids": true,
         "visible_words": 1418
       },
       "locale": "es",
       "reference": {
-        "bytes": 33137,
+        "bytes": 33375,
         "current_resource": 2,
         "main_identity": {
           "data-audience": null,
@@ -87,7 +87,7 @@
           "official-pdf-card": 1
         },
         "path": "dist/deck/index.html",
-        "sha256": "fa8f82fefd014e7a951503c139126eafaad9e597c75f560e21b23c62778ce899",
+        "sha256": "5d099a57c4419b4554a082c854fea447bec0c257f7f07dd02d6ae4675ed3883d",
         "sibling_navigation": 0,
         "unique_ids": true,
         "visible_words": 1326
@@ -99,7 +99,7 @@
     {
       "audience": "persona",
       "candidate": {
-        "bytes": 35586,
+        "bytes": 35841,
         "current_resource": 3,
         "main_identity": {
           "data-audience": "persona",
@@ -114,14 +114,14 @@
           "workbook-hero-grid": 1
         },
         "path": "dist/modulos/03-trabajo-amplificado/workbook/index.html",
-        "sha256": "29c63d52c975a5c366f18e5c4c2f31137d87213b6d0d10ff0413420535ffe42c",
+        "sha256": "b9c52a945692fde6b8617d1f9422c0ac8927395e53884954186659d907195277",
         "sibling_navigation": 1,
         "unique_ids": true,
         "visible_words": 1257
       },
       "locale": "es",
       "reference": {
-        "bytes": 795036,
+        "bytes": 795274,
         "current_resource": 2,
         "main_identity": {
           "data-audience": null,
@@ -136,7 +136,7 @@
           "workbook-hero-grid": 1
         },
         "path": "dist/workbook/index.html",
-        "sha256": "ed1245d57e7ca887c8fd562b2b092d7097205d8103ccbdde1f0d250fb718ec8c",
+        "sha256": "6a7b0bd9a3575912feb8dd2d6657b8f5d05ad3d260424ef34ccf4cb50f984d53",
         "sibling_navigation": 0,
         "unique_ids": true,
         "visible_words": 35168
@@ -148,7 +148,7 @@
     {
       "audience": "persona",
       "candidate": {
-        "bytes": 35444,
+        "bytes": 35699,
         "current_resource": 3,
         "main_identity": {
           "data-audience": "persona",
@@ -163,14 +163,14 @@
           "playbook-toc": 1
         },
         "path": "dist/modulos/03-trabajo-amplificado/playbook/index.html",
-        "sha256": "2b3017df8e35927fe207669635ca0d3259562d6093a49c0207a7ef428f7a2005",
+        "sha256": "548b77a804df498bd851036a6c4dce3a4fff97bb9b7cbaa61cc5314810803766",
         "sibling_navigation": 1,
         "unique_ids": true,
         "visible_words": 1437
       },
       "locale": "es",
       "reference": {
-        "bytes": 36256,
+        "bytes": 36494,
         "current_resource": 2,
         "main_identity": {
           "data-audience": null,
@@ -185,7 +185,7 @@
           "playbook-toc": 1
         },
         "path": "dist/playbook/index.html",
-        "sha256": "53b224fa7592b87b51d9c81c3fbd150f3bd51e099f8e6c8f3d5fa657b0a92241",
+        "sha256": "2f0531a2376176b1135be30f49a126d4ddd75d2e057784ca64121fb358bcb4a2",
         "sibling_navigation": 0,
         "unique_ids": true,
         "visible_words": 1213
@@ -197,7 +197,7 @@
     {
       "audience": "persona",
       "candidate": {
-        "bytes": 463139,
+        "bytes": 870694,
         "current_resource": 3,
         "main_identity": {
           "data-audience": "persona",
@@ -208,18 +208,18 @@
         },
         "markers": {
           "data-notebook-execution-guide": 1,
-          "data-prompt-format": 40,
-          "library-prompt-card": 20
+          "data-prompt-format": 56,
+          "library-prompt-card": 28
         },
         "path": "dist/modulos/03-trabajo-amplificado/prompts/index.html",
-        "sha256": "8565ef609b4aff81d69be5dcaa6fcf87d68101b25b9c8c9392714d35b5b20ad9",
+        "sha256": "968a1a7257a86ffb1ead6e500e2dc8baf81ae0933e6501809eca223b1ada60ce",
         "sibling_navigation": 1,
         "unique_ids": true,
-        "visible_words": 14117
+        "visible_words": 31982
       },
       "locale": "es",
       "reference": {
-        "bytes": 831635,
+        "bytes": 831873,
         "current_resource": 2,
         "main_identity": {
           "data-audience": null,
@@ -234,19 +234,19 @@
           "library-prompt-card": 28
         },
         "path": "dist/prompts/index.html",
-        "sha256": "04c4f68d279f2824e2dd9c61a9518e9d77f7b1dd449ea652cc386af87ab7838a",
+        "sha256": "fcd4805a54559856ddf5208d665060a4bb5c7d2bfa9e7e34b78f3bb4d02a7dc5",
         "sibling_navigation": 0,
         "unique_ids": true,
         "visible_words": 35398
       },
       "resource": "prompts",
       "semantic_markers_present": true,
-      "visible_density_ratio": 0.3988
+      "visible_density_ratio": 0.9035
     },
     {
       "audience": "empresa",
       "candidate": {
-        "bytes": 38016,
+        "bytes": 38271,
         "current_resource": 3,
         "main_identity": {
           "data-audience": "empresa",
@@ -261,14 +261,14 @@
           "official-pdf-card": 1
         },
         "path": "dist/empresa/modulos/03-trabajo-amplificado/masterclass/index.html",
-        "sha256": "342122a35289bad3b657fc3f68f6ebc1a05bf49d7fb6f4d0437b2eba58ddbe41",
+        "sha256": "0f3542ed916bcd4e81bbd48c62f2d4ad65fb70ca84a8078f516874c99b31ae00",
         "sibling_navigation": 1,
         "unique_ids": true,
         "visible_words": 1397
       },
       "locale": "es",
       "reference": {
-        "bytes": 33377,
+        "bytes": 33615,
         "current_resource": 2,
         "main_identity": {
           "data-audience": null,
@@ -283,7 +283,7 @@
           "official-pdf-card": 1
         },
         "path": "dist/empresa/deck/index.html",
-        "sha256": "83c1cbb201895c65ac70d71333ddd8f0958c1c6f3dc082232a0e4c86954544ba",
+        "sha256": "b6b4c3c470b1dac27b7d079b2966be18950478dd76f5b517c6eaa55bd74183c1",
         "sibling_navigation": 0,
         "unique_ids": true,
         "visible_words": 1332
@@ -295,7 +295,7 @@
     {
       "audience": "empresa",
       "candidate": {
-        "bytes": 36102,
+        "bytes": 36357,
         "current_resource": 3,
         "main_identity": {
           "data-audience": "empresa",
@@ -310,14 +310,14 @@
           "workbook-hero-grid": 1
         },
         "path": "dist/empresa/modulos/03-trabajo-amplificado/workbook/index.html",
-        "sha256": "c8bbc802678a4c64a021ad65cf49d73aa426721c1ee2953f24443fca77d1f52e",
+        "sha256": "ca5a8c46151b17b6a87e26bb5a96a258f62300fa6833ed1c87557f696f01a777",
         "sibling_navigation": 1,
         "unique_ids": true,
         "visible_words": 1269
       },
       "locale": "es",
       "reference": {
-        "bytes": 826505,
+        "bytes": 826743,
         "current_resource": 2,
         "main_identity": {
           "data-audience": null,
@@ -332,7 +332,7 @@
           "workbook-hero-grid": 1
         },
         "path": "dist/empresa/workbook/index.html",
-        "sha256": "85a6a90a925131582ec4c4d8bf5ffa7fae0694f8fc982810e5188f5312720637",
+        "sha256": "496bcc2d653374dcf40d5282b98eb12f8d7e59a2a454dc4eafe1cabf2694751c",
         "sibling_navigation": 0,
         "unique_ids": true,
         "visible_words": 36954
@@ -344,7 +344,7 @@
     {
       "audience": "empresa",
       "candidate": {
-        "bytes": 35949,
+        "bytes": 36204,
         "current_resource": 3,
         "main_identity": {
           "data-audience": "empresa",
@@ -359,14 +359,14 @@
           "playbook-toc": 1
         },
         "path": "dist/empresa/modulos/03-trabajo-amplificado/playbook/index.html",
-        "sha256": "4a52065c8fc23c7ac2afdab0f6249fa7d00a2be36bdd75eac32d941026ca61dd",
+        "sha256": "27146696014279286001aeb16b171c7a6d13b0a9e9c1165487c37cd704e6a9a4",
         "sibling_navigation": 1,
         "unique_ids": true,
         "visible_words": 1421
       },
       "locale": "es",
       "reference": {
-        "bytes": 36497,
+        "bytes": 36735,
         "current_resource": 2,
         "main_identity": {
           "data-audience": null,
@@ -381,7 +381,7 @@
           "playbook-toc": 1
         },
         "path": "dist/empresa/playbook/index.html",
-        "sha256": "0a11b07be42fb63b0c2c4c333de950076270680983a6bf17f6237f60487845d3",
+        "sha256": "8ae1e683873cf55711c36dfd918a39d79fe7eaa9d94cfc2f777bc1eb0d2044ec",
         "sibling_navigation": 0,
         "unique_ids": true,
         "visible_words": 1205
@@ -393,7 +393,7 @@
     {
       "audience": "empresa",
       "candidate": {
-        "bytes": 469794,
+        "bytes": 873765,
         "current_resource": 3,
         "main_identity": {
           "data-audience": "empresa",
@@ -404,18 +404,18 @@
         },
         "markers": {
           "data-notebook-execution-guide": 1,
-          "data-prompt-format": 40,
-          "library-prompt-card": 20
+          "data-prompt-format": 56,
+          "library-prompt-card": 28
         },
         "path": "dist/empresa/modulos/03-trabajo-amplificado/prompts/index.html",
-        "sha256": "facec2b780649a0055c03bdd668a0c78f2115ed1e80ef83bcb91edc7cf133169",
+        "sha256": "9f0b3549d6faeb3e6a9932316f1980967da9b7aaf8f9535e262ce9afa612d9bd",
         "sibling_navigation": 1,
         "unique_ids": true,
-        "visible_words": 14254
+        "visible_words": 31454
       },
       "locale": "es",
       "reference": {
-        "bytes": 852879,
+        "bytes": 853117,
         "current_resource": 2,
         "main_identity": {
           "data-audience": null,
@@ -430,19 +430,19 @@
           "library-prompt-card": 28
         },
         "path": "dist/empresa/prompts/index.html",
-        "sha256": "12bf6db7cc2583692c2aa9107c6c9360cd728abe10d5d3b27798cb916b6ef1cd",
+        "sha256": "6a93d40cd63621ab8fcc6b3a739746c1ee5488abd0141857391532f1a1d2f522",
         "sibling_navigation": 0,
         "unique_ids": true,
         "visible_words": 36669
       },
       "resource": "prompts",
       "semantic_markers_present": true,
-      "visible_density_ratio": 0.3887
+      "visible_density_ratio": 0.8578
     },
     {
       "audience": "persona",
       "candidate": {
-        "bytes": 36741,
+        "bytes": 36996,
         "current_resource": 3,
         "main_identity": {
           "data-audience": "persona",
@@ -457,14 +457,14 @@
           "official-pdf-card": 1
         },
         "path": "dist/en/modules/03-amplified-work/masterclass/index.html",
-        "sha256": "ea3e6fd090b82bf9c34a8ef660d7ce6ba0adacfbd43e8efe3068ea11b22bc034",
+        "sha256": "94ed68355f354c0219695ac672ead8861a6fe0a465c94b341e521a4ab80ce5fb",
         "sibling_navigation": 1,
         "unique_ids": true,
         "visible_words": 1395
       },
       "locale": "en",
       "reference": {
-        "bytes": 32527,
+        "bytes": 32765,
         "current_resource": 2,
         "main_identity": {
           "data-audience": null,
@@ -479,7 +479,7 @@
           "official-pdf-card": 1
         },
         "path": "dist/en/deck/index.html",
-        "sha256": "255efd9b6bb22869fa8dcd9f5739f6bf9dc5f4bf33f2752e4c86434a3d8094ca",
+        "sha256": "5b09af5b15184f733cea861e657c801732c7438ca4f48a57d21359896a7833f0",
         "sibling_navigation": 0,
         "unique_ids": true,
         "visible_words": 1268
@@ -491,7 +491,7 @@
     {
       "audience": "persona",
       "candidate": {
-        "bytes": 35012,
+        "bytes": 35267,
         "current_resource": 3,
         "main_identity": {
           "data-audience": "persona",
@@ -506,14 +506,14 @@
           "workbook-hero-grid": 1
         },
         "path": "dist/en/modules/03-amplified-work/workbook/index.html",
-        "sha256": "14ac7a343ff50bf707d73c8f25f8d223c60fba77ac4c3ffa60980436e3473c9b",
+        "sha256": "21b92a7c40927ee324daa2ff89f556ca26d46ba30e3da371c8c677a592969fe7",
         "sibling_navigation": 1,
         "unique_ids": true,
         "visible_words": 1251
       },
       "locale": "en",
       "reference": {
-        "bytes": 769531,
+        "bytes": 769769,
         "current_resource": 2,
         "main_identity": {
           "data-audience": null,
@@ -528,7 +528,7 @@
           "workbook-hero-grid": 1
         },
         "path": "dist/en/workbook/index.html",
-        "sha256": "8d7de31f0fc4c5d3f0be6aaddcd7d2796843092ecd8d50991b719f25c2d88c0c",
+        "sha256": "9f0bbac9cf552b2b6163c950335f885f19ec25477c37ae8fd01eecd4125ce43f",
         "sibling_navigation": 0,
         "unique_ids": true,
         "visible_words": 34041
@@ -540,7 +540,7 @@
     {
       "audience": "persona",
       "candidate": {
-        "bytes": 34660,
+        "bytes": 34915,
         "current_resource": 3,
         "main_identity": {
           "data-audience": "persona",
@@ -555,14 +555,14 @@
           "playbook-toc": 1
         },
         "path": "dist/en/modules/03-amplified-work/playbook/index.html",
-        "sha256": "5aa12a7993cc98c80c1a985991b302f7188e62d3bb36419267fa9c5bf532bf08",
+        "sha256": "18ed0309ccf187ae3d7c59247537272b799b79adf61380e9fadcd835f9071702",
         "sibling_navigation": 1,
         "unique_ids": true,
         "visible_words": 1444
       },
       "locale": "en",
       "reference": {
-        "bytes": 35415,
+        "bytes": 35653,
         "current_resource": 2,
         "main_identity": {
           "data-audience": null,
@@ -577,7 +577,7 @@
           "playbook-toc": 1
         },
         "path": "dist/en/playbook/index.html",
-        "sha256": "85247d479adf56c896f34e6491f7a15e04c3af6ed1803d3de71365855d017388",
+        "sha256": "886ca1dc2c13f3380611a7cde86c451f6f1adebaf82846ada1d7d5b2eaa617a2",
         "sibling_navigation": 0,
         "unique_ids": true,
         "visible_words": 1151
@@ -589,7 +589,7 @@
     {
       "audience": "persona",
       "candidate": {
-        "bytes": 448913,
+        "bytes": 852271,
         "current_resource": 3,
         "main_identity": {
           "data-audience": "persona",
@@ -600,18 +600,18 @@
         },
         "markers": {
           "data-notebook-execution-guide": 1,
-          "data-prompt-format": 40,
-          "library-prompt-card": 20
+          "data-prompt-format": 56,
+          "library-prompt-card": 28
         },
         "path": "dist/en/modules/03-amplified-work/prompts/index.html",
-        "sha256": "c1de2da2f289518d45d7b1e10bfa793cb6c55c96b19a7e85de5734057f601148",
+        "sha256": "03fd0083d726a10cec4b423996f2c2897617c25eb1611baa61ee2c3ae8fba17e",
         "sibling_navigation": 1,
         "unique_ids": true,
-        "visible_words": 13807
+        "visible_words": 32822
       },
       "locale": "en",
       "reference": {
-        "bytes": 801038,
+        "bytes": 801276,
         "current_resource": 2,
         "main_identity": {
           "data-audience": null,
@@ -626,19 +626,19 @@
           "library-prompt-card": 28
         },
         "path": "dist/en/prompts/index.html",
-        "sha256": "b509b73c55d253cf414d05e4997c73ab6d797761204e7bad3d208bb3bf652f20",
+        "sha256": "8d8bf3e2561d93bd7dc18f34bf38be4bff46c64b4f40f9d820399423d89c1f44",
         "sibling_navigation": 0,
         "unique_ids": true,
         "visible_words": 33899
       },
       "resource": "prompts",
       "semantic_markers_present": true,
-      "visible_density_ratio": 0.4073
+      "visible_density_ratio": 0.9682
     },
     {
       "audience": "empresa",
       "candidate": {
-        "bytes": 36957,
+        "bytes": 37212,
         "current_resource": 3,
         "main_identity": {
           "data-audience": "empresa",
@@ -653,14 +653,14 @@
           "official-pdf-card": 1
         },
         "path": "dist/en/empresa/modules/03-amplified-work/masterclass/index.html",
-        "sha256": "fcfa5089dbd91998a92676b280c952669f75af506aabcc1284944ef3977cc413",
+        "sha256": "66dd9c1e8c0353a632daf034ff64b4f69f52deedd4aa95af980944e869628056",
         "sibling_navigation": 1,
         "unique_ids": true,
         "visible_words": 1359
       },
       "locale": "en",
       "reference": {
-        "bytes": 32751,
+        "bytes": 32989,
         "current_resource": 2,
         "main_identity": {
           "data-audience": null,
@@ -675,7 +675,7 @@
           "official-pdf-card": 1
         },
         "path": "dist/en/empresa/deck/index.html",
-        "sha256": "a5bdda49d7e827c75e74f03ddcbf2b1f03b314b546cb17116d5a5b7c9a578af5",
+        "sha256": "b267bde2855655f32f7d5d5c90538dd6bce86c2dce7bc4a542dd125daa4c5d93",
         "sibling_navigation": 0,
         "unique_ids": true,
         "visible_words": 1259
@@ -687,7 +687,7 @@
     {
       "audience": "empresa",
       "candidate": {
-        "bytes": 35315,
+        "bytes": 35570,
         "current_resource": 3,
         "main_identity": {
           "data-audience": "empresa",
@@ -702,14 +702,14 @@
           "workbook-hero-grid": 1
         },
         "path": "dist/en/empresa/modules/03-amplified-work/workbook/index.html",
-        "sha256": "6b43231213be33dff596fb7898f8f1d0987aa32b277eb1278f3e8ec8715fb718",
+        "sha256": "b24e8e47e6d7e5c90ccef05d9ebab429e553ab989eb61d4b41c04e59f6c81f5b",
         "sibling_navigation": 1,
         "unique_ids": true,
         "visible_words": 1248
       },
       "locale": "en",
       "reference": {
-        "bytes": 797500,
+        "bytes": 797738,
         "current_resource": 2,
         "main_identity": {
           "data-audience": null,
@@ -724,7 +724,7 @@
           "workbook-hero-grid": 1
         },
         "path": "dist/en/empresa/workbook/index.html",
-        "sha256": "0a8159e1688c7026d16b033fc920875afaa162e2acf0bab9e730d64fc775d892",
+        "sha256": "be371a0db96d028bddff403f8a751103e26b20a8df1e7afce8fef5f5fa61cd0d",
         "sibling_navigation": 0,
         "unique_ids": true,
         "visible_words": 35808
@@ -736,7 +736,7 @@
     {
       "audience": "empresa",
       "candidate": {
-        "bytes": 34962,
+        "bytes": 35217,
         "current_resource": 3,
         "main_identity": {
           "data-audience": "empresa",
@@ -751,14 +751,14 @@
           "playbook-toc": 1
         },
         "path": "dist/en/empresa/modules/03-amplified-work/playbook/index.html",
-        "sha256": "00c4981e2e3379658cda9e65d8d4cfd4c5c473f81f8ad1a841a4e30e967a437f",
+        "sha256": "2f4c8dc930e992f84b5b8568be1ffe4b9dc4e271d163e1ff86a28c525137e047",
         "sibling_navigation": 1,
         "unique_ids": true,
         "visible_words": 1419
       },
       "locale": "en",
       "reference": {
-        "bytes": 35629,
+        "bytes": 35867,
         "current_resource": 2,
         "main_identity": {
           "data-audience": null,
@@ -773,7 +773,7 @@
           "playbook-toc": 1
         },
         "path": "dist/en/empresa/playbook/index.html",
-        "sha256": "e5af9eb93deb4040d077ab33c955d3e5c8b215dfdcf6c6ba4685f14cfbd2b6a3",
+        "sha256": "fa2394b6ceefc7e01c6fce1a8f5ebcc0173591fdc70dba7f4a27e3baf9b532f4",
         "sibling_navigation": 0,
         "unique_ids": true,
         "visible_words": 1139
@@ -785,7 +785,7 @@
     {
       "audience": "empresa",
       "candidate": {
-        "bytes": 451102,
+        "bytes": 843630,
         "current_resource": 3,
         "main_identity": {
           "data-audience": "empresa",
@@ -796,18 +796,18 @@
         },
         "markers": {
           "data-notebook-execution-guide": 1,
-          "data-prompt-format": 40,
-          "library-prompt-card": 20
+          "data-prompt-format": 56,
+          "library-prompt-card": 28
         },
         "path": "dist/en/empresa/modules/03-amplified-work/prompts/index.html",
-        "sha256": "4afd3fb971b17b4694f425b82a146c113000c7d9c160345001bace3b202950ac",
+        "sha256": "11da3e0e10cbe543b024d022e2f65612039735d2dd19ffc794b007ea198729b2",
         "sibling_navigation": 1,
         "unique_ids": true,
-        "visible_words": 13780
+        "visible_words": 31230
       },
       "locale": "en",
       "reference": {
-        "bytes": 821143,
+        "bytes": 821381,
         "current_resource": 2,
         "main_identity": {
           "data-audience": null,
@@ -822,19 +822,19 @@
           "library-prompt-card": 28
         },
         "path": "dist/en/empresa/prompts/index.html",
-        "sha256": "89b2c66f14ebd308adcb7af05ffb325f6da0925619021e8f599ad11a6ad428f9",
+        "sha256": "21543fa2189f90f1f2f628cb46d213e59377adb8e27ea0c55ab433735a3feb6e",
         "sibling_navigation": 0,
         "unique_ids": true,
         "visible_words": 35059
       },
       "resource": "prompts",
       "semantic_markers_present": true,
-      "visible_density_ratio": 0.3931
+      "visible_density_ratio": 0.8908
     },
     {
       "audience": "persona",
       "candidate": {
-        "bytes": 37558,
+        "bytes": 37813,
         "current_resource": 3,
         "main_identity": {
           "data-audience": "persona",
@@ -849,14 +849,14 @@
           "official-pdf-card": 1
         },
         "path": "dist/pt/modulos/03-trabalho-amplificado/masterclass/index.html",
-        "sha256": "9660ea5ffe1cacec1709b7c663a3868a082e6cf7d6c62f9f5a48d9d24d5461d5",
+        "sha256": "866f28cf8763e8f5bb0a8773b5affc2661e65ffcab3051dd43797f1dca8ba535",
         "sibling_navigation": 1,
         "unique_ids": true,
         "visible_words": 1388
       },
       "locale": "pt",
       "reference": {
-        "bytes": 33002,
+        "bytes": 33240,
         "current_resource": 2,
         "main_identity": {
           "data-audience": null,
@@ -871,7 +871,7 @@
           "official-pdf-card": 1
         },
         "path": "dist/pt/deck/index.html",
-        "sha256": "e1b8afdcc0f160e84b6d343ee2ca2efbdb02afc176cc3b8469fe5ff4435b021b",
+        "sha256": "da5e388aee20dd9eb226e708c36f38ff924faeab26b29d114d8185a1ed024685",
         "sibling_navigation": 0,
         "unique_ids": true,
         "visible_words": 1298
@@ -883,7 +883,7 @@
     {
       "audience": "persona",
       "candidate": {
-        "bytes": 35587,
+        "bytes": 35842,
         "current_resource": 3,
         "main_identity": {
           "data-audience": "persona",
@@ -898,14 +898,14 @@
           "workbook-hero-grid": 1
         },
         "path": "dist/pt/modulos/03-trabalho-amplificado/workbook/index.html",
-        "sha256": "c518e1baa867241eea7f0c9c1a8d6000b6409e5f16d1db1c686420f64059ce4e",
+        "sha256": "623b46805656a5477b3f31ee19fe83f91eae9bfef250eca01e9f6ed64112b8f7",
         "sibling_navigation": 1,
         "unique_ids": true,
         "visible_words": 1251
       },
       "locale": "pt",
       "reference": {
-        "bytes": 795448,
+        "bytes": 795686,
         "current_resource": 2,
         "main_identity": {
           "data-audience": null,
@@ -920,7 +920,7 @@
           "workbook-hero-grid": 1
         },
         "path": "dist/pt/workbook/index.html",
-        "sha256": "cf8b1b0619d3dc11756619ff95a0bea52d3a1941217c9bb13cee15ca4a79d981",
+        "sha256": "9f1c9bcc5998f7d3c914da6980c94d86a52e2d721c1829dbbc019fdf21326438",
         "sibling_navigation": 0,
         "unique_ids": true,
         "visible_words": 34585
@@ -932,7 +932,7 @@
     {
       "audience": "persona",
       "candidate": {
-        "bytes": 35331,
+        "bytes": 35586,
         "current_resource": 3,
         "main_identity": {
           "data-audience": "persona",
@@ -947,14 +947,14 @@
           "playbook-toc": 1
         },
         "path": "dist/pt/modulos/03-trabalho-amplificado/playbook/index.html",
-        "sha256": "62ba2d1a7e8aeb3271a6db397c7542b22e9ad861c7c90b7811e23e01f913c2b5",
+        "sha256": "43cc2ccb3e8b4f5894d888dff9a9f8791082f38d5c0b15703f38bf8dfa425ff5",
         "sibling_navigation": 1,
         "unique_ids": true,
         "visible_words": 1417
       },
       "locale": "pt",
       "reference": {
-        "bytes": 36156,
+        "bytes": 36394,
         "current_resource": 2,
         "main_identity": {
           "data-audience": null,
@@ -969,7 +969,7 @@
           "playbook-toc": 1
         },
         "path": "dist/pt/playbook/index.html",
-        "sha256": "e05be4fb771d789afed5876098c1ac1ff24ed4b7319ecf30a3f511c7696bcb30",
+        "sha256": "60ed580b1646d0006c192c1cb891c4c7041ee6de178a432d5cbb7e2fbacf3683",
         "sibling_navigation": 0,
         "unique_ids": true,
         "visible_words": 1198
@@ -981,7 +981,7 @@
     {
       "audience": "persona",
       "candidate": {
-        "bytes": 462555,
+        "bytes": 873287,
         "current_resource": 3,
         "main_identity": {
           "data-audience": "persona",
@@ -992,18 +992,18 @@
         },
         "markers": {
           "data-notebook-execution-guide": 1,
-          "data-prompt-format": 40,
-          "library-prompt-card": 20
+          "data-prompt-format": 56,
+          "library-prompt-card": 28
         },
         "path": "dist/pt/modulos/03-trabalho-amplificado/prompts/index.html",
-        "sha256": "e50411e2e71579e230b3b54a31bc447b9ad481924ae71aa7d4669bb1fb294936",
+        "sha256": "c8eb528ba005153c8fa0f66589ec9b464c092dc115fdf73711ff64b518774ad0",
         "sibling_navigation": 1,
         "unique_ids": true,
-        "visible_words": 13915
+        "visible_words": 32484
       },
       "locale": "pt",
       "reference": {
-        "bytes": 833538,
+        "bytes": 833776,
         "current_resource": 2,
         "main_identity": {
           "data-audience": null,
@@ -1018,19 +1018,19 @@
           "library-prompt-card": 28
         },
         "path": "dist/pt/prompts/index.html",
-        "sha256": "89198dab404b3d918206d8eee61bbec83c0558f1b776101bc643dcb4269a6277",
+        "sha256": "272bccc821c4b03c509bd9b7cfc4991cba132fc012bdda8d2ce3dbfd96e035ce",
         "sibling_navigation": 0,
         "unique_ids": true,
         "visible_words": 34984
       },
       "resource": "prompts",
       "semantic_markers_present": true,
-      "visible_density_ratio": 0.3978
+      "visible_density_ratio": 0.9285
     },
     {
       "audience": "empresa",
       "candidate": {
-        "bytes": 38006,
+        "bytes": 38261,
         "current_resource": 3,
         "main_identity": {
           "data-audience": "empresa",
@@ -1045,14 +1045,14 @@
           "official-pdf-card": 1
         },
         "path": "dist/pt/empresa/modulos/03-trabalho-amplificado/masterclass/index.html",
-        "sha256": "5c8cc03bcd68b83cfcbfa8334ff018235fa072e3934832ee1691e2b903c108a9",
+        "sha256": "ed74222d7bcaf2b6f04fd55854f6e41f47f8b3bf64e8671019b205854a11b6f3",
         "sibling_navigation": 1,
         "unique_ids": true,
         "visible_words": 1364
       },
       "locale": "pt",
       "reference": {
-        "bytes": 33243,
+        "bytes": 33481,
         "current_resource": 2,
         "main_identity": {
           "data-audience": null,
@@ -1067,7 +1067,7 @@
           "official-pdf-card": 1
         },
         "path": "dist/pt/empresa/deck/index.html",
-        "sha256": "7aa8a24a3ece9cf971f5a932dd4f23a92a1209305d4e05bc3fc41c08c0c446b1",
+        "sha256": "fed7a4617947f08564b60bf08321c080e58550723cd6c5867e34667d04604b5a",
         "sibling_navigation": 0,
         "unique_ids": true,
         "visible_words": 1301
@@ -1079,7 +1079,7 @@
     {
       "audience": "empresa",
       "candidate": {
-        "bytes": 36153,
+        "bytes": 36408,
         "current_resource": 3,
         "main_identity": {
           "data-audience": "empresa",
@@ -1094,14 +1094,14 @@
           "workbook-hero-grid": 1
         },
         "path": "dist/pt/empresa/modulos/03-trabalho-amplificado/workbook/index.html",
-        "sha256": "f15098be076f694a912545e3209130097a45f1a65a9e75937c4c0110a0a0626d",
+        "sha256": "1150c7ee417fe93d1424418ed0878d5fed24d5d77dd318df393e386366c622fa",
         "sibling_navigation": 1,
         "unique_ids": true,
         "visible_words": 1263
       },
       "locale": "pt",
       "reference": {
-        "bytes": 828937,
+        "bytes": 829175,
         "current_resource": 2,
         "main_identity": {
           "data-audience": null,
@@ -1116,7 +1116,7 @@
           "workbook-hero-grid": 1
         },
         "path": "dist/pt/empresa/workbook/index.html",
-        "sha256": "bce3929c9651a1898e335daa337713e34a5754e0eefeec91507f718d47b4f727",
+        "sha256": "0675763aab891c5293c450a591c27e5610615fb47ad27affebb2f22591a20dd3",
         "sibling_navigation": 0,
         "unique_ids": true,
         "visible_words": 36259
@@ -1128,7 +1128,7 @@
     {
       "audience": "empresa",
       "candidate": {
-        "bytes": 35872,
+        "bytes": 36127,
         "current_resource": 3,
         "main_identity": {
           "data-audience": "empresa",
@@ -1143,14 +1143,14 @@
           "playbook-toc": 1
         },
         "path": "dist/pt/empresa/modulos/03-trabalho-amplificado/playbook/index.html",
-        "sha256": "d794b8d6fea1fd30a54033ea12c46b6b6f233c7c1003443c4f6955166f84e972",
+        "sha256": "f9f3535eb8fc6059f2f95573e2f2ece2c9b16c6843e527736bfae3c9d5e2c9c2",
         "sibling_navigation": 1,
         "unique_ids": true,
         "visible_words": 1405
       },
       "locale": "pt",
       "reference": {
-        "bytes": 36404,
+        "bytes": 36642,
         "current_resource": 2,
         "main_identity": {
           "data-audience": null,
@@ -1165,7 +1165,7 @@
           "playbook-toc": 1
         },
         "path": "dist/pt/empresa/playbook/index.html",
-        "sha256": "dd7eda0cbfb833995c4dd773b9952eeaeeef4dd60a14075bbb917998e2f91ead",
+        "sha256": "2de861cf92fb68d99adcb8cfe4aadac6e89ea21b0f0b5bbb862a2e7237a8cf79",
         "sibling_navigation": 0,
         "unique_ids": true,
         "visible_words": 1189
@@ -1177,7 +1177,7 @@
     {
       "audience": "empresa",
       "candidate": {
-        "bytes": 469075,
+        "bytes": 872506,
         "current_resource": 3,
         "main_identity": {
           "data-audience": "empresa",
@@ -1188,18 +1188,18 @@
         },
         "markers": {
           "data-notebook-execution-guide": 1,
-          "data-prompt-format": 40,
-          "library-prompt-card": 20
+          "data-prompt-format": 56,
+          "library-prompt-card": 28
         },
         "path": "dist/pt/empresa/modulos/03-trabalho-amplificado/prompts/index.html",
-        "sha256": "a083ab5daef3ccc17b1592f378633b8c9556871d251a6d6652258f1af2976ba6",
+        "sha256": "834248867708c78e4e70dab31682ff9f2d5f3c024d830afba6eb9b6f68a2e042",
         "sibling_navigation": 1,
         "unique_ids": true,
-        "visible_words": 14082
+        "visible_words": 31476
       },
       "locale": "pt",
       "reference": {
-        "bytes": 856180,
+        "bytes": 856418,
         "current_resource": 2,
         "main_identity": {
           "data-audience": null,
@@ -1214,20 +1214,20 @@
           "library-prompt-card": 28
         },
         "path": "dist/pt/empresa/prompts/index.html",
-        "sha256": "8ccf4bd0849fe38dd44b82de00c5cfc4e8ed6bb4175ccde8b9cf5f955bd56c30",
+        "sha256": "7fdf27b6839eca8446dd04a6e7c73a9c1002b6c8f48bd4ec158ac839a28cf91c",
         "sibling_navigation": 0,
         "unique_ids": true,
         "visible_words": 36026
       },
       "resource": "prompts",
       "semantic_markers_present": true,
-      "visible_density_ratio": 0.3909
+      "visible_density_ratio": 0.8737
     }
   ],
   "reference_module": "ia-panorama",
   "schema_version": "module-code-comparison-v1",
   "self_hash_model": "sha256(sorted-json-without-self_sha256)",
-  "self_sha256": "0289af1175d087327fc9287df2642a5f38494cbb40f89673b3c123f9c8b46dae",
+  "self_sha256": "50da8867cf41085f8f271648b72f3a520b10d94cc3dd7004bbcfb4ab69eea0df",
   "summary": {
     "code_identity": "NOT_REQUIRED_AND_NOT_PRESENT",
     "maximum_visible_density_ratio": 1.2546,

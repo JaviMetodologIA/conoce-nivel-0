@@ -20,6 +20,7 @@ from brand import (  # noqa: E402
     LOCALES,
     MODULE_IDS,
     MODULE_ROUTES,
+    PUBLIC,
     RESOURCE_SEGMENTS,
     module_anchor,
     page_dir,
@@ -27,9 +28,8 @@ from brand import (  # noqa: E402
     validate_chrome_spec,
     validate_editorial_spec,
 )
-from build import RESOURCE_NAMES  # noqa: E402
+from build import BUILD_ID, RESOURCE_NAMES  # noqa: E402
 
-PUBLIC = "https://conoce.metodologia.info/"
 EDITORIAL = validate_editorial_spec()
 CHROME = validate_chrome_spec()
 LABELS = {
@@ -206,7 +206,7 @@ for mutation in mutations:
 
 manifest = json.loads((DIST / "build-manifest.json").read_text(encoding="utf-8"))
 receipt = json.loads((DIST / "build-receipt.json").read_text(encoding="utf-8"))
-if manifest.get("build_id") != "nivel-0-learning-resources-v15" or manifest.get("conoce_chrome", {}).get("breadcrumbs") != CHROME["breadcrumbs"]:
+if manifest.get("build_id") != BUILD_ID or manifest.get("conoce_chrome", {}).get("breadcrumbs") != CHROME["breadcrumbs"]:
     raise AssertionError("BREADCRUMB_MANIFEST_BINDING")
 if (
     manifest.get("conoce_chrome", {}).get("rendered_pages") != 126

@@ -13,4 +13,4 @@ M1 conserva su renderer legacy; el candidato usa payloads y renderers tipados. E
 | masterclass | 6 | 6/6 | 1.7625× |
 | workbook | 6 | 6/6 | 0.0554× |
 | playbook | 6 | 6/6 | 1.5075× |
-| prompts | 6 | 6/6 | 0.4057× |
+| prompts | 6 | 6/6 | 1.0576× |

@@ -11,6 +11,6 @@ M1 conserva su renderer legacy; el candidato usa payloads y renderers tipados. E
 | Recurso | Pares | Marcadores | Densidad máxima |
 |---|---:|---:|---:|
 | masterclass | 6 | 6/6 | 1.3733× |
-| workbook | 6 | 6/6 | 0.0588× |
+| workbook | 6 | 6/6 | 0.0589× |
 | playbook | 6 | 6/6 | 1.7124× |
-| prompts | 6 | 6/6 | 0.4904× |
+| prompts | 6 | 6/6 | 1.123× |

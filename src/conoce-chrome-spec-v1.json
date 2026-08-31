@@ -4,9 +4,9 @@
   "state": "RENDERED_DRAFT",
   "publication_authorized": false,
   "network_required": false,
-  "canonical_origin": "https://conoce.metodologia.info/",
+  "canonical_origin": "https://javimetodologia.github.io/conoce-nivel-0/",
   "self_hash_model": "sha256(sorted-json-without-self_sha256)",
-  "self_sha256": "f3b862a736c86e041430b2d4b759504c956335ff3ec782494c91985e7bf8531a",
+  "self_sha256": "7c0f34585f0ab535d8d508c05efc04e3536ea27e5ec879796dae61a1d074c4f0",
   "brand_authority": {
     "release_id": "metodologia-digital-brand-v3",
     "manifest_sha256": "3deaa35db4120e227325867d8165b0cb448756455698651f8a0dfa1405d99686",
