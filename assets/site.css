@@ -7615,6 +7615,27 @@ body .playbook-toc > nav {
   font: 500 .72rem/1.35 var(--font-ui);
   overflow-wrap: anywhere;
 }
+.prompt-card-discovery {
+  grid-column: 1 / -1;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: .18rem .45rem;
+  margin-top: .12rem;
+  color: var(--muted);
+  font: 680 .61rem/1.25 var(--font-ui);
+}
+.prompt-card-discovery strong {
+  color: var(--gold-ink);
+  font-weight: 850;
+  letter-spacing: .04em;
+  text-transform: uppercase;
+}
+.prompt-card-discovery em {
+  color: var(--ink);
+  font-style: normal;
+  font-weight: 780;
+}
 .prompt-launch-badge {
   display: grid;
   gap: .16rem;

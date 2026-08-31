@@ -1,5 +1,5 @@
 {
-  "build_id": "nivel-0-learning-resources-v16",
+  "build_id": "nivel-0-learning-resources-v17",
   "conoce_chrome": {
     "brand_release_immutable": true,
     "breadcrumbs": {
@@ -198,8 +198,8 @@
   "editorial_parity": {
     "fallback_policy": "forbidden",
     "inventory": "editorial-string-inventory.json",
-    "inventory_self_sha256": "06bb0975ec32b1920a9b4c0ef85af41c620fa5f2bf89a85f4ad02e8696a5bb8d",
-    "inventory_sha256": "92c85decab597df4226222bc3be50a05d07453d56a6904389520b46c937f2ee6",
+    "inventory_self_sha256": "f9e26a50c6be76ed37688f8649a2f11cbeb6f00b4041b31d94e33bbf13075c03",
+    "inventory_sha256": "2257e8e22dd475e0789e8b37415160851966f9c388c1c34214752d743209fbb8",
     "matrix": {
       "audiences": [
         "persona",
@@ -259,8 +259,8 @@
     "source": "src/intrapage-navigation-spec-v1.json",
     "source_sha256": "e9aa4d32fef5b6c9bad155f32318dd0331babc035fa98e3fb71d149b5d8486f3"
   },
-  "manifest_self_sha256": "f63a4042f824db6d6d0b631ea93efd2346280634e9871edabd9575b6af1539cd",
-  "manifest_sha256": "74a70b256430a9f8072c79021614386235a57a9f73a6d78a4026228088408f9a",
+  "manifest_self_sha256": "e69cc8380f3a87006f3554c38340609c97519a679ba102b6d5c894186b8d0d0e",
+  "manifest_sha256": "89bfdc6f5e3f9ab70a26cd424bcd97cb0ff94a2062b311f4581b19b8e0dc3e4a",
   "method_identity": {
     "assets": {
       "compact": "b07a0713a106f1f78491e54667b248ef6a790ce175b0a07ba2e721137e936393",
@@ -599,7 +599,7 @@
           "W10"
         ]
       },
-      "runtime_sha256": "da20fc831a7c752df397d2b3d7c7ff6a7de9429e8b8f2c410284582ef95beb89",
+      "runtime_sha256": "7df998dba65251e8478e272576b1ba4befc4b94063747adac3b896ab45c44d32",
       "schema_version": "prompt-intent-contract-v2",
       "self_sha256": {
         "01": "9b176eb85561b23e7c90e2f405b8130fe5e4a0631d6c048a3a05c2fa5b5b427c",
@@ -689,6 +689,6 @@
   "publication_authorized": false,
   "schema_version": "build-receipt-v1",
   "self_hash_model": "sha256(sorted-json-without-self)",
-  "self_sha256": "cc06b48c322251f18debc1e4bdfaa3b7560e16d4c04bb76269a7aeed0d3a3e24",
+  "self_sha256": "4fb65df0369d3f1c720b6b3791ff89473f146a4133242c4e2449de1d29486433",
   "state": "RENDERED_DRAFT"
 }
